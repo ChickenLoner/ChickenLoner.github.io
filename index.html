@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DFIR Portfolio - Digital Forensics & Incident Response</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn {
+            animation: fadeIn 0.5s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        
+        // Lucide Icons as components
+        const Icon = ({ name, className = "w-6 h-6", ...props }) => {
+            const ref = React.useRef(null);
+            
+            useEffect(() => {
+                if (ref.current) {
+                    const icon = lucide.createElement(lucide[name]);
+                    ref.current.innerHTML = '';
+                    ref.current.appendChild(icon);
+                }
+            }, [name]);
+            
+            return <i ref={ref} className={className} {...props}></i>;
+        };
+
+        const Portfolio = () => {
+            const [activePage, setActivePage] = useState('home');
+
+            const navigation = [
+                { id: 'home', label: 'Home', icon: 'User' },
+                { id: 'certifications', label: 'Certifications', icon: 'Award' },
+                { id: 'labs', label: 'Labs & Projects', icon: 'Code' },
+                { id: 'contact', label: 'Connect', icon: 'Mail' }
+            ];
+
+            const skills = [
+                { category: 'Digital Forensics', items: ['Disk Forensics', 'Memory Forensics', 'Network Forensics', 'Mobile Forensics'] },
+                { category: 'Incident Response', items: ['Malware Analysis', 'Log Analysis', 'Threat Hunting', 'IOC Detection'] },
+                { category: 'Tools & Platforms', items: ['Autopsy', 'Volatility', 'Wireshark', 'SIEM Tools', 'FTK Imager'] },
+                { category: 'Blue Team Skills', items: ['SOC Operations', 'Security Monitoring', 'Threat Intelligence', 'Forensic Reporting'] }
+            ];
+
+            const certifications = [
+                { 
+                    name: 'GCFA - GIAC Certified Forensic Analyst', 
+                    issuer: 'GIAC', 
+                    year: '2024', 
+                    status: 'Active',
+                    badge: 'https://via.placeholder.com/150x150/4A90E2/FFFFFF?text=GCFA',
+                    url: 'https://www.giac.org/certifications/certified-forensic-analyst-gcfa/'
+                },
+                { 
+                    name: 'GCFE - GIAC Certified Forensic Examiner', 
+                    issuer: 'GIAC', 
+                    year: '2023', 
+                    status: 'Active',
+                    badge: 'https://via.placeholder.com/150x150/4A90E2/FFFFFF?text=GCFE',
+                    url: 'https://www.giac.org/certifications/certified-forensic-examiner-gcfe/'
+                },
+                { 
+                    name: 'BTL1 - Blue Team Level 1', 
+                    issuer: 'Security Blue Team', 
+                    year: '2023', 
+                    status: 'Active',
+                    badge: 'https://via.placeholder.com/150x150/0080FF/FFFFFF?text=BTL1',
+                    url: 'https://www.securityblue.team/certifications/blue-team-level-1'
+                },
+                { 
+                    name: 'CCD - Certified CyberDefender', 
+                    issuer: 'CyberDefenders', 
+                    year: '2024', 
+                    status: 'Active',
+                    badge: 'https://via.placeholder.com/150x150/00BCD4/FFFFFF?text=CCD',
+                    url: 'https://cyberdefenders.org/'
+                }
+            ];
+
+            const labs = [
+                {
+                    title: 'Ransomware Investigation Lab',
+                    description: 'Complete DFIR lab covering ransomware attack investigation from initial compromise to full timeline reconstruction',
+                    platform: 'GitHub',
+                    link: '#',
+                    tags: ['Memory Forensics', 'Disk Analysis', 'Timeline']
+                },
+                {
+                    title: 'APT Threat Hunting Scenario',
+                    description: 'Advanced persistent threat detection lab with network traffic analysis and lateral movement identification',
+                    platform: 'Medium',
+                    link: '#',
+                    tags: ['Network Forensics', 'APT', 'PCAP Analysis']
+                },
+                {
+                    title: 'Insider Threat Detection',
+                    description: 'Lab focused on detecting and investigating insider threats using log analysis and user behavior analytics',
+                    platform: 'GitHub',
+                    link: '#',
+                    tags: ['Log Analysis', 'UEBA', 'Insider Threat']
+                },
+                {
+                    title: 'Malware Reverse Engineering Challenges',
+                    description: 'Series of malware analysis challenges with step-by-step solutions and forensic artifacts',
+                    platform: 'Medium',
+                    link: '#',
+                    tags: ['Malware Analysis', 'Reverse Engineering', 'IOCs']
+                },
+                {
+                    title: 'Cloud Incident Response Lab',
+                    description: 'AWS-based incident response scenario covering cloud-specific forensics and investigation techniques',
+                    platform: 'GitHub',
+                    link: '#',
+                    tags: ['Cloud Security', 'AWS', 'Incident Response']
+                },
+                {
+                    title: 'Memory Forensics Masterclass',
+                    description: 'Comprehensive guide and lab on memory forensics using Volatility with real-world scenarios',
+                    platform: 'Medium',
+                    link: '#',
+                    tags: ['Volatility', 'Memory Analysis', 'Tutorial']
+                }
+            ];
+
+            const socialMedia = [
+                { platform: 'GitHub', icon: 'Github', url: 'https://github.com/yourusername', handle: '@yourusername' },
+                { platform: 'LinkedIn', icon: 'Linkedin', url: 'https://linkedin.com/in/yourprofile', handle: '/in/yourprofile' },
+                { platform: 'Twitter/X', icon: 'Twitter', url: 'https://twitter.com/yourhandle', handle: '@yourhandle' },
+                { platform: 'BookOpen', icon: 'BookOpen', url: 'https://medium.com/@yourusername', handle: '@yourusername' }
+            ];
+
+            const HomePage = () => (
+                <div className="space-y-12 animate-fadeIn">
+                    <div className="text-center space-y-4 py-12">
+                        <div className="flex justify-center mb-6">
+                            <div className="bg-gradient-to-br from-blue-500 to-cyan-500 p-6 rounded-full">
+                                <Icon name="Shield" className="w-16 h-16 text-white" />
+                            </div>
+                        </div>
+                        <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
+                            DFIR Analyst & Blue Team Enthusiast
+                        </h1>
+                        <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                            Passionate about digital forensics, incident response, and creating hands-on learning experiences for the cybersecurity community
+                        </p>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-8">
+                        {skills.map((skillGroup, idx) => (
+                            <div key={idx} className="bg-white rounded-lg p-6 shadow-lg border-2 border-gray-100 hover:border-blue-300 transition-all">
+                                <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                    <Icon name="Trophy" className="w-5 h-5 text-blue-500" />
+                                    {skillGroup.category}
+                                </h3>
+                                <div className="flex flex-wrap gap-2">
+                                    {skillGroup.items.map((skill, i) => (
+                                        <span key={i} className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm font-medium">
+                                            {skill}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-lg p-8 text-center">
+                        <h2 className="text-2xl font-bold text-gray-800 mb-4">About Me</h2>
+                        <p className="text-gray-700 max-w-3xl mx-auto leading-relaxed">
+                            As a dedicated DFIR professional, I spend my time solving complex blue team challenges across various platforms 
+                            and creating educational content to help others develop their skills. I believe in learning by doing, which is 
+                            why I create comprehensive labs that simulate real-world scenarios. My mission is to make digital forensics and 
+                            incident response accessible and engaging for everyone in the cybersecurity community.
+                        </p>
+                    </div>
+                </div>
+            );
+
+            const CertificationsPage = () => (
+                <div className="space-y-8 animate-fadeIn">
+                    <div className="text-center space-y-4">
+                        <h1 className="text-4xl font-bold text-gray-800 flex items-center justify-center gap-3">
+                            <Icon name="Award" className="w-10 h-10 text-blue-500" />
+                            Professional Certifications
+                        </h1>
+                        <p className="text-gray-600">Validated expertise in digital forensics and incident response</p>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-6">
+                        {certifications.map((cert, idx) => (
+                            <div key={idx} className="bg-white rounded-lg p-6 shadow-lg border-2 border-gray-100 hover:border-blue-300 hover:shadow-xl transition-all group">
+                                <div className="flex gap-4">
+                                    <div className="flex-shrink-0">
+                                        <a href={cert.url} target="_blank" rel="noopener noreferrer" className="block">
+                                            <img 
+                                                src={cert.badge} 
+                                                alt={`${cert.name} badge`}
+                                                className="w-24 h-24 object-contain rounded-lg group-hover:scale-105 transition-transform"
+                                            />
+                                        </a>
+                                    </div>
+                                    
+                                    <div className="flex-1 min-w-0">
+                                        <div className="flex items-start justify-between mb-2">
+                                            <a 
+                                                href={cert.url} 
+                                                target="_blank" 
+                                                rel="noopener noreferrer"
+                                                className="flex-1 hover:text-blue-600 transition-colors"
+                                            >
+                                                <h3 className="text-lg font-bold text-gray-800 mb-1 group-hover:text-blue-600">
+                                                    {cert.name}
+                                                </h3>
+                                            </a>
+                                            <span className="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium ml-2">
+                                                {cert.status}
+                                            </span>
+                                        </div>
+                                        <p className="text-gray-600 font-medium mb-2">{cert.issuer}</p>
+                                        <div className="flex items-center justify-between">
+                                            <span className="text-gray-500 text-sm">Obtained: {cert.year}</span>
+                                            <a 
+                                                href={cert.url} 
+                                                target="_blank" 
+                                                rel="noopener noreferrer"
+                                                className="flex items-center gap-1 text-blue-600 hover:text-blue-700 text-sm font-medium"
+                                            >
+                                                Verify <Icon name="ExternalLink" className="w-3 h-3" />
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className="bg-blue-50 rounded-lg p-6 border-2 border-blue-200">
+                        <h3 className="font-bold text-gray-800 mb-2 flex items-center gap-2">
+                            <Icon name="Shield" className="w-5 h-5 text-blue-600" />
+                            Continuous Learning
+                        </h3>
+                        <p className="text-gray-700">
+                            I'm constantly expanding my knowledge through platforms like CyberDefenders, Blue Team Labs Online, 
+                            TryHackMe, and LetsDefend. Currently working towards advanced certifications in threat hunting and malware analysis.
+                        </p>
+                    </div>
+                </div>
+            );
+
+            const LabsPage = () => (
+                <div className="space-y-8 animate-fadeIn">
+                    <div className="text-center space-y-4">
+                        <h1 className="text-4xl font-bold text-gray-800 flex items-center justify-center gap-3">
+                            <Icon name="Code" className="w-10 h-10 text-blue-500" />
+                            Labs & Projects
+                        </h1>
+                        <p className="text-gray-600">Hands-on DFIR scenarios and educational content I've created</p>
+                    </div>
+
+                    <div className="grid gap-6">
+                        {labs.map((lab, idx) => (
+                            <div key={idx} className="bg-white rounded-lg p-6 shadow-lg border-2 border-gray-100 hover:border-blue-300 transition-all">
+                                <div className="flex items-start justify-between mb-3">
+                                    <div className="flex-1">
+                                        <h3 className="text-xl font-bold text-gray-800 mb-2">{lab.title}</h3>
+                                        <p className="text-gray-600 mb-4">{lab.description}</p>
+                                        <div className="flex flex-wrap gap-2 mb-3">
+                                            {lab.tags.map((tag, i) => (
+                                                <span key={i} className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">
+                                                    {tag}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="flex items-center justify-between">
+                                    <span className="text-sm font-medium text-gray-500">{lab.platform}</span>
+                                    <a href={lab.link} className="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium">
+                                        View Project <Icon name="ExternalLink" className="w-4 h-4" />
+                                    </a>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className="bg-gradient-to-r from-cyan-50 to-blue-50 rounded-lg p-6 text-center">
+                        <h3 className="font-bold text-gray-800 mb-2">More Projects Coming Soon!</h3>
+                        <p className="text-gray-700">
+                            I'm constantly creating new labs and writeups. Follow me on GitHub and Medium to stay updated with my latest work.
+                        </p>
+                    </div>
+                </div>
+            );
+
+            const ContactPage = () => (
+                <div className="space-y-8 animate-fadeIn">
+                    <div className="text-center space-y-4">
+                        <h1 className="text-4xl font-bold text-gray-800 flex items-center justify-center gap-3">
+                            <Icon name="Mail" className="w-10 h-10 text-blue-500" />
+                            Let's Connect
+                        </h1>
+                        <p className="text-gray-600">Find me on these platforms and let's collaborate!</p>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                        {socialMedia.map((social, idx) => (
+                            <a
+                                key={idx}
+                                href={social.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="bg-white rounded-lg p-6 shadow-lg border-2 border-gray-100 hover:border-blue-400 hover:shadow-xl transition-all group"
+                            >
+                                <div className="flex items-center gap-4">
+                                    <div className="bg-blue-50 p-4 rounded-full group-hover:bg-blue-100 transition-colors">
+                                        <Icon name={social.icon} className="w-8 h-8 text-blue-600" />
+                                    </div>
+                                    <div className="flex-1">
+                                        <h3 className="text-xl font-bold text-gray-800 mb-1">{social.platform}</h3>
+                                        <p className="text-gray-600">{social.handle}</p>
+                                    </div>
+                                    <Icon name="ExternalLink" className="w-5 h-5 text-gray-400 group-hover:text-blue-600" />
+                                </div>
+                            </a>
+                        ))}
+                    </div>
+
+                    <div className="bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg p-8 text-white text-center max-w-2xl mx-auto">
+                        <h3 className="text-2xl font-bold mb-3">Open to Collaboration</h3>
+                        <p className="mb-4">
+                            Interested in collaborating on DFIR labs, contributing to open-source projects, or discussing blue team tactics? 
+                            I'm always excited to connect with fellow cybersecurity enthusiasts!
+                        </p>
+                        <div className="flex justify-center gap-4">
+                            <a href="mailto:your.email@example.com" className="bg-white text-blue-600 px-6 py-3 rounded-lg font-bold hover:bg-gray-100 transition-colors">
+                                Send Email
+                            </a>
+                        </div>
+                    </div>
+
+                    <div className="text-center text-gray-500 text-sm">
+                        <p>© 2024 DFIR Portfolio. Built with React and deployed on GitHub Pages.</p>
+                    </div>
+                </div>
+            );
+
+            const renderPage = () => {
+                switch (activePage) {
+                    case 'home': return <HomePage />;
+                    case 'certifications': return <CertificationsPage />;
+                    case 'labs': return <LabsPage />;
+                    case 'contact': return <ContactPage />;
+                    default: return <HomePage />;
+                }
+            };
+
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
+                    <nav className="bg-white shadow-lg sticky top-0 z-50">
+                        <div className="max-w-6xl mx-auto px-4">
+                            <div className="flex justify-between items-center py-4">
+                                <div className="flex items-center gap-2">
+                                    <Icon name="Shield" className="w-8 h-8 text-blue-600" />
+                                    <span className="text-xl font-bold text-gray-800">DFIR Portfolio</span>
+                                </div>
+                                <div className="flex gap-1">
+                                    {navigation.map((item) => (
+                                        <button
+                                            key={item.id}
+                                            onClick={() => setActivePage(item.id)}
+                                            className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${
+                                                activePage === item.id
+                                                    ? 'bg-blue-600 text-white'
+                                                    : 'text-gray-600 hover:bg-gray-100'
+                                            }`}
+                                        >
+                                            <Icon name={item.icon} className="w-4 h-4" />
+                                            <span className="hidden sm:inline">{item.label}</span>
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+
+                    <main className="max-w-6xl mx-auto px-4 py-12">
+                        {renderPage()}
+                    </main>
+                </div>
+            );
+        };
+
+        ReactDOM.render(<Portfolio />, document.getElementById('root'));
+    </script>
+</body>
+</html>
