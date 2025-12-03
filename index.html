@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chicken0248 Portfolio</title>
+    <title>Chicken0248</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
@@ -215,6 +215,22 @@
                     status: 'Active',
                     badge: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/152738381',
                     url: 'https://www.credential.net/7f8eae2b-d2ac-45e8-961b-082e772aec79#acc.Dnc6Kisb'
+                },
+                { 
+                    name: 'Certified Red Team Infra Dev', 
+                    issuer: 'Cyberwarfare Labs', 
+                    year: '2025', 
+                    status: 'Active',
+                    badge: 'https://killswitchx7.s3.ap-south-1.amazonaws.com/df07046b-ba0b-4548-ae71-c396dc23e9b9.png',
+                    url: 'https://labs.cyberwarfare.live/credential/achievement/68b7088140a4bd67bdc80496'
+                },
+                { 
+                    name: 'Certified Multi-Cloud Blue Team Analyst', 
+                    issuer: 'Cyberwarfare Labs', 
+                    year: '2025', 
+                    status: 'Active',
+                    badge: 'https://cyberwarfare.live/wp-content/uploads/2025/11/MCBTA.webp',
+                    url: 'https://labs.cyberwarfare.live/credential/achievement/67efe11a5f01ede3c32a4ae0'
                 }
             ];
 
@@ -224,7 +240,7 @@
                     description: 'A digital forensics scenario involving the analysis of a potentially malicious executable and its impact on the system.',
                     platform: 'Blue Team Labs Online',
                     link: 'https://blueteamlabs.online/home/investigation/utensilmenace-b6d7f47023', 
-                    tags: ['Endpoint Forensics'],
+                    tags: ['Endpoint Forensics', 'Windows Forensics'],
                     type: 'lab', 
                     image: 'https://blueteamlabs.online/storage/labs/667781d0e28ddcadf8482dc58c328b0c5aa5e7a9.png' 
                 },
@@ -233,7 +249,7 @@
                     description: 'Analyze forensic artifacts to trace an attacker progression from initial social engineering and remote access to a Sticky Keys privilege escalation.',
                     platform: 'CyberDefenders',
                     link: 'https://cyberdefenders.org/blueteam-ctf-challenges/workfromhome/', 
-                    tags: ['Endpoint Forensics', 'Browser' ,'RMM', 'SeTakeOwnershipPrivilege'],
+                    tags: ['Endpoint Forensics', 'Windows Forensics','Browser' ,'RMM', 'SeTakeOwnershipPrivilege'],
                     type: 'lab', 
                     image: 'https://cyberdefenders.org/media/terraform/WorkFromHome/terraform/WorkFromHome/workfromhome.webp' 
                 },
@@ -242,7 +258,7 @@
                     description: 'Reconstruct an attack timeline by analyzing forensic artifacts to identify a UAC bypass, WMI persistence, and backdoor user creation techniques.',
                     platform: 'CyberDefenders',
                     link: 'https://cyberdefenders.org/blueteam-ctf-challenges/resourcepacks/', 
-                    tags: ['Endpoint Forensics', 'UAC Bypass' ,'WMI persistence', 'SeImpersonatePrivilege'],
+                    tags: ['Endpoint Forensics', 'Windows Forensics','UAC Bypass' ,'WMI persistence', 'SeImpersonatePrivilege'],
                     type: 'lab', 
                     image: 'https://cyberdefenders.org/media/terraform/ResourcePacks/ResourcePacks.webp' 
                 },
@@ -251,7 +267,7 @@
                     description: 'Investigate attacker behavior by analyzing Windows artifacts to identify persistence, privilege escalation, and lateral movement using MFTECmd, PECmd, BitsParser, and registry analysis tools.',
                     platform: 'CyberDefenders',
                     link: 'https://cyberdefenders.org/blueteam-ctf-challenges/yara-trap/', 
-                    tags: ['Endpoint Forensics', 'Bits Job'],
+                    tags: ['Endpoint Forensics', 'Windows Forensics', 'Bits Job'],
                     type: 'lab', 
                     image: 'https://cyberdefenders.org/media/terraform/YARA%20Trap/Yara_Trap.webp' 
                 },
@@ -260,7 +276,7 @@
                     description: 'Hunt browser downloads, MFT records, and Prefetch to unmask the initial dropper and rebuild the attack timeline.',
                     platform: 'CyberDefenders',
                     link: 'https://cyberdefenders.org/blueteam-ctf-challenges/spooler-apt28/', 
-                    tags: ['Endpoint Forensics'],
+                    tags: ['Endpoint Forensics', 'Windows Forensics'],
                     type: 'lab', 
                     image: 'https://cyberdefenders.org/media/terraform/Spooler%20-%20FancyBear/terraform/Spooler%20-%20FancyBear/spooler-fancybear.webp' 
                 },
@@ -278,7 +294,7 @@
                     description: 'Wowza Enterprise (Wowza Inc.) has hired you to investigate an incident involving a workstation used by Otello John, which is believed to have been compromised by a threat actor. The attacker reportedly changed the desktop wallpaper to a questionable image. The IT team has already provided you with initial information, and it is your duty to report back your findings.',
                     platform: 'HackTheBox',
                     link: 'https://app.hackthebox.com/sherlocks/WorkFromHome?tab=play_sherlock', 
-                    tags: ['Endpoint Forensics'],
+                    tags: ['Endpoint Forensics', 'Windows Forensics'],
                     type: 'lab', 
                     image: 'https://htb-mp-prod-public-storage.s3.eu-central-1.amazonaws.com/challenges/27ed0fb950b856b06e1273989422e7d3.png' 
                 },
@@ -542,7 +558,7 @@
                     </div>
 
                     <div className="text-center text-gray-500 text-sm">
-                        <p>© 2025 Chicken0248 Portfolio. Built with React and deployed on GitHub Pages.</p>
+                        <p>© 2025 Chicken0248. Built with React and deployed on GitHub Pages.</p>
                     </div>
                 </div>
             );
@@ -564,7 +580,7 @@
                             <div className="flex justify-between items-center py-4">
                                 <div className="flex items-center gap-2">
                                     <Icon name="Shield" className="w-8 h-8 text-blue-600" />
-                                    <span className="text-xl font-bold text-gray-800">Chicken0248 Portfolio</span>
+                                    <span className="text-xl font-bold text-gray-800">Chicken0248</span>
                                 </div>
                                 <div className="flex flex-wrap gap-1 justify-end">
                                     {navigation.map((item) => {
