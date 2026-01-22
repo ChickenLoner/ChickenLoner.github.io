@@ -24,17 +24,15 @@
     <div id="root"></div>
     
     <script type="text/babel">
-        const { useState, useEffect } = React;
+        const { useState } = React;
+        const { useEffect } = React;
         
-        // Lucide Icons as components
         const Icon = ({ name, className = "w-6 h-6", ...props }) => {
             const ref = React.useRef(null);
             
             useEffect(() => {
                 if (ref.current) {
-                    // Use a slightly more stable way to render the Lucide icon SVG inside the <i> tag
                     const iconElement = lucide.createElement(lucide[name], {
-                        // Pass props like class names to the SVG itself
                         class: className 
                     });
                     ref.current.innerHTML = '';
@@ -42,7 +40,6 @@
                 }
             }, [name, className]);
             
-            // Return an empty element that acts as the container for the icon SVG
             return <i ref={ref} className={`flex-shrink-0 ${className}`} {...props}></i>;
         };
 
@@ -65,377 +62,155 @@
             ];
 
             const certifications = [
-                { 
-                    name: 'OffSec Certified Professional', 
-                    issuer: 'OffSec', 
-                    year: '2025', 
-                    status: 'Active',
-                    badge: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/143663492',
-                    url: 'https://credentials.offsec.com/e64d358f-1ed1-48fa-996e-774fbd42ae25#acc.MyOuLR5C'
-                },
-                { 
-                    name: 'OffSec Certified Professional+', 
-                    issuer: 'OffSec', 
-                    year: '2025', 
-                    status: 'Active',
-                    badge: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/143663690',
-                    url: 'https://credentials.offsec.com/0cec77b5-46dc-4b9b-9425-0d80b6330908#acc.5wt9HUXQ'
-                },
-                { 
-                    name: 'HackTheBox Certified Defensive Security Analyst', 
-                    issuer: 'HackTheBox', 
-                    year: '2025', 
-                    status: 'Active',
-                    badge: 'https://images.credly.com/size/680x680/images/e78adea1-f60b-4991-b5d5-3427140c7c1d/image.png',
-                    url: 'https://www.credly.com/badges/eabef68d-bbe6-4563-b6c5-21c6cebd8097'
-                },
-                { 
-                    name: 'HackTheBox Certified Junior Cybersecurity Associate', 
-                    issuer: 'HackTheBox', 
-                    year: '2025', 
-                    status: 'Active',
-                    badge: 'https://images.credly.com/images/95043c37-e916-4e4e-96ab-06fb66056648/blob',
-                    url: 'https://www.credly.com/earner/earned/badge/46b4063b-f26b-4c2f-9353-e40aec071dbd'
-                },
-                { 
-                    name: 'Practical Windows Forensic Analyst', 
-                    issuer: 'Blue Cape Security', 
-                    year: '2025', 
-                    status: 'Active',
-                    badge: 'https://bluecapesecurity.com/wp-content/uploads/2024/03/BCS_wh_inside.png',
-                    url: 'https://credsverse.com/credentials/36a00e8b-fccd-4e30-ab1d-aca3eff677c3'
-                },
-                { 
-                    name: 'BTL1 - Blue Team Level 1', 
-                    issuer: 'Security Blue Team', 
-                    year: '2025', 
-                    status: 'Active',
-                    badge: 'https://images.credly.com/images/276d8595-f4e0-457b-adc8-aab85ee221bf/blob',
-                    url: 'https://www.credly.com/badges/428cf4ee-3624-46cc-9d16-76e20b3f1536'
-                },
-                { 
-                    name: 'Certified Threat Hunting Professional', 
-                    issuer: 'INE', 
-                    year: '2025', 
-                    status: 'Active',
-                    badge: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/139673544',
-                    url: 'https://certs.ine.com/8667a499-0aee-48fa-a475-68ce5ff08a9c#acc.jz6GackD'
-                },
-                { 
-                    name: 'Certified Digital Forensics Professional', 
-                    issuer: 'INE', 
-                    year: '2024', 
-                    status: 'Active',
-                    badge: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/126647706',
-                    url: 'https://certs.ine.com/50ce4ac3-1f33-47d9-a093-2527012b639f#acc.TE1PNWoZ'
-                },
-                { 
-                    name: 'Security Analyst Level 1', 
-                    issuer: 'TryHackMe', 
-                    year: '2025', 
-                    status: 'Active',
-                    badge: 'https://images.credly.com/size/680x680/images/fc0df734-6716-45ba-8563-9fd0eba18373/blob',
-                    url: 'https://www.credly.com/badges/863a7b84-c083-4a5d-95f9-7084a1b39b41'
-                },
-                { 
-                    name: 'Junior Penetration Tester', 
-                    issuer: 'TryHackMe', 
-                    year: '2025', 
-                    status: 'Active',
-                    badge: 'https://images.credly.com/images/54525e33-85d1-405c-a68c-1e4dd9c7f57f/blob',
-                    url: 'https://www.credly.com/badges/7725b56b-fed8-41bf-99ba-8fc71d677458'
-                },
-                { 
-                    name: 'Practical SOC Analyst Associate', 
-                    issuer: 'TCM Security', 
-                    year: '2025', 
-                    status: 'Active',
-                    badge: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/132440983',
-                    url: 'https://certified.tcm-sec.com/f4d241ab-78c0-445a-8ed1-5148a8991573#acc.9X8sFnLt'
-                },
-                { 
-                    name: 'Computer Hacking Forensic Investigator', 
-                    issuer: 'EC-Council', 
-                    year: '2025', 
-                    status: 'Active',
-                    badge: 'https://aspen.eccouncil.org/Content/Badges/CertifiedBadges/CHFI_EC3C17017B4E.png',
-                    url: 'https://aspen.eccouncil.org/Certificate/Certificate?a=18btLg5l0Mc3ABngBAUBZg=='
-                },
-                { 
-                    name: 'CompTIA Security+', 
-                    issuer: 'CompTIA', 
-                    year: '2025', 
-                    status: 'Active',
-                    badge: 'https://images.credly.com/images/80d8a06a-c384-42bf-ad36-db81bce5adce/blob',
-                    url: 'https://www.credly.com/earner/earned/badge/12a88ecd-02fa-4f3a-8474-0f58d61dd563'
-                },
-                { 
-                    name: 'CompTIA PenTest+', 
-                    issuer: 'CompTIA', 
-                    year: '2025', 
-                    status: 'Active',
-                    badge: 'https://images.credly.com/size/160x160/images/c7ac176b-15a3-4726-827a-e8cee8fe44dc/blob',
-                    url: 'https://www.credly.com/earner/earned/badge/2bfb5eae-17d4-40eb-9b06-91a7b17db429'
-                },
-                { 
-                    name: 'CompTIA CySA+', 
-                    issuer: 'CompTIA', 
-                    year: '2025', 
-                    status: 'Active',
-                    badge: 'https://images.credly.com/images/dcd99b5b-da24-40a6-9364-62126d590c37/blob',
-                    url: 'https://www.credly.com/earner/earned/badge/8f225de7-ac79-49fd-a59b-81c4b1a20ed3'
-                },
-                { 
-                    name: 'Certified Cyber Defence Analyst', 
-                    issuer: 'Cyberwarfare Labs', 
-                    year: '2025', 
-                    status: 'Active',
-                    badge: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/133842669',
-                    url: 'https://www.credential.net/c35f7cea-c45d-416a-8a38-46dee622e0d4#acc.Cz7QdLkr'
-                },
-                { 
-                    name: 'Certified Red Team Analyst', 
-                    issuer: 'Cyberwarfare Labs', 
-                    year: '2025', 
-                    status: 'Active',
-                    badge: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/136436802',
-                    url: 'https://www.credential.net/9e679388-51c0-4feb-b844-d829b187bebf#acc.iTwQvcPF'
-                },
-                { 
-                    name: 'Certified Enterprise Lateral Movement Specialist', 
-                    issuer: 'Cyberwarfare Labs', 
-                    year: '2025', 
-                    status: 'Active',
-                    badge: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/161538993',
-                    url: 'https://www.credential.net/9c13748a-bd26-44ee-9a0c-69279ffeb648#acc.r2a4yWnF'
-                },
-                { 
-                    name: 'Certified Purple Team Analyst V2', 
-                    issuer: 'Cyberwarfare Labs', 
-                    year: '2025', 
-                    status: 'Active',
-                    badge: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/152738381',
-                    url: 'https://www.credential.net/7f8eae2b-d2ac-45e8-961b-082e772aec79#acc.Dnc6Kisb'
-                },
-                { 
-                    name: 'Certified Red Team Infra Dev', 
-                    issuer: 'Cyberwarfare Labs', 
-                    year: '2025', 
-                    status: 'Active',
-                    badge: 'https://killswitchx7.s3.ap-south-1.amazonaws.com/df07046b-ba0b-4548-ae71-c396dc23e9b9.png',
-                    url: 'https://labs.cyberwarfare.live/credential/achievement/68b7088140a4bd67bdc80496'
-                },
-                { 
-                    name: 'Certified Multi-Cloud Blue Team Analyst', 
-                    issuer: 'Cyberwarfare Labs', 
-                    year: '2025', 
-                    status: 'Active',
-                    badge: 'https://cyberwarfare.live/wp-content/uploads/2025/11/MCBTA.webp',
-                    url: 'https://labs.cyberwarfare.live/credential/achievement/67efe11a5f01ede3c32a4ae0'
-                },
-                { 
-                    name: 'Certified AppSec Practitioner', 
-                    issuer: 'The SecOps Group', 
-                    year: '2025', 
-                    status: 'Active',
-                    badge: 'https://pentestingexams.com/wp-content/uploads/2023/01/cert-stamp-2.png',
-                    url: 'https://candidate.speedexam.net/certificate.aspx?SSTATE=am4131EniU8ntjp4bO5mXeDxLxxNfqDhn0NwyYkHYU+3mpiRC+uvV/F3ywm6ur03JULEm4qj4B/3g7n9dtfXqJ9/Hfwz5OGC7uwUjhlq4sE='
-                },
-                { 
-                    name: 'Certified Network Security Practitioner', 
-                    issuer: 'The SecOps Group', 
-                    year: '2025', 
-                    status: 'Active',
-                    badge: 'https://pentestingexams.com/wp-content/uploads/2023/02/certified-network-pentester-300x300.png',
-                    url: 'https://candidate.speedexam.net/certificate.aspx?SSTATE=am4131EniU8ntjp4bO5mXXr+OLxi0ZCJ7CIhF4WjkzFu7QzXp5OwPhvBX/2v/3bgjJRjwN4AFAxbYBkZhgLOXYyp+cjLNMf0V6sgczn4G1Q='
-                },
-                { 
-                    name: 'Certified Kiosk Breakout Professional', 
-                    issuer: 'The SecOps Group', 
-                    year: '2025', 
-                    status: 'Active',
-                    badge: 'https://pentestingexams.com/wp-content/uploads/2025/09/cert-stamp-ckbpro-300x300.webp',
-                    url: 'https://candidate.speedexam.net/certificate.aspx?SSTATE=am4131EniU8ntjp4bO5mXZmNXwbwvxJP/ADd23OAOwArwkhL2aoEiSCxyLCdJSJWgQmCQzj8GtLFzvHxBafac3ts6epIiVRI5wBWNHJ2WPs='
-                },
-                { 
-                    name: 'Certified Blue Teamer', 
-                    issuer: 'The SecOps Group', 
-                    year: '2025', 
-                    status: 'Active',
-                    badge: 'https://pentestingexams.com/wp-content/uploads/2025/11/cert-stamp-blue-teamer.webp',
-                    url: 'https://candidate.speedexam.net/certificate.aspx?SSTATE=am4131EniU8ntjp4bO5mXdLqfW1vNmoVtDeynkfqYRXiCWh7MpYGMtCjVflaS5gC/izLhxVQfHpLRdpZgl8lKfMyyAS2pYlz5h6odpbS9rE='
-                },
-                { 
-                    name: 'Certified Blue Teamer eXpert', 
-                    issuer: 'The SecOps Group', 
-                    year: '2026', 
-                    status: 'Active',
-                    badge: 'https://pentestingexams.com/wp-content/uploads/2026/01/cert-stamp-cbteamerx.webp',
-                    url: 'https://candidate.speedexam.net/certificate.aspx?SSTATE=am4131EniU8ntjp4bO5mXTvV45uhGzI8F7+I4DvIqLAjROozfKc4NfGRSNt/EwmAasDB4KGothHjZnHuknjyVtqmD9vqUtwK865hZ1OTtZQ='
-                },
-                { 
-                    name: 'C5W Certified Digital Forensics Evidence Handler', 
-                    issuer: 'Cyber5W', 
-                    year: '2025', 
-                    status: 'Active',
-                    badge: 'https://labs.cyber5w.com/api/favicon.ico',
-                    url: 'https://labs.cyber5w.com/exam-completion/4fd7f158741aaa7f'
-                },
-                { 
-                    name: 'C5W Certified Digital Forensics Foundations', 
-                    issuer: 'Cyber5W', 
-                    year: '2025', 
-                    status: 'Active',
-                    badge: 'https://labs.cyber5w.com/api/favicon.ico',
-                    url: 'https://labs.cyber5w.com/exam-completion/810e93ffab1a4ca2'
-                }
+                { name: 'OffSec Certified Professional', issuer: 'OffSec', year: '2025', status: 'Active', badge: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/143663492', url: 'https://credentials.offsec.com/e64d358f-1ed1-48fa-996e-774fbd42ae25#acc.MyOuLR5C' },
+                { name: 'OffSec Certified Professional+', issuer: 'OffSec', year: '2025', status: 'Active', badge: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/143663690', url: 'https://credentials.offsec.com/0cec77b5-46dc-4b9b-9425-0d80b6330908#acc.5wt9HUXQ' },
+                { name: 'HackTheBox Certified Defensive Security Analyst', issuer: 'HackTheBox', year: '2025', status: 'Active', badge: 'https://images.credly.com/size/680x680/images/e78adea1-f60b-4991-b5d5-3427140c7c1d/image.png', url: 'https://www.credly.com/badges/eabef68d-bbe6-4563-b6c5-21c6cebd8097' },
+                { name: 'HackTheBox Certified Junior Cybersecurity Associate', issuer: 'HackTheBox', year: '2025', status: 'Active', badge: 'https://images.credly.com/images/95043c37-e916-4e4e-96ab-06fb66056648/blob', url: 'https://www.credly.com/earner/earned/badge/46b4063b-f26b-4c2f-9353-e40aec071dbd' },
+                { name: 'Practical Windows Forensic Analyst', issuer: 'Blue Cape Security', year: '2025', status: 'Active', badge: 'https://bluecapesecurity.com/wp-content/uploads/2024/03/BCS_wh_inside.png', url: 'https://credsverse.com/credentials/36a00e8b-fccd-4e30-ab1d-aca3eff677c3' },
+                { name: 'BTL1 - Blue Team Level 1', issuer: 'Security Blue Team', year: '2025', status: 'Active', badge: 'https://images.credly.com/images/276d8595-f4e0-457b-adc8-aab85ee221bf/blob', url: 'https://www.credly.com/badges/428cf4ee-3624-46cc-9d16-76e20b3f1536' },
+                { name: 'Certified CyberDefender Level 1 (CCDL1)', issuer: 'CyberDefenders', year: '2026', status: 'Active', badge: 'https://images.credly.com/size/340x340/images/4c85beb8-c459-4394-ad37-c2d40619ca75/blob', url: 'https://www.credly.com/badges/5c933f3f-613a-4d9a-9d0c-1c8256e4423a/linked_in_profile' },
+                { name: 'Certified Threat Hunting Professional', issuer: 'INE', year: '2025', status: 'Active', badge: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/139673544', url: 'https://certs.ine.com/8667a499-0aee-48fa-a475-68ce5ff08a9c#acc.jz6GackD' },
+                { name: 'Certified Digital Forensics Professional', issuer: 'INE', year: '2024', status: 'Active', badge: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/126647706', url: 'https://certs.ine.com/50ce4ac3-1f33-47d9-a093-2527012b639f#acc.TE1PNWoZ' },
+                { name: 'Security Analyst Level 1', issuer: 'TryHackMe', year: '2025', status: 'Active', badge: 'https://images.credly.com/size/680x680/images/fc0df734-6716-45ba-8563-9fd0eba18373/blob', url: 'https://www.credly.com/badges/863a7b84-c083-4a5d-95f9-7084a1b39b41' },
+                { name: 'Junior Penetration Tester', issuer: 'TryHackMe', year: '2025', status: 'Active', badge: 'https://images.credly.com/images/54525e33-85d1-405c-a68c-1e4dd9c7f57f/blob', url: 'https://www.credly.com/badges/7725b56b-fed8-41bf-99ba-8fc71d677458' },
+                { name: 'Practical SOC Analyst Associate', issuer: 'TCM Security', year: '2025', status: 'Active', badge: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/132440983', url: 'https://certified.tcm-sec.com/f4d241ab-78c0-445a-8ed1-5148a8991573#acc.9X8sFnLt' },
+                { name: 'Computer Hacking Forensic Investigator', issuer: 'EC-Council', year: '2025', status: 'Active', badge: 'https://aspen.eccouncil.org/Content/Badges/CertifiedBadges/CHFI_EC3C17017B4E.png', url: 'https://aspen.eccouncil.org/Certificate/Certificate?a=18btLg5l0Mc3ABngBAUBZg==' },
+                { name: 'CompTIA Security+', issuer: 'CompTIA', year: '2025', status: 'Active', badge: 'https://images.credly.com/images/80d8a06a-c384-42bf-ad36-db81bce5adce/blob', url: 'https://www.credly.com/earner/earned/badge/12a88ecd-02fa-4f3a-8474-0f58d61dd563' },
+                { name: 'CompTIA PenTest+', issuer: 'CompTIA', year: '2025', status: 'Active', badge: 'https://images.credly.com/size/160x160/images/c7ac176b-15a3-4726-827a-e8cee8fe44dc/blob', url: 'https://www.credly.com/earner/earned/badge/2bfb5eae-17d4-40eb-9b06-91a7b17db429' },
+                { name: 'CompTIA CySA+', issuer: 'CompTIA', year: '2025', status: 'Active', badge: 'https://images.credly.com/images/dcd99b5b-da24-40a6-9364-62126d590c37/blob', url: 'https://www.credly.com/earner/earned/badge/8f225de7-ac79-49fd-a59b-81c4b1a20ed3' },
+                { name: 'Certified Cyber Defence Analyst', issuer: 'Cyberwarfare Labs', year: '2025', status: 'Active', badge: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/133842669', url: 'https://www.credential.net/c35f7cea-c45d-416a-8a38-46dee622e0d4#acc.Cz7QdLkr' },
+                { name: 'Certified Red Team Analyst', issuer: 'Cyberwarfare Labs', year: '2025', status: 'Active', badge: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/136436802', url: 'https://www.credential.net/9e679388-51c0-4feb-b844-d829b187bebf#acc.iTwQvcPF' },
+                { name: 'Certified Enterprise Lateral Movement Specialist', issuer: 'Cyberwarfare Labs', year: '2025', status: 'Active', badge: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/161538993', url: 'https://www.credential.net/9c13748a-bd26-44ee-9a0c-69279ffeb648#acc.r2a4yWnF' },
+                { name: 'Certified Purple Team Analyst V2', issuer: 'Cyberwarfare Labs', year: '2025', status: 'Active', badge: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/152738381', url: 'https://www.credential.net/7f8eae2b-d2ac-45e8-961b-082e772aec79#acc.Dnc6Kisb' },
+                { name: 'Certified Red Team Infra Dev', issuer: 'Cyberwarfare Labs', year: '2025', status: 'Active', badge: 'https://killswitchx7.s3.ap-south-1.amazonaws.com/df07046b-ba0b-4548-ae71-c396dc23e9b9.png', url: 'https://labs.cyberwarfare.live/credential/achievement/68b7088140a4bd67bdc80496' },
+                { name: 'Certified Multi-Cloud Blue Team Analyst', issuer: 'Cyberwarfare Labs', year: '2025', status: 'Active', badge: 'https://cyberwarfare.live/wp-content/uploads/2025/11/MCBTA.webp', url: 'https://labs.cyberwarfare.live/credential/achievement/67efe11a5f01ede3c32a4ae0' },
+                { name: 'Certified AppSec Practitioner', issuer: 'The SecOps Group', year: '2025', status: 'Active', badge: 'https://pentestingexams.com/wp-content/uploads/2023/01/cert-stamp-2.png', url: 'https://candidate.speedexam.net/certificate.aspx?SSTATE=am4131EniU8ntjp4bO5mXeDxLxxNfqDhn0NwyYkHYU+3mpiRC+uvV/F3ywm6ur03JULEm4qj4B/3g7n9dtfXqJ9/Hfwz5OGC7uwUjhlq4sE=' },
+                { name: 'Certified Network Security Practitioner', issuer: 'The SecOps Group', year: '2025', status: 'Active', badge: 'https://pentestingexams.com/wp-content/uploads/2023/02/certified-network-pentester-300x300.png', url: 'https://candidate.speedexam.net/certificate.aspx?SSTATE=am4131EniU8ntjp4bO5mXXr+OLxi0ZCJ7CIhF4WjkzFu7QzXp5OwPhvBX/2v/3bgjJRjwN4AFAxbYBkZhgLOXYyp+cjLNMf0V6sgczn4G1Q=' },
+                { name: 'Certified Kiosk Breakout Professional', issuer: 'The SecOps Group', year: '2025', status: 'Active', badge: 'https://pentestingexams.com/wp-content/uploads/2025/09/cert-stamp-ckbpro-300x300.webp', url: 'https://candidate.speedexam.net/certificate.aspx?SSTATE=am4131EniU8ntjp4bO5mXZmNXwbwvxJP/ADd23OAOwArwkhL2aoEiSCxyLCdJSJWgQmCQzj8GtLFzvHxBafac3ts6epIiVRI5wBWNHJ2WPs=' },
+                { name: 'Certified Blue Teamer', issuer: 'The SecOps Group', year: '2025', status: 'Active', badge: 'https://pentestingexams.com/wp-content/uploads/2025/11/cert-stamp-blue-teamer.webp', url: 'https://candidate.speedexam.net/certificate.aspx?SSTATE=am4131EniU8ntjp4bO5mXdLqfW1vNmoVtDeynkfqYRXiCWh7MpYGMtCjVflaS5gC/izLhxVQfHpLRdpZgl8lKfMyyAS2pYlz5h6odpbS9rE=' },
+                { name: 'Certified Blue Teamer eXpert', issuer: 'The SecOps Group', year: '2026', status: 'Active', badge: 'https://pentestingexams.com/wp-content/uploads/2026/01/cert-stamp-cbteamerx.webp', url: 'https://candidate.speedexam.net/certificate.aspx?SSTATE=am4131EniU8ntjp4bO5mXTvV45uhGzI8F7+I4DvIqLAjROozfKc4NfGRSNt/EwmAasDB4KGothHjZnHuknjyVtqmD9vqUtwK865hZ1OTtZQ=' },
+                { name: 'C5W Certified Digital Forensics Evidence Handler', issuer: 'Cyber5W', year: '2025', status: 'Active', badge: 'https://labs.cyber5w.com/api/favicon.ico', url: 'https://labs.cyber5w.com/exam-completion/4fd7f158741aaa7f' },
+                { name: 'C5W Certified Digital Forensics Foundations', issuer: 'Cyber5W', year: '2025', status: 'Active', badge: 'https://labs.cyber5w.com/api/favicon.ico', url: 'https://labs.cyber5w.com/exam-completion/810e93ffab1a4ca2' }
             ];
 
             const labs = [
-                {
-                    title: 'UtensilMenace',
-                    description: 'A digital forensics scenario involving the analysis of a potentially malicious executable and its impact on the system.',
-                    platform: 'Blue Team Labs Online',
+                { 
+                    title: 'UtensilMenace', 
+                    description: 'A digital forensics scenario involving the analysis of a potentially malicious executable and its impact on the system.', 
+                    platform: 'Blue Team Labs Online', 
                     link: 'https://blueteamlabs.online/home/investigation/utensilmenace-b6d7f47023', 
-                    tags: ['Endpoint Forensics', 'Windows Forensics'],
+                    tags: ['Endpoint Forensics', 'Windows Forensics'], 
                     type: 'lab', 
+                    difficulty: 'easy',
+                    is_retired: true,
                     image: 'https://blueteamlabs.online/storage/labs/667781d0e28ddcadf8482dc58c328b0c5aa5e7a9.png' 
                 },
-                {
-                    title: 'WorkFromHome',
-                    description: 'Analyze forensic artifacts to trace an attacker progression from initial social engineering and remote access to a Sticky Keys privilege escalation.',
-                    platform: 'CyberDefenders',
+                { 
+                    title: 'WorkFromHome', 
+                    description: 'Analyze forensic artifacts to trace an attacker progression from initial social engineering and remote access to a Sticky Keys privilege escalation.', 
+                    platform: 'CyberDefenders', 
                     link: 'https://cyberdefenders.org/blueteam-ctf-challenges/workfromhome/', 
-                    tags: ['Endpoint Forensics', 'Windows Forensics','Browser' ,'RMM', 'SeTakeOwnershipPrivilege'],
+                    tags: ['Endpoint Forensics', 'Windows Forensics','Browser' ,'RMM', 'SeTakeOwnershipPrivilege'], 
                     type: 'lab', 
-                    image: 'https://cyberdefenders.org/media/terraform/WorkFromHome/terraform/WorkFromHome/workfromhome.webp' 
+                    image: 'https://cyberdefenders.org/media/terraform/WorkFromHome/terraform/WorkFromHome/workfromhome.webp',
+                    // ADDED: CyberDefenders data
+                    difficulty: 'medium',
+                    rating: 4.7,
+                    is_retired: true,
+                    tactics: ['Initial Access', 'Persistence', 'Privilege Escalation', 'Defense Evasion', 'Credential Access', 'Lateral Movement', 'Command and Control']
                 },
-                {
-                    title: 'ResourcePacks',
-                    description: 'Reconstruct an attack timeline by analyzing forensic artifacts to identify a UAC bypass, WMI persistence, and backdoor user creation techniques.',
-                    platform: 'CyberDefenders',
+                { 
+                    title: 'ResourcePacks', 
+                    description: 'Reconstruct an attack timeline by analyzing forensic artifacts to identify a UAC bypass, WMI persistence, and backdoor user creation techniques.', 
+                    platform: 'CyberDefenders', 
                     link: 'https://cyberdefenders.org/blueteam-ctf-challenges/resourcepacks/', 
-                    tags: ['Endpoint Forensics', 'Windows Forensics','UAC Bypass' ,'WMI persistence', 'SeImpersonatePrivilege'],
+                    tags: ['Endpoint Forensics', 'Windows Forensics','UAC Bypass' ,'WMI persistence', 'SeImpersonatePrivilege'], 
                     type: 'lab', 
-                    image: 'https://cyberdefenders.org/media/terraform/ResourcePacks/ResourcePacks.webp' 
+                    image: 'https://cyberdefenders.org/media/terraform/ResourcePacks/ResourcePacks.webp',
+                    // ADDED: CyberDefenders data
+                    difficulty: 'medium',
+                    rating: 4.5,
+                    is_retired: true,
+                    tactics: ['Initial Access', 'Execution', 'Persistence', 'Privilege Escalation', 'Defense Evasion', 'Discovery','Command and Control']
                 },
-                {
-                    title: 'YARA Trap',
-                    description: 'Investigate attacker behavior by analyzing Windows artifacts to identify persistence, privilege escalation, and lateral movement using MFTECmd, PECmd, BitsParser, and registry analysis tools.',
-                    platform: 'CyberDefenders',
+                { 
+                    title: 'YARA Trap', 
+                    description: 'Investigate attacker behavior by analyzing Windows artifacts to identify persistence, privilege escalation, and lateral movement using MFTECmd, PECmd, BitsParser, and registry analysis tools.', 
+                    platform: 'CyberDefenders', 
                     link: 'https://cyberdefenders.org/blueteam-ctf-challenges/yara-trap/', 
-                    tags: ['Endpoint Forensics', 'Windows Forensics', 'Website Log Analysis', 'Code Review', 'Bits Job'],
+                    tags: ['Endpoint Forensics', 'Windows Forensics', 'Website Log Analysis', 'Code Review', 'Bits Job'], 
                     type: 'lab', 
-                    image: 'https://cyberdefenders.org/media/terraform/YARA%20Trap/Yara_Trap.webp' 
+                    image: 'https://cyberdefenders.org/media/terraform/YARA%20Trap/Yara_Trap.webp',
+                    // ADDED: CyberDefenders data
+                    difficulty: 'hard',
+                    rating: 4.8,
+                    is_retired: true,
+                    tactics: ['Execution', 'Persistence', 'Privilege Escalation', 'Defense Evasion', 'Discovery','Command and Control']
                 },
-                {
-                    title: 'Spooler - APT28',
-                    description: 'Hunt browser downloads, MFT records, and Prefetch to unmask the initial dropper and rebuild the attack timeline.',
-                    platform: 'CyberDefenders',
+                { 
+                    title: 'Spooler - APT28', 
+                    description: 'Hunt browser downloads, MFT records, and Prefetch to unmask the initial dropper and rebuild the attack timeline.', 
+                    platform: 'CyberDefenders', 
                     link: 'https://cyberdefenders.org/blueteam-ctf-challenges/spooler-apt28/', 
-                    tags: ['Endpoint Forensics', 'Windows Forensics'],
+                    tags: ['Endpoint Forensics', 'Windows Forensics'], 
                     type: 'lab', 
-                    image: 'https://cyberdefenders.org/media/terraform/Spooler%20-%20FancyBear/terraform/Spooler%20-%20FancyBear/spooler-fancybear.webp' 
+                    image: 'https://cyberdefenders.org/media/terraform/Spooler%20-%20FancyBear/terraform/Spooler%20-%20FancyBear/spooler-fancybear.webp',
+                    // ADDED: CyberDefenders data
+                    difficulty: 'hard',
+                    rating: 4.7,
+                    is_retired: false,
+                    tactics: ['Persistence', 'Privilege Escalation', 'Defense Evasion']
                 },
-                {
-                    title: 'Perfect Survey',
-                    description: 'Investigate the compromised web server, which also functions as the domain controller for the Wowza Sport environment. You are expected to analyze logs, identify the source and method of the attack, and assess the potential impact on both the website and the organization’s Active Directory infrastructure',
-                    platform: 'CyberDefenders',
+                { 
+                    title: 'Perfect Survey', 
+                    description: 'Investigate the compromised web server, which also functions as the domain controller for the Wowza Sport environment. You are expected to analyze logs, identify the source and method of the attack, and assess the potential impact on both the website and the organization\'s Active Directory infrastructure', 
+                    platform: 'CyberDefenders', 
                     link: 'https://cyberdefenders.org/blueteam-ctf-challenges/perfect-survey/', 
-                    tags: ['Threat Hunting', 'Log Analyis', 'SIEM'],
+                    tags: ['Threat Hunting', 'Log Analyis', 'SIEM'], 
                     type: 'lab', 
-                    image: 'https://cyberdefenders.org/media/terraform/Perfect%20Survey/terraform/Perfect%20Survey/perfect-survey.webp' 
+                    image: 'https://cyberdefenders.org/media/terraform/Perfect%20Survey/terraform/Perfect%20Survey/perfect-survey.webp',
+                    // ADDED: CyberDefenders data
+                    difficulty: 'easy',
+                    rating: 4.3,
+                    is_retired: false,
+                    tactics: ['Reconnaissance','Initial Access','Execution','Persistence','Privilege Escalation','Defense Evasion', 'Credential Access']
                 },
-                {
-                    title: 'LFI Escalation',
-                    description: 'Investigate the full scope of the compromise—tracing how the attacker gained access from the website, what actions they performed, and how they established persistence on the system.',
-                    platform: 'CyberDefenders',
+                { 
+                    title: 'LFI Escalation', 
+                    description: 'Investigate the full scope of the compromise—tracing how the attacker gained access from the website, what actions they performed, and how they established persistence on the system.', 
+                    platform: 'CyberDefenders', 
                     link: 'https://cyberdefenders.org/blueteam-ctf-challenges/lfi-escalation/', 
-                    tags: ['Endpoint Forensics', 'Website Log Analysis', 'Website Vulnerabilities', 'Persistence'],
+                    tags: ['Endpoint Forensics', 'Website Log Analysis', 'Website Vulnerabilities', 'Persistence'], 
                     type: 'lab', 
-                    image: 'https://cyberdefenders.org/media/terraform/LFI%20Escalation/terraform/LFI%20Escalation/lfi-escalation.webp' 
+                    image: 'https://cyberdefenders.org/media/terraform/LFI%20Escalation/terraform/LFI%20Escalation/lfi-escalation.webp',
+                    // ADDED: CyberDefenders data
+                    difficulty: 'hard',
+                    rating: 4.7,
+                    is_retired: false,
+                    tactics: ['Initial Access','Execution','Persistence','Privilege Escalation','Defense Evasion','Discovery']
                 },
-                {
-                    title: 'KioskExpo7',
-                    description: 'Investigate how a physical kiosk breakout led to full system compromise using host and forensic artifacts.',
-                    platform: 'CyberDefenders',
+                { 
+                    title: 'KioskExpo7', 
+                    description: 'Investigate how a physical kiosk breakout led to full system compromise using host and forensic artifacts.', 
+                    platform: 'CyberDefenders', 
                     link: 'https://cyberdefenders.org/blueteam-ctf-challenges/kioskexpo7/', 
-                    tags: ['Endpoint Forensics', 'Kiosk', 'Kiosk Breakout', 'Privilege Escalation', 'Persistence'],
+                    tags: ['Endpoint Forensics', 'Kiosk', 'Kiosk Breakout', 'Privilege Escalation', 'Persistence'], 
                     type: 'lab', 
-                    image: 'https://cyberdefenders.org/media/terraform/KioskExpo7/terraform/KioskExpo7/kioskexpo7.webp' 
+                    image: 'https://cyberdefenders.org/media/terraform/KioskExpo7/terraform/KioskExpo7/kioskexpo7.webp',
+                    // ADDED: CyberDefenders data
+                    difficulty: 'medium',
+                    rating: 4.6,
+                    is_retired: false,
+                    tactics: ['Initial Access','Execution','Persistence','Privilege Escalation','Defense Evasion', 'Credential Access','Discovery','Command and Control','Impact']
                 },
-                {
-                    title: 'WorkFromHome',
-                    description: 'Wowza Enterprise (Wowza Inc.) has hired you to investigate an incident involving a workstation used by Otello John, which is believed to have been compromised by a threat actor. The attacker reportedly changed the desktop wallpaper to a questionable image. The IT team has already provided you with initial information, and it is your duty to report back your findings.',
-                    platform: 'HackTheBox',
-                    link: 'https://app.hackthebox.com/sherlocks/WorkFromHome?tab=play_sherlock', 
-                    tags: ['Endpoint Forensics', 'Windows Forensics'],
-                    type: 'lab', 
-                    image: 'https://htb-mp-prod-public-storage.s3.eu-central-1.amazonaws.com/challenges/27ed0fb950b856b06e1273989422e7d3.png' 
-                },
-                {
-                    title: 'SHAW',
-                    description: 'Investigating ClickFix incident by correlating Browser history, PowerShell Script Block Logging, Prefetch and PowerShell log together',
-                    platform: 'STDiO CTF 2025',
-                    link: 'https://gitlab.com/2600-thailand/stdio/stdio-challenges/stdio-ctf-2025/-/tree/main/challenges/forensic/23.SHAW?ref_type=heads', 
-                    tags: ['Endpoint Forensics', 'Windows Forensics', 'Log Analysis', 'Browser'],
-                    type: 'lab', 
-                    image: 'https://raw.githubusercontent.com/ChickenLoner/ChickenLoner.github.io/main/assets/shaw.jpg' 
-                },
-                {
-                    title: 'Master Investigator',
-                    description: 'Investigating incident starting from phishing, privilege escalation to domain compromise with Active Directory Certificate Services.',
-                    platform: 'STDiO CTF 2025',
-                    link: 'https://gitlab.com/2600-thailand/stdio/stdio-challenges/stdio-ctf-2025/-/tree/main/challenges/forensic/25.Master%20Investigator?ref_type=heads', 
-                    tags: ['Endpoint Forensics', 'Windows Forensics', 'Log Analysis', 'Browser', 'Active Directory', 'File System', 'Certificate Services'],
-                    type: 'lab', 
-                    image: 'https://raw.githubusercontent.com/ChickenLoner/ChickenLoner.github.io/main/assets/master.jpg' 
-                },
-                {
-                    title: 'Awesome Splunk and Elastic SIEM Practice Labs',
-                    description: 'A list of labs with Splunk and Elastic from various CyberSecurity Training platforms such as CyberDefenders, BlueTeamLabs Online (BTLO), TryHackMe, DFIR Labs, Xintra, Ace Responder, and more',
-                    platform: 'GitHub',
-                    link: 'https://github.com/ChickenLoner/Awesome-Splunk-and-Elastic-SIEM-Practice-Labs', 
-                    tags: ['Log Analysis', 'SIEM', 'Threat Hunting', 'Splunk', 'Elastic'],
-                    type: 'project', 
-                    image: 'https://raw.githubusercontent.com/ChickenLoner/ChickenLoner.github.io/main/assets/siem.jpg'
-                },
-                {
-                    title: 'Awesome Cloud Investigation Labs',
-                    description: 'A list of cloud investigations from various cybersecurity platforms such as Blue Team Labs Online (BTLO), CyberDefenders, HackTheBox Sherlocks (HTB), CyberWarFare Labs Infinity (CWL Infinity) and so on',
-                    platform: 'GitHub',
-                    link: 'https://github.com/ChickenLoner/Awesome-Cloud-Investigation-Labs', 
-                    tags: ['Cloud', 'SIEM', 'Threat Hunting', 'Log Analyis'],
-                    type: 'project', 
-                    image: 'https://raw.githubusercontent.com/ChickenLoner/ChickenLoner.github.io/main/assets/cloud.jpg'
-                },
-                {
-                    title: 'Design your first Windows Forensics Lab and make it decent!',
-                    description: 'A blog about making your very own Windows Forensics lab, not deep dive too much into technical aspect but flavors of Windows Forensics scenarios',
-                    platform: 'Medium',
-                    link: 'https://medium.com/system-weakness/design-your-first-windows-forensics-lab-as-a-defensive-content-engineer-523bf891fbd7', 
-                    tags: ['Digital Forensics', 'Lab Making', 'Windows Forensics'],
-                    type: 'project', 
-                    image: 'https://miro.medium.com/v2/resize:fit:640/format:webp/1*oGmrK88K9Mo08GcIKWKxLQ.png'
-                },
-                {
-                    title: 'Using Git Commits as a Persistence Mechanism',
-                    description: 'Research about how red teamer and threat actor can use git history to hide their payload and execute it with the help of other persistence mechanism',
-                    platform: 'Medium',
-                    link: 'https://medium.com/@chaoskist/using-git-commits-as-a-persistence-mechanism-c44a0ee22068', 
-                    tags: ['Red Teaming', 'Persistence', 'git'],
-                    type: 'project', 
-                    image: 'https://miro.medium.com/v2/resize:fit:640/format:webp/1*c8WdFfB5EnQpMvUlW3gLxA.png'
-                },
-                {
-                    title: 'Deep dive into AnyDesk Investigation & Forensics on Windows',
-                    description: 'Research about AnyDesk RMM Investigation & Forensics on Windows from binary to connection, file transfer and unattended access.',
-                    platform: 'Medium',
-                    link: 'https://medium.com/@chaoskist/deep-dive-into-anydesk-investigation-forensics-on-windows-24dc531bcc78', 
-                    tags: ['Digital Forensics', 'RMM', 'AnyDesk', 'Windows'],
-                    type: 'project', 
-                    image: 'https://miro.medium.com/v2/resize:fit:640/format:webp/1*NZ2L8L2gLEQqTZgv_CCaUA.png'
-                }
+                { title: 'WorkFromHome', description: 'Wowza Enterprise (Wowza Inc.) has hired you to investigate an incident involving a workstation used by Otello John, which is believed to have been compromised by a threat actor. The attacker reportedly changed the desktop wallpaper to a questionable image. The IT team has already provided you with initial information, and it is your duty to report back your findings.', platform: 'HackTheBox', link: 'https://app.hackthebox.com/sherlocks/WorkFromHome?tab=play_sherlock', tags: ['Endpoint Forensics', 'Windows Forensics'], type: 'lab', image: 'https://htb-mp-prod-public-storage.s3.eu-central-1.amazonaws.com/challenges/27ed0fb950b856b06e1273989422e7d3.png', difficulty: 'medium', rating: 4.2,is_retired: false},
+                { title: 'SHAW', description: 'Investigating ClickFix incident by correlating Browser history, PowerShell Script Block Logging, Prefetch and PowerShell log together', platform: 'STDiO CTF 2025', link: 'https://gitlab.com/2600-thailand/stdio/stdio-challenges/stdio-ctf-2025/-/tree/main/challenges/forensic/23.SHAW?ref_type=heads', tags: ['Endpoint Forensics', 'Windows Forensics', 'Log Analysis', 'Browser'], type: 'lab', image: 'https://raw.githubusercontent.com/ChickenLoner/ChickenLoner.github.io/main/assets/shaw.jpg' },
+                { title: 'Master Investigator', description: 'Investigating incident starting from phishing, privilege escalation to domain compromise with Active Directory Certificate Services.', platform: 'STDiO CTF 2025', link: 'https://gitlab.com/2600-thailand/stdio/stdio-challenges/stdio-ctf-2025/-/tree/main/challenges/forensic/25.Master%20Investigator?ref_type=heads', tags: ['Endpoint Forensics', 'Windows Forensics', 'Log Analysis', 'Browser', 'Active Directory', 'File System', 'Certificate Services'], type: 'lab', image: 'https://raw.githubusercontent.com/ChickenLoner/ChickenLoner.github.io/main/assets/master.jpg' },
+                { title: 'Awesome Splunk and Elastic SIEM Practice Labs', description: 'A list of labs with Splunk and Elastic from various CyberSecurity Training platforms such as CyberDefenders, BlueTeamLabs Online (BTLO), TryHackMe, DFIR Labs, Xintra, Ace Responder, and more', platform: 'GitHub', link: 'https://github.com/ChickenLoner/Awesome-Splunk-and-Elastic-SIEM-Practice-Labs', tags: ['Log Analysis', 'SIEM', 'Threat Hunting', 'Splunk', 'Elastic'], type: 'project', image: 'https://raw.githubusercontent.com/ChickenLoner/ChickenLoner.github.io/main/assets/siem.jpg' },
+                { title: 'Awesome Cloud Investigation Labs', description: 'A list of cloud investigations from various cybersecurity platforms such as Blue Team Labs Online (BTLO), CyberDefenders, HackTheBox Sherlocks (HTB), CyberWarFare Labs Infinity (CWL Infinity) and so on', platform: 'GitHub', link: 'https://github.com/ChickenLoner/Awesome-Cloud-Investigation-Labs', tags: ['Cloud', 'SIEM', 'Threat Hunting', 'Log Analyis'], type: 'project', image: 'https://raw.githubusercontent.com/ChickenLoner/ChickenLoner.github.io/main/assets/cloud.jpg' },
+                { title: 'Design your first Windows Forensics Lab and make it decent!', description: 'A blog about making your very own Windows Forensics lab, not deep dive too much into technical aspect but flavors of Windows Forensics scenarios', platform: 'Medium', link: 'https://medium.com/system-weakness/design-your-first-windows-forensics-lab-as-a-defensive-content-engineer-523bf891fbd7', tags: ['Digital Forensics', 'Lab Making', 'Windows Forensics'], type: 'project', image: 'https://miro.medium.com/v2/resize:fit:640/format:webp/1*oGmrK88K9Mo08GcIKWKxLQ.png' },
+                { title: 'Using Git Commits as a Persistence Mechanism', description: 'Research about how red teamer and threat actor can use git history to hide their payload and execute it with the help of other persistence mechanism', platform: 'Medium', link: 'https://medium.com/@chaoskist/using-git-commits-as-a-persistence-mechanism-c44a0ee22068', tags: ['Red Teaming', 'Persistence', 'git'], type: 'project', image: 'https://miro.medium.com/v2/resize:fit:640/format:webp/1*c8WdFfB5EnQpMvUlW3gLxA.png' },
+                { title: 'Deep dive into AnyDesk Investigation & Forensics on Windows', description: 'Research about AnyDesk RMM Investigation & Forensics on Windows from binary to connection, file transfer and unattended access.', platform: 'Medium', link: 'https://medium.com/@chaoskist/deep-dive-into-anydesk-investigation-forensics-on-windows-24dc531bcc78', tags: ['Digital Forensics', 'RMM', 'AnyDesk', 'Windows'], type: 'project', image: 'https://miro.medium.com/v2/resize:fit:640/format:webp/1*NZ2L8L2gLEQqTZgv_CCaUA.png' }
             ];
 
             const socialMedia = [
@@ -507,39 +282,20 @@
                                 <div className="flex gap-4">
                                     <div className="flex-shrink-0">
                                         <a href={cert.url} target="_blank" rel="noopener noreferrer" className="block">
-                                            <img 
-                                                src={cert.badge} 
-                                                alt={`${cert.name} badge`}
-                                                className="w-24 h-24 object-contain rounded-lg group-hover:scale-105 transition-transform"
-                                            />
+                                            <img src={cert.badge} alt={`${cert.name} badge`} className="w-24 h-24 object-contain rounded-lg group-hover:scale-105 transition-transform" />
                                         </a>
                                     </div>
-                                    
                                     <div className="flex-1 min-w-0">
                                         <div className="flex items-start justify-between mb-2">
-                                            <a 
-                                                href={cert.url} 
-                                                target="_blank" 
-                                                rel="noopener noreferrer"
-                                                className="flex-1 hover:text-blue-600 transition-colors"
-                                            >
-                                                <h3 className="text-lg font-bold text-gray-800 mb-1 group-hover:text-blue-600">
-                                                    {cert.name}
-                                                </h3>
+                                            <a href={cert.url} target="_blank" rel="noopener noreferrer" className="flex-1 hover:text-blue-600 transition-colors">
+                                                <h3 className="text-lg font-bold text-gray-800 mb-1 group-hover:text-blue-600">{cert.name}</h3>
                                             </a>
-                                            <span className="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium ml-2">
-                                                {cert.status}
-                                            </span>
+                                            <span className="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium ml-2">{cert.status}</span>
                                         </div>
                                         <p className="text-gray-600 font-medium mb-2">{cert.issuer}</p>
                                         <div className="flex items-center justify-between">
                                             <span className="text-gray-500 text-sm">Obtained: {cert.year}</span>
-                                            <a 
-                                                href={cert.url} 
-                                                target="_blank" 
-                                                rel="noopener noreferrer"
-                                                className="flex items-center gap-1 text-blue-600 hover:text-blue-700 text-sm font-medium"
-                                            >
+                                            <a href={cert.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-blue-600 hover:text-blue-700 text-sm font-medium">
                                                 Verify <Icon name="ExternalLink" className="w-3 h-3" />
                                             </a>
                                         </div>
@@ -562,74 +318,112 @@
                 </div>
             );
 
-            const LabsPage = () => (
-                <div className="space-y-8 animate-fadeIn">
-                    <div className="text-center space-y-4">
-                        <h1 className="text-4xl font-bold text-gray-800 flex items-center justify-center gap-3">
-                            <Icon name="Code" className="w-10 h-10 text-blue-500" />
-                            Labs & Projects
-                        </h1>
-                        <p className="text-gray-600">Hands-on DFIR scenarios and educational content I've created</p>
-                    </div>
+            const LabsPage = () => {
+                const renderStars = (rating) => {
+                if (!rating) return null;
+                const fullStars = Math.floor(rating);
+                const hasHalf = rating % 1 >= 0.5;
+                return (
+                    <span className="text-yellow-500 text-lg inline-flex items-center">
+                        <span>{'★'.repeat(fullStars)}</span>
+                        {hasHalf && <span style={{opacity: 0.5}}>★</span>}
+                        <span>{'☆'.repeat(5 - fullStars - (hasHalf ? 1 : 0))}</span>
+                    </span>
+                );
+            };
 
-                    <div className="grid gap-6">
-                        {labs.map((lab, idx) => {
-                            const buttonText = lab.type === 'lab' ? 'Play Now' : 'View Project';
-                            const buttonColor = lab.type === 'lab' ? 'text-green-600 hover:text-green-700' : 'text-blue-600 hover:text-blue-700';
-                            
-                            return (
-                                <div key={idx} className="bg-white rounded-lg p-6 shadow-lg border-2 border-gray-100 hover:border-blue-300 transition-all">
-                                    <div className="flex flex-col md:flex-row gap-6">
-                                        {/* Image Section */}
-                                        {lab.image && (
-                                            <div className="flex-shrink-0 w-full md:w-64">
-                                                <img 
-                                                    src={lab.image} 
-                                                    alt={`${lab.title} cover`}
-                                                    className="rounded-lg object-cover w-full h-auto shadow-md"
-                                                />
-                                            </div>
-                                        )}
-                                        
-                                        {/* Content Section */}
-                                        <div className="flex-1">
-                                            <h3 className="text-xl font-bold text-gray-800 mb-2">{lab.title}</h3>
-                                            <p className="text-gray-600 mb-4">{lab.description}</p>
-                                            <div className="flex flex-wrap gap-2 mb-3">
-                                                {lab.tags.map((tag, i) => (
-                                                    <span key={i} className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">
-                                                        {tag}
-                                                    </span>
-                                                ))}
-                                            </div>
+                return (
+                    <div className="space-y-8 animate-fadeIn">
+                        <div className="text-center space-y-4">
+                            <h1 className="text-4xl font-bold text-gray-800 flex items-center justify-center gap-3">
+                                <Icon name="Code" className="w-10 h-10 text-blue-500" />
+                                Labs & Projects
+                            </h1>
+                            <p className="text-gray-600">Hands-on DFIR scenarios and educational content I've created</p>
+                        </div>
+
+                        <div className="grid gap-6">
+                            {labs.map((lab, idx) => {
+                                const buttonText = lab.type === 'lab' ? 'Play Now' : 'View Project';
+                                const buttonColor = lab.type === 'lab' ? 'text-green-600 hover:text-green-700' : 'text-blue-600 hover:text-blue-700';
+                                const difficultyColors = {
+                                    easy: 'bg-green-100 text-green-700',
+                                    medium: 'bg-orange-100 text-orange-700',
+                                    hard: 'bg-red-100 text-red-700'
+                                };
+                                
+                                return (
+                                    <div key={idx} className="bg-white rounded-lg p-6 shadow-lg border-2 border-gray-100 hover:border-blue-300 transition-all">
+                                        <div className="flex flex-col md:flex-row gap-6">
+                                            {lab.image && (
+                                                <div className="flex-shrink-0 w-full md:w-64">
+                                                    <img src={lab.image} alt={`${lab.title} cover`} className="rounded-lg object-cover w-full h-auto shadow-md" />
+                                                </div>
+                                            )}
                                             
-                                            {/* Footer */}
-                                            <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                                                <span className="text-sm font-medium text-gray-500">Platform: {lab.platform}</span>
-                                                <a 
-                                                    href={lab.link} 
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    className={`flex items-center gap-2 font-medium ${buttonColor}`}
-                                                >
-                                                    {buttonText} <Icon name="ExternalLink" className="w-4 h-4 self-center" />
-                                                </a>
+                                            <div className="flex-1">
+                                                <div className="flex items-start justify-between mb-2">
+                                                    <h3 className="text-xl font-bold text-gray-800">{lab.title}</h3>
+                                                    {lab.difficulty && (
+                                                        <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase ml-2 ${difficultyColors[lab.difficulty]}`}>
+                                                            {lab.difficulty}
+                                                        </span>
+                                                    )}
+                                                </div>
+
+                                                {lab.rating && (
+                                                    <div className="flex items-center gap-2 mb-2">
+                                                        {renderStars(lab.rating)}
+                                                        <span className="text-sm font-semibold text-gray-700">{lab.rating.toFixed(1)}/5.0</span>
+                                                        {lab.is_retired && (
+                                                            <span className="px-2 py-1 bg-orange-50 text-orange-700 rounded text-xs font-medium">Retired</span>
+                                                        )}
+                                                    </div>
+                                                )}
+
+                                                <p className="text-gray-600 mb-4">{lab.description}</p>
+
+                                                {lab.tactics && lab.tactics.length > 0 && (
+                                                    <div className="mb-3">
+                                                        <div className="flex flex-wrap gap-2">
+                                                            {lab.tactics.slice(0, 4).map((tactic, i) => (
+                                                                <span key={i} className="px-2 py-1 bg-red-50 text-red-700 border border-red-200 rounded text-xs">{tactic}</span>
+                                                            ))}
+                                                            {lab.tactics.length > 4 && (
+                                                                <span className="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs">+{lab.tactics.length - 4} more</span>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                )}
+
+                                                <div className="flex flex-wrap gap-2 mb-3">
+                                                    {lab.tags.map((tag, i) => (
+                                                        <span key={i} className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">{tag}</span>
+                                                    ))}
+                                                </div>
+                                                
+                                                <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                                                    <span className="text-sm font-medium text-gray-500">Platform: {lab.platform}</span>
+                                                    <a href={lab.link} target="_blank" rel="noopener noreferrer" className={`flex items-center gap-2 font-medium ${buttonColor}`}>
+                                                        {buttonText} <Icon name="ExternalLink" className="w-4 h-4 self-center" />
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            );
-                        })}
-                    </div>
+                                );
+                            })}
+                        </div>
 
-                    <div className="bg-gradient-to-r from-cyan-50 to-blue-50 rounded-lg p-6 text-center">
-                        <h3 className="font-bold text-gray-800 mb-2">More Projects Coming Soon!</h3>
-                        <p className="text-gray-700">
-                            I'm constantly creating new labs and writeups. Follow me on GitHub and Medium to stay updated with my latest work.
-                        </p>
+                        <div className="bg-gradient-to-r from-cyan-50 to-blue-50 rounded-lg p-6 text-center">
+                            <h3 className="font-bold text-gray-800 mb-2">More Projects Coming Soon!</h3>
+                            <p className="text-gray-700">
+                                I'm constantly creating new labs and writeups. Follow me on GitHub and Medium to stay updated with my latest work.
+                            </p>
+                        </div>
                     </div>
-                </div>
-            );
+                );
+            };
 
             const ContactPage = () => (
                 <div className="space-y-8 animate-fadeIn">
@@ -643,13 +437,7 @@
 
                     <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
                         {socialMedia.map((social, idx) => (
-                            <a
-                                key={idx}
-                                href={social.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="bg-white rounded-lg p-6 shadow-lg border-2 border-gray-100 hover:border-blue-400 hover:shadow-xl transition-all group"
-                            >
+                            <a key={idx} href={social.url} target="_blank" rel="noopener noreferrer" className="bg-white rounded-lg p-6 shadow-lg border-2 border-gray-100 hover:border-blue-400 hover:shadow-xl transition-all group">
                                 <div className="flex items-center gap-4">
                                     <div className="bg-blue-50 p-4 rounded-full group-hover:bg-blue-100 transition-colors">
                                         <Icon name={social.icon} className="w-8 h-8 text-blue-600" />
@@ -706,30 +494,15 @@
                                     {navigation.map((item) => {
                                         if (item.external) {
                                             return (
-                                                <a
-                                                    key={item.id}
-                                                    href={item.url}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    className="flex items-center gap-2 px-3 py-2 rounded-lg font-medium text-gray-600 hover:bg-gray-100 transition-all"
-                                                >
+                                                <a key={item.id} href={item.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-3 py-2 rounded-lg font-medium text-gray-600 hover:bg-gray-100 transition-all">
                                                     <Icon name={item.icon} className="w-4 h-4 self-center" />
                                                     <span className="hidden sm:inline text-sm self-center">{item.label}</span>
-                                                    {/* Added ml-[-4px] to ExternalLink icon to bring it closer to the text/span, and self-center */}
                                                     <Icon name="ExternalLink" className="w-3 h-3 self-center ml-[-4px]" />
                                                 </a>
                                             );
                                         }
                                         return (
-                                            <button
-                                                key={item.id}
-                                                onClick={() => setActivePage(item.id)}
-                                                className={`flex items-center gap-2 px-3 py-2 rounded-lg font-medium transition-all ${
-                                                    activePage === item.id
-                                                        ? 'bg-blue-600 text-white'
-                                                        : 'text-gray-600 hover:bg-gray-100'
-                                                }`}
-                                            >
+                                            <button key={item.id} onClick={() => setActivePage(item.id)} className={`flex items-center gap-2 px-3 py-2 rounded-lg font-medium transition-all ${activePage === item.id ? 'bg-blue-600 text-white' : 'text-gray-600 hover:bg-gray-100'}`}>
                                                 <Icon name={item.icon} className="w-4 h-4 self-center" />
                                                 <span className="hidden sm:inline text-sm self-center">{item.label}</span>
                                             </button>
