@@ -102,6 +102,7 @@
                     tags: ['Endpoint Forensics', 'Windows Forensics'], 
                     type: 'lab', 
                     difficulty: 'easy',
+                    player_difficulty: 'medium',
                     is_retired: true,
                     image: 'https://blueteamlabs.online/storage/labs/667781d0e28ddcadf8482dc58c328b0c5aa5e7a9.png' 
                 },
@@ -114,7 +115,8 @@
                     type: 'lab', 
                     image: 'https://cyberdefenders.org/media/terraform/WorkFromHome/terraform/WorkFromHome/workfromhome.webp',
                     // ADDED: CyberDefenders data
-                    difficulty: 'medium',
+                    difficulty: 'easy',
+                    player_difficulty: 'medium', 
                     rating: 4.7,
                     is_retired: true,
                     tactics: ['Initial Access', 'Persistence', 'Privilege Escalation', 'Defense Evasion', 'Credential Access', 'Lateral Movement', 'Command and Control']
@@ -129,6 +131,7 @@
                     image: 'https://cyberdefenders.org/media/terraform/ResourcePacks/ResourcePacks.webp',
                     // ADDED: CyberDefenders data
                     difficulty: 'medium',
+                    player_difficulty: 'medium', 
                     rating: 4.5,
                     is_retired: true,
                     tactics: ['Initial Access', 'Execution', 'Persistence', 'Privilege Escalation', 'Defense Evasion', 'Discovery','Command and Control']
@@ -143,6 +146,7 @@
                     image: 'https://cyberdefenders.org/media/terraform/YARA%20Trap/Yara_Trap.webp',
                     // ADDED: CyberDefenders data
                     difficulty: 'hard',
+                    player_difficulty: 'hard', 
                     rating: 4.8,
                     is_retired: true,
                     tactics: ['Execution', 'Persistence', 'Privilege Escalation', 'Defense Evasion', 'Discovery','Command and Control']
@@ -157,6 +161,7 @@
                     image: 'https://cyberdefenders.org/media/terraform/Spooler%20-%20FancyBear/terraform/Spooler%20-%20FancyBear/spooler-fancybear.webp',
                     // ADDED: CyberDefenders data
                     difficulty: 'hard',
+                    player_difficulty: 'hard', 
                     rating: 4.7,
                     is_retired: false,
                     tactics: ['Persistence', 'Privilege Escalation', 'Defense Evasion']
@@ -170,7 +175,8 @@
                     type: 'lab', 
                     image: 'https://cyberdefenders.org/media/terraform/Perfect%20Survey/terraform/Perfect%20Survey/perfect-survey.webp',
                     // ADDED: CyberDefenders data
-                    difficulty: 'easy',
+                    difficulty: 'medium',
+                    player_difficulty: 'easy', 
                     rating: 4.3,
                     is_retired: false,
                     tactics: ['Reconnaissance','Initial Access','Execution','Persistence','Privilege Escalation','Defense Evasion', 'Credential Access']
@@ -184,7 +190,8 @@
                     type: 'lab', 
                     image: 'https://cyberdefenders.org/media/terraform/LFI%20Escalation/terraform/LFI%20Escalation/lfi-escalation.webp',
                     // ADDED: CyberDefenders data
-                    difficulty: 'hard',
+                    difficulty: 'medium',
+                    player_difficulty: 'hard', 
                     rating: 4.7,
                     is_retired: false,
                     tactics: ['Initial Access','Execution','Persistence','Privilege Escalation','Defense Evasion','Discovery']
@@ -199,13 +206,14 @@
                     image: 'https://cyberdefenders.org/media/terraform/KioskExpo7/terraform/KioskExpo7/kioskexpo7.webp',
                     // ADDED: CyberDefenders data
                     difficulty: 'medium',
+                    player_difficulty: 'medium', 
                     rating: 4.6,
                     is_retired: false,
                     tactics: ['Initial Access','Execution','Persistence','Privilege Escalation','Defense Evasion', 'Credential Access','Discovery','Command and Control','Impact']
                 },
                 { title: 'WorkFromHome', description: 'Wowza Enterprise (Wowza Inc.) has hired you to investigate an incident involving a workstation used by Otello John, which is believed to have been compromised by a threat actor. The attacker reportedly changed the desktop wallpaper to a questionable image. The IT team has already provided you with initial information, and it is your duty to report back your findings.', platform: 'HackTheBox', link: 'https://app.hackthebox.com/sherlocks/WorkFromHome?tab=play_sherlock', tags: ['Endpoint Forensics', 'Windows Forensics'], type: 'lab', image: 'https://htb-mp-prod-public-storage.s3.eu-central-1.amazonaws.com/challenges/27ed0fb950b856b06e1273989422e7d3.png', difficulty: 'medium', rating: 4.2,is_retired: false},
-                { title: 'SHAW', description: 'Investigating ClickFix incident by correlating Browser history, PowerShell Script Block Logging, Prefetch and PowerShell log together', platform: 'STDiO CTF 2025', link: 'https://gitlab.com/2600-thailand/stdio/stdio-challenges/stdio-ctf-2025/-/tree/main/challenges/forensic/23.SHAW?ref_type=heads', tags: ['Endpoint Forensics', 'Windows Forensics', 'Log Analysis', 'Browser'], type: 'lab', image: 'https://raw.githubusercontent.com/ChickenLoner/ChickenLoner.github.io/main/assets/shaw.jpg' },
-                { title: 'Master Investigator', description: 'Investigating incident starting from phishing, privilege escalation to domain compromise with Active Directory Certificate Services.', platform: 'STDiO CTF 2025', link: 'https://gitlab.com/2600-thailand/stdio/stdio-challenges/stdio-ctf-2025/-/tree/main/challenges/forensic/25.Master%20Investigator?ref_type=heads', tags: ['Endpoint Forensics', 'Windows Forensics', 'Log Analysis', 'Browser', 'Active Directory', 'File System', 'Certificate Services'], type: 'lab', image: 'https://raw.githubusercontent.com/ChickenLoner/ChickenLoner.github.io/main/assets/master.jpg' },
+                { title: 'SHAW', description: 'Investigating ClickFix incident by correlating Browser history, PowerShell Script Block Logging, Prefetch and PowerShell log together', platform: 'STDiO CTF 2025', link: 'https://gitlab.com/2600-thailand/stdio/stdio-challenges/stdio-ctf-2025/-/tree/main/challenges/forensic/23.SHAW?ref_type=heads', tags: ['Endpoint Forensics', 'Windows Forensics', 'Log Analysis', 'Browser'], type: 'lab', image: 'https://raw.githubusercontent.com/ChickenLoner/ChickenLoner.github.io/main/assets/shaw.jpg', difficulty: 'easy', is_retired: true},
+                { title: 'Master Investigator', description: 'Investigating incident starting from phishing, privilege escalation to domain compromise with Active Directory Certificate Services.', platform: 'STDiO CTF 2025', link: 'https://gitlab.com/2600-thailand/stdio/stdio-challenges/stdio-ctf-2025/-/tree/main/challenges/forensic/25.Master%20Investigator?ref_type=heads', tags: ['Endpoint Forensics', 'Windows Forensics', 'Log Analysis', 'Browser', 'Active Directory', 'File System', 'Certificate Services'], type: 'lab', image: 'https://raw.githubusercontent.com/ChickenLoner/ChickenLoner.github.io/main/assets/master.jpg' , difficulty: 'hard', is_retired: true},
                 { title: 'Awesome Splunk and Elastic SIEM Practice Labs', description: 'A list of labs with Splunk and Elastic from various CyberSecurity Training platforms such as CyberDefenders, BlueTeamLabs Online (BTLO), TryHackMe, DFIR Labs, Xintra, Ace Responder, and more', platform: 'GitHub', link: 'https://github.com/ChickenLoner/Awesome-Splunk-and-Elastic-SIEM-Practice-Labs', tags: ['Log Analysis', 'SIEM', 'Threat Hunting', 'Splunk', 'Elastic'], type: 'project', image: 'https://raw.githubusercontent.com/ChickenLoner/ChickenLoner.github.io/main/assets/siem.jpg' },
                 { title: 'Awesome Cloud Investigation Labs', description: 'A list of cloud investigations from various cybersecurity platforms such as Blue Team Labs Online (BTLO), CyberDefenders, HackTheBox Sherlocks (HTB), CyberWarFare Labs Infinity (CWL Infinity) and so on', platform: 'GitHub', link: 'https://github.com/ChickenLoner/Awesome-Cloud-Investigation-Labs', tags: ['Cloud', 'SIEM', 'Threat Hunting', 'Log Analyis'], type: 'project', image: 'https://raw.githubusercontent.com/ChickenLoner/ChickenLoner.github.io/main/assets/cloud.jpg' },
                 { title: 'Design your first Windows Forensics Lab and make it decent!', description: 'A blog about making your very own Windows Forensics lab, not deep dive too much into technical aspect but flavors of Windows Forensics scenarios', platform: 'Medium', link: 'https://medium.com/system-weakness/design-your-first-windows-forensics-lab-as-a-defensive-content-engineer-523bf891fbd7', tags: ['Digital Forensics', 'Lab Making', 'Windows Forensics'], type: 'project', image: 'https://miro.medium.com/v2/resize:fit:640/format:webp/1*oGmrK88K9Mo08GcIKWKxLQ.png' },
@@ -365,9 +373,20 @@
                                                 <div className="flex items-start justify-between mb-2">
                                                     <h3 className="text-xl font-bold text-gray-800">{lab.title}</h3>
                                                     {lab.difficulty && (
-                                                        <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase ml-2 ${difficultyColors[lab.difficulty]}`}>
-                                                            {lab.difficulty}
-                                                        </span>
+                                                        <div className="flex items-center gap-2">
+                                                            <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase ${difficultyColors[lab.difficulty]}`}>
+                                                                {lab.difficulty}
+                                                            </span>
+                                                            {lab.player_difficulty && lab.player_difficulty !== lab.difficulty && (
+                                                                <span className="text-xs text-gray-500">
+                                                                    (Players: <span className={`font-semibold ${
+                                                                        lab.player_difficulty === 'easy' ? 'text-green-600' :
+                                                                        lab.player_difficulty === 'medium' ? 'text-orange-600' :
+                                                                        'text-red-600'
+                                                                    }`}>{lab.player_difficulty}</span>)
+                                                                </span>
+                                                            )}
+                                                        </div>
                                                     )}
                                                 </div>
 
