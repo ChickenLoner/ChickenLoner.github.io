@@ -66,8 +66,9 @@
                 { name: 'OffSec Certified Professional+', issuer: 'OffSec', year: '2025', status: 'Active', badge: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/143663690', url: 'https://credentials.offsec.com/0cec77b5-46dc-4b9b-9425-0d80b6330908#acc.5wt9HUXQ' },
                 { name: 'HackTheBox Certified Defensive Security Analyst', issuer: 'HackTheBox', year: '2025', status: 'Active', badge: 'https://images.credly.com/size/680x680/images/e78adea1-f60b-4991-b5d5-3427140c7c1d/image.png', url: 'https://www.credly.com/badges/eabef68d-bbe6-4563-b6c5-21c6cebd8097' },
                 { name: 'HackTheBox Certified Junior Cybersecurity Associate', issuer: 'HackTheBox', year: '2025', status: 'Active', badge: 'https://images.credly.com/images/95043c37-e916-4e4e-96ab-06fb66056648/blob', url: 'https://www.credly.com/earner/earned/badge/46b4063b-f26b-4c2f-9353-e40aec071dbd' },
-                { name: 'Practical Windows Forensic Analyst', issuer: 'Blue Cape Security', year: '2025', status: 'Active', badge: 'https://bluecapesecurity.com/wp-content/uploads/2024/03/BCS_wh_inside.png', url: 'https://credsverse.com/credentials/36a00e8b-fccd-4e30-ab1d-aca3eff677c3' },
                 { name: 'BTL1 - Blue Team Level 1', issuer: 'Security Blue Team', year: '2025', status: 'Active', badge: 'https://images.credly.com/images/276d8595-f4e0-457b-adc8-aab85ee221bf/blob', url: 'https://www.credly.com/badges/428cf4ee-3624-46cc-9d16-76e20b3f1536' },
+                { name: 'CJDE - Certified Junior Detection Engineer', issuer: 'Security Blue Team', year: '2026', status: 'Active', badge: 'https://images.credly.com/size/340x340/images/48391ef3-bd96-45b1-b6f0-b04757f5f5fd/blob', url: 'https://www.credly.com/badges/cc9a0338-d0be-4429-915a-841b7ba94b88/linked_in_profile' },
+                { name: 'Practical Windows Forensic Analyst', issuer: 'Blue Cape Security', year: '2025', status: 'Active', badge: 'https://bluecapesecurity.com/wp-content/uploads/2024/03/BCS_wh_inside.png', url: 'https://credsverse.com/credentials/36a00e8b-fccd-4e30-ab1d-aca3eff677c3' },
                 { name: 'Certified CyberDefender Level 1 (CCDL1)', issuer: 'CyberDefenders', year: '2026', status: 'Active', badge: 'https://images.credly.com/size/340x340/images/4c85beb8-c459-4394-ad37-c2d40619ca75/blob', url: 'https://www.credly.com/badges/5c933f3f-613a-4d9a-9d0c-1c8256e4423a/linked_in_profile' },
                 { name: 'Certified Threat Hunting Professional', issuer: 'INE', year: '2025', status: 'Active', badge: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/139673544', url: 'https://certs.ine.com/8667a499-0aee-48fa-a475-68ce5ff08a9c#acc.jz6GackD' },
                 { name: 'Certified Digital Forensics Professional', issuer: 'INE', year: '2024', status: 'Active', badge: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/126647706', url: 'https://certs.ine.com/50ce4ac3-1f33-47d9-a093-2527012b639f#acc.TE1PNWoZ' },
@@ -210,6 +211,21 @@
                     rating: 4.6,
                     is_retired: false,
                     tactics: ['Initial Access','Execution','Persistence','Privilege Escalation','Defense Evasion', 'Credential Access','Discovery','Command and Control','Impact']
+                },
+                { 
+                    title: 'RoastToRoot', 
+                    description: 'Analyze network traffic to reconstruct a complete domain compromise attack chain, from AS-REP Roasting and Kerberoasting through privilege escalation, lateral movement, and data exfiltration using rclone.', 
+                    platform: 'CyberDefenders', 
+                    link: 'https://cyberdefenders.org/blueteam-ctf-challenges/roasttoroot/', 
+                    tags: ['Network Forensics', 'Active Directory', 'Kerberos', 'LDAP', 'SMB', 'Password Cracking'], 
+                    type: 'lab', 
+                    image: 'https://cyberdefenders.org/media/terraform/DuskUnfold0x3/terraform/DuskUnfold0x3/duskunfold0x3_XhQG1DE.webp',
+                    // ADDED: CyberDefenders data
+                    difficulty: 'hard',
+                    player_difficulty: 'medium', 
+                    rating: 4.8,
+                    is_retired: false,
+                    tactics: ['Reconnaissance', 'Initial Access','Execution','Persistence','Privilege Escalation','Defense Evasion', 'Credential Access','Discovery','Collection','Exfiltration']
                 },
                 { title: 'WorkFromHome', description: 'Wowza Enterprise (Wowza Inc.) has hired you to investigate an incident involving a workstation used by Otello John, which is believed to have been compromised by a threat actor. The attacker reportedly changed the desktop wallpaper to a questionable image. The IT team has already provided you with initial information, and it is your duty to report back your findings.', platform: 'HackTheBox', link: 'https://app.hackthebox.com/sherlocks/WorkFromHome?tab=play_sherlock', tags: ['Endpoint Forensics', 'Windows Forensics'], type: 'lab', image: 'https://htb-mp-prod-public-storage.s3.eu-central-1.amazonaws.com/challenges/27ed0fb950b856b06e1273989422e7d3.png', difficulty: 'medium', rating: 4.2,is_retired: false},
                 { title: 'SHAW', description: 'Investigating ClickFix incident by correlating Browser history, PowerShell Script Block Logging, Prefetch and PowerShell log together', platform: 'STDiO CTF 2025', link: 'https://gitlab.com/2600-thailand/stdio/stdio-challenges/stdio-ctf-2025/-/tree/main/challenges/forensic/23.SHAW?ref_type=heads', tags: ['Endpoint Forensics', 'Windows Forensics', 'Log Analysis', 'Browser'], type: 'lab', image: 'https://raw.githubusercontent.com/ChickenLoner/ChickenLoner.github.io/main/assets/shaw.jpg', difficulty: 'easy', is_retired: true},
