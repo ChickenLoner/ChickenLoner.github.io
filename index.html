@@ -49,6 +49,7 @@
             const navigation = [
                 { id: 'home', label: 'Home', icon: 'User' },
                 { id: 'certifications', label: 'Certifications', icon: 'Award' },
+                { id: 'reviews', label: 'Cert Reviews', icon: 'FileText' },
                 { id: 'labs', label: 'Labs & Projects', icon: 'Code' },
                 { id: 'writeups', label: 'Write-Ups', icon: 'BookOpen', external: true, url: 'https://chickenloner.github.io/Write_It_UP/index.html' },
                 { id: 'contact', label: 'Connect', icon: 'Mail' }
@@ -62,36 +63,204 @@
             ];
 
             const certifications = [
-                { name: 'OffSec Certified Professional', issuer: 'OffSec', year: '2025', status: 'Active', badge: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/143663492', url: 'https://credentials.offsec.com/e64d358f-1ed1-48fa-996e-774fbd42ae25#acc.MyOuLR5C' },
-                { name: 'OffSec Certified Professional+', issuer: 'OffSec', year: '2025', status: 'Active', badge: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/143663690', url: 'https://credentials.offsec.com/0cec77b5-46dc-4b9b-9425-0d80b6330908#acc.5wt9HUXQ' },
-                { name: 'HackTheBox Certified Defensive Security Analyst', issuer: 'HackTheBox', year: '2025', status: 'Active', badge: 'https://images.credly.com/size/680x680/images/e78adea1-f60b-4991-b5d5-3427140c7c1d/image.png', url: 'https://www.credly.com/badges/eabef68d-bbe6-4563-b6c5-21c6cebd8097' },
-                { name: 'HackTheBox Certified Junior Cybersecurity Associate', issuer: 'HackTheBox', year: '2025', status: 'Active', badge: 'https://images.credly.com/images/95043c37-e916-4e4e-96ab-06fb66056648/blob', url: 'https://www.credly.com/earner/earned/badge/46b4063b-f26b-4c2f-9353-e40aec071dbd' },
+                { name: 'OSCP - OffSec Certified Professional', issuer: 'OffSec', year: '2025', status: 'Active', badge: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/143663492', url: 'https://credentials.offsec.com/e64d358f-1ed1-48fa-996e-774fbd42ae25#acc.MyOuLR5C' },
+                { name: 'OSCP+ - OffSec Certified Professional+', issuer: 'OffSec', year: '2025', status: 'Active', badge: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/143663690', url: 'https://credentials.offsec.com/0cec77b5-46dc-4b9b-9425-0d80b6330908#acc.5wt9HUXQ' },
+                { name: 'HTB CDSA - HackTheBox Certified Defensive Security Analyst', issuer: 'HackTheBox', year: '2025', status: 'Active', badge: 'https://images.credly.com/size/680x680/images/e78adea1-f60b-4991-b5d5-3427140c7c1d/image.png', url: 'https://www.credly.com/badges/eabef68d-bbe6-4563-b6c5-21c6cebd8097' },
+                { name: 'HTB CJCA - HackTheBox Certified Junior Cybersecurity Associate', issuer: 'HackTheBox', year: '2025', status: 'Active', badge: 'https://images.credly.com/images/95043c37-e916-4e4e-96ab-06fb66056648/blob', url: 'https://www.credly.com/earner/earned/badge/46b4063b-f26b-4c2f-9353-e40aec071dbd' },
                 { name: 'BTL1 - Blue Team Level 1', issuer: 'Security Blue Team', year: '2025', status: 'Active', badge: 'https://images.credly.com/images/276d8595-f4e0-457b-adc8-aab85ee221bf/blob', url: 'https://www.credly.com/badges/428cf4ee-3624-46cc-9d16-76e20b3f1536' },
                 { name: 'CJDE - Certified Junior Detection Engineer', issuer: 'Security Blue Team', year: '2026', status: 'Active', badge: 'https://images.credly.com/size/340x340/images/48391ef3-bd96-45b1-b6f0-b04757f5f5fd/blob', url: 'https://www.credly.com/badges/cc9a0338-d0be-4429-915a-841b7ba94b88/linked_in_profile' },
-                { name: 'Practical Windows Forensic Analyst', issuer: 'Blue Cape Security', year: '2025', status: 'Active', badge: 'https://bluecapesecurity.com/wp-content/uploads/2024/03/BCS_wh_inside.png', url: 'https://credsverse.com/credentials/36a00e8b-fccd-4e30-ab1d-aca3eff677c3' },
-                { name: 'Certified CyberDefender Level 1 (CCDL1)', issuer: 'CyberDefenders', year: '2026', status: 'Active', badge: 'https://images.credly.com/size/340x340/images/4c85beb8-c459-4394-ad37-c2d40619ca75/blob', url: 'https://www.credly.com/badges/5c933f3f-613a-4d9a-9d0c-1c8256e4423a/linked_in_profile' },
-                { name: 'Certified Threat Hunting Professional', issuer: 'INE', year: '2025', status: 'Active', badge: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/139673544', url: 'https://certs.ine.com/8667a499-0aee-48fa-a475-68ce5ff08a9c#acc.jz6GackD' },
-                { name: 'Certified Digital Forensics Professional', issuer: 'INE', year: '2024', status: 'Active', badge: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/126647706', url: 'https://certs.ine.com/50ce4ac3-1f33-47d9-a093-2527012b639f#acc.TE1PNWoZ' },
-                { name: 'Security Analyst Level 1', issuer: 'TryHackMe', year: '2025', status: 'Active', badge: 'https://images.credly.com/size/680x680/images/fc0df734-6716-45ba-8563-9fd0eba18373/blob', url: 'https://www.credly.com/badges/863a7b84-c083-4a5d-95f9-7084a1b39b41' },
-                { name: 'Junior Penetration Tester', issuer: 'TryHackMe', year: '2025', status: 'Active', badge: 'https://images.credly.com/images/54525e33-85d1-405c-a68c-1e4dd9c7f57f/blob', url: 'https://www.credly.com/badges/7725b56b-fed8-41bf-99ba-8fc71d677458' },
-                { name: 'Practical SOC Analyst Associate', issuer: 'TCM Security', year: '2025', status: 'Active', badge: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/132440983', url: 'https://certified.tcm-sec.com/f4d241ab-78c0-445a-8ed1-5148a8991573#acc.9X8sFnLt' },
-                { name: 'Computer Hacking Forensic Investigator', issuer: 'EC-Council', year: '2025', status: 'Active', badge: 'https://aspen.eccouncil.org/Content/Badges/CertifiedBadges/CHFI_EC3C17017B4E.png', url: 'https://aspen.eccouncil.org/Certificate/Certificate?a=18btLg5l0Mc3ABngBAUBZg==' },
+                { name: 'PWFA - Practical Windows Forensic Analyst', issuer: 'Blue Cape Security', year: '2025', status: 'Active', badge: 'https://bluecapesecurity.com/wp-content/uploads/2024/03/BCS_wh_inside.png', url: 'https://credsverse.com/credentials/36a00e8b-fccd-4e30-ab1d-aca3eff677c3' },
+                { name: 'CCDL1 - Certified CyberDefender Level 1', issuer: 'CyberDefenders', year: '2026', status: 'Active', badge: 'https://images.credly.com/size/340x340/images/4c85beb8-c459-4394-ad37-c2d40619ca75/blob', url: 'https://www.credly.com/badges/5c933f3f-613a-4d9a-9d0c-1c8256e4423a/linked_in_profile' },
+                { name: 'eCTHP - Certified Threat Hunting Professional', issuer: 'INE', year: '2025', status: 'Active', badge: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/139673544', url: 'https://certs.ine.com/8667a499-0aee-48fa-a475-68ce5ff08a9c#acc.jz6GackD' },
+                { name: 'eCDFP - Certified Digital Forensics Professional', issuer: 'INE', year: '2024', status: 'Active', badge: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/126647706', url: 'https://certs.ine.com/50ce4ac3-1f33-47d9-a093-2527012b639f#acc.TE1PNWoZ' },
+                { name: 'SAL1 - Security Analyst Level 1', issuer: 'TryHackMe', year: '2025', status: 'Active', badge: 'https://images.credly.com/size/680x680/images/fc0df734-6716-45ba-8563-9fd0eba18373/blob', url: 'https://www.credly.com/badges/863a7b84-c083-4a5d-95f9-7084a1b39b41' },
+                { name: 'PT1 - Junior Penetration Tester', issuer: 'TryHackMe', year: '2025', status: 'Active', badge: 'https://images.credly.com/images/54525e33-85d1-405c-a68c-1e4dd9c7f57f/blob', url: 'https://www.credly.com/badges/7725b56b-fed8-41bf-99ba-8fc71d677458' },
+                { name: 'PSAA - Practical SOC Analyst Associate', issuer: 'TCM Security', year: '2025', status: 'Active', badge: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/132440983', url: 'https://certified.tcm-sec.com/f4d241ab-78c0-445a-8ed1-5148a8991573#acc.9X8sFnLt' },
+                { name: 'CHFI - Computer Hacking Forensic Investigator', issuer: 'EC-Council', year: '2025', status: 'Active', badge: 'https://aspen.eccouncil.org/Content/Badges/CertifiedBadges/CHFI_EC3C17017B4E.png', url: 'https://aspen.eccouncil.org/Certificate/Certificate?a=18btLg5l0Mc3ABngBAUBZg==' },
                 { name: 'CompTIA Security+', issuer: 'CompTIA', year: '2025', status: 'Active', badge: 'https://images.credly.com/images/80d8a06a-c384-42bf-ad36-db81bce5adce/blob', url: 'https://www.credly.com/earner/earned/badge/12a88ecd-02fa-4f3a-8474-0f58d61dd563' },
                 { name: 'CompTIA PenTest+', issuer: 'CompTIA', year: '2025', status: 'Active', badge: 'https://images.credly.com/size/160x160/images/c7ac176b-15a3-4726-827a-e8cee8fe44dc/blob', url: 'https://www.credly.com/earner/earned/badge/2bfb5eae-17d4-40eb-9b06-91a7b17db429' },
                 { name: 'CompTIA CySA+', issuer: 'CompTIA', year: '2025', status: 'Active', badge: 'https://images.credly.com/images/dcd99b5b-da24-40a6-9364-62126d590c37/blob', url: 'https://www.credly.com/earner/earned/badge/8f225de7-ac79-49fd-a59b-81c4b1a20ed3' },
-                { name: 'Certified Cyber Defence Analyst', issuer: 'Cyberwarfare Labs', year: '2025', status: 'Active', badge: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/133842669', url: 'https://www.credential.net/c35f7cea-c45d-416a-8a38-46dee622e0d4#acc.Cz7QdLkr' },
-                { name: 'Certified Red Team Analyst', issuer: 'Cyberwarfare Labs', year: '2025', status: 'Active', badge: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/136436802', url: 'https://www.credential.net/9e679388-51c0-4feb-b844-d829b187bebf#acc.iTwQvcPF' },
-                { name: 'Certified Enterprise Lateral Movement Specialist', issuer: 'Cyberwarfare Labs', year: '2025', status: 'Active', badge: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/161538993', url: 'https://www.credential.net/9c13748a-bd26-44ee-9a0c-69279ffeb648#acc.r2a4yWnF' },
-                { name: 'Certified Purple Team Analyst V2', issuer: 'Cyberwarfare Labs', year: '2025', status: 'Active', badge: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/152738381', url: 'https://www.credential.net/7f8eae2b-d2ac-45e8-961b-082e772aec79#acc.Dnc6Kisb' },
-                { name: 'Certified Red Team Infra Dev', issuer: 'Cyberwarfare Labs', year: '2025', status: 'Active', badge: 'https://killswitchx7.s3.ap-south-1.amazonaws.com/df07046b-ba0b-4548-ae71-c396dc23e9b9.png', url: 'https://labs.cyberwarfare.live/credential/achievement/68b7088140a4bd67bdc80496' },
-                { name: 'Certified Multi-Cloud Blue Team Analyst', issuer: 'Cyberwarfare Labs', year: '2025', status: 'Active', badge: 'https://cyberwarfare.live/wp-content/uploads/2025/11/MCBTA.webp', url: 'https://labs.cyberwarfare.live/credential/achievement/67efe11a5f01ede3c32a4ae0' },
-                { name: 'Certified AppSec Practitioner', issuer: 'The SecOps Group', year: '2025', status: 'Active', badge: 'https://pentestingexams.com/wp-content/uploads/2023/01/cert-stamp-2.png', url: 'https://candidate.speedexam.net/certificate.aspx?SSTATE=am4131EniU8ntjp4bO5mXeDxLxxNfqDhn0NwyYkHYU+3mpiRC+uvV/F3ywm6ur03JULEm4qj4B/3g7n9dtfXqJ9/Hfwz5OGC7uwUjhlq4sE=' },
-                { name: 'Certified Network Security Practitioner', issuer: 'The SecOps Group', year: '2025', status: 'Active', badge: 'https://pentestingexams.com/wp-content/uploads/2023/02/certified-network-pentester-300x300.png', url: 'https://candidate.speedexam.net/certificate.aspx?SSTATE=am4131EniU8ntjp4bO5mXXr+OLxi0ZCJ7CIhF4WjkzFu7QzXp5OwPhvBX/2v/3bgjJRjwN4AFAxbYBkZhgLOXYyp+cjLNMf0V6sgczn4G1Q=' },
-                { name: 'Certified Kiosk Breakout Professional', issuer: 'The SecOps Group', year: '2025', status: 'Active', badge: 'https://pentestingexams.com/wp-content/uploads/2025/09/cert-stamp-ckbpro-300x300.webp', url: 'https://candidate.speedexam.net/certificate.aspx?SSTATE=am4131EniU8ntjp4bO5mXZmNXwbwvxJP/ADd23OAOwArwkhL2aoEiSCxyLCdJSJWgQmCQzj8GtLFzvHxBafac3ts6epIiVRI5wBWNHJ2WPs=' },
-                { name: 'Certified Blue Teamer', issuer: 'The SecOps Group', year: '2025', status: 'Active', badge: 'https://pentestingexams.com/wp-content/uploads/2025/11/cert-stamp-blue-teamer.webp', url: 'https://candidate.speedexam.net/certificate.aspx?SSTATE=am4131EniU8ntjp4bO5mXdLqfW1vNmoVtDeynkfqYRXiCWh7MpYGMtCjVflaS5gC/izLhxVQfHpLRdpZgl8lKfMyyAS2pYlz5h6odpbS9rE=' },
-                { name: 'Certified Blue Teamer eXpert', issuer: 'The SecOps Group', year: '2026', status: 'Active', badge: 'https://pentestingexams.com/wp-content/uploads/2026/01/cert-stamp-cbteamerx.webp', url: 'https://candidate.speedexam.net/certificate.aspx?SSTATE=am4131EniU8ntjp4bO5mXTvV45uhGzI8F7+I4DvIqLAjROozfKc4NfGRSNt/EwmAasDB4KGothHjZnHuknjyVtqmD9vqUtwK865hZ1OTtZQ=' },
+                { name: 'CCDA - Certified Cyber Defence Analyst', issuer: 'Cyberwarfare Labs', year: '2025', status: 'Active', badge: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/133842669', url: 'https://www.credential.net/c35f7cea-c45d-416a-8a38-46dee622e0d4#acc.Cz7QdLkr' },
+                { name: 'CRTA - Certified Red Team Analyst', issuer: 'Cyberwarfare Labs', year: '2025', status: 'Active', badge: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/136436802', url: 'https://www.credential.net/9e679388-51c0-4feb-b844-d829b187bebf#acc.iTwQvcPF' },
+                { name: 'CELMS - Certified Enterprise Lateral Movement Specialist', issuer: 'Cyberwarfare Labs', year: '2025', status: 'Active', badge: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/161538993', url: 'https://www.credential.net/9c13748a-bd26-44ee-9a0c-69279ffeb648#acc.r2a4yWnF' },
+                { name: 'CPTAv2 - Certified Purple Team Analyst V2', issuer: 'Cyberwarfare Labs', year: '2025', status: 'Active', badge: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/152738381', url: 'https://www.credential.net/7f8eae2b-d2ac-45e8-961b-082e772aec79#acc.Dnc6Kisb' },
+                { name: 'CRT-ID - Certified Red Team Infra Dev', issuer: 'Cyberwarfare Labs', year: '2025', status: 'Active', badge: 'https://killswitchx7.s3.ap-south-1.amazonaws.com/df07046b-ba0b-4548-ae71-c396dc23e9b9.png', url: 'https://labs.cyberwarfare.live/credential/achievement/68b7088140a4bd67bdc80496' },
+                { name: 'MCBTA - Certified Multi-Cloud Blue Team Analyst', issuer: 'Cyberwarfare Labs', year: '2025', status: 'Active', badge: 'https://cyberwarfare.live/wp-content/uploads/2025/11/MCBTA.webp', url: 'https://labs.cyberwarfare.live/credential/achievement/67efe11a5f01ede3c32a4ae0' },
+                { name: 'CAP - Certified AppSec Practitioner', issuer: 'The SecOps Group', year: '2025', status: 'Active', badge: 'https://pentestingexams.com/wp-content/uploads/2023/01/cert-stamp-2.png', url: 'https://candidate.speedexam.net/certificate.aspx?SSTATE=am4131EniU8ntjp4bO5mXeDxLxxNfqDhn0NwyYkHYU+3mpiRC+uvV/F3ywm6ur03JULEm4qj4B/3g7n9dtfXqJ9/Hfwz5OGC7uwUjhlq4sE=' },
+                { name: 'CNSP - Certified Network Security Practitioner', issuer: 'The SecOps Group', year: '2025', status: 'Active', badge: 'https://pentestingexams.com/wp-content/uploads/2023/02/certified-network-pentester-300x300.png', url: 'https://candidate.speedexam.net/certificate.aspx?SSTATE=am4131EniU8ntjp4bO5mXXr+OLxi0ZCJ7CIhF4WjkzFu7QzXp5OwPhvBX/2v/3bgjJRjwN4AFAxbYBkZhgLOXYyp+cjLNMf0V6sgczn4G1Q=' },
+                { name: 'CKBPro - Certified Kiosk Breakout Professional', issuer: 'The SecOps Group', year: '2025', status: 'Active', badge: 'https://pentestingexams.com/wp-content/uploads/2025/09/cert-stamp-ckbpro-300x300.webp', url: 'https://candidate.speedexam.net/certificate.aspx?SSTATE=am4131EniU8ntjp4bO5mXZmNXwbwvxJP/ADd23OAOwArwkhL2aoEiSCxyLCdJSJWgQmCQzj8GtLFzvHxBafac3ts6epIiVRI5wBWNHJ2WPs=' },
+                { name: 'CBTeamer - Certified Blue Teamer', issuer: 'The SecOps Group', year: '2025', status: 'Active', badge: 'https://pentestingexams.com/wp-content/uploads/2025/11/cert-stamp-blue-teamer.webp', url: 'https://candidate.speedexam.net/certificate.aspx?SSTATE=am4131EniU8ntjp4bO5mXdLqfW1vNmoVtDeynkfqYRXiCWh7MpYGMtCjVflaS5gC/izLhxVQfHpLRdpZgl8lKfMyyAS2pYlz5h6odpbS9rE=' },
+                { name: 'CBTeamer - Certified Blue Teamer eXpert', issuer: 'The SecOps Group', year: '2026', status: 'Active', badge: 'https://pentestingexams.com/wp-content/uploads/2026/01/cert-stamp-cbteamerx.webp', url: 'https://candidate.speedexam.net/certificate.aspx?SSTATE=am4131EniU8ntjp4bO5mXTvV45uhGzI8F7+I4DvIqLAjROozfKc4NfGRSNt/EwmAasDB4KGothHjZnHuknjyVtqmD9vqUtwK865hZ1OTtZQ=' },
                 { name: 'C5W Certified Digital Forensics Evidence Handler', issuer: 'Cyber5W', year: '2025', status: 'Active', badge: 'https://labs.cyber5w.com/api/favicon.ico', url: 'https://labs.cyber5w.com/exam-completion/4fd7f158741aaa7f' },
                 { name: 'C5W Certified Digital Forensics Foundations', issuer: 'Cyber5W', year: '2025', status: 'Active', badge: 'https://labs.cyber5w.com/api/favicon.ico', url: 'https://labs.cyber5w.com/exam-completion/810e93ffab1a4ca2' }
+            ];
+
+            const certificationReviews = [
+                {
+                    title: 'Passed OSCP+ as a blue teamer, what it took?',
+                    excerpt: 'A review of my OSCP certification journey, covering my exam preparation, exam experience, preparation tips, and whether it\'s worth it in 2025-2026.',
+                    date: 'May 2025',
+                    readTime: '5 min read',
+                    tags: ['OSCP', 'Penetration Testing', 'OffSec', 'Red Team'],
+                    url: 'https://systemweakness.com/passed-oscp-as-a-blue-teamer-what-it-took-c8520e79f734',
+                    image: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/143663690',
+                    difficulty: 'Intermediate',
+                    rating: 4.0
+                },
+                {
+                    title: 'Conquer the HackTheBox CDSA Certification: Tips and Insights',
+                    excerpt: 'My review of the HackTheBox Certified Defensive Security Analyst certification, including course content, path unlocking guide, exam preparation, exam experience, and tips.',
+                    date: 'March 2025',
+                    readTime: '15 min read',
+                    tags: ['HTB CDSA', 'Blue Team', 'DFIR', 'SOC' ,'HackTheBox'],
+                    url: 'https://systemweakness.com/conquer-the-hackthebox-cdsa-certification-tips-and-insights-09f35c00932e',
+                    image: 'https://images.credly.com/size/680x680/images/e78adea1-f60b-4991-b5d5-3427140c7c1d/image.png',
+                    difficulty: 'Intermediate',
+                    rating: 4.8
+                },
+                {
+                    title: 'Your First Definitive Guide and Review on HackTheBox CJCA Certification Exam',
+                    excerpt: 'A detailed review and guide on the HackTheBox Certified Junior Cybersecurity Associate certification, good way to start for aspiring SOC analysts / Pentester. Covers course material, path unlocking guide, exam preparation, exam experience and tips.',
+                    date: 'August 2026',
+                    readTime: '15 min read',
+                    tags: ['HTB CJCA', 'Blue Team', 'Red Team','SOC', 'Entry Level', 'Penetration Testing','HackTheBox'],
+                    url: 'https://systemweakness.com/your-first-definitive-guide-and-review-on-hackthebox-cjca-certification-exam-9606474a91bc',
+                    image: 'https://images.credly.com/images/95043c37-e916-4e4e-96ab-06fb66056648/blob',
+                    difficulty: 'Beginner',
+                    rating: 4.5
+                },
+                {
+                    title: 'CCDL1 (Certified CyberDefender Level 1 Certification) Review',
+                    excerpt: 'A detailed review and guide on the Certified CyberDefender Level 1 certification, perfect way to start for aspiring SOC analysts. Covers course material, exam preparation, exam experience and tips.',
+                    date: 'January 2026',
+                    readTime: '10 min read',
+                    tags: ['CCDL1', 'Blue Team', 'SOC', 'Entry Level','CyberDefenders'],
+                    url: 'https://medium.com/@chaoskist/ccd-l1-certified-cyberdefender-level-1-certification-review-1f81bcbb71f8',
+                    image: 'https://images.credly.com/size/340x340/images/4c85beb8-c459-4394-ad37-c2d40619ca75/blob',
+                    difficulty: 'Beginner',
+                    rating: 4.9
+                },
+                {
+                    title: 'CJDE (Certified Junior Detection Engineer) Review and How to prepare for it!',
+                    excerpt: 'A detailed review and guide on the Certified Junior Detection Engineer certification, The elegant way to start learning for alert tuning and rule creation as detection engineer. Covers course material, exam preparation, exam experience and tips.',
+                    date: 'January 2026',
+                    readTime: '10 min read',
+                    tags: ['CJDE', 'Blue Team', 'Detection Engineer','Security Blue Team'],
+                    url: 'https://medium.com/@chaoskist/cjde-certified-junior-detection-engineer-review-and-how-to-prepare-for-it-91e2605ebf26',
+                    image: 'https://images.credly.com/size/340x340/images/48391ef3-bd96-45b1-b6f0-b04757f5f5fd/blob',
+                    difficulty: 'Beginner',
+                    rating: 4.9
+                },
+                {
+                    title: 'New Forensics Certification from Blue Cape Security? I got it, here is my review.',
+                    excerpt: 'A detailed review and guide on the Practical Windows Forensics Analyst certification, The beginner to intemediate level certification for Windows forensics. Covers course material, exam preparation, exam experience and tips.',
+                    date: 'October 2025',
+                    readTime: '10 min read',
+                    tags: ['PWFA', 'Blue Team', 'Forensics', 'Windows', 'Blue Cape Security'],
+                    url: 'https://systemweakness.com/new-forensics-certification-from-blue-cape-security-i-got-it-here-is-my-review-892e10545f34',
+                    image: 'https://bluecapesecurity.com/wp-content/uploads/2024/03/BCS_wh_inside.png',
+                    difficulty: 'Beginner',
+                    rating: 4.7
+                },
+                {
+                    title: 'Full Guide to help you pass your TryHackMe PT1 Exam',
+                    excerpt: 'A very detailed guide on how to prepare for TryHackMe Junior Penetration Exam, The exam covers 3 domains from Web app, Network and AD pentesting, the AI grading is why some people hate it and the real hurdle of the exam is the web application pentesting part',
+                    date: 'July 2025',
+                    readTime: '20 min read',
+                    tags: ['PT1', 'Red Team', 'TryHackMe', 'Penetration Testing'],
+                    url: 'https://systemweakness.com/full-guide-to-help-you-pass-your-tryhackme-pt1-exam-3cf1f1fcb30b',
+                    image: 'https://images.credly.com/images/54525e33-85d1-405c-a68c-1e4dd9c7f57f/blob',
+                    difficulty: 'Intermediate',
+                    rating: 4.0
+                },
+                {
+                    title: 'How I passed TryHackMe — Security Analyst Level 1 (SAL1) certification exam on my second attempt!',
+                    excerpt: 'A detailed review and guide on the TryHackMe Security Analyst certification, The only exam on the market that simulated SOC environment by letting students wait for alerts to appear and triage them, Although the execution on the grading is not something I am not a fan of (Using AI). This review covers course material, exam preparation, exam experience and tips.',
+                    date: 'March 2025',
+                    readTime: '10 min read',
+                    tags: ['SAL1', 'Blue Team', 'SOC', 'Entry Level', 'TryHackMe'],
+                    url: 'https://systemweakness.com/how-i-passed-tryhackme-security-analyst-level-1-sal1-certification-exam-on-my-second-attempt-c1fc3dbd7510',
+                    image: 'https://images.credly.com/size/680x680/images/fc0df734-6716-45ba-8563-9fd0eba18373/blob',
+                    difficulty: 'Beginner',
+                    rating: 4.2
+                },
+                {
+                    title: 'CBTeamerX Exam Review & How to prepare yourself for this exam',
+                    excerpt: 'A review and guide on Certified Blue Teamer eXpert certification, the exam covers various of topic of advanced blue teamer such as Malware Analysis, Disk Forensics and AWS investigation, suitable for those who like challenges and want to push themselves in dire situation.',
+                    date: 'January 2026',
+                    readTime: '5 min read',
+                    tags: ['CBTeamerX', 'Blue Team', 'The Secops Group', 'Advanced Level'],
+                    url: 'https://medium.com/@chaoskist/cbteamerx-exam-review-how-to-prepare-yourself-for-this-exam-495aafdc5b45',
+                    image: 'https://pentestingexams.com/wp-content/uploads/2026/01/cert-stamp-cbteamerx.webp',
+                    difficulty: 'Advanced',
+                    rating: 4.5
+                },
+                {
+                    title: 'My Thoughts on Cyber5W Certified Digital Forensics Foundations (CCDFF) — a solid foundation exam for digital forensics folks',
+                    excerpt: 'A detailed review and guide on the Cyber5W Certified Digital Forensics Foundations certification, The beginner-friendly certification for those who like Digital Forensics. Covers exam preparation, exam experience and tips.',
+                    date: 'June 2025',
+                    readTime: '5 min read',
+                    tags: ['CCDFF', 'Cyber5W', 'Blue Team', 'Digital Forensics', 'Entry Level'],
+                    url: 'https://systemweakness.com/my-thoughts-on-cyber5w-certified-digital-forensics-foundations-ccdff-a-solid-foundation-exam-281a9485c789',
+                    image: 'https://labs.cyber5w.com/api/favicon.ico',
+                    difficulty: 'Beginner',
+                    rating: 4.7
+                },
+                {
+                    title: 'So I tried Cyber5W — Certified Evidence Handler (CCEH) exam, How was it?',
+                    excerpt: 'A detailed review and guide on the Cyber5W Certified Evidence Handler certification, The beginner-friendly certification for those who like Digital Forensics in aspect of Evidence acquisition. Covers exam preparation, exam experience and tips.',
+                    date: 'May 2025',
+                    readTime: '8 min read',
+                    tags: ['CCEH', 'Cyber5W', 'Blue Team', 'Digital Forensics', 'Entry Level'],
+                    url: 'https://systemweakness.com/so-i-tried-cyber5w-certified-evidence-handler-cceh-exam-how-was-it-971a4363231b',
+                    image: 'https://labs.cyber5w.com/api/favicon.ico',
+                    difficulty: 'Beginner',
+                    rating: 4.5
+                },
+                {
+                    title: 'Review — CyberWarFare Labs : Certified Enterprise Lateral Movement Specialist [CELMS], When lateral movement also have a course and exam!',
+                    excerpt: 'A detailed review and guide on the Certified Enterprise Lateral Movement Specialist certification, The intemediate level certification focus the lateral movement aspect of the red teaming side. Covers course material, exam preparation, exam experience and tips.',
+                    date: 'September 2025',
+                    readTime: '5 min read',
+                    tags: ['CELMS', 'CWL', 'Penetration Testing', 'Red Team', 'Lateral Movement'],
+                    url: 'https://systemweakness.com/review-cyberwarfare-labs-certified-enterprise-lateral-movement-specialist-celms-when-c6cfdf2e6334',
+                    image: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/161538993',
+                    difficulty: 'Intermediate',
+                    rating: 4.6
+                },
+                {
+                    title: 'Review — CyberWarFare Labs : Certified Purple Team Analyst [CPTA v2], My First Purple Team Certification',
+                    excerpt: 'A detailed review and guide on the Certified Purple Team Analyst certification, The intemediate level certification that cover both Red and Blue teaming side and create detection rules. Covers course material, exam preparation, exam experience and tips.',
+                    date: 'June 2025',
+                    readTime: '5 min read',
+                    tags: ['CPTA', 'CWL','Purple Team', 'Adverary Emulation', 'Penetration Testing','Detection Engineer'],
+                    url: 'https://systemweakness.com/review-cyberwarfare-labs-certified-purple-team-analyst-cpta-v2-my-first-purple-team-789d481cf872',
+                    image: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/152738381',
+                    difficulty: 'Intermediate',
+                    rating: 4.5
+                },
+                {
+                    title: 'CyberWarFare Labs : Certified Red Team Analyst [CRTA] Certification — My Experience and Review',
+                    excerpt: 'A detailed review and guide on the Certified Red Team Analyst certification, The beginner level certification for red teamer that covers wide variety of domain such as Active Directory and Network Pentesting. Covers course material, exam preparation, exam experience and tips.',
+                    date: 'March 2025',
+                    readTime: '5 min read',
+                    tags: ['CRTA', 'CWL', 'Red Team', 'Penetration Testing', 'Entry Level'],
+                    url: 'https://systemweakness.com/cyberwarfare-labs-certified-red-teamanalyst-crta-certification-my-experience-and-review-2465af923cff',
+                    image: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/136436802',
+                    difficulty: 'Beginner',
+                    rating: 4.5
+                },
+                {
+                    title: 'CyberWarFare Labs : Cyber Defence Analyst [CCDA] Certification — My Experience and Review',
+                    excerpt: 'A detailed review and guide on the Cyber Defence Analyst certification, The beginner level certification for SOC analyst with the usage of velocirapter and arkime to investigate tickets in TheHive. Covers course material, exam preparation, exam experience and tips.',
+                    date: 'Febuary 2025',
+                    readTime: '5 min read',
+                    tags: ['CCDA', 'CWL', 'Blue Team', 'SOC', 'Entry Level'],
+                    url: 'https://systemweakness.com/review-cyberwarfare-labs-cyber-defence-analyst-ccda-certification-50c8f7b69097',
+                    image: 'https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/133842669',
+                    difficulty: 'Beginner',
+                    rating: 4.0
+                }
             ];
 
             const labs = [
@@ -115,7 +284,6 @@
                     tags: ['Endpoint Forensics', 'Windows Forensics','Browser' ,'RMM', 'SeTakeOwnershipPrivilege'], 
                     type: 'lab', 
                     image: 'https://cyberdefenders.org/media/terraform/WorkFromHome/terraform/WorkFromHome/workfromhome.webp',
-                    // ADDED: CyberDefenders data
                     difficulty: 'easy',
                     player_difficulty: 'medium', 
                     rating: 4.7,
@@ -130,7 +298,6 @@
                     tags: ['Endpoint Forensics', 'Windows Forensics','UAC Bypass' ,'WMI persistence', 'SeImpersonatePrivilege'], 
                     type: 'lab', 
                     image: 'https://cyberdefenders.org/media/terraform/ResourcePacks/ResourcePacks.webp',
-                    // ADDED: CyberDefenders data
                     difficulty: 'medium',
                     player_difficulty: 'medium', 
                     rating: 4.5,
@@ -145,7 +312,6 @@
                     tags: ['Endpoint Forensics', 'Windows Forensics', 'Website Log Analysis', 'Code Review', 'Bits Job'], 
                     type: 'lab', 
                     image: 'https://cyberdefenders.org/media/terraform/YARA%20Trap/Yara_Trap.webp',
-                    // ADDED: CyberDefenders data
                     difficulty: 'hard',
                     player_difficulty: 'hard', 
                     rating: 4.8,
@@ -160,7 +326,6 @@
                     tags: ['Endpoint Forensics', 'Windows Forensics'], 
                     type: 'lab', 
                     image: 'https://cyberdefenders.org/media/terraform/Spooler%20-%20FancyBear/terraform/Spooler%20-%20FancyBear/spooler-fancybear.webp',
-                    // ADDED: CyberDefenders data
                     difficulty: 'hard',
                     player_difficulty: 'hard', 
                     rating: 4.7,
@@ -175,7 +340,6 @@
                     tags: ['Threat Hunting', 'Log Analyis', 'SIEM'], 
                     type: 'lab', 
                     image: 'https://cyberdefenders.org/media/terraform/Perfect%20Survey/terraform/Perfect%20Survey/perfect-survey.webp',
-                    // ADDED: CyberDefenders data
                     difficulty: 'medium',
                     player_difficulty: 'easy', 
                     rating: 4.3,
@@ -190,7 +354,6 @@
                     tags: ['Endpoint Forensics', 'Website Log Analysis', 'Website Vulnerabilities', 'Persistence'], 
                     type: 'lab', 
                     image: 'https://cyberdefenders.org/media/terraform/LFI%20Escalation/terraform/LFI%20Escalation/lfi-escalation.webp',
-                    // ADDED: CyberDefenders data
                     difficulty: 'medium',
                     player_difficulty: 'hard', 
                     rating: 4.7,
@@ -205,7 +368,6 @@
                     tags: ['Endpoint Forensics', 'Kiosk', 'Kiosk Breakout', 'Privilege Escalation', 'Persistence'], 
                     type: 'lab', 
                     image: 'https://cyberdefenders.org/media/terraform/KioskExpo7/terraform/KioskExpo7/kioskexpo7.webp',
-                    // ADDED: CyberDefenders data
                     difficulty: 'medium',
                     player_difficulty: 'medium', 
                     rating: 4.6,
@@ -220,7 +382,6 @@
                     tags: ['Network Forensics', 'Active Directory', 'Kerberos', 'LDAP', 'SMB', 'Password Cracking'], 
                     type: 'lab', 
                     image: 'https://cyberdefenders.org/media/terraform/DuskUnfold0x3/terraform/DuskUnfold0x3/duskunfold0x3_XhQG1DE.webp',
-                    // ADDED: CyberDefenders data
                     difficulty: 'hard',
                     player_difficulty: 'medium', 
                     rating: 4.8,
@@ -342,6 +503,106 @@
                     </div>
                 </div>
             );
+
+            const ReviewsPage = () => {
+                const renderStars = (rating) => {
+                    if (!rating) return null;
+                    const fullStars = Math.floor(rating);
+                    const hasHalf = rating % 1 >= 0.5;
+                    return (
+                        <span className="text-yellow-500 text-xl inline-flex items-center">
+                            <span>{'★'.repeat(fullStars)}</span>
+                            {hasHalf && <span style={{opacity: 0.5}}>★</span>}
+                            <span>{'☆'.repeat(5 - fullStars - (hasHalf ? 1 : 0))}</span>
+                        </span>
+                    );
+                };
+
+                const difficultyColors = {
+                    'Beginner': 'bg-green-100 text-green-700',
+                    'Intermediate': 'bg-orange-100 text-orange-700',
+                    'Advanced': 'bg-red-100 text-red-700'
+                };
+
+                return (
+                    <div className="space-y-8 animate-fadeIn">
+                        <div className="text-center space-y-4">
+                            <h1 className="text-4xl font-bold text-gray-800 flex items-center justify-center gap-3">
+                                <Icon name="FileText" className="w-10 h-10 text-blue-500" />
+                                Certification Reviews
+                            </h1>
+                            <p className="text-gray-600">Honest reviews and insights from my certification journey</p>
+                        </div>
+
+                        <div className="grid gap-6">
+                            {certificationReviews.map((review, idx) => (
+                                <div key={idx} className="bg-white rounded-lg p-6 shadow-lg border-2 border-gray-100 hover:border-blue-300 hover:shadow-xl transition-all group">
+                                    <div className="flex flex-col md:flex-row gap-6">
+                                        {review.image && (
+                                            <div className="flex-shrink-0 w-full md:w-48">
+                                                <img src={review.image} alt={`${review.title} badge`} className="rounded-lg object-contain w-full h-auto shadow-md" />
+                                            </div>
+                                        )}
+                                        
+                                        <div className="flex-1">
+                                            <div className="flex items-start justify-between mb-3">
+                                                <h3 className="text-xl font-bold text-gray-800 group-hover:text-blue-600 transition-colors">{review.title}</h3>
+                                                {review.difficulty && (
+                                                    <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase ${difficultyColors[review.difficulty]} ml-2`}>
+                                                        {review.difficulty}
+                                                    </span>
+                                                )}
+                                            </div>
+
+                                            {review.rating && (
+                                                <div className="flex items-center gap-2 mb-3">
+                                                    {renderStars(review.rating)}
+                                                    <span className="text-sm font-semibold text-gray-700">{review.rating.toFixed(1)}/5.0</span>
+                                                </div>
+                                            )}
+
+                                            <p className="text-gray-600 mb-4 leading-relaxed">{review.excerpt}</p>
+
+                                            <div className="flex flex-wrap gap-2 mb-4">
+                                                {review.tags.map((tag, i) => (
+                                                    <span key={i} className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm font-medium">{tag}</span>
+                                                ))}
+                                            </div>
+                                            
+                                            <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                                                <div className="flex items-center gap-3 text-sm text-gray-500">
+                                                    <span className="flex items-center gap-1">
+                                                        <Icon name="Calendar" className="w-4 h-4" />
+                                                        {review.date}
+                                                    </span>
+                                                    <span className="flex items-center gap-1">
+                                                        <Icon name="Clock" className="w-4 h-4" />
+                                                        {review.readTime}
+                                                    </span>
+                                                </div>
+                                                <a href={review.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium">
+                                                    Read Review <Icon name="ExternalLink" className="w-4 h-4 self-center" />
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className="bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg p-6 text-center">
+                            <h3 className="font-bold text-gray-800 mb-2 flex items-center justify-center gap-2">
+                                <Icon name="Lightbulb" className="w-5 h-5 text-purple-600" />
+                                More Reviews Coming Soon!
+                            </h3>
+                            <p className="text-gray-700">
+                                I regularly write detailed certification reviews covering exam prep, course content, hands-on labs, and career value. 
+                                Follow me on Medium for the latest reviews and cybersecurity insights.
+                            </p>
+                        </div>
+                    </div>
+                );
+            };
 
             const LabsPage = () => {
                 const renderStars = (rating) => {
@@ -511,6 +772,7 @@
                 switch (activePage) {
                     case 'home': return <HomePage />;
                     case 'certifications': return <CertificationsPage />;
+                    case 'reviews': return <ReviewsPage />;
                     case 'labs': return <LabsPage />;
                     case 'contact': return <ContactPage />;
                     default: return <HomePage />;
