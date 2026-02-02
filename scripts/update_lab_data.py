@@ -35,9 +35,10 @@ def fetch_cyberdefenders_lab(slug):
         
         if data and 'lab' in data:
             lab = data['lab']
+            # CyberDefenders "difficulty" is actually player-rated difficulty
             return {
                 'rating': lab.get('rating'),
-                'difficulty': lab.get('difficulty'),
+                'player_difficulty': lab.get('difficulty'),  # This is player-rated!
                 'is_retired': lab.get('is_retired', False),
                 'tactics': [t['title'] for t in lab.get('tactics', [])],
                 'categories': [c['title'] for c in lab.get('categories', [])]
@@ -96,7 +97,7 @@ def update_lab_metadata():
             
             if metadata:
                 updated_data[lab_name] = metadata
-                print(f"  ✓ Updated: rating={metadata.get('rating')}, difficulty={metadata.get('difficulty')}")
+                print(f"  ✓ Updated: rating={metadata.get('rating')}, player_difficulty={metadata.get('player_difficulty')}")
             else:
                 print(f"  ✗ Failed to fetch data")
         
