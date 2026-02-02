@@ -45,6 +45,21 @@
 
         const Portfolio = () => {
             const [activePage, setActivePage] = useState('home');
+            const [labsMetadata, setLabsMetadata] = useState({});
+            useEffect(() => {
+                fetch('./data/labs_metadata.json')
+                    .then(res => {
+                        if (!res.ok) throw new Error('Metadata file not found');
+                        return res.json();
+                    })
+                    .then(data => {
+                        console.log('✓ Loaded dynamic metadata for', Object.keys(data).length, 'labs');
+                        setLabsMetadata(data);
+                    })
+                    .catch(err => {
+                        console.log('ℹ Using static data only:', err.message);
+                    });
+            }, []);
 
             const navigation = [
                 { id: 'home', label: 'Home', icon: 'User' },
@@ -288,7 +303,8 @@
                     player_difficulty: 'medium', 
                     rating: 4.7,
                     is_retired: true,
-                    tactics: ['Initial Access', 'Persistence', 'Privilege Escalation', 'Defense Evasion', 'Credential Access', 'Lateral Movement', 'Command and Control']
+                    tactics: ['Initial Access', 'Persistence', 'Privilege Escalation', 'Defense Evasion', 'Credential Access', 'Lateral Movement', 'Command and Control'],
+                    ...(labsMetadata['WorkFromHome'] || {})
                 },
                 { 
                     title: 'ResourcePacks', 
@@ -302,7 +318,8 @@
                     player_difficulty: 'medium', 
                     rating: 4.5,
                     is_retired: true,
-                    tactics: ['Initial Access', 'Execution', 'Persistence', 'Privilege Escalation', 'Defense Evasion', 'Discovery','Command and Control']
+                    tactics: ['Initial Access', 'Execution', 'Persistence', 'Privilege Escalation', 'Defense Evasion', 'Discovery','Command and Control'],
+                    ...(labsMetadata['ResourcePacks'] || {})
                 },
                 { 
                     title: 'YARA Trap', 
@@ -316,7 +333,8 @@
                     player_difficulty: 'hard', 
                     rating: 4.8,
                     is_retired: true,
-                    tactics: ['Execution', 'Persistence', 'Privilege Escalation', 'Defense Evasion', 'Discovery','Command and Control']
+                    tactics: ['Execution', 'Persistence', 'Privilege Escalation', 'Defense Evasion', 'Discovery','Command and Control'],
+                    ...(labsMetadata['YARA Trap'] || {})
                 },
                 { 
                     title: 'Spooler - APT28', 
@@ -330,7 +348,8 @@
                     player_difficulty: 'hard', 
                     rating: 4.7,
                     is_retired: false,
-                    tactics: ['Persistence', 'Privilege Escalation', 'Defense Evasion']
+                    tactics: ['Persistence', 'Privilege Escalation', 'Defense Evasion'],
+                    ...(labsMetadata['Spooler - APT28'] || {})
                 },
                 { 
                     title: 'Perfect Survey', 
@@ -344,7 +363,8 @@
                     player_difficulty: 'easy', 
                     rating: 4.3,
                     is_retired: false,
-                    tactics: ['Reconnaissance','Initial Access','Execution','Persistence','Privilege Escalation','Defense Evasion', 'Credential Access']
+                    tactics: ['Reconnaissance','Initial Access','Execution','Persistence','Privilege Escalation','Defense Evasion', 'Credential Access'],
+                    ...(labsMetadata['Perfect Survey'] || {})
                 },
                 { 
                     title: 'LFI Escalation', 
@@ -358,7 +378,8 @@
                     player_difficulty: 'hard', 
                     rating: 4.7,
                     is_retired: false,
-                    tactics: ['Initial Access','Execution','Persistence','Privilege Escalation','Defense Evasion','Discovery']
+                    tactics: ['Initial Access','Execution','Persistence','Privilege Escalation','Defense Evasion','Discovery'],
+                    ...(labsMetadata['LFI Escalation'] || {})
                 },
                 { 
                     title: 'KioskExpo7', 
@@ -372,7 +393,8 @@
                     player_difficulty: 'medium', 
                     rating: 4.6,
                     is_retired: false,
-                    tactics: ['Initial Access','Execution','Persistence','Privilege Escalation','Defense Evasion', 'Credential Access','Discovery','Command and Control','Impact']
+                    tactics: ['Initial Access','Execution','Persistence','Privilege Escalation','Defense Evasion', 'Credential Access','Discovery','Command and Control','Impact'],
+                    ...(labsMetadata['KioskExpo7'] || {})
                 },
                 { 
                     title: 'RoastToRoot', 
@@ -386,7 +408,8 @@
                     player_difficulty: 'medium', 
                     rating: 4.8,
                     is_retired: false,
-                    tactics: ['Reconnaissance', 'Initial Access','Execution','Persistence','Privilege Escalation','Defense Evasion', 'Credential Access','Discovery','Collection','Exfiltration']
+                    tactics: ['Reconnaissance', 'Initial Access','Execution','Persistence','Privilege Escalation','Defense Evasion', 'Credential Access','Discovery','Collection','Exfiltration'],
+                    ...(labsMetadata['RoastToRoot'] || {})
                 },
                 { title: 'WorkFromHome', description: 'Wowza Enterprise (Wowza Inc.) has hired you to investigate an incident involving a workstation used by Otello John, which is believed to have been compromised by a threat actor. The attacker reportedly changed the desktop wallpaper to a questionable image. The IT team has already provided you with initial information, and it is your duty to report back your findings.', platform: 'HackTheBox', link: 'https://app.hackthebox.com/sherlocks/WorkFromHome?tab=play_sherlock', tags: ['Endpoint Forensics', 'Windows Forensics'], type: 'lab', image: 'https://htb-mp-prod-public-storage.s3.eu-central-1.amazonaws.com/challenges/27ed0fb950b856b06e1273989422e7d3.png', difficulty: 'medium', rating: 4.2,is_retired: false},
                 { title: 'SHAW', description: 'Investigating ClickFix incident by correlating Browser history, PowerShell Script Block Logging, Prefetch and PowerShell log together', platform: 'STDiO CTF 2025', link: 'https://gitlab.com/2600-thailand/stdio/stdio-challenges/stdio-ctf-2025/-/tree/main/challenges/forensic/23.SHAW?ref_type=heads', tags: ['Endpoint Forensics', 'Windows Forensics', 'Log Analysis', 'Browser'], type: 'lab', image: 'https://raw.githubusercontent.com/ChickenLoner/ChickenLoner.github.io/main/assets/shaw.jpg', difficulty: 'easy', is_retired: true},
