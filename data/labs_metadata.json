@@ -63,7 +63,7 @@
     ]
   },
   "Perfect Survey": {
-    "rating": 4.3,
+    "rating": 4.4,
     "player_difficulty": "medium",
     "is_retired": false,
     "tactics": [
@@ -115,7 +115,7 @@
     ]
   },
   "RoastToRoot": {
-    "rating": 4.9,
+    "rating": 4.8,
     "player_difficulty": "hard",
     "is_retired": false,
     "tactics": [
