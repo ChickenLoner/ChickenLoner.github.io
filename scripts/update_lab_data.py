@@ -84,6 +84,10 @@ def update_lab_metadata():
         'RoastToRoot': {
             'platform': 'cyberdefenders',
             'slug': 'roasttoroot'
+        },
+        'RaaS Unfold - RansomHub': {
+            'platform': 'cyberdefenders',
+            'slug': 'raas-unfold-ransomhub'
         }
     }
     

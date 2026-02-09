@@ -133,5 +133,16 @@
     "categories": [
       "Network Forensics"
     ]
+  },
+  "RaaS Unfold - RansomHub": {
+    "rating": 2.0,
+    "player_difficulty": null,
+    "is_retired": false,
+    "tactics": [
+      "Impact"
+    ],
+    "categories": [
+      "Threat Intel"
+    ]
   }
 }

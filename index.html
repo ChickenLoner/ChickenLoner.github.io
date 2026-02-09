@@ -411,6 +411,21 @@
                     tactics: ['Reconnaissance', 'Initial Access','Execution','Persistence','Privilege Escalation','Defense Evasion', 'Credential Access','Discovery','Collection','Exfiltration'],
                     ...(labsMetadata['RoastToRoot'] || {})
                 },
+                { 
+                    title: 'RaaS Unfold - RansomHub', 
+                    description: 'A ransomware empire built on the ashes of its predecessors, trace its origins, expose its operators, and unfold its playbook.', 
+                    platform: 'CyberDefenders', 
+                    link: 'https://cyberdefenders.org/blueteam-ctf-challenges/raas-unfold-ransomhub/', 
+                    tags: ['Threat Intel', 'RaaS', 'RansomHub'], 
+                    type: 'lab', 
+                    image: 'https://cyberdefenders.org/media/terraform/RaaS%20Unfold%20-%20RansomHub/RaaS_Unfold_-_RansomHub.webp',
+                    difficulty: 'easy',
+                    player_difficulty: 'medium', 
+                    rating: 2,
+                    is_retired: false,
+                    tactics: ['Impact'],
+                    ...(labsMetadata['RaaS Unfold - RansomHub'] || {})
+                },
                 { title: 'WorkFromHome', description: 'Wowza Enterprise (Wowza Inc.) has hired you to investigate an incident involving a workstation used by Otello John, which is believed to have been compromised by a threat actor. The attacker reportedly changed the desktop wallpaper to a questionable image. The IT team has already provided you with initial information, and it is your duty to report back your findings.', platform: 'HackTheBox', link: 'https://app.hackthebox.com/sherlocks/WorkFromHome?tab=play_sherlock', tags: ['Endpoint Forensics', 'Windows Forensics'], type: 'lab', image: 'https://htb-mp-prod-public-storage.s3.eu-central-1.amazonaws.com/challenges/27ed0fb950b856b06e1273989422e7d3.png', difficulty: 'medium', rating: 4.2,is_retired: false},
                 { title: 'SHAW', description: 'Investigating ClickFix incident by correlating Browser history, PowerShell Script Block Logging, Prefetch and PowerShell log together', platform: 'STDiO CTF 2025', link: 'https://gitlab.com/2600-thailand/stdio/stdio-challenges/stdio-ctf-2025/-/tree/main/challenges/forensic/23.SHAW?ref_type=heads', tags: ['Endpoint Forensics', 'Windows Forensics', 'Log Analysis', 'Browser'], type: 'lab', image: 'https://raw.githubusercontent.com/ChickenLoner/ChickenLoner.github.io/main/assets/shaw.jpg', difficulty: 'easy', is_retired: true},
                 { title: 'Master Investigator', description: 'Investigating incident starting from phishing, privilege escalation to domain compromise with Active Directory Certificate Services.', platform: 'STDiO CTF 2025', link: 'https://gitlab.com/2600-thailand/stdio/stdio-challenges/stdio-ctf-2025/-/tree/main/challenges/forensic/25.Master%20Investigator?ref_type=heads', tags: ['Endpoint Forensics', 'Windows Forensics', 'Log Analysis', 'Browser', 'Active Directory', 'File System', 'Certificate Services'], type: 'lab', image: 'https://raw.githubusercontent.com/ChickenLoner/ChickenLoner.github.io/main/assets/master.jpg' , difficulty: 'hard', is_retired: true},
