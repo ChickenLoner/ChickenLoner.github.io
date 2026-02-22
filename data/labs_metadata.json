@@ -136,7 +136,7 @@
   },
   "RaaS Unfold - RansomHub": {
     "rating": 4.5,
-    "player_difficulty": "easy",
+    "player_difficulty": "medium",
     "is_retired": false,
     "tactics": [
       "Impact"
