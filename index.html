@@ -1046,13 +1046,18 @@
             );
 
             const StatsPage = () => {
+                const [showCertsByIssuer, setShowCertsByIssuer] = React.useState(true);
+                const [showByPlatform, setShowByPlatform] = React.useState(true);
+                const [showLabDiff, setShowLabDiff] = React.useState(true);
+                const [showLabRatings, setShowLabRatings] = React.useState(true);
+
                 const activeCerts = certifications.filter(c => c.status === 'Active').length;
                 const expiredCerts = certifications.filter(c => c.status === 'Expired').length;
 
                 const labsOnly = labs.filter(l => l.type === 'lab');
                 const projects = labs.filter(l => l.type === 'project');
 
-                const avgRating = (certificationReviews.reduce((sum, r) => sum + (r.rating || 0), 0) / certificationReviews.filter(r => r.rating).length);
+                const avgReviewRating = (certificationReviews.reduce((sum, r) => sum + (r.rating || 0), 0) / certificationReviews.filter(r => r.rating).length);
 
                 // Certifications by issuer
                 const certsByIssuer = certifications.reduce((acc, c) => {
@@ -1070,15 +1075,31 @@
                 const sortedPlatforms = Object.entries(labsByPlatform).sort((a, b) => b[1] - a[1]);
                 const maxPlatformCount = sortedPlatforms[0]?.[1] || 1;
 
-                // Labs by difficulty (labs only, not projects)
+                // Labs by official difficulty (labs only, not projects)
                 const labDifficultyCounts = { easy: 0, medium: 0, hard: 0 };
                 labsOnly.forEach(l => { if (l.difficulty) labDifficultyCounts[l.difficulty]++; });
+                const maxLabDiff = Math.max(...Object.values(labDifficultyCounts), 1);
 
-                // Reviews by difficulty
-                const reviewDifficultyCounts = certificationReviews.reduce((acc, r) => {
-                    if (r.difficulty) acc[r.difficulty] = (acc[r.difficulty] || 0) + 1;
-                    return acc;
-                }, {});
+                // Labs by player/perceived difficulty
+                const playerDifficultyCounts = { easy: 0, medium: 0, hard: 0 };
+                labsOnly.forEach(l => { if (l.player_difficulty) playerDifficultyCounts[l.player_difficulty]++; });
+                const maxPlayerDiff = Math.max(...Object.values(playerDifficultyCounts), 1);
+
+                // Lab ratings
+                const ratedLabs = labsOnly.filter(l => l.rating != null);
+                const labAvgRating = ratedLabs.length ? ratedLabs.reduce((sum, l) => sum + l.rating, 0) / ratedLabs.length : 0;
+                const labMaxRating = ratedLabs.length ? Math.max(...ratedLabs.map(l => l.rating)) : 0;
+                const labMinRating = ratedLabs.length ? Math.min(...ratedLabs.map(l => l.rating)) : 0;
+                const highestRatedLab = ratedLabs.find(l => l.rating === labMaxRating);
+                const lowestRatedLab = ratedLabs.find(l => l.rating === labMinRating);
+                const ratingBands = [
+                    { label: '5.0', min: 5.0, max: 5.0 },
+                    { label: '4.5 – 4.9', min: 4.5, max: 4.9 },
+                    { label: '4.0 – 4.4', min: 4.0, max: 4.4 },
+                    { label: 'Below 4.0', min: 0, max: 3.9 },
+                ];
+                const ratingBandCounts = ratingBands.map(b => ({ label: b.label, count: ratedLabs.filter(l => l.rating >= b.min && l.rating <= b.max).length }));
+                const maxBandCount = Math.max(...ratingBandCounts.map(b => b.count), 1);
 
                 const StatCard = ({ icon, value, label, sub, color = 'blue' }) => {
                     const colors = {
@@ -1099,9 +1120,9 @@
                     );
                 };
 
-                const BarRow = ({ label, count, max, colorClass }) => (
+                const BarRow = ({ label, count, max, colorClass, pct }) => (
                     <div className="flex items-center gap-3 py-1">
-                        <span className="text-sm text-gray-700 w-40 flex-shrink-0 truncate" title={label}>{label}</span>
+                        <span className="text-sm text-gray-700 w-28 flex-shrink-0 truncate" title={label}>{label}</span>
                         <div className="flex-1 bg-gray-100 rounded-full h-4 overflow-hidden">
                             <div
                                 className={`h-4 rounded-full transition-all ${colorClass}`}
@@ -1109,11 +1130,23 @@
                             />
                         </div>
                         <span className="text-sm font-bold text-gray-700 w-6 text-right">{count}</span>
+                        {pct !== undefined && <span className="text-xs text-gray-400 w-9 text-right">{pct}%</span>}
                     </div>
                 );
 
-                const difficultyColors = { easy: 'bg-green-100 text-green-700', medium: 'bg-orange-100 text-orange-700', hard: 'bg-red-100 text-red-700' };
-                const reviewDiffColors = { Beginner: 'bg-green-100 text-green-700', Intermediate: 'bg-orange-100 text-orange-700', Advanced: 'bg-red-100 text-red-700' };
+                const diffBarColors = { easy: 'bg-gradient-to-r from-green-400 to-green-600', medium: 'bg-gradient-to-r from-orange-400 to-orange-500', hard: 'bg-gradient-to-r from-red-400 to-red-600' };
+
+                const SectionToggle = ({ title, icon, iconColor, show, onToggle }) => (
+                    <button onClick={onToggle} className="w-full flex items-center justify-between group">
+                        <h2 className="text-xl font-bold text-gray-800 flex items-center gap-2">
+                            <Icon name={icon} className={`w-5 h-5 ${iconColor}`} />
+                            {title}
+                        </h2>
+                        <span className={`text-xs font-semibold px-2.5 py-1 rounded-lg transition-colors ${show ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-500 group-hover:bg-gray-200'}`}>
+                            {show ? 'Hide' : 'Show'}
+                        </span>
+                    </button>
+                );
 
                 return (
                     <div className="space-y-10 animate-fadeIn">
@@ -1130,111 +1163,93 @@
                             <StatCard icon="Award" value={certifications.length} label="Certifications" sub={`${activeCerts} active · ${expiredCerts} expired`} color="blue" />
                             <StatCard icon="Hammer" value={labsOnly.length} label="Labs Built" sub={`published across ${Object.keys(labsByPlatform).filter(p => labsOnly.some(l => l.platform === p)).length} platforms`} color="green" />
                             <StatCard icon="FolderOpen" value={projects.length} label="Projects & Research" sub="GitHub + Medium" color="purple" />
-                            <StatCard icon="FileText" value={certificationReviews.length} label="Reviews Published" sub={`avg rating ${avgRating.toFixed(1)}/5.0`} color="cyan" />
+                            <StatCard icon="FileText" value={certificationReviews.length} label="Reviews Published" sub={`avg rating ${avgReviewRating.toFixed(1)}/5.0`} color="cyan" />
                         </div>
 
                         {/* Certifications breakdown */}
-                        <div className="grid md:grid-cols-2 gap-6">
-                            <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-gray-100">
-                                <h2 className="text-xl font-bold text-gray-800 mb-5 flex items-center gap-2">
-                                    <Icon name="Building2" className="w-5 h-5 text-blue-500" />
-                                    Certs by Issuer
-                                </h2>
-                                <div className="space-y-1">
+                        <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-gray-100">
+                            <SectionToggle title="Certs by Issuer" icon="Building2" iconColor="text-blue-500" show={showCertsByIssuer} onToggle={() => setShowCertsByIssuer(v => !v)} />
+                            {showCertsByIssuer && (
+                                <div className="space-y-1 mt-5">
                                     {sortedIssuers.map(([issuer, count]) => (
-                                        <BarRow key={issuer} label={issuer} count={count} max={maxIssuerCount} colorClass="bg-gradient-to-r from-blue-400 to-blue-600" />
+                                        <BarRow key={issuer} label={issuer} count={count} max={maxIssuerCount} colorClass="bg-gradient-to-r from-blue-400 to-blue-600" pct={Math.round((count / certifications.length) * 100)} />
                                     ))}
                                 </div>
-                            </div>
-
-                            <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-gray-100">
-                                <h2 className="text-xl font-bold text-gray-800 mb-5 flex items-center gap-2">
-                                    <Icon name="CheckCircle" className="w-5 h-5 text-green-500" />
-                                    Cert Status
-                                </h2>
-                                <div className="space-y-4 mt-2">
-                                    <div>
-                                        <div className="flex items-center justify-between mb-2">
-                                            <span className="text-sm font-semibold text-green-700">Active</span>
-                                            <span className="text-sm font-bold text-gray-700">{activeCerts}</span>
-                                        </div>
-                                        <div className="w-full bg-gray-100 rounded-full h-5 overflow-hidden">
-                                            <div className="h-5 rounded-full bg-gradient-to-r from-green-400 to-green-600" style={{ width: `${Math.round((activeCerts / certifications.length) * 100)}%` }} />
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div className="flex items-center justify-between mb-2">
-                                            <span className="text-sm font-semibold text-gray-500">Expired</span>
-                                            <span className="text-sm font-bold text-gray-700">{expiredCerts}</span>
-                                        </div>
-                                        <div className="w-full bg-gray-100 rounded-full h-5 overflow-hidden">
-                                            <div className="h-5 rounded-full bg-gradient-to-r from-gray-300 to-gray-400" style={{ width: `${Math.round((expiredCerts / certifications.length) * 100)}%` }} />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <h2 className="text-xl font-bold text-gray-800 mt-8 mb-4 flex items-center gap-2">
-                                    <Icon name="Star" className="w-5 h-5 text-yellow-500" />
-                                    Review Ratings
-                                </h2>
-                                <div className="grid grid-cols-3 gap-2 text-center">
-                                    <div className="bg-blue-50 rounded-lg p-3">
-                                        <div className="text-2xl font-bold text-blue-700">{Math.min(...certificationReviews.map(r => r.rating || 5)).toFixed(1)}</div>
-                                        <div className="text-xs text-gray-500 mt-1">Lowest</div>
-                                    </div>
-                                    <div className="bg-blue-100 rounded-lg p-3">
-                                        <div className="text-2xl font-bold text-blue-800">{avgRating.toFixed(1)}</div>
-                                        <div className="text-xs text-gray-500 mt-1">Average</div>
-                                    </div>
-                                    <div className="bg-blue-200 rounded-lg p-3">
-                                        <div className="text-2xl font-bold text-blue-900">{Math.max(...certificationReviews.map(r => r.rating || 0)).toFixed(1)}</div>
-                                        <div className="text-xs text-gray-500 mt-1">Highest</div>
-                                    </div>
-                                </div>
-                            </div>
+                            )}
                         </div>
 
                         {/* Labs breakdown */}
                         <div className="grid md:grid-cols-2 gap-6">
                             <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-gray-100">
-                                <h2 className="text-xl font-bold text-gray-800 mb-5 flex items-center gap-2">
-                                    <Icon name="Globe" className="w-5 h-5 text-cyan-500" />
-                                    Labs & Projects by Platform
-                                </h2>
-                                <div className="space-y-1">
-                                    {sortedPlatforms.map(([platform, count]) => (
-                                        <BarRow key={platform} label={platform} count={count} max={maxPlatformCount} colorClass="bg-gradient-to-r from-cyan-400 to-cyan-600" />
-                                    ))}
-                                </div>
+                                <SectionToggle title="Labs & Projects by Platform" icon="Globe" iconColor="text-cyan-500" show={showByPlatform} onToggle={() => setShowByPlatform(v => !v)} />
+                                {showByPlatform && (
+                                    <div className="space-y-1 mt-5">
+                                        {sortedPlatforms.map(([platform, count]) => (
+                                            <BarRow key={platform} label={platform} count={count} max={maxPlatformCount} colorClass="bg-gradient-to-r from-cyan-400 to-cyan-600" pct={Math.round((count / labs.length) * 100)} />
+                                        ))}
+                                    </div>
+                                )}
                             </div>
 
                             <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-gray-100">
-                                <h2 className="text-xl font-bold text-gray-800 mb-5 flex items-center gap-2">
-                                    <Icon name="Gauge" className="w-5 h-5 text-orange-500" />
-                                    Lab Difficulty
-                                </h2>
-                                <div className="grid grid-cols-3 gap-3 mb-8">
-                                    {Object.entries(labDifficultyCounts).map(([diff, count]) => (
-                                        <div key={diff} className={`rounded-xl p-4 text-center ${difficultyColors[diff]}`}>
-                                            <div className="text-3xl font-bold">{count}</div>
-                                            <div className="text-xs font-semibold uppercase mt-1">{diff}</div>
+                                <SectionToggle title="Lab Difficulty" icon="Gauge" iconColor="text-orange-500" show={showLabDiff} onToggle={() => setShowLabDiff(v => !v)} />
+                                {showLabDiff && (
+                                    <div className="mt-5 space-y-6">
+                                        <div>
+                                            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">Official Difficulty</p>
+                                            <div className="space-y-2">
+                                                {Object.entries(labDifficultyCounts).map(([diff, count]) => (
+                                                    <BarRow key={diff} label={diff.charAt(0).toUpperCase() + diff.slice(1)} count={count} max={maxLabDiff} colorClass={diffBarColors[diff]} pct={labsOnly.length ? Math.round((count / labsOnly.length) * 100) : 0} />
+                                                ))}
+                                            </div>
                                         </div>
-                                    ))}
-                                </div>
-
-                                <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-                                    <Icon name="GraduationCap" className="w-5 h-5 text-purple-500" />
-                                    Review Difficulty
-                                </h2>
-                                <div className="flex gap-3 flex-wrap">
-                                    {Object.entries(reviewDifficultyCounts).map(([diff, count]) => (
-                                        <div key={diff} className={`rounded-xl px-4 py-3 flex items-center gap-2 ${reviewDiffColors[diff] || 'bg-gray-100 text-gray-700'}`}>
-                                            <span className="text-2xl font-bold">{count}</span>
-                                            <span className="text-xs font-semibold uppercase">{diff}</span>
+                                        <div>
+                                            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">Perceived Difficulty</p>
+                                            <div className="space-y-2">
+                                                {Object.entries(playerDifficultyCounts).map(([diff, count]) => (
+                                                    <BarRow key={diff} label={diff.charAt(0).toUpperCase() + diff.slice(1)} count={count} max={maxPlayerDiff} colorClass={diffBarColors[diff]} pct={labsOnly.length ? Math.round((count / labsOnly.length) * 100) : 0} />
+                                                ))}
+                                            </div>
                                         </div>
-                                    ))}
-                                </div>
+                                    </div>
+                                )}
                             </div>
+                        </div>
+
+                        {/* Lab Ratings */}
+                        <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-gray-100">
+                            <SectionToggle title="Lab Ratings" icon="Star" iconColor="text-yellow-500" show={showLabRatings} onToggle={() => setShowLabRatings(v => !v)} />
+                            {showLabRatings && (
+                                <div className="mt-5 grid md:grid-cols-2 gap-8">
+                                    <div>
+                                        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-4">Summary ({ratedLabs.length} rated labs)</p>
+                                        <div className="grid grid-cols-3 gap-3 text-center mb-6">
+                                            <div className="bg-yellow-50 rounded-xl p-4">
+                                                <div className="text-2xl font-bold text-yellow-700">{labMinRating.toFixed(1)}</div>
+                                                <div className="text-xs text-gray-500 mt-1">Lowest</div>
+                                                <div className="text-xs text-gray-400 mt-1 truncate" title={lowestRatedLab?.title}>{lowestRatedLab?.title}</div>
+                                            </div>
+                                            <div className="bg-yellow-100 rounded-xl p-4">
+                                                <div className="text-2xl font-bold text-yellow-800">{labAvgRating.toFixed(2)}</div>
+                                                <div className="text-xs text-gray-500 mt-1">Average</div>
+                                            </div>
+                                            <div className="bg-yellow-200 rounded-xl p-4">
+                                                <div className="text-2xl font-bold text-yellow-900">{labMaxRating.toFixed(1)}</div>
+                                                <div className="text-xs text-gray-500 mt-1">Highest</div>
+                                                <div className="text-xs text-gray-500 mt-1 truncate" title={highestRatedLab?.title}>{highestRatedLab?.title}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-4">Distribution</p>
+                                        <div className="space-y-2">
+                                            {ratingBandCounts.map(({ label, count }) => (
+                                                <BarRow key={label} label={label} count={count} max={maxBandCount} colorClass="bg-gradient-to-r from-yellow-400 to-amber-500" pct={ratedLabs.length ? Math.round((count / ratedLabs.length) * 100) : 0} />
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
                 );
@@ -1272,10 +1287,9 @@
                                         {navigation.map((item) => {
                                             if (item.external) {
                                                 return (
-                                                    <a key={item.id} href={item.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 transition-all">
+                                                    <a key={item.id} href={item.url} className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100 transition-all">
                                                         <Icon name={item.icon} className="w-4 h-4" />
                                                         <span>{item.label}</span>
-                                                        <Icon name="ExternalLink" className="w-3 h-3 opacity-40" />
                                                     </a>
                                                 );
                                             }
@@ -1307,10 +1321,9 @@
                                     {navigation.map((item) => {
                                         if (item.external) {
                                             return (
-                                                <a key={item.id} href={item.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors">
+                                                <a key={item.id} href={item.url} className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors">
                                                     <Icon name={item.icon} className="w-4 h-4 text-gray-400" />
                                                     <span>{item.label}</span>
-                                                    <Icon name="ExternalLink" className="w-3 h-3 opacity-40 ml-auto" />
                                                 </a>
                                             );
                                         }
