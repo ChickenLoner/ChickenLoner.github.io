@@ -15,9 +15,121 @@
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .animate-fadeIn {
-            animation: fadeIn 0.5s ease-out;
+        .animate-fadeIn { animation: fadeIn 0.5s ease-out; }
+
+        @keyframes pulseRing {
+            0%   { transform: scale(1);    opacity: 0.5; }
+            100% { transform: scale(1.22); opacity: 0; }
         }
+        .animate-pulse-ring { animation: pulseRing 2s ease-out infinite; }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .animate-slideDown { animation: slideDown 0.18s ease-out; }
+
+        /* Subtle dot grid background for hero */
+        .hero-dots {
+            background-image: radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        /* ============================================================
+           DARK MODE
+           Activate by adding class "dark" to the root .min-h-screen div
+           ============================================================ */
+
+        /* Root page background */
+        .dark.min-h-screen {
+            background: linear-gradient(135deg, #0f172a 0%, #141f35 50%, #0a1628 100%) !important;
+        }
+
+        /* Navigation */
+        .dark nav.sticky { background-color: rgba(15,23,42,0.96) !important; border-bottom-color: rgba(51,65,85,0.5) !important; }
+
+        /* White / light surface backgrounds */
+        .dark .bg-white     { background-color: #1e293b !important; }
+        .dark .bg-gray-50   { background-color: #0f172a !important; }
+        .dark .bg-gray-100  { background-color: #334155 !important; }
+
+        /* Tinted section backgrounds */
+        .dark .bg-blue-50   { background-color: rgba(37,99,235,0.12)  !important; }
+        .dark .bg-blue-100  { background-color: rgba(37,99,235,0.22)  !important; }
+        .dark .bg-cyan-50   { background-color: rgba(8,145,178,0.10)  !important; }
+        .dark .bg-purple-50 { background-color: rgba(124,58,237,0.10) !important; }
+        .dark .bg-green-50  { background-color: rgba(22,163,74,0.10)  !important; }
+        .dark .bg-orange-50 { background-color: rgba(234,88,12,0.10)  !important; }
+        .dark .bg-red-50    { background-color: rgba(220,38,38,0.10)  !important; }
+        .dark .bg-yellow-50 { background-color: rgba(202,138,4,0.10)  !important; }
+
+        /* Badge/pill chip backgrounds */
+        .dark .bg-green-100  { background-color: rgba(22,163,74,0.20)  !important; }
+        .dark .bg-orange-100 { background-color: rgba(234,88,12,0.20)  !important; }
+        .dark .bg-red-100    { background-color: rgba(220,38,38,0.20)  !important; }
+
+        /* Text hierarchy */
+        .dark .text-gray-800 { color: #e2e8f0 !important; }
+        .dark .text-gray-700 { color: #cbd5e1 !important; }
+        .dark .text-gray-600 { color: #94a3b8 !important; }
+        .dark .text-gray-500 { color: #64748b !important; }
+        .dark .text-gray-400 { color: #475569 !important; }
+        .dark .text-gray-300 { color: #334155 !important; }
+
+        /* Badge text - keep vivid on dark tinted backgrounds */
+        .dark .text-green-700  { color: #4ade80 !important; }
+        .dark .text-orange-700 { color: #fb923c !important; }
+        .dark .text-red-700    { color: #f87171 !important; }
+        .dark .text-blue-700   { color: #93c5fd !important; }
+        .dark .text-purple-500 { color: #c084fc !important; }
+
+        /* Accent / interactive text — keep vivid */
+        .dark .text-blue-600 { color: #60a5fa !important; }
+        .dark .text-blue-500 { color: #60a5fa !important; }
+        .dark .text-cyan-500 { color: #22d3ee !important; }
+        .dark .text-blue-400 { color: #93c5fd !important; }
+
+        /* Border colors */
+        .dark .border-gray-100  { border-color: #334155 !important; }
+        .dark .border-gray-200  { border-color: #475569 !important; }
+        .dark .border-gray-300  { border-color: #475569 !important; }
+        .dark .border-blue-100  { border-color: rgba(59,130,246,0.3) !important; }
+        .dark .border-blue-200  { border-color: rgba(59,130,246,0.5) !important; }
+        .dark .border-purple-100 { border-color: rgba(124,58,237,0.3) !important; }
+
+        /* Hover backgrounds */
+        .dark .hover\:bg-gray-100:hover { background-color: #334155 !important; }
+        .dark .hover\:bg-gray-50:hover  { background-color: #1e293b !important; }
+        .dark .hover\:border-blue-200:hover { border-color: rgba(59,130,246,0.5) !important; }
+        .dark .hover\:border-blue-400:hover { border-color: rgba(96,165,250,0.7) !important; }
+
+        /* Light gradient stops → dark */
+        .dark .from-blue-50   { --tw-gradient-from: #1e293b !important; }
+        .dark .to-blue-50     { --tw-gradient-to:   #1e293b !important; }
+        .dark .from-cyan-50   { --tw-gradient-from: #1e293b !important; }
+        .dark .to-cyan-50     { --tw-gradient-to:   #1e293b !important; }
+        .dark .from-purple-50 { --tw-gradient-from: #1e2040 !important; }
+        .dark .to-purple-50   { --tw-gradient-to:   #1e2040 !important; }
+        .dark .from-slate-50  { --tw-gradient-from: #0f172a !important; }
+        .dark .via-blue-50    { --tw-gradient-via:  #1e293b !important; }
+
+        /* Form / input elements */
+        .dark input, .dark textarea, .dark select {
+            background-color: #1e293b !important;
+            border-color: #334155 !important;
+            color: #e2e8f0 !important;
+        }
+        .dark input::placeholder, .dark textarea::placeholder { color: #64748b !important; }
+        .dark input:focus, .dark textarea:focus {
+            border-color: #60a5fa !important;
+            --tw-ring-color: rgba(96,165,250,0.3) !important;
+        }
+        .dark .focus\:border-blue-500:focus { border-color: #60a5fa !important; }
+
+        /* Scrollbar */
+        .dark ::-webkit-scrollbar       { width: 6px; }
+        .dark ::-webkit-scrollbar-track { background: #0f172a; }
+        .dark ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
     </style>
 </head>
 <body>
@@ -46,6 +158,9 @@
         const Portfolio = () => {
             const [activePage, setActivePage] = useState('home');
             const [labsMetadata, setLabsMetadata] = useState({});
+            const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+            const [darkMode, setDarkMode] = useState(() => localStorage.getItem('darkMode') === 'true');
+            useEffect(() => { localStorage.setItem('darkMode', darkMode); }, [darkMode]);
             useEffect(() => {
                 fetch('./data/labs_metadata.json')
                     .then(res => {
@@ -448,45 +563,76 @@
             ];
 
             const HomePage = () => (
-                <div className="space-y-12 animate-fadeIn">
-                    <div className="text-center space-y-4 py-12">
-                        <div className="flex justify-center mb-6">
-                            <div className="bg-white p-2 rounded-2xl shadow-lg">
-                                <img src="/chicken0248.png" alt="Chicken0248" className="w-32 h-32 rounded-xl" />
-                            </div>
-                        </div>
-                        <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
-                            Chicken0248, DFIR Analyst & Blue Team Enthusiast
-                        </h1>
-                        <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                            Passionate about digital forensics, incident response, and creating hands-on learning experiences for the cybersecurity community
-                        </p>
-                    </div>
-
-                    <div className="grid md:grid-cols-2 gap-8">
-                        {skills.map((skillGroup, idx) => (
-                            <div key={idx} className="bg-white rounded-lg p-6 shadow-lg border-2 border-gray-100 hover:border-blue-300 transition-all">
-                                <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-                                    <Icon name="Trophy" className="w-5 h-5 text-blue-500" />
-                                    {skillGroup.category}
-                                </h3>
-                                <div className="flex flex-wrap gap-2">
-                                    {skillGroup.items.map((skill, i) => (
-                                        <span key={i} className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm font-medium">
-                                            {skill}
-                                        </span>
-                                    ))}
+                <div className="space-y-10 animate-fadeIn">
+                    {/* Hero */}
+                    <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-600 via-blue-700 to-cyan-600 text-white shadow-2xl shadow-blue-200">
+                        <div className="hero-dots absolute inset-0" />
+                        {/* Decorative blobs */}
+                        <div className="absolute -top-16 -right-16 w-64 h-64 bg-white/10 rounded-full blur-xl" />
+                        <div className="absolute -bottom-12 -left-12 w-48 h-48 bg-cyan-400/20 rounded-full blur-xl" />
+                        <div className="relative px-8 py-14 md:py-20 text-center">
+                            {/* Avatar with pulse ring */}
+                            <div className="flex justify-center mb-7">
+                                <div className="relative">
+                                    <div className="absolute inset-0 rounded-2xl bg-white/30 animate-pulse-ring" />
+                                    <div className="relative bg-white/10 p-1 rounded-2xl border border-white/25">
+                                        <img src="/chicken0248.png" alt="Chicken0248" className="w-28 h-28 rounded-xl" />
+                                    </div>
                                 </div>
                             </div>
-                        ))}
+                            <h1 className="text-4xl md:text-5xl font-extrabold mb-2 tracking-tight">Chicken0248</h1>
+                            <p className="text-blue-100 text-lg md:text-xl font-medium mb-10">DFIR Analyst &amp; Blue Team Enthusiast</p>
+                            {/* Quick stats */}
+                            <div className="flex justify-center gap-8 md:gap-16 flex-wrap">
+                                {[
+                                    { value: certifications.length, label: 'Certifications' },
+                                    { value: labs.filter(l => l.type === 'lab').length, label: 'Labs Built' },
+                                    { value: certificationReviews.length, label: 'Reviews' },
+                                ].map((s, i) => (
+                                    <div key={i} className="text-center">
+                                        <div className="text-3xl font-bold">{s.value}</div>
+                                        <div className="text-blue-200 text-sm font-medium mt-0.5">{s.label}</div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
                     </div>
 
-                    <div className="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-lg p-8 text-center">
-                        <h2 className="text-2xl font-bold text-gray-800 mb-4">About Me</h2>
-                        <p className="text-gray-700 max-w-3xl mx-auto leading-relaxed">
-                            As a dedicated DFIR professional, I spend my time solving complex blue team challenges across various platforms 
-                            and creating educational content to help others develop their skills. I believe in learning by doing, which is 
-                            why I create comprehensive labs that simulate real-world scenarios. My mission is to make digital forensics and 
+                    {/* Skills */}
+                    <div>
+                        <h2 className="text-xl font-bold text-gray-800 mb-5 flex items-center gap-2">
+                            <span className="w-1 h-5 bg-gradient-to-b from-blue-500 to-cyan-400 rounded-full inline-block flex-shrink-0"></span>
+                            Skills &amp; Expertise
+                        </h2>
+                        <div className="grid md:grid-cols-2 gap-4">
+                            {skills.map((skillGroup, idx) => (
+                                <div key={idx} className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:border-blue-200 hover:shadow-md transition-all group">
+                                    <h3 className="text-sm font-bold text-gray-700 mb-3 flex items-center gap-2 uppercase tracking-wide">
+                                        <Icon name="Trophy" className="w-4 h-4 text-blue-500" />
+                                        {skillGroup.category}
+                                    </h3>
+                                    <div className="flex flex-wrap gap-2">
+                                        {skillGroup.items.map((skill, i) => (
+                                            <span key={i} className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm font-medium group-hover:bg-blue-100 transition-colors">
+                                                {skill}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* About */}
+                    <div className="bg-gradient-to-br from-slate-800 to-blue-900 rounded-3xl p-8 md:p-10 text-white shadow-xl shadow-slate-200">
+                        <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+                            <Icon name="User" className="w-5 h-5 text-blue-300" />
+                            About Me
+                        </h2>
+                        <p className="text-blue-100/90 leading-relaxed text-[15px] max-w-3xl">
+                            As a dedicated DFIR professional, I spend my time solving complex blue team challenges across various platforms
+                            and creating educational content to help others develop their skills. I believe in learning by doing, which is
+                            why I create comprehensive labs that simulate real-world scenarios. My mission is to make digital forensics and
                             incident response accessible and engaging for everyone in the cybersecurity community.
                         </p>
                     </div>
@@ -495,34 +641,40 @@
 
             const CertificationsPage = () => (
                 <div className="space-y-8 animate-fadeIn">
-                    <div className="text-center space-y-4">
+                    <div className="text-center space-y-3">
                         <h1 className="text-4xl font-bold text-gray-800 flex items-center justify-center gap-3">
                             <Icon name="Award" className="w-10 h-10 text-blue-500" />
                             Professional Certifications
                         </h1>
-                        <p className="text-gray-600">Validated expertise in both Red & Blue Teaming</p>
+                        <p className="text-gray-500">Validated expertise in both Red &amp; Blue Teaming</p>
                     </div>
 
-                    <div className="grid md:grid-cols-2 gap-6">
+                    <div className="grid md:grid-cols-2 gap-4">
                         {certifications.map((cert, idx) => (
-                            <div key={idx} className="bg-white rounded-lg p-6 shadow-lg border-2 border-gray-100 hover:border-blue-300 hover:shadow-xl transition-all group">
-                                <div className="flex gap-4">
+                            <div key={idx} className="relative bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:border-blue-200 hover:shadow-lg transition-all group overflow-hidden">
+                                {/* Left accent stripe */}
+                                <div className={`absolute left-0 top-0 bottom-0 w-1 rounded-l-2xl ${cert.status === 'Active' ? 'bg-gradient-to-b from-green-400 to-emerald-500' : 'bg-gradient-to-b from-gray-300 to-gray-400'}`} />
+                                <div className="flex gap-4 pl-3">
                                     <div className="flex-shrink-0">
                                         <a href={cert.url} target="_blank" rel="noopener noreferrer" className="block">
-                                            <img src={cert.badge} alt={`${cert.name} badge`} className="w-24 h-24 object-contain rounded-lg group-hover:scale-105 transition-transform" />
+                                            <div className="w-20 h-20 rounded-xl bg-gray-50 border border-gray-100 group-hover:border-blue-200 flex items-center justify-center overflow-hidden transition-colors">
+                                                <img src={cert.badge} alt={`${cert.name} badge`} className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300" />
+                                            </div>
                                         </a>
                                     </div>
                                     <div className="flex-1 min-w-0">
-                                        <div className="flex items-start justify-between mb-2">
-                                            <a href={cert.url} target="_blank" rel="noopener noreferrer" className="flex-1 hover:text-blue-600 transition-colors">
-                                                <h3 className="text-lg font-bold text-gray-800 mb-1 group-hover:text-blue-600">{cert.name}</h3>
+                                        <div className="flex items-start justify-between mb-1.5">
+                                            <a href={cert.url} target="_blank" rel="noopener noreferrer" className="flex-1 min-w-0 pr-2">
+                                                <h3 className="text-sm font-bold text-gray-800 leading-snug group-hover:text-blue-600 transition-colors">{cert.name}</h3>
                                             </a>
-                                            <span className="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium ml-2">{cert.status}</span>
+                                            <span className={`flex-shrink-0 px-2 py-0.5 rounded-full text-xs font-semibold border ${cert.status === 'Active' ? 'bg-green-50 text-green-700 border-green-200' : 'bg-gray-50 text-gray-500 border-gray-200'}`}>{cert.status}</span>
                                         </div>
-                                        <p className="text-gray-600 font-medium mb-2">{cert.issuer}</p>
+                                        <p className="text-blue-600 text-sm font-semibold mb-2">{cert.issuer}</p>
                                         <div className="flex items-center justify-between">
-                                            <span className="text-gray-500 text-sm">Obtained: {cert.year}</span>
-                                            <a href={cert.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-blue-600 hover:text-blue-700 text-sm font-medium">
+                                            <span className="text-gray-400 text-xs flex items-center gap-1">
+                                                <Icon name="Calendar" className="w-3 h-3" />{cert.year}
+                                            </span>
+                                            <a href={cert.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-blue-500 hover:text-blue-700 text-xs font-medium">
                                                 Verify <Icon name="ExternalLink" className="w-3 h-3" />
                                             </a>
                                         </div>
@@ -532,13 +684,13 @@
                         ))}
                     </div>
 
-                    <div className="bg-blue-50 rounded-lg p-6 border-2 border-blue-200">
+                    <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-2xl p-6 border border-blue-100">
                         <h3 className="font-bold text-gray-800 mb-2 flex items-center gap-2">
                             <Icon name="Shield" className="w-5 h-5 text-blue-600" />
                             Continuous Learning
                         </h3>
-                        <p className="text-gray-700">
-                            I'm constantly expanding my knowledge through platforms like CyberDefenders, Blue Team Labs Online, 
+                        <p className="text-gray-600 text-sm leading-relaxed">
+                            I'm constantly expanding my knowledge through platforms like CyberDefenders, Blue Team Labs Online,
                             HackTheBox, and LetsDefend. Currently working towards advanced certifications in threat hunting, detection engineering and malware analysis.
                         </p>
                     </div>
@@ -546,12 +698,14 @@
             );
 
             const ReviewsPage = () => {
+                const [expandedIdx, setExpandedIdx] = useState(null);
+
                 const renderStars = (rating) => {
                     if (!rating) return null;
                     const fullStars = Math.floor(rating);
                     const hasHalf = rating % 1 >= 0.5;
                     return (
-                        <span className="text-yellow-500 text-xl inline-flex items-center">
+                        <span className="text-yellow-500 inline-flex items-center">
                             <span>{'★'.repeat(fullStars)}</span>
                             {hasHalf && <span style={{opacity: 0.5}}>★</span>}
                             <span>{'☆'.repeat(5 - fullStars - (hasHalf ? 1 : 0))}</span>
@@ -560,9 +714,9 @@
                 };
 
                 const difficultyColors = {
-                    'Beginner': 'bg-green-100 text-green-700',
+                    'Beginner':     'bg-green-100 text-green-700',
                     'Intermediate': 'bg-orange-100 text-orange-700',
-                    'Advanced': 'bg-red-100 text-red-700'
+                    'Advanced':     'bg-red-100 text-red-700'
                 };
 
                 return (
@@ -572,72 +726,129 @@
                                 <Icon name="FileText" className="w-10 h-10 text-blue-500" />
                                 Certification Reviews
                             </h1>
-                            <p className="text-gray-600">Honest reviews and insights from my certification journey</p>
+                            <p className="text-gray-600">Honest reviews and insights from my certification journey — click any row to expand</p>
                         </div>
 
-                        <div className="grid gap-6">
-                            {certificationReviews.map((review, idx) => (
-                                <div key={idx} className="bg-white rounded-lg p-6 shadow-lg border-2 border-gray-100 hover:border-blue-300 hover:shadow-xl transition-all group">
-                                    <div className="flex flex-col md:flex-row gap-6">
-                                        {review.image && (
-                                            <div className="flex-shrink-0 w-full md:w-48">
-                                                <img src={review.image} alt={`${review.title} badge`} className="rounded-lg object-contain w-full h-auto shadow-md" />
-                                            </div>
-                                        )}
-                                        
-                                        <div className="flex-1">
-                                            <div className="flex items-start justify-between mb-3">
-                                                <h3 className="text-xl font-bold text-gray-800 group-hover:text-blue-600 transition-colors">{review.title}</h3>
-                                                {review.difficulty && (
-                                                    <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase ${difficultyColors[review.difficulty]} ml-2`}>
-                                                        {review.difficulty}
-                                                    </span>
-                                                )}
-                                            </div>
-
-                                            {review.rating && (
-                                                <div className="flex items-center gap-2 mb-3">
-                                                    {renderStars(review.rating)}
-                                                    <span className="text-sm font-semibold text-gray-700">{review.rating.toFixed(1)}/5.0</span>
-                                                </div>
+                        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden divide-y divide-gray-100">
+                            {certificationReviews.map((review, idx) => {
+                                const isOpen = expandedIdx === idx;
+                                return (
+                                    <div key={idx}>
+                                        {/* Collapsed row — always visible */}
+                                        <button
+                                            className="w-full flex items-center gap-4 px-5 py-4 hover:bg-gray-50 transition-colors text-left"
+                                            onClick={() => setExpandedIdx(isOpen ? null : idx)}
+                                        >
+                                            {/* Thumbnail */}
+                                            {review.image && (
+                                                <img
+                                                    src={review.image}
+                                                    alt={review.title}
+                                                    className="w-12 h-12 rounded-lg object-contain flex-shrink-0 bg-gray-50"
+                                                />
                                             )}
-
-                                            <p className="text-gray-600 mb-4 leading-relaxed">{review.excerpt}</p>
-
-                                            <div className="flex flex-wrap gap-2 mb-4">
-                                                {review.tags.map((tag, i) => (
-                                                    <span key={i} className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm font-medium">{tag}</span>
-                                                ))}
-                                            </div>
-                                            
-                                            <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                                                <div className="flex items-center gap-3 text-sm text-gray-500">
-                                                    <span className="flex items-center gap-1">
-                                                        <Icon name="Calendar" className="w-4 h-4" />
+                                            {/* Title + meta */}
+                                            <div className="flex-1 min-w-0">
+                                                <p className="font-semibold text-gray-800 truncate leading-snug">{review.title}</p>
+                                                <div className="flex items-center gap-2 mt-0.5 flex-wrap">
+                                                    {review.rating && (
+                                                        <>
+                                                            <span className="text-yellow-500 text-sm leading-none">
+                                                                {renderStars(review.rating)}
+                                                            </span>
+                                                            <span className="text-xs text-gray-500">{review.rating.toFixed(1)}/5.0</span>
+                                                            <span className="text-gray-300">·</span>
+                                                        </>
+                                                    )}
+                                                    <span className="text-xs text-gray-500 flex items-center gap-1">
+                                                        <Icon name="Calendar" className="w-3 h-3" />
                                                         {review.date}
                                                     </span>
-                                                    <span className="flex items-center gap-1">
-                                                        <Icon name="Clock" className="w-4 h-4" />
-                                                        {review.readTime}
-                                                    </span>
                                                 </div>
-                                                <a href={review.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium">
-                                                    Read Review <Icon name="ExternalLink" className="w-4 h-4 self-center" />
-                                                </a>
                                             </div>
-                                        </div>
+                                            {/* Difficulty badge */}
+                                            {review.difficulty && (
+                                                <span className={`hidden sm:inline-flex px-2.5 py-0.5 rounded-full text-xs font-bold uppercase flex-shrink-0 ${difficultyColors[review.difficulty]}`}>
+                                                    {review.difficulty}
+                                                </span>
+                                            )}
+                                            {/* Chevron */}
+                                            <Icon
+                                                name={isOpen ? 'ChevronUp' : 'ChevronDown'}
+                                                className="w-4 h-4 text-gray-400 flex-shrink-0"
+                                            />
+                                        </button>
+
+                                        {/* Expanded content */}
+                                        {isOpen && (
+                                            <div className="border-t border-gray-100 px-5 py-6 bg-gray-50">
+                                                <div className="flex flex-col md:flex-row gap-6">
+                                                    {review.image && (
+                                                        <div className="flex-shrink-0 w-full md:w-40">
+                                                            <img
+                                                                src={review.image}
+                                                                alt={`${review.title} badge`}
+                                                                className="rounded-xl object-contain w-full h-auto shadow-md"
+                                                            />
+                                                        </div>
+                                                    )}
+                                                    <div className="flex-1">
+                                                        {/* Title + difficulty on expanded */}
+                                                        <div className="flex items-start gap-3 mb-3">
+                                                            <h3 className="text-xl font-bold text-gray-800 flex-1">{review.title}</h3>
+                                                            {review.difficulty && (
+                                                                <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase flex-shrink-0 ${difficultyColors[review.difficulty]}`}>
+                                                                    {review.difficulty}
+                                                                </span>
+                                                            )}
+                                                        </div>
+                                                        {/* Stars */}
+                                                        {review.rating && (
+                                                            <div className="flex items-center gap-2 mb-3">
+                                                                <span className="text-yellow-500 text-xl">{renderStars(review.rating)}</span>
+                                                                <span className="text-sm font-semibold text-gray-700">{review.rating.toFixed(1)}/5.0</span>
+                                                            </div>
+                                                        )}
+                                                        {/* Excerpt */}
+                                                        <p className="text-gray-600 mb-4 leading-relaxed">{review.excerpt}</p>
+                                                        {/* Tags */}
+                                                        <div className="flex flex-wrap gap-2 mb-4">
+                                                            {review.tags.map((tag, i) => (
+                                                                <span key={i} className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm font-medium">{tag}</span>
+                                                            ))}
+                                                        </div>
+                                                        {/* Footer */}
+                                                        <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                                                            <div className="flex items-center gap-3 text-sm text-gray-500">
+                                                                <span className="flex items-center gap-1">
+                                                                    <Icon name="Calendar" className="w-4 h-4" />
+                                                                    {review.date}
+                                                                </span>
+                                                                <span className="flex items-center gap-1">
+                                                                    <Icon name="Clock" className="w-4 h-4" />
+                                                                    {review.readTime}
+                                                                </span>
+                                                            </div>
+                                                            <a href={review.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-semibold">
+                                                                Read Review <Icon name="ExternalLink" className="w-4 h-4 self-center" />
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
-                                </div>
-                            ))}
+                                );
+                            })}
                         </div>
 
-                        <div className="bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg p-6 text-center">
+                        <div className="bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl p-6 text-center border border-purple-100">
                             <h3 className="font-bold text-gray-800 mb-2 flex items-center justify-center gap-2">
-                                <Icon name="Lightbulb" className="w-5 h-5 text-purple-600" />
+                                <Icon name="Lightbulb" className="w-5 h-5 text-purple-500" />
                                 More Reviews Coming Soon!
                             </h3>
-                            <p className="text-gray-700">
-                                I regularly write detailed certification reviews covering exam prep, course content, hands-on labs, and career value. 
+                            <p className="text-gray-600 text-sm">
+                                I regularly write detailed certification reviews covering exam prep, course content, hands-on labs, and career value.
                                 Follow me on Medium for the latest reviews and cybersecurity insights.
                             </p>
                         </div>
@@ -694,7 +905,7 @@
                             )}
                         </div>
 
-                        <div className="grid gap-6">
+                        <div className="grid gap-5">
                             {filteredLabs.map((lab, idx) => {
                                 const buttonText = lab.type === 'lab' ? 'Play Now' : 'View Project';
                                 const buttonColor = lab.type === 'lab' ? 'text-green-600 hover:text-green-700' : 'text-blue-600 hover:text-blue-700';
@@ -703,9 +914,9 @@
                                     medium: 'bg-orange-100 text-orange-700',
                                     hard: 'bg-red-100 text-red-700'
                                 };
-                                
+
                                 return (
-                                    <div key={idx} className="bg-white rounded-lg p-6 shadow-lg border-2 border-gray-100 hover:border-blue-300 transition-all">
+                                    <div key={idx} className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:border-blue-200 hover:shadow-md transition-all">
                                         <div className="flex flex-col md:flex-row gap-6">
                                             {lab.image && (
                                                 <div className="flex-shrink-0 w-full md:w-64">
@@ -778,9 +989,9 @@
                             })}
                         </div>
 
-                        <div className="bg-gradient-to-r from-cyan-50 to-blue-50 rounded-lg p-6 text-center">
+                        <div className="bg-gradient-to-br from-cyan-50 to-blue-50 rounded-2xl p-6 text-center border border-blue-100">
                             <h3 className="font-bold text-gray-800 mb-2">More Projects Coming Soon!</h3>
-                            <p className="text-gray-700">
+                            <p className="text-gray-600 text-sm">
                                 I'm constantly creating new labs and writeups. Follow me on GitHub and Medium to stay updated with my latest work.
                             </p>
                         </div>
@@ -917,7 +1128,7 @@
                         {/* Hero stat cards */}
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                             <StatCard icon="Award" value={certifications.length} label="Certifications" sub={`${activeCerts} active · ${expiredCerts} expired`} color="blue" />
-                            <StatCard icon="FlaskConical" value={labsOnly.length} label="Labs Completed" sub={`across ${Object.keys(labsByPlatform).filter(p => labsOnly.some(l => l.platform === p)).length} platforms`} color="green" />
+                            <StatCard icon="Hammer" value={labsOnly.length} label="Labs Built" sub={`published across ${Object.keys(labsByPlatform).filter(p => labsOnly.some(l => l.platform === p)).length} platforms`} color="green" />
                             <StatCard icon="FolderOpen" value={projects.length} label="Projects & Research" sub="GitHub + Medium" color="purple" />
                             <StatCard icon="FileText" value={certificationReviews.length} label="Reviews Published" sub={`avg rating ${avgRating.toFixed(1)}/5.0`} color="cyan" />
                         </div>
@@ -1042,38 +1253,81 @@
             };
 
             return (
-                <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
-                    <nav className="bg-white shadow-lg sticky top-0 z-50">
+                <div className={`min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/40 to-cyan-50/30${darkMode ? ' dark' : ''}`}>
+                    <nav className="bg-white/90 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-gray-100/80">
                         <div className="max-w-6xl mx-auto px-4">
-                            <div className="flex justify-between items-center py-4">
-                                <div className="flex items-center gap-2">
-                                    <img src="/chicken0248.png" alt="Chicken0248" className="w-8 h-8 rounded-xl" />
-                                    <span className="text-xl font-bold text-gray-800">Chicken0248</span>
+                            <div className="flex justify-between items-center py-3">
+                                {/* Brand */}
+                                <div className="flex items-center gap-2.5">
+                                    <div className="relative flex-shrink-0">
+                                        <img src="/chicken0248.png" alt="Chicken0248" className="w-9 h-9 rounded-xl shadow-sm" />
+                                        <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-green-400 rounded-full border-2 border-white"></span>
+                                    </div>
+                                    <span className="text-lg font-extrabold bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent tracking-tight">Chicken0248</span>
                                 </div>
-                                <div className="flex flex-wrap gap-1 justify-end">
+                                {/* Right side: desktop nav + controls */}
+                                <div className="flex items-center gap-1.5">
+                                    {/* Desktop nav items */}
+                                    <div className="hidden md:flex gap-0.5 items-center">
+                                        {navigation.map((item) => {
+                                            if (item.external) {
+                                                return (
+                                                    <a key={item.id} href={item.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 transition-all">
+                                                        <Icon name={item.icon} className="w-4 h-4" />
+                                                        <span>{item.label}</span>
+                                                        <Icon name="ExternalLink" className="w-3 h-3 opacity-40" />
+                                                    </a>
+                                                );
+                                            }
+                                            return (
+                                                <button key={item.id} onClick={() => setActivePage(item.id)} className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all ${activePage === item.id ? 'bg-blue-600 text-white shadow-sm shadow-blue-200' : 'text-gray-600 hover:bg-gray-100'}`}>
+                                                    <Icon name={item.icon} className="w-4 h-4" />
+                                                    <span>{item.label}</span>
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+                                    {/* Dark mode toggle — always visible */}
+                                    <button
+                                        onClick={() => setDarkMode(!darkMode)}
+                                        className="p-2 rounded-xl hover:bg-gray-100 transition-colors"
+                                        title={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+                                    >
+                                        <Icon name={darkMode ? 'Sun' : 'Moon'} className="w-4 h-4 text-gray-600" />
+                                    </button>
+                                    {/* Hamburger — mobile only */}
+                                    <button className="md:hidden p-2 rounded-xl hover:bg-gray-100 transition-colors" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+                                        <Icon name={mobileMenuOpen ? 'X' : 'Menu'} className="w-5 h-5 text-gray-600" />
+                                    </button>
+                                </div>
+                            </div>
+                            {/* Mobile dropdown */}
+                            {mobileMenuOpen && (
+                                <div className="md:hidden pb-3 pt-2 border-t border-gray-100 flex flex-col gap-0.5 animate-slideDown">
                                     {navigation.map((item) => {
                                         if (item.external) {
                                             return (
-                                                <a key={item.id} href={item.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-3 py-2 rounded-lg font-medium text-gray-600 hover:bg-gray-100 transition-all">
-                                                    <Icon name={item.icon} className="w-4 h-4 self-center" />
-                                                    <span className="hidden sm:inline text-sm self-center">{item.label}</span>
-                                                    <Icon name="ExternalLink" className="w-3 h-3 self-center ml-[-4px]" />
+                                                <a key={item.id} href={item.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors">
+                                                    <Icon name={item.icon} className="w-4 h-4 text-gray-400" />
+                                                    <span>{item.label}</span>
+                                                    <Icon name="ExternalLink" className="w-3 h-3 opacity-40 ml-auto" />
                                                 </a>
                                             );
                                         }
                                         return (
-                                            <button key={item.id} onClick={() => setActivePage(item.id)} className={`flex items-center gap-2 px-3 py-2 rounded-lg font-medium transition-all ${activePage === item.id ? 'bg-blue-600 text-white' : 'text-gray-600 hover:bg-gray-100'}`}>
-                                                <Icon name={item.icon} className="w-4 h-4 self-center" />
-                                                <span className="hidden sm:inline text-sm self-center">{item.label}</span>
+                                            <button key={item.id} onClick={() => { setActivePage(item.id); setMobileMenuOpen(false); }} className={`flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium transition-all text-left w-full ${activePage === item.id ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-600 hover:bg-gray-50'}`}>
+                                                <Icon name={item.icon} className={`w-4 h-4 ${activePage === item.id ? 'text-blue-500' : 'text-gray-400'}`} />
+                                                <span>{item.label}</span>
+                                                {activePage === item.id && <Icon name="ChevronRight" className="w-4 h-4 ml-auto text-blue-400" />}
                                             </button>
                                         );
                                     })}
                                 </div>
-                            </div>
+                            )}
                         </div>
                     </nav>
 
-                    <main className="max-w-6xl mx-auto px-4 py-12">
+                    <main className="max-w-6xl mx-auto px-4 py-10">
                         {renderPage()}
                     </main>
                 </div>
