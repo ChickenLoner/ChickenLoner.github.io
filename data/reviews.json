@@ -6,7 +6,7 @@
     "readTime": "5 min read",
     "tags": ["OSCP", "Penetration Testing", "OffSec", "Red Team"],
     "url": "https://systemweakness.com/passed-oscp-as-a-blue-teamer-what-it-took-c8520e79f734",
-    "image": "https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/143663690",
+    "image": "./assets/oscpplus.png",
     "difficulty": "Intermediate",
     "rating": 4.0
   },
@@ -17,7 +17,7 @@
     "readTime": "15 min read",
     "tags": ["HTB CDSA", "Blue Team", "DFIR", "SOC", "HackTheBox"],
     "url": "https://systemweakness.com/conquer-the-hackthebox-cdsa-certification-tips-and-insights-09f35c00932e",
-    "image": "https://images.credly.com/size/680x680/images/e78adea1-f60b-4991-b5d5-3427140c7c1d/image.png",
+    "image": "./assets/cdsa.png",
     "difficulty": "Intermediate",
     "rating": 4.8
   },
@@ -28,7 +28,7 @@
     "readTime": "15 min read",
     "tags": ["HTB CJCA", "Blue Team", "Red Team", "SOC", "Entry Level", "Penetration Testing", "HackTheBox"],
     "url": "https://systemweakness.com/your-first-definitive-guide-and-review-on-hackthebox-cjca-certification-exam-9606474a91bc",
-    "image": "https://images.credly.com/images/95043c37-e916-4e4e-96ab-06fb66056648/blob",
+    "image": "./assets/cjca.png",
     "difficulty": "Beginner",
     "rating": 4.5
   },
@@ -39,7 +39,7 @@
     "readTime": "10 min read",
     "tags": ["CCDL1", "Blue Team", "SOC", "Entry Level", "CyberDefenders"],
     "url": "https://medium.com/@chaoskist/ccd-l1-certified-cyberdefender-level-1-certification-review-1f81bcbb71f8",
-    "image": "https://images.credly.com/size/340x340/images/4c85beb8-c459-4394-ad37-c2d40619ca75/blob",
+    "image": "./assets/ccdl1.png",
     "difficulty": "Beginner",
     "rating": 4.9
   },
@@ -50,7 +50,7 @@
     "readTime": "10 min read",
     "tags": ["CJDE", "Blue Team", "Detection Engineer", "Security Blue Team"],
     "url": "https://medium.com/@chaoskist/cjde-certified-junior-detection-engineer-review-and-how-to-prepare-for-it-91e2605ebf26",
-    "image": "https://images.credly.com/size/340x340/images/48391ef3-bd96-45b1-b6f0-b04757f5f5fd/blob",
+    "image": "./assets/cjde.png",
     "difficulty": "Beginner",
     "rating": 4.9
   },
@@ -61,7 +61,7 @@
     "readTime": "10 min read",
     "tags": ["PWFA", "Blue Team", "Forensics", "Windows", "Blue Cape Security"],
     "url": "https://systemweakness.com/new-forensics-certification-from-blue-cape-security-i-got-it-here-is-my-review-892e10545f34",
-    "image": "https://bluecapesecurity.com/wp-content/uploads/2024/03/BCS_wh_inside.png",
+    "image": "./assets/pwfa.png",
     "difficulty": "Beginner",
     "rating": 4.7
   },
@@ -72,7 +72,7 @@
     "readTime": "20 min read",
     "tags": ["PT1", "Red Team", "TryHackMe", "Penetration Testing"],
     "url": "https://systemweakness.com/full-guide-to-help-you-pass-your-tryhackme-pt1-exam-3cf1f1fcb30b",
-    "image": "https://images.credly.com/images/54525e33-85d1-405c-a68c-1e4dd9c7f57f/blob",
+    "image": "./assets/pt1.png",
     "difficulty": "Intermediate",
     "rating": 4.0
   },
@@ -83,7 +83,7 @@
     "readTime": "10 min read",
     "tags": ["SAL1", "Blue Team", "SOC", "Entry Level", "TryHackMe"],
     "url": "https://systemweakness.com/how-i-passed-tryhackme-security-analyst-level-1-sal1-certification-exam-on-my-second-attempt-c1fc3dbd7510",
-    "image": "https://images.credly.com/size/680x680/images/fc0df734-6716-45ba-8563-9fd0eba18373/blob",
+    "image": "./assets/sal1.png",
     "difficulty": "Beginner",
     "rating": 4.2
   },
@@ -94,7 +94,7 @@
     "readTime": "5 min read",
     "tags": ["CBTeamerX", "Blue Team", "The Secops Group", "Advanced Level"],
     "url": "https://medium.com/@chaoskist/cbteamerx-exam-review-how-to-prepare-yourself-for-this-exam-495aafdc5b45",
-    "image": "https://pentestingexams.com/wp-content/uploads/2026/01/cert-stamp-cbteamerx.webp",
+    "image": "./assets/cbteamerx.png",
     "difficulty": "Advanced",
     "rating": 4.5
   },
@@ -105,7 +105,7 @@
     "readTime": "5 min read",
     "tags": ["CCDFF", "Cyber5W", "Blue Team", "Digital Forensics", "Entry Level"],
     "url": "https://systemweakness.com/my-thoughts-on-cyber5w-certified-digital-forensics-foundations-ccdff-a-solid-foundation-exam-281a9485c789",
-    "image": "https://labs.cyber5w.com/api/favicon.ico",
+    "image": "./assets/CCDFFoundation%20Exam.png",
     "difficulty": "Beginner",
     "rating": 4.7
   },
@@ -116,7 +116,7 @@
     "readTime": "8 min read",
     "tags": ["CCEH", "Cyber5W", "Blue Team", "Digital Forensics", "Entry Level"],
     "url": "https://systemweakness.com/so-i-tried-cyber5w-certified-evidence-handler-cceh-exam-how-was-it-971a4363231b",
-    "image": "https://labs.cyber5w.com/api/favicon.ico",
+    "image": "./assets/Evidence%20Handler%20Exam.png",
     "difficulty": "Beginner",
     "rating": 4.5
   },
@@ -127,7 +127,7 @@
     "readTime": "5 min read",
     "tags": ["CELMS", "CWL", "Penetration Testing", "Red Team", "Lateral Movement"],
     "url": "https://systemweakness.com/review-cyberwarfare-labs-certified-enterprise-lateral-movement-specialist-celms-when-c6cfdf2e6334",
-    "image": "https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/161538993",
+    "image": "./assets/celms.png",
     "difficulty": "Intermediate",
     "rating": 4.6
   },
@@ -138,7 +138,7 @@
     "readTime": "5 min read",
     "tags": ["CPTA", "CWL", "Purple Team", "Adverary Emulation", "Penetration Testing", "Detection Engineer"],
     "url": "https://systemweakness.com/review-cyberwarfare-labs-certified-purple-team-analyst-cpta-v2-my-first-purple-team-789d481cf872",
-    "image": "https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/152738381",
+    "image": "./assets/cpta.png",
     "difficulty": "Intermediate",
     "rating": 4.5
   },
@@ -149,7 +149,7 @@
     "readTime": "5 min read",
     "tags": ["CRTA", "CWL", "Red Team", "Penetration Testing", "Entry Level"],
     "url": "https://systemweakness.com/cyberwarfare-labs-certified-red-teamanalyst-crta-certification-my-experience-and-review-2465af923cff",
-    "image": "https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/136436802",
+    "image": "./assets/crta.png",
     "difficulty": "Beginner",
     "rating": 4.5
   },
@@ -160,7 +160,7 @@
     "readTime": "5 min read",
     "tags": ["CCDA", "CWL", "Blue Team", "SOC", "Entry Level"],
     "url": "https://systemweakness.com/review-cyberwarfare-labs-cyber-defence-analyst-ccda-certification-50c8f7b69097",
-    "image": "https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/133842669",
+    "image": "./assets/ccda.png",
     "difficulty": "Beginner",
     "rating": 4.0
   }
