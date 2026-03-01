@@ -1,0 +1,167 @@
+[
+  {
+    "title": "Passed OSCP+ as a blue teamer, what it took?",
+    "excerpt": "A review of my OSCP certification journey, covering my exam preparation, exam experience, preparation tips, and whether it's worth it in 2025-2026.",
+    "date": "May 2025",
+    "readTime": "5 min read",
+    "tags": ["OSCP", "Penetration Testing", "OffSec", "Red Team"],
+    "url": "https://systemweakness.com/passed-oscp-as-a-blue-teamer-what-it-took-c8520e79f734",
+    "image": "https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/143663690",
+    "difficulty": "Intermediate",
+    "rating": 4.0
+  },
+  {
+    "title": "Conquer the HackTheBox CDSA Certification: Tips and Insights",
+    "excerpt": "My review of the HackTheBox Certified Defensive Security Analyst certification, including course content, path unlocking guide, exam preparation, exam experience, and tips.",
+    "date": "March 2025",
+    "readTime": "15 min read",
+    "tags": ["HTB CDSA", "Blue Team", "DFIR", "SOC", "HackTheBox"],
+    "url": "https://systemweakness.com/conquer-the-hackthebox-cdsa-certification-tips-and-insights-09f35c00932e",
+    "image": "https://images.credly.com/size/680x680/images/e78adea1-f60b-4991-b5d5-3427140c7c1d/image.png",
+    "difficulty": "Intermediate",
+    "rating": 4.8
+  },
+  {
+    "title": "Your First Definitive Guide and Review on HackTheBox CJCA Certification Exam",
+    "excerpt": "A detailed review and guide on the HackTheBox Certified Junior Cybersecurity Associate certification, good way to start for aspiring SOC analysts / Pentester. Covers course material, path unlocking guide, exam preparation, exam experience and tips.",
+    "date": "August 2026",
+    "readTime": "15 min read",
+    "tags": ["HTB CJCA", "Blue Team", "Red Team", "SOC", "Entry Level", "Penetration Testing", "HackTheBox"],
+    "url": "https://systemweakness.com/your-first-definitive-guide-and-review-on-hackthebox-cjca-certification-exam-9606474a91bc",
+    "image": "https://images.credly.com/images/95043c37-e916-4e4e-96ab-06fb66056648/blob",
+    "difficulty": "Beginner",
+    "rating": 4.5
+  },
+  {
+    "title": "CCDL1 (Certified CyberDefender Level 1 Certification) Review",
+    "excerpt": "A detailed review and guide on the Certified CyberDefender Level 1 certification, perfect way to start for aspiring SOC analysts. Covers course material, exam preparation, exam experience and tips.",
+    "date": "January 2026",
+    "readTime": "10 min read",
+    "tags": ["CCDL1", "Blue Team", "SOC", "Entry Level", "CyberDefenders"],
+    "url": "https://medium.com/@chaoskist/ccd-l1-certified-cyberdefender-level-1-certification-review-1f81bcbb71f8",
+    "image": "https://images.credly.com/size/340x340/images/4c85beb8-c459-4394-ad37-c2d40619ca75/blob",
+    "difficulty": "Beginner",
+    "rating": 4.9
+  },
+  {
+    "title": "CJDE (Certified Junior Detection Engineer) Review and How to prepare for it!",
+    "excerpt": "A detailed review and guide on the Certified Junior Detection Engineer certification, The elegant way to start learning for alert tuning and rule creation as detection engineer. Covers course material, exam preparation, exam experience and tips.",
+    "date": "January 2026",
+    "readTime": "10 min read",
+    "tags": ["CJDE", "Blue Team", "Detection Engineer", "Security Blue Team"],
+    "url": "https://medium.com/@chaoskist/cjde-certified-junior-detection-engineer-review-and-how-to-prepare-for-it-91e2605ebf26",
+    "image": "https://images.credly.com/size/340x340/images/48391ef3-bd96-45b1-b6f0-b04757f5f5fd/blob",
+    "difficulty": "Beginner",
+    "rating": 4.9
+  },
+  {
+    "title": "New Forensics Certification from Blue Cape Security? I got it, here is my review.",
+    "excerpt": "A detailed review and guide on the Practical Windows Forensics Analyst certification, The beginner to intemediate level certification for Windows forensics. Covers course material, exam preparation, exam experience and tips.",
+    "date": "October 2025",
+    "readTime": "10 min read",
+    "tags": ["PWFA", "Blue Team", "Forensics", "Windows", "Blue Cape Security"],
+    "url": "https://systemweakness.com/new-forensics-certification-from-blue-cape-security-i-got-it-here-is-my-review-892e10545f34",
+    "image": "https://bluecapesecurity.com/wp-content/uploads/2024/03/BCS_wh_inside.png",
+    "difficulty": "Beginner",
+    "rating": 4.7
+  },
+  {
+    "title": "Full Guide to help you pass your TryHackMe PT1 Exam",
+    "excerpt": "A very detailed guide on how to prepare for TryHackMe Junior Penetration Exam, The exam covers 3 domains from Web app, Network and AD pentesting, the AI grading is why some people hate it and the real hurdle of the exam is the web application pentesting part",
+    "date": "July 2025",
+    "readTime": "20 min read",
+    "tags": ["PT1", "Red Team", "TryHackMe", "Penetration Testing"],
+    "url": "https://systemweakness.com/full-guide-to-help-you-pass-your-tryhackme-pt1-exam-3cf1f1fcb30b",
+    "image": "https://images.credly.com/images/54525e33-85d1-405c-a68c-1e4dd9c7f57f/blob",
+    "difficulty": "Intermediate",
+    "rating": 4.0
+  },
+  {
+    "title": "How I passed TryHackMe — Security Analyst Level 1 (SAL1) certification exam on my second attempt!",
+    "excerpt": "A detailed review and guide on the TryHackMe Security Analyst certification, The only exam on the market that simulated SOC environment by letting students wait for alerts to appear and triage them, Although the execution on the grading is not something I am not a fan of (Using AI). This review covers course material, exam preparation, exam experience and tips.",
+    "date": "March 2025",
+    "readTime": "10 min read",
+    "tags": ["SAL1", "Blue Team", "SOC", "Entry Level", "TryHackMe"],
+    "url": "https://systemweakness.com/how-i-passed-tryhackme-security-analyst-level-1-sal1-certification-exam-on-my-second-attempt-c1fc3dbd7510",
+    "image": "https://images.credly.com/size/680x680/images/fc0df734-6716-45ba-8563-9fd0eba18373/blob",
+    "difficulty": "Beginner",
+    "rating": 4.2
+  },
+  {
+    "title": "CBTeamerX Exam Review & How to prepare yourself for this exam",
+    "excerpt": "A review and guide on Certified Blue Teamer eXpert certification, the exam covers various of topic of advanced blue teamer such as Malware Analysis, Disk Forensics and AWS investigation, suitable for those who like challenges and want to push themselves in dire situation.",
+    "date": "January 2026",
+    "readTime": "5 min read",
+    "tags": ["CBTeamerX", "Blue Team", "The Secops Group", "Advanced Level"],
+    "url": "https://medium.com/@chaoskist/cbteamerx-exam-review-how-to-prepare-yourself-for-this-exam-495aafdc5b45",
+    "image": "https://pentestingexams.com/wp-content/uploads/2026/01/cert-stamp-cbteamerx.webp",
+    "difficulty": "Advanced",
+    "rating": 4.5
+  },
+  {
+    "title": "My Thoughts on Cyber5W Certified Digital Forensics Foundations (CCDFF) — a solid foundation exam for digital forensics folks",
+    "excerpt": "A detailed review and guide on the Cyber5W Certified Digital Forensics Foundations certification, The beginner-friendly certification for those who like Digital Forensics. Covers exam preparation, exam experience and tips.",
+    "date": "June 2025",
+    "readTime": "5 min read",
+    "tags": ["CCDFF", "Cyber5W", "Blue Team", "Digital Forensics", "Entry Level"],
+    "url": "https://systemweakness.com/my-thoughts-on-cyber5w-certified-digital-forensics-foundations-ccdff-a-solid-foundation-exam-281a9485c789",
+    "image": "https://labs.cyber5w.com/api/favicon.ico",
+    "difficulty": "Beginner",
+    "rating": 4.7
+  },
+  {
+    "title": "So I tried Cyber5W — Certified Evidence Handler (CCEH) exam, How was it?",
+    "excerpt": "A detailed review and guide on the Cyber5W Certified Evidence Handler certification, The beginner-friendly certification for those who like Digital Forensics in aspect of Evidence acquisition. Covers exam preparation, exam experience and tips.",
+    "date": "May 2025",
+    "readTime": "8 min read",
+    "tags": ["CCEH", "Cyber5W", "Blue Team", "Digital Forensics", "Entry Level"],
+    "url": "https://systemweakness.com/so-i-tried-cyber5w-certified-evidence-handler-cceh-exam-how-was-it-971a4363231b",
+    "image": "https://labs.cyber5w.com/api/favicon.ico",
+    "difficulty": "Beginner",
+    "rating": 4.5
+  },
+  {
+    "title": "Review — CyberWarFare Labs : Certified Enterprise Lateral Movement Specialist [CELMS], When lateral movement also have a course and exam!",
+    "excerpt": "A detailed review and guide on the Certified Enterprise Lateral Movement Specialist certification, The intemediate level certification focus the lateral movement aspect of the red teaming side. Covers course material, exam preparation, exam experience and tips.",
+    "date": "September 2025",
+    "readTime": "5 min read",
+    "tags": ["CELMS", "CWL", "Penetration Testing", "Red Team", "Lateral Movement"],
+    "url": "https://systemweakness.com/review-cyberwarfare-labs-certified-enterprise-lateral-movement-specialist-celms-when-c6cfdf2e6334",
+    "image": "https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/161538993",
+    "difficulty": "Intermediate",
+    "rating": 4.6
+  },
+  {
+    "title": "Review — CyberWarFare Labs : Certified Purple Team Analyst [CPTA v2], My First Purple Team Certification",
+    "excerpt": "A detailed review and guide on the Certified Purple Team Analyst certification, The intemediate level certification that cover both Red and Blue teaming side and create detection rules. Covers course material, exam preparation, exam experience and tips.",
+    "date": "June 2025",
+    "readTime": "5 min read",
+    "tags": ["CPTA", "CWL", "Purple Team", "Adverary Emulation", "Penetration Testing", "Detection Engineer"],
+    "url": "https://systemweakness.com/review-cyberwarfare-labs-certified-purple-team-analyst-cpta-v2-my-first-purple-team-789d481cf872",
+    "image": "https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/152738381",
+    "difficulty": "Intermediate",
+    "rating": 4.5
+  },
+  {
+    "title": "CyberWarFare Labs : Certified Red Team Analyst [CRTA] Certification — My Experience and Review",
+    "excerpt": "A detailed review and guide on the Certified Red Team Analyst certification, The beginner level certification for red teamer that covers wide variety of domain such as Active Directory and Network Pentesting. Covers course material, exam preparation, exam experience and tips.",
+    "date": "March 2025",
+    "readTime": "5 min read",
+    "tags": ["CRTA", "CWL", "Red Team", "Penetration Testing", "Entry Level"],
+    "url": "https://systemweakness.com/cyberwarfare-labs-certified-red-teamanalyst-crta-certification-my-experience-and-review-2465af923cff",
+    "image": "https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/136436802",
+    "difficulty": "Beginner",
+    "rating": 4.5
+  },
+  {
+    "title": "CyberWarFare Labs : Cyber Defence Analyst [CCDA] Certification — My Experience and Review",
+    "excerpt": "A detailed review and guide on the Cyber Defence Analyst certification, The beginner level certification for SOC analyst with the usage of velocirapter and arkime to investigate tickets in TheHive. Covers course material, exam preparation, exam experience and tips.",
+    "date": "Febuary 2025",
+    "readTime": "5 min read",
+    "tags": ["CCDA", "CWL", "Blue Team", "SOC", "Entry Level"],
+    "url": "https://systemweakness.com/review-cyberwarfare-labs-cyber-defence-analyst-ccda-certification-50c8f7b69097",
+    "image": "https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/133842669",
+    "difficulty": "Beginner",
+    "rating": 4.0
+  }
+]

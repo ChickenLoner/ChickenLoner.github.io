@@ -1,0 +1,6 @@
+[
+  { "category": "Digital Forensics", "items": ["Disk Forensics", "Memory Forensics", "Network Forensics"] },
+  { "category": "Incident Response", "items": ["Malware Analysis", "Log Analysis", "Threat Hunting"] },
+  { "category": "Tools & Platforms", "items": ["Autopsy", "Volatility", "Wireshark", "SIEM Tools", "FTK Imager", "Eric Zimmerman Tools"] },
+  { "category": "Blue Team Skills", "items": ["SOC Operations", "Security Monitoring", "Threat Intelligence", "Forensic Reporting"] }
+]
