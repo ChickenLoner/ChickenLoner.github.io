@@ -526,7 +526,8 @@
             };
 
             const LabsPage = () => {
-                const [selectedPlatform, setSelectedPlatform] = useState('All');
+                const [selectedLabPlatform, setSelectedLabPlatform] = useState('All');
+                const [selectedProjectCategory, setSelectedProjectCategory] = useState('All');
 
                 const renderStars = (rating) => {
                     if (!rating) return null;
@@ -541,11 +542,151 @@
                     );
                 };
 
-                const platforms = ['All', ...Array.from(new Set(labs.map(l => l.platform)))];
-                const filteredLabs = selectedPlatform === 'All' ? labs : labs.filter(l => l.platform === selectedPlatform);
+                const difficultyColors = {
+                    easy: 'bg-green-100 text-green-700',
+                    medium: 'bg-orange-100 text-orange-700',
+                    hard: 'bg-red-100 text-red-700'
+                };
+
+                const getProjectCategory = (p) => {
+                    if (p.tags && p.tags.includes('Tool')) return 'Tool';
+                    if (p.platform === 'Medium') return 'Blog';
+                    return 'Research';
+                };
+
+                const labsOnly = labs.filter(l => l.type === 'lab');
+                const projectsOnly = labs.filter(l => l.type === 'project');
+
+                const labPlatforms = ['All', ...Array.from(new Set(labsOnly.map(l => l.platform)))];
+                const projectCategories = ['All', 'Tool', 'Research', 'Blog'];
+
+                const filteredLabs = selectedLabPlatform === 'All' ? labsOnly : labsOnly.filter(l => l.platform === selectedLabPlatform);
+                const filteredProjects = selectedProjectCategory === 'All' ? projectsOnly : projectsOnly.filter(p => getProjectCategory(p) === selectedProjectCategory);
+
+                const LabCard = ({ lab }) => (
+                    <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:border-blue-200 hover:shadow-md transition-all">
+                        <div className="flex flex-col md:flex-row gap-6">
+                            {lab.image && (
+                                <div className="flex-shrink-0 w-full md:w-64">
+                                    <img src={lab.image} alt={`${lab.title} cover`} className="rounded-lg object-cover w-full h-auto shadow-md" />
+                                </div>
+                            )}
+                            <div className="flex-1">
+                                <div className="flex items-start justify-between mb-2">
+                                    <h3 className="text-xl font-bold text-gray-800">{lab.title}</h3>
+                                    {lab.difficulty && (
+                                        <div className="flex items-center gap-2 flex-shrink-0 ml-2">
+                                            <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase ${difficultyColors[lab.difficulty]}`}>
+                                                {lab.difficulty}
+                                            </span>
+                                            {lab.player_difficulty && lab.player_difficulty !== lab.difficulty && (
+                                                <span className="text-xs text-gray-500">
+                                                    (Players: <span className={`font-semibold ${
+                                                        lab.player_difficulty === 'easy' ? 'text-green-600' :
+                                                        lab.player_difficulty === 'medium' ? 'text-orange-600' :
+                                                        'text-red-600'
+                                                    }`}>{lab.player_difficulty}</span>)
+                                                </span>
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
+                                {lab.rating && (
+                                    <div className="flex items-center gap-2 mb-2">
+                                        {renderStars(lab.rating)}
+                                        <span className="text-sm font-semibold text-gray-700">{lab.rating.toFixed(1)}/5.0</span>
+                                        {lab.is_retired && <span className="px-2 py-1 bg-orange-50 text-orange-700 rounded text-xs font-medium">Retired</span>}
+                                    </div>
+                                )}
+                                <p className="text-gray-600 mb-4">{lab.description}</p>
+                                {lab.tactics && lab.tactics.length > 0 && (
+                                    <div className="mb-3 flex flex-wrap gap-2">
+                                        {lab.tactics.slice(0, 4).map((tactic, i) => (
+                                            <span key={i} className="px-2 py-1 bg-red-50 text-red-700 border border-red-200 rounded text-xs">{tactic}</span>
+                                        ))}
+                                        {lab.tactics.length > 4 && (
+                                            <span className="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs">+{lab.tactics.length - 4} more</span>
+                                        )}
+                                    </div>
+                                )}
+                                <div className="flex flex-wrap gap-2 mb-3">
+                                    {lab.tags.map((tag, i) => (
+                                        <span key={i} className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">{tag}</span>
+                                    ))}
+                                </div>
+                                <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                                    <span className="text-sm font-medium text-gray-500">{lab.platform}</span>
+                                    <a href={lab.link} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 font-medium text-green-600 hover:text-green-700">
+                                        Play Now <Icon name="ExternalLink" className="w-4 h-4 self-center" />
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                );
+
+                const ProjectCard = ({ project }) => {
+                    const category = getProjectCategory(project);
+                    const categoryStyle = {
+                        Tool:     'bg-purple-100 text-purple-700',
+                        Research: 'bg-blue-100 text-blue-700',
+                        Blog:     'bg-cyan-100 text-cyan-700',
+                    }[category];
+                    return (
+                        <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:border-blue-200 hover:shadow-md transition-all">
+                            <div className="flex flex-col md:flex-row gap-6">
+                                {project.image && (
+                                    <div className="flex-shrink-0 w-full md:w-64">
+                                        <img src={project.image} alt={`${project.title} cover`} className="rounded-lg object-cover w-full h-auto shadow-md" />
+                                    </div>
+                                )}
+                                <div className="flex-1">
+                                    <div className="flex items-start justify-between mb-2">
+                                        <h3 className="text-xl font-bold text-gray-800">{project.title}</h3>
+                                        <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase flex-shrink-0 ml-2 ${categoryStyle}`}>{category}</span>
+                                    </div>
+                                    <p className="text-gray-600 mb-4">{project.description}</p>
+                                    <div className="flex flex-wrap gap-2 mb-3">
+                                        {project.tags.map((tag, i) => (
+                                            <span key={i} className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">{tag}</span>
+                                        ))}
+                                    </div>
+                                    <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                                        <span className="text-sm font-medium text-gray-500">{project.platform}</span>
+                                        <a href={project.link} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 font-medium text-blue-600 hover:text-blue-700">
+                                            View Project <Icon name="ExternalLink" className="w-4 h-4 self-center" />
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    );
+                };
+
+                const FilterPills = ({ options, selected, onSelect, counts }) => (
+                    <div className="flex flex-wrap gap-2 items-center">
+                        <Icon name="Filter" className="w-4 h-4 text-gray-500 flex-shrink-0" />
+                        {options.map(opt => (
+                            <button
+                                key={opt}
+                                onClick={() => onSelect(opt)}
+                                className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all border-2 ${
+                                    selected === opt
+                                        ? 'bg-blue-600 text-white border-blue-600'
+                                        : 'bg-white text-gray-600 border-gray-200 hover:border-blue-400 hover:text-blue-600'
+                                }`}
+                            >
+                                {opt}{opt !== 'All' && counts && ` (${counts[opt] || 0})`}
+                            </button>
+                        ))}
+                    </div>
+                );
+
+                const labPlatformCounts = Object.fromEntries(labPlatforms.slice(1).map(p => [p, labsOnly.filter(l => l.platform === p).length]));
+                const projectCategoryCounts = Object.fromEntries(projectCategories.slice(1).map(c => [c, projectsOnly.filter(p => getProjectCategory(p) === c).length]));
 
                 return (
-                    <div className="space-y-8 animate-fadeIn">
+                    <div className="space-y-12 animate-fadeIn">
                         <div className="text-center space-y-4">
                             <h1 className="text-4xl font-bold text-gray-800 flex items-center justify-center gap-3">
                                 <Icon name="Code" className="w-10 h-10 text-blue-500" />
@@ -554,112 +695,38 @@
                             <p className="text-gray-600">Hands-on DFIR scenarios and educational content I've created</p>
                         </div>
 
-                        <div className="flex flex-wrap gap-2 items-center">
-                            <Icon name="Filter" className="w-4 h-4 text-gray-500 flex-shrink-0" />
-                            {platforms.map(p => (
-                                <button
-                                    key={p}
-                                    onClick={() => setSelectedPlatform(p)}
-                                    className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all border-2 ${
-                                        selectedPlatform === p
-                                            ? 'bg-blue-600 text-white border-blue-600'
-                                            : 'bg-white text-gray-600 border-gray-200 hover:border-blue-400 hover:text-blue-600'
-                                    }`}
-                                >
-                                    {p}{p !== 'All' && ` (${labs.filter(l => l.platform === p).length})`}
-                                </button>
-                            ))}
-                            {selectedPlatform !== 'All' && (
-                                <span className="text-sm text-gray-500 ml-2">{filteredLabs.length} result{filteredLabs.length !== 1 ? 's' : ''}</span>
-                            )}
+                        {/* ── Labs Section ── */}
+                        <div className="space-y-5">
+                            <div className="flex items-center gap-3">
+                                <h2 className="text-xl font-bold text-gray-800 flex items-center gap-2">
+                                    <span className="w-1 h-5 bg-gradient-to-b from-green-500 to-emerald-400 rounded-full inline-block flex-shrink-0"></span>
+                                    Labs
+                                </h2>
+                                <span className="text-sm text-gray-500 font-medium">{filteredLabs.length} of {labsOnly.length}</span>
+                            </div>
+                            <FilterPills options={labPlatforms} selected={selectedLabPlatform} onSelect={setSelectedLabPlatform} counts={labPlatformCounts} />
+                            <div className="grid gap-5">
+                                {filteredLabs.map((lab, idx) => <LabCard key={idx} lab={lab} />)}
+                            </div>
                         </div>
 
-                        <div className="grid gap-5">
-                            {filteredLabs.map((lab, idx) => {
-                                const buttonText = lab.type === 'lab' ? 'Play Now' : 'View Project';
-                                const buttonColor = lab.type === 'lab' ? 'text-green-600 hover:text-green-700' : 'text-blue-600 hover:text-blue-700';
-                                const difficultyColors = {
-                                    easy: 'bg-green-100 text-green-700',
-                                    medium: 'bg-orange-100 text-orange-700',
-                                    hard: 'bg-red-100 text-red-700'
-                                };
-
-                                return (
-                                    <div key={idx} className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:border-blue-200 hover:shadow-md transition-all">
-                                        <div className="flex flex-col md:flex-row gap-6">
-                                            {lab.image && (
-                                                <div className="flex-shrink-0 w-full md:w-64">
-                                                    <img src={lab.image} alt={`${lab.title} cover`} className="rounded-lg object-cover w-full h-auto shadow-md" />
-                                                </div>
-                                            )}
-                                            
-                                            <div className="flex-1">
-                                                <div className="flex items-start justify-between mb-2">
-                                                    <h3 className="text-xl font-bold text-gray-800">{lab.title}</h3>
-                                                    {lab.difficulty && (
-                                                        <div className="flex items-center gap-2">
-                                                            <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase ${difficultyColors[lab.difficulty]}`}>
-                                                                {lab.difficulty}
-                                                            </span>
-                                                            {lab.player_difficulty && lab.player_difficulty !== lab.difficulty && (
-                                                                <span className="text-xs text-gray-500">
-                                                                    (Players: <span className={`font-semibold ${
-                                                                        lab.player_difficulty === 'easy' ? 'text-green-600' :
-                                                                        lab.player_difficulty === 'medium' ? 'text-orange-600' :
-                                                                        'text-red-600'
-                                                                    }`}>{lab.player_difficulty}</span>)
-                                                                </span>
-                                                            )}
-                                                        </div>
-                                                    )}
-                                                </div>
-
-                                                {lab.rating && (
-                                                    <div className="flex items-center gap-2 mb-2">
-                                                        {renderStars(lab.rating)}
-                                                        <span className="text-sm font-semibold text-gray-700">{lab.rating.toFixed(1)}/5.0</span>
-                                                        {lab.is_retired && (
-                                                            <span className="px-2 py-1 bg-orange-50 text-orange-700 rounded text-xs font-medium">Retired</span>
-                                                        )}
-                                                    </div>
-                                                )}
-
-                                                <p className="text-gray-600 mb-4">{lab.description}</p>
-
-                                                {lab.tactics && lab.tactics.length > 0 && (
-                                                    <div className="mb-3">
-                                                        <div className="flex flex-wrap gap-2">
-                                                            {lab.tactics.slice(0, 4).map((tactic, i) => (
-                                                                <span key={i} className="px-2 py-1 bg-red-50 text-red-700 border border-red-200 rounded text-xs">{tactic}</span>
-                                                            ))}
-                                                            {lab.tactics.length > 4 && (
-                                                                <span className="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs">+{lab.tactics.length - 4} more</span>
-                                                            )}
-                                                        </div>
-                                                    </div>
-                                                )}
-
-                                                <div className="flex flex-wrap gap-2 mb-3">
-                                                    {lab.tags.map((tag, i) => (
-                                                        <span key={i} className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">{tag}</span>
-                                                    ))}
-                                                </div>
-                                                
-                                                <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                                                    <span className="text-sm font-medium text-gray-500">Platform: {lab.platform}</span>
-                                                    <a href={lab.link} target="_blank" rel="noopener noreferrer" className={`flex items-center gap-2 font-medium ${buttonColor}`}>
-                                                        {buttonText} <Icon name="ExternalLink" className="w-4 h-4 self-center" />
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                );
-                            })}
+                        {/* ── Projects Section ── */}
+                        <div className="space-y-5">
+                            <div className="flex items-center gap-3">
+                                <h2 className="text-xl font-bold text-gray-800 flex items-center gap-2">
+                                    <span className="w-1 h-5 bg-gradient-to-b from-blue-500 to-cyan-400 rounded-full inline-block flex-shrink-0"></span>
+                                    Projects
+                                </h2>
+                                <span className="text-sm text-gray-500 font-medium">{filteredProjects.length} of {projectsOnly.length}</span>
+                            </div>
+                            <FilterPills options={projectCategories} selected={selectedProjectCategory} onSelect={setSelectedProjectCategory} counts={projectCategoryCounts} />
+                            <div className="grid gap-5">
+                                {filteredProjects.map((project, idx) => <ProjectCard key={idx} project={project} />)}
+                            </div>
                         </div>
 
                         <div className="bg-gradient-to-br from-cyan-50 to-blue-50 rounded-2xl p-6 text-center border border-blue-100">
-                            <h3 className="font-bold text-gray-800 mb-2">More Projects Coming Soon!</h3>
+                            <h3 className="font-bold text-gray-800 mb-2">More Coming Soon!</h3>
                             <p className="text-gray-600 text-sm">
                                 I'm constantly creating new labs and writeups. Follow me on GitHub and Medium to stay updated with my latest work.
                             </p>
