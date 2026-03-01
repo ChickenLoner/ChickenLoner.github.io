@@ -526,6 +526,7 @@
             };
 
             const LabsPage = () => {
+                const [activeTab, setActiveTab] = useState('labs');
                 const [selectedLabPlatform, setSelectedLabPlatform] = useState('All');
                 const [selectedProjectCategory, setSelectedProjectCategory] = useState('All');
 
@@ -551,14 +552,14 @@
                 const getProjectCategory = (p) => {
                     if (p.tags && p.tags.includes('Tool')) return 'Tool';
                     if (p.platform === 'Medium') return 'Blog';
-                    return 'Research';
+                    return 'Misc';
                 };
 
                 const labsOnly = labs.filter(l => l.type === 'lab');
                 const projectsOnly = labs.filter(l => l.type === 'project');
 
                 const labPlatforms = ['All', ...Array.from(new Set(labsOnly.map(l => l.platform)))];
-                const projectCategories = ['All', 'Tool', 'Research', 'Blog'];
+                const projectCategories = ['All', 'Tool', 'Misc', 'Blog'];
 
                 const filteredLabs = selectedLabPlatform === 'All' ? labsOnly : labsOnly.filter(l => l.platform === selectedLabPlatform);
                 const filteredProjects = selectedProjectCategory === 'All' ? projectsOnly : projectsOnly.filter(p => getProjectCategory(p) === selectedProjectCategory);
@@ -628,9 +629,9 @@
                 const ProjectCard = ({ project }) => {
                     const category = getProjectCategory(project);
                     const categoryStyle = {
-                        Tool:     'bg-purple-100 text-purple-700',
-                        Research: 'bg-blue-100 text-blue-700',
-                        Blog:     'bg-cyan-100 text-cyan-700',
+                        Tool: 'bg-purple-100 text-purple-700',
+                        Misc: 'bg-blue-100 text-blue-700',
+                        Blog: 'bg-cyan-100 text-cyan-700',
                     }[category];
                     return (
                         <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:border-blue-200 hover:shadow-md transition-all">
@@ -686,7 +687,7 @@
                 const projectCategoryCounts = Object.fromEntries(projectCategories.slice(1).map(c => [c, projectsOnly.filter(p => getProjectCategory(p) === c).length]));
 
                 return (
-                    <div className="space-y-12 animate-fadeIn">
+                    <div className="space-y-8 animate-fadeIn">
                         <div className="text-center space-y-4">
                             <h1 className="text-4xl font-bold text-gray-800 flex items-center justify-center gap-3">
                                 <Icon name="Code" className="w-10 h-10 text-blue-500" />
@@ -695,35 +696,49 @@
                             <p className="text-gray-600">Hands-on DFIR scenarios and educational content I've created</p>
                         </div>
 
-                        {/* ── Labs Section ── */}
-                        <div className="space-y-5">
-                            <div className="flex items-center gap-3">
-                                <h2 className="text-xl font-bold text-gray-800 flex items-center gap-2">
-                                    <span className="w-1 h-5 bg-gradient-to-b from-green-500 to-emerald-400 rounded-full inline-block flex-shrink-0"></span>
-                                    Labs
-                                </h2>
-                                <span className="text-sm text-gray-500 font-medium">{filteredLabs.length} of {labsOnly.length}</span>
-                            </div>
-                            <FilterPills options={labPlatforms} selected={selectedLabPlatform} onSelect={setSelectedLabPlatform} counts={labPlatformCounts} />
-                            <div className="grid gap-5">
-                                {filteredLabs.map((lab, idx) => <LabCard key={idx} lab={lab} />)}
-                            </div>
+                        {/* ── Tab switcher ── */}
+                        <div className="flex gap-1 p-1 bg-gray-100 rounded-xl w-fit">
+                            {[
+                                { id: 'labs',     label: 'Labs',     count: labsOnly.length,     icon: 'FlaskConical' },
+                                { id: 'projects', label: 'Projects', count: projectsOnly.length, icon: 'FolderOpen'   },
+                            ].map(tab => (
+                                <button
+                                    key={tab.id}
+                                    onClick={() => setActiveTab(tab.id)}
+                                    className={`flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold transition-all ${
+                                        activeTab === tab.id
+                                            ? 'bg-white text-blue-600 shadow-sm'
+                                            : 'text-gray-500 hover:text-gray-700'
+                                    }`}
+                                >
+                                    <Icon name={tab.icon} className="w-4 h-4" />
+                                    {tab.label}
+                                    <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${activeTab === tab.id ? 'bg-blue-100 text-blue-600' : 'bg-gray-200 text-gray-500'}`}>
+                                        {tab.count}
+                                    </span>
+                                </button>
+                            ))}
                         </div>
 
-                        {/* ── Projects Section ── */}
-                        <div className="space-y-5">
-                            <div className="flex items-center gap-3">
-                                <h2 className="text-xl font-bold text-gray-800 flex items-center gap-2">
-                                    <span className="w-1 h-5 bg-gradient-to-b from-blue-500 to-cyan-400 rounded-full inline-block flex-shrink-0"></span>
-                                    Projects
-                                </h2>
-                                <span className="text-sm text-gray-500 font-medium">{filteredProjects.length} of {projectsOnly.length}</span>
+                        {/* ── Labs tab ── */}
+                        {activeTab === 'labs' && (
+                            <div className="space-y-5">
+                                <FilterPills options={labPlatforms} selected={selectedLabPlatform} onSelect={setSelectedLabPlatform} counts={labPlatformCounts} />
+                                <div className="grid gap-5">
+                                    {filteredLabs.map((lab, idx) => <LabCard key={idx} lab={lab} />)}
+                                </div>
                             </div>
-                            <FilterPills options={projectCategories} selected={selectedProjectCategory} onSelect={setSelectedProjectCategory} counts={projectCategoryCounts} />
-                            <div className="grid gap-5">
-                                {filteredProjects.map((project, idx) => <ProjectCard key={idx} project={project} />)}
+                        )}
+
+                        {/* ── Projects tab ── */}
+                        {activeTab === 'projects' && (
+                            <div className="space-y-5">
+                                <FilterPills options={projectCategories} selected={selectedProjectCategory} onSelect={setSelectedProjectCategory} counts={projectCategoryCounts} />
+                                <div className="grid gap-5">
+                                    {filteredProjects.map((project, idx) => <ProjectCard key={idx} project={project} />)}
+                                </div>
                             </div>
-                        </div>
+                        )}
 
                         <div className="bg-gradient-to-br from-cyan-50 to-blue-50 rounded-2xl p-6 text-center border border-blue-100">
                             <h3 className="font-bold text-gray-800 mb-2">More Coming Soon!</h3>
