@@ -138,7 +138,7 @@
     "tactics": ["Impact"]
   },
   {
-    "title": "WorkFromHome",
+    "title": "WorkFromHome (HTB)",
     "description": "Wowza Enterprise (Wowza Inc.) has hired you to investigate an incident involving a workstation used by Otello John, which is believed to have been compromised by a threat actor. The attacker reportedly changed the desktop wallpaper to a questionable image. The IT team has already provided you with initial information, and it is your duty to report back your findings.",
     "platform": "HackTheBox",
     "link": "https://app.hackthebox.com/sherlocks/WorkFromHome?tab=play_sherlock",
