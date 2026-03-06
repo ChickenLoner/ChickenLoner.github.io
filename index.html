@@ -170,7 +170,7 @@
             const [labsData, setLabsData] = useState([]);
             const [skills, setSkills] = useState([]);
             const [socialMedia, setSocialMedia] = useState([]);
-            const [competitions, setCompetitions] = useState([]);
+            const [achievements, setAchievements] = useState([]);
 
             // Merge static lab data with dynamic metadata at render time
             const labs = labsData.map(lab => ({ ...lab, ...(labsMetadata[lab.title] || {}) }));
@@ -185,14 +185,14 @@
                     fetch('./data/labs.json').then(r => r.json()),
                     fetch('./data/skills.json').then(r => r.json()),
                     fetch('./data/social.json').then(r => r.json()),
-                    fetch('./data/competitions.json').then(r => r.json()),
-                ]).then(([certs, reviews, labsRaw, skillsData, social, compsData]) => {
+                    fetch('./data/achievements.json').then(r => r.json()),
+                ]).then(([certs, reviews, labsRaw, skillsData, social, achievementsData]) => {
                     setCertifications(certs);
                     setCertificationReviews(reviews);
                     setLabsData(labsRaw);
                     setSkills(skillsData);
                     setSocialMedia(social);
-                    setCompetitions(compsData);
+                    setAchievements(achievementsData);
                 }).catch(err => console.error('Failed to load site data:', err));
             }, []);
 
@@ -217,7 +217,7 @@
                 { id: 'certifications', label: 'Certifications', icon: 'Award' },
                 { id: 'reviews', label: 'Cert Reviews', icon: 'FileText' },
                 { id: 'labs', label: 'Labs & Projects', icon: 'Code' },
-                { id: 'competitions', label: 'Competitions', icon: 'Trophy' },
+                { id: 'achievements', label: 'Achievements', icon: 'Star' },
                 { id: 'stats', label: 'Stats', icon: 'BarChart2' },
                 { id: 'writeups', label: 'Write-Ups', icon: 'BookOpen', external: true, url: 'https://chickenloner.github.io/Write_It_UP/index.html' },
                 { id: 'contact', label: 'Connect', icon: 'Mail' }
@@ -809,12 +809,15 @@
                 );
             };
 
-            const CompetitionsPage = () => {
+            const AchievementsPage = () => {
+                const [tab, setTab] = useState('competitions');
                 const [filter, setFilter] = useState('All');
 
-                const types = ['All', ...new Set(competitions.map(c => c.type).filter(Boolean))];
-                const filtered = filter === 'All' ? competitions : competitions.filter(c => c.type === filter);
+                const comps  = achievements.filter(a => a.category === 'competition');
+                const talks  = achievements.filter(a => a.category === 'talk');
+                const active = tab === 'competitions' ? comps : talks;
 
+                // Competition helpers
                 const getPlacementStyle = (placement) => {
                     const p = (placement || '').toLowerCase();
                     if (p.includes('1st') || p.includes('first') || p.includes('winner') || p.includes('champion'))
@@ -828,31 +831,35 @@
                     return 'bg-gray-100 text-gray-500 border-gray-200';
                 };
 
-                const podiums = competitions.filter(c => {
+                const podiums = comps.filter(c => {
                     const p = (c.placement || '').toLowerCase();
                     return p.includes('1st') || p.includes('2nd') || p.includes('3rd') ||
                            p.includes('first') || p.includes('second') || p.includes('third') ||
                            p.includes('winner') || p.includes('champion');
                 }).length;
 
-                const ctfCount = competitions.filter(c => (c.type || '').toLowerCase() === 'ctf').length;
+                // Competition type filter
+                const types = ['All', ...new Set(comps.map(c => c.type).filter(Boolean))];
+                const filteredComps = filter === 'All' ? comps : comps.filter(c => c.type === filter);
 
                 return (
                 <div className="space-y-8 animate-fadeIn">
+                    {/* Header */}
                     <div className="text-center space-y-3">
                         <h1 className="text-4xl font-bold text-gray-800 flex items-center justify-center gap-3">
-                            <Icon name="Trophy" className="w-10 h-10 text-blue-500" />
-                            Competitions
+                            <Icon name="Star" className="w-10 h-10 text-blue-500" />
+                            Achievements
                         </h1>
-                        <p className="text-gray-500">CTFs, blue team challenges, and competitive events</p>
+                        <p className="text-gray-500">Competitions, public talks, and notable milestones</p>
                     </div>
 
-                    {competitions.length > 0 && (
+                    {/* Stats strip — shown when there's data */}
+                    {achievements.length > 0 && (
                     <div className="grid grid-cols-3 gap-3">
                         {[
-                            { label: 'Total', value: competitions.length, icon: 'Trophy' },
+                            { label: 'Competitions', value: comps.length, icon: 'Trophy' },
                             { label: 'Podiums', value: podiums, icon: 'Medal' },
-                            { label: 'CTFs', value: ctfCount, icon: 'Flag' },
+                            { label: 'Talks', value: talks.length, icon: 'Mic' },
                         ].map(stat => (
                             <div key={stat.label} className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 text-center">
                                 <div className="text-2xl font-bold text-blue-600">{stat.value}</div>
@@ -864,100 +871,172 @@
                     </div>
                     )}
 
-                    {types.length > 1 && (
-                    <div className="flex flex-wrap gap-2">
-                        {types.map(type => (
-                            <button key={type} onClick={() => setFilter(type)}
-                                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all border
-                                    ${filter === type
-                                        ? 'bg-blue-600 text-white border-blue-600'
-                                        : 'bg-white text-gray-600 border-gray-200 hover:border-blue-200'}`}>
-                                {type}
+                    {/* Tab switcher */}
+                    <div className="flex gap-1 p-1 bg-gray-100 rounded-xl w-fit">
+                        {[
+                            { id: 'competitions', label: 'Competitions', icon: 'Trophy' },
+                            { id: 'speaking',     label: 'Speaking',     icon: 'Mic'    },
+                        ].map(t => (
+                            <button key={t.id} onClick={() => { setTab(t.id); setFilter('All'); }}
+                                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all
+                                    ${tab === t.id ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}>
+                                <Icon name={t.icon} className="w-4 h-4" />
+                                {t.label}
                             </button>
                         ))}
                     </div>
-                    )}
 
-                    {competitions.length === 0 ? (
-                        <div className="text-center py-20 text-gray-400">
-                            <Icon name="Trophy" className="w-14 h-14 mx-auto mb-4 opacity-25" />
-                            <p className="font-semibold text-gray-500 text-lg">No competitions yet</p>
-                            <p className="text-sm mt-1">Add entries to <code className="bg-gray-100 px-1.5 py-0.5 rounded text-xs">data/competitions.json</code></p>
+                    {/* ── COMPETITIONS TAB ── */}
+                    {tab === 'competitions' && (
+                    <>
+                        {types.length > 1 && (
+                        <div className="flex flex-wrap gap-2">
+                            {types.map(type => (
+                                <button key={type} onClick={() => setFilter(type)}
+                                    className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all border
+                                        ${filter === type
+                                            ? 'bg-blue-600 text-white border-blue-600'
+                                            : 'bg-white text-gray-600 border-gray-200 hover:border-blue-200'}`}>
+                                    {type}
+                                </button>
+                            ))}
                         </div>
-                    ) : (
-                    <div className="grid md:grid-cols-2 gap-4">
-                        {filtered.map((comp, idx) => (
-                            <div key={idx} className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg hover:border-blue-200 transition-all group">
-                                {/* Image area */}
-                                <div className="w-full h-48 bg-gray-50 border-b border-gray-100 overflow-hidden relative">
-                                    {comp.image ? (
-                                        <img src={comp.image} alt={comp.name}
-                                            className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-300" />
-                                    ) : (
-                                        <div className="w-full h-full flex flex-col items-center justify-center gap-2 text-gray-300">
-                                            <Icon name="Trophy" className="w-10 h-10" />
-                                            <span className="text-xs font-medium">No image</span>
-                                        </div>
-                                    )}
-                                    {/* Type pill overlaid on image */}
-                                    {comp.type && (
-                                        <span className="absolute top-3 left-3 px-2 py-0.5 bg-gray-900/60 text-white rounded-md text-xs font-semibold backdrop-blur-sm">
-                                            {comp.type}
-                                        </span>
-                                    )}
-                                </div>
+                        )}
 
-                                {/* Content */}
-                                <div className="p-4 space-y-2.5">
-                                    <div className="flex items-start justify-between gap-2">
-                                        <h3 className="font-bold text-gray-800 text-sm leading-snug group-hover:text-blue-600 transition-colors">{comp.name}</h3>
-                                        {comp.placement && (
-                                            <span className={`flex-shrink-0 px-2 py-0.5 rounded-full text-xs font-semibold border ${getPlacementStyle(comp.placement)}`}>
-                                                {comp.placement}
+                        {comps.length === 0 ? (
+                            <div className="text-center py-20 text-gray-400">
+                                <Icon name="Trophy" className="w-14 h-14 mx-auto mb-4 opacity-25" />
+                                <p className="font-semibold text-gray-500 text-lg">No competitions yet</p>
+                                <p className="text-sm mt-1">Add entries with <code className="bg-gray-100 px-1.5 py-0.5 rounded text-xs">"category": "competition"</code> to <code className="bg-gray-100 px-1.5 py-0.5 rounded text-xs">data/achievements.json</code></p>
+                            </div>
+                        ) : (
+                        <div className="grid md:grid-cols-2 gap-4">
+                            {filteredComps.map((comp, idx) => (
+                                <div key={idx} className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg hover:border-blue-200 transition-all group">
+                                    <div className="w-full h-48 bg-gray-50 border-b border-gray-100 overflow-hidden relative">
+                                        {comp.image ? (
+                                            <img src={comp.image} alt={comp.name}
+                                                className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-300" />
+                                        ) : (
+                                            <div className="w-full h-full flex flex-col items-center justify-center gap-2 text-gray-300">
+                                                <Icon name="Trophy" className="w-10 h-10" />
+                                                <span className="text-xs font-medium">No image</span>
+                                            </div>
+                                        )}
+                                        {comp.type && (
+                                            <span className="absolute top-3 left-3 px-2 py-0.5 bg-gray-900/60 text-white rounded-md text-xs font-semibold backdrop-blur-sm">
+                                                {comp.type}
                                             </span>
                                         )}
                                     </div>
-
-                                    <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-gray-500">
-                                        <span className="font-medium text-blue-600 flex items-center gap-1">
-                                            <Icon name="Building2" className="w-3 h-3" />{comp.organizer}
-                                        </span>
-                                        <span>·</span>
-                                        <span className="flex items-center gap-1">
-                                            <Icon name="Calendar" className="w-3 h-3" />{comp.year}
-                                        </span>
-                                        {comp.team && (
-                                            <>
-                                                <span>·</span>
-                                                <span className="flex items-center gap-1">
-                                                    <Icon name="Users" className="w-3 h-3" />{comp.team}
+                                    <div className="p-4 space-y-2.5">
+                                        <div className="flex items-start justify-between gap-2">
+                                            <h3 className="font-bold text-gray-800 text-sm leading-snug group-hover:text-blue-600 transition-colors">{comp.name}</h3>
+                                            {comp.placement && (
+                                                <span className={`flex-shrink-0 px-2 py-0.5 rounded-full text-xs font-semibold border ${getPlacementStyle(comp.placement)}`}>
+                                                    {comp.placement}
                                                 </span>
-                                            </>
+                                            )}
+                                        </div>
+                                        <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-gray-500">
+                                            <span className="font-medium text-blue-600 flex items-center gap-1">
+                                                <Icon name="Building2" className="w-3 h-3" />{comp.organizer}
+                                            </span>
+                                            <span>·</span>
+                                            <span className="flex items-center gap-1">
+                                                <Icon name="Calendar" className="w-3 h-3" />{comp.year}
+                                            </span>
+                                            {comp.team && (
+                                                <>
+                                                    <span>·</span>
+                                                    <span className="flex items-center gap-1">
+                                                        <Icon name="Users" className="w-3 h-3" />{comp.team}
+                                                    </span>
+                                                </>
+                                            )}
+                                        </div>
+                                        {comp.description && <p className="text-xs text-gray-500 leading-relaxed">{comp.description}</p>}
+                                        {(comp.tags || []).length > 0 && (
+                                        <div className="flex flex-wrap gap-1.5">
+                                            {comp.tags.map((tag, i) => (
+                                                <span key={i} className="px-2 py-0.5 bg-blue-50 text-blue-600 rounded-md text-xs font-medium border border-blue-100">{tag}</span>
+                                            ))}
+                                        </div>
+                                        )}
+                                        {comp.url && (
+                                            <a href={comp.url} target="_blank" rel="noopener noreferrer"
+                                                className="inline-flex items-center gap-1 text-xs text-blue-500 hover:text-blue-700 font-medium">
+                                                View Details <Icon name="ExternalLink" className="w-3 h-3" />
+                                            </a>
                                         )}
                                     </div>
-
-                                    {comp.description && (
-                                        <p className="text-xs text-gray-500 leading-relaxed">{comp.description}</p>
-                                    )}
-
-                                    {(comp.tags || []).length > 0 && (
-                                    <div className="flex flex-wrap gap-1.5">
-                                        {comp.tags.map((tag, i) => (
-                                            <span key={i} className="px-2 py-0.5 bg-blue-50 text-blue-600 rounded-md text-xs font-medium border border-blue-100">{tag}</span>
-                                        ))}
-                                    </div>
-                                    )}
-
-                                    {comp.url && (
-                                        <a href={comp.url} target="_blank" rel="noopener noreferrer"
-                                            className="inline-flex items-center gap-1 text-xs text-blue-500 hover:text-blue-700 font-medium">
-                                            View Details <Icon name="ExternalLink" className="w-3 h-3" />
-                                        </a>
-                                    )}
                                 </div>
+                            ))}
+                        </div>
+                        )}
+                    </>
+                    )}
+
+                    {/* ── SPEAKING TAB ── */}
+                    {tab === 'speaking' && (
+                    <>
+                        {talks.length === 0 ? (
+                            <div className="text-center py-20 text-gray-400">
+                                <Icon name="Mic" className="w-14 h-14 mx-auto mb-4 opacity-25" />
+                                <p className="font-semibold text-gray-500 text-lg">No talks yet</p>
+                                <p className="text-sm mt-1">Add entries with <code className="bg-gray-100 px-1.5 py-0.5 rounded text-xs">"category": "talk"</code> to <code className="bg-gray-100 px-1.5 py-0.5 rounded text-xs">data/achievements.json</code></p>
                             </div>
-                        ))}
-                    </div>
+                        ) : (
+                        <div className="grid md:grid-cols-2 gap-4">
+                            {talks.map((talk, idx) => (
+                                <div key={idx} className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg hover:border-blue-200 transition-all group">
+                                    <div className="w-full h-48 bg-gray-50 border-b border-gray-100 overflow-hidden relative">
+                                        {talk.image ? (
+                                            <img src={talk.image} alt={talk.name}
+                                                className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-300" />
+                                        ) : (
+                                            <div className="w-full h-full flex flex-col items-center justify-center gap-2 text-gray-300">
+                                                <Icon name="Mic" className="w-10 h-10" />
+                                                <span className="text-xs font-medium">No image</span>
+                                            </div>
+                                        )}
+                                        {talk.role && (
+                                            <span className="absolute top-3 left-3 px-2 py-0.5 bg-gray-900/60 text-white rounded-md text-xs font-semibold backdrop-blur-sm">
+                                                {talk.role}
+                                            </span>
+                                        )}
+                                    </div>
+                                    <div className="p-4 space-y-2.5">
+                                        <h3 className="font-bold text-gray-800 text-sm leading-snug group-hover:text-blue-600 transition-colors">{talk.name}</h3>
+                                        <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-gray-500">
+                                            <span className="font-medium text-blue-600 flex items-center gap-1">
+                                                <Icon name="MapPin" className="w-3 h-3" />{talk.event}
+                                            </span>
+                                            <span>·</span>
+                                            <span className="flex items-center gap-1">
+                                                <Icon name="Calendar" className="w-3 h-3" />{talk.year}
+                                            </span>
+                                        </div>
+                                        {talk.description && <p className="text-xs text-gray-500 leading-relaxed">{talk.description}</p>}
+                                        {(talk.tags || []).length > 0 && (
+                                        <div className="flex flex-wrap gap-1.5">
+                                            {talk.tags.map((tag, i) => (
+                                                <span key={i} className="px-2 py-0.5 bg-purple-50 text-blue-600 rounded-md text-xs font-medium border border-blue-100">{tag}</span>
+                                            ))}
+                                        </div>
+                                        )}
+                                        {talk.url && (
+                                            <a href={talk.url} target="_blank" rel="noopener noreferrer"
+                                                className="inline-flex items-center gap-1 text-xs text-blue-500 hover:text-blue-700 font-medium">
+                                                Slides / Recording <Icon name="ExternalLink" className="w-3 h-3" />
+                                            </a>
+                                        )}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                        )}
+                    </>
                     )}
                 </div>
                 );
@@ -1225,7 +1304,7 @@
                     case 'certifications': return <CertificationsPage />;
                     case 'reviews': return <ReviewsPage />;
                     case 'labs': return <LabsPage />;
-                    case 'competitions': return <CompetitionsPage />;
+                    case 'achievements': return <AchievementsPage />;
                     case 'stats': return <StatsPage />;
                     case 'contact': return <ContactPage />;
                     default: return <HomePage />;
