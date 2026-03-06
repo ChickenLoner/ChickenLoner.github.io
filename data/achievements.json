@@ -1,0 +1,134 @@
+[
+  {
+    "category": "talk",
+    "name": "Hack The Box Meetup: \"Not The Hidden Skillz\" - 0x01",
+    "event": "Not The Hidden Wiki x HackTheBox",
+    "year": "2026",
+    "role": "Speaker",
+    "description": "",
+    "image": "./assets/achievements/nthwxHTBmeetup01.png",
+    "tags": [],
+    "url": ""
+  },
+  {
+    "category": "talk",
+    "name": "Cybersecurity Jumpstart",
+    "event": "Panyapiwat Institute of Management",
+    "year": "2025",
+    "role": "Speaker",
+    "description": "",
+    "image": "./assets/achievements/cybersec_pim.jpg",
+    "tags": [],
+    "url": ""
+  },
+  {
+    "category": "competition",
+    "name": "Hackloween CTF 2025",
+    "organizer": "SEC Playground",
+    "placement": "Winner",
+    "year": "2025",
+    "team": "WoWZA!!!!!",
+    "description": "",
+    "image": "./assets/achievements/hackloween2025.jpg",
+    "tags": ["CTF"]
+  },
+  {
+    "category": "competition",
+    "name": "Holmes CTF 2025",
+    "organizer": "HackTheBox",
+    "placement": "Winner",
+    "year": "2025",
+    "team": "WatsonDips",
+    "description": "",
+    "image": "./assets/achievements/holmeCTF2025.jpg",
+    "tags": ["CTF"]
+  },
+  {
+    "category": "competition",
+    "name": "DFIR Labs CTF September 2025",
+    "organizer": "The DFIR Report",
+    "placement": "5th Place",
+    "year": "2025",
+    "team": "",
+    "description": "",
+    "image": "./assets/achievements/dfirctfsep2025.png",
+    "tags": ["CTF", "DFIR"]
+  },
+  {
+    "category": "competition",
+    "name": "DFIR Labs CTF June 2025",
+    "organizer": "The DFIR Report",
+    "placement": "4th Place",
+    "year": "2025",
+    "team": "",
+    "description": "",
+    "image": "./assets/achievements/dfirctfjune2025.png",
+    "tags": ["CTF", "DFIR"]
+  },
+  {
+    "category": "competition",
+    "name": "Splunk Boss of The SOC v8 — Splunk Experience Day Thailand 2025",
+    "organizer": "Splunk",
+    "placement": "2nd Place",
+    "year": "2025",
+    "team": "Wowza",
+    "description": "",
+    "image": "./assets/achievements/splunkBots2025.png",
+    "tags": ["Blue Team", "Splunk", "SOC"]
+  },
+  {
+    "category": "competition",
+    "name": "DFIR Labs CTF March 2025",
+    "organizer": "The DFIR Report",
+    "placement": "10th Place",
+    "year": "2025",
+    "team": "",
+    "description": "",
+    "image": "./assets/achievements/dfirctfmarch2025.png",
+    "tags": ["CTF", "DFIR"]
+  },
+  {
+    "category": "competition",
+    "name": "Red Guardian Capture The Flag 2025",
+    "organizer": "National Intelligence Agency",
+    "placement": "Winner",
+    "year": "2025",
+    "team": "",
+    "description": "",
+    "image": "./assets/achievements/redguadianctf2025.jpg",
+    "tags": ["CTF"]
+  },
+  {
+    "category": "competition",
+    "name": "Bloody Xmas 2024 CTF",
+    "organizer": "SEC Playground",
+    "placement": "2nd Place",
+    "year": "2024",
+    "team": "Wowza",
+    "description": "",
+    "image": "./assets/achievements/bloodyxmas2024.png",
+    "tags": ["CTF"]
+  },
+  {
+    "category": "competition",
+    "name": "Hackloween CTF 2024",
+    "organizer": "SEC Playground",
+    "placement": "2nd Place",
+    "year": "2024",
+    "team": "R@b!T_T",
+    "description": "",
+    "image": "./assets/achievements/hackloween2024.png",
+    "tags": ["CTF"]
+  },
+  {
+    "category": "competition",
+    "name": "Cyber Range Thailand 2024",
+    "organizer": "CloudSec Asia, Solar and SecStrike",
+    "placement": "3rd Place",
+    "year": "2024",
+    "team": "Table 7",
+    "description": "",
+    "image": "./assets/achievements/cyberrangeTh2024.jpg",
+    "tags": ["Blue Team"]
+  }
+]
