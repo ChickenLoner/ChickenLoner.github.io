@@ -6,7 +6,7 @@
     "year": "2026",
     "role": "Speaker",
     "description": "",
-    "image": "",
+    "image": "./assets/achievements/nthwxHTBmeetup01.png",
     "tags": [],
     "url": ""
   },
@@ -17,7 +17,7 @@
     "year": "2025",
     "role": "Speaker",
     "description": "",
-    "image": "",
+    "image": "./assets/achievements/cybersec_pim.jpg",
     "tags": [],
     "url": ""
   },
@@ -29,7 +29,7 @@
     "year": "2025",
     "team": "WoWZA!!!!!",
     "description": "",
-    "image": "",
+    "image": "./assets/achievements/hackloween2025.jpg",
     "tags": ["CTF"]
   },
   {
@@ -40,7 +40,7 @@
     "year": "2025",
     "team": "WatsonDips",
     "description": "",
-    "image": "",
+    "image": "./assets/achievements/holmeCTF2025.jpg",
     "tags": ["CTF"]
   },
   {
@@ -51,7 +51,7 @@
     "year": "2025",
     "team": "",
     "description": "",
-    "image": "",
+    "image": "./assets/achievements/dfirctfsep2025.png",
     "tags": ["CTF", "DFIR"]
   },
   {
@@ -62,7 +62,7 @@
     "year": "2025",
     "team": "",
     "description": "",
-    "image": "",
+    "image": "./assets/achievements/dfirctfjune2025.png",
     "tags": ["CTF", "DFIR"]
   },
   {
@@ -73,7 +73,7 @@
     "year": "2025",
     "team": "Wowza",
     "description": "",
-    "image": "",
+    "image": "./assets/achievements/splunkBots2025.png",
     "tags": ["Blue Team", "Splunk", "SOC"]
   },
   {
@@ -84,7 +84,7 @@
     "year": "2025",
     "team": "",
     "description": "",
-    "image": "",
+    "image": "./assets/achievements/dfirctfmarch2025.png",
     "tags": ["CTF", "DFIR"]
   },
   {
@@ -106,7 +106,7 @@
     "year": "2024",
     "team": "Wowza",
     "description": "",
-    "image": "",
+    "image": "./assets/achievements/bloodyxmas2024.png",
     "tags": ["CTF"]
   },
   {
@@ -117,7 +117,7 @@
     "year": "2024",
     "team": "R@b!T_T",
     "description": "",
-    "image": "",
+    "image": "./assets/achievements/hackloween2024.png",
     "tags": ["CTF"]
   }
 ]
