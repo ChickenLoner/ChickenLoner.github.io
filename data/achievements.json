@@ -95,7 +95,7 @@
     "year": "2025",
     "team": "",
     "description": "",
-    "image": "",
+    "image": "./assets/achievements/redguadianctf2025.jpg",
     "tags": ["CTF"]
   },
   {
@@ -119,5 +119,16 @@
     "description": "",
     "image": "./assets/achievements/hackloween2024.png",
     "tags": ["CTF"]
+  },
+  {
+    "category": "competition",
+    "name": "Cyber Range Thailand 2024",
+    "organizer": "CloudSec Asia, Solar and SecStrike",
+    "placement": "3rd Place",
+    "year": "2024",
+    "team": "Table 7",
+    "description": "",
+    "image": "./assets/achievements/cyberrangeTh2024.jpg",
+    "tags": ["Blue Team"]
   }
 ]
