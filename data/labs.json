@@ -9,7 +9,7 @@
     "difficulty": "easy",
     "player_difficulty": "medium",
     "is_retired": true,
-    "image": "./assets/utensil.png"
+    "image": "./assets/labs/utensil.png"
   },
   {
     "title": "WorkFromHome",
@@ -18,7 +18,7 @@
     "link": "https://cyberdefenders.org/blueteam-ctf-challenges/workfromhome/",
     "tags": ["Endpoint Forensics", "Windows Forensics", "Browser", "RMM", "SeTakeOwnershipPrivilege"],
     "type": "lab",
-    "image": "./assets/cd-workfromhome.png",
+    "image": "./assets/labs/cd-workfromhome.png",
     "difficulty": "easy",
     "player_difficulty": "medium",
     "rating": 4.7,
@@ -32,7 +32,7 @@
     "link": "https://cyberdefenders.org/blueteam-ctf-challenges/resourcepacks/",
     "tags": ["Endpoint Forensics", "Windows Forensics", "UAC Bypass", "WMI persistence", "SeImpersonatePrivilege"],
     "type": "lab",
-    "image": "./assets/ResourcePacks.png",
+    "image": "./assets/labs/ResourcePacks.png",
     "difficulty": "medium",
     "player_difficulty": "medium",
     "rating": 4.5,
@@ -46,7 +46,7 @@
     "link": "https://cyberdefenders.org/blueteam-ctf-challenges/yara-trap/",
     "tags": ["Endpoint Forensics", "Windows Forensics", "Website Log Analysis", "Code Review", "Bits Job"],
     "type": "lab",
-    "image": "./assets/Yara_Trap.png",
+    "image": "./assets/labs/Yara_Trap.png",
     "difficulty": "hard",
     "player_difficulty": "hard",
     "rating": 4.8,
@@ -60,7 +60,7 @@
     "link": "https://cyberdefenders.org/blueteam-ctf-challenges/spooler-apt28/",
     "tags": ["Endpoint Forensics", "Windows Forensics"],
     "type": "lab",
-    "image": "./assets/spooler-apt28.png",
+    "image": "./assets/labs/spooler-apt28.png",
     "difficulty": "hard",
     "player_difficulty": "hard",
     "rating": 4.7,
@@ -74,7 +74,7 @@
     "link": "https://cyberdefenders.org/blueteam-ctf-challenges/perfect-survey/",
     "tags": ["Threat Hunting", "Log Analyis", "SIEM"],
     "type": "lab",
-    "image": "./assets/perfect-survey.png",
+    "image": "./assets/labs/perfect-survey.png",
     "difficulty": "medium",
     "player_difficulty": "easy",
     "rating": 4.3,
@@ -88,7 +88,7 @@
     "link": "https://cyberdefenders.org/blueteam-ctf-challenges/lfi-escalation/",
     "tags": ["Endpoint Forensics", "Website Log Analysis", "Website Vulnerabilities", "Persistence"],
     "type": "lab",
-    "image": "./assets/lfi-escalation.png",
+    "image": "./assets/labs/lfi-escalation.png",
     "difficulty": "medium",
     "player_difficulty": "hard",
     "rating": 4.7,
@@ -102,7 +102,7 @@
     "link": "https://cyberdefenders.org/blueteam-ctf-challenges/kioskexpo7/",
     "tags": ["Endpoint Forensics", "Kiosk", "Kiosk Breakout", "Privilege Escalation", "Persistence"],
     "type": "lab",
-    "image": "./assets/kioskexpo7.png",
+    "image": "./assets/labs/kioskexpo7.png",
     "difficulty": "medium",
     "player_difficulty": "medium",
     "rating": 4.6,
@@ -116,7 +116,7 @@
     "link": "https://cyberdefenders.org/blueteam-ctf-challenges/roasttoroot/",
     "tags": ["Network Forensics", "Active Directory", "Kerberos", "LDAP", "SMB", "Password Cracking"],
     "type": "lab",
-    "image": "./assets/roasttoroot.png",
+    "image": "./assets/labs/roasttoroot.png",
     "difficulty": "hard",
     "player_difficulty": "medium",
     "rating": 4.8,
@@ -130,7 +130,7 @@
     "link": "https://cyberdefenders.org/blueteam-ctf-challenges/raas-unfold-ransomhub/",
     "tags": ["Threat Intel", "RaaS", "RansomHub"],
     "type": "lab",
-    "image": "./assets/RaaS_Unfold_-_RansomHub.png",
+    "image": "./assets/labs/RaaS_Unfold_-_RansomHub.png",
     "difficulty": "easy",
     "player_difficulty": "medium",
     "rating": 2,
@@ -144,7 +144,7 @@
     "link": "https://app.hackthebox.com/sherlocks/WorkFromHome?tab=play_sherlock",
     "tags": ["Endpoint Forensics", "Windows Forensics"],
     "type": "lab",
-    "image": "./assets/htb-wfh.png",
+    "image": "./assets/labs/htb-wfh.png",
     "difficulty": "medium",
     "rating": 4.2,
     "is_retired": false
@@ -156,7 +156,7 @@
     "link": "https://gitlab.com/2600-thailand/stdio/stdio-challenges/stdio-ctf-2025/-/tree/main/challenges/forensic/23.SHAW?ref_type=heads",
     "tags": ["Endpoint Forensics", "Windows Forensics", "Log Analysis", "Browser"],
     "type": "lab",
-    "image": "./assets/shaw.jpg",
+    "image": "./assets/labs/shaw.jpg",
     "difficulty": "easy",
     "is_retired": true
   },
@@ -167,7 +167,7 @@
     "link": "https://gitlab.com/2600-thailand/stdio/stdio-challenges/stdio-ctf-2025/-/tree/main/challenges/forensic/25.Master%20Investigator?ref_type=heads",
     "tags": ["Endpoint Forensics", "Windows Forensics", "Log Analysis", "Browser", "Active Directory", "File System", "Certificate Services"],
     "type": "lab",
-    "image": "./assets/master.jpg",
+    "image": "./assets/labs/master.jpg",
     "difficulty": "hard",
     "is_retired": true
   },
@@ -178,7 +178,7 @@
     "link": "https://github.com/ChickenLoner/Awesome-Splunk-and-Elastic-SIEM-Practice-Labs",
     "tags": ["Log Analysis", "SIEM", "Threat Hunting", "Splunk", "Elastic"],
     "type": "project",
-    "image": "./assets/siem.jpg"
+    "image": "./assets/labs/siem.jpg"
   },
   {
     "title": "Awesome Cloud Investigation Labs",
@@ -187,7 +187,7 @@
     "link": "https://github.com/ChickenLoner/Awesome-Cloud-Investigation-Labs",
     "tags": ["Cloud", "SIEM", "Threat Hunting", "Log Analyis"],
     "type": "project",
-    "image": "./assets/cloud.jpg"
+    "image": "./assets/labs/cloud.jpg"
   },
   {
     "title": "Pulse Log Generator",
@@ -196,7 +196,7 @@
     "link": "https://github.com/ChickenLoner/Pulse-log-generator",
     "tags": ["Tool", "Log Analyis", "Log Generator"],
     "type": "project",
-    "image": "./assets/pulse.jpg"
+    "image": "./assets/labs/pulse.jpg"
   },
   {
     "title": "Design your first Windows Forensics Lab and make it decent!",
@@ -205,7 +205,7 @@
     "link": "https://medium.com/system-weakness/design-your-first-windows-forensics-lab-as-a-defensive-content-engineer-523bf891fbd7",
     "tags": ["Digital Forensics", "Lab Making", "Windows Forensics"],
     "type": "project",
-    "image": "./assets/designwindowslab.jpg"
+    "image": "./assets/labs/designwindowslab.jpg"
   },
   {
     "title": "Using Git Commits as a Persistence Mechanism",
@@ -214,7 +214,7 @@
     "link": "https://medium.com/@chaoskist/using-git-commits-as-a-persistence-mechanism-c44a0ee22068",
     "tags": ["Red Teaming", "Persistence", "git"],
     "type": "project",
-    "image": "./assets/gitcommit.jpg"
+    "image": "./assets/labs/gitcommit.jpg"
   },
   {
     "title": "RMM Forensics Cheat Sheet",
@@ -223,7 +223,7 @@
     "link": "https://github.com/ChickenLoner/RMM-Forensics-Cheatsheet",
     "tags": ["Digital Forensics", "RMM", "Windows", "Cheat Sheet"],
     "type": "project",
-    "image": "./assets/rmmcheatsheet.jpg"
+    "image": "./assets/labs/rmmcheatsheet.jpg"
   },
   {
     "title": "Deep dive into AnyDesk Investigation & Forensics on Windows",
@@ -232,7 +232,7 @@
     "link": "https://medium.com/@chaoskist/deep-dive-into-anydesk-investigation-forensics-on-windows-24dc531bcc78",
     "tags": ["Digital Forensics", "RMM", "AnyDesk", "Windows"],
     "type": "project",
-    "image": "./assets/anydeskdfir.jpg"
+    "image": "./assets/labs/anydeskdfir.jpg"
   },
   {
     "title": "Deep dive into RustDesk RMM Investigation & Forensics on Windows",
@@ -241,7 +241,7 @@
     "link": "https://medium.com/@chaoskist/deep-dive-into-rustdesk-rmm-investigation-forensics-on-windows-6d8ba816a11e",
     "tags": ["Digital Forensics", "RMM", "RustDesk", "Windows"],
     "type": "project",
-    "image": "./assets/rustdeskdfir.png"
+    "image": "./assets/labs/rustdeskdfir.png"
   },
   {
     "title": "RustDesk Decryptor",
@@ -250,6 +250,6 @@
     "link": "https://github.com/ChickenLoner/rustdesk-decrypt",
     "tags": ["Digital Forensics", "RMM", "Windows", "Tool", "RustDesk"],
     "type": "project",
-    "image": "./assets/rustdesk-decryptor.jpg"
+    "image": "./assets/labs/rustdesk-decryptor.jpg"
   }
 ]
