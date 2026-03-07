@@ -251,5 +251,14 @@
     "tags": ["Digital Forensics", "RMM", "Windows", "Tool", "RustDesk"],
     "type": "project",
     "image": "./assets/labs/rustdesk-decryptor.jpg"
+  },
+  {
+    "title": "ResidentReaper",
+    "description": "A fast NTFS forensic tool written in Rust — parses $MFT and $J (USN Journal) artifacts, and hunts for resident data hidden inside MFT entries.",
+    "platform": "GitHub",
+    "link": "https://github.com/ChickenLoner/ResidentReaper",
+    "tags": ["Digital Forensics", "MFT", "Windows", "Tool", "UsnJournal", "Resident Data"],
+    "type": "project",
+    "image": "./assets/labs/residentreaper.jpg"
   }
 ]
