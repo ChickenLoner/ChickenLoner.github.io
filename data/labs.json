@@ -260,5 +260,14 @@
     "tags": ["Digital Forensics", "MFT", "Windows", "Tool", "UsnJournal", "Resident Data"],
     "type": "project",
     "image": "./assets/labs/residentreaper.jpg"
+  },
+  {
+    "title": "CyberChef Playground",
+    "description": "A self-hosted CTF-style challenge platform for learning cryptography, encoding, and log analysis — powered by CyberChef recipes.",
+    "platform": "GitHub",
+    "link": "https://github.com/ChickenLoner/ResidentReaper",
+    "tags": ["CyberChef"],
+    "type": "project",
+    "image": "./assets/labs/ccpg.jpg"
   }
 ]
