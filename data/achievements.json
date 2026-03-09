@@ -130,5 +130,27 @@
     "description": "",
     "image": "./assets/achievements/cyberrangeTh2024.jpg",
     "tags": ["Blue Team"]
+  },
+  {
+    "category": "competition",
+    "name": "2024",
+    "organizer": "National Cyber Security Agency (NCSA)",
+    "placement": "5th Place",
+    "year": "2024",
+    "team": "MaAowHa",
+    "description": "",
+    "image": "./assets/achievements/tcybertoptalent2024.png",
+    "tags": ["Blue Team"]
+  },
+  {
+    "category": "competition",
+    "name": "2024",
+    "organizer": "MFEC",
+    "placement": "6th Place",
+    "year": "2024",
+    "team": "ByTheW4y",
+    "description": "",
+    "image": "./assets/achievements/blueguardian2024.png",
+    "tags": ["Blue Team"]
   }
 ]
