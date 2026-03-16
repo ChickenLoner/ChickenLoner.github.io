@@ -150,6 +150,18 @@
     "is_retired": false
   },
   {
+    "title": "Liberty",
+    "description": "Liberty launched a massive project with a budget exceeding $100 million, with the goal of granting true freedom to humanity One day, a system administrator discovered a shared folder configured with “Full Control” permissions granted to “Everyone”, raising concerns about a potential security incident. You have been tasked with investigating evidence collected from the affected endpoint to determine what occurred. Threat Intelligence has previously identified that an employee’s credentials were harvested by a RedLine Stealer, which is suspected to have been used for initial access to this system.",
+    "platform": "HackTheBox",
+    "link": "https://app.hackthebox.com/sherlocks/WorkFromHome?tab=play_sherlock",
+    "tags": ["Endpoint Forensics", "Windows Forensics"],
+    "type": "lab",
+    "image": "./assets/labs/htb-liberty.png",
+    "difficulty": "medium",
+    "rating": 4.3,
+    "is_retired": false
+  },
+  {
     "title": "SHAW",
     "description": "Investigating ClickFix incident by correlating Browser history, PowerShell Script Block Logging, Prefetch and PowerShell log together",
     "platform": "STDiO CTF 2025",
@@ -266,8 +278,17 @@
     "description": "A self-hosted CTF-style challenge platform for learning cryptography, encoding, and log analysis — powered by CyberChef recipes.",
     "platform": "GitHub",
     "link": "https://github.com/ChickenLoner/ResidentReaper",
-    "tags": ["CyberChef"],
+    "tags": ["CyberChef", "platform", "CTF"],
     "type": "project",
     "image": "./assets/labs/ccpg.jpg"
+  },
+  {
+    "title": "SysTrace",
+    "description": "A fast, native GUI forensic analysis tool for Sysmon logs. Opens raw .evtx files, EVTXECmd NDJSON exports, or EVTXECmd CSV exports and presents them as an interactive process tree with process-centric telemetry browsing — built for DFIR investigators.",
+    "platform": "GitHub",
+    "link": "https://github.com/ChickenLoner/SysTrace",
+    "tags": ["Sysmon", "Tool", "Log Analyis"],
+    "type": "project",
+    "image": "./assets/labs/systrace.jpg"
   }
 ]

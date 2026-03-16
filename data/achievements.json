@@ -96,7 +96,7 @@
     "team": "",
     "description": "",
     "image": "./assets/achievements/redguadianctf2025.jpg",
-    "tags": ["CTF"]
+    "tags": ["CTF", "Red Team"]
   },
   {
     "category": "competition",
@@ -140,7 +140,7 @@
     "team": "MaAowHa",
     "description": "",
     "image": "./assets/achievements/tcybertoptalent2024.png",
-    "tags": ["Blue Team"]
+    "tags": ["CTF"]
   },
   {
     "category": "competition",
@@ -152,5 +152,16 @@
     "description": "",
     "image": "./assets/achievements/blueguardian2024.png",
     "tags": ["Blue Team"]
+  },
+  {
+    "category": "competition",
+    "name": "Palo Alto Networks - Capture The Flag Capture The Future Competition 2021",
+    "organizer": "Palo Alto Networks",
+    "placement": "Winner",
+    "year": "2021",
+    "team": "ไฟเบอร์สีเขียวริตี้",
+    "description": "",
+    "image": "./assets/achievements/palo2021.jpg",
+    "tags": ["CTF"]
   }
 ]
