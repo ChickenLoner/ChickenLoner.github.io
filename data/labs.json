@@ -138,6 +138,20 @@
     "tactics": ["Impact"]
   },
   {
+    "title": "Recruiter - Hanoi Op",
+    "description": "When a candidate submits a resume that’s more than it seems, it’s up to you to hunt through the artifacts, reconstruct the infection chain, and stop a data breach in its tracks.",
+    "platform": "CyberDefenders",
+    "link": "https://cyberdefenders.org/blueteam-ctf-challenges/recruiter-hanoi-op/",
+    "tags": ["Endpoint Forensics", "Privilege Escalation", "Persistence"],
+    "type": "lab",
+    "image": "./assets/labs/recruiter-hanoi-op.png",
+    "difficulty": "medium",
+    "player_difficulty": "medium",
+    "rating": 5,
+    "is_retired": false,
+    "tactics": ["Execution", "Persistence", "Privilege Escalation", "Defense Evasion", "Credential Access"]
+  },
+  {
     "title": "WorkFromHome (HTB)",
     "description": "Wowza Enterprise (Wowza Inc.) has hired you to investigate an incident involving a workstation used by Otello John, which is believed to have been compromised by a threat actor. The attacker reportedly changed the desktop wallpaper to a questionable image. The IT team has already provided you with initial information, and it is your duty to report back your findings.",
     "platform": "HackTheBox",

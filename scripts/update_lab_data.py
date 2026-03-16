@@ -88,6 +88,10 @@ def update_lab_metadata():
         'RaaS Unfold - RansomHub': {
             'platform': 'cyberdefenders',
             'slug': 'raas-unfold-ransomhub'
+        },
+        'Recruiter - Hanoi Op': {
+            'platform': 'cyberdefenders',
+            'slug': 'recruiter-hanoi-op'
         }
     }
     
