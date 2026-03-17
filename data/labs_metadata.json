@@ -144,5 +144,20 @@
     "categories": [
       "Threat Intel"
     ]
+  },
+  "Recruiter - Hanoi Op": {
+    "rating": 4.7,
+    "player_difficulty": "hard",
+    "is_retired": false,
+    "tactics": [
+      "Execution",
+      "Persistence",
+      "Privilege Escalation",
+      "Defense Evasion",
+      "Credential Access"
+    ],
+    "categories": [
+      "Endpoint Forensics"
+    ]
   }
 }
