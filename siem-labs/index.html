@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Awesome SIEM Practice Labs | Chicken0248</title>
+    <link rel="icon" href="/chicken0248.png" type="image/png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn { animation: fadeIn 0.5s ease-out; }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .animate-spin { animation: spin 0.8s linear infinite; }
+
+        /* ── DARK MODE ── */
+        .dark.min-h-screen { background: linear-gradient(135deg, #0f172a 0%, #141f35 50%, #0a1628 100%) !important; }
+        .dark nav { background-color: rgba(15,23,42,0.96) !important; border-bottom-color: rgba(51,65,85,0.5) !important; }
+        .dark .bg-white    { background-color: #1e293b !important; }
+        .dark .bg-gray-50  { background-color: #0f172a !important; }
+        .dark .bg-gray-100 { background-color: #334155 !important; }
+        .dark .bg-blue-50  { background-color: rgba(37,99,235,0.12) !important; }
+        .dark .bg-green-100  { background-color: rgba(22,163,74,0.20)   !important; }
+        .dark .bg-orange-100 { background-color: rgba(234,88,12,0.20)   !important; }
+        .dark .bg-red-100    { background-color: rgba(220,38,38,0.20)   !important; }
+        .dark .bg-purple-100 { background-color: rgba(124,58,237,0.20)  !important; }
+        .dark .bg-yellow-100 { background-color: rgba(202,138,4,0.20)   !important; }
+        .dark .bg-cyan-100   { background-color: rgba(8,145,178,0.20)   !important; }
+        .dark .bg-indigo-100 { background-color: rgba(79,70,229,0.20)   !important; }
+        .dark .text-gray-800 { color: #e2e8f0 !important; }
+        .dark .text-gray-700 { color: #cbd5e1 !important; }
+        .dark .text-gray-600 { color: #94a3b8 !important; }
+        .dark .text-gray-500 { color: #64748b !important; }
+        .dark .text-gray-400 { color: #475569 !important; }
+        .dark .text-gray-300 { color: #334155 !important; }
+        .dark .text-green-700  { color: #4ade80 !important; }
+        .dark .text-orange-700 { color: #fb923c !important; }
+        .dark .text-red-700    { color: #f87171 !important; }
+        .dark .text-blue-700   { color: #93c5fd !important; }
+        .dark .text-purple-700 { color: #c084fc !important; }
+        .dark .text-cyan-700   { color: #67e8f9 !important; }
+        .dark .text-indigo-700 { color: #a5b4fc !important; }
+        .dark .text-yellow-700 { color: #fbbf24 !important; }
+        .dark .text-blue-600   { color: #60a5fa !important; }
+        .dark .text-blue-400   { color: #93c5fd !important; }
+        .dark .text-green-600  { color: #4ade80 !important; }
+        .dark .text-orange-600 { color: #fb923c !important; }
+        .dark .border-gray-100 { border-color: #334155 !important; }
+        .dark .border-gray-200 { border-color: #475569 !important; }
+        .dark .divide-gray-50 > * + * { border-color: #1e293b !important; }
+        .dark .hover\:bg-blue-50\/30:hover { background-color: rgba(37,99,235,0.08) !important; }
+        .dark .hover\:bg-gray-100:hover { background-color: #334155 !important; }
+        .dark input { background-color: #1e293b !important; border-color: #334155 !important; color: #e2e8f0 !important; }
+        .dark input::placeholder { color: #64748b !important; }
+        .dark ::-webkit-scrollbar       { width: 6px; }
+        .dark ::-webkit-scrollbar-track { background: #0f172a; }
+        .dark ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    </style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+    const { useState, useEffect, useMemo } = React;
+
+    const README_URL = 'https://raw.githubusercontent.com/ChickenLoner/Awesome-Splunk-and-Elastic-SIEM-Practice-Labs/main/README.md';
+
+    /* ── Parser ── */
+    function normDiff(d) {
+        if (!d) return '';
+        const m = { meidum:'Medium', easy:'Easy', medium:'Medium', hard:'Hard', insane:'Insane', none:'None' };
+        return m[d.toLowerCase()] || d;
+    }
+
+    function parseReadme(text) {
+        const lines = text.split('\n');
+        const sections = [];
+        let cur = null, inTable = false;
+
+        for (const raw of lines) {
+            const line = raw.trim();
+
+            if (line.startsWith('## ')) {
+                const title = line.replace(/^##\s+/, '');
+                const id = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+                cur = { title, id, labs: [] };
+                sections.push(cur);
+                inTable = false;
+                continue;
+            }
+            if (!cur) continue;
+            if (line.startsWith('|-') || line === '* * *' || line === '***') continue;
+            if (line.includes('Lab Name') && line.includes('|')) { inTable = true; continue; }
+
+            if (inTable && line.includes('|')) {
+                const cols = line.startsWith('|')
+                    ? line.slice(1).split('|').map(c => c.trim())
+                    : line.split('|').map(c => c.trim());
+                if (cols.length >= 4 && cols[0]) {
+                    const linkMatch = cols[4] ? cols[4].match(/\[.*?\]\((.*?)\)/) : null;
+                    const lab = {
+                        name: cols[0],
+                        platform: cols[1] || '',
+                        difficulty: normDiff(cols[2] || ''),
+                        pricing: cols[3] || '',
+                        url: linkMatch ? linkMatch[1] : '#',
+                        ad: cols[5] !== undefined ? cols[5].trim() : '',
+                        sectionId: cur.id,
+                        sectionTitle: cur.title,
+                    };
+                    if (lab.name && lab.platform) cur.labs.push(lab);
+                }
+            } else if (inTable && !line.includes('|') && line !== '') {
+                inTable = false;
+            }
+        }
+        return sections;
+    }
+
+    /* ── Config ── */
+    const DIFF_CFG = {
+        Easy:   { bg: 'bg-green-100',  text: 'text-green-700'  },
+        Medium: { bg: 'bg-orange-100', text: 'text-orange-700' },
+        Hard:   { bg: 'bg-red-100',    text: 'text-red-700'    },
+        Insane: { bg: 'bg-purple-100', text: 'text-purple-700' },
+        None:   { bg: 'bg-gray-100',   text: 'text-gray-600'   },
+    };
+
+    const PLAT_CFG = {
+        'BTLO':          { bg: 'bg-blue-100',   text: 'text-blue-700'   },
+        'CyberDefenders':{ bg: 'bg-cyan-100',   text: 'text-cyan-700'   },
+        'TryHackMe':     { bg: 'bg-green-100',  text: 'text-green-700'  },
+        'XINTRA':        { bg: 'bg-purple-100', text: 'text-purple-700' },
+        'Ace Responder': { bg: 'bg-indigo-100', text: 'text-indigo-700' },
+        'DFIR Labs':     { bg: 'bg-yellow-100', text: 'text-yellow-700' },
+    };
+
+    const SIEM_LABELS = {
+        'splunk': 'Splunk',
+        'elastic': 'Elastic',
+    };
+    function siemLabel(id) {
+        if (id === 'splunk') return { label: 'Splunk', cls: 'bg-orange-500' };
+        if (id === 'elastic') return { label: 'Elastic', cls: 'bg-blue-500' };
+        return { label: 'Splunk or Elastic', cls: 'bg-violet-500' };
+    }
+
+    /* ── Components ── */
+    const FilterPill = ({ label, active, onClick }) => (
+        <button onClick={onClick}
+            className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
+                active ? 'bg-blue-600 text-white shadow-sm' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+            }`}>
+            {label}
+        </button>
+    );
+
+    const DiffBadge = ({ d }) => {
+        const c = DIFF_CFG[d] || { bg: 'bg-gray-100', text: 'text-gray-600' };
+        return <span className={`px-2 py-0.5 rounded-full text-xs font-semibold ${c.bg} ${c.text}`}>{d || '—'}</span>;
+    };
+
+    const PlatBadge = ({ p }) => {
+        const c = PLAT_CFG[p] || { bg: 'bg-gray-100', text: 'text-gray-600' };
+        return <span className={`px-2 py-0.5 rounded-full text-xs font-semibold ${c.bg} ${c.text}`}>{p}</span>;
+    };
+
+    const SiemTag = ({ id }) => {
+        const { label, cls } = siemLabel(id);
+        return <span className={`px-2 py-0.5 rounded-full text-xs font-semibold text-white ${cls}`}>{label}</span>;
+    };
+
+    /* ── App ── */
+    const App = () => {
+        const [dark, setDark]   = useState(() => localStorage.getItem('darkMode') === 'true');
+        const [sections, setSections] = useState([]);
+        const [loading, setLoading]   = useState(true);
+        const [error, setError]       = useState(null);
+
+        const [secFilter,  setSecFilter]  = useState('all');
+        const [platFilter, setPlatFilter] = useState('all');
+        const [diffFilter, setDiffFilter] = useState('all');
+        const [freeOnly,   setFreeOnly]   = useState(false);
+        const [adFilter,   setAdFilter]   = useState('all');
+        const [search,     setSearch]     = useState('');
+
+        useEffect(() => { localStorage.setItem('darkMode', dark); }, [dark]);
+
+        useEffect(() => {
+            fetch(README_URL)
+                .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.text(); })
+                .then(txt => { setSections(parseReadme(txt)); setLoading(false); })
+                .catch(e  => { setError(e.message); setLoading(false); });
+        }, []);
+
+        const allLabs = useMemo(() => sections.flatMap(s => s.labs), [sections]);
+
+        const platforms  = useMemo(() => [...new Set(allLabs.map(l => l.platform))].filter(Boolean).sort(), [allLabs]);
+        const DIFFS      = ['Easy', 'Medium', 'Hard', 'Insane', 'None'];
+
+        const filtered = useMemo(() => allLabs.filter(lab => {
+            if (secFilter  !== 'all' && lab.sectionId !== secFilter) return false;
+            if (platFilter !== 'all' && lab.platform  !== platFilter) return false;
+            if (diffFilter !== 'all' && lab.difficulty !== diffFilter) return false;
+            if (freeOnly && lab.pricing !== 'Free') return false;
+            if (adFilter === 'yes' && lab.ad !== '✅') return false;
+            if (adFilter === 'no'  && lab.ad !== '❌') return false;
+            if (search && !lab.name.toLowerCase().includes(search.toLowerCase())) return false;
+            return true;
+        }), [allLabs, secFilter, platFilter, diffFilter, freeOnly, adFilter, search]);
+
+        const stats = useMemo(() => {
+            const get = (kw) => sections.find(s => s.id.includes(kw))?.labs.length || 0;
+            return {
+                total:   allLabs.length,
+                splunk:  get('splunk'),
+                elastic: get('elastic'),
+                both:    sections.filter(s => !s.id.includes('splunk') && !s.id.startsWith('elastic') || s.id.includes('choices') || s.id.includes('or')).reduce((a,s) => a + s.labs.length, 0),
+                free:    allLabs.filter(l => l.pricing === 'Free').length,
+            };
+        }, [allLabs, sections]);
+
+        const cycleAd = () => setAdFilter(f => f === 'all' ? 'yes' : f === 'yes' ? 'no' : 'all');
+
+        return (
+            <div className={`min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/40 to-cyan-50/30 ${dark ? 'dark' : ''}`}>
+
+                {/* ── Nav ── */}
+                <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100 shadow-sm">
+                    <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
+                        <div className="flex items-center gap-2 min-w-0">
+                            <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity flex-shrink-0">
+                                <img src="/chicken0248.png" className="w-7 h-7 rounded-lg" alt="logo" />
+                                <span className="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500 text-lg">Chicken0248</span>
+                            </a>
+                            <span className="text-gray-300 hidden sm:block">/</span>
+                            <span className="text-gray-600 text-sm font-medium hidden sm:block truncate">SIEM Practice Labs</span>
+                        </div>
+                        <div className="flex items-center gap-2 flex-shrink-0">
+                            <a href="https://github.com/ChickenLoner/Awesome-Splunk-and-Elastic-SIEM-Practice-Labs"
+                               target="_blank" rel="noopener noreferrer"
+                               className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all">
+                                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+                                </svg>
+                                <span className="hidden sm:inline">Source</span>
+                            </a>
+                            <button onClick={() => setDark(d => !d)}
+                                className="p-2 rounded-lg hover:bg-gray-100 transition-colors text-gray-500 text-base">
+                                {dark ? '☀️' : '🌙'}
+                            </button>
+                        </div>
+                    </div>
+                </nav>
+
+                <main className="max-w-6xl mx-auto px-4 py-8 space-y-6 animate-fadeIn">
+
+                    {/* ── Hero ── */}
+                    <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-600 via-violet-600 to-cyan-500 text-white shadow-2xl shadow-blue-200 p-8 md:p-12">
+                        <div className="absolute inset-0" style={{backgroundImage:'radial-gradient(circle, rgba(255,255,255,0.12) 1px, transparent 1px)', backgroundSize:'24px 24px'}} />
+                        <div className="absolute -top-16 -right-16 w-64 h-64 bg-white/10 rounded-full blur-xl" />
+                        <div className="absolute -bottom-12 -left-12 w-48 h-48 bg-cyan-400/20 rounded-full blur-xl" />
+                        <div className="relative">
+                            <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
+                                <div className="text-5xl">🔍</div>
+                                <div>
+                                    <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight">Awesome SIEM Practice Labs</h1>
+                                    <p className="text-blue-100 mt-1 text-sm md:text-base">Splunk &amp; Elastic labs from top cybersecurity platforms — always up to date</p>
+                                </div>
+                            </div>
+                            {!loading && (
+                                <div className="flex flex-wrap gap-6">
+                                    {[
+                                        { value: stats.total,   label: 'Total Labs' },
+                                        { value: stats.splunk,  label: 'Splunk' },
+                                        { value: stats.elastic, label: 'Elastic' },
+                                        { value: sections.filter(s => s.id !== 'splunk' && s.id !== 'elastic').reduce((a,s) => a+s.labs.length,0), label: 'Splunk or Elastic' },
+                                        { value: stats.free,    label: 'Free' },
+                                    ].map((s, i) => (
+                                        <div key={i} className="text-center">
+                                            <div className="text-2xl md:text-3xl font-bold">{s.value}</div>
+                                            <div className="text-blue-200 text-xs font-medium mt-0.5">{s.label}</div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* ── Loading ── */}
+                    {loading && (
+                        <div className="flex items-center justify-center py-24">
+                            <div className="text-center">
+                                <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+                                <p className="text-gray-500 text-sm">Fetching labs from GitHub…</p>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* ── Error ── */}
+                    {error && (
+                        <div className="bg-red-50 border border-red-200 rounded-2xl p-6 text-center">
+                            <p className="text-red-600 font-semibold">Failed to load: {error}</p>
+                            <p className="text-red-400 text-sm mt-1">Check your connection or try again later.</p>
+                        </div>
+                    )}
+
+                    {/* ── Content ── */}
+                    {!loading && !error && (
+                        <>
+                            {/* Filters card */}
+                            <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 space-y-4">
+                                <input
+                                    type="text"
+                                    placeholder="Search labs…"
+                                    value={search}
+                                    onChange={e => setSearch(e.target.value)}
+                                    className="w-full px-4 py-2 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 bg-gray-50 text-gray-800"
+                                />
+
+                                <div>
+                                    <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">SIEM Type</div>
+                                    <div className="flex flex-wrap gap-2">
+                                        <FilterPill label="All" active={secFilter === 'all'} onClick={() => setSecFilter('all')} />
+                                        {sections.map(s => (
+                                            <FilterPill key={s.id}
+                                                label={siemLabel(s.id).label}
+                                                active={secFilter === s.id}
+                                                onClick={() => setSecFilter(s.id)} />
+                                        ))}
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Platform</div>
+                                    <div className="flex flex-wrap gap-2">
+                                        <FilterPill label="All" active={platFilter === 'all'} onClick={() => setPlatFilter('all')} />
+                                        {platforms.map(p => (
+                                            <FilterPill key={p} label={p} active={platFilter === p} onClick={() => setPlatFilter(p)} />
+                                        ))}
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Difficulty</div>
+                                    <div className="flex flex-wrap gap-2">
+                                        <FilterPill label="All" active={diffFilter === 'all'} onClick={() => setDiffFilter('all')} />
+                                        {DIFFS.map(d => (
+                                            <FilterPill key={d} label={d} active={diffFilter === d} onClick={() => setDiffFilter(d)} />
+                                        ))}
+                                    </div>
+                                </div>
+
+                                <div className="flex flex-wrap gap-3 pt-1 border-t border-gray-100">
+                                    <button onClick={() => setFreeOnly(f => !f)}
+                                        className={`px-3 py-1.5 rounded-full text-sm font-medium border transition-all ${
+                                            freeOnly ? 'bg-green-500 text-white border-green-500' : 'border-gray-200 text-gray-600 hover:border-green-400'
+                                        }`}>
+                                        {freeOnly ? '✓ ' : ''}Free Only
+                                    </button>
+                                    <button onClick={cycleAd}
+                                        className={`px-3 py-1.5 rounded-full text-sm font-medium border transition-all ${
+                                            adFilter !== 'all' ? 'bg-blue-500 text-white border-blue-500' : 'border-gray-200 text-gray-600 hover:border-blue-400'
+                                        }`}>
+                                        AD: {adFilter === 'all' ? 'All' : adFilter === 'yes' ? '✅ Yes' : '❌ No'}
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div className="text-sm text-gray-500">
+                                Showing <span className="text-blue-600 font-semibold">{filtered.length}</span> of <span className="font-medium">{allLabs.length}</span> labs
+                            </div>
+
+                            {/* Table */}
+                            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                                <div className="overflow-x-auto">
+                                    <table className="w-full">
+                                        <thead>
+                                            <tr className="border-b border-gray-100 bg-gray-50">
+                                                <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Lab Name</th>
+                                                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Platform</th>
+                                                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Difficulty</th>
+                                                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide hidden md:table-cell">Pricing</th>
+                                                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide hidden lg:table-cell">SIEM</th>
+                                                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide hidden sm:table-cell">AD</th>
+                                                <th className="px-4 py-3"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="divide-y divide-gray-50">
+                                            {filtered.map((lab, i) => (
+                                                <tr key={i} className="hover:bg-blue-50/30 transition-colors group">
+                                                    <td className="px-5 py-3.5">
+                                                        <span className="font-medium text-gray-800 text-sm">{lab.name}</span>
+                                                    </td>
+                                                    <td className="px-4 py-3.5 whitespace-nowrap">
+                                                        <PlatBadge p={lab.platform} />
+                                                    </td>
+                                                    <td className="px-4 py-3.5 whitespace-nowrap">
+                                                        <DiffBadge d={lab.difficulty} />
+                                                    </td>
+                                                    <td className="px-4 py-3.5 hidden md:table-cell whitespace-nowrap">
+                                                        <span className={`text-xs font-medium ${
+                                                            lab.pricing === 'Free' ? 'text-green-600' :
+                                                            lab.pricing === 'Pay per access' ? 'text-orange-600' :
+                                                            'text-gray-500'
+                                                        }`}>{lab.pricing}</span>
+                                                    </td>
+                                                    <td className="px-4 py-3.5 hidden lg:table-cell whitespace-nowrap">
+                                                        <SiemTag id={lab.sectionId} />
+                                                    </td>
+                                                    <td className="px-4 py-3.5 hidden sm:table-cell text-sm">
+                                                        {lab.ad === '✅' ? <span title="AD involved">✅</span>
+                                                         : lab.ad === '❌' ? <span title="No AD">❌</span>
+                                                         : <span className="text-gray-300">—</span>}
+                                                    </td>
+                                                    <td className="px-4 py-3.5 text-right">
+                                                        <a href={lab.url} target="_blank" rel="noopener noreferrer"
+                                                            className="inline-flex items-center gap-1 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-lg transition-all group-hover:shadow-md whitespace-nowrap">
+                                                            Open
+                                                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                                                            </svg>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                            {filtered.length === 0 && (
+                                                <tr>
+                                                    <td colSpan={7} className="text-center py-16 text-gray-400">
+                                                        No labs match your filters
+                                                    </td>
+                                                </tr>
+                                            )}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div className="text-center text-xs text-gray-400 pb-4">
+                                Data fetched live from{' '}
+                                <a href="https://github.com/ChickenLoner/Awesome-Splunk-and-Elastic-SIEM-Practice-Labs"
+                                   className="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">
+                                    GitHub
+                                </a>{' '}— always up to date
+                            </div>
+                        </>
+                    )}
+                </main>
+            </div>
+        );
+    };
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

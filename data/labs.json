@@ -201,7 +201,7 @@
     "title": "Awesome Splunk and Elastic SIEM Practice Labs",
     "description": "A list of labs with Splunk and Elastic from various CyberSecurity Training platforms such as CyberDefenders, BlueTeamLabs Online (BTLO), TryHackMe, DFIR Labs, Xintra, Ace Responder, and more",
     "platform": "GitHub",
-    "link": "https://github.com/ChickenLoner/Awesome-Splunk-and-Elastic-SIEM-Practice-Labs",
+    "link": "https://chickenloner.github.io/siem-labs/",
     "tags": ["Log Analysis", "SIEM", "Threat Hunting", "Splunk", "Elastic"],
     "type": "project",
     "image": "./assets/labs/siem.jpg"
@@ -210,7 +210,7 @@
     "title": "Awesome Cloud Investigation Labs",
     "description": "A list of cloud investigations from various cybersecurity platforms such as Blue Team Labs Online (BTLO), CyberDefenders, HackTheBox Sherlocks (HTB), CyberWarFare Labs Infinity (CWL Infinity) and so on",
     "platform": "GitHub",
-    "link": "https://github.com/ChickenLoner/Awesome-Cloud-Investigation-Labs",
+    "link": "https://chickenloner.github.io/cloud-labs/",
     "tags": ["Cloud", "SIEM", "Threat Hunting", "Log Analyis"],
     "type": "project",
     "image": "./assets/labs/cloud.jpg"
