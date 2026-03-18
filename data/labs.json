@@ -208,7 +208,7 @@
   },
   {
     "title": "Awesome Cloud Investigation Labs",
-    "description": "A list of cloud investigations from various cybersecurity platforms such as Blue Team Labs Online (BTLO), CyberDefenders, HackTheBox Sherlocks (HTB), CyberWarFare Labs Infinity (CWL Infinity) and so on",
+    "description": "A list of cloud investigations (Azure, AWS and GCP) from various cybersecurity platforms such as Blue Team Labs Online (BTLO), CyberDefenders, HackTheBox Sherlocks (HTB), CyberWarFare Labs Infinity (CWL Infinity) and so on",
     "platform": "GitHub",
     "link": "https://chickenloner.github.io/cloud-labs/",
     "tags": ["Cloud", "SIEM", "Threat Hunting", "Log Analyis"],
