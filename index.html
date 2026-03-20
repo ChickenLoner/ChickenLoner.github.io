@@ -317,7 +317,7 @@
                             Connect
                         </h2>
 
-                        <div className="grid md:grid-cols-2 gap-6 max-w-4xl">
+                        <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
                             {socialMedia.map((social, idx) => (
                                 <a key={idx} href={social.url} target="_blank" rel="noopener noreferrer" className="bg-white rounded-lg p-6 shadow-lg border-2 border-gray-100 hover:border-blue-400 hover:shadow-xl transition-all group">
                                     <div className="flex items-center gap-4">
@@ -359,12 +359,37 @@
                 const [showByPlatform, setShowByPlatform] = useState(true);
                 const [showLabDiff, setShowLabDiff] = useState(true);
                 const [showLabRatings, setShowLabRatings] = useState(true);
+                const [showAchievements, setShowAchievements] = useState(true);
 
                 const activeCerts = certifications.filter(c => c.status === 'Active').length;
                 const expiredCerts = certifications.filter(c => c.status === 'Expired').length;
                 const statsLabsOnly = labs.filter(l => l.type === 'lab');
                 const statsProjects = labs.filter(l => l.type === 'project');
                 const avgReviewRating = (certificationReviews.reduce((sum, r) => sum + (r.rating || 0), 0) / certificationReviews.filter(r => r.rating).length);
+
+                // Achievements stats
+                const comps = achievements.filter(a => a.category === 'competition');
+                const talks = achievements.filter(a => a.category === 'talk');
+                const podiums = comps.filter(c => {
+                    const p = (c.placement || '').toLowerCase();
+                    return p.includes('1st') || p.includes('2nd') || p.includes('3rd') ||
+                           p.includes('first') || p.includes('second') || p.includes('third') ||
+                           p.includes('winner') || p.includes('champion');
+                });
+                const wins = comps.filter(c => {
+                    const p = (c.placement || '').toLowerCase();
+                    return p.includes('1st') || p.includes('first') || p.includes('winner') || p.includes('champion');
+                });
+
+                // Competitions by organizer
+                const compsByOrganizer = comps.reduce((acc, c) => { acc[c.organizer] = (acc[c.organizer] || 0) + 1; return acc; }, {});
+                const sortedOrganizers = Object.entries(compsByOrganizer).sort((a, b) => b[1] - a[1]);
+                const maxOrgCount = sortedOrganizers[0]?.[1] || 1;
+
+                // Competitions by year
+                const compsByYear = comps.reduce((acc, c) => { acc[c.year] = (acc[c.year] || 0) + 1; return acc; }, {});
+                const sortedYears = Object.entries(compsByYear).sort((a, b) => b[0] - a[0]);
+                const maxYearCount = sortedYears[0]?.[1] || 1;
 
                 const certsByIssuer = certifications.reduce((acc, c) => { acc[c.issuer] = (acc[c.issuer] || 0) + 1; return acc; }, {});
                 const sortedIssuers = Object.entries(certsByIssuer).sort((a, b) => b[1] - a[1]);
@@ -446,11 +471,13 @@
                             <p className="text-gray-600">A snapshot of my cybersecurity journey by the numbers</p>
                         </div>
 
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                             <StatCard icon="Award" value={certifications.length} label="Certifications" sub={`${activeCerts} active · ${expiredCerts} expired`} color="blue" />
                             <StatCard icon="Hammer" value={statsLabsOnly.length} label="Labs Built" sub={`published across ${Object.keys(labsByPlatform).filter(p => statsLabsOnly.some(l => l.platform === p)).length} platforms`} color="green" />
                             <StatCard icon="FolderOpen" value={statsProjects.length} label="Projects & Research" sub="GitHub + Medium" color="purple" />
                             <StatCard icon="FileText" value={certificationReviews.length} label="Reviews Published" sub={`avg rating ${avgReviewRating.toFixed(1)}/5.0`} color="cyan" />
+                            <StatCard icon="Trophy" value={comps.length} label="Competitions" sub={`${wins.length} wins · ${podiums.length} podiums`} color="blue" />
+                            <StatCard icon="Mic" value={talks.length} label="Talks Given" sub="conferences & meetups" color="purple" />
                         </div>
 
                         <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-gray-100">
@@ -534,6 +561,31 @@
                                     </div>
                                 </div>
                             )}
+                        </div>
+
+                        {/* Achievements breakdown */}
+                        <div className="grid md:grid-cols-2 gap-6">
+                            <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-gray-100">
+                                <SectionToggle title="Competitions by Organizer" icon="Trophy" iconColor="text-yellow-500" show={showAchievements} onToggle={() => setShowAchievements(v => !v)} />
+                                {showAchievements && (
+                                    <div className="space-y-1 mt-5">
+                                        {sortedOrganizers.map(([org, count]) => (
+                                            <BarRow key={org} label={org} count={count} max={maxOrgCount} colorClass="bg-gradient-to-r from-yellow-400 to-amber-500" pct={Math.round((count / comps.length) * 100)} />
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+
+                            <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-gray-100">
+                                <SectionToggle title="Competitions by Year" icon="Calendar" iconColor="text-blue-500" show={showAchievements} onToggle={() => setShowAchievements(v => !v)} />
+                                {showAchievements && (
+                                    <div className="space-y-1 mt-5">
+                                        {sortedYears.map(([year, count]) => (
+                                            <BarRow key={year} label={year} count={count} max={maxYearCount} colorClass="bg-gradient-to-r from-blue-400 to-blue-600" pct={Math.round((count / comps.length) * 100)} />
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </div>
                 );
