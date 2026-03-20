@@ -215,12 +215,12 @@
             const navigation = [
                 { id: 'home', label: 'Home', icon: 'User' },
                 { id: 'certifications', label: 'Certifications', icon: 'Award' },
-                { id: 'reviews', label: 'Cert Reviews', icon: 'FileText' },
                 { id: 'labs', label: 'Labs & Projects', icon: 'Code' },
                 { id: 'achievements', label: 'Achievements', icon: 'Star' },
                 { id: 'stats', label: 'Stats', icon: 'BarChart2' },
+                { id: 'cloud-labs', label: 'Cloud Labs', icon: 'Cloud', external: true, url: '/cloud-labs/index.html' },
+                { id: 'siem-labs', label: 'SIEM Labs', icon: 'Shield', external: true, url: '/siem-labs/index.html' },
                 { id: 'writeups', label: 'Write-Ups', icon: 'BookOpen', external: true, url: 'https://chickenloner.github.io/Write_It_UP/index.html' },
-                { id: 'contact', label: 'Connect', icon: 'Mail' }
             ];
 
 
@@ -229,11 +229,9 @@
                     {/* Hero */}
                     <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-600 via-blue-700 to-cyan-600 text-white shadow-2xl shadow-blue-200">
                         <div className="hero-dots absolute inset-0" />
-                        {/* Decorative blobs */}
                         <div className="absolute -top-16 -right-16 w-64 h-64 bg-white/10 rounded-full blur-xl" />
                         <div className="absolute -bottom-12 -left-12 w-48 h-48 bg-cyan-400/20 rounded-full blur-xl" />
                         <div className="relative px-8 py-14 md:py-20 text-center">
-                            {/* Avatar with pulse ring */}
                             <div className="flex justify-center mb-7">
                                 <div className="relative">
                                     <div className="absolute inset-0 rounded-2xl bg-white/30 animate-pulse-ring" />
@@ -244,7 +242,6 @@
                             </div>
                             <h1 className="text-4xl md:text-5xl font-extrabold mb-2 tracking-tight">Chicken0248</h1>
                             <p className="text-blue-100 text-lg md:text-xl font-medium mb-10">DFIR Analyst &amp; Blue Team Enthusiast</p>
-                            {/* Quick stats */}
                             <div className="flex justify-center gap-8 md:gap-16 flex-wrap">
                                 {[
                                     { value: certifications.length, label: 'Certifications' },
@@ -312,120 +309,239 @@
                             ))}
                         </div>
                     </div>
+
+                    {/* Connect */}
+                    <div className="space-y-6">
+                        <h2 className="text-xl font-bold text-gray-800 flex items-center gap-2">
+                            <span className="w-1 h-5 bg-gradient-to-b from-blue-500 to-cyan-400 rounded-full inline-block flex-shrink-0"></span>
+                            Connect
+                        </h2>
+
+                        <div className="grid md:grid-cols-2 gap-6 max-w-4xl">
+                            {socialMedia.map((social, idx) => (
+                                <a key={idx} href={social.url} target="_blank" rel="noopener noreferrer" className="bg-white rounded-lg p-6 shadow-lg border-2 border-gray-100 hover:border-blue-400 hover:shadow-xl transition-all group">
+                                    <div className="flex items-center gap-4">
+                                        <div className="bg-blue-50 p-4 rounded-full group-hover:bg-blue-100 transition-colors">
+                                            <Icon name={social.icon} className="w-8 h-8 text-blue-600" />
+                                        </div>
+                                        <div className="flex-1">
+                                            <h3 className="text-xl font-bold text-gray-800 mb-1">{social.platform}</h3>
+                                            <p className="text-gray-600">{social.handle}</p>
+                                        </div>
+                                        <Icon name="ExternalLink" className="w-5 h-5 text-gray-400 group-hover:text-blue-600" />
+                                    </div>
+                                </a>
+                            ))}
+                        </div>
+
+                        <div className="bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg p-8 text-white text-center max-w-2xl mx-auto">
+                            <h3 className="text-2xl font-bold mb-3">Open to Collaboration</h3>
+                            <p className="mb-4">
+                                Interested in collaborating on DFIR labs, contributing to open-source projects, or discussing blue team tactics?
+                                I'm always excited to connect with fellow cybersecurity enthusiasts!
+                            </p>
+                            <div className="flex justify-center gap-4">
+                                <a href="mailto:warawut_manosong@hotmail.com" className="bg-white text-blue-600 px-6 py-3 rounded-lg font-bold hover:bg-gray-100 transition-colors">
+                                    Send Email
+                                </a>
+                            </div>
+                        </div>
+
+                        <div className="text-center text-gray-500 text-sm">
+                            <p>&copy; 2025 Chicken0248. Built with React and deployed on GitHub Pages.</p>
+                        </div>
+                    </div>
                 </div>
             );
 
-            const CertificationsPage = () => {
-                const [certView, setCertView] = useState('badges');
+            const StatsPage = () => {
+                const [showCertsByIssuer, setShowCertsByIssuer] = useState(true);
+                const [showByPlatform, setShowByPlatform] = useState(true);
+                const [showLabDiff, setShowLabDiff] = useState(true);
+                const [showLabRatings, setShowLabRatings] = useState(true);
+
+                const activeCerts = certifications.filter(c => c.status === 'Active').length;
+                const expiredCerts = certifications.filter(c => c.status === 'Expired').length;
+                const statsLabsOnly = labs.filter(l => l.type === 'lab');
+                const statsProjects = labs.filter(l => l.type === 'project');
+                const avgReviewRating = (certificationReviews.reduce((sum, r) => sum + (r.rating || 0), 0) / certificationReviews.filter(r => r.rating).length);
+
+                const certsByIssuer = certifications.reduce((acc, c) => { acc[c.issuer] = (acc[c.issuer] || 0) + 1; return acc; }, {});
+                const sortedIssuers = Object.entries(certsByIssuer).sort((a, b) => b[1] - a[1]);
+                const maxIssuerCount = sortedIssuers[0]?.[1] || 1;
+
+                const labsByPlatform = labs.reduce((acc, l) => { acc[l.platform] = (acc[l.platform] || 0) + 1; return acc; }, {});
+                const sortedPlatforms = Object.entries(labsByPlatform).sort((a, b) => b[1] - a[1]);
+                const maxPlatformCount = sortedPlatforms[0]?.[1] || 1;
+
+                const labDifficultyCounts = { easy: 0, medium: 0, hard: 0 };
+                statsLabsOnly.forEach(l => { if (l.difficulty) labDifficultyCounts[l.difficulty]++; });
+                const maxLabDiff = Math.max(...Object.values(labDifficultyCounts), 1);
+
+                const playerDifficultyCounts = { easy: 0, medium: 0, hard: 0 };
+                statsLabsOnly.forEach(l => { if (l.player_difficulty) playerDifficultyCounts[l.player_difficulty]++; });
+                const maxPlayerDiff = Math.max(...Object.values(playerDifficultyCounts), 1);
+
+                const ratedLabs = statsLabsOnly.filter(l => l.rating != null);
+                const labAvgRating = ratedLabs.length ? ratedLabs.reduce((sum, l) => sum + l.rating, 0) / ratedLabs.length : 0;
+                const labMaxRating = ratedLabs.length ? Math.max(...ratedLabs.map(l => l.rating)) : 0;
+                const labMinRating = ratedLabs.length ? Math.min(...ratedLabs.map(l => l.rating)) : 0;
+                const highestRatedLab = ratedLabs.find(l => l.rating === labMaxRating);
+                const lowestRatedLab = ratedLabs.find(l => l.rating === labMinRating);
+                const ratingBands = [
+                    { label: '5.0', min: 5.0, max: 5.0 },
+                    { label: '4.5 – 4.9', min: 4.5, max: 4.9 },
+                    { label: '4.0 – 4.4', min: 4.0, max: 4.4 },
+                    { label: 'Below 4.0', min: 0, max: 3.9 },
+                ];
+                const ratingBandCounts = ratingBands.map(b => ({ label: b.label, count: ratedLabs.filter(l => l.rating >= b.min && l.rating <= b.max).length }));
+                const maxBandCount = Math.max(...ratingBandCounts.map(b => b.count), 1);
+
+                const StatCard = ({ icon, value, label, sub, color = 'blue' }) => {
+                    const colors = { blue: 'from-blue-500 to-blue-600', cyan: 'from-cyan-500 to-cyan-600', purple: 'from-purple-500 to-purple-600', green: 'from-green-500 to-green-600' };
+                    return (
+                        <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-gray-100 hover:border-blue-300 hover:shadow-xl transition-all">
+                            <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br ${colors[color]} mb-4`}>
+                                <Icon name={icon} className="w-6 h-6 text-white" />
+                            </div>
+                            <div className="text-4xl font-bold text-gray-800 mb-1">{value}</div>
+                            <div className="text-base font-semibold text-gray-700 mb-1">{label}</div>
+                            {sub && <div className="text-sm text-gray-500">{sub}</div>}
+                        </div>
+                    );
+                };
+
+                const BarRow = ({ label, count, max, colorClass, pct }) => (
+                    <div className="flex items-center gap-3 py-1">
+                        <span className="text-sm text-gray-700 w-28 flex-shrink-0 truncate" title={label}>{label}</span>
+                        <div className="flex-1 bg-gray-100 rounded-full h-4 overflow-hidden">
+                            <div className={`h-4 rounded-full transition-all ${colorClass}`} style={{ width: `${Math.round((count / max) * 100)}%` }} />
+                        </div>
+                        <span className="text-sm font-bold text-gray-700 w-6 text-right">{count}</span>
+                        {pct !== undefined && <span className="text-xs text-gray-400 w-9 text-right">{pct}%</span>}
+                    </div>
+                );
+
+                const diffBarColors = { easy: 'bg-gradient-to-r from-green-400 to-green-600', medium: 'bg-gradient-to-r from-orange-400 to-orange-500', hard: 'bg-gradient-to-r from-red-400 to-red-600' };
+
+                const SectionToggle = ({ title, icon, iconColor, show, onToggle }) => (
+                    <button onClick={onToggle} className="w-full flex items-center justify-between group">
+                        <h2 className="text-xl font-bold text-gray-800 flex items-center gap-2">
+                            <Icon name={icon} className={`w-5 h-5 ${iconColor}`} />
+                            {title}
+                        </h2>
+                        <span className={`text-xs font-semibold px-2.5 py-1 rounded-lg transition-colors ${show ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-500 group-hover:bg-gray-200'}`}>
+                            {show ? 'Hide' : 'Show'}
+                        </span>
+                    </button>
+                );
 
                 return (
-                <div className="space-y-8 animate-fadeIn">
-                    <div className="text-center space-y-3">
-                        <h1 className="text-4xl font-bold text-gray-800 flex items-center justify-center gap-3">
-                            <Icon name="Award" className="w-10 h-10 text-blue-500" />
-                            Professional Certifications
-                        </h1>
-                        <p className="text-gray-500">Validated expertise in both Red &amp; Blue Teaming</p>
-                    </div>
+                    <div className="space-y-10 animate-fadeIn">
+                        <div className="text-center space-y-4">
+                            <h1 className="text-4xl font-bold text-gray-800 flex items-center justify-center gap-3">
+                                <Icon name="BarChart2" className="w-10 h-10 text-blue-500" />
+                                Portfolio Stats
+                            </h1>
+                            <p className="text-gray-600">A snapshot of my cybersecurity journey by the numbers</p>
+                        </div>
 
-                    {/* View switcher */}
-                    <div className="flex gap-1 p-1 bg-gray-100 rounded-xl w-fit">
-                        {[
-                            { id: 'badges', label: 'Badges', icon: 'Award' },
-                            { id: 'certificates', label: 'Certificates', icon: 'FileText' }
-                        ].map(tab => (
-                            <button key={tab.id} onClick={() => setCertView(tab.id)}
-                                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all
-                                    ${certView === tab.id ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}>
-                                <Icon name={tab.icon} className="w-4 h-4" />
-                                {tab.label}
-                            </button>
-                        ))}
-                    </div>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <StatCard icon="Award" value={certifications.length} label="Certifications" sub={`${activeCerts} active · ${expiredCerts} expired`} color="blue" />
+                            <StatCard icon="Hammer" value={statsLabsOnly.length} label="Labs Built" sub={`published across ${Object.keys(labsByPlatform).filter(p => statsLabsOnly.some(l => l.platform === p)).length} platforms`} color="green" />
+                            <StatCard icon="FolderOpen" value={statsProjects.length} label="Projects & Research" sub="GitHub + Medium" color="purple" />
+                            <StatCard icon="FileText" value={certificationReviews.length} label="Reviews Published" sub={`avg rating ${avgReviewRating.toFixed(1)}/5.0`} color="cyan" />
+                        </div>
 
-                    {/* Badges view */}
-                    {certView === 'badges' && (
-                    <div className="grid md:grid-cols-2 gap-4">
-                        {certifications.map((cert, idx) => (
-                            <div key={idx} className="relative bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:border-blue-200 hover:shadow-lg transition-all group overflow-hidden">
-                                {/* Left accent stripe */}
-                                <div className={`absolute left-0 top-0 bottom-0 w-1 rounded-l-2xl ${cert.status === 'Active' ? 'bg-gradient-to-b from-green-400 to-emerald-500' : 'bg-gradient-to-b from-gray-300 to-gray-400'}`} />
-                                <div className="flex gap-4 pl-3">
-                                    <div className="flex-shrink-0">
-                                        <a href={cert.url} target="_blank" rel="noopener noreferrer" className="block">
-                                            <div className="w-20 h-20 rounded-xl bg-gray-50 border border-gray-100 group-hover:border-blue-200 flex items-center justify-center overflow-hidden transition-colors">
-                                                <img src={cert.badge} alt={`${cert.name} badge`} className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300" />
+                        <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-gray-100">
+                            <SectionToggle title="Certs by Issuer" icon="Building2" iconColor="text-blue-500" show={showCertsByIssuer} onToggle={() => setShowCertsByIssuer(v => !v)} />
+                            {showCertsByIssuer && (
+                                <div className="space-y-1 mt-5">
+                                    {sortedIssuers.map(([issuer, count]) => (
+                                        <BarRow key={issuer} label={issuer} count={count} max={maxIssuerCount} colorClass="bg-gradient-to-r from-blue-400 to-blue-600" pct={Math.round((count / certifications.length) * 100)} />
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="grid md:grid-cols-2 gap-6">
+                            <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-gray-100">
+                                <SectionToggle title="Labs & Projects by Platform" icon="Globe" iconColor="text-cyan-500" show={showByPlatform} onToggle={() => setShowByPlatform(v => !v)} />
+                                {showByPlatform && (
+                                    <div className="space-y-1 mt-5">
+                                        {sortedPlatforms.map(([platform, count]) => (
+                                            <BarRow key={platform} label={platform} count={count} max={maxPlatformCount} colorClass="bg-gradient-to-r from-cyan-400 to-cyan-600" pct={Math.round((count / labs.length) * 100)} />
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+
+                            <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-gray-100">
+                                <SectionToggle title="Lab Difficulty" icon="Gauge" iconColor="text-orange-500" show={showLabDiff} onToggle={() => setShowLabDiff(v => !v)} />
+                                {showLabDiff && (
+                                    <div className="mt-5 space-y-6">
+                                        <div>
+                                            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">Official Difficulty</p>
+                                            <div className="space-y-2">
+                                                {Object.entries(labDifficultyCounts).map(([diff, count]) => (
+                                                    <BarRow key={diff} label={diff.charAt(0).toUpperCase() + diff.slice(1)} count={count} max={maxLabDiff} colorClass={diffBarColors[diff]} pct={statsLabsOnly.length ? Math.round((count / statsLabsOnly.length) * 100) : 0} />
+                                                ))}
                                             </div>
-                                        </a>
-                                    </div>
-                                    <div className="flex-1 min-w-0">
-                                        <div className="flex items-start justify-between mb-1.5">
-                                            <a href={cert.url} target="_blank" rel="noopener noreferrer" className="flex-1 min-w-0 pr-2">
-                                                <h3 className="text-sm font-bold text-gray-800 leading-snug group-hover:text-blue-600 transition-colors">{cert.name}</h3>
-                                            </a>
-                                            <span className={`flex-shrink-0 px-2 py-0.5 rounded-full text-xs font-semibold border ${cert.status === 'Active' ? 'bg-green-50 text-green-700 border-green-200' : 'bg-gray-50 text-gray-500 border-gray-200'}`}>{cert.status}</span>
                                         </div>
-                                        <p className="text-blue-600 text-sm font-semibold mb-2">{cert.issuer}</p>
-                                        <div className="flex items-center justify-between">
-                                            <span className="text-gray-400 text-xs flex items-center gap-1">
-                                                <Icon name="Calendar" className="w-3 h-3" />{cert.year}
-                                            </span>
-                                            <a href={cert.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-blue-500 hover:text-blue-700 text-xs font-medium">
-                                                Verify <Icon name="ExternalLink" className="w-3 h-3" />
-                                            </a>
+                                        <div>
+                                            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">Perceived Difficulty</p>
+                                            <div className="space-y-2">
+                                                {Object.entries(playerDifficultyCounts).map(([diff, count]) => (
+                                                    <BarRow key={diff} label={diff.charAt(0).toUpperCase() + diff.slice(1)} count={count} max={maxPlayerDiff} colorClass={diffBarColors[diff]} pct={statsLabsOnly.length ? Math.round((count / statsLabsOnly.length) * 100) : 0} />
+                                                ))}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                )}
                             </div>
-                        ))}
-                    </div>
-                    )}
+                        </div>
 
-                    {/* Certificates view */}
-                    {certView === 'certificates' && (
-                    <div className="grid md:grid-cols-2 gap-4">
-                        {certifications.map((cert, idx) => (
-                            <div key={idx} className="relative bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all group">
-                                {/* Left accent stripe */}
-                                <div className={`absolute left-0 top-0 bottom-0 w-1 ${cert.status === 'Active' ? 'bg-gradient-to-b from-green-400 to-emerald-500' : 'bg-gradient-to-b from-gray-300 to-gray-400'}`} />
-                                <div className="pl-4 p-4 flex flex-col gap-3">
-                                    {cert.certificate ? (
-                                        <a href={cert.certificate} target="_blank" rel="noopener noreferrer"
-                                            className="block w-full h-48 rounded-xl overflow-hidden bg-gray-50 border border-gray-100">
-                                            <img src={cert.certificate} alt={`${cert.name} certificate`}
-                                                className="w-full h-full object-contain group-hover:scale-[1.02] transition-transform duration-300" />
-                                        </a>
-                                    ) : (
-                                        <div className="w-full h-48 rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 flex flex-col items-center justify-center gap-2 text-gray-400">
-                                            <Icon name="ImageOff" className="w-8 h-8" />
-                                            <span className="text-sm font-medium">Certificate not yet available</span>
-                                        </div>
-                                    )}
+                        <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-gray-100">
+                            <SectionToggle title="Lab Ratings" icon="Star" iconColor="text-yellow-500" show={showLabRatings} onToggle={() => setShowLabRatings(v => !v)} />
+                            {showLabRatings && (
+                                <div className="mt-5 grid md:grid-cols-2 gap-8">
                                     <div>
-                                        <p className="font-semibold text-gray-800 text-sm leading-tight">{cert.name}</p>
-                                        <p className="text-xs text-gray-500 mt-0.5">{cert.issuer} · {cert.year}</p>
+                                        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-4">Summary ({ratedLabs.length} rated labs)</p>
+                                        <div className="grid grid-cols-3 gap-3 text-center mb-6">
+                                            <div className="bg-yellow-50 rounded-xl p-4">
+                                                <div className="text-2xl font-bold text-yellow-700">{labMinRating.toFixed(1)}</div>
+                                                <div className="text-xs text-gray-500 mt-1">Lowest</div>
+                                                <div className="text-xs text-gray-400 mt-1 truncate" title={lowestRatedLab?.title}>{lowestRatedLab?.title}</div>
+                                            </div>
+                                            <div className="bg-yellow-100 rounded-xl p-4">
+                                                <div className="text-2xl font-bold text-yellow-800">{labAvgRating.toFixed(2)}</div>
+                                                <div className="text-xs text-gray-500 mt-1">Average</div>
+                                            </div>
+                                            <div className="bg-yellow-200 rounded-xl p-4">
+                                                <div className="text-2xl font-bold text-yellow-900">{labMaxRating.toFixed(1)}</div>
+                                                <div className="text-xs text-gray-500 mt-1">Highest</div>
+                                                <div className="text-xs text-gray-500 mt-1 truncate" title={highestRatedLab?.title}>{highestRatedLab?.title}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-4">Distribution</p>
+                                        <div className="space-y-2">
+                                            {ratingBandCounts.map(({ label, count }) => (
+                                                <BarRow key={label} label={label} count={count} max={maxBandCount} colorClass="bg-gradient-to-r from-yellow-400 to-amber-500" pct={ratedLabs.length ? Math.round((count / ratedLabs.length) * 100) : 0} />
+                                            ))}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))}
+                            )}
+                        </div>
                     </div>
-                    )}
-
-                    <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-2xl p-6 border border-blue-100">
-                        <h3 className="font-bold text-gray-800 mb-2 flex items-center gap-2">
-                            <Icon name="Shield" className="w-5 h-5 text-blue-600" />
-                            Continuous Learning
-                        </h3>
-                        <p className="text-gray-600 text-sm leading-relaxed">
-                            I'm constantly expanding my knowledge through platforms like CyberDefenders, Blue Team Labs Online,
-                            HackTheBox, and LetsDefend. Currently working towards advanced certifications in threat hunting, detection engineering and malware analysis.
-                        </p>
-                    </div>
-                </div>
                 );
             };
 
-            const ReviewsPage = () => {
+            const CertificationsPage = () => {
+                const [mainTab, setMainTab] = useState('certifications');
+                const [certView, setCertView] = useState('badges');
                 const [expandedIdx, setExpandedIdx] = useState(null);
 
                 const renderStars = (rating) => {
@@ -448,80 +564,176 @@
                 };
 
                 return (
-                    <div className="space-y-8 animate-fadeIn">
-                        <div className="text-center space-y-4">
-                            <h1 className="text-4xl font-bold text-gray-800 flex items-center justify-center gap-3">
-                                <Icon name="FileText" className="w-10 h-10 text-blue-500" />
-                                Certification Reviews
-                            </h1>
-                            <p className="text-gray-600">Honest reviews and insights from my certification journey — click any row to expand</p>
+                <div className="space-y-8 animate-fadeIn">
+                    <div className="text-center space-y-3">
+                        <h1 className="text-4xl font-bold text-gray-800 flex items-center justify-center gap-3">
+                            <Icon name="Award" className="w-10 h-10 text-blue-500" />
+                            Professional Certifications
+                        </h1>
+                        <p className="text-gray-500">Validated expertise in both Red &amp; Blue Teaming</p>
+                    </div>
+
+                    {/* Main tab switcher: Badges & Certificates | Reviews */}
+                    <div className="flex gap-1 p-1 bg-gray-100 rounded-xl w-fit">
+                        {[
+                            { id: 'certifications', label: 'Badges & Certificates', icon: 'Award' },
+                            { id: 'reviews', label: 'Reviews', icon: 'FileText' }
+                        ].map(tab => (
+                            <button key={tab.id} onClick={() => setMainTab(tab.id)}
+                                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all
+                                    ${mainTab === tab.id ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}>
+                                <Icon name={tab.icon} className="w-4 h-4" />
+                                {tab.label}
+                            </button>
+                        ))}
+                    </div>
+
+                    {/* ── Certifications tab ── */}
+                    {mainTab === 'certifications' && (
+                    <div className="space-y-8">
+                        {/* Sub-view switcher */}
+                        <div className="flex gap-1 p-1 bg-gray-100 rounded-xl w-fit">
+                            {[
+                                { id: 'badges', label: 'Badges', icon: 'Award' },
+                                { id: 'certificates', label: 'Certificates', icon: 'FileText' }
+                            ].map(tab => (
+                                <button key={tab.id} onClick={() => setCertView(tab.id)}
+                                    className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all
+                                        ${certView === tab.id ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}>
+                                    <Icon name={tab.icon} className="w-4 h-4" />
+                                    {tab.label}
+                                </button>
+                            ))}
                         </div>
+
+                        {/* Badges view */}
+                        {certView === 'badges' && (
+                        <div className="grid md:grid-cols-2 gap-4">
+                            {certifications.map((cert, idx) => (
+                                <div key={idx} className="relative bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:border-blue-200 hover:shadow-lg transition-all group overflow-hidden">
+                                    <div className={`absolute left-0 top-0 bottom-0 w-1 rounded-l-2xl ${cert.status === 'Active' ? 'bg-gradient-to-b from-green-400 to-emerald-500' : 'bg-gradient-to-b from-gray-300 to-gray-400'}`} />
+                                    <div className="flex gap-4 pl-3">
+                                        <div className="flex-shrink-0">
+                                            <a href={cert.url} target="_blank" rel="noopener noreferrer" className="block">
+                                                <div className="w-20 h-20 rounded-xl bg-gray-50 border border-gray-100 group-hover:border-blue-200 flex items-center justify-center overflow-hidden transition-colors">
+                                                    <img src={cert.badge} alt={`${cert.name} badge`} className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300" />
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                            <div className="flex items-start justify-between mb-1.5">
+                                                <a href={cert.url} target="_blank" rel="noopener noreferrer" className="flex-1 min-w-0 pr-2">
+                                                    <h3 className="text-sm font-bold text-gray-800 leading-snug group-hover:text-blue-600 transition-colors">{cert.name}</h3>
+                                                </a>
+                                                <span className={`flex-shrink-0 px-2 py-0.5 rounded-full text-xs font-semibold border ${cert.status === 'Active' ? 'bg-green-50 text-green-700 border-green-200' : 'bg-gray-50 text-gray-500 border-gray-200'}`}>{cert.status}</span>
+                                            </div>
+                                            <p className="text-blue-600 text-sm font-semibold mb-2">{cert.issuer}</p>
+                                            <div className="flex items-center justify-between">
+                                                <span className="text-gray-400 text-xs flex items-center gap-1">
+                                                    <Icon name="Calendar" className="w-3 h-3" />{cert.year}
+                                                </span>
+                                                <a href={cert.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-blue-500 hover:text-blue-700 text-xs font-medium">
+                                                    Verify <Icon name="ExternalLink" className="w-3 h-3" />
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                        )}
+
+                        {/* Certificates view */}
+                        {certView === 'certificates' && (
+                        <div className="grid md:grid-cols-2 gap-4">
+                            {certifications.map((cert, idx) => (
+                                <div key={idx} className="relative bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all group">
+                                    <div className={`absolute left-0 top-0 bottom-0 w-1 ${cert.status === 'Active' ? 'bg-gradient-to-b from-green-400 to-emerald-500' : 'bg-gradient-to-b from-gray-300 to-gray-400'}`} />
+                                    <div className="pl-4 p-4 flex flex-col gap-3">
+                                        {cert.certificate ? (
+                                            <a href={cert.certificate} target="_blank" rel="noopener noreferrer"
+                                                className="block w-full h-48 rounded-xl overflow-hidden bg-gray-50 border border-gray-100">
+                                                <img src={cert.certificate} alt={`${cert.name} certificate`}
+                                                    className="w-full h-full object-contain group-hover:scale-[1.02] transition-transform duration-300" />
+                                            </a>
+                                        ) : (
+                                            <div className="w-full h-48 rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 flex flex-col items-center justify-center gap-2 text-gray-400">
+                                                <Icon name="ImageOff" className="w-8 h-8" />
+                                                <span className="text-sm font-medium">Certificate not yet available</span>
+                                            </div>
+                                        )}
+                                        <div>
+                                            <p className="font-semibold text-gray-800 text-sm leading-tight">{cert.name}</p>
+                                            <p className="text-xs text-gray-500 mt-0.5">{cert.issuer} · {cert.year}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                        )}
+
+                        <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-2xl p-6 border border-blue-100">
+                            <h3 className="font-bold text-gray-800 mb-2 flex items-center gap-2">
+                                <Icon name="Shield" className="w-5 h-5 text-blue-600" />
+                                Continuous Learning
+                            </h3>
+                            <p className="text-gray-600 text-sm leading-relaxed">
+                                I'm constantly expanding my knowledge through platforms like CyberDefenders, Blue Team Labs Online,
+                                HackTheBox, and LetsDefend. Currently working towards advanced certifications in threat hunting, detection engineering and malware analysis.
+                            </p>
+                        </div>
+                    </div>
+                    )}
+
+                    {/* ── Reviews tab ── */}
+                    {mainTab === 'reviews' && (
+                    <div className="space-y-8">
+                        <p className="text-gray-600 text-center">Honest reviews and insights from my certification journey — click any row to expand</p>
 
                         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden divide-y divide-gray-100">
                             {certificationReviews.map((review, idx) => {
                                 const isOpen = expandedIdx === idx;
                                 return (
                                     <div key={idx}>
-                                        {/* Collapsed row — always visible */}
                                         <button
                                             className="w-full flex items-center gap-4 px-5 py-4 hover:bg-gray-50 transition-colors text-left"
                                             onClick={() => setExpandedIdx(isOpen ? null : idx)}
                                         >
-                                            {/* Thumbnail */}
                                             {review.image && (
-                                                <img
-                                                    src={review.image}
-                                                    alt={review.title}
-                                                    className="w-12 h-12 rounded-lg object-contain flex-shrink-0 bg-gray-50"
-                                                />
+                                                <img src={review.image} alt={review.title} className="w-12 h-12 rounded-lg object-contain flex-shrink-0 bg-gray-50" />
                                             )}
-                                            {/* Title + meta */}
                                             <div className="flex-1 min-w-0">
                                                 <p className="font-semibold text-gray-800 truncate leading-snug">{review.title}</p>
                                                 <div className="flex items-center gap-2 mt-0.5 flex-wrap">
                                                     {review.rating && (
                                                         <>
-                                                            <span className="text-yellow-500 text-sm leading-none">
-                                                                {renderStars(review.rating)}
-                                                            </span>
+                                                            <span className="text-yellow-500 text-sm leading-none">{renderStars(review.rating)}</span>
                                                             <span className="text-xs text-gray-500">{review.rating.toFixed(1)}/5.0</span>
-                                                            <span className="text-gray-300">·</span>
+                                                            <span className="text-gray-300">&middot;</span>
                                                         </>
                                                     )}
                                                     <span className="text-xs text-gray-500 flex items-center gap-1">
-                                                        <Icon name="Calendar" className="w-3 h-3" />
-                                                        {review.date}
+                                                        <Icon name="Calendar" className="w-3 h-3" />{review.date}
                                                     </span>
                                                 </div>
                                             </div>
-                                            {/* Difficulty badge */}
                                             {review.difficulty && (
                                                 <span className={`hidden sm:inline-flex px-2.5 py-0.5 rounded-full text-xs font-bold uppercase flex-shrink-0 ${difficultyColors[review.difficulty]}`}>
                                                     {review.difficulty}
                                                 </span>
                                             )}
-                                            {/* Chevron */}
-                                            <Icon
-                                                name={isOpen ? 'ChevronUp' : 'ChevronDown'}
-                                                className="w-4 h-4 text-gray-400 flex-shrink-0"
-                                            />
+                                            <Icon name={isOpen ? 'ChevronUp' : 'ChevronDown'} className="w-4 h-4 text-gray-400 flex-shrink-0" />
                                         </button>
 
-                                        {/* Expanded content */}
                                         {isOpen && (
                                             <div className="border-t border-gray-100 px-5 py-6 bg-gray-50">
                                                 <div className="flex flex-col md:flex-row gap-6">
                                                     {review.image && (
                                                         <div className="flex-shrink-0 w-full md:w-40">
-                                                            <img
-                                                                src={review.image}
-                                                                alt={`${review.title} badge`}
-                                                                className="rounded-xl object-contain w-full h-auto shadow-md"
-                                                            />
+                                                            <img src={review.image} alt={`${review.title} badge`} className="rounded-xl object-contain w-full h-auto shadow-md" />
                                                         </div>
                                                     )}
                                                     <div className="flex-1">
-                                                        {/* Title + difficulty on expanded */}
                                                         <div className="flex items-start gap-3 mb-3">
                                                             <h3 className="text-xl font-bold text-gray-800 flex-1">{review.title}</h3>
                                                             {review.difficulty && (
@@ -530,31 +742,25 @@
                                                                 </span>
                                                             )}
                                                         </div>
-                                                        {/* Stars */}
                                                         {review.rating && (
                                                             <div className="flex items-center gap-2 mb-3">
                                                                 <span className="text-yellow-500 text-xl">{renderStars(review.rating)}</span>
                                                                 <span className="text-sm font-semibold text-gray-700">{review.rating.toFixed(1)}/5.0</span>
                                                             </div>
                                                         )}
-                                                        {/* Excerpt */}
                                                         <p className="text-gray-600 mb-4 leading-relaxed">{review.excerpt}</p>
-                                                        {/* Tags */}
                                                         <div className="flex flex-wrap gap-2 mb-4">
                                                             {review.tags.map((tag, i) => (
                                                                 <span key={i} className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm font-medium">{tag}</span>
                                                             ))}
                                                         </div>
-                                                        {/* Footer */}
                                                         <div className="flex items-center justify-between pt-4 border-t border-gray-100">
                                                             <div className="flex items-center gap-3 text-sm text-gray-500">
                                                                 <span className="flex items-center gap-1">
-                                                                    <Icon name="Calendar" className="w-4 h-4" />
-                                                                    {review.date}
+                                                                    <Icon name="Calendar" className="w-4 h-4" />{review.date}
                                                                 </span>
                                                                 <span className="flex items-center gap-1">
-                                                                    <Icon name="Clock" className="w-4 h-4" />
-                                                                    {review.readTime}
+                                                                    <Icon name="Clock" className="w-4 h-4" />{review.readTime}
                                                                 </span>
                                                             </div>
                                                             <a href={review.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-semibold">
@@ -581,6 +787,8 @@
                             </p>
                         </div>
                     </div>
+                    )}
+                </div>
                 );
             };
 
@@ -1023,271 +1231,13 @@
                 );
             };
 
-            const ContactPage = () => (
-                <div className="space-y-8 animate-fadeIn">
-                    <div className="text-center space-y-4">
-                        <h1 className="text-4xl font-bold text-gray-800 flex items-center justify-center gap-3">
-                            <Icon name="Mail" className="w-10 h-10 text-blue-500" />
-                            Let's Connect
-                        </h1>
-                        <p className="text-gray-600">Find me on these platforms and let's collaborate!</p>
-                    </div>
-
-                    <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-                        {socialMedia.map((social, idx) => (
-                            <a key={idx} href={social.url} target="_blank" rel="noopener noreferrer" className="bg-white rounded-lg p-6 shadow-lg border-2 border-gray-100 hover:border-blue-400 hover:shadow-xl transition-all group">
-                                <div className="flex items-center gap-4">
-                                    <div className="bg-blue-50 p-4 rounded-full group-hover:bg-blue-100 transition-colors">
-                                        <Icon name={social.icon} className="w-8 h-8 text-blue-600" />
-                                    </div>
-                                    <div className="flex-1">
-                                        <h3 className="text-xl font-bold text-gray-800 mb-1">{social.platform}</h3>
-                                        <p className="text-gray-600">{social.handle}</p>
-                                    </div>
-                                    <Icon name="ExternalLink" className="w-5 h-5 text-gray-400 group-hover:text-blue-600" />
-                                </div>
-                            </a>
-                        ))}
-                    </div>
-
-                    <div className="bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg p-8 text-white text-center max-w-2xl mx-auto">
-                        <h3 className="text-2xl font-bold mb-3">Open to Collaboration</h3>
-                        <p className="mb-4">
-                            Interested in collaborating on DFIR labs, contributing to open-source projects, or discussing blue team tactics? 
-                            I'm always excited to connect with fellow cybersecurity enthusiasts!
-                        </p>
-                        <div className="flex justify-center gap-4">
-                            <a href="mailto:warawut_manosong@hotmail.com" className="bg-white text-blue-600 px-6 py-3 rounded-lg font-bold hover:bg-gray-100 transition-colors">
-                                Send Email
-                            </a>
-                        </div>
-                    </div>
-
-                    <div className="text-center text-gray-500 text-sm">
-                        <p>© 2025 Chicken0248. Built with React and deployed on GitHub Pages.</p>
-                    </div>
-                </div>
-            );
-
-            const StatsPage = () => {
-                const [showCertsByIssuer, setShowCertsByIssuer] = React.useState(true);
-                const [showByPlatform, setShowByPlatform] = React.useState(true);
-                const [showLabDiff, setShowLabDiff] = React.useState(true);
-                const [showLabRatings, setShowLabRatings] = React.useState(true);
-
-                const activeCerts = certifications.filter(c => c.status === 'Active').length;
-                const expiredCerts = certifications.filter(c => c.status === 'Expired').length;
-
-                const labsOnly = labs.filter(l => l.type === 'lab');
-                const projects = labs.filter(l => l.type === 'project');
-
-                const avgReviewRating = (certificationReviews.reduce((sum, r) => sum + (r.rating || 0), 0) / certificationReviews.filter(r => r.rating).length);
-
-                // Certifications by issuer
-                const certsByIssuer = certifications.reduce((acc, c) => {
-                    acc[c.issuer] = (acc[c.issuer] || 0) + 1;
-                    return acc;
-                }, {});
-                const sortedIssuers = Object.entries(certsByIssuer).sort((a, b) => b[1] - a[1]);
-                const maxIssuerCount = sortedIssuers[0]?.[1] || 1;
-
-                // Labs by platform
-                const labsByPlatform = labs.reduce((acc, l) => {
-                    acc[l.platform] = (acc[l.platform] || 0) + 1;
-                    return acc;
-                }, {});
-                const sortedPlatforms = Object.entries(labsByPlatform).sort((a, b) => b[1] - a[1]);
-                const maxPlatformCount = sortedPlatforms[0]?.[1] || 1;
-
-                // Labs by official difficulty (labs only, not projects)
-                const labDifficultyCounts = { easy: 0, medium: 0, hard: 0 };
-                labsOnly.forEach(l => { if (l.difficulty) labDifficultyCounts[l.difficulty]++; });
-                const maxLabDiff = Math.max(...Object.values(labDifficultyCounts), 1);
-
-                // Labs by player/perceived difficulty
-                const playerDifficultyCounts = { easy: 0, medium: 0, hard: 0 };
-                labsOnly.forEach(l => { if (l.player_difficulty) playerDifficultyCounts[l.player_difficulty]++; });
-                const maxPlayerDiff = Math.max(...Object.values(playerDifficultyCounts), 1);
-
-                // Lab ratings
-                const ratedLabs = labsOnly.filter(l => l.rating != null);
-                const labAvgRating = ratedLabs.length ? ratedLabs.reduce((sum, l) => sum + l.rating, 0) / ratedLabs.length : 0;
-                const labMaxRating = ratedLabs.length ? Math.max(...ratedLabs.map(l => l.rating)) : 0;
-                const labMinRating = ratedLabs.length ? Math.min(...ratedLabs.map(l => l.rating)) : 0;
-                const highestRatedLab = ratedLabs.find(l => l.rating === labMaxRating);
-                const lowestRatedLab = ratedLabs.find(l => l.rating === labMinRating);
-                const ratingBands = [
-                    { label: '5.0', min: 5.0, max: 5.0 },
-                    { label: '4.5 – 4.9', min: 4.5, max: 4.9 },
-                    { label: '4.0 – 4.4', min: 4.0, max: 4.4 },
-                    { label: 'Below 4.0', min: 0, max: 3.9 },
-                ];
-                const ratingBandCounts = ratingBands.map(b => ({ label: b.label, count: ratedLabs.filter(l => l.rating >= b.min && l.rating <= b.max).length }));
-                const maxBandCount = Math.max(...ratingBandCounts.map(b => b.count), 1);
-
-                const StatCard = ({ icon, value, label, sub, color = 'blue' }) => {
-                    const colors = {
-                        blue: 'from-blue-500 to-blue-600',
-                        cyan: 'from-cyan-500 to-cyan-600',
-                        purple: 'from-purple-500 to-purple-600',
-                        green: 'from-green-500 to-green-600',
-                    };
-                    return (
-                        <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-gray-100 hover:border-blue-300 hover:shadow-xl transition-all">
-                            <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br ${colors[color]} mb-4`}>
-                                <Icon name={icon} className="w-6 h-6 text-white" />
-                            </div>
-                            <div className="text-4xl font-bold text-gray-800 mb-1">{value}</div>
-                            <div className="text-base font-semibold text-gray-700 mb-1">{label}</div>
-                            {sub && <div className="text-sm text-gray-500">{sub}</div>}
-                        </div>
-                    );
-                };
-
-                const BarRow = ({ label, count, max, colorClass, pct }) => (
-                    <div className="flex items-center gap-3 py-1">
-                        <span className="text-sm text-gray-700 w-28 flex-shrink-0 truncate" title={label}>{label}</span>
-                        <div className="flex-1 bg-gray-100 rounded-full h-4 overflow-hidden">
-                            <div
-                                className={`h-4 rounded-full transition-all ${colorClass}`}
-                                style={{ width: `${Math.round((count / max) * 100)}%` }}
-                            />
-                        </div>
-                        <span className="text-sm font-bold text-gray-700 w-6 text-right">{count}</span>
-                        {pct !== undefined && <span className="text-xs text-gray-400 w-9 text-right">{pct}%</span>}
-                    </div>
-                );
-
-                const diffBarColors = { easy: 'bg-gradient-to-r from-green-400 to-green-600', medium: 'bg-gradient-to-r from-orange-400 to-orange-500', hard: 'bg-gradient-to-r from-red-400 to-red-600' };
-
-                const SectionToggle = ({ title, icon, iconColor, show, onToggle }) => (
-                    <button onClick={onToggle} className="w-full flex items-center justify-between group">
-                        <h2 className="text-xl font-bold text-gray-800 flex items-center gap-2">
-                            <Icon name={icon} className={`w-5 h-5 ${iconColor}`} />
-                            {title}
-                        </h2>
-                        <span className={`text-xs font-semibold px-2.5 py-1 rounded-lg transition-colors ${show ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-500 group-hover:bg-gray-200'}`}>
-                            {show ? 'Hide' : 'Show'}
-                        </span>
-                    </button>
-                );
-
-                return (
-                    <div className="space-y-10 animate-fadeIn">
-                        <div className="text-center space-y-4">
-                            <h1 className="text-4xl font-bold text-gray-800 flex items-center justify-center gap-3">
-                                <Icon name="BarChart2" className="w-10 h-10 text-blue-500" />
-                                Portfolio Stats
-                            </h1>
-                            <p className="text-gray-600">A snapshot of my cybersecurity journey by the numbers</p>
-                        </div>
-
-                        {/* Hero stat cards */}
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                            <StatCard icon="Award" value={certifications.length} label="Certifications" sub={`${activeCerts} active · ${expiredCerts} expired`} color="blue" />
-                            <StatCard icon="Hammer" value={labsOnly.length} label="Labs Built" sub={`published across ${Object.keys(labsByPlatform).filter(p => labsOnly.some(l => l.platform === p)).length} platforms`} color="green" />
-                            <StatCard icon="FolderOpen" value={projects.length} label="Projects & Research" sub="GitHub + Medium" color="purple" />
-                            <StatCard icon="FileText" value={certificationReviews.length} label="Reviews Published" sub={`avg rating ${avgReviewRating.toFixed(1)}/5.0`} color="cyan" />
-                        </div>
-
-                        {/* Certifications breakdown */}
-                        <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-gray-100">
-                            <SectionToggle title="Certs by Issuer" icon="Building2" iconColor="text-blue-500" show={showCertsByIssuer} onToggle={() => setShowCertsByIssuer(v => !v)} />
-                            {showCertsByIssuer && (
-                                <div className="space-y-1 mt-5">
-                                    {sortedIssuers.map(([issuer, count]) => (
-                                        <BarRow key={issuer} label={issuer} count={count} max={maxIssuerCount} colorClass="bg-gradient-to-r from-blue-400 to-blue-600" pct={Math.round((count / certifications.length) * 100)} />
-                                    ))}
-                                </div>
-                            )}
-                        </div>
-
-                        {/* Labs breakdown */}
-                        <div className="grid md:grid-cols-2 gap-6">
-                            <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-gray-100">
-                                <SectionToggle title="Labs & Projects by Platform" icon="Globe" iconColor="text-cyan-500" show={showByPlatform} onToggle={() => setShowByPlatform(v => !v)} />
-                                {showByPlatform && (
-                                    <div className="space-y-1 mt-5">
-                                        {sortedPlatforms.map(([platform, count]) => (
-                                            <BarRow key={platform} label={platform} count={count} max={maxPlatformCount} colorClass="bg-gradient-to-r from-cyan-400 to-cyan-600" pct={Math.round((count / labs.length) * 100)} />
-                                        ))}
-                                    </div>
-                                )}
-                            </div>
-
-                            <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-gray-100">
-                                <SectionToggle title="Lab Difficulty" icon="Gauge" iconColor="text-orange-500" show={showLabDiff} onToggle={() => setShowLabDiff(v => !v)} />
-                                {showLabDiff && (
-                                    <div className="mt-5 space-y-6">
-                                        <div>
-                                            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">Official Difficulty</p>
-                                            <div className="space-y-2">
-                                                {Object.entries(labDifficultyCounts).map(([diff, count]) => (
-                                                    <BarRow key={diff} label={diff.charAt(0).toUpperCase() + diff.slice(1)} count={count} max={maxLabDiff} colorClass={diffBarColors[diff]} pct={labsOnly.length ? Math.round((count / labsOnly.length) * 100) : 0} />
-                                                ))}
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">Perceived Difficulty</p>
-                                            <div className="space-y-2">
-                                                {Object.entries(playerDifficultyCounts).map(([diff, count]) => (
-                                                    <BarRow key={diff} label={diff.charAt(0).toUpperCase() + diff.slice(1)} count={count} max={maxPlayerDiff} colorClass={diffBarColors[diff]} pct={labsOnly.length ? Math.round((count / labsOnly.length) * 100) : 0} />
-                                                ))}
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-
-                        {/* Lab Ratings */}
-                        <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-gray-100">
-                            <SectionToggle title="Lab Ratings" icon="Star" iconColor="text-yellow-500" show={showLabRatings} onToggle={() => setShowLabRatings(v => !v)} />
-                            {showLabRatings && (
-                                <div className="mt-5 grid md:grid-cols-2 gap-8">
-                                    <div>
-                                        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-4">Summary ({ratedLabs.length} rated labs)</p>
-                                        <div className="grid grid-cols-3 gap-3 text-center mb-6">
-                                            <div className="bg-yellow-50 rounded-xl p-4">
-                                                <div className="text-2xl font-bold text-yellow-700">{labMinRating.toFixed(1)}</div>
-                                                <div className="text-xs text-gray-500 mt-1">Lowest</div>
-                                                <div className="text-xs text-gray-400 mt-1 truncate" title={lowestRatedLab?.title}>{lowestRatedLab?.title}</div>
-                                            </div>
-                                            <div className="bg-yellow-100 rounded-xl p-4">
-                                                <div className="text-2xl font-bold text-yellow-800">{labAvgRating.toFixed(2)}</div>
-                                                <div className="text-xs text-gray-500 mt-1">Average</div>
-                                            </div>
-                                            <div className="bg-yellow-200 rounded-xl p-4">
-                                                <div className="text-2xl font-bold text-yellow-900">{labMaxRating.toFixed(1)}</div>
-                                                <div className="text-xs text-gray-500 mt-1">Highest</div>
-                                                <div className="text-xs text-gray-500 mt-1 truncate" title={highestRatedLab?.title}>{highestRatedLab?.title}</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-4">Distribution</p>
-                                        <div className="space-y-2">
-                                            {ratingBandCounts.map(({ label, count }) => (
-                                                <BarRow key={label} label={label} count={count} max={maxBandCount} colorClass="bg-gradient-to-r from-yellow-400 to-amber-500" pct={ratedLabs.length ? Math.round((count / ratedLabs.length) * 100) : 0} />
-                                            ))}
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                );
-            };
-
             const renderPage = () => {
                 switch (activePage) {
                     case 'home': return <HomePage />;
                     case 'certifications': return <CertificationsPage />;
-                    case 'reviews': return <ReviewsPage />;
                     case 'labs': return <LabsPage />;
                     case 'achievements': return <AchievementsPage />;
                     case 'stats': return <StatsPage />;
-                    case 'contact': return <ContactPage />;
                     default: return <HomePage />;
                 }
             };
