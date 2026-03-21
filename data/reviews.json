@@ -99,6 +99,17 @@
     "rating": 4.5
   },
   {
+    "title": "Cyber5W Certified Digital Forensic Analyst (CCDFA) — a good start for your digital forensics journey",
+    "excerpt": "A detailed review on the Cyber5W Certified Digital Forensics Analyst course and certification, The intermediate level digital forensics certification for those who like Digital Forensics or SOC who want to expand their skill into Digital Forensics area",
+    "date": "March 2026",
+    "readTime": "15 min read",
+    "tags": ["CCDFA", "Cyber5W", "Blue Team", "Digital Forensics", "Intermediate Level"],
+    "url": "https://medium.com/@chaoskist/cyber5w-certified-digital-forensic-analyst-ccdfa-a-good-start-for-your-digital-forensics-e3779ce15211",
+    "image": "./assets/badges/ccdfa.webp",
+    "difficulty": "Intermediate",
+    "rating": 4.9
+  },
+  {
     "title": "My Thoughts on Cyber5W Certified Digital Forensics Foundations (CCDFF) — a solid foundation exam for digital forensics folks",
     "excerpt": "A detailed review and guide on the Cyber5W Certified Digital Forensics Foundations certification, The beginner-friendly certification for those who like Digital Forensics. Covers exam preparation, exam experience and tips.",
     "date": "June 2025",
