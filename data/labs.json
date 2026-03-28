@@ -270,6 +270,15 @@
     "image": "./assets/labs/rustdeskdfir.png"
   },
   {
+    "title": "Chrome Remote Desktop RMM Investigation (Windows)",
+    "description": "Research about Chrome Remote Desktop RMM Investigation on Windows from installation to connection, file transfer and unattended access.",
+    "platform": "Medium",
+    "link": "https://medium.com/@chaoskist/chrome-remote-desktop-rmm-investigation-c61f8545da26",
+    "tags": ["Digital Forensics", "RMM", "Chrome Remote Desktop", "CRD", "Windows"],
+    "type": "project",
+    "image": "./assets/labs/crd.jpg"
+  },
+  {
     "title": "RustDesk Decryptor",
     "description": "A forensic tool for decrypting RustDesk configuration files. Designed for security research, penetration testing, and digital forensics investigations.",
     "platform": "GitHub",
