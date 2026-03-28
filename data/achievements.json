@@ -22,6 +22,17 @@
     "url": ""
   },
   {
+    "category": "talk",
+    "name": "HTK 0x02 - CyberChef for BlueTeamers",
+    "event": "Not The Hidden Wiki",
+    "year": "2026",
+    "role": "Speaker",
+    "description": "",
+    "image": "./assets/achievements/cyberchef_forblueteamer.jpg",
+    "tags": [],
+    "url": "https://www.youtube.com/watch?v=lOaHYUC0-50"
+  },
+  {
     "category": "competition",
     "name": "Hackloween CTF 2025",
     "organizer": "SEC Playground",
