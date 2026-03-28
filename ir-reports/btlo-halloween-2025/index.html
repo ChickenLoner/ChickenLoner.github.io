@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zeta-9 Security Incident Report | Chicken0248</title>
+    <link rel="icon" href="/chicken0248.png" type="image/png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn { animation: fadeIn 0.5s ease-out; }
+
+        /* ── DARK MODE ── */
+        .dark.min-h-screen { background: linear-gradient(135deg, #0f172a 0%, #141f35 50%, #0a1628 100%) !important; }
+        .dark nav { background-color: rgba(15,23,42,0.96) !important; border-bottom-color: rgba(51,65,85,0.5) !important; }
+        .dark .bg-white    { background-color: #1e293b !important; }
+        .dark .bg-gray-50  { background-color: #0f172a !important; }
+        .dark .bg-gray-100 { background-color: #334155 !important; }
+        .dark .bg-gray-900 { background-color: #0f172a !important; }
+        .dark .bg-red-50   { background-color: rgba(220,38,38,0.10) !important; }
+        .dark .bg-red-100  { background-color: rgba(220,38,38,0.20) !important; }
+        .dark .bg-orange-50  { background-color: rgba(234,88,12,0.10) !important; }
+        .dark .bg-orange-100 { background-color: rgba(234,88,12,0.20) !important; }
+        .dark .bg-blue-50    { background-color: rgba(37,99,235,0.12) !important; }
+        .dark .bg-blue-100   { background-color: rgba(37,99,235,0.20) !important; }
+        .dark .bg-green-50   { background-color: rgba(22,163,74,0.10) !important; }
+        .dark .bg-green-100  { background-color: rgba(22,163,74,0.20) !important; }
+        .dark .bg-yellow-50  { background-color: rgba(202,138,4,0.10) !important; }
+        .dark .bg-yellow-100 { background-color: rgba(202,138,4,0.20) !important; }
+        .dark .bg-purple-50  { background-color: rgba(124,58,237,0.10) !important; }
+        .dark .bg-purple-100 { background-color: rgba(124,58,237,0.20) !important; }
+        .dark .text-gray-800 { color: #e2e8f0 !important; }
+        .dark .text-gray-700 { color: #cbd5e1 !important; }
+        .dark .text-gray-600 { color: #94a3b8 !important; }
+        .dark .text-gray-500 { color: #64748b !important; }
+        .dark .text-gray-400 { color: #475569 !important; }
+        .dark .text-gray-300 { color: #334155 !important; }
+        .dark .text-red-700    { color: #f87171 !important; }
+        .dark .text-red-600    { color: #f87171 !important; }
+        .dark .text-blue-700   { color: #93c5fd !important; }
+        .dark .text-blue-600   { color: #60a5fa !important; }
+        .dark .text-green-700  { color: #4ade80 !important; }
+        .dark .text-orange-700 { color: #fb923c !important; }
+        .dark .text-yellow-700 { color: #fbbf24 !important; }
+        .dark .text-purple-700 { color: #c084fc !important; }
+        .dark .border-gray-100 { border-color: #334155 !important; }
+        .dark .border-gray-200 { border-color: #475569 !important; }
+        .dark .border-gray-300 { border-color: #475569 !important; }
+        .dark .border-red-200  { border-color: rgba(220,38,38,0.3) !important; }
+        .dark .divide-gray-100 > * + * { border-color: #334155 !important; }
+        .dark .divide-gray-200 > * + * { border-color: #475569 !important; }
+        .dark .hover\:bg-gray-50:hover { background-color: #1e293b !important; }
+        .dark .hover\:text-blue-600:hover { color: #60a5fa !important; }
+        .dark pre, .dark .code-block { background-color: #0f172a !important; border-color: #334155 !important; }
+        .dark code { color: #e2e8f0 !important; }
+        .dark table thead { background-color: #1e293b !important; }
+        .dark table thead th { color: #e2e8f0 !important; border-color: #475569 !important; }
+        .dark table td { border-color: #334155 !important; }
+        .dark ::-webkit-scrollbar       { width: 6px; }
+        .dark ::-webkit-scrollbar-track { background: #0f172a; }
+        .dark ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        const Icon = ({ name, className = "w-6 h-6", ...props }) => {
+            const ref = useRef(null);
+            useEffect(() => {
+                if (ref.current) {
+                    const el = lucide.createElement(lucide[name], { class: className });
+                    ref.current.innerHTML = '';
+                    ref.current.appendChild(el);
+                }
+            }, [name, className]);
+            return <i ref={ref} className={`flex-shrink-0 ${className}`} {...props}></i>;
+        };
+
+        const IMG = '/assets/reports/btlo-halloween-2025';
+
+        /* ── Reusable Components ── */
+
+        const ReportSection = ({ id, title, icon, children }) => (
+            <section id={id} className="scroll-mt-24">
+                <h2 className="text-2xl font-bold text-gray-800 mb-5 flex items-center gap-3 border-b border-gray-200 pb-3">
+                    <Icon name={icon} className="w-6 h-6 text-red-600" />
+                    {title}
+                </h2>
+                <div className="space-y-4">
+                    {children}
+                </div>
+            </section>
+        );
+
+        const SubSection = ({ title, children }) => (
+            <div className="space-y-3">
+                <h3 className="text-xl font-semibold text-gray-800">{title}</h3>
+                {children}
+            </div>
+        );
+
+        const ReportTable = ({ headers, rows, compact }) => (
+            <div className="overflow-x-auto rounded-xl border border-gray-200 my-4">
+                <table className={`w-full ${compact ? 'text-xs' : 'text-sm'}`}>
+                    <thead className="bg-gray-50">
+                        <tr>
+                            {headers.map((h, i) => (
+                                <th key={i} className="px-4 py-3 text-left font-semibold text-gray-700 border-b border-gray-200 whitespace-nowrap">{h}</th>
+                            ))}
+                        </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-100">
+                        {rows.map((row, i) => (
+                            <tr key={i} className="hover:bg-gray-50 transition-colors">
+                                {row.map((cell, j) => (
+                                    <td key={j} className="px-4 py-2.5 text-gray-700" dangerouslySetInnerHTML={{ __html: cell }}></td>
+                                ))}
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        );
+
+        const CodeBlock = ({ language, children }) => (
+            <div className="rounded-xl border border-gray-200 overflow-hidden my-4">
+                <div className="bg-gray-800 text-gray-400 text-xs px-4 py-2 font-mono">{language}</div>
+                <pre className="bg-gray-900 text-gray-100 p-4 overflow-x-auto text-sm font-mono leading-relaxed"><code>{children}</code></pre>
+            </div>
+        );
+
+        const Img = ({ src, alt, caption }) => (
+            <figure className="my-4">
+                <img src={`${IMG}/${src}`} alt={alt || ''} className="rounded-xl border border-gray-200 shadow-sm w-full" loading="lazy" />
+                {caption && <figcaption className="text-center text-sm text-gray-500 mt-2 italic">{caption}</figcaption>}
+            </figure>
+        );
+
+        const Finding = ({ number, title, children }) => (
+            <div className="bg-white rounded-2xl border border-gray-200 p-6 space-y-4 shadow-sm">
+                <div className="flex items-start gap-3">
+                    <span className="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm font-bold whitespace-nowrap">Finding #{number}</span>
+                    <h3 className="text-lg font-bold text-gray-800">{title}</h3>
+                </div>
+                <div className="space-y-4 text-gray-700 leading-relaxed">
+                    {children}
+                </div>
+            </div>
+        );
+
+        const B = ({ children }) => <strong className="text-gray-800">{children}</strong>;
+        const C = ({ children }) => <code className="bg-gray-100 text-red-600 px-1.5 py-0.5 rounded text-sm font-mono">{children}</code>;
+
+        /* ── Main App ── */
+
+        const App = () => {
+            const [dark, setDark] = useState(() => localStorage.getItem('darkMode') === 'true');
+            useEffect(() => { localStorage.setItem('darkMode', dark); }, [dark]);
+
+            const tocItems = [
+                { id: 'executive-summary', label: 'Executive Summary', icon: 'FileText' },
+                { id: 'timeline', label: 'Timeline', icon: 'Clock' },
+                { id: 'scope-evidence', label: 'Scope & Evidence', icon: 'Database' },
+                { id: 'findings', label: 'Findings', icon: 'Search' },
+                { id: 'iocs', label: 'Indicators of Compromise', icon: 'AlertTriangle' },
+                { id: 'recommendations', label: 'Recommendations', icon: 'Shield' },
+                { id: 'appendix', label: 'Appendix', icon: 'Paperclip' },
+            ];
+
+            return (
+                <div className={`min-h-screen bg-gradient-to-br from-slate-50 via-red-50 to-orange-50 ${dark ? 'dark' : ''}`}>
+                    {/* Navigation */}
+                    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 px-4 py-3">
+                        <div className="max-w-4xl mx-auto flex items-center justify-between">
+                            <div className="flex items-center gap-2 text-sm flex-wrap">
+                                <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                                    <img src="/chicken0248.png" alt="Logo" className="w-7 h-7 rounded-lg" />
+                                    <span className="font-bold text-gray-800 hidden sm:inline">Chicken0248</span>
+                                </a>
+                                <span className="text-gray-400">/</span>
+                                <a href="/ir-reports/index.html" className="font-medium text-gray-600 hover:text-blue-600 transition-colors">IR Reports</a>
+                                <span className="text-gray-400">/</span>
+                                <span className="font-semibold text-gray-700">Zeta-9</span>
+                            </div>
+                            <button onClick={() => setDark(!dark)}
+                                className="p-2 rounded-lg hover:bg-gray-100 text-gray-600 transition-colors text-lg">
+                                {dark ? '\u2600\uFE0F' : '\uD83C\uDF19'}
+                            </button>
+                        </div>
+                    </nav>
+
+                    <main className="max-w-4xl mx-auto px-4 py-8 space-y-10 animate-fadeIn">
+
+                        {/* Hero */}
+                        <div className="relative overflow-hidden rounded-3xl shadow-2xl">
+                            <img src="/assets/labs/btlo_halloween2025_ir_report.png" alt="Zeta-9 Security Incident Report"
+                                 className="w-full h-48 sm:h-64 md:h-80 object-cover" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                            <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white">
+                                <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight mb-3">Zeta-9 Security Incident Report</h1>
+                                <div className="flex flex-wrap gap-3 text-sm">
+                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Hash" className="w-3.5 h-3.5" /> BTLO-Project-Z-2025
+                                    </span>
+                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Calendar" className="w-3.5 h-3.5" /> November 2025
+                                    </span>
+                                    <span className="bg-red-500/80 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Lock" className="w-3.5 h-3.5" /> Confidential
+                                    </span>
+                                    <span className="bg-green-500/80 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="CheckCircle" className="w-3.5 h-3.5" /> Closed
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Metadata */}
+                        <div className="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm">
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                                <div><span className="text-gray-500 block">Incident ID</span><span className="font-semibold text-gray-800">BTLO-Project-Z-2025</span></div>
+                                <div><span className="text-gray-500 block">Date of Report</span><span className="font-semibold text-gray-800">November 2025</span></div>
+                                <div><span className="text-gray-500 block">Prepared By</span><span className="font-semibold text-gray-800">Warawut Manosong (Chicken0248)</span></div>
+                                <div><span className="text-gray-500 block">Classification</span><span className="font-semibold text-red-600">Confidential</span></div>
+                            </div>
+                        </div>
+
+                        {/* Table of Contents */}
+                        <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                            <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                <Icon name="List" className="w-5 h-5 text-red-600" />
+                                Table of Contents
+                            </h2>
+                            <div className="grid sm:grid-cols-2 gap-2">
+                                {tocItems.map((item, i) => (
+                                    <a key={item.id} href={`#${item.id}`}
+                                       className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors text-sm">
+                                        <Icon name={item.icon} className="w-4 h-4 text-gray-400" />
+                                        <span className="text-gray-400 font-mono text-xs w-5">{i + 1}.</span>
+                                        <span className="font-medium">{item.label}</span>
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* ═══════════ EXECUTIVE SUMMARY ═══════════ */}
+                        <ReportSection id="executive-summary" title="Executive Summary" icon="FileText">
+                            <p className="text-gray-700 leading-relaxed">
+                                During a CRISIS engagement, <B>Warawut Manosong (as Chicken0248 agent)</B> was deployed to investigate multiple security incidents across <B>Zeta-9's infrastructure</B>. The investigation revealed a <B>full compromise of four critical assets</B>, including:
+                            </p>
+                            <ul className="list-disc list-inside text-gray-700 space-y-1 ml-2">
+                                <li>The <B>FortiGate network firewall</B></li>
+                                <li>Hybrid <B>cloud infrastructure</B> (AWS and Azure)</li>
+                                <li>The <B>JUMPHOST</B> workstation</li>
+                                <li>The <B>workstation of a key researcher</B></li>
+                            </ul>
+                            <p className="text-gray-700 leading-relaxed">
+                                The first malicious activity was observed on <B>September 16, 2025</B>, targeting the FortiGate firewall to gain unauthorized access to the internal network. Subsequent actions by the adversary included:
+                            </p>
+                            <ol className="list-decimal list-inside text-gray-700 space-y-1 ml-2">
+                                <li><B>Exploitation of the Surveillance Storage Console</B> to obtain JUMPHOST administrator credentials.</li>
+                                <li><B>Lateral movement</B> to the JUMPHOST and exfiltration of AWS credentials.</li>
+                                <li><B>Unauthorized access and exfiltration of objects</B> from hybrid cloud storage.</li>
+                                <li><B>Defacement of public-facing web assets</B> hosted in Azure.</li>
+                                <li><B>Compromise of the researcher's workstation via a FileFix attack</B>, leading to exfiltration of sensitive data, including <B>the CURE</B> — the final antidote against the ongoing zombie outbreak scenario.</li>
+                            </ol>
+                            <p className="text-gray-700 leading-relaxed">
+                                This engagement demonstrates the <B>high impact of coordinated attacks across on-premises and cloud environments</B>, highlighting risks to both critical research and corporate operations.
+                            </p>
+
+                            <SubSection title="Business & Stakeholder Impact">
+                                <h4 className="text-lg font-semibold text-gray-800 mt-4">1. Strategic Impact — Confidentiality Breach</h4>
+                                <ul className="list-disc list-outside text-gray-700 space-y-2 ml-5">
+                                    <li><B>Corporate secrets and credentials were exposed.</B> The adversary extracted local administrator credentials from surveillance video footage, AWS secret values from parameter store, and sensitive datasets from both <B>AWS S3</B> and <B>Azure Blob</B> storage.</li>
+                                    <li><B>High-value intellectual property and internal R&amp;D data</B> stored in cloud repositories were accessed. This includes files belonging to ZETA-9's "Secret Division," implying possible loss of proprietary research materials.</li>
+                                    <li><B>Brand trust compromised.</B> The defacement of the public <B>Azure Web App</B> resulted in reputational damage, as stakeholders and clients may have observed tampered content displaying adversary-controlled messaging.</li>
+                                </ul>
+
+                                <h4 className="text-lg font-semibold text-gray-800 mt-4">2. Operational Impact — Service Disruption &amp; Persistence</h4>
+                                <ul className="list-disc list-outside text-gray-700 space-y-2 ml-5">
+                                    <li>The adversary established <B>persistent remote control</B> via a <B>Sliver C2</B> implant embedded into Dr. Frankenstein Code's PowerShell profile. This persistence mechanism could have allowed long-term access, unauthorized script execution, and continuous monitoring of internal operations.</li>
+                                    <li><B>Automation and backup workflows</B> on compromised cloud accounts may have been disrupted due to deleted or modified configurations during the exfiltration phase.</li>
+                                    <li><B>Forensic indicators show data tampering and secure deletion (SDelete)</B>, suggesting permanent loss of original evidence and potential data corruption in the affected division.</li>
+                                </ul>
+
+                                <h4 className="text-lg font-semibold text-gray-800 mt-4">3. Financial &amp; Compliance Impact</h4>
+                                <ul className="list-disc list-outside text-gray-700 space-y-2 ml-5">
+                                    <li><B>Potential Regulatory Exposure:</B> The unauthorized access to personal and research data likely violates <B>data protection obligations (GDPR/PDPA equivalents)</B>, exposing Zeta-9 to regulatory fines and reporting requirements.</li>
+                                    <li><B>Incident Response and Recovery Costs:</B> Containment, forensic imaging, cloud credential rotation, and rebuilding of affected environments will incur significant cost and downtime.</li>
+                                    <li><B>Reputational and Market Impact:</B> Investor confidence and partner relations may be affected due to public disclosure of the defacement and data leaks.</li>
+                                </ul>
+                            </SubSection>
+                        </ReportSection>
+
+                        {/* ═══════════ TIMELINE ═══════════ */}
+                        <ReportSection id="timeline" title="Timeline" icon="Clock">
+                            <ReportTable
+                                headers={['Date/Time (UTC)', 'Event', 'Source']}
+                                rows={[
+                                    ['2025-09-16 00:10:08', 'First event observed of the adversary connecting to the firewall', 'FortiGate Syslog'],
+                                    ['2025-09-16 00:17:36', 'The adversary exploited <strong>CVE-2024-55591</strong>', 'FortiGate Syslog'],
+                                    ['2025-09-16 00:18:12', 'The adversary connected to the VPN as <code>zeta_adm</code> user', 'FortiGate Syslog'],
+                                    ['2025-09-16 00:19:37', 'The adversary enumerated hosts within the network range <code>192.168.86.0/24</code>', 'FortiGate Syslog'],
+                                    ['2025-09-24 01:08:58', 'The adversary discovered the Surveillance Storage Console', 'Arkime'],
+                                    ['2025-09-24 01:16:50', 'The adversary exploited a SQL injection vulnerability on the Surveillance Storage Console webpage', 'Arkime'],
+                                    ['2025-09-24 01:17:33', 'The adversary downloaded a video containing the local administrator credential of JUMPHOST', 'Arkime'],
+                                    ['2025-09-24 10:38:31', 'The adversary performed lateral movement to JUMPHOST with a WMI-based technique using custom malware for AWS credential exfiltration', 'Memory dump'],
+                                    ['2025-09-25 16:06:00', 'First event on AWS by the adversary', 'AWS CloudTrail'],
+                                    ['2025-09-25 16:15:00', 'The adversary retrieved the secret value from <code>zeta9/windows/admin-password</code>', 'AWS CloudTrail'],
+                                    ['2025-09-25 16:27:00', 'The adversary retrieved AWS objects from S3 storage', 'AWS CloudTrail'],
+                                    ['2025-09-25 16:38:07', 'First event on Azure Storage Blob by the adversary', 'StorageBlobLogs'],
+                                    ['2025-09-25 16:41:12', 'The adversary retrieved objects from Azure Blob storage', 'StorageBlobLogs'],
+                                    ['2025-09-25 16:50:00', 'Azure Web App defacement', 'AppServiceHTTPLogs'],
+                                    ['2025-09-27 11:17:33', 'Dr. Frankenstein Code visited the defaced website, resulting in a FileFix attack and initial access to ZETA9-SECRETDIV', 'Microsoft Edge History'],
+                                    ['2025-09-27 11:23:09', 'The adversary created a PowerShell profile for Dr. Frankenstein Code', 'USN Journal'],
+                                    ['2025-09-27 11:30:52', 'The adversary cloned the Sliver C2 implant from MEGA', 'USN Journal, MEGA'],
+                                    ['2025-09-27 11:34:18', 'The adversary moved the Sliver C2 implant to <code>C:\\Users\\Public\\RunTimeBroker.exe</code>', 'USN Journal'],
+                                    ['2025-09-27 11:35:08', 'The adversary added the Sliver C2 implant as persistence in the PowerShell profile of Dr. Frankenstein Code', 'USN Journal'],
+                                    ['2025-09-27 15:49:58', 'The adversary embedded the exfiltration zip file into an image file and deleted the original files from ZETA9-SECRETDIV with SDelete', 'USN Journal, Prefetch'],
+                                    ['2025-09-28 02:20:47', 'The adversary removed all entries from the TypedPaths registry key of Dr. Frankenstein Code\'s user profile to clear tracks', 'NTUSER.DAT'],
+                                ]}
+                            />
+                        </ReportSection>
+
+                        {/* ═══════════ SCOPE & EVIDENCE ═══════════ */}
+                        <ReportSection id="scope-evidence" title="Scope & Evidence" icon="Database">
+                            <SubSection title="Affected Systems & Devices">
+                                <ReportTable
+                                    headers={['Hostname/Device Name', 'IP Addresses', 'OS', 'Role']}
+                                    rows={[
+                                        ['ProjectZ-fw', '38.68.134.215', 'FortiOS', 'Firewall'],
+                                        ['—', '10.0.14.53 / 18.133.31.160', 'Linux', 'Surveillance Storage Console'],
+                                        ['JUMPBOX', '192.168.1.148 / 192.168.86.2', 'Windows', 'Jumphost'],
+                                        ['zeta9-research-portal.azurewebsites.net', 'N/A', 'Linux', 'Azure Web App'],
+                                        ['ZETA9-SECRETDIV', '192.168.45.128', 'Windows 10 Pro', 'Dr. Frankenstein Code\'s workstation'],
+                                    ]}
+                                />
+                            </SubSection>
+
+                            <SubSection title="Affected Users">
+                                <ReportTable
+                                    headers={['Username', 'Compromised From', 'Details']}
+                                    rows={[
+                                        ['zeta-adm', 'FortiGate (ProjectZ-fw)', 'CVE-2024-55591 and added user to VPN group'],
+                                        ['ghost', 'FortiGate (ProjectZ-fw)', 'CVE-2024-55591'],
+                                        ['operator39', 'Surveillance Storage Console', 'Local Administrator on JUMPBOX, credentials exfiltrated from storage console'],
+                                        ['VictorVenom', 'Jumpbox', 'IAMUser, credentials exfiltrated from Jumpbox'],
+                                        ['Dr.FrankensteinCode', 'ZETA9-SECRETDIV', 'Victim of FileFix attack'],
+                                        ['Dr.Helena', 'ZETA9-SECRETDIV', 'User on the same host as Dr.FrankensteinCode'],
+                                    ]}
+                                />
+                            </SubSection>
+
+                            <SubSection title="Files Exfiltrated">
+                                <ReportTable compact={true}
+                                    headers={['File Name / File Path', 'Source']}
+                                    rows={[
+                                        ['<code>cam06_ai_monitor_securityincident.mp4</code>', 'Arkime'],
+                                        ['<code>reports/threat-analysis-September-2025.json</code>', 'AWS S3 Bucket (zombie-killer-antivirus)'],
+                                        ['<code>infrastructure/cloudformation/database-stack.txt</code>', 'AWS S3 Bucket (zeta9-cloudaws-ops)'],
+                                        ['<code>secrets/api-keys/third-party-integrations.dat</code>', 'AWS S3 Bucket (zeta9-cloudaws-ops)'],
+                                        ['<code>backups/database-backup-sept-24.tar.gz</code>', 'AWS S3 Bucket (zeta9-cloudaws-ops)'],
+                                        ['<code>Subject-Zombie15-Experiment.pdf</code>', 'AWS S3 Bucket (zombietesting)'],
+                                        ['<code>/zeta9researchdata/quantum-research-secrets/contracts/military-qc-2025.txt</code>', 'Azure Storage Blob'],
+                                        ['<code>/zeta9researchdata/quantum-research-secrets/research/quantum-nexus-status.txt</code>', 'Azure Storage Blob'],
+                                        ['<code>/zeta9researchdata/quantum-research-secrets/secretLAB/SecretLANConnection.txt</code>', 'Azure Storage Blob'],
+                                        ['<code>/zeta9researchdata/quantum-research-secrets/secretLAB/SecretLabInfo.txt</code>', 'Azure Storage Blob'],
+                                        ['<code>/zeta9researchdata/quantum-research-secrets/secretLAB/SecretNetworkVPN.txt</code>', 'Azure Storage Blob'],
+                                        ['<code>/zeta9researchdata/quantum-research-secrets/secretLAB/AntiZombieSolution.txt</code>', 'Azure Storage Blob'],
+                                        ['<code>C:\\Users\\Dr.FrankensteinCode\\Desktop\\confidential.png</code>', 'Exfiltrated image file'],
+                                        ['<code>C:\\Users\\Dr.FrankensteinCode\\Desktop\\CURE.txt</code>', 'Exfiltrated image file'],
+                                        ['<code>C:\\Users\\Dr.FrankensteinCode\\Desktop\\gunman.png</code>', 'Exfiltrated image file'],
+                                        ['<code>C:\\Users\\Dr.FrankensteinCode\\Desktop\\Helena.txt</code>', 'Exfiltrated image file'],
+                                        ['<code>C:\\Users\\Dr.FrankensteinCode\\Desktop\\test.txt</code>', 'Exfiltrated image file'],
+                                        ['<code>C:\\Users\\Dr.FrankensteinCode\\Desktop\\outbreak.png</code>', 'Exfiltrated image file'],
+                                    ]}
+                                />
+                            </SubSection>
+
+                            <SubSection title="Important File Deletion">
+                                <ReportTable compact={true}
+                                    headers={['File Name / File Path', 'Source']}
+                                    rows={[
+                                        ['<code>C:\\Users\\Dr.FrankensteinCode\\Desktop\\confidential.png</code>', 'USN Journal'],
+                                        ['<code>C:\\Users\\Dr.FrankensteinCode\\Desktop\\CURE.txt</code>', 'USN Journal'],
+                                        ['<code>C:\\Users\\Dr.FrankensteinCode\\Desktop\\gunman.png</code>', 'USN Journal'],
+                                        ['<code>C:\\Users\\Dr.FrankensteinCode\\Desktop\\Helena.txt</code>', 'USN Journal'],
+                                        ['<code>C:\\Users\\Dr.FrankensteinCode\\Desktop\\test.txt</code>', 'USN Journal'],
+                                        ['<code>C:\\Users\\Dr.FrankensteinCode\\Desktop\\outbreak.png</code>', 'USN Journal'],
+                                    ]}
+                                />
+                            </SubSection>
+
+                            <SubSection title="Evidence">
+                                <ReportTable
+                                    headers={['Evidence', 'Type', 'Details']}
+                                    rows={[
+                                        ['FortiGate Syslog', 'Syslog / Log', 'Ingested in Graylog'],
+                                        ['Arkime network logs', 'Network Traffic', 'Ingested in Arkime'],
+                                        ['JUMPBOX-20250925-103855.raw', 'Memory dump', 'Jumpbox host'],
+                                        ['AWSCloudTrail.json', 'CloudTrail (AWS)', 'Ingested in Splunk'],
+                                        ['AppServiceHTTPLogs.json', 'AppServiceHTTPLogs (Azure)', 'Ingested in Splunk'],
+                                        ['StorageBlobLogs.json', 'StorageBlobLogs (Azure)', 'Ingested in Splunk'],
+                                        ['KAPE Triage', 'Triage Image', 'Triage image from ZETA9-SECRETDIV'],
+                                    ]}
+                                />
+                            </SubSection>
+                        </ReportSection>
+
+                        {/* ═══════════ FINDINGS ═══════════ */}
+                        <ReportSection id="findings" title="Findings" icon="Search">
+
+                            {/* Finding 1 */}
+                            <Finding number={1} title="FortiGate Firewall Compromised Leads to Internal Network Access from VPN">
+                                <Img src="img-01.png" alt="FortiGate compromise overview" />
+                                <p>On <B>September 16, 2025</B>, the adversary identified Zeta-9's <B>FortiGate Firewall</B> exposed to the internet via its public IP address. The attacker's originating IP was recorded as <C>38[.]68[.]134[.]103</C>.</p>
+                                <p>Shortly afterward, the firewall logs captured evidence of an <B>unauthorized administrator login</B> performed through the <B>FortiGate JSON console interface (jsconsole)</B>, which corresponds to the <B>authentication bypass vulnerability CVE-2024-55591</B>.</p>
+                                <Img src="img-02.png" alt="Log entries showing the exploit" />
+                                <p>These events indicate that the attacker exploited the vulnerability to execute API calls locally via <C>127.0.0.1</C>, bypassing normal authentication controls and logging in as the <B>administrator account "ghost."</B> Immediately after gaining administrative access, the attacker <B>modified a user group (ZetaGroup)</B> to include several new VPN accounts, establishing a <B>persistent entry point</B> into the internal network.</p>
+                                <Img src="img-03.png" alt="User group modification evidence" />
+                                <p>The adversary then leveraged these newly added credentials to initiate a <B>VPN connection</B> and access Zeta-9's internal environment without triggering perimeter authentication alerts. The adversary now had access to the internal network with an IP address of <C>10[.]1[.]1[.]10</C>.</p>
+                                <Img src="img-04.png" alt="VPN connection evidence" />
+                                <p>Once inside, the adversary conducted <B>network reconnaissance</B> within the <C>192.168.86.0/24</C> subnet, scanning for <B>SMB (445/TCP)</B>, <B>RPC/DCOM (135/TCP)</B>, and <B>LDAP (389/TCP)</B> services — typical indicators of host and domain enumeration activity.</p>
+                                <Img src="img-05.png" alt="Network scan evidence" />
+                                <p>This reconnaissance revealed the presence of a <B>JUMPHOST system</B>, which subsequently became the next stage of the attacker's lateral movement.</p>
+                            </Finding>
+
+                            {/* Finding 2 */}
+                            <Finding number={2} title="User Credential Retrieval from Storage Console via SQL Injection Attack">
+                                <Img src="img-06.png" alt="Surveillance Storage Console overview" />
+                                <p>Another activity was observed on September 24, 2025. The adversary with an IP address of <C>91[.]90[.]124[.]21</C> had interacted with the Surveillance Storage Console.</p>
+                                <Img src="img-07.png" alt="Adversary interaction evidence" />
+                                <p>The adversary attempted to conduct a SQL injection attack on the Surveillance Storage Console.</p>
+                                <Img src="img-08.png" alt="SQL injection attempt evidence" />
+                                <p>The adversary successfully exploited the SQL injection vulnerability on the Surveillance Storage Console and was able to download the storage object with an ID of 6.</p>
+                                <Img src="img-09.png" alt="Storage object download evidence" />
+                                <p>The user-agent showed that the threat actor used PowerShell to manually exploit the SQL injection vulnerability and download storage object ID 6, which is the <C>cam06_ai_monitor_securityincident.mp4</C> video file.</p>
+                                <Img src="img-10.png" alt="Video file details" />
+                                <p>The credential of <C>operator39</C> could be obtained within the video, which would be used for lateral movement to JUMPBOX.</p>
+                            </Finding>
+
+                            {/* Finding 3 */}
+                            <Finding number={3} title="AWS Credential Stolen from JumpBox">
+                                <Img src="img-11.png" alt="JumpBox compromise overview" />
+                                <p>With the credential obtained from the Surveillance Storage Console, the adversary conducted a WMI-based lateral movement technique to inject a malicious DLL into the legitimate <C>more.com</C> process.</p>
+                                <Img src="img-12.png" alt="DLL injection evidence" />
+                                <p>The adversary deployed the custom malware (<C>Deaddrop.dll</C>) on this jumphost, which retrieved its configuration like the ChaCha20 key and nonce from the repository hosted on <C>codeberg.org</C>.</p>
+                                <Img src="img-13.png" alt="Malware configuration evidence" />
+                                <p>The custom malware exfiltrated data via <C>dnshook[.]site</C> by appending a subdomain with the BASE32-encoded ChaCha20-Poly1305 ciphertext.</p>
+                                <Img src="img-14.png" alt="DNS exfiltration evidence" />
+                                <p>The AWS credential was stolen and would be used to access the hybrid cloud environment.</p>
+                            </Finding>
+
+                            {/* Finding 4 */}
+                            <Finding number={4} title="Cloud Storage Exfiltration and Website Defacement">
+                                <Img src="img-15.png" alt="AWS environment accessed by the threat actor" caption="AWS environment accessed by the threat actor" />
+                                <p>Credentials exfiltrated from the jump box were used by the adversary to sign in to AWS as <B>"VictorVenom."</B> The activity was observed from <C>172[.]235[.]129[.]221</C> on September 25, 2025, in the AWS CloudTrail log.</p>
+                                <Img src="img-16.png" alt="Adversary obtained AWS Secret" caption="Adversary obtained AWS Secret" />
+                                <p>After gaining access, the adversary invoked the <B>GetSecretValue</B> API to retrieve the secret <C>zeta9/windows/admin-password</C>, which likely contains Windows administrative credentials.</p>
+                                <Img src="img-17.png" alt="S3 bucket listing evidence" />
+                                <p>Subsequently, the adversary downloaded 5 objects from 3 different Amazon S3 buckets including a database backup, secret API key, threat analysis report, and the Zombie 15 experiment.</p>
+                                <Img src="img-18.png" alt="Azure Web App exploitation evidence" />
+                                <p>After that, the adversary activity was observed from the website hosted on Azure, which was restricted to administrator-level access only. The adversary used the <C>cmd</C> parameter to run system commands to request an OAuth access token from Azure Managed Identity using a secret that was possibly obtained from an AWS S3 object.</p>
+                                <Img src="img-19.png" alt="OAuth token request evidence" />
+                                <p>Using the acquired OAuth token, the adversary accessed the <C>quantum-research-secrets</C> Azure Blob Storage container and exfiltrated sensitive files including contracts, research, and confidential laboratory information.</p>
+                                <Img src="img-20.png" alt="Blob storage exfiltration evidence" />
+                                <p>The adversary was observed retrieving malicious content from <C>hxxps[://]pastebin[.]com/raw/sBEs83q3</C>, which was then used to overwrite <C>/home/site/wwwroot/public/index.html</C>. This action resulted in the defacement of the main index page of <C>zeta9-research-portal.azurewebsites.net</C>.</p>
+                                <Img src="img-21.png" alt="Defaced website hosting FileFix payload observed from Wayback Machine" caption="Defaced website hosting FileFix payload observed from Wayback Machine" />
+                                <p>From the initial access to the AWS environment to website defacement, the adversary only took 44 minutes from 16:06:00 UTC to 16:50:00 UTC. This rapid attack sequence demonstrated sophisticated knowledge of both AWS and Azure environments, indicating a well-planned and executed intrusion.</p>
+                            </Finding>
+
+                            {/* Finding 5 */}
+                            <Finding number={5} title="FileFix Leads to Researcher's Workstation Compromised and Critical Data Exfiltration">
+                                <Img src="img-22.png" alt="FileFix attack overview" />
+                                <p>On September 27, 2025, Dr. Frankenstein Code visited a compromised website that had been defaced by the adversary, which led to a FileFix attack being successfully deployed on this workstation.</p>
+                                <Img src="img-23.png" alt="FileFix payload delivery evidence" />
+                                <p>Upon executing the malicious PowerShell command from the defaced website, the command fetched another PowerShell script payload from <C>hxxps[://]gist[.]githubusercontent[.]com/a1l4m/.../Microsoft[.]PowerShell[.]DataV4Adapter[.]ps1</C> and this script fetched the hex-encoded shellcode from <C>hxxps[://]gist[.]githubusercontent[.]com/a1l4m/.../IamTheDanger[.]txt</C> and executed it, which established a reverse shell connection to the adversary on <C>35[.]158[.]153[.]237</C> on port 34651.</p>
+                                <Img src="img-24.png" alt="Reverse shell connection evidence" />
+                                <p>The first command after establishing the reverse shell connection was observed from the adversary at 11:18:33 with the <C>whoami</C> command to determine the level of access on this workstation. Subsequently, we observed more activity from the adversary, which utilized <C>rclone</C> to transfer the Sliver C2 implant from MEGA drive.</p>
+                                <Img src="img-25.png" alt="Rclone transfer evidence" />
+                                <p>The Sliver C2 implant was originally named <C>sapi.cpl</C> as downloaded from MEGA drive.</p>
+                                <Img src="img-26.png" alt="Original filename evidence" />
+                                <p>The adversary then renamed it to <C>RunTimeBroker.exe</C> and moved it to <C>C:\Users\Public</C>.</p>
+                                <Img src="img-27.png" alt="File rename/move evidence" />
+                                <p>The adversary achieved persistence on this workstation by creating a PowerShell profile, as observed in the USN Journal.</p>
+                                <Img src="img-28.png" alt="PowerShell profile creation evidence" />
+                                <p>The Sliver C2 implant execution was observed several times after PowerShell execution. Afterward, <C>KillTheCURE.exe</C> and <C>sdelete.exe</C> were executed from the same folder at <C>C:\Users\Dr.FrankensteinCode\AppData\Local\CureKiller\CureKiller</C> around 15:49:58 ~ 15:49:59.</p>
+                                <Img src="img-29.png" alt="Prefetch/execution evidence" />
+                                <p><C>KillTheCURE.exe</C> and <C>sdelete.exe</C> along with several DLLs were observed being extracted from the <C>CUREKiller.zip</C> file that was downloaded with the living-off-the-land binary <C>certutil.exe</C>, and the <C>Exfiltration_data.zip</C> was created after the execution of <C>KillTheCURE.exe</C>.</p>
+                                <Img src="img-30.png" alt="USN Journal extraction evidence" />
+                                <p><C>CUREKiller.zip</C> was downloaded from GitHub. This attachment was likely uploaded within an <B>issue</B>, a <B>pull request</B>, or a <B>comment</B> on GitHub.</p>
+                                <Img src="img-31.png" alt="GitHub download evidence" />
+                                <p>The adversary used <C>sdelete</C> to permanently delete all original files that had already been copied to the user's temporary folder.</p>
+                                <Img src="img-32.png" alt="SDelete execution evidence" />
+                                <p><C>SDelete.exe</C> execution was observed immediately after the execution of <C>KillTheCURE.exe</C>, which deleted 6 files on the desktop:</p>
+                                <ul className="list-disc list-inside text-gray-700 space-y-1 ml-2">
+                                    <li><C>C:\Users\Dr.FrankensteinCode\Desktop\confidential.png</C></li>
+                                    <li><C>C:\Users\Dr.FrankensteinCode\Desktop\CURE.txt</C></li>
+                                    <li><C>C:\Users\Dr.FrankensteinCode\Desktop\gunman.png</C></li>
+                                    <li><C>C:\Users\Dr.FrankensteinCode\Desktop\Helena.txt</C></li>
+                                    <li><C>C:\Users\Dr.FrankensteinCode\Desktop\test.txt</C></li>
+                                    <li><C>C:\Users\Dr.FrankensteinCode\Desktop\outbreak.png</C></li>
+                                </ul>
+                                <Img src="img-33.png" alt="File deletion USN evidence" />
+                                <p>After finishing the deletion, an image file was created with the <C>Exfiltration_data.zip</C> embedded, which contained the 6 files stolen from this workstation.</p>
+                                <Img src="img-34.png" alt="Image embedding evidence" />
+                                <Img src="img-35.png" alt="Zip contents evidence" />
+                                <p><C>KillTheCURE.exe</C> was designed to search for <C>.png</C> and <C>.txt</C> files located in the Downloads and Desktop folders of the current user and copy them to the Temp folder, zip them to <C>Exfiltrated_data.zip</C>, embed the archive in <C>BetterCallSaul.png</C>, send the image to <C>36[.]157[.]123[.]216</C> with an HTTP POST request, and finally use <C>sdelete.exe</C> to completely remove the original files from the workstation.</p>
+                                <p>The adversary also utilized rclone as a fallback, and we successfully obtained the image file from the MEGA drive of the adversary.</p>
+                                <Img src="img-36.png" alt="MEGA rclone evidence" />
+                                <Img src="img-37.png" alt="Additional exfiltration evidence" />
+                                <p>After the exfiltration phase, the adversary cleared all tracks that could be traced back to them.</p>
+                                <Img src="img-38.png" alt="Track clearing evidence" />
+                                <p>Additionally, a Wing FTP Server exploitation script (<B>CVE-2025-47812</B>) was also found on the MEGA drive and on this workstation, which indicates that the adversary also attempted to exploit the Wing FTP Server running on this workstation.</p>
+                                <Img src="img-39.png" alt="Wing FTP exploit evidence" />
+                                <p>On September 28, 2025, the adversary cleared 5 different logs, and a <C>netcat</C> executable was also observed before the log clearing event.</p>
+                                <Img src="img-40.png" alt="Log clearing evidence" />
+                                <p>The registry key that contains the information indicating the FileFix attack was deleted at <C>2025-09-28 02:20:47</C>.</p>
+                                <Img src="img-41.png" alt="Registry key deletion evidence" />
+                                <p>All of them were eventually deleted by the adversary at the end.</p>
+                            </Finding>
+                        </ReportSection>
+
+                        {/* ═══════════ IOCs ═══════════ */}
+                        <ReportSection id="iocs" title="Indicators of Compromise (IOCs)" icon="AlertTriangle">
+                            <div className="space-y-3">
+                                <div className="bg-red-50 rounded-xl border border-red-200 p-5">
+                                    <h3 className="font-semibold text-gray-800 mb-3 flex items-center gap-2">
+                                        <Icon name="Globe" className="w-4 h-4 text-red-600" /> IP Addresses
+                                    </h3>
+                                    <div className="space-y-2 text-sm font-mono text-gray-700">
+                                        <div><C>38[.]68[.]134[.]103</C> — IP used by the adversary to access FortiGate firewall</div>
+                                        <div><C>91[.]90[.]124[.]21</C> — IP used by the adversary to attack the Storage Console</div>
+                                        <div><C>172[.]235[.]129[.]221</C> — IP used by the adversary to attack hybrid cloud infrastructure (AWS + Azure)</div>
+                                        <div><C>35[.]158[.]153[.]237:34651</C> — IP used by the adversary for the ClickFix attack</div>
+                                        <div><C>63[.]178[.]44[.]21:8838</C> — IP used by the Sliver implant as persistence</div>
+                                        <div><C>36[.]157[.]123[.]216</C> — IP used by KillTheCURE.exe payload to exfiltrate files</div>
+                                    </div>
+                                </div>
+
+                                <div className="bg-orange-50 rounded-xl border border-gray-200 p-5">
+                                    <h3 className="font-semibold text-gray-800 mb-3 flex items-center gap-2">
+                                        <Icon name="Link" className="w-4 h-4 text-orange-700" /> URLs &amp; Domains
+                                    </h3>
+                                    <div className="space-y-2 text-sm font-mono text-gray-700">
+                                        <div><C>hxxps[://]pastebin[.]com/raw/sBEs83q3</C> — Pastebin used to retrieve source code of the FileFix webpage</div>
+                                        <div><C>zeta9-research-portal.azurewebsites.net</C> — Compromised Azure Web App</div>
+                                        <div><C>zeta9/windows/admin-password</C> — Compromised AWS Secret</div>
+                                        <div className="break-all"><C>hxxps[://]gist[.]githubusercontent[.]com/a1l4m/.../Microsoft[.]PowerShell[.]DataV4Adapter[.]ps1</C> — ClickFix payload stage 0</div>
+                                        <div className="break-all"><C>hxxps[://]gist[.]githubusercontent[.]com/a1l4m/.../IamTheDanger[.]txt</C> — URL that hosted the shellcode</div>
+                                        <div className="break-all"><C>hxxps[://]github[.]com/user-attachments/files/22441452/CUREKiller[.]zip</C> — GitHub link hosting the exfiltration binary</div>
+                                    </div>
+                                </div>
+
+                                <div className="bg-yellow-50 rounded-xl border border-gray-200 p-5">
+                                    <h3 className="font-semibold text-gray-800 mb-3 flex items-center gap-2">
+                                        <Icon name="Mail" className="w-4 h-4 text-yellow-700" /> Accounts
+                                    </h3>
+                                    <div className="space-y-2 text-sm font-mono text-gray-700">
+                                        <div><C>aboallam480+2@gmail.com</C> — MEGA account</div>
+                                        <div><C>00darksideofme00+2@gmail.com</C> — MEGA account</div>
+                                    </div>
+                                </div>
+
+                                <div className="bg-purple-50 rounded-xl border border-gray-200 p-5">
+                                    <h3 className="font-semibold text-gray-800 mb-3 flex items-center gap-2">
+                                        <Icon name="Hash" className="w-4 h-4 text-purple-700" /> File Hashes (SHA256)
+                                    </h3>
+                                    <div className="space-y-2 text-sm text-gray-700">
+                                        <div><span className="font-mono text-xs break-all"><C>2c327fdbaf65f8626f76858206a18a81790c5233917396e96f12d4cdea06fc7b</C></span> — Sliver implant</div>
+                                        <div><span className="font-mono text-xs break-all"><C>e8fbec25db4f9d95b5e8f41cca51a4b32be8674a4dea7a45b6f7aeb22dbc38db</C></span> — Netcat binary</div>
+                                        <div><span className="font-mono text-xs break-all"><C>cc84a7c2e28dddcab7143ef57429dbd9f45cb61cec86ac1d0134658d5d47170c</C></span> — WingFTP CVE exploitation script</div>
+                                        <div><span className="font-mono text-xs break-all"><C>93997160b7091a043bc7cd8241f4e7d73ba0c6903337d2379e8b3d3cbb855885</C></span> — CUREKiller.zip</div>
+                                        <div><span className="font-mono text-xs break-all"><C>367555ad82dbca5d7607b46720b569e5ee04aa01c3d31e32451238a9c580268a</C></span> — KillTheCURE.exe</div>
+                                        <div><span className="font-mono text-xs break-all"><C>e1f7f9741f16c55c7d90e020812680673dfe3dcf87f43f722be8349aada213f2</C></span> — sdelete.exe</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ReportSection>
+
+                        {/* ═══════════ RECOMMENDATIONS ═══════════ */}
+                        <ReportSection id="recommendations" title="Recommendations" icon="Shield">
+                            <SubSection title="Immediate Tactical Fixes">
+                                <ul className="list-disc list-outside text-gray-700 space-y-3 ml-5">
+                                    <li><B>Contain all compromised devices</B>
+                                        <ul className="list-disc list-outside ml-5 mt-1 space-y-1 text-gray-600">
+                                            <li>Isolate the researcher's workstation, JUMPHOST, and any affected servers from the network.</li>
+                                            <li>Disable persistence mechanisms (e.g., Sliver C2 implants, malicious PowerShell profiles).</li>
+                                        </ul>
+                                    </li>
+                                    <li><B>Remove unauthorized accounts and VPN sessions</B>
+                                        <ul className="list-disc list-outside ml-5 mt-1 space-y-1 text-gray-600">
+                                            <li>Delete or disable the "ghost" VPN user from the FortiGate firewall.</li>
+                                            <li>Rotate all exposed credentials, including local admin, cloud, and service accounts.</li>
+                                        </ul>
+                                    </li>
+                                    <li><B>Patch and update critical infrastructure</B>
+                                        <ul className="list-disc list-outside ml-5 mt-1 space-y-1 text-gray-600">
+                                            <li>Upgrade FortiOS to the latest secure version.</li>
+                                            <li>Ensure all servers, endpoints, and appliances have current security patches applied.</li>
+                                        </ul>
+                                    </li>
+                                    <li><B>Verify and restore data integrity</B>
+                                        <ul className="list-disc list-outside ml-5 mt-1 space-y-1 text-gray-600">
+                                            <li>Check cloud storage (AWS S3, Azure Blob) for unauthorized changes.</li>
+                                            <li>Restore deleted or tampered files from backups where possible.</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </SubSection>
+
+                            <SubSection title="Strategic Improvements">
+                                <ul className="list-disc list-outside text-gray-700 space-y-3 ml-5">
+                                    <li><B>Adopt a Zero Trust security model</B>
+                                        <ul className="list-disc list-outside ml-5 mt-1 space-y-1 text-gray-600">
+                                            <li>Implement <B>least privilege access</B>, micro-segmentation, and continuous authentication.</li>
+                                            <li>Ensure multi-factor authentication (MFA) is enforced for all privileged accounts.</li>
+                                        </ul>
+                                    </li>
+                                    <li><B>Enhance monitoring and detection</B>
+                                        <ul className="list-disc list-outside ml-5 mt-1 space-y-1 text-gray-600">
+                                            <li>Deploy or improve SIEM/XDR to monitor lateral movement, anomalous cloud access, and endpoint compromise.</li>
+                                            <li>Integrate <B>real-time alerting</B> for critical events across both on-premises and cloud environments.</li>
+                                        </ul>
+                                    </li>
+                                    <li><B>Strengthen cloud security posture</B>
+                                        <ul className="list-disc list-outside ml-5 mt-1 space-y-1 text-gray-600">
+                                            <li>Enforce IAM best practices: rotate keys, implement role-based access, and audit cloud accounts regularly.</li>
+                                            <li>Enable logging and versioning for all cloud storage objects to detect unauthorized access or deletions.</li>
+                                        </ul>
+                                    </li>
+                                    <li><B>Incident response readiness</B>
+                                        <ul className="list-disc list-outside ml-5 mt-1 space-y-1 text-gray-600">
+                                            <li>Maintain an updated <B>playbook for advanced persistent threats</B> targeting multi-cloud environments.</li>
+                                            <li>Conduct <B>tabletop exercises</B> simulating full compromise scenarios to improve team readiness.</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </SubSection>
+                        </ReportSection>
+
+                        {/* ═══════════ APPENDIX ═══════════ */}
+                        <ReportSection id="appendix" title="Appendix" icon="Paperclip">
+                            <SubSection title="Splunk Queries">
+                                <CodeBlock language="SPL (Splunk)">
+{`index=* "userIdentity.accessKeyId"=AKIA3EBEV4OQF3XCXJ5S | sort _time
+
+index=* "userIdentity.accessKeyId"=AKIA3EBEV4OQF3XCXJ5S eventName=GetObject | sort _time | table requestParameters.bucketName, requestParameters.key
+
+index=* "172.235.129.221" sourcetype=StorageBlobLogs | sort _time
+
+index=* "172.235.129.221" sourcetype=StorageBlobLogs | sort _time | table AuthenticationType, OperationName, ObjectKey`}
+                                </CodeBlock>
+                            </SubSection>
+
+                            <SubSection title="Rclone Configuration File">
+                                <Img src="img-42.png" alt="Rclone configuration file" caption="Rclone configuration file" />
+                            </SubSection>
+
+                            <SubSection title="File Inside Adversary's MEGA Account">
+                                <Img src="img-43.png" alt="File inside the adversary's MEGA account" caption="File inside the adversary's MEGA account" />
+                            </SubSection>
+
+                            <SubSection title="File Recovery">
+                                <p className="text-gray-700">A Python script was used to recover files from the steganographic image created by the adversary:</p>
+                                <CodeBlock language="Python">
+{`# extractor.py
+# Requires: Pillow (PIL)
+# Usage: python extractor.py hidden.png recovered.bin
+
+import sys
+from PIL import Image
+import zlib
+import struct
+
+def read_rgba_bytes(png_path):
+    img = Image.open(png_path)
+    img = img.convert("RGBA")
+    data = img.tobytes()  # row-major RGBA
+    return data
+
+def extract(png_path, out_path):
+    data = read_rgba_bytes(png_path)
+    # The C code stored the header+payload directly into the RGBA bytes.
+    # So the first 16 bytes of 'data' are the header.
+    if len(data) < 16:
+        raise ValueError("PNG too small or not containing embedded data.")
+    header = data[:16]
+    crc32_field, key_field_lo, orig_size = struct.unpack("<I Q I", header)
+    # key_field_lo contains the 4-byte key in its low 4 bytes.
+    key = struct.pack("<Q", key_field_lo)[:4]  # first 4 bytes little-endian
+    original_size = orig_size
+    encrypted = data[16:16+original_size]
+    if len(encrypted) < original_size:
+        raise ValueError("PNG does not contain full payload (truncated).")
+    # verify CRC32
+    key_u32 = key  # 4 bytes little-endian
+    block12 = key + b'\\x00\\x00\\x00\\x00' + struct.pack("<I", original_size)
+    check_crc = zlib.crc32(block12) & 0xFFFFFFFF
+    if check_crc != crc32_field:
+        print("Warning: CRC mismatch (payload integrity check failed).")
+        # still attempt extraction
+    # XOR decrypt with 4-byte key repeating
+    key_bytes = key
+    out = bytearray()
+    for i, b in enumerate(encrypted):
+        out.append(b ^ key_bytes[i % 4])
+    with open(out_path, "wb") as f:
+        f.write(out)
+    print(f"Wrote {len(out)} bytes to {out_path}")
+
+if __name__ == "__main__":
+    if len(sys.argv) != 3:
+        print("Usage: python extractor.py hidden.png recovered.bin")
+        sys.exit(1)
+    extract(sys.argv[1], sys.argv[2])`}
+                                </CodeBlock>
+                                <Img src="img-44.png" alt="Extraction result" />
+                                <p className="text-gray-700">By running the script, we can obtain the zip file that contains the 6 files that were exfiltrated by the adversary.</p>
+                            </SubSection>
+                        </ReportSection>
+
+                        {/* Back to top / navigation */}
+                        <div className="text-center py-8 border-t border-gray-200">
+                            <a href="#" className="text-blue-600 hover:text-blue-700 font-medium text-sm inline-flex items-center gap-1">
+                                <Icon name="ArrowUp" className="w-4 h-4" /> Back to top
+                            </a>
+                            <span className="mx-3 text-gray-300">|</span>
+                            <a href="/ir-reports/index.html" className="text-blue-600 hover:text-blue-700 font-medium text-sm inline-flex items-center gap-1">
+                                <Icon name="ArrowLeft" className="w-4 h-4" /> All IR Reports
+                            </a>
+                        </div>
+                    </main>
+                </div>
+            );
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>

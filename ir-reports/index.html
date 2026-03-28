@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IR Reports | Chicken0248</title>
+    <link rel="icon" href="/chicken0248.png" type="image/png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn { animation: fadeIn 0.5s ease-out; }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .animate-spin { animation: spin 0.8s linear infinite; }
+
+        /* ── DARK MODE ── */
+        .dark.min-h-screen { background: linear-gradient(135deg, #0f172a 0%, #141f35 50%, #0a1628 100%) !important; }
+        .dark nav { background-color: rgba(15,23,42,0.96) !important; border-bottom-color: rgba(51,65,85,0.5) !important; }
+        .dark .bg-white    { background-color: #1e293b !important; }
+        .dark .bg-gray-50  { background-color: #0f172a !important; }
+        .dark .bg-gray-100 { background-color: #334155 !important; }
+        .dark .bg-red-50   { background-color: rgba(220,38,38,0.10) !important; }
+        .dark .bg-red-100  { background-color: rgba(220,38,38,0.20) !important; }
+        .dark .bg-orange-100 { background-color: rgba(234,88,12,0.20) !important; }
+        .dark .bg-blue-100   { background-color: rgba(37,99,235,0.20) !important; }
+        .dark .bg-green-100  { background-color: rgba(22,163,74,0.20) !important; }
+        .dark .text-gray-800 { color: #e2e8f0 !important; }
+        .dark .text-gray-700 { color: #cbd5e1 !important; }
+        .dark .text-gray-600 { color: #94a3b8 !important; }
+        .dark .text-gray-500 { color: #64748b !important; }
+        .dark .text-gray-400 { color: #475569 !important; }
+        .dark .text-red-700    { color: #f87171 !important; }
+        .dark .text-blue-700   { color: #93c5fd !important; }
+        .dark .text-green-700  { color: #4ade80 !important; }
+        .dark .text-orange-700 { color: #fb923c !important; }
+        .dark .text-blue-600   { color: #60a5fa !important; }
+        .dark .border-gray-100 { border-color: #334155 !important; }
+        .dark .border-gray-200 { border-color: #475569 !important; }
+        .dark .hover\:border-blue-300:hover { border-color: rgba(59,130,246,0.5) !important; }
+        .dark .hover\:bg-gray-50:hover { background-color: #1e293b !important; }
+        .dark input { background-color: #1e293b !important; border-color: #334155 !important; color: #e2e8f0 !important; }
+        .dark input::placeholder { color: #64748b !important; }
+        .dark ::-webkit-scrollbar       { width: 6px; }
+        .dark ::-webkit-scrollbar-track { background: #0f172a; }
+        .dark ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        const Icon = ({ name, className = "w-6 h-6", ...props }) => {
+            const ref = useRef(null);
+            useEffect(() => {
+                if (ref.current) {
+                    const el = lucide.createElement(lucide[name], { class: className });
+                    ref.current.innerHTML = '';
+                    ref.current.appendChild(el);
+                }
+            }, [name, className]);
+            return <i ref={ref} className={`flex-shrink-0 ${className}`} {...props}></i>;
+        };
+
+        const App = () => {
+            const [dark, setDark] = useState(() => localStorage.getItem('darkMode') === 'true');
+            const [reports, setReports] = useState([]);
+            const [loading, setLoading] = useState(true);
+
+            useEffect(() => { localStorage.setItem('darkMode', dark); }, [dark]);
+
+            useEffect(() => {
+                fetch('/data/ir-reports.json')
+                    .then(r => r.json())
+                    .then(data => { setReports(data); setLoading(false); })
+                    .catch(() => setLoading(false));
+            }, []);
+
+            return (
+                <div className={`min-h-screen bg-gray-50 ${dark ? 'dark' : ''}`}>
+                    {/* Navigation */}
+                    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 px-4 py-3">
+                        <div className="max-w-6xl mx-auto flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                                <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                                    <img src="/chicken0248.png" alt="Logo" className="w-8 h-8 rounded-lg" />
+                                    <span className="font-bold text-gray-800">Chicken0248</span>
+                                </a>
+                                <span className="text-gray-400">/</span>
+                                <span className="font-semibold text-gray-600">IR Reports</span>
+                            </div>
+                            <button onClick={() => setDark(!dark)}
+                                className="p-2 rounded-lg hover:bg-gray-100 text-gray-600 transition-colors text-lg">
+                                {dark ? '\u2600\uFE0F' : '\uD83C\uDF19'}
+                            </button>
+                        </div>
+                    </nav>
+
+                    <main className="max-w-6xl mx-auto px-4 py-8 space-y-8 animate-fadeIn">
+                        {/* Hero */}
+                        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-slate-800 to-slate-900 text-white shadow-xl">
+                            <div className="absolute -top-16 -right-16 w-64 h-64 bg-white/5 rounded-full blur-xl" />
+                            <div className="absolute -bottom-12 -left-12 w-48 h-48 bg-slate-600/20 rounded-full blur-xl" />
+                            <div className="relative px-8 py-14 md:py-16 text-center">
+                                <div className="flex justify-center mb-4">
+                                    <div className="bg-white/20 p-3 rounded-2xl">
+                                        <Icon name="FileText" className="w-10 h-10 text-white" />
+                                    </div>
+                                </div>
+                                <h1 className="text-3xl md:text-4xl font-extrabold mb-2 tracking-tight">Incident Response Reports</h1>
+                                <p className="text-slate-300 text-lg font-medium mb-6">Detailed security incident investigations and forensic analysis</p>
+                                <div className="inline-flex bg-white/20 rounded-xl px-6 py-3">
+                                    <div className="text-center">
+                                        <div className="text-2xl font-bold">{reports.length}</div>
+                                        <div className="text-slate-300 text-sm">Reports Published</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Loading */}
+                        {loading && (
+                            <div className="flex justify-center py-20">
+                                <div className="w-8 h-8 border-4 border-red-200 border-t-red-600 rounded-full animate-spin" />
+                            </div>
+                        )}
+
+                        {/* Report Cards */}
+                        {!loading && (
+                            <div className="grid md:grid-cols-2 gap-6">
+                                {reports.map(report => (
+                                    <a key={report.slug} href={report.url}
+                                       className="group bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg hover:border-blue-300 transition-all duration-200">
+                                        <div className="aspect-video overflow-hidden">
+                                            <img src={report.cover} alt={report.title}
+                                                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                                        </div>
+                                        <div className="p-5 space-y-3">
+                                            <div className="flex items-center gap-2 text-sm text-gray-500">
+                                                <Icon name="Calendar" className="w-4 h-4" />
+                                                <span>{new Date(report.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                                                <span className="mx-1">|</span>
+                                                <span className="bg-red-100 text-red-700 px-2 py-0.5 rounded-full text-xs font-semibold">{report.platform}</span>
+                                            </div>
+                                            <h2 className="text-lg font-bold text-gray-800 group-hover:text-blue-600 transition-colors">{report.title}</h2>
+                                            <p className="text-gray-600 text-sm line-clamp-3">{report.summary}</p>
+                                            <div className="flex flex-wrap gap-2 pt-1">
+                                                {report.tags.map(tag => (
+                                                    <span key={tag} className="bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full text-xs font-medium">{tag}</span>
+                                                ))}
+                                            </div>
+                                            <div className="flex items-center gap-1 text-blue-600 text-sm font-medium pt-2">
+                                                <span>Read Full Report</span>
+                                                <Icon name="ArrowRight" className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                            </div>
+                                        </div>
+                                    </a>
+                                ))}
+                            </div>
+                        )}
+
+                        {/* Empty State */}
+                        {!loading && reports.length === 0 && (
+                            <div className="text-center py-16 text-gray-500">
+                                <Icon name="FileText" className="w-12 h-12 mx-auto mb-3 opacity-40" />
+                                <p className="text-lg font-medium">No reports published yet.</p>
+                            </div>
+                        )}
+                    </main>
+                </div>
+            );
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>

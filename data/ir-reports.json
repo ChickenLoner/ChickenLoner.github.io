@@ -1,0 +1,13 @@
+[
+  {
+    "slug": "btlo-halloween-2025",
+    "title": "Zeta-9 Security Incident Report",
+    "subtitle": "BTLO Halloween 2025 Challenge",
+    "date": "2025-11-01",
+    "platform": "Blue Team Labs Online",
+    "cover": "/assets/labs/btlo_halloween2025_ir_report.png",
+    "tags": ["Incident Response", "Splunk", "Data Exfiltration", "Cloud Security"],
+    "summary": "A comprehensive incident response report investigating the Zeta-9 security breach involving FortiGate firewall exploitation, lateral movement across on-premises and cloud infrastructure, and critical data exfiltration.",
+    "url": "/ir-reports/btlo-halloween-2025/index.html"
+  }
+]
