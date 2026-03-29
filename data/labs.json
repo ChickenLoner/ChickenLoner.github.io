@@ -313,5 +313,14 @@
     "tags": ["Sysmon", "Tool", "Log Analyis"],
     "type": "project",
     "image": "./assets/labs/systrace.jpg"
+  },
+  {
+    "title": "TrailInspector",
+    "description": "A fast, offline desktop tool for investigating AWS CloudTrail logs — built for blue teamers, incident responders, and cloud security engineers.",
+    "platform": "GitHub",
+    "link": "https://github.com/ChickenLoner/TrailInspector",
+    "tags": ["AWS CloudTrail", "Tool", "Log Analyis"],
+    "type": "project",
+    "image": "./assets/labs/trailinspector.jpg"
   }
 ]
