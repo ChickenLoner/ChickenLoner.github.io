@@ -161,7 +161,7 @@
     "image": "./assets/labs/htb-wfh.png",
     "difficulty": "medium",
     "rating": 4.2,
-    "is_retired": false
+    "is_retired": true
   },
   {
     "title": "Liberty",
