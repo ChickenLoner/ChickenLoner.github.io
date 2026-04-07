@@ -473,8 +473,8 @@
                                 <Img src="img-34.png" alt="Defender disable command details" />
                                 <p>Pivoting from the failed disable attempt, at <B>16:43:12 UTC</B> the threat actor added <C>C:\Users\Public</C> to the Windows Defender exclusion path. Windows Defender Event ID 5007 confirms the exclusion was successfully applied at <B>16:43:15 UTC</B>, creating a protected staging area for subsequent tooling.</p>
                                 <Img src="img-35.png" alt="Defender exclusion path added — C:\Users\Public" />
-                                <Img src="img-36.png" alt="Windows Defender Event ID 5007 — exclusion applied" />
                                 <p>At <B>16:43:18 UTC</B>, Sysinternals ProcDump was transferred onto the host and written to the Defender-excluded path as <C>C:\Users\Public\PresentForNaughtyChild.exe</C>.</p>
+                                <Img src="img-36.png" alt="Windows Defender Event ID 5007 — exclusion applied" />
                                 <Img src="img-37.png" alt="ProcDump dropped as PresentForNaughtyChild.exe" />
                                 <p>At <B>16:43:27 UTC</B>, the threat actor invoked <C>PresentForNaughtyChild.exe</C> to dump the LSASS process memory to <C>C:\Users\Public\stolen_gift.dmp</C>, enabling offline credential extraction from the captured memory image.</p>
                             </Finding>
