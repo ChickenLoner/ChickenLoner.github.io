@@ -1,5 +1,16 @@
 [
   {
+    "slug": "htb-tinsel-trace-1",
+    "title": "Operation Tinsel Trace I — IR Report",
+    "subtitle": "Hack The Box — Festive Sherlocks 2023",
+    "date": "2023-12-13",
+    "platform": "Hack The Box",
+    "cover": "/assets/labs/htb-tinsel-trace-1.jpg",
+    "tags": ["Incident Response", "Ransomware", "AWS", "Social Engineering", "ZeroLogon"],
+    "summary": "A comprehensive incident response report investigating a 16-day multi-phase intrusion by the Grinch threat actor against North Pole Operations — from insider-assisted binary exfiltration and cloud credential abuse to printer filesystem exploitation, ZeroLogon domain compromise, and ransomware deployment.",
+    "url": "/ir-reports/htb-tinsel-trace-1/index.html"
+  },
+  {
     "slug": "btlo-halloween-2025",
     "title": "Zeta-9 Security Incident Report",
     "subtitle": "BTLO Halloween 2025 Challenge",
