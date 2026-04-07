@@ -476,14 +476,13 @@
                                 <Img src="img-36.png" alt="Windows Defender Event ID 5007 — exclusion applied" />
                                 <p>At <B>16:43:18 UTC</B>, Sysinternals ProcDump was transferred onto the host and written to the Defender-excluded path as <C>C:\Users\Public\PresentForNaughtyChild.exe</C>.</p>
                                 <Img src="img-37.png" alt="ProcDump dropped as PresentForNaughtyChild.exe" />
-                                <Img src="img-38.png" alt="ProcDump file details" />
                                 <p>At <B>16:43:27 UTC</B>, the threat actor invoked <C>PresentForNaughtyChild.exe</C> to dump the LSASS process memory to <C>C:\Users\Public\stolen_gift.dmp</C>, enabling offline credential extraction from the captured memory image.</p>
                             </Finding>
 
                             {/* Finding 4 */}
                             <Finding number={4} title="Printer Filesystem Exploitation via PJL FSUPLOAD Leads to Sensitive Document and SSH Key Exfiltration">
-                                <Img src="img-39.png" alt="Finding 4 overview — printer exploitation" />
-                                <Img src="img-40.png" alt="Internal network topology with printer" />
+                                <Img src="img-38.png" alt="Finding 4 overview — printer exploitation" />
+                                <Img src="img-39.png" alt="Internal network topology with printer" />
                                 <p>On <B>December 8, 2023</B>, at <B>12:01:39 UTC</B>, the threat actor — now operating from within the internal network — conducted a port scan against the <B>NorthPole HP LaserJet 4200n</B> printer (<C>192.168.68.128</C>), as evidenced by <C>networktraffic.pcapng</C>. The scan revealed two open ports: TCP 22 (SSH) and TCP 9100, the standard port for raw TCP/IP printing, which also serves as the PJL interface entry point.</p>
                                 <Img src="img-41.png" alt="Port scan results — TCP 22 and 9100 open on printer" />
                                 <p>At <B>12:02:14 UTC</B>, the threat actor established a connection to the printer on port 9100, initiating a PJL session.</p>
