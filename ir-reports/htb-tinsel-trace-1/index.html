@@ -507,13 +507,13 @@
                             <Finding number={5} title="ZeroLogon Exploitation Leads to Domain Compromise and Ransomware Deployment">
                                 <Img src="img-50.png" alt="CVE-2020-1472 ZeroLogon exploit against DC01.northpole.local" />
                                 <Img src="img-51.png" alt="DC01 — Windows Security Event log showing DC$ machine account password reset" />
-                                <Img src="img-52.png" alt="DC01 domain controller — full compromise chain evidence" />
                                 <p>Building on the credential material harvested from the LSASS dump and the internal network persistence established through prior phases, the threat actor executed the most destructive stage of the operation on <B>December 13, 2023</B>.</p>
                                 <p>At <B>09:24:21 UTC</B>, the threat actor — operating from internal IP <C>192.168.68.200</C> — exploited the Netlogon privilege escalation vulnerability (<B>CVE-2020-1472, ZeroLogon</B>) against <C>DC01.northpole.local</C>. The attack successfully reset the <C>DC$</C> machine account password at <B>09:24:23 UTC</B>, as confirmed by Windows Security Event logs recovered from <C>DC01.northpole.local-KAPE</C>.</p>
                                 <Img src="img-53.png" alt="ZeroLogon exploit — DC$ machine account password reset at 09:24:23" />
                                 <Img src="img-54.png" alt="Windows Security Event Log — DC$ password reset event" />
                                 <Img src="img-55.png" alt="Event log details confirming ZeroLogon exploitation" />
                                 <p>As part of the exploitation chain, a malicious service named <C>vulnerable_to_zerologon</C> was installed on the domain controller, backed by the binary <C>hAvbdksT.exe</C>. The service was started one second after installation, indicating automated post-exploitation staging.</p>
+                                <Img src="img-52.png" alt="DC01 domain controller — full compromise chain evidence" />
                                 <Img src="img-56.png" alt="vulnerable_to_zerologon service installed and started on DC01" />
                                 <p>At <B>09:27:36 UTC</B>, leveraging the local Administrator account now accessible via the domain controller, the threat actor reset the password of the <C>Bytesparkle</C> domain account, repurposing it as a controlled credential for subsequent lateral movement.</p>
                                 <Img src="img-57.png" alt="Bytesparkle domain account password forcibly reset" />
