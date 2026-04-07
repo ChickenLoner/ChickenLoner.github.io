@@ -407,7 +407,7 @@
 
                             {/* Finding 1 */}
                             <Finding number={1} title="Insider Threat Leads to Secret Binary Exfiltration">
-                                <Img src="img-01.png" alt="Finding 1 overview — social engineering email chain" />
+                                <Img src="img-01.png" alt="Email thread recovered from DESKTOP-D32FKTI em client" />
                                 <p>On <B>November 27, 2023</B>, the threat actor initiated contact with Elfin from the address <C>definitelynotthegrinch@gmail[.]com</C>, posing as "Wendy Elflower" and fabricating a shared familiarity by claiming to have encountered Elfin at the North Pole HQ — a classic pretexting technique to establish trust early in the social engineering chain.</p>
                                 <Img src="img-02.png" alt="First email from threat actor to Elfin" />
                                 <Img src="img-03.png" alt="Email exchange — Elfin's initial reply" />
@@ -432,7 +432,7 @@
 
                             {/* Finding 2 */}
                             <Finding number={2} title="Hardcoded Credentials in Public S3 Bucket Enable Private Bucket Access and OpenVPN Configuration Exfiltration">
-                                <Img src="img-14.png" alt="Finding 2 overview — S3 bucket pivot chain" />
+                                <Img src="img-14.png" alt="AWS CloudTrail — automated retrieval from papa-noel S3 bucket" />
                                 <p>On <B>November 29, 2023</B>, at <B>08:24:07 UTC</B>, AWS CloudTrail logs recorded an automated bulk retrieval from <C>191[.]101[.]31[.]57</C> targeting the publicly accessible <C>papa-noel</C> S3 bucket — the same bucket whose URL was hardcoded within the <C>santa_deliveries</C> binary exfiltrated by Elfin the previous day. The operation completed within nine seconds, concluding at <B>08:24:16 UTC</B>.</p>
                                 <Img src="img-15.png" alt="CloudTrail — automated bulk S3 retrieval from papa-noel" />
                                 <p>Among the files retrieved from <C>papa-noel</C> was <C>NPoleScripts/claus.py</C>, which contained hardcoded AWS access and secret keys belonging to the <C>elfadmin</C> account, along with a direct reference to the private S3 bucket <C>north-pole-private</C> — effectively handing the threat actor authenticated access to internal cloud infrastructure.</p>
@@ -481,7 +481,7 @@
 
                             {/* Finding 4 */}
                             <Finding number={4} title="Printer Filesystem Exploitation via PJL FSUPLOAD Leads to Sensitive Document and SSH Key Exfiltration">
-                                <Img src="img-38.png" alt="Finding 4 overview — printer exploitation" />
+                                <Img src="img-38.png" alt="Port scan against NorthPole HP LaserJet 4200n — ports 22 and 9100 discovered" />
                                 <Img src="img-39.png" alt="Internal network topology with printer" />
                                 <p>On <B>December 8, 2023</B>, at <B>12:01:39 UTC</B>, the threat actor — now operating from within the internal network — conducted a port scan against the <B>NorthPole HP LaserJet 4200n</B> printer (<C>192.168.68.128</C>), as evidenced by <C>networktraffic.pcapng</C>. The scan revealed two open ports: TCP 22 (SSH) and TCP 9100, the standard port for raw TCP/IP printing, which also serves as the PJL interface entry point.</p>
                                 <Img src="img-41.png" alt="Port scan results — TCP 22 and 9100 open on printer" />
@@ -499,15 +499,15 @@
                                 <Img src="img-48.png" alt="Christmas announcement content retrieved" />
                                 <p>At <B>12:09:12 UTC</B>, the threat actor discovered an SSH backup private key for the <C>christmas.gifts</C> server stored at <C>0:/Administration/securitykeys/ssh_systems/id_rsa</C>, and retrieved its contents at <B>12:09:27 UTC</B>.</p>
                                 <Img src="img-49.png" alt="SSH private key discovered at 0:/Administration/securitykeys/ssh_systems/id_rsa" />
-                                <Img src="img-50.png" alt="SSH private key content exfiltrated" />
                                 <p>At <B>12:18:14 UTC</B>, the threat actor attempted to delete the backup key from the printer's storage — likely to remove evidence of access — but the operation failed.</p>
                                 <p>It is worth noting that the SSH private key at <C>0:/Administration/securitykeys/ssh_systems/id_rsa</C> represents a potentially unscoped access vector to the <C>christmas.gifts</C> server whose full exploitation remains undetermined. Additionally, the printer (<C>192.168.68.128</C>) and the ZeroLogon source IP observed in the following phase (<C>192.168.68.200</C>) belong to the same internal subnet, confirming the threat actor maintained a persistent internal foothold continuously from VPN ingress through to domain compromise.</p>
                             </Finding>
 
                             {/* Finding 5 */}
                             <Finding number={5} title="ZeroLogon Exploitation Leads to Domain Compromise and Ransomware Deployment">
-                                <Img src="img-51.png" alt="Finding 5 overview — ZeroLogon to ransomware" />
-                                <Img src="img-52.png" alt="DC01 compromise overview" />
+                                <Img src="img-50.png" alt="CVE-2020-1472 ZeroLogon exploit against DC01.northpole.local" />
+                                <Img src="img-51.png" alt="DC01 — Windows Security Event log showing DC$ machine account password reset" />
+                                <Img src="img-52.png" alt="DC01 domain controller — full compromise chain evidence" />
                                 <p>Building on the credential material harvested from the LSASS dump and the internal network persistence established through prior phases, the threat actor executed the most destructive stage of the operation on <B>December 13, 2023</B>.</p>
                                 <p>At <B>09:24:21 UTC</B>, the threat actor — operating from internal IP <C>192.168.68.200</C> — exploited the Netlogon privilege escalation vulnerability (<B>CVE-2020-1472, ZeroLogon</B>) against <C>DC01.northpole.local</C>. The attack successfully reset the <C>DC$</C> machine account password at <B>09:24:23 UTC</B>, as confirmed by Windows Security Event logs recovered from <C>DC01.northpole.local-KAPE</C>.</p>
                                 <Img src="img-53.png" alt="ZeroLogon exploit — DC$ machine account password reset at 09:24:23" />
