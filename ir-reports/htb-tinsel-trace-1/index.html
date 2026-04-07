@@ -446,37 +446,37 @@
 
                             {/* Finding 3 */}
                             <Finding number={3} title="Malicious LNK Delivery Chain Leads to Process Injection and Credential Harvesting">
-                                <Img src="img-19.png" alt="Finding 3 overview — LNK delivery chain" />
-                                <Img src="img-20.png" alt="Internal network access via bytesparkle.ovpn" />
+                                <Img src="img-19.png" alt="Internal network access via bytesparkle.ovpn" />
+                                <Img src="img-20.png" alt="santaclaus.bin — present_for_santa.zip copied to Desktop" />
                                 <p>With authenticated VPN access to the internal network established through the exfiltrated <C>bytesparkle.ovpn</C> configuration, the threat actor pivoted from cloud-based operations to on-premises targets.</p>
                                 <p>On <B>November 30, 2023</B>, at <B>16:42:21 UTC</B>, memory forensics of <C>santaclaus.bin</C> show the Santa Claus account on <C>TINKERTECH-WKS001</C> accessing the <C>\\SANTA-FS\ImportantFiles</C> network share and copying <C>present_for_santa.zip</C> to the user's Desktop, with the file creation timestamped at <B>16:42:23 UTC</B>.</p>
-                                <Img src="img-21.png" alt="santaclaus.bin — present_for_santa.zip copied to Desktop" />
+                                <Img src="img-21.png" alt="Archive extracted — contents showing click_for_present.lnk and present.vbs" />
                                 <p>At <B>16:42:28 UTC</B>, the archive was extracted to a <C>present_for_santa</C> folder on the Desktop. The archive contained two malicious files: <C>present.vbs</C>, a heavily obfuscated VBScript dropper, and <C>click_for_present.lnk</C>, a weaponized shortcut designed to trigger the infection chain.</p>
-                                <Img src="img-22.png" alt="Archive extracted — contents showing click_for_present.lnk and present.vbs" />
-                                <Img src="img-23.png" alt="click_for_present.lnk details" />
+                                <Img src="img-22.png" alt="click_for_present.lnk details" />
+                                <Img src="img-23.png" alt="LNK target — PowerShell spawning cscript for present.vbs" />
                                 <p><C>click_for_present.lnk</C> was crafted as a lure — when executed, it spawned a PowerShell command that recursively searched <C>C:\Users\</C> for any file matching the pattern <C>present*.vbs</C> and invoked it via <C>cscript</C>, executing <C>present.vbs</C> without requiring user awareness of the underlying payload.</p>
-                                <Img src="img-24.png" alt="LNK target — PowerShell spawning cscript for present.vbs" />
-                                <Img src="img-25.png" alt="LNK execution chain details" />
-                                <Img src="img-26.png" alt="present.vbs obfuscated payload" />
+                                <Img src="img-24.png" alt="LNK execution chain details" />
+                                <Img src="img-25.png" alt="present.vbs obfuscated payload" />
+                                <Img src="img-26.png" alt="VBScript — present.exe download URL and execution" />
                                 <p>The VBScript payload was heavily obfuscated to evade static analysis. Its primary function was to download a shellcode loader (<C>present.exe</C>) from the C2 server at <C>77[.]74[.]198[.]52</C> via <C>hxxp[://]77.74.198.52/destroy_christmas/evil_present.jpg</C>, dropping it into the executing user's temp directory before launching it to establish a reverse shell back to the C2.</p>
-                                <Img src="img-27.png" alt="VBScript — present.exe download URL and execution" />
-                                <Img src="img-28.png" alt="present.exe download from C2" />
+                                <Img src="img-27.png" alt="present.exe download from C2" />
+                                <Img src="img-28.png" alt="MFT records — present.exe written and executed" />
                                 <p>MFT records corroborate that <C>present.exe</C> was written to disk at <B>16:42:40 UTC</B> and executed one second later at <B>16:42:41 UTC</B>, consistent with process start events recovered from the <C>santaclaus.bin</C> memory dump.</p>
-                                <Img src="img-29.png" alt="MFT records — present.exe written and executed" />
-                                <Img src="img-30.png" alt="Process start events in memory dump" />
+                                <Img src="img-29.png" alt="Process start events in memory dump" />
+                                <Img src="img-30.png" alt="Shellcode injection into svchost.exe (PID 724)" />
                                 <p>The shellcode loader retrieved a second-stage shellcode from the C2 on port 445 and injected it into the <C>svchost.exe</C> process (PID 724), a common process hollowing technique used to blend malicious execution into a legitimate Windows service host. The injected shellcode then established a reverse shell connection back to the C2 on port 447.</p>
-                                <Img src="img-31.png" alt="Shellcode injection into svchost.exe (PID 724)" />
+                                <Img src="img-31.png" alt="Event logs cleared via PowerShell" />
                                 <p>At approximately <B>16:42:59 UTC</B>, the threat actor executed a PowerShell command to clear all Windows event logs on <C>TINKERTECH-WKS001</C>, consistent with active anti-forensic measures to limit incident scope reconstruction.</p>
-                                <Img src="img-32.png" alt="Event logs cleared via PowerShell" />
+                                <Img src="img-32.png" alt="Windows Defender disable attempt — failed due to syntax error" />
                                 <p>At <B>16:43:04 UTC</B>, the threat actor attempted to disable Windows Defender via PowerShell, but the command failed due to a syntax error, leaving Defender operational at this stage.</p>
-                                <Img src="img-33.png" alt="Windows Defender disable attempt — failed due to syntax error" />
-                                <Img src="img-34.png" alt="Defender disable command details" />
+                                <Img src="img-33.png" alt="Defender disable command details" />
+                                <Img src="img-34.png" alt="Defender exclusion path added — C:\Users\Public" />
                                 <p>Pivoting from the failed disable attempt, at <B>16:43:12 UTC</B> the threat actor added <C>C:\Users\Public</C> to the Windows Defender exclusion path. Windows Defender Event ID 5007 confirms the exclusion was successfully applied at <B>16:43:15 UTC</B>, creating a protected staging area for subsequent tooling.</p>
-                                <Img src="img-35.png" alt="Defender exclusion path added — C:\Users\Public" />
+                                <Img src="img-35.png" alt="Windows Defender Event ID 5007 — exclusion applied" />
                                 <p>At <B>16:43:18 UTC</B>, Sysinternals ProcDump was transferred onto the host and written to the Defender-excluded path as <C>C:\Users\Public\PresentForNaughtyChild.exe</C>.</p>
-                                <Img src="img-36.png" alt="Windows Defender Event ID 5007 — exclusion applied" />
-                                <Img src="img-37.png" alt="ProcDump dropped as PresentForNaughtyChild.exe" />
+                                <Img src="img-36.png" alt="ProcDump dropped as PresentForNaughtyChild.exe" />
                                 <p>At <B>16:43:27 UTC</B>, the threat actor invoked <C>PresentForNaughtyChild.exe</C> to dump the LSASS process memory to <C>C:\Users\Public\stolen_gift.dmp</C>, enabling offline credential extraction from the captured memory image.</p>
+                                <Img src="img-37.png" alt="MFT — stolen_gift.dmp written to disk" />
                             </Finding>
 
                             {/* Finding 4 */}
