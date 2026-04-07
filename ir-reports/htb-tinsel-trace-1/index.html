@@ -510,25 +510,24 @@
                                 <p>Building on the credential material harvested from the LSASS dump and the internal network persistence established through prior phases, the threat actor executed the most destructive stage of the operation on <B>December 13, 2023</B>.</p>
                                 <p>At <B>09:24:21 UTC</B>, the threat actor — operating from internal IP <C>192.168.68.200</C> — exploited the Netlogon privilege escalation vulnerability (<B>CVE-2020-1472, ZeroLogon</B>) against <C>DC01.northpole.local</C>. The attack successfully reset the <C>DC$</C> machine account password at <B>09:24:23 UTC</B>, as confirmed by Windows Security Event logs recovered from <C>DC01.northpole.local-KAPE</C>.</p>
                                 <Img src="img-53.png" alt="ZeroLogon exploit — DC$ machine account password reset at 09:24:23" />
-                                <Img src="img-54.png" alt="Windows Security Event Log — DC$ password reset event" />
-                                <Img src="img-55.png" alt="Event log details confirming ZeroLogon exploitation" />
-                                <p>As part of the exploitation chain, a malicious service named <C>vulnerable_to_zerologon</C> was installed on the domain controller, backed by the binary <C>hAvbdksT.exe</C>. The service was started one second after installation, indicating automated post-exploitation staging.</p>
                                 <Img src="img-52.png" alt="DC01 domain controller — full compromise chain evidence" />
-                                <Img src="img-56.png" alt="vulnerable_to_zerologon service installed and started on DC01" />
+                                <Img src="img-54.png" alt="Windows Security Event Log — DC$ password reset event" />
+                                <p>As part of the exploitation chain, a malicious service named <C>vulnerable_to_zerologon</C> was installed on the domain controller, backed by the binary <C>hAvbdksT.exe</C>. The service was started one second after installation, indicating automated post-exploitation staging.</p>
+                                <Img src="img-55.png" alt="Event log details confirming ZeroLogon exploitation" />
                                 <p>At <B>09:27:36 UTC</B>, leveraging the local Administrator account now accessible via the domain controller, the threat actor reset the password of the <C>Bytesparkle</C> domain account, repurposing it as a controlled credential for subsequent lateral movement.</p>
-                                <Img src="img-57.png" alt="Bytesparkle domain account password forcibly reset" />
+                                <Img src="img-56.png" alt="vulnerable_to_zerologon service installed and started on DC01" />
                                 <p>At approximately <B>10:03 UTC</B>, the threat actor established an RDP session to <C>DC01.northpole.local</C> using the newly controlled <C>Bytesparkle</C> account, gaining interactive access to the domain controller.</p>
+                                <Img src="img-57.png" alt="Bytesparkle domain account password forcibly reset" />
                                 <Img src="img-58.png" alt="RDP session established to DC01 as Bytesparkle" />
-                                <Img src="img-59.png" alt="RDP activity on DC01" />
                                 <p>At <B>10:47 UTC</B>, two suspicious files — a masqueraded <C>svchost.exe</C> and an accompanying <C>vnc2.dll</C> — were dropped into <C>C:\Users\bytesparkle\Downloads\svc</C>. The binary was executed at <B>10:53:21 UTC</B>, establishing a VNC-based remote access channel to maintain persistence beyond the RDP session.</p>
+                                <Img src="img-59.png" alt="RDP activity on DC01" />
                                 <Img src="img-60.png" alt="svchost.exe and vnc2.dll dropped to Downloads\svc" />
-                                <Img src="img-61.png" alt="VNC binary executed at 10:53:21" />
                                 <p>At <B>10:57:38 UTC</B>, the threat actor opened the Task Scheduler MMC snap-in and created a scheduled task named <C>svc_vnc</C>, configured to execute the previously dropped <C>svchost.exe</C>, establishing a persistence mechanism that would survive a reboot.</p>
+                                <Img src="img-61.png" alt="VNC binary executed at 10:53:21" />
                                 <Img src="img-62.png" alt="Task Scheduler — svc_vnc task created" />
                                 <Img src="img-63.png" alt="svc_vnc scheduled task configuration" />
-                                <Img src="img-64.png" alt="Scheduled task set to execute svchost.exe from Downloads\svc" />
                                 <p>At <B>11:00:16 UTC</B>, the threat actor dropped the ransomware payload <C>splunk_svc.dll</C> into <C>C:\tmp</C>. Execution followed at <B>11:03:20 UTC</B>, simultaneously deploying a ransom note to <C>C:\Users\bytesparkle\Desktop\README.txt</C> and beginning file encryption across the domain controller. All encrypted files had their extensions replaced with <C>.xmax</C>. The encryption process completed at <B>11:07:28 UTC</B>, a four-minute destructive sweep across the DC filesystem.</p>
-                                <Img src="img-65.png" alt="Ransom note — GR1NCH-5ANTA-2023XMAS wallet, 5,000,000 XMAS tokens demand" caption="Ransom note deployed to C:\Users\bytesparkle\Desktop\README.txt" />
+                                <Img src="img-64.png" alt="Scheduled task set to execute svchost.exe from Downloads\svc" />
                             </Finding>
 
                             {/* Malware Analysis */}
@@ -539,10 +538,11 @@
                                 </div>
                                 <div className="space-y-4 text-gray-700 leading-relaxed">
                                     <p>Static analysis of <C>splunk_svc.dll</C> — the ransomware payload dropped to <C>C:\tmp</C> and executed at 11:03:20 UTC — reveals a self-contained recursive encryption routine consistent with the observed <C>.xmax</C> extension renaming and ransom note deployment.</p>
-                                    <Img src="img-66.png" alt="splunk_svc.dll static analysis — depth-first directory walker" />
+                                    <Img src="img-65.png" alt="Ransom note — GR1NCH-5ANTA-2023XMAS wallet, 5,000,000 XMAS tokens demand" caption="Ransom note deployed to C:\Users\bytesparkle\Desktop\README.txt" />
                                     <p>The binary implements a depth-first directory walker using <C>FindNextFileW</C>, iterating through the filesystem and checking each discovered file against a hardcoded list of <B>69 targeted extensions</B>. The target list covers documents (<C>.doc</C>, <C>.docx</C>, <C>.pdf</C>, <C>.xls</C>, <C>.xlsx</C>, <C>.ppt</C>, <C>.pptx</C>), source code (<C>.c</C>, <C>.cpp</C>, <C>.cs</C>, <C>.py</C>, <C>.sql</C>, <C>.sln</C>), email stores (<C>.pst</C>, <C>.ost</C>, <C>.msg</C>, <C>.eml</C>), virtual machine disk images (<C>.vmdk</C>, <C>.vdi</C>, <C>.vmx</C>), databases (<C>.mdb</C>, <C>.dbf</C>, <C>.accdb</C>, <C>.ora</C>), and archives (<C>.zip</C>, <C>.7z</C>, <C>.rar</C>, <C>.tar</C>, <C>.gz</C>).</p>
-                                    <Img src="img-67.png" alt="XOR cipher loop — 16-byte repeating key EncryptingC4Fun!" />
+                                    <Img src="img-66.png" alt="splunk_svc.dll static analysis — depth-first directory walker" />
                                     <p>For each matching file, the routine opens the source in read-binary mode, creates an output file with <C>.xmax</C> appended, and encrypts the content byte-by-byte using a <B>repeating 16-byte XOR cipher</B>. The key — referenced internally as <C>EncryptingC4Fun!</C> — cycles across a 16-byte window (<C>v23 = v22 % 16</C>), meaning the entire ciphertext is produced by a key that repeats every 16 bytes. The original file is then deleted via <C>remove()</C>. This encryption scheme is <B>cryptographically trivial</B>: XOR is symmetric, so the same operation restores plaintext, and the short repeating key is fully recoverable via known-plaintext attack against any file whose original content is partially known.</p>
+                                    <Img src="img-67.png" alt="XOR cipher loop — 16-byte repeating key EncryptingC4Fun!" />
                                     <p>Following each encryption, the ransomware calls <C>SHGetSpecialFolderPathA</C> with <C>CSIDL_DESKTOP</C> to resolve the current user's desktop path, appends <C>\\README.TXT</C>, and overwrites the ransom note on every iteration. The hardcoded note demands <B>5,000,000 XMAS tokens</B> to wallet <C>GR1NCH-5ANTA-2023XMAS</C> and is signed "The Grinch."</p>
                                 </div>
                             </div>
