@@ -11,13 +11,8 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .animate-fadeIn { animation: fadeIn 0.5s ease-out; }
-
-        /* ── DARK MODE ── */
         .dark.min-h-screen { background: linear-gradient(135deg, #0f172a 0%, #141f35 50%, #0a1628 100%) !important; }
         .dark nav { background-color: rgba(15,23,42,0.96) !important; border-bottom-color: rgba(51,65,85,0.5) !important; }
         .dark .bg-white    { background-color: #1e293b !important; }
@@ -25,53 +20,37 @@
         .dark .bg-gray-100 { background-color: #334155 !important; }
         .dark .bg-gray-900 { background-color: #0f172a !important; }
         .dark .bg-red-50   { background-color: rgba(220,38,38,0.10) !important; }
-        .dark .bg-red-100  { background-color: rgba(220,38,38,0.20) !important; }
         .dark .bg-orange-50  { background-color: rgba(234,88,12,0.10) !important; }
-        .dark .bg-orange-100 { background-color: rgba(234,88,12,0.20) !important; }
         .dark .bg-blue-50    { background-color: rgba(37,99,235,0.12) !important; }
-        .dark .bg-blue-100   { background-color: rgba(37,99,235,0.20) !important; }
         .dark .bg-green-50   { background-color: rgba(22,163,74,0.10) !important; }
-        .dark .bg-green-100  { background-color: rgba(22,163,74,0.20) !important; }
         .dark .bg-yellow-50  { background-color: rgba(202,138,4,0.10) !important; }
-        .dark .bg-yellow-100 { background-color: rgba(202,138,4,0.20) !important; }
         .dark .bg-indigo-50  { background-color: rgba(99,102,241,0.10) !important; }
-        .dark .bg-indigo-100 { background-color: rgba(99,102,241,0.20) !important; }
         .dark .text-gray-800 { color: #e2e8f0 !important; }
         .dark .text-gray-700 { color: #cbd5e1 !important; }
         .dark .text-gray-600 { color: #94a3b8 !important; }
         .dark .text-gray-500 { color: #64748b !important; }
-        .dark .text-gray-400 { color: #475569 !important; }
-        .dark .text-gray-300 { color: #334155 !important; }
-        .dark .text-red-700    { color: #f87171 !important; }
         .dark .text-red-600    { color: #f87171 !important; }
-        .dark .text-blue-700   { color: #93c5fd !important; }
         .dark .text-blue-600   { color: #60a5fa !important; }
-        .dark .text-green-700  { color: #4ade80 !important; }
         .dark .text-green-600  { color: #4ade80 !important; }
         .dark .text-orange-700 { color: #fb923c !important; }
         .dark .text-yellow-700 { color: #fbbf24 !important; }
         .dark .text-indigo-600 { color: #818cf8 !important; }
-        .dark .text-indigo-700 { color: #a5b4fc !important; }
         .dark .border-gray-100 { border-color: #334155 !important; }
         .dark .border-gray-200 { border-color: #475569 !important; }
-        .dark .border-gray-300 { border-color: #475569 !important; }
         .dark .divide-gray-100 > * + * { border-color: #334155 !important; }
-        .dark .divide-gray-200 > * + * { border-color: #475569 !important; }
         .dark .hover\:bg-gray-50:hover { background-color: #1e293b !important; }
-        .dark .hover\:text-blue-600:hover { color: #60a5fa !important; }
         .dark pre, .dark .code-block { background-color: #0f172a !important; border-color: #334155 !important; }
         .dark code { color: #e2e8f0 !important; }
         .dark table thead { background-color: #1e293b !important; }
         .dark table thead th { color: #e2e8f0 !important; border-color: #475569 !important; }
         .dark table td { border-color: #334155 !important; }
-        .dark ::-webkit-scrollbar       { width: 6px; }
+        .dark ::-webkit-scrollbar { width: 6px; }
         .dark ::-webkit-scrollbar-track { background: #0f172a; }
         .dark ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
     </style>
 </head>
 <body>
     <div id="root"></div>
-
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
 
@@ -95,9 +74,7 @@
                     <Icon name={icon} className="w-6 h-6 text-indigo-600" />
                     {title}
                 </h2>
-                <div className="space-y-4">
-                    {children}
-                </div>
+                <div className="space-y-4">{children}</div>
             </section>
         );
 
@@ -105,29 +82,6 @@
             <div className="space-y-3">
                 <h3 className="text-xl font-semibold text-gray-800">{title}</h3>
                 {children}
-            </div>
-        );
-
-        const Table = ({ headers, rows, compact }) => (
-            <div className="overflow-x-auto rounded-xl border border-gray-200 my-4">
-                <table className={`w-full ${compact ? 'text-xs' : 'text-sm'}`}>
-                    <thead className="bg-gray-50">
-                        <tr>
-                            {headers.map((h, i) => (
-                                <th key={i} className="px-4 py-3 text-left font-semibold text-gray-700 border-b border-gray-200 whitespace-nowrap">{h}</th>
-                            ))}
-                        </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-100">
-                        {rows.map((row, i) => (
-                            <tr key={i} className="hover:bg-gray-50 transition-colors">
-                                {row.map((cell, j) => (
-                                    <td key={j} className="px-4 py-2.5 text-gray-700" dangerouslySetInnerHTML={{ __html: cell }}></td>
-                                ))}
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
             </div>
         );
 
@@ -146,11 +100,7 @@
         );
 
         const Callout = ({ type = "info", children }) => {
-            const styles = {
-                info:    "bg-blue-50 border-blue-200 text-blue-800",
-                warning: "bg-yellow-50 border-yellow-200 text-yellow-800",
-                tip:     "bg-green-50 border-green-200 text-green-800",
-            };
+            const styles = { info: "bg-blue-50 border-blue-200 text-blue-800", warning: "bg-yellow-50 border-yellow-200 text-yellow-800", tip: "bg-green-50 border-green-200 text-green-800" };
             const icons = { info: "Info", warning: "AlertTriangle", tip: "Lightbulb" };
             return (
                 <div className={`rounded-xl border p-4 flex gap-3 my-4 ${styles[type]}`}>
@@ -159,6 +109,23 @@
                 </div>
             );
         };
+
+        const Table = ({ headers, rows }) => (
+            <div className="overflow-x-auto rounded-xl border border-gray-200 my-4">
+                <table className="w-full text-sm">
+                    <thead className="bg-gray-50">
+                        <tr>{headers.map((h, i) => <th key={i} className="px-4 py-3 text-left font-semibold text-gray-700 border-b border-gray-200 whitespace-nowrap">{h}</th>)}</tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-100">
+                        {rows.map((row, i) => (
+                            <tr key={i} className="hover:bg-gray-50 transition-colors">
+                                {row.map((cell, j) => <td key={j} className="px-4 py-2.5 text-gray-700" dangerouslySetInnerHTML={{ __html: cell }}></td>)}
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        );
 
         const B = ({ children }) => <strong className="text-gray-800">{children}</strong>;
         const C = ({ children }) => <code className="bg-gray-100 text-red-600 px-1.5 py-0.5 rounded text-sm font-mono">{children}</code>;
@@ -178,7 +145,6 @@
 
             return (
                 <div className={`min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50 to-blue-50 ${dark ? 'dark' : ''}`}>
-                    {/* Navigation */}
                     <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 px-4 py-3">
                         <div className="max-w-4xl mx-auto flex items-center justify-between">
                             <div className="flex items-center gap-2 text-sm flex-wrap">
@@ -191,8 +157,7 @@
                                 <span className="text-gray-400">/</span>
                                 <span className="font-semibold text-gray-700">AnyDesk Forensics</span>
                             </div>
-                            <button onClick={() => setDark(!dark)}
-                                className="p-2 rounded-lg hover:bg-gray-100 text-gray-600 transition-colors text-lg">
+                            <button onClick={() => setDark(!dark)} className="p-2 rounded-lg hover:bg-gray-100 text-gray-600 transition-colors text-lg">
                                 {dark ? '\u2600\uFE0F' : '\uD83C\uDF19'}
                             </button>
                         </div>
@@ -202,21 +167,14 @@
 
                         {/* Hero */}
                         <div className="relative overflow-hidden rounded-3xl shadow-2xl">
-                            <img src={`${IMG}/cover.png`} alt="Deep dive into AnyDesk Investigation &amp; Forensics on Windows"
-                                 className="w-full h-48 sm:h-64 md:h-80 object-cover" />
+                            <img src={`${IMG}/cover.png`} alt="Deep dive into AnyDesk Investigation & Forensics on Windows" className="w-full h-48 sm:h-64 md:h-80 object-cover" />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
                             <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white">
                                 <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight mb-3">Deep dive into AnyDesk Investigation &amp; Forensics on Windows</h1>
                                 <div className="flex flex-wrap gap-3 text-sm">
-                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
-                                        <Icon name="Calendar" className="w-3.5 h-3.5" /> January 10, 2026
-                                    </span>
-                                    <span className="bg-indigo-500/80 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
-                                        <Icon name="Tag" className="w-3.5 h-3.5" /> Digital Forensics
-                                    </span>
-                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
-                                        <Icon name="Cpu" className="w-3.5 h-3.5" /> RMM Investigation
-                                    </span>
+                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5"><Icon name="Calendar" className="w-3.5 h-3.5" /> January 10, 2026</span>
+                                    <span className="bg-indigo-500/80 backdrop-blur-sm px-3 py-1 rounded-full">Digital Forensics</span>
+                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">RMM Investigation</span>
                                 </div>
                             </div>
                         </div>
@@ -224,14 +182,14 @@
                         {/* Metadata */}
                         <div className="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm">
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                                <div><span className="text-gray-500 block">Author</span><span className="font-semibold text-gray-800">Warawut Manosong (Chicken0248)</span></div>
+                                <div><span className="text-gray-500 block">Author</span><span className="font-semibold text-gray-800">Chicken0248</span></div>
                                 <div><span className="text-gray-500 block">Published</span><span className="font-semibold text-gray-800">January 10, 2026</span></div>
                                 <div><span className="text-gray-500 block">Originally on</span><a href="https://medium.com/@chaoskist/deep-dive-into-anydesk-investigation-forensics-on-windows-24dc531bcc78" target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-600 hover:underline">Medium ↗</a></div>
                                 <div><span className="text-gray-500 block">Category</span><span className="font-semibold text-indigo-600">Digital Forensics</span></div>
                             </div>
                         </div>
 
-                        {/* Table of Contents */}
+                        {/* TOC */}
                         <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
                             <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
                                 <Icon name="List" className="w-5 h-5 text-indigo-600" />
@@ -239,8 +197,7 @@
                             </h2>
                             <div className="grid sm:grid-cols-2 gap-2">
                                 {tocItems.map((item, i) => (
-                                    <a key={item.id} href={`#${item.id}`}
-                                       className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors text-sm">
+                                    <a key={item.id} href={`#${item.id}`} className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors text-sm">
                                         <Icon name={item.icon} className="w-4 h-4 text-gray-400" />
                                         <span className="text-gray-400 font-mono text-xs w-5">{i + 1}.</span>
                                         <span className="font-medium">{item.label}</span>
@@ -249,98 +206,285 @@
                             </div>
                         </div>
 
-                        {/* ═══════════ INTRODUCTION ═══════════ */}
+                        {/* ═══ INTRODUCTION ═══ */}
                         <Section id="introduction" title="Introduction" icon="BookOpen">
                             <p className="text-gray-700 leading-relaxed">
-                                In this article, I share my research on investigating <B>AnyDesk</B> — covering its normal behavior, basic CLI usage, how it can be abused to set up quick persistence, and how to investigate AnyDesk connection and file transfer activity.
+                                Hello everyone! Chicken0248 here again. In this blog, I'll share my research on investigating <B>AnyDesk</B> — covering its normal behavior, basic CLI usage, how it can be abused to set up quick persistence, and how to investigate AnyDesk connection and file transfer activity.
                             </p>
                             <p className="text-gray-700 leading-relaxed">
-                                <B>AnyDesk</B> is a cross-platform remote desktop software (often considered an RMM or remote access tool) that allows users to remotely control another device over a network by specifying the target device's <B>AnyDesk ID</B>. Since AnyDesk operates cross-platform without requiring matching operating systems, threat actors frequently exploit it. The software's ease of use and reliability make it attractive to both legitimate users and malicious actors.
+                                The goal of this research is to understand what "normal" AnyDesk activity looks like, and how we can investigate it when it is misused. But before diving into the technical details, let's start with a simple question: <B>What is AnyDesk?</B>
                             </p>
                             <p className="text-gray-700 leading-relaxed">
-                                The <B>unattended access</B> feature is particularly concerning for persistence, as it permits threat actors to reconnect to compromised devices at will. AnyDesk can be downloaded from <C>https://anydesk.com/en/downloads/</C> or via CLI at <C>http://download.anydesk.com/AnyDesk.exe</C>.
+                                AnyDesk is a cross-platform remote desktop software (often considered an RMM or remote access tool) that allows users to remotely control another device over a network by specifying the target device's <B>AnyDesk ID</B> (displayed as "Address" in the AnyDesk interface). Because it is cross-platform, the remote device does not need to run the same operating system as the controlling device. As long as AnyDesk is installed and the correct ID is provided, a remote session can be established regardless of the OS.
                             </p>
-                            <Img src="img-01.png" alt="AnyDesk investigation overview" caption="AnyDesk forensics overview" />
+                            <p className="text-gray-700 leading-relaxed">
+                                Since AnyDesk is easy to use and reliable, threat actors including scammers often use it to gain full control over the victim device. It's free and only takes one EXE file with a couple of clicks to allow remote access on the victim device. With the <B>Unattended Access</B> feature, it allows the threat actor to come back to that device anytime as long as it connects to the internet and is turned on.
+                            </p>
+                            <Img src="img-01.png" alt="AnyDesk website download page" caption="Download AnyDesk from its website" />
+                            <p className="text-gray-700 leading-relaxed">
+                                AnyDesk can be downloaded via the web browser at <C>https://anydesk.com/en/downloads/</C> — depending on your user-agent, it will redirect you to the compatible installer, or you can manually specify which installer you want for each OS.
+                            </p>
+                            <Img src="img-02.png" alt="Download AnyDesk via CLI" caption="Download AnyDesk via CLI" />
+                            <p className="text-gray-700 leading-relaxed">
+                                AnyDesk can also be downloaded using CLI by requesting a file at <C>http://download.anydesk.com/AnyDesk.exe</C>. In the next section, we will talk about normal AnyDesk usage and its behavior to understand the baseline before we jump into the forensics part.
+                            </p>
                         </Section>
 
-                        {/* ═══════════ BEHAVIOR ═══════════ */}
+                        {/* ═══ BEHAVIOR ═══ */}
                         <Section id="behavior" title="AnyDesk Usage and Behavior (Without Remote Connection)" icon="Monitor">
-                            <SubSection title="Binary and Initial Execution">
+                            <p className="text-gray-700 leading-relaxed">
+                                To demonstrate AnyDesk usages, I will use my Kali Linux as the "local device" (initiating connections) while my Windows VM acts as the "remote device" (receiving connections).
+                            </p>
+                            <Img src="img-03.png" alt="Kali Linux as local device, Windows VM as remote device" caption="Lab setup: Kali Linux as local, Windows VM as remote" />
+
+                            <SubSection title="Binary and File Metadata">
+                                <Img src="img-04.png" alt="AnyDesk binary signed by AnyDesk Software GmbH" caption="AnyDesk binary metadata — signed by AnyDesk Software GmbH" />
                                 <p className="text-gray-700 leading-relaxed">
-                                    The Windows executable carries a digital signature from <B>"AnyDesk Software GmbH"</B> with version information visible in file metadata. Upon execution, a DLL file named <C>gcapi.dll</C> (Google Cloud API DLL) downloads automatically to enable communication with Google Cloud infrastructure and core AnyDesk functionality.
+                                    The Windows executable is signed by <B>"AnyDesk Software GmbH"</B> and the version of AnyDesk is also displayed in the file metadata.
                                 </p>
-                                <Img src="img-02.png" alt="AnyDesk binary signature and metadata" caption="AnyDesk binary digital signature" />
+                                <Img src="img-05.png" alt="AnyDesk GUI showing unique device ID" caption="AnyDesk GUI displaying the unique device ID" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    Once the software is started, you are presented with the unique ID of the device. Giving this unique ID to anyone with AnyDesk allows them to request a remote connection to this device.
+                                </p>
+                                <Img src="img-06.png" alt="gcapi.dll downloaded alongside AnyDesk executable" caption="gcapi.dll is downloaded once AnyDesk starts" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    Upon executing the AnyDesk executable on Windows, a DLL file named <C>gcapi.dll</C> (Google Cloud API DLL) is also downloaded and created in the same folder as the executable. This Dynamic Link Library allows AnyDesk to communicate with Google Cloud API.
+                                </p>
                             </SubSection>
 
                             <SubSection title="AppData Artifacts">
+                                <Img src="img-07.png" alt="AppData Roaming AnyDesk folder structure" caption="C:\\Users\\%username%\\AppData\\Roaming\\AnyDesk folder structure" />
                                 <p className="text-gray-700 leading-relaxed">
-                                    Launching AnyDesk creates a folder structure at <C>C:\Users\%username%\AppData\Roaming\AnyDesk</C>. This directory contains critical forensic artifacts:
+                                    By just launching AnyDesk software, a new folder named <C>AnyDesk</C> along with its contents is created under <C>C:\Users\%username%\AppData\Roaming\</C>. These are very important artifacts for investigating AnyDesk usage and activity.
                                 </p>
-                                <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
-                                    <li><C>ad.trace</C> — The primary log file storing most activity logs</li>
-                                    <li><C>system.conf</C> — Contains the unique AnyDesk ID stored as variable <C>ad.anynet.id</C> and last relay address information</li>
-                                    <li><C>chat/</C> subfolder — Chat logs named after the connecting device's AnyDesk ID</li>
-                                </ul>
+                                <Img src="img-08.png" alt="ad.trace main log file" caption="ad.trace — the primary AnyDesk log file" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    <C>ad.trace</C> is the main log file for AnyDesk — we can expect most events to come from this file.
+                                </p>
+                                <Img src="img-09.png" alt="system.conf showing AnyDesk ID and relay address" caption="system.conf containing the unique AnyDesk ID and last relay address" />
+                                <Img src="img-10.png" alt="system.conf additional view" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    The unique ID is stored in <C>system.conf</C> under the variable name <C>ad.anynet.id</C>. In order for AnyDesk to connect to a target and look up this unique ID, both devices must connect to AnyDesk servers to find the matching ID, then proceed to create a session via the AnyDesk Relay infrastructure. The last relay address is also present in <C>system.conf</C>.
+                                </p>
                                 <Callout type="tip">
-                                    <p>Users can reset their ID by deleting the entire <C>C:\Users\%username%\AppData\Roaming\AnyDesk</C> folder and restarting the application.</p>
+                                    <p>If your ID is leaked, you can remove the entire <C>C:\Users\%username%\AppData\Roaming\AnyDesk</C> folder and restart AnyDesk — it will retrieve a new unique ID from AnyDesk servers.</p>
                                 </Callout>
-                                <Img src="img-03.png" alt="AnyDesk AppData folder structure" caption="AnyDesk AppData directory artifacts" />
-                                <Img src="img-04.png" alt="system.conf contents showing AnyDesk ID" caption="system.conf containing AnyDesk ID" />
                             </SubSection>
 
-                            <SubSection title="Screenshots and Recordings">
+                            <SubSection title="Screenshots and Recordings Folders">
+                                <Img src="img-11.png" alt="Screenshot and screen recording folders created in Pictures and Videos" caption="Folders for screenshots and screen recordings created in user's Pictures and Videos directories" />
                                 <p className="text-gray-700 leading-relaxed">
-                                    AnyDesk creates folders for screenshots in the <C>Pictures</C> directory and screen recordings in the <C>Videos</C> directory of the user profile.
+                                    Two folders for screenshots and screen recordings are also created in the user's <C>Pictures</C> and <C>Videos</C> folders respectively.
                                 </p>
                             </SubSection>
 
-                            <SubSection title="Service Installation">
+                            <SubSection title="Installation Behavior">
+                                <Img src="img-12.png" alt="AnyDesk prompts for installation requiring admin privileges" caption="AnyDesk installation prompt — requires local administrator privileges" />
                                 <p className="text-gray-700 leading-relaxed">
-                                    Installation requires <B>local administrator privileges</B>. When installed, AnyDesk copies the executable to <C>C:\Program Files (x86)\AnyDesk</C> and creates a Windows service that starts with the <C>--service</C> flag, enabling system startup execution. This service triggers <B>Event ID 7045</B> in Windows Event Viewer.
+                                    When closing the portable AnyDesk, it will prompt you to install it. Installation is only possible with at least local administrator permissions on the device.
                                 </p>
-                                <Img src="img-05.png" alt="AnyDesk service installation" caption="AnyDesk service creation — Event ID 7045" />
+                                <Img src="img-13.png" alt="AnyDesk executable copied to Program Files x86" caption="AnyDesk installed to C:\\Program Files (x86)\\AnyDesk" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    Once installed, AnyDesk copies its executable to <C>C:\Program Files (x86)\AnyDesk</C>.
+                                </p>
+                                <Img src="img-14.png" alt="AnyDesk Remote Printer installation" caption="AnyDesk installs a Remote Printer by default" />
+                                <Img src="img-15.png" alt="AnyDesk printer device" caption="AnyDesk Printer device created for Remote Printing feature" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    In the default configuration, AnyDesk also installs <B>AnyDesk Printers</B>, used with the "Remote Printing" feature to print documents remotely.
+                                </p>
                             </SubSection>
 
-                            <SubSection title="Multiple Process Instances">
+                            <SubSection title="Service and Multi-Instance Behavior">
+                                <Img src="img-16.png" alt="AnyDesk service created with --service flag" caption="AnyDesk service creation — starts with --service flag" />
                                 <p className="text-gray-700 leading-relaxed">
-                                    Two AnyDesk processes typically run on an installed system:
+                                    A new service named <B>"AnyDesk Service"</B> is created to start AnyDesk with the <C>--service</C> flag on system startup. This is essential for the Unattended Access feature, allowing any remote device to connect without requiring manual acceptance. This service creation triggers <B>Event ID 7045</B> in the Windows System event log.
                                 </p>
-                                <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
-                                    <li>One in <B>SYSTEM context</B> (from the service)</li>
-                                    <li>One in <B>user context</B> (from startup folder shortcuts)</li>
-                                </ul>
+                                <Img src="img-17.png" alt="ProgramData AnyDesk folder created for SYSTEM context" caption="C:\\ProgramData\\AnyDesk folder — created when AnyDesk runs as SYSTEM" />
                                 <p className="text-gray-700 leading-relaxed">
-                                    The SYSTEM instance can connect to AnyDesk servers even if the user context instance fails, accepting connections using the same device ID.
+                                    When AnyDesk runs in the context of <B>SYSTEM</B>, the <C>AnyDesk</C> folder is created under <C>C:\ProgramData</C>.
                                 </p>
-                                <Img src="img-06.png" alt="AnyDesk process instances" caption="Two AnyDesk processes running simultaneously" />
-                                <Img src="img-07.png" alt="AnyDesk startup folder shortcut" caption="AnyDesk startup folder shortcut" />
+                                <Img src="img-18.png" alt="AnyDesk shortcut in global startup folder" caption="AnyDesk shortcut in global startup folder — launches AnyDesk for every user logon" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    A shortcut to start AnyDesk is also created inside the global startup folder, ensuring AnyDesk runs in each user's context on every logon.
+                                </p>
+                                <p className="text-gray-700 leading-relaxed">
+                                    At any point in time on a device with AnyDesk installed, there will be at least <B>two AnyDesk instances</B> running: one in <B>SYSTEM context</B> (from the service) and one in <B>user context</B> (from the startup folder). Even if the user context instance is not running, the SYSTEM context instance can still connect to AnyDesk servers using the same unique ID and will display the remote request when someone specifies that ID.
+                                </p>
                             </SubSection>
                         </Section>
 
-                        {/* ═══════════ CLI ═══════════ */}
+                        {/* ═══ CLI ═══ */}
                         <Section id="cli" title="Managing AnyDesk via CLI" icon="Terminal">
                             <p className="text-gray-700 leading-relaxed">
-                                AnyDesk supports command-line management, enabling automation of installation and configuration. Key CLI commands:
+                                What makes AnyDesk special is that it can be installed and managed via CLI, enabling automation of the installation process with Unattended Access setup.
                             </p>
-                            <CodeBlock language="cmd">
-{`# Retrieve the device's unique AnyDesk ID
+                            <CodeBlock language="cmd">{`# Retrieve the device's unique AnyDesk ID
 anydesk.exe --get-id
 
 # Configure unattended access with a password
 echo <my_password> | anydesk.exe --set-password
 
 # Install AnyDesk as a service
-anydesk.exe --install`}
-                            </CodeBlock>
+anydesk.exe --install`}</CodeBlock>
+                            <Img src="img-19.png" alt="AnyDesk CLI commands in use" caption="AnyDesk CLI: setting unattended password and retrieving ID" />
                             <p className="text-gray-700 leading-relaxed">
-                                The <B>Conti ransomware gang leak</B> revealed their playbook included creating backdoor users and installing AnyDesk with unattended access for persistence mechanisms — highlighting how commonly this feature is abused.
+                                To give a real-world example, the <a href="https://github.com/ForbiddenProgrammer/conti-pentester-guide-leak/blob/main/MANUALS/%D0%97%D0%B0%D0%BA%D1%80%D0%B5%D0%BF%20AnyDesk.txt" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Conti ransomware gang leak</a> revealed their playbook included creating a new backdoor user and installing AnyDesk with Unattended Access as a persistence mechanism — demonstrating actual malicious use of AnyDesk CLI for automation.
                             </p>
-                            <Img src="img-08.png" alt="AnyDesk CLI usage" caption="AnyDesk CLI commands for unattended access setup" />
+                        </Section>
 
-                            <SubSection title="PowerShell — Retrieving AnyDesk ID">
-                                <CodeBlock language="powershell">
-{`Get-Content "$env:ProgramData\\AnyDesk\\system.conf" | Select-String "ad.anynet.id"
+                        {/* ═══ CONNECTIONS ═══ */}
+                        <Section id="connections" title="Investigate AnyDesk Connection" icon="Network">
+                            <Img src="img-20.png" alt="AnyDesk quick start guide documentation" caption="AnyDesk quick start guide — support.anydesk.com" />
+                            <Img src="img-21.png" alt="AnyDesk GUI interface on Linux" caption="AnyDesk GUI interface on Linux (used as the connecting/remote device)" />
+                            <p className="text-gray-700 leading-relaxed">
+                                To start a remote connection, the device that will take control over another device must specify the AnyDesk ID of the remote device (and password if Unattended Access is set up). The remote device must have at least one AnyDesk instance running when a request is made.
+                            </p>
 
+                            <SubSection title="Connection Request and Permissions">
+                                <Img src="img-22.png" alt="AnyDesk request when service was installed and SYSTEM instance handles connection" caption="AnyDesk connection request — service installed, SYSTEM instance handles it" />
+                                <Img src="img-23.png" alt="AnyDesk request without service installed" caption="AnyDesk connection request — portable version, no service" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    In normal circumstances, when a request is made, a popup appears on the end device showing the ID and potentially the profile name of the requesting device. Users can <B>Accept</B> or <B>Dismiss</B> the request.
+                                </p>
+                                <Img src="img-24.png" alt="AnyDesk permissions window" caption="AnyDesk permission settings for an incoming connection" />
+                                <Img src="img-25.png" alt="AnyDesk permission configuration options" caption="Configurable permissions: control, file manager, clipboard, sound, recording, draw on screen" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    The remote device can manage which permissions are allowed: <em>Allow to take control, Allow to use file manager, Allow to use clipboard, Allow to hear sound, Record session, Allow to draw on screen</em>. These can be changed at any time before and during the session. Without session establishment, users on both devices can also communicate via the built-in Chat feature.
+                                </p>
+                            </SubSection>
+
+                            <SubSection title="Session Logging in ad.trace">
+                                <Img src="img-26.png" alt="Session started log when AnyDesk runs as SYSTEM" caption="'Session started' logged — AnyDesk running as SYSTEM handles the connection" />
+                                <Img src="img-27.png" alt="Session started log for user context AnyDesk" caption="'Session started' logged — AnyDesk running as normal user" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    When a remote connection is established, a "Session started" message is logged. We can see the duration of the session and investigators can calculate it by comparing the accept and termination timestamps.
+                                </p>
+                            </SubSection>
+
+                            <SubSection title="connection_trace.txt">
+                                <Img src="img-28.png" alt="connection_trace.txt from ProgramData AnyDesk" caption="connection_trace.txt — C:\\ProgramData\\AnyDesk (service-based installation)" />
+                                <Img src="img-29.png" alt="connection_trace.txt from User AppData AnyDesk" caption="connection_trace.txt — C:\\Users\\%username%\\AppData\\Roaming\\AnyDesk (portable)" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    <C>connection_trace.txt</C> logs all incoming connections:
+                                </p>
+                                <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                    <li>If AnyDesk is installed (service-based): <C>C:\ProgramData\AnyDesk\connection_trace.txt</C></li>
+                                    <li>If using portable AnyDesk (user context): <C>C:\Users\%username%\AppData\Roaming\AnyDesk\connection_trace.txt</C></li>
+                                </ul>
+                                <p className="text-gray-700 leading-relaxed">Timestamps are in <B>UTC format</B> (YYYY-MM-DD, HH:MM). The authentication type field can have three values:</p>
+                                <Table
+                                    headers={['Auth Type', 'Description']}
+                                    rows={[
+                                        ['<code>User</code>', 'Remote user manually accepted the connection request (clicked Accept)'],
+                                        ['<code>Passwd</code>', 'Password configured for unattended access — requesting device supplied correct password'],
+                                        ['<code>Token</code>', 'Connection authenticated using stored credentials from a previous session between these devices'],
+                                    ]}
+                                />
+                                <p className="text-gray-700 leading-relaxed">
+                                    The final field in each log entry contains the <B>AnyDesk ID</B> of the device that initiated the connection request. As a general rule: if AnyDesk is installed, artifacts are in <C>C:\ProgramData\AnyDesk</C>; if only the portable version is used, they are in <C>C:\Users\%username%\AppData\Roaming\AnyDesk</C>. The presence of artifacts in either location helps determine whether AnyDesk was used for initial access or as a persistence mechanism.
+                                </p>
+                            </SubSection>
+
+                            <SubSection title="Detailed Connection Logs in ad.trace">
+                                <Img src="img-30.png" alt="ad.trace showing profile name and AnyDesk ID of connecting device" caption="ad.trace — profile name and AnyDesk ID of the requesting device" />
+                                <Img src="img-31.png" alt="ad.trace additional connection details" caption="ad.trace — further connection detail entries" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    In the <C>ad.trace</C> log file, when a request is made, we can find the <B>profile name, AnyDesk ID, OS and version</B> of the requesting device.
+                                </p>
+                                <Img src="img-32.png" alt="ad.trace Accept request with public and private IP" caption="ad.trace — 'Accept request' logged with both public and private IP addresses" />
+                                <Img src="img-33.png" alt="ad_svc.trace for service-based connection" caption="ad_svc.trace — connection handled by AnyDesk service instance" />
+                                <Img src="img-34.png" alt="ad_svc.trace additional service connection logs" caption="ad_svc.trace — additional service connection entries" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    After the user accepts the request, "Accept request" is logged along with the AnyDesk ID, and both <B>public and private IP addresses</B> of the connecting device. If AnyDesk is installed as a service, the connection is handled by the SYSTEM instance and all connection logs are written to <C>ad_svc.trace</C> instead of <C>ad.trace</C>.
+                                </p>
+                                <Img src="img-35.png" alt="Session termination logs in ad.trace" caption="Session termination logged — use timestamps to calculate session duration" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    When a session is terminated, the termination logs appear in the respective <C>.trace</C> file. Comparing the acceptance and termination timestamps gives us the exact session duration.
+                                </p>
+                            </SubSection>
+
+                            <SubSection title="Chat Logs">
+                                <p className="text-gray-700 leading-relaxed">
+                                    If either party uses the chat feature during a session, chat logs are created inside the <C>chat</C> folder within the respective AnyDesk directory. Each chat log file is named after the <B>AnyDesk ID of the connecting device</B> and accumulates entries across multiple sessions with the same ID.
+                                </p>
+                            </SubSection>
+                        </Section>
+
+                        {/* ═══ FILE TRANSFER ═══ */}
+                        <Section id="file-transfer" title="Investigate File Transfer Activity over AnyDesk" icon="FolderOpen">
+                            <Img src="img-36.png" alt="File transfer is enabled by default in AnyDesk" caption="File transfer is enabled by default when a remote connection is established" />
+                            <p className="text-gray-700 leading-relaxed">
+                                When a remote connection is established, the user on the remote side can disable file transfer (enabled by default). With the default settings, both devices can transfer files via the built-in File Manager — allowing the requesting device to freely browse the file system of the end device, upload, download, and delete files. If clipboard is enabled, AnyDesk also supports file transfers over clipboard.
+                            </p>
+
+                            <SubSection title="Upload Activity">
+                                <Img src="img-37.png" alt="Uploading a file via AnyDesk File Manager" caption="Uploading a shellcode loader to the Windows VM via AnyDesk File Manager" />
+                                <Img src="img-38.png" alt="File transfer displayed as Download on end device" caption="File upload from remote perspective is displayed as 'Download' on the end device" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    A file uploaded from the remote device to the end device is displayed in the File Transfer pane. From the end device's perspective, it is logged as a <B>Download</B> (the file was downloaded to this device).
+                                </p>
+                                <Img src="img-39.png" alt="file_transfer_trace.txt download entry" caption="file_transfer_trace.txt — download (upload from remote) activity logged" />
+                                <Img src="img-40.png" alt="File download from end device shown as Upload" caption="File download from end device is displayed as 'Upload' (exfiltration from end device)" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    Conversely, file download from the end device to the remote device is displayed as an <B>Upload</B> from the end device's perspective.
+                                </p>
+                            </SubSection>
+
+                            <SubSection title="file_transfer_trace.txt">
+                                <Img src="img-41.png" alt="file_transfer_trace.txt showing upload and download events with timestamps" caption="file_transfer_trace.txt — timestamps for both start and completion of transfers" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    A <C>file_transfer_trace.txt</C> file is created and logs all upload/download activities with timestamps for both start and completion:
+                                </p>
+                                <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                    <li>Installed AnyDesk: <C>C:\ProgramData\AnyDesk\file_transfer_trace.txt</C></li>
+                                    <li>Portable AnyDesk: <C>C:\Users\%username%\AppData\Roaming\AnyDesk\file_transfer_trace.txt</C></li>
+                                </ul>
+                                <Img src="img-42.png" alt="ad.trace logs for file transfer activities" caption="ad.trace — file transfer activities also logged here with file paths (for uploads/exfiltration)" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    Both activities are also logged in the respective <C>.trace</C> file. The download log (file arriving at the end device) does not include the file path — only the filename and size from <C>file_transfer_trace.txt</C>. However, the upload log (file leaving the end device) explicitly includes the file path, so combining it with <C>file_transfer_trace.txt</C> gives us exactly which file was exfiltrated.
+                                </p>
+                                <Callout type="warning">
+                                    <p><B>Anti-forensics consideration:</B> Deleting <C>file_transfer_trace.txt</C> removes direct transfer evidence. Correlate with file creation events and network logs to compensate.</p>
+                                </Callout>
+                            </SubSection>
+
+                            <SubSection title="File Deletion via File Manager">
+                                <Img src="img-43.png" alt="Deleting a file via AnyDesk file manager" caption="File deletion via AnyDesk file manager" />
+                                <Img src="img-44.png" alt="Delete confirmation in file manager" caption="Deletion confirmation dialog" />
+                                <Img src="img-45.png" alt="Deletion logged in ad.trace" caption="Deletion logged in ad.trace — path shown, 'Deleting x files' message" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    Files can also be deleted via the file manager. Deletion is <B>not</B> logged in <C>file_transfer_trace.txt</C> (since it's not a "transfer"), but the <C>.trace</C> file does log the file path with an explicit "Deleting x files" message, including whether the deletion completed successfully.
+                                </p>
+                                <p className="text-gray-700 leading-relaxed">
+                                    You might wonder why a threat actor with full control over the device would bother using the file manager to delete files. However, if full control is disabled but file manager is enabled, the file manager and chat are the only available options — making this a relevant forensic artifact to look for.
+                                </p>
+                            </SubSection>
+                        </Section>
+
+                        {/* ═══ UNATTENDED ═══ */}
+                        <Section id="unattended" title="Investigate AnyDesk Connection via Unattended Access" icon="Lock">
+                            <p className="text-gray-700 leading-relaxed">
+                                Unattended Access is frequently abused as a persistence mechanism in the wild, which is why it warrants its own dedicated section.
+                            </p>
+
+                            <SubSection title="Setting Up Unattended Access">
+                                <Img src="img-46.png" alt="Configuring AnyDesk unattended access via GUI" caption="Configuring AnyDesk unattended access via GUI" />
+                                <Img src="img-47.png" alt="Setting AnyDesk unattended access password via CLI" caption="Setting unattended access password via CLI" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    Unattended Access can be configured via <B>GUI</B> or <B>CLI</B>, both requiring administrator privileges. Once set up, any device with the correct AnyDesk ID and password can connect without manual acceptance.
+                                </p>
+                                <Img src="img-48.png" alt="CLI command logged in ad.trace" caption="ad.trace logs the entire AnyDesk command line — CLI password setup is forensically visible" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    When the password is set via CLI, the command line is logged in <C>ad.trace</C> (AnyDesk logs every CLI command invocation), making it a forensic artifact that confirms the persistence mechanism was set up via automation.
+                                </p>
+                            </SubSection>
+
+                            <SubSection title="Retrieving the AnyDesk ID (Attacker Simulation)">
+                                <Img src="img-49.png" alt="PowerShell script to retrieve AnyDesk ID" caption="PowerShell: retrieving AnyDesk ID from config file or via --get-id flag" />
+                                <CodeBlock language="powershell">{`# From configuration file
+Get-Content "$env:ProgramData\\AnyDesk\\system.conf" | Select-String "ad.anynet.id"
+
+# Using --get-id flag
 $p = New-Object System.Diagnostics.Process
 $p.StartInfo = @{
     FileName="C:\\Program Files (x86)\\AnyDesk\\AnyDesk.exe"
@@ -351,142 +495,76 @@ $p.StartInfo = @{
 }
 $p.Start() | Out-Null
 $p.WaitForExit()
-$p.StandardOutput.ReadToEnd().Trim()`}
-                                </CodeBlock>
-                            </SubSection>
-                        </Section>
-
-                        {/* ═══════════ CONNECTIONS ═══════════ */}
-                        <Section id="connections" title="Investigate AnyDesk Connection" icon="Network">
-                            <SubSection title="Connection Request Process">
+$p.StandardOutput.ReadToEnd().Trim()`}</CodeBlock>
                                 <p className="text-gray-700 leading-relaxed">
-                                    When a remote device initiates a connection, the target device receives a request window displaying the connecting device's ID and profile name. The permissions the remote device would receive are shown: <em>Allow to take control, Allow to use file manager, Allow to use clipboard, Allow to hear sound</em>, etc.
+                                    These PowerShell snippets are typically automated in attacker scripts. The <C>--get-id</C> flag was designed specifically for scripting purposes.
                                 </p>
-                                <Img src="img-09.png" alt="AnyDesk connection request popup" caption="Incoming AnyDesk connection request" />
                             </SubSection>
 
-                            <SubSection title="Connection Log File">
+                            <SubSection title="Connecting via Unattended Access">
+                                <Img src="img-50.png" alt="AnyDesk service runs at boot enabling unattended access" caption="AnyDesk service starts at boot — no user login required for unattended access" />
                                 <p className="text-gray-700 leading-relaxed">
-                                    Connection logs appear in <C>connection_trace.txt</C>:
+                                    Since the AnyDesk service runs at boot, no login or user interaction is required on the end device. The threat actor only needs the correct ID and password to connect.
                                 </p>
-                                <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
-                                    <li>Installed AnyDesk (service-based): <C>C:\ProgramData\AnyDesk\connection_trace.txt</C></li>
-                                    <li>Portable AnyDesk (user context): <C>C:\Users\%username%\AppData\Roaming\AnyDesk\connection_trace.txt</C></li>
-                                </ul>
+                                <Img src="img-51.png" alt="Threat actor still needs valid credentials to fully interact" caption="Valid Windows credentials still required for full system interaction" />
                                 <p className="text-gray-700 leading-relaxed">
-                                    Timestamps are in <B>UTC format</B> (YYYY-MM-DD, HH:MM). The file includes three authentication types:
+                                    However, the threat actor still needs valid credentials to log in and fully interact with the system. This is why many AnyDesk backdoor scripts also create a new local administrator account — allowing the threat actor to return to the compromised machine with high privileges.
                                 </p>
-                                <Table
-                                    headers={['Auth Type', 'Description']}
-                                    rows={[
-                                        ['<code>User</code>', 'Remote user manually accepted the connection request'],
-                                        ['<code>Passwd</code>', 'Unattended access authenticated with password'],
-                                        ['<code>Token</code>', 'Connection authenticated using stored credentials from a previous session'],
-                                    ]}
-                                />
-                                <Img src="img-10.png" alt="connection_trace.txt contents" caption="connection_trace.txt log entries" />
                             </SubSection>
 
-                            <SubSection title="Session Activity in ad.trace">
+                            <SubSection title="Artifacts from Unattended Sessions">
+                                <Img src="img-52.png" alt="connection_trace.txt showing Passwd authentication for unattended access" caption="connection_trace.txt — auth type 'Passwd' indicates unattended access" />
+                                <Img src="img-53.png" alt="ad_svc.trace during unattended access session" caption="ad_svc.trace — unattended sessions handled by service instance" />
+                                <Img src="img-54.png" alt="Additional service trace entries" caption="Additional ad_svc.trace entries during unattended session" />
                                 <p className="text-gray-700 leading-relaxed">
-                                    The <C>ad.trace</C> file records incoming requests with the device's profile name, AnyDesk ID, operating system, and both public and private IP addresses of connecting devices. Session termination is also logged, allowing investigators to calculate session duration by comparing acceptance and closure timestamps. For service-based connections, <C>ad_svc.trace</C> logs activity instead.
-                                </p>
-                                <Img src="img-11.png" alt="ad.trace log showing connection details" caption="ad.trace showing connecting device IP and ID details" />
-                                <Img src="img-12.png" alt="ad.trace session timing" caption="Session start and end timestamps in ad.trace" />
-                                <Img src="img-13.png" alt="ad_svc.trace for service-based connections" caption="ad_svc.trace for service-based connection logging" />
-                            </SubSection>
-                        </Section>
-
-                        {/* ═══════════ FILE TRANSFER ═══════════ */}
-                        <Section id="file-transfer" title="Investigate File Transfer Activity over AnyDesk" icon="FolderOpen">
-                            <SubSection title="File Manager Access">
-                                <p className="text-gray-700 leading-relaxed">
-                                    Once a connection establishes, the connecting device can access the target's file system if <B>file manager permissions</B> are enabled. Users can upload, download, and delete files. Clipboard-based file transfer is also supported.
-                                </p>
-                                <Img src="img-14.png" alt="AnyDesk file manager interface" caption="AnyDesk file manager during an active session" />
-                            </SubSection>
-
-                            <SubSection title="File Transfer Log File">
-                                <p className="text-gray-700 leading-relaxed">
-                                    A <C>file_transfer_trace.txt</C> file logs transfers with timestamps for upload/download start and completion:
-                                </p>
-                                <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
-                                    <li>Installed AnyDesk: <C>C:\ProgramData\AnyDesk\file_transfer_trace.txt</C></li>
-                                    <li>Portable AnyDesk: <C>C:\Users\%username%\AppData\Roaming\AnyDesk\file_transfer_trace.txt</C></li>
-                                </ul>
-                                <p className="text-gray-700 leading-relaxed">
-                                    Upload activities show file paths; download activities show filenames and sizes. Deletion operations log paths but not in the transfer trace file.
-                                </p>
-                                <Callout type="warning">
-                                    <p><B>Anti-forensics consideration:</B> Deleting <C>file_transfer_trace.txt</C> removes evidence unless correlated with other file creation events or network logs.</p>
-                                </Callout>
-                                <Img src="img-15.png" alt="file_transfer_trace.txt contents" caption="file_transfer_trace.txt showing upload and download events" />
-                                <Img src="img-16.png" alt="File transfer artifacts on disk" caption="Files created during AnyDesk file transfer" />
-                            </SubSection>
-                        </Section>
-
-                        {/* ═══════════ UNATTENDED ═══════════ */}
-                        <Section id="unattended" title="Investigate AnyDesk Connection via Unattended Access" icon="Lock">
-                            <SubSection title="Setup Methods">
-                                <p className="text-gray-700 leading-relaxed">
-                                    Unattended access can be configured via <B>GUI</B> or <B>CLI</B>, requiring administrator privileges. When configured via CLI, the command appears in <C>ad.trace</C> — a forensic artifact that can confirm the persistence mechanism was set up.
-                                </p>
-                                <Img src="img-17.png" alt="Unattended access configuration" caption="Configuring AnyDesk unattended access via GUI" />
-                                <Img src="img-18.png" alt="CLI setup in ad.trace" caption="CLI password setup recorded in ad.trace" />
-                            </SubSection>
-
-                            <SubSection title="Connection Characteristics">
-                                <p className="text-gray-700 leading-relaxed">
-                                    Unattended connections bypass manual acceptance requirements. The connecting device provides the correct ID and password, and the target device establishes the session automatically. Despite this, threat actors still require valid credentials to fully interact with the compromised system — which is why many backdoor scripts also create new local administrator accounts.
-                                </p>
-                                <Img src="img-19.png" alt="Unattended access connection flow" caption="Unattended access connection without user approval" />
-                            </SubSection>
-
-                            <SubSection title="Logging for Unattended Access">
-                                <p className="text-gray-700 leading-relaxed">
-                                    Key log locations for unattended access forensics:
+                                    In Unattended Access, the connection is handled by the AnyDesk service instance. Key artifacts:
                                 </p>
                                 <Table
                                     headers={['Artifact', 'Path', 'Notes']}
                                     rows={[
-                                        ['Connection log', '<code>C:\\ProgramData\\AnyDesk\\connection_trace.txt</code>', 'Shows auth type "Passwd"'],
-                                        ['Service trace', '<code>C:\\ProgramData\\AnyDesk\\ad_svc.trace</code>', 'Service-based connection logs'],
-                                        ['File transfers', '<code>C:\\ProgramData\\AnyDesk\\file_transfer_trace.txt</code>', 'File manager activity'],
-                                        ['Chat logs', '<code>C:\\Users\\%username%\\AppData\\Roaming\\AnyDesk\\chat\\</code>', 'May indicate social engineering'],
+                                        ['Connection log', '<code>C:\\ProgramData\\AnyDesk\\connection_trace.txt</code>', 'Auth type shows <code>Passwd</code>'],
+                                        ['Service trace', '<code>C:\\ProgramData\\AnyDesk\\ad_svc.trace</code>', 'All session events for service-based connections'],
+                                        ['File transfers', '<code>C:\\ProgramData\\AnyDesk\\file_transfer_trace.txt</code>', 'File manager transfer activity'],
+                                        ['Chat logs', '<code>C:\\Users\\%username%\\AppData\\Roaming\\AnyDesk\\chat\\</code>', 'Still in user context — potential social engineering evidence'],
                                     ]}
                                 />
-                                <Img src="img-20.png" alt="connection_trace.txt unattended auth" caption="Unattended access logged as 'Passwd' authentication" />
-                                <Img src="img-21.png" alt="ad_svc.trace during unattended session" caption="Service trace during unattended access session" />
-                            </SubSection>
-
-                            <SubSection title="Additional Artifacts">
-                                <Img src="img-22.png" alt="Additional AnyDesk forensic artifact" />
-                                <Img src="img-23.png" alt="Additional AnyDesk forensic artifact" />
-                                <Img src="img-24.png" alt="Additional AnyDesk forensic artifact" />
-                                <Img src="img-25.png" alt="Additional AnyDesk forensic artifact" />
-                                <Img src="img-26.png" alt="Additional AnyDesk forensic artifact" />
-                                <Img src="img-27.png" alt="Additional AnyDesk forensic artifact" />
-                                <Img src="img-28.png" alt="Additional AnyDesk forensic artifact" />
-                                <Img src="img-29.png" alt="Additional AnyDesk forensic artifact" />
+                                <Img src="img-55.png" alt="file_transfer_trace.txt for unattended access file transfers" caption="file_transfer_trace.txt — file transfers during unattended session logged in ProgramData" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    File transfers via the file manager during unattended sessions are logged in <C>C:\ProgramData\AnyDesk\file_transfer_trace.txt</C>. Chat logs remain in the user context path — relevant if the threat actor uses the chat feature for social engineering (e.g., impersonating IT support while the machine is in use).
+                                </p>
                             </SubSection>
 
                             <Callout type="info">
-                                <p>Extensive logging occurs in <C>.trace</C> files beyond what's covered here. Explore the <C>ad.trace</C> and <C>ad_svc.trace</C> files thoroughly during investigations. See the <a href="https://github.com/ChickenLoner/RMM-Forensics-Cheatsheet" target="_blank" rel="noopener noreferrer" className="underline text-blue-600">RMM Forensics Cheatsheet on GitHub</a> for a full artifact reference.</p>
+                                <p>There are many more events in the <C>.trace</C> files beyond what is covered here. Explore <C>ad.trace</C> and <C>ad_svc.trace</C> thoroughly during investigations. See the <a href="https://github.com/ChickenLoner/AnyDesk-Forensics-Cheatsheet" target="_blank" rel="noopener noreferrer" className="underline text-blue-600">AnyDesk Forensics Cheatsheet on GitHub</a> for a full artifact reference.</p>
                             </Callout>
+
+                            <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                                <h3 className="text-lg font-bold text-gray-800 mb-4">Resources</h3>
+                                <ul className="space-y-1 text-sm text-blue-600">
+                                    {[
+                                        ['https://www.inversecos.com/2021/02/forensic-analysis-of-anydesk-logs.html', 'inversecos.com — Forensic Analysis of AnyDesk Logs'],
+                                        ['https://medium.com/@nandakumarp/anydesk-forensics-63b43200f8ae', 'AnyDesk Forensics — nandakumarp'],
+                                        ['https://medium.com/@tylerbrozek/anydesk-forensics-anydesk-log-analysis-b77ea37b90f1', 'AnyDesk Forensics Log Analysis — tylerbrozek'],
+                                        ['https://support.anydesk.com/docs/command-line-interface-for-windows', 'AnyDesk CLI Documentation'],
+                                        ['https://www.nccgroup.com/research-blog/the-dark-side-how-threat-actors-leverage-anydesk-for-malicious-activities/', 'NCC Group — How Threat Actors Leverage AnyDesk'],
+                                        ['https://www.cybertriage.com/blog/dfir-next-steps-suspicious-anydesk-use/', 'Cyber Triage — DFIR Next Steps for Suspicious AnyDesk Use'],
+                                        ['https://jsac.jpcert.or.jp/archive/2023/pdf/JSAC2023_1_1_yamashige-nakatani-tanaka_en.pdf', 'JPCERT — JSAC 2023 AnyDesk Investigation'],
+                                    ].map(([url, label]) => (
+                                        <li key={url}><a href={url} target="_blank" rel="noopener noreferrer" className="hover:underline">{label}</a></li>
+                                    ))}
+                                </ul>
+                            </div>
                         </Section>
 
-                        {/* Footer Nav */}
+                        {/* Footer */}
                         <div className="border-t border-gray-200 pt-6 flex items-center justify-between text-sm">
                             <a href="#" className="flex items-center gap-1.5 text-gray-500 hover:text-indigo-600 transition-colors">
-                                <Icon name="ArrowUp" className="w-4 h-4" />
-                                Back to top
+                                <Icon name="ArrowUp" className="w-4 h-4" />Back to top
                             </a>
                             <a href="/research/index.html" className="flex items-center gap-1.5 text-gray-500 hover:text-indigo-600 transition-colors">
-                                <Icon name="ArrowLeft" className="w-4 h-4" />
-                                All Research
+                                <Icon name="ArrowLeft" className="w-4 h-4" />All Research
                             </a>
                         </div>
-
                     </main>
                 </div>
             );

@@ -6,7 +6,7 @@
     "date": "2026-03-28",
     "source": "Medium",
     "sourceUrl": "https://medium.com/@chaoskist/chrome-remote-desktop-rmm-investigation-c61f8545da26",
-    "cover": "/assets/research/chrome-remote-desktop-forensics/cover.jpeg",
+    "cover": "/assets/research/chrome-remote-desktop-forensics/cover.png",
     "tags": ["Digital Forensics", "RMM", "Chrome Remote Desktop", "Windows"],
     "category": "Digital Forensics",
     "summary": "Investigation guide for Chrome Remote Desktop (CRD) forensics on Windows — covering Remote Support and Remote Access modes, Windows Event Log artifacts (Event IDs 1, 2, 4, 5), process behavior, and file transfer detection.",

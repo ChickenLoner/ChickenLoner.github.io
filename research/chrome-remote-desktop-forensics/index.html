@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chrome Remote Desktop RMM Investigation (Windows) | Chicken0248</title>
+    <title>Deep dive into Chrome Remote Desktop RMM Investigation &amp; Forensics | Chicken0248</title>
     <link rel="icon" href="/chicken0248.png" type="image/png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -22,23 +22,19 @@
         .dark .bg-blue-50    { background-color: rgba(37,99,235,0.12) !important; }
         .dark .bg-green-50   { background-color: rgba(22,163,74,0.10) !important; }
         .dark .bg-yellow-50  { background-color: rgba(202,138,4,0.10) !important; }
-        .dark .bg-orange-100 { background-color: rgba(234,88,12,0.20) !important; }
         .dark .bg-indigo-50  { background-color: rgba(99,102,241,0.10) !important; }
         .dark .text-gray-800 { color: #e2e8f0 !important; }
         .dark .text-gray-700 { color: #cbd5e1 !important; }
         .dark .text-gray-600 { color: #94a3b8 !important; }
         .dark .text-gray-500 { color: #64748b !important; }
-        .dark .text-gray-400 { color: #475569 !important; }
         .dark .text-red-600    { color: #f87171 !important; }
         .dark .text-blue-600   { color: #60a5fa !important; }
-        .dark .text-green-600  { color: #4ade80 !important; }
         .dark .text-indigo-600 { color: #818cf8 !important; }
         .dark .border-gray-100 { border-color: #334155 !important; }
         .dark .border-gray-200 { border-color: #475569 !important; }
         .dark .divide-gray-100 > * + * { border-color: #334155 !important; }
         .dark .hover\:bg-gray-50:hover { background-color: #1e293b !important; }
-        .dark .hover\:text-blue-600:hover { color: #60a5fa !important; }
-        .dark pre { background-color: #0f172a !important; }
+        .dark pre { background-color: #0f172a !important; border-color: #334155 !important; }
         .dark code { color: #e2e8f0 !important; }
         .dark table thead { background-color: #1e293b !important; }
         .dark table thead th { color: #e2e8f0 !important; border-color: #475569 !important; }
@@ -84,23 +80,6 @@
             </div>
         );
 
-        const Table = ({ headers, rows, compact }) => (
-            <div className="overflow-x-auto rounded-xl border border-gray-200 my-4">
-                <table className={`w-full ${compact ? 'text-xs' : 'text-sm'}`}>
-                    <thead className="bg-gray-50">
-                        <tr>{headers.map((h, i) => <th key={i} className="px-4 py-3 text-left font-semibold text-gray-700 border-b border-gray-200 whitespace-nowrap">{h}</th>)}</tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-100">
-                        {rows.map((row, i) => (
-                            <tr key={i} className="hover:bg-gray-50 transition-colors">
-                                {row.map((cell, j) => <td key={j} className="px-4 py-2.5 text-gray-700" dangerouslySetInnerHTML={{ __html: cell }}></td>)}
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-        );
-
         const Img = ({ src, alt, caption }) => (
             <figure className="my-4">
                 <img src={`${IMG}/${src}`} alt={alt || ''} className="rounded-xl border border-gray-200 shadow-sm w-full" loading="lazy" />
@@ -119,6 +98,23 @@
             );
         };
 
+        const Table = ({ headers, rows }) => (
+            <div className="overflow-x-auto rounded-xl border border-gray-200 my-4">
+                <table className="w-full text-sm">
+                    <thead className="bg-gray-50">
+                        <tr>{headers.map((h, i) => <th key={i} className="px-4 py-3 text-left font-semibold text-gray-700 border-b border-gray-200 whitespace-nowrap">{h}</th>)}</tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-100">
+                        {rows.map((row, i) => (
+                            <tr key={i} className="hover:bg-gray-50">
+                                {row.map((cell, j) => <td key={j} className="px-4 py-2.5 text-gray-700" dangerouslySetInnerHTML={{ __html: cell }}></td>)}
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        );
+
         const B = ({ children }) => <strong className="text-gray-800">{children}</strong>;
         const C = ({ children }) => <code className="bg-gray-100 text-red-600 px-1.5 py-0.5 rounded text-sm font-mono">{children}</code>;
 
@@ -128,15 +124,12 @@
 
             const tocItems = [
                 { id: 'introduction', label: 'Introduction', icon: 'BookOpen' },
-                { id: 'what-is-crd', label: 'What is Chrome Remote Desktop?', icon: 'Monitor' },
-                { id: 'setup', label: 'Setting Up CRD Normally', icon: 'Settings' },
-                { id: 'installation-artifacts', label: 'Installation Artifact Detection', icon: 'Download' },
-                { id: 'remote-support', label: 'Investigate Remote Support', icon: 'Users' },
-                { id: 'remote-access-setup', label: 'Set Up Remote Access', icon: 'Unlock' },
-                { id: 'remote-access-investigation', label: 'Investigate Remote Access', icon: 'Search' },
-                { id: 'file-transfer', label: 'File Transfer Investigation', icon: 'FolderOpen' },
-                { id: 'cli-setup', label: 'CLI Installation', icon: 'Terminal' },
-                { id: 'summary', label: 'Investigation Summary', icon: 'ClipboardList' },
+                { id: 'setup', label: 'Setting Up CRD (Standard Method)', icon: 'Settings' },
+                { id: 'remote-support', label: 'Investigate Remote Support', icon: 'HeadphonesIcon' },
+                { id: 'remote-access-setup', label: 'Set Up Permanent Remote Access', icon: 'Lock' },
+                { id: 'remote-access-investigate', label: 'Investigate Remote Access', icon: 'Network' },
+                { id: 'file-transfer', label: 'File Transfer via CRD', icon: 'FolderOpen' },
+                { id: 'cli', label: 'Setting Up CRD via CLI', icon: 'Terminal' },
             ];
 
             return (
@@ -151,7 +144,7 @@
                                 <span className="text-gray-400">/</span>
                                 <a href="/research/index.html" className="font-medium text-gray-600 hover:text-blue-600 transition-colors">Research</a>
                                 <span className="text-gray-400">/</span>
-                                <span className="font-semibold text-gray-700">Chrome Remote Desktop</span>
+                                <span className="font-semibold text-gray-700">Chrome Remote Desktop Forensics</span>
                             </div>
                             <button onClick={() => setDark(!dark)} className="p-2 rounded-lg hover:bg-gray-100 text-gray-600 transition-colors text-lg">
                                 {dark ? '\u2600\uFE0F' : '\uD83C\uDF19'}
@@ -161,46 +154,35 @@
 
                     <main className="max-w-4xl mx-auto px-4 py-8 space-y-10 animate-fadeIn">
 
-                        {/* Hero */}
                         <div className="relative overflow-hidden rounded-3xl shadow-2xl">
-                            <img src={`${IMG}/cover.jpeg`} alt="Chrome Remote Desktop Investigation" className="w-full h-48 sm:h-64 md:h-80 object-cover" />
+                            <img src={`${IMG}/cover.png`} alt="Deep dive into Chrome Remote Desktop RMM Investigation & Forensics" className="w-full h-48 sm:h-64 md:h-80 object-cover" />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
                             <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white">
-                                <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight mb-3">Chrome Remote Desktop RMM Investigation (Windows)</h1>
+                                <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight mb-3">Deep dive into Chrome Remote Desktop RMM Investigation &amp; Forensics</h1>
                                 <div className="flex flex-wrap gap-3 text-sm">
-                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
-                                        <Icon name="Calendar" className="w-3.5 h-3.5" /> March 28, 2026
-                                    </span>
-                                    <span className="bg-indigo-500/80 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
-                                        <Icon name="Tag" className="w-3.5 h-3.5" /> Digital Forensics
-                                    </span>
-                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
-                                        <Icon name="Cpu" className="w-3.5 h-3.5" /> RMM Investigation
-                                    </span>
+                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5"><Icon name="Calendar" className="w-3.5 h-3.5" /> March 28, 2026</span>
+                                    <span className="bg-indigo-500/80 backdrop-blur-sm px-3 py-1 rounded-full">Digital Forensics</span>
+                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">RMM Investigation</span>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Metadata */}
                         <div className="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm">
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                                <div><span className="text-gray-500 block">Author</span><span className="font-semibold text-gray-800">Warawut Manosong (Chicken0248)</span></div>
+                                <div><span className="text-gray-500 block">Author</span><span className="font-semibold text-gray-800">Chicken0248</span></div>
                                 <div><span className="text-gray-500 block">Published</span><span className="font-semibold text-gray-800">March 28, 2026</span></div>
                                 <div><span className="text-gray-500 block">Originally on</span><a href="https://medium.com/@chaoskist/chrome-remote-desktop-rmm-investigation-c61f8545da26" target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-600 hover:underline">Medium ↗</a></div>
                                 <div><span className="text-gray-500 block">Category</span><span className="font-semibold text-indigo-600">Digital Forensics</span></div>
                             </div>
                         </div>
 
-                        {/* TOC */}
                         <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
                             <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-                                <Icon name="List" className="w-5 h-5 text-indigo-600" />
-                                Table of Contents
+                                <Icon name="List" className="w-5 h-5 text-indigo-600" />Table of Contents
                             </h2>
                             <div className="grid sm:grid-cols-2 gap-2">
                                 {tocItems.map((item, i) => (
-                                    <a key={item.id} href={`#${item.id}`}
-                                       className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors text-sm">
+                                    <a key={item.id} href={`#${item.id}`} className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors text-sm">
                                         <Icon name={item.icon} className="w-4 h-4 text-gray-400" />
                                         <span className="text-gray-400 font-mono text-xs w-5">{i + 1}.</span>
                                         <span className="font-medium">{item.label}</span>
@@ -209,190 +191,280 @@
                             </div>
                         </div>
 
-                        {/* ═══════════ INTRODUCTION ═══════════ */}
+                        {/* ═══ INTRODUCTION ═══ */}
                         <Section id="introduction" title="Introduction" icon="BookOpen">
                             <p className="text-gray-700 leading-relaxed">
-                                This article investigates <B>Chrome Remote Desktop (CRD)</B>, covering installation procedures, connection mechanisms, and forensic investigation techniques for detecting misuse of Google's remote desktop tool through Windows Event Log examination and system artifact analysis.
+                                Hello everyone, it's me Chicken0248 again. In this blog I'll share my research on investigating <B>Chrome Remote Desktop (CRD)</B> — covering its installation, both connection modes (Remote Support and Remote Access), and how to investigate each when they are misused.
+                            </p>
+                            <Img src="img-01.png" alt="Chrome Remote Desktop overview" caption="Chrome Remote Desktop — a Google product using the proprietary Chromoting protocol" />
+                            <p className="text-gray-700 leading-relaxed">
+                                <B>Chrome Remote Desktop (CRD)</B> is a remote desktop software tool developed by Google that lets you remotely control another computer's desktop through a proprietary protocol called <B>Chromoting</B> — Google's own take on remote desktop rather than using Microsoft's standard RDP. Under the hood, this protocol transmits keyboard and mouse inputs to the remote machine and sends screen updates back.
                             </p>
                             <p className="text-gray-700 leading-relaxed">
-                                From a security perspective, CRD's legitimacy makes it blend seamlessly with normal traffic, creating blind spots for detection. Threat actors exploit such tools for <B>"Living off the Land" persistence</B> — installing trusted remote access tools on compromised hosts to maintain presence without noisy command-and-control channels.
+                                To use it, you visit <C>remotedesktop.google.com</C>, install the host component on the machine you want to control, and set up a PIN. The client side runs entirely through a web portal — no dedicated app required, any browser works.
                             </p>
-                            <Img src="img-01.jpeg" alt="Chrome Remote Desktop investigation overview" caption="Chrome Remote Desktop forensics overview" />
+                            <p className="text-gray-700 leading-relaxed">
+                                There are two main usage modes:
+                            </p>
+                            <ul className="list-disc list-outside ml-5 space-y-2 text-gray-700">
+                                <li><B>Remote Access</B> — Install the host on your own machine, set a PIN, and log in from anywhere at any time without requiring anyone on the other end to approve it (unattended access).</li>
+                                <li><B>Remote Support</B> — The host generates a one-time access code valid for 5 minutes. Share it with whoever needs to help, and they can take control to troubleshoot.</li>
+                            </ul>
+                            <p className="text-gray-700 leading-relaxed">
+                                CRD works across Windows, macOS, Linux, and ChromeOS — all it needs is a Google account and the Chrome browser. No ports to forward, no VPN required. Because it is a legitimate Google product, it blends naturally with normal traffic and doesn't immediately raise red flags. Threat actors abuse tools like this for <B>Living off the Land</B>-style persistence — dropping a trusted remote access tool on a compromised host to come and go without maintaining a noisy C2 channel.
+                            </p>
                         </Section>
 
-                        {/* ═══════════ WHAT IS CRD ═══════════ */}
-                        <Section id="what-is-crd" title="What is Chrome Remote Desktop?" icon="Monitor">
+                        {/* ═══ SETUP ═══ */}
+                        <Section id="setup" title="Setting Up Chrome Remote Desktop (Standard Method)" icon="Settings">
+                            <Img src="img-02.png" alt="remotedesktop.google.com showing Access my computer and Share my screen buttons" caption="remotedesktop.google.com — requires Google account sign-in; two options: Remote Access and Remote Support" />
                             <p className="text-gray-700 leading-relaxed">
-                                Chrome Remote Desktop uses a proprietary protocol called <B>"Chromoting"</B> rather than Microsoft's standard RDP. The system transmits keyboard and mouse inputs to remote machines while returning screen updates to the operator. Basic setup involves visiting <C>remotedesktop.google.com</C>, installing the host component on the target machine, and configuring a PIN. The remote interface operates entirely through a web browser.
+                                To set up CRD the standard way, navigate to <C>remotedesktop.google.com</C>. After signing in with a Google account, you are presented with two options: <B>"Access my computer"</B> (Remote Access) and <B>"Share my screen"</B> (Remote Support).
+                            </p>
+                            <Img src="img-03.png" alt="Remote Access page with download button leading to Chrome Web Store extension" caption="Remote Access page — download button leads to CRD extension in the Chrome Web Store" />
+                            <p className="text-gray-700 leading-relaxed">
+                                In the Remote Access page, clicking the download button installs the <B>Chrome Remote Desktop extension</B> from the Chrome Web Store.
+                            </p>
+                            <Img src="img-04.png" alt="CRD extension requesting permission to communicate with native applications" caption="CRD extension requests 'Communicate with cooperating native applications' permission" />
+                            <p className="text-gray-700 leading-relaxed">
+                                The extension requests permission to <B>"Communicate with cooperating native applications"</B> — used to communicate with the native CRD host component installed on the machine. In modern implementations, Google has moved to a web-based interface where the native host service handles the actual remote session; the extension is no longer the primary client interface.
+                            </p>
+                            <Img src="img-05.png" alt="MSI installer for CRD downloaded automatically after extension install" caption="CRD MSI installer downloaded automatically after installing the browser extension" />
+                            <p className="text-gray-700 leading-relaxed">
+                                After installing the CRD browser extension, the <B>MSI installer</B> is downloaded automatically for the host component installation.
                             </p>
 
-                            <SubSection title="Two Primary Usage Modes">
-                                <Table
-                                    headers={['Mode', 'Description', 'Use Case']}
-                                    rows={[
-                                        ['<b>Remote Access</b>', 'Unattended access — install host, set PIN, connect from anywhere', 'Persistent access to own machine'],
-                                        ['<b>Remote Support</b>', 'Single-use access codes valid for 5 minutes', 'One-time support sessions'],
-                                    ]}
-                                />
+                            <SubSection title="Installation Artifacts — Application Event Log">
+                                <Img src="img-06.png" alt="Event ID 1040 from MsiInstaller showing CRD MSI location and installation start" caption="Application event log — Event ID 1040 (MsiInstaller): MSI path and installation start timestamp" />
                                 <p className="text-gray-700 leading-relaxed">
-                                    From a forensic standpoint, <B>Remote Access</B> is the more dangerous mode — it enables persistent, unattended access identical to how threat actors abuse it for command-and-control.
+                                    To detect the CRD Windows installer, look in the <B>Application event log</B> for <B>Event ID 1040</B> from <C>MsiInstaller</C> — this reveals the MSI installer location and the beginning of the installation timestamp.
+                                </p>
+                                <Img src="img-07.png" alt="Event ID 1042 11707 1033 showing installation completion" caption="Application event log — Event IDs 1042, 11707, and 1033 indicate installation completion timestamp" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    Follow up with <B>Event IDs 1042, 11707, and 1033</B> to find the finished timestamp of the installation.
                                 </p>
                             </SubSection>
-                            <Img src="img-02.png" alt="Chrome Remote Desktop modes" caption="Remote Access vs Remote Support modes" />
-                        </Section>
 
-                        {/* ═══════════ SETUP ═══════════ */}
-                        <Section id="setup" title="Setting Up Chrome Remote Desktop Normally" icon="Settings">
-                            <p className="text-gray-700 leading-relaxed">
-                                Users navigate to <C>remotedesktop.google.com</C> and authenticate with Google credentials. The CRD extension is installed from the Chrome Web Store, requesting permission to <em>"communicate with cooperating native applications."</em> Following extension installation, the <B>CRD MSI installer</B> downloads automatically.
-                            </p>
-                            <Img src="img-03.png" alt="CRD setup page" caption="Chrome Remote Desktop setup at remotedesktop.google.com" />
-                            <Img src="img-04.png" alt="CRD extension installation" caption="CRD Chrome extension requesting native communication permission" />
-                        </Section>
-
-                        {/* ═══════════ INSTALLATION ARTIFACTS ═══════════ */}
-                        <Section id="installation-artifacts" title="Installation Artifact Detection" icon="Download">
-                            <p className="text-gray-700 leading-relaxed">
-                                Windows Event Logs capture installation details across multiple sources:
-                            </p>
-                            <Table
-                                headers={['Event ID', 'Log', 'Source', 'Meaning']}
-                                rows={[
-                                    ['1040', 'Application', 'MsiInstaller', 'MSI installer start — includes installer path and timestamp'],
-                                    ['1042, 11707, 1033', 'Application', 'MsiInstaller', 'Installation completion timestamp'],
-                                    ['7045', 'System', 'Service Control Manager', 'Creation of "Chrome Remote Desktop Service"'],
-                                ]}
-                            />
-                            <Img src="img-05.png" alt="Event ID 7045 CRD service creation" caption="Event ID 7045 — Chrome Remote Desktop Service creation" />
-                            <Img src="img-06.png" alt="Event ID 1040 MSI installation" caption="Event ID 1040 — MSI installer execution" />
-                        </Section>
-
-                        {/* ═══════════ REMOTE SUPPORT ═══════════ */}
-                        <Section id="remote-support" title="Investigate Remote Support Feature" icon="Users">
-                            <p className="text-gray-700 leading-relaxed">
-                                Remote Support generates <B>12-digit access codes</B> that expire within five minutes. Once the local user accepts the connection, the remote user can view the target desktop but cannot interact with the taskbar or Event Viewer — limiting their ability to perform critical operations.
-                            </p>
-
-                            <SubSection title="Processes During Remote Support">
+                            <SubSection title="Installation Artifacts — System Event Log">
+                                <Img src="img-08.png" alt="Event ID 7045 for Chrome Remote Desktop Service in System event log" caption="System event log — Event ID 7045: 'Chrome Remote Desktop Service' installed" />
+                                <Img src="img-09.png" alt="Chrome Remote Desktop Service details in Event ID 7045" caption="Event ID 7045 detail — service name, binary path, start type" />
                                 <p className="text-gray-700 leading-relaxed">
-                                    When CRD establishes a remote connection, at least one <C>remoting_host.exe</C> process runs as SYSTEM and LOCAL SERVICE, spawned from the CRD service. When the local user accepts, <C>remoting_native_messaging.exe</C> and <C>remote_assistance_host.exe</C> spawn as child processes of <C>cmd.exe</C>, with <C>chrome.exe</C> as grandparent.
+                                    CRD creates a new service named <B>"Chrome Remote Desktop Service"</B>. Look for <B>Event ID 7045</B> in the System event log.
                                 </p>
-                                <Img src="img-07.png" alt="CRD process tree during remote support" caption="Process hierarchy during Remote Support session" />
-                            </SubSection>
-
-                            <SubSection title="Event Log Analysis for Remote Support">
                                 <p className="text-gray-700 leading-relaxed">
-                                    CRD logging integrates into Windows Application event logs via the <B>"chromoting"</B> source:
+                                    Back on the CRD site after successful installation, the Remote Support page shows a new <B>"Generate Code"</B> button — which leads us to the next section.
                                 </p>
-                                <Table
-                                    headers={['Event ID', 'Trigger', 'Key Data']}
-                                    rows={[
-                                        ['5', 'Access code generated', 'Email address of user who generated the code'],
-                                        ['1', 'Connection established', 'Google email used for remote access'],
-                                        ['4', 'Connection established', 'Same as Event ID 1'],
-                                        ['2', 'Session terminated', 'Unique ID + remote user email address'],
-                                    ]}
-                                />
-                                <Img src="img-08.png" alt="chromoting Event ID 5" caption="Event ID 5 — Access code generation with email" />
-                                <Img src="img-09.png" alt="chromoting Event ID 1 connection" caption="Event ID 1 — Remote connection established" />
-                                <Img src="img-10.png" alt="chromoting Event ID 2 termination" caption="Event ID 2 — Session termination" />
                             </SubSection>
                         </Section>
 
-                        {/* ═══════════ REMOTE ACCESS SETUP ═══════════ */}
-                        <Section id="remote-access-setup" title="Set Up Remote Access Feature" icon="Unlock">
+                        {/* ═══ REMOTE SUPPORT ═══ */}
+                        <Section id="remote-support" title="Investigate Chrome Remote Desktop Connection via Remote Support" icon="Headphones">
+                            <Img src="img-10.png" alt="Generate Code button on Remote Support page" caption="Remote Support page — 'Generate Code' button generates a temporary 12-digit access code" />
+                            <Img src="img-11.png" alt="12-digit access code displayed with 5-minute expiry" caption="Generated 12-digit access code — expires within 5 minutes" />
                             <p className="text-gray-700 leading-relaxed">
-                                Clicking "Turn on" in Remote Access prompts for a <B>computer name</B> and then a <B>PIN</B> of at least six digits. When a PIN is established, the CRD service start type changes from <B>manual to automatic</B> (starting at boot). This change generates <B>Event ID 7040</B> in the System event log.
+                                After CRD is installed, a <B>12-digit unique access code</B> can be generated via the Remote Support page. This code expires within 5 minutes and is shared with the person providing remote assistance.
                             </p>
-                            <Img src="img-11.png" alt="Remote Access setup PIN configuration" caption="Remote Access — PIN configuration step" />
-                            <Img src="img-12.png" alt="Event ID 7040 service start type change" caption="Event ID 7040 — CRD service changed to automatic start" />
+                            <Img src="img-12.png" alt="Remote side entering access code in Connect to another computer box" caption="Remote side — entering the access code in 'Connect to another computer' box" />
+                            <p className="text-gray-700 leading-relaxed">
+                                The helper (remote side) goes to the Remote Support page, enters the access code in the <B>"Connect to another computer"</B> box, and clicks Connect.
+                            </p>
+                            <Img src="img-13.png" alt="Connection request sent to target device with cancel or Share options" caption="Target device receives connection request — user clicks 'Share' to allow access" />
+                            <p className="text-gray-700 leading-relaxed">
+                                A connection request is sent to the device that generated the code. The user can choose to cancel (default) or click <B>"Share"</B> to allow remote access.
+                            </p>
+                            <Img src="img-14.png" alt="Remote user sees target screen but cannot interact with taskbar or Event Viewer" caption="Remote user can see the target screen but has restricted interaction — taskbar and Event Viewer are inaccessible" />
+                            <p className="text-gray-700 leading-relaxed">
+                                Once the user clicks Share, the remote user sees the target's screen. Notably, the remote user <B>cannot interact with the taskbar or Event Viewer</B> — limiting their ability to perform critical operations, which is intentional for a remote support scenario.
+                            </p>
+
+                            <SubSection title="Process Artifacts">
+                                <Img src="img-15.png" alt="remoting_host.exe running as SYSTEM and LOCAL SERVICE spawned from CRD service" caption="remoting_host.exe running as SYSTEM and LOCAL SERVICE — spawned from the CRD service" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    At least one <C>remoting_host.exe</C> runs as <B>SYSTEM</B> and <B>LOCAL SERVICE</B>, spawned from the CRD service.
+                                </p>
+                                <Img src="img-16.png" alt="remoting_native_messaging.exe and remote_assistance_host.exe spawned as children of cmd.exe with chrome.exe as grandparent" caption="remoting_native_messaging.exe and remote_assistance_host.exe spawned from cmd.exe (grandparent: chrome.exe) on manual acceptance" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    When a user manually accepts the connection via CRD, <C>remoting_native_messaging.exe</C> and <C>remote_assistance_host.exe</C> are spawned as child processes of <C>cmd.exe</C>, with <C>chrome.exe</C> as their grandparent.
+                                </p>
+                            </SubSection>
+
+                            <SubSection title="Event Log Artifacts — chromoting Source">
+                                <Img src="img-17.png" alt="Event ID 5 from chromoting source showing email of user who generated access code" caption="Application event log — Event ID 5 (chromoting): timestamp when access code generated + victim email address" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    CRD logging is integrated into the <B>Windows Application event log</B>. Use <B>Event ID 5</B> from the <C>chromoting</C> source to determine when the access code was generated and the <B>email address</B> of the user who generated it.
+                                </p>
+                                <Img src="img-18.png" alt="Event ID 1 from chromoting showing Gmail used to remote access" caption="Application event log — Event ID 1 (chromoting): connection accepted, Gmail of remote accessor revealed" />
+                                <Img src="img-19.png" alt="Event ID 4 from chromoting showing Gmail of remote user" caption="Application event log — Event ID 4 (chromoting): additional connection event with remote Gmail" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    Once the user clicks Accept, <B>Event ID 1</B> and <B>Event ID 4</B> from <C>chromoting</C> are generated — both reveal the <B>Gmail address used to remotely access the target machine</B>.
+                                </p>
+                                <Img src="img-20.png" alt="Event ID 2 from chromoting showing session termination with unique ID and remote email" caption="Application event log — Event ID 2 (chromoting): session terminated, same unique ID and remote email logged" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    When the session terminates, <B>Event ID 2</B> is logged with the same unique ID and email address of the remote user.
+                                </p>
+                            </SubSection>
                         </Section>
 
-                        {/* ═══════════ REMOTE ACCESS INVESTIGATION ═══════════ */}
-                        <Section id="remote-access-investigation" title="Investigate Remote Access Connection" icon="Search">
+                        {/* ═══ REMOTE ACCESS SETUP ═══ */}
+                        <Section id="remote-access-setup" title="Set Up Permanent Remote Access (Unattended Access)" icon="Lock">
+                            <Img src="img-21.png" alt="Remote Access section of CRD page requiring PIN setup" caption="Remote Access section — requires PIN setup for unattended access" />
                             <p className="text-gray-700 leading-relaxed">
-                                Connecting through Remote Access requires entering the configured PIN. The CRD service remains active in the background <B>even after closing the Chrome browser</B>. Users gain complete control over the target computer without the restrictions present in Remote Support.
+                                Beside Remote Support, CRD also supports <B>unattended access</B> (Remote Access). This allows you to access your computer remotely at any time using only a PIN, without requiring anyone on the other end. You must use the same Gmail account that was used to set up Remote Access to connect.
                             </p>
+                            <Img src="img-22.png" alt="Remote Access page showing Turn on button after extension and MSI installed" caption="Remote Access page — 'Turn on' button appears once both extension and MSI are installed" />
                             <p className="text-gray-700 leading-relaxed">
-                                Application event logs show identical entries to Remote Support sessions, except <B>Event ID 5 doesn't appear</B> (no access code generation). Both connection types use the same Gmail account, so that email appears in Event IDs 1 and 4.
+                                Navigate to the Remote Access page. With both the CRD browser extension and MSI host installed, you'll see the <B>"Turn on"</B> button.
                             </p>
-                            <Img src="img-13.png" alt="Remote Access connection event logs" caption="Application event logs during Remote Access connection" />
-                            <Img src="img-14.png" alt="CRD service running after browser close" caption="CRD service persisting after browser closure" />
+                            <Img src="img-23.png" alt="CRD asking for computer name to identify the machine" caption="CRD prompts for a computer name — useful to differentiate multiple machines" />
+                            <p className="text-gray-700 leading-relaxed">
+                                CRD prompts for a <B>computer name</B> to identify the machine. This name is visible in the CRD web interface when multiple computers are registered.
+                            </p>
+                            <Img src="img-24.png" alt="CRD requiring at least 6-digit PIN for remote access" caption="PIN setup — minimum 6 digits required" />
+                            <p className="text-gray-700 leading-relaxed">
+                                A PIN of at least <B>6 digits</B> must be set to complete Remote Access setup.
+                            </p>
+                            <Img src="img-25.png" alt="CRD service start type changes from manual to auto after PIN setup — Event ID 7040" caption="System event log — Event ID 7040: CRD service start type changed from 'demand start' to 'auto start'" />
+                            <p className="text-gray-700 leading-relaxed">
+                                Once the PIN is set, the CRD service start type changes from <B>demand start (manual)</B> to <B>auto start (always starts at boot)</B>. This change is logged as <B>Event ID 7040</B> in the System event log — a critical artifact for detecting Remote Access configuration.
+                            </p>
+                            <Img src="img-26.png" alt="CRD page showing new remote device as Online and ready for access" caption="CRD web page — the registered computer shows as 'Online' and is ready for remote access from anywhere" />
+                            <p className="text-gray-700 leading-relaxed">
+                                After setup, the computer appears in the CRD web page with an <B>"Online"</B> status. The Gmail account used for setup is the only one authorized to access this machine.
+                            </p>
+                        </Section>
 
-                            <SubSection title="Configuration Files and Binary Locations">
+                        {/* ═══ REMOTE ACCESS INVESTIGATE ═══ */}
+                        <Section id="remote-access-investigate" title="Investigate Chrome Remote Desktop via Remote Access" icon="Network">
+                            <Img src="img-27.png" alt="Connecting to target via Remote Access — PIN prompt displayed" caption="Remote Access connection — PIN prompt to authenticate" />
+                            <p className="text-gray-700 leading-relaxed">
+                                To demonstrate rogue access using the Remote Access feature, I connect from a different device. A <B>PIN prompt</B> is presented to authenticate.
+                            </p>
+                            <Img src="img-28.png" alt="After correct PIN, full control of target with no heavy restrictions unlike Remote Support" caption="After correct PIN — full control of the target computer, minimal restrictions compared to Remote Support" />
+                            <p className="text-gray-700 leading-relaxed">
+                                Once the correct PIN is provided, full control of the target machine is available with <B>no heavy restrictions</B> like those in Remote Support. Even closing the Chrome browser doesn't terminate the session — the CRD service instance continues running in the background.
+                            </p>
+                            <Img src="img-29.png" alt="Application event log for Remote Access is identical to Remote Support but no Event ID 5" caption="Application event log artifacts for Remote Access — identical to Remote Support, but NO Event ID 5 (no access code generation)" />
+                            <p className="text-gray-700 leading-relaxed">
+                                The Application event log artifacts for Remote Access are <B>identical to Remote Support</B> (Event IDs 1, 2, 4) — but <B>Event ID 5 is absent</B> since no access code is generated. The Gmail address used to connect appears in Event IDs 1 and 4.
+                            </p>
+                        </Section>
+
+                        {/* ═══ FILE TRANSFER ═══ */}
+                        <Section id="file-transfer" title="File Transfer via Chrome Remote Desktop (Remote Access)" icon="FolderOpen">
+                            <Img src="img-30.png" alt="File transfer options available in Remote Access toolbar" caption="Remote Access toolbar — file upload and download options available (not available in Remote Support)" />
+                            <p className="text-gray-700 leading-relaxed">
+                                Over a Remote Access session, a <B>file transfer feature</B> is available in the toolbar. This is <B>not available during Remote Support</B> — Remote Access is treated as the user's own machine with full control.
+                            </p>
+                            <Img src="img-31.png" alt="Demonstrating file upload download with one download canceled midway" caption="Demo: uploading 2 files, downloading 1 file (one download canceled midway)" />
+                            <p className="text-gray-700 leading-relaxed">
+                                To demonstrate, I uploaded 2 files and initiated 2 downloads — canceling one midway to observe the difference in artifacts.
+                            </p>
+                            <Img src="img-32.png" alt=".part extension on file during transfer — renamed to original name on completion" caption="Incomplete transfer: file created with .part extension — renamed to original name when finished" />
+                            <p className="text-gray-700 leading-relaxed">
+                                During the file transfer process, a file with the same name as the original but with a <C>.part</C> extension is created. Once the transfer completes, the <C>.part</C> extension is removed. A <B>canceled download leaves a <C>.part</C> file</B> on disk — a useful forensic indicator.
+                            </p>
+                            <Img src="img-33.png" alt="Procmon showing remoting_desktop.exe creates files under NT AUTHORITY SYSTEM" caption="Process Monitor — remoting_desktop.exe (NT AUTHORITY\\SYSTEM) creates all transferred files" />
+                            <p className="text-gray-700 leading-relaxed">
+                                Using Process Monitor, every transferred file is created by <C>remoting_desktop.exe</C> running under <B>NT AUTHORITY\SYSTEM</B>.
+                            </p>
+                            <Img src="img-34.png" alt="Procmon showing .part file created then renamed to original filename" caption="Process Monitor — .part file created first, then renamed to original filename on completion" />
+                            <p className="text-gray-700 leading-relaxed">
+                                Process Monitor confirms the <C>.part</C> extension is created first, then renamed to the original filename on completion.
+                            </p>
+                            <Img src="img-35.png" alt="No upload or download log files on the system — need file creation events and network activity" caption="No dedicated log files for file transfers — rely on file creation events (upload) and network activity (download)" />
+                            <Callout type="warning">
+                                <p>Both download and upload activities are <B>not logged anywhere in event logs or application logs</B>. To detect file uploads: use <B>file creation events</B> (file created by <C>remoting_desktop.exe</C> as SYSTEM). To detect file downloads: rely on <B>network activity monitoring</B>.</p>
+                            </Callout>
+                        </Section>
+
+                        {/* ═══ CLI ═══ */}
+                        <Section id="cli" title="Setting Up Chrome Remote Desktop via CLI" icon="Terminal">
+                            <Img src="img-36.png" alt="Set up via SSH page on CRD with MSI download for CLI installation" caption="CRD 'Set up via SSH' page — MSI installer available for CLI installation" />
+                            <p className="text-gray-700 leading-relaxed">
+                                Besides the standard web-based setup, CRD can also be installed and configured entirely via CLI. The MSI installer is available from the <B>"Set up via SSH"</B> page. TrustedSec has a detailed write-up on abusing CRD for red team operations: <a href="https://trustedsec.com/blog/abusing-chrome-remote-desktop-on-red-team-operations-a-practical-guide" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">trustedsec.com</a>.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                The CLI setup produces the same forensic artifacts as the GUI setup — just triggered from the command line:
+                            </p>
+
+                            <SubSection title="Installation Artifacts">
+                                <Img src="img-37.png" alt="Event ID 1040 in Application log from CLI MSI installation" caption="Application event log — Event ID 1040 from CLI MSI installation" />
+                                <Img src="img-38.png" alt="Event ID 7045 in System log from CLI service installation" caption="System event log — Event ID 7045 from CLI service installation" />
                                 <p className="text-gray-700 leading-relaxed">
-                                    Remote Access setup creates a <C>host.json</C> file at <C>C:\ProgramData\Google\Chrome Remote Desktop</C> containing:
+                                    CLI installation still produces <B>Event ID 1040</B> in the Application log and <B>Event ID 7045</B> in the System log.
+                                </p>
+                                <Img src="img-39.png" alt="Event ID 7040 in System log when Remote Access configured via CLI" caption="System event log — Event ID 7040 when Remote Access (unattended access) is configured via CLI" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    Event ID 7040 (service start type change to auto) is also generated when Remote Access is configured via CLI.
+                                </p>
+                            </SubSection>
+
+                            <SubSection title="Connection Artifacts">
+                                <Img src="img-40.png" alt="Application event log for remote connections is the same as GUI setup" caption="Remote connection artifacts in Application event log — identical to GUI-based setup" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    For any remote connection, the Application event log entries are identical to the GUI setup.
+                                </p>
+                            </SubSection>
+
+                            <SubSection title="host.json — Remote Access Configuration File">
+                                <Img src="img-41.png" alt="host.json in ProgramData Google Chrome Remote Desktop containing host_id, name, and authorized Gmail" caption="C:\\ProgramData\\Google\\Chrome Remote Desktop\\host.json — host_id, computer name, and authorized Gmail" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    When Remote Access (unattended access) is configured, a <C>host.json</C> file is created at <C>C:\ProgramData\Google\Chrome Remote Desktop</C>. This file contains:
                                 </p>
                                 <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
-                                    <li><C>host_id</C></li>
-                                    <li>Computer name provided during setup</li>
-                                    <li>Gmail account authorized for access</li>
+                                    <li>The <B>host_id</B> of this host</li>
+                                    <li>The <B>name</B> assigned to this host</li>
+                                    <li>The <B>Gmail address</B> authorized to access this host</li>
                                 </ul>
                                 <p className="text-gray-700 leading-relaxed">
-                                    CRD binaries are located in <C>Program Files (x86)</C>, all bearing <B>Google LLC digital signatures</B>. The browser extension installs to <C>C:\Users\%username%\AppData\Local\Google\Chrome\User Data\Default\Extensions\inomeogfingihgjfjlpeplalcfajhgai\</C>.
+                                    This is a high-value forensic artifact — it directly identifies the attacker's email address used to set up unauthorized remote access.
                                 </p>
-                                <Img src="img-15.png" alt="host.json configuration file" caption="host.json with host_id and authorized Gmail account" />
                             </SubSection>
+
+                            <SubSection title="CRD Binary Location">
+                                <Img src="img-42.png" alt="CRD binaries in Program Files x86 signed by Google LLC" caption="C:\\Program Files (x86)\\Google\\Chrome Remote Desktop — all binaries signed by Google LLC" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    All CRD binaries are located in <C>C:\Program Files (x86)\Google\Chrome Remote Desktop</C> and are <B>signed by Google LLC</B>.
+                                </p>
+                            </SubSection>
+
+                            <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                                <h3 className="text-lg font-bold text-gray-800 mb-4">Quick Reference — Key Artifacts</h3>
+                                <Table
+                                    headers={['Activity', 'Log Location', 'Event ID / Artifact']}
+                                    rows={[
+                                        ['Service installation', 'System event log', 'Event ID 7045'],
+                                        ['MSI installation', 'Application event log', 'Event ID 1040'],
+                                        ['Remote Access setup (auto-start)', 'System event log', 'Event ID 7040'],
+                                        ['Access code generated', 'Application event log', 'Event ID 5 (chromoting)'],
+                                        ['Connection established', 'Application event log', 'Event ID 1 + Event ID 4 (chromoting)'],
+                                        ['Connection terminated', 'Application event log', 'Event ID 2 (chromoting)'],
+                                        ['Authorized Gmail + host info', 'C:\\ProgramData\\Google\\Chrome Remote Desktop\\host.json', 'host_id, name, Gmail'],
+                                        ['CRD browser extension', 'C:\\Users\\%username%\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Extensions\\inomeogfingihgjfjlpeplalcfajhgai\\', 'Extension directory'],
+                                    ]}
+                                />
+                            </div>
+
+                            <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                                <h3 className="text-lg font-bold text-gray-800 mb-4">Resources</h3>
+                                <ul className="space-y-1 text-sm text-blue-600">
+                                    {[
+                                        ['https://trustedsec.com/blog/abusing-chrome-remote-desktop-on-red-team-operations-a-practical-guide', 'TrustedSec — Abusing Chrome Remote Desktop on Red Team Operations'],
+                                        ['https://asec.ahnlab.com/en/55145/', 'AhnLab ASEC — CRD threat analysis'],
+                                        ['https://www.youtube.com/watch?v=JRNSPRaWsRk', 'YouTube — Chrome Remote Desktop Investigation walkthrough'],
+                                    ].map(([url, label]) => (
+                                        <li key={url}><a href={url} target="_blank" rel="noopener noreferrer" className="hover:underline">{label}</a></li>
+                                    ))}
+                                </ul>
+                            </div>
                         </Section>
 
-                        {/* ═══════════ FILE TRANSFER ═══════════ */}
-                        <Section id="file-transfer" title="File Transfer via Chrome Remote Desktop" icon="FolderOpen">
-                            <p className="text-gray-700 leading-relaxed">
-                                File transfer is only available in <B>Remote Access</B> sessions (not Remote Support). During transfers, files initially receive a <C>.part</C> extension indicating transfer in progress. Process monitoring reveals <C>remoting_desktop.exe</C> creates files under <B>NT AUTHORITY\SYSTEM</B> privilege.
-                            </p>
-                            <Callout type="warning">
-                                <p>File transfer activities generate <B>no logged events</B> beyond file creation. Uploads can be detected through file creation events, but downloads require network activity analysis.</p>
-                            </Callout>
-                            <Img src="img-16.png" alt="File transfer .part extension" caption="Files with .part extension during active transfer" />
-                            <Img src="img-17.png" alt="remoting_desktop.exe file creation" caption="remoting_desktop.exe creating files as SYSTEM" />
-                        </Section>
-
-                        {/* ═══════════ CLI SETUP ═══════════ */}
-                        <Section id="cli-setup" title="Setting Up Chrome Remote Desktop via CLI" icon="Terminal">
-                            <p className="text-gray-700 leading-relaxed">
-                                Beyond manual web-based setup, users can download MSI installers for command-line installation through a "Set up via SSH" page. CLI installation generates the same events as web-based setup:
-                            </p>
-                            <Table
-                                headers={['Event ID', 'Log', 'Trigger']}
-                                rows={[
-                                    ['1040', 'Application', 'MSI installation start'],
-                                    ['7045', 'System', 'Service creation'],
-                                    ['7040', 'System', 'Service start type change (if Remote Access configured)'],
-                                ]}
-                            />
-                            <Img src="img-18.png" alt="CLI installation event logs" caption="Event logs from CLI-based CRD installation" />
-                        </Section>
-
-                        {/* ═══════════ SUMMARY ═══════════ */}
-                        <Section id="summary" title="Investigation Summary" icon="ClipboardList">
-                            <p className="text-gray-700 leading-relaxed">
-                                Key artifacts for detecting CRD installation and usage:
-                            </p>
-                            <Table
-                                headers={['Artifact', 'Location', 'Event/Detail']}
-                                rows={[
-                                    ['Service installation', 'System Event Log', 'Event ID 7045 — "Chrome Remote Desktop Service"'],
-                                    ['MSI installer', 'Application Event Log', 'Event ID 1040 — includes installer path'],
-                                    ['Remote Access setup', 'System Event Log', 'Event ID 7040 — service changed to automatic'],
-                                    ['Access code generated', 'Application Event Log', 'Event ID 5 (chromoting) — includes Gmail address'],
-                                    ['Connection established', 'Application Event Log', 'Event IDs 1 &amp; 4 (chromoting) — includes remote email'],
-                                    ['Connection terminated', 'Application Event Log', 'Event ID 2 (chromoting)'],
-                                    ['Config file', '<code>C:\\ProgramData\\Google\\Chrome Remote Desktop\\host.json</code>', 'host_id, computer name, Gmail account'],
-                                    ['Browser extension', '<code>...\\Extensions\\inomeogfingihgjfjlpeplalcfajhgai\\</code>', 'CRD Chrome extension files'],
-                                ]}
-                            />
-                            <Img src="img-19.png" alt="CRD investigation artifacts summary" caption="Summary of CRD forensic artifacts" />
-                        </Section>
-
-                        {/* Footer Nav */}
                         <div className="border-t border-gray-200 pt-6 flex items-center justify-between text-sm">
                             <a href="#" className="flex items-center gap-1.5 text-gray-500 hover:text-indigo-600 transition-colors">
-                                <Icon name="ArrowUp" className="w-4 h-4" />
-                                Back to top
+                                <Icon name="ArrowUp" className="w-4 h-4" />Back to top
                             </a>
                             <a href="/research/index.html" className="flex items-center gap-1.5 text-gray-500 hover:text-indigo-600 transition-colors">
-                                <Icon name="ArrowLeft" className="w-4 h-4" />
-                                All Research
+                                <Icon name="ArrowLeft" className="w-4 h-4" />All Research
                             </a>
                         </div>
                     </main>
