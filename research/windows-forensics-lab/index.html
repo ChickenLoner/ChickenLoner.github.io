@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design your first Windows Forensics Lab | Chicken0248</title>
+    <link rel="icon" href="/chicken0248.png" type="image/png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fadeIn { animation: fadeIn 0.5s ease-out; }
+        .dark.min-h-screen { background: linear-gradient(135deg, #0f172a 0%, #141f35 50%, #0a1628 100%) !important; }
+        .dark nav { background-color: rgba(15,23,42,0.96) !important; border-bottom-color: rgba(51,65,85,0.5) !important; }
+        .dark .bg-white    { background-color: #1e293b !important; }
+        .dark .bg-gray-50  { background-color: #0f172a !important; }
+        .dark .bg-gray-100 { background-color: #334155 !important; }
+        .dark .bg-gray-900 { background-color: #0f172a !important; }
+        .dark .bg-blue-50    { background-color: rgba(37,99,235,0.12) !important; }
+        .dark .bg-green-50   { background-color: rgba(22,163,74,0.10) !important; }
+        .dark .bg-yellow-50  { background-color: rgba(202,138,4,0.10) !important; }
+        .dark .bg-orange-100 { background-color: rgba(234,88,12,0.20) !important; }
+        .dark .bg-indigo-50  { background-color: rgba(99,102,241,0.10) !important; }
+        .dark .text-gray-800 { color: #e2e8f0 !important; }
+        .dark .text-gray-700 { color: #cbd5e1 !important; }
+        .dark .text-gray-600 { color: #94a3b8 !important; }
+        .dark .text-gray-500 { color: #64748b !important; }
+        .dark .text-gray-400 { color: #475569 !important; }
+        .dark .text-red-600    { color: #f87171 !important; }
+        .dark .text-blue-600   { color: #60a5fa !important; }
+        .dark .text-indigo-600 { color: #818cf8 !important; }
+        .dark .border-gray-100 { border-color: #334155 !important; }
+        .dark .border-gray-200 { border-color: #475569 !important; }
+        .dark .divide-gray-100 > * + * { border-color: #334155 !important; }
+        .dark .hover\:bg-gray-50:hover { background-color: #1e293b !important; }
+        .dark .hover\:text-blue-600:hover { color: #60a5fa !important; }
+        .dark pre { background-color: #0f172a !important; }
+        .dark code { color: #e2e8f0 !important; }
+        .dark table thead { background-color: #1e293b !important; }
+        .dark table thead th { color: #e2e8f0 !important; border-color: #475569 !important; }
+        .dark table td { border-color: #334155 !important; }
+        .dark ::-webkit-scrollbar { width: 6px; }
+        .dark ::-webkit-scrollbar-track { background: #0f172a; }
+        .dark ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        const Icon = ({ name, className = "w-6 h-6", ...props }) => {
+            const ref = useRef(null);
+            useEffect(() => {
+                if (ref.current) {
+                    const el = lucide.createElement(lucide[name], { class: className });
+                    ref.current.innerHTML = '';
+                    ref.current.appendChild(el);
+                }
+            }, [name, className]);
+            return <i ref={ref} className={`flex-shrink-0 ${className}`} {...props}></i>;
+        };
+
+        const IMG = '/assets/research/windows-forensics-lab';
+
+        const Section = ({ id, title, icon, children }) => (
+            <section id={id} className="scroll-mt-24">
+                <h2 className="text-2xl font-bold text-gray-800 mb-5 flex items-center gap-3 border-b border-gray-200 pb-3">
+                    <Icon name={icon} className="w-6 h-6 text-indigo-600" />
+                    {title}
+                </h2>
+                <div className="space-y-4">{children}</div>
+            </section>
+        );
+
+        const SubSection = ({ title, children }) => (
+            <div className="space-y-3">
+                <h3 className="text-xl font-semibold text-gray-800">{title}</h3>
+                {children}
+            </div>
+        );
+
+        const Table = ({ headers, rows, compact }) => (
+            <div className="overflow-x-auto rounded-xl border border-gray-200 my-4">
+                <table className={`w-full ${compact ? 'text-xs' : 'text-sm'}`}>
+                    <thead className="bg-gray-50">
+                        <tr>{headers.map((h, i) => <th key={i} className="px-4 py-3 text-left font-semibold text-gray-700 border-b border-gray-200 whitespace-nowrap">{h}</th>)}</tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-100">
+                        {rows.map((row, i) => (
+                            <tr key={i} className="hover:bg-gray-50 transition-colors">
+                                {row.map((cell, j) => <td key={j} className="px-4 py-2.5 text-gray-700" dangerouslySetInnerHTML={{ __html: cell }}></td>)}
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        );
+
+        const CodeBlock = ({ language, children }) => (
+            <div className="rounded-xl border border-gray-200 overflow-hidden my-4">
+                <div className="bg-gray-800 text-gray-400 text-xs px-4 py-2 font-mono">{language}</div>
+                <pre className="bg-gray-900 text-gray-100 p-4 overflow-x-auto text-sm font-mono leading-relaxed"><code>{children}</code></pre>
+            </div>
+        );
+
+        const Img = ({ src, alt, caption }) => (
+            <figure className="my-4">
+                <img src={`${IMG}/${src}`} alt={alt || ''} className="rounded-xl border border-gray-200 shadow-sm w-full" loading="lazy" />
+                {caption && <figcaption className="text-center text-sm text-gray-500 mt-2 italic">{caption}</figcaption>}
+            </figure>
+        );
+
+        const Callout = ({ type = "info", children }) => {
+            const styles = { info: "bg-blue-50 border-blue-200 text-blue-800", warning: "bg-yellow-50 border-yellow-200 text-yellow-800", tip: "bg-green-50 border-green-200 text-green-800" };
+            const icons = { info: "Info", warning: "AlertTriangle", tip: "Lightbulb" };
+            return (
+                <div className={`rounded-xl border p-4 flex gap-3 my-4 ${styles[type]}`}>
+                    <Icon name={icons[type]} className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                    <div className="space-y-1 text-sm leading-relaxed">{children}</div>
+                </div>
+            );
+        };
+
+        const B = ({ children }) => <strong className="text-gray-800">{children}</strong>;
+        const C = ({ children }) => <code className="bg-gray-100 text-red-600 px-1.5 py-0.5 rounded text-sm font-mono">{children}</code>;
+
+        const App = () => {
+            const [dark, setDark] = useState(() => localStorage.getItem('darkMode') === 'true');
+            useEffect(() => { localStorage.setItem('darkMode', dark); }, [dark]);
+
+            const tocItems = [
+                { id: 'introduction', label: 'Introduction', icon: 'BookOpen' },
+                { id: 'why-lab', label: 'Why Build a Forensics Lab?', icon: 'HelpCircle' },
+                { id: 'hardware', label: 'Hardware Requirements', icon: 'Cpu' },
+                { id: 'vm-setup', label: 'VM Setup & Configuration', icon: 'Monitor' },
+                { id: 'network', label: 'Network Configuration', icon: 'Network' },
+                { id: 'tools', label: 'Essential Forensic Tools', icon: 'Wrench' },
+                { id: 'evidence-handling', label: 'Evidence Handling', icon: 'FolderOpen' },
+                { id: 'snapshots', label: 'Snapshots & Lab Management', icon: 'Camera' },
+            ];
+
+            return (
+                <div className={`min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50 to-blue-50 ${dark ? 'dark' : ''}`}>
+                    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 px-4 py-3">
+                        <div className="max-w-4xl mx-auto flex items-center justify-between">
+                            <div className="flex items-center gap-2 text-sm flex-wrap">
+                                <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                                    <img src="/chicken0248.png" alt="Logo" className="w-7 h-7 rounded-lg" />
+                                    <span className="font-bold text-gray-800 hidden sm:inline">Chicken0248</span>
+                                </a>
+                                <span className="text-gray-400">/</span>
+                                <a href="/research/index.html" className="font-medium text-gray-600 hover:text-blue-600 transition-colors">Research</a>
+                                <span className="text-gray-400">/</span>
+                                <span className="font-semibold text-gray-700">Windows Forensics Lab</span>
+                            </div>
+                            <button onClick={() => setDark(!dark)} className="p-2 rounded-lg hover:bg-gray-100 text-gray-600 transition-colors text-lg">
+                                {dark ? '\u2600\uFE0F' : '\uD83C\uDF19'}
+                            </button>
+                        </div>
+                    </nav>
+
+                    <main className="max-w-4xl mx-auto px-4 py-8 space-y-10 animate-fadeIn">
+
+                        {/* Hero */}
+                        <div className="relative overflow-hidden rounded-3xl shadow-2xl">
+                            <img src="/assets/labs/designwindowslab.jpg" alt="Design your first Windows Forensics Lab"
+                                 className="w-full h-48 sm:h-64 md:h-80 object-cover" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                            <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white">
+                                <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight mb-3">Design your first Windows Forensics Lab and make it decent!</h1>
+                                <div className="flex flex-wrap gap-3 text-sm">
+                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Tag" className="w-3.5 h-3.5" /> Lab Making
+                                    </span>
+                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Shield" className="w-3.5 h-3.5" /> Windows Forensics
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Metadata */}
+                        <div className="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm">
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                                <div><span className="text-gray-500 block">Author</span><span className="font-semibold text-gray-800">Warawut Manosong (Chicken0248)</span></div>
+                                <div><span className="text-gray-500 block">Published</span><span className="font-semibold text-gray-800">2024</span></div>
+                                <div><span className="text-gray-500 block">Originally on</span><a href="https://medium.com/system-weakness/design-your-first-windows-forensics-lab-as-a-defensive-content-engineer-523bf891fbd7" target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-600 hover:underline">Medium ↗</a></div>
+                                <div><span className="text-gray-500 block">Category</span><span className="font-semibold text-indigo-600">Lab Making</span></div>
+                            </div>
+                        </div>
+
+                        <Callout type="info">
+                            <p>This article was originally published on <B>Medium (System Weakness publication)</B>. Full content migration is in progress. <a href="https://medium.com/system-weakness/design-your-first-windows-forensics-lab-as-a-defensive-content-engineer-523bf891fbd7" target="_blank" rel="noopener noreferrer" className="underline font-medium">Read the original article on Medium ↗</a></p>
+                        </Callout>
+
+                        {/* TOC */}
+                        <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                            <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                <Icon name="List" className="w-5 h-5 text-indigo-600" />
+                                Table of Contents
+                            </h2>
+                            <div className="grid sm:grid-cols-2 gap-2">
+                                {tocItems.map((item, i) => (
+                                    <a key={item.id} href={`#${item.id}`}
+                                       className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors text-sm">
+                                        <Icon name={item.icon} className="w-4 h-4 text-gray-400" />
+                                        <span className="text-gray-400 font-mono text-xs w-5">{i + 1}.</span>
+                                        <span className="font-medium">{item.label}</span>
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* ═══════════ INTRODUCTION ═══════════ */}
+                        <Section id="introduction" title="Introduction" icon="BookOpen">
+                            <p className="text-gray-700 leading-relaxed">
+                                Building a Windows forensics lab is an essential step for anyone looking to practice and develop their digital forensics and incident response (DFIR) skills. This guide walks through designing a <B>proper, functional Windows forensics lab</B> that you can use for CTFs, research, and content creation.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Read the full article on <a href="https://medium.com/system-weakness/design-your-first-windows-forensics-lab-as-a-defensive-content-engineer-523bf891fbd7" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline font-medium">Medium (System Weakness)</a>.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ WHY LAB ═══════════ */}
+                        <Section id="why-lab" title="Why Build a Forensics Lab?" icon="HelpCircle">
+                            <p className="text-gray-700 leading-relaxed">
+                                Having a dedicated forensics lab environment allows you to:
+                            </p>
+                            <ul className="list-disc list-outside ml-5 space-y-2 text-gray-700">
+                                <li>Safely analyze malware and suspicious artifacts without risking your main system</li>
+                                <li>Create repeatable scenarios for CTF challenges and content creation</li>
+                                <li>Practice forensic techniques on controlled evidence</li>
+                                <li>Develop and test detection rules in a safe environment</li>
+                            </ul>
+                        </Section>
+
+                        {/* ═══════════ HARDWARE ═══════════ */}
+                        <Section id="hardware" title="Hardware Requirements" icon="Cpu">
+                            <p className="text-gray-700 leading-relaxed">
+                                For a functional Windows forensics lab, you'll need adequate hardware to run multiple virtual machines simultaneously.
+                            </p>
+                            <Table
+                                headers={['Component', 'Minimum', 'Recommended']}
+                                rows={[
+                                    ['RAM', '16 GB', '32 GB or more'],
+                                    ['CPU', '4 cores', '8+ cores with virtualization support'],
+                                    ['Storage', '500 GB SSD', '1 TB+ NVMe SSD'],
+                                    ['Virtualization', 'Intel VT-x / AMD-V enabled', 'Same'],
+                                ]}
+                            />
+                        </Section>
+
+                        {/* ═══════════ VM SETUP ═══════════ */}
+                        <Section id="vm-setup" title="VM Setup & Configuration" icon="Monitor">
+                            <p className="text-gray-700 leading-relaxed">
+                                The core of your lab will consist of virtual machines running Windows. Key VMs to set up:
+                            </p>
+                            <ul className="list-disc list-outside ml-5 space-y-2 text-gray-700">
+                                <li><B>Windows 10/11 (Victim)</B> — Target machine for forensic analysis and malware execution</li>
+                                <li><B>Windows Server (optional)</B> — For Active Directory scenarios</li>
+                                <li><B>SIFT Workstation or REMnux</B> — Linux-based forensic analysis platform</li>
+                                <li><B>FlareVM</B> — Windows-based malware analysis and reverse engineering environment</li>
+                            </ul>
+                        </Section>
+
+                        {/* ═══════════ NETWORK ═══════════ */}
+                        <Section id="network" title="Network Configuration" icon="Network">
+                            <p className="text-gray-700 leading-relaxed">
+                                Network isolation is critical in a forensics lab. Use <B>host-only or internal network</B> adapters to prevent malware from reaching the internet. Consider these network setups:
+                            </p>
+                            <Table
+                                headers={['Network Type', 'Use Case']}
+                                rows={[
+                                    ['Host-only', 'Complete isolation — VMs communicate only with host'],
+                                    ['Internal network', 'VM-to-VM communication without host or internet access'],
+                                    ['NAT (controlled)', 'Internet access for malware samples that need C2 (use with INetSim)'],
+                                ]}
+                            />
+                        </Section>
+
+                        {/* ═══════════ TOOLS ═══════════ */}
+                        <Section id="tools" title="Essential Forensic Tools" icon="Wrench">
+                            <SubSection title="Disk & Memory Analysis">
+                                <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                    <li><B>Autopsy / Sleuth Kit</B> — Disk forensics and timeline analysis</li>
+                                    <li><B>Volatility</B> — Memory analysis framework</li>
+                                    <li><B>FTK Imager</B> — Disk imaging and evidence acquisition</li>
+                                </ul>
+                            </SubSection>
+                            <SubSection title="Log Analysis">
+                                <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                    <li><B>EvtxECmd</B> — Windows Event Log parsing</li>
+                                    <li><B>Chainsaw</B> — Fast Windows Event Log hunting</li>
+                                    <li><B>Hayabusa</B> — Sigma-based Windows log threat hunting</li>
+                                </ul>
+                            </SubSection>
+                            <SubSection title="Artifact Analysis">
+                                <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                    <li><B>KAPE</B> — Targeted collection of forensic artifacts</li>
+                                    <li><B>RegRipper</B> — Windows Registry analysis</li>
+                                    <li><B>PECmd / LnkCmd</B> — Prefetch and LNK file analysis</li>
+                                </ul>
+                            </SubSection>
+                        </Section>
+
+                        {/* ═══════════ EVIDENCE HANDLING ═══════════ */}
+                        <Section id="evidence-handling" title="Evidence Handling" icon="FolderOpen">
+                            <p className="text-gray-700 leading-relaxed">
+                                Proper evidence handling ensures forensic integrity. Key practices:
+                            </p>
+                            <ul className="list-disc list-outside ml-5 space-y-2 text-gray-700">
+                                <li>Always work on <B>copies</B>, never on original evidence</li>
+                                <li>Verify image integrity with <B>MD5/SHA256 hashes</B></li>
+                                <li>Document every action in a chain of custody</li>
+                                <li>Use write blockers when acquiring physical drives</li>
+                            </ul>
+                        </Section>
+
+                        {/* ═══════════ SNAPSHOTS ═══════════ */}
+                        <Section id="snapshots" title="Snapshots & Lab Management" icon="Camera">
+                            <p className="text-gray-700 leading-relaxed">
+                                VM snapshots are your best friend in a forensics lab. Take snapshots at key states:
+                            </p>
+                            <ul className="list-disc list-outside ml-5 space-y-2 text-gray-700">
+                                <li><B>Clean baseline</B> — Fresh OS install with logging configured</li>
+                                <li><B>Post-tool installation</B> — After installing Sysmon and other monitoring tools</li>
+                                <li><B>Pre-scenario</B> — Before running malware or creating artifacts</li>
+                            </ul>
+                            <Callout type="tip">
+                                <p>Label snapshots descriptively with dates and what state the machine is in. A good naming convention: <C>Win10-Clean-Sysmon-2024-01-01</C></p>
+                            </Callout>
+                        </Section>
+
+                        {/* Footer Nav */}
+                        <div className="border-t border-gray-200 pt-6 flex items-center justify-between text-sm">
+                            <a href="#" className="flex items-center gap-1.5 text-gray-500 hover:text-indigo-600 transition-colors">
+                                <Icon name="ArrowUp" className="w-4 h-4" />
+                                Back to top
+                            </a>
+                            <a href="/research/index.html" className="flex items-center gap-1.5 text-gray-500 hover:text-indigo-600 transition-colors">
+                                <Icon name="ArrowLeft" className="w-4 h-4" />
+                                All Research
+                            </a>
+                        </div>
+                    </main>
+                </div>
+            );
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>

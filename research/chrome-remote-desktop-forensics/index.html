@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chrome Remote Desktop RMM Investigation (Windows) | Chicken0248</title>
+    <link rel="icon" href="/chicken0248.png" type="image/png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fadeIn { animation: fadeIn 0.5s ease-out; }
+        .dark.min-h-screen { background: linear-gradient(135deg, #0f172a 0%, #141f35 50%, #0a1628 100%) !important; }
+        .dark nav { background-color: rgba(15,23,42,0.96) !important; border-bottom-color: rgba(51,65,85,0.5) !important; }
+        .dark .bg-white    { background-color: #1e293b !important; }
+        .dark .bg-gray-50  { background-color: #0f172a !important; }
+        .dark .bg-gray-100 { background-color: #334155 !important; }
+        .dark .bg-gray-900 { background-color: #0f172a !important; }
+        .dark .bg-blue-50    { background-color: rgba(37,99,235,0.12) !important; }
+        .dark .bg-green-50   { background-color: rgba(22,163,74,0.10) !important; }
+        .dark .bg-yellow-50  { background-color: rgba(202,138,4,0.10) !important; }
+        .dark .bg-orange-100 { background-color: rgba(234,88,12,0.20) !important; }
+        .dark .bg-indigo-50  { background-color: rgba(99,102,241,0.10) !important; }
+        .dark .text-gray-800 { color: #e2e8f0 !important; }
+        .dark .text-gray-700 { color: #cbd5e1 !important; }
+        .dark .text-gray-600 { color: #94a3b8 !important; }
+        .dark .text-gray-500 { color: #64748b !important; }
+        .dark .text-gray-400 { color: #475569 !important; }
+        .dark .text-red-600    { color: #f87171 !important; }
+        .dark .text-blue-600   { color: #60a5fa !important; }
+        .dark .text-green-600  { color: #4ade80 !important; }
+        .dark .text-indigo-600 { color: #818cf8 !important; }
+        .dark .border-gray-100 { border-color: #334155 !important; }
+        .dark .border-gray-200 { border-color: #475569 !important; }
+        .dark .divide-gray-100 > * + * { border-color: #334155 !important; }
+        .dark .hover\:bg-gray-50:hover { background-color: #1e293b !important; }
+        .dark .hover\:text-blue-600:hover { color: #60a5fa !important; }
+        .dark pre { background-color: #0f172a !important; }
+        .dark code { color: #e2e8f0 !important; }
+        .dark table thead { background-color: #1e293b !important; }
+        .dark table thead th { color: #e2e8f0 !important; border-color: #475569 !important; }
+        .dark table td { border-color: #334155 !important; }
+        .dark ::-webkit-scrollbar { width: 6px; }
+        .dark ::-webkit-scrollbar-track { background: #0f172a; }
+        .dark ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        const Icon = ({ name, className = "w-6 h-6", ...props }) => {
+            const ref = useRef(null);
+            useEffect(() => {
+                if (ref.current) {
+                    const el = lucide.createElement(lucide[name], { class: className });
+                    ref.current.innerHTML = '';
+                    ref.current.appendChild(el);
+                }
+            }, [name, className]);
+            return <i ref={ref} className={`flex-shrink-0 ${className}`} {...props}></i>;
+        };
+
+        const IMG = '/assets/research/chrome-remote-desktop-forensics';
+
+        const Section = ({ id, title, icon, children }) => (
+            <section id={id} className="scroll-mt-24">
+                <h2 className="text-2xl font-bold text-gray-800 mb-5 flex items-center gap-3 border-b border-gray-200 pb-3">
+                    <Icon name={icon} className="w-6 h-6 text-indigo-600" />
+                    {title}
+                </h2>
+                <div className="space-y-4">{children}</div>
+            </section>
+        );
+
+        const SubSection = ({ title, children }) => (
+            <div className="space-y-3">
+                <h3 className="text-xl font-semibold text-gray-800">{title}</h3>
+                {children}
+            </div>
+        );
+
+        const Table = ({ headers, rows, compact }) => (
+            <div className="overflow-x-auto rounded-xl border border-gray-200 my-4">
+                <table className={`w-full ${compact ? 'text-xs' : 'text-sm'}`}>
+                    <thead className="bg-gray-50">
+                        <tr>{headers.map((h, i) => <th key={i} className="px-4 py-3 text-left font-semibold text-gray-700 border-b border-gray-200 whitespace-nowrap">{h}</th>)}</tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-100">
+                        {rows.map((row, i) => (
+                            <tr key={i} className="hover:bg-gray-50 transition-colors">
+                                {row.map((cell, j) => <td key={j} className="px-4 py-2.5 text-gray-700" dangerouslySetInnerHTML={{ __html: cell }}></td>)}
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        );
+
+        const Img = ({ src, alt, caption }) => (
+            <figure className="my-4">
+                <img src={`${IMG}/${src}`} alt={alt || ''} className="rounded-xl border border-gray-200 shadow-sm w-full" loading="lazy" />
+                {caption && <figcaption className="text-center text-sm text-gray-500 mt-2 italic">{caption}</figcaption>}
+            </figure>
+        );
+
+        const Callout = ({ type = "info", children }) => {
+            const styles = { info: "bg-blue-50 border-blue-200 text-blue-800", warning: "bg-yellow-50 border-yellow-200 text-yellow-800", tip: "bg-green-50 border-green-200 text-green-800" };
+            const icons = { info: "Info", warning: "AlertTriangle", tip: "Lightbulb" };
+            return (
+                <div className={`rounded-xl border p-4 flex gap-3 my-4 ${styles[type]}`}>
+                    <Icon name={icons[type]} className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                    <div className="space-y-1 text-sm leading-relaxed">{children}</div>
+                </div>
+            );
+        };
+
+        const B = ({ children }) => <strong className="text-gray-800">{children}</strong>;
+        const C = ({ children }) => <code className="bg-gray-100 text-red-600 px-1.5 py-0.5 rounded text-sm font-mono">{children}</code>;
+
+        const App = () => {
+            const [dark, setDark] = useState(() => localStorage.getItem('darkMode') === 'true');
+            useEffect(() => { localStorage.setItem('darkMode', dark); }, [dark]);
+
+            const tocItems = [
+                { id: 'introduction', label: 'Introduction', icon: 'BookOpen' },
+                { id: 'what-is-crd', label: 'What is Chrome Remote Desktop?', icon: 'Monitor' },
+                { id: 'setup', label: 'Setting Up CRD Normally', icon: 'Settings' },
+                { id: 'installation-artifacts', label: 'Installation Artifact Detection', icon: 'Download' },
+                { id: 'remote-support', label: 'Investigate Remote Support', icon: 'Users' },
+                { id: 'remote-access-setup', label: 'Set Up Remote Access', icon: 'Unlock' },
+                { id: 'remote-access-investigation', label: 'Investigate Remote Access', icon: 'Search' },
+                { id: 'file-transfer', label: 'File Transfer Investigation', icon: 'FolderOpen' },
+                { id: 'cli-setup', label: 'CLI Installation', icon: 'Terminal' },
+                { id: 'summary', label: 'Investigation Summary', icon: 'ClipboardList' },
+            ];
+
+            return (
+                <div className={`min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50 to-blue-50 ${dark ? 'dark' : ''}`}>
+                    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 px-4 py-3">
+                        <div className="max-w-4xl mx-auto flex items-center justify-between">
+                            <div className="flex items-center gap-2 text-sm flex-wrap">
+                                <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                                    <img src="/chicken0248.png" alt="Logo" className="w-7 h-7 rounded-lg" />
+                                    <span className="font-bold text-gray-800 hidden sm:inline">Chicken0248</span>
+                                </a>
+                                <span className="text-gray-400">/</span>
+                                <a href="/research/index.html" className="font-medium text-gray-600 hover:text-blue-600 transition-colors">Research</a>
+                                <span className="text-gray-400">/</span>
+                                <span className="font-semibold text-gray-700">Chrome Remote Desktop</span>
+                            </div>
+                            <button onClick={() => setDark(!dark)} className="p-2 rounded-lg hover:bg-gray-100 text-gray-600 transition-colors text-lg">
+                                {dark ? '\u2600\uFE0F' : '\uD83C\uDF19'}
+                            </button>
+                        </div>
+                    </nav>
+
+                    <main className="max-w-4xl mx-auto px-4 py-8 space-y-10 animate-fadeIn">
+
+                        {/* Hero */}
+                        <div className="relative overflow-hidden rounded-3xl shadow-2xl">
+                            <img src={`${IMG}/cover.jpeg`} alt="Chrome Remote Desktop Investigation" className="w-full h-48 sm:h-64 md:h-80 object-cover" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                            <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white">
+                                <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight mb-3">Chrome Remote Desktop RMM Investigation (Windows)</h1>
+                                <div className="flex flex-wrap gap-3 text-sm">
+                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Calendar" className="w-3.5 h-3.5" /> March 28, 2026
+                                    </span>
+                                    <span className="bg-indigo-500/80 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Tag" className="w-3.5 h-3.5" /> Digital Forensics
+                                    </span>
+                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Cpu" className="w-3.5 h-3.5" /> RMM Investigation
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Metadata */}
+                        <div className="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm">
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                                <div><span className="text-gray-500 block">Author</span><span className="font-semibold text-gray-800">Warawut Manosong (Chicken0248)</span></div>
+                                <div><span className="text-gray-500 block">Published</span><span className="font-semibold text-gray-800">March 28, 2026</span></div>
+                                <div><span className="text-gray-500 block">Originally on</span><a href="https://medium.com/@chaoskist/chrome-remote-desktop-rmm-investigation-c61f8545da26" target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-600 hover:underline">Medium ↗</a></div>
+                                <div><span className="text-gray-500 block">Category</span><span className="font-semibold text-indigo-600">Digital Forensics</span></div>
+                            </div>
+                        </div>
+
+                        {/* TOC */}
+                        <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                            <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                <Icon name="List" className="w-5 h-5 text-indigo-600" />
+                                Table of Contents
+                            </h2>
+                            <div className="grid sm:grid-cols-2 gap-2">
+                                {tocItems.map((item, i) => (
+                                    <a key={item.id} href={`#${item.id}`}
+                                       className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors text-sm">
+                                        <Icon name={item.icon} className="w-4 h-4 text-gray-400" />
+                                        <span className="text-gray-400 font-mono text-xs w-5">{i + 1}.</span>
+                                        <span className="font-medium">{item.label}</span>
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* ═══════════ INTRODUCTION ═══════════ */}
+                        <Section id="introduction" title="Introduction" icon="BookOpen">
+                            <p className="text-gray-700 leading-relaxed">
+                                This article investigates <B>Chrome Remote Desktop (CRD)</B>, covering installation procedures, connection mechanisms, and forensic investigation techniques for detecting misuse of Google's remote desktop tool through Windows Event Log examination and system artifact analysis.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                From a security perspective, CRD's legitimacy makes it blend seamlessly with normal traffic, creating blind spots for detection. Threat actors exploit such tools for <B>"Living off the Land" persistence</B> — installing trusted remote access tools on compromised hosts to maintain presence without noisy command-and-control channels.
+                            </p>
+                            <Img src="img-01.jpeg" alt="Chrome Remote Desktop investigation overview" caption="Chrome Remote Desktop forensics overview" />
+                        </Section>
+
+                        {/* ═══════════ WHAT IS CRD ═══════════ */}
+                        <Section id="what-is-crd" title="What is Chrome Remote Desktop?" icon="Monitor">
+                            <p className="text-gray-700 leading-relaxed">
+                                Chrome Remote Desktop uses a proprietary protocol called <B>"Chromoting"</B> rather than Microsoft's standard RDP. The system transmits keyboard and mouse inputs to remote machines while returning screen updates to the operator. Basic setup involves visiting <C>remotedesktop.google.com</C>, installing the host component on the target machine, and configuring a PIN. The remote interface operates entirely through a web browser.
+                            </p>
+
+                            <SubSection title="Two Primary Usage Modes">
+                                <Table
+                                    headers={['Mode', 'Description', 'Use Case']}
+                                    rows={[
+                                        ['<b>Remote Access</b>', 'Unattended access — install host, set PIN, connect from anywhere', 'Persistent access to own machine'],
+                                        ['<b>Remote Support</b>', 'Single-use access codes valid for 5 minutes', 'One-time support sessions'],
+                                    ]}
+                                />
+                                <p className="text-gray-700 leading-relaxed">
+                                    From a forensic standpoint, <B>Remote Access</B> is the more dangerous mode — it enables persistent, unattended access identical to how threat actors abuse it for command-and-control.
+                                </p>
+                            </SubSection>
+                            <Img src="img-02.png" alt="Chrome Remote Desktop modes" caption="Remote Access vs Remote Support modes" />
+                        </Section>
+
+                        {/* ═══════════ SETUP ═══════════ */}
+                        <Section id="setup" title="Setting Up Chrome Remote Desktop Normally" icon="Settings">
+                            <p className="text-gray-700 leading-relaxed">
+                                Users navigate to <C>remotedesktop.google.com</C> and authenticate with Google credentials. The CRD extension is installed from the Chrome Web Store, requesting permission to <em>"communicate with cooperating native applications."</em> Following extension installation, the <B>CRD MSI installer</B> downloads automatically.
+                            </p>
+                            <Img src="img-03.png" alt="CRD setup page" caption="Chrome Remote Desktop setup at remotedesktop.google.com" />
+                            <Img src="img-04.png" alt="CRD extension installation" caption="CRD Chrome extension requesting native communication permission" />
+                        </Section>
+
+                        {/* ═══════════ INSTALLATION ARTIFACTS ═══════════ */}
+                        <Section id="installation-artifacts" title="Installation Artifact Detection" icon="Download">
+                            <p className="text-gray-700 leading-relaxed">
+                                Windows Event Logs capture installation details across multiple sources:
+                            </p>
+                            <Table
+                                headers={['Event ID', 'Log', 'Source', 'Meaning']}
+                                rows={[
+                                    ['1040', 'Application', 'MsiInstaller', 'MSI installer start — includes installer path and timestamp'],
+                                    ['1042, 11707, 1033', 'Application', 'MsiInstaller', 'Installation completion timestamp'],
+                                    ['7045', 'System', 'Service Control Manager', 'Creation of "Chrome Remote Desktop Service"'],
+                                ]}
+                            />
+                            <Img src="img-05.png" alt="Event ID 7045 CRD service creation" caption="Event ID 7045 — Chrome Remote Desktop Service creation" />
+                            <Img src="img-06.png" alt="Event ID 1040 MSI installation" caption="Event ID 1040 — MSI installer execution" />
+                        </Section>
+
+                        {/* ═══════════ REMOTE SUPPORT ═══════════ */}
+                        <Section id="remote-support" title="Investigate Remote Support Feature" icon="Users">
+                            <p className="text-gray-700 leading-relaxed">
+                                Remote Support generates <B>12-digit access codes</B> that expire within five minutes. Once the local user accepts the connection, the remote user can view the target desktop but cannot interact with the taskbar or Event Viewer — limiting their ability to perform critical operations.
+                            </p>
+
+                            <SubSection title="Processes During Remote Support">
+                                <p className="text-gray-700 leading-relaxed">
+                                    When CRD establishes a remote connection, at least one <C>remoting_host.exe</C> process runs as SYSTEM and LOCAL SERVICE, spawned from the CRD service. When the local user accepts, <C>remoting_native_messaging.exe</C> and <C>remote_assistance_host.exe</C> spawn as child processes of <C>cmd.exe</C>, with <C>chrome.exe</C> as grandparent.
+                                </p>
+                                <Img src="img-07.png" alt="CRD process tree during remote support" caption="Process hierarchy during Remote Support session" />
+                            </SubSection>
+
+                            <SubSection title="Event Log Analysis for Remote Support">
+                                <p className="text-gray-700 leading-relaxed">
+                                    CRD logging integrates into Windows Application event logs via the <B>"chromoting"</B> source:
+                                </p>
+                                <Table
+                                    headers={['Event ID', 'Trigger', 'Key Data']}
+                                    rows={[
+                                        ['5', 'Access code generated', 'Email address of user who generated the code'],
+                                        ['1', 'Connection established', 'Google email used for remote access'],
+                                        ['4', 'Connection established', 'Same as Event ID 1'],
+                                        ['2', 'Session terminated', 'Unique ID + remote user email address'],
+                                    ]}
+                                />
+                                <Img src="img-08.png" alt="chromoting Event ID 5" caption="Event ID 5 — Access code generation with email" />
+                                <Img src="img-09.png" alt="chromoting Event ID 1 connection" caption="Event ID 1 — Remote connection established" />
+                                <Img src="img-10.png" alt="chromoting Event ID 2 termination" caption="Event ID 2 — Session termination" />
+                            </SubSection>
+                        </Section>
+
+                        {/* ═══════════ REMOTE ACCESS SETUP ═══════════ */}
+                        <Section id="remote-access-setup" title="Set Up Remote Access Feature" icon="Unlock">
+                            <p className="text-gray-700 leading-relaxed">
+                                Clicking "Turn on" in Remote Access prompts for a <B>computer name</B> and then a <B>PIN</B> of at least six digits. When a PIN is established, the CRD service start type changes from <B>manual to automatic</B> (starting at boot). This change generates <B>Event ID 7040</B> in the System event log.
+                            </p>
+                            <Img src="img-11.png" alt="Remote Access setup PIN configuration" caption="Remote Access — PIN configuration step" />
+                            <Img src="img-12.png" alt="Event ID 7040 service start type change" caption="Event ID 7040 — CRD service changed to automatic start" />
+                        </Section>
+
+                        {/* ═══════════ REMOTE ACCESS INVESTIGATION ═══════════ */}
+                        <Section id="remote-access-investigation" title="Investigate Remote Access Connection" icon="Search">
+                            <p className="text-gray-700 leading-relaxed">
+                                Connecting through Remote Access requires entering the configured PIN. The CRD service remains active in the background <B>even after closing the Chrome browser</B>. Users gain complete control over the target computer without the restrictions present in Remote Support.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Application event logs show identical entries to Remote Support sessions, except <B>Event ID 5 doesn't appear</B> (no access code generation). Both connection types use the same Gmail account, so that email appears in Event IDs 1 and 4.
+                            </p>
+                            <Img src="img-13.png" alt="Remote Access connection event logs" caption="Application event logs during Remote Access connection" />
+                            <Img src="img-14.png" alt="CRD service running after browser close" caption="CRD service persisting after browser closure" />
+
+                            <SubSection title="Configuration Files and Binary Locations">
+                                <p className="text-gray-700 leading-relaxed">
+                                    Remote Access setup creates a <C>host.json</C> file at <C>C:\ProgramData\Google\Chrome Remote Desktop</C> containing:
+                                </p>
+                                <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                    <li><C>host_id</C></li>
+                                    <li>Computer name provided during setup</li>
+                                    <li>Gmail account authorized for access</li>
+                                </ul>
+                                <p className="text-gray-700 leading-relaxed">
+                                    CRD binaries are located in <C>Program Files (x86)</C>, all bearing <B>Google LLC digital signatures</B>. The browser extension installs to <C>C:\Users\%username%\AppData\Local\Google\Chrome\User Data\Default\Extensions\inomeogfingihgjfjlpeplalcfajhgai\</C>.
+                                </p>
+                                <Img src="img-15.png" alt="host.json configuration file" caption="host.json with host_id and authorized Gmail account" />
+                            </SubSection>
+                        </Section>
+
+                        {/* ═══════════ FILE TRANSFER ═══════════ */}
+                        <Section id="file-transfer" title="File Transfer via Chrome Remote Desktop" icon="FolderOpen">
+                            <p className="text-gray-700 leading-relaxed">
+                                File transfer is only available in <B>Remote Access</B> sessions (not Remote Support). During transfers, files initially receive a <C>.part</C> extension indicating transfer in progress. Process monitoring reveals <C>remoting_desktop.exe</C> creates files under <B>NT AUTHORITY\SYSTEM</B> privilege.
+                            </p>
+                            <Callout type="warning">
+                                <p>File transfer activities generate <B>no logged events</B> beyond file creation. Uploads can be detected through file creation events, but downloads require network activity analysis.</p>
+                            </Callout>
+                            <Img src="img-16.png" alt="File transfer .part extension" caption="Files with .part extension during active transfer" />
+                            <Img src="img-17.png" alt="remoting_desktop.exe file creation" caption="remoting_desktop.exe creating files as SYSTEM" />
+                        </Section>
+
+                        {/* ═══════════ CLI SETUP ═══════════ */}
+                        <Section id="cli-setup" title="Setting Up Chrome Remote Desktop via CLI" icon="Terminal">
+                            <p className="text-gray-700 leading-relaxed">
+                                Beyond manual web-based setup, users can download MSI installers for command-line installation through a "Set up via SSH" page. CLI installation generates the same events as web-based setup:
+                            </p>
+                            <Table
+                                headers={['Event ID', 'Log', 'Trigger']}
+                                rows={[
+                                    ['1040', 'Application', 'MSI installation start'],
+                                    ['7045', 'System', 'Service creation'],
+                                    ['7040', 'System', 'Service start type change (if Remote Access configured)'],
+                                ]}
+                            />
+                            <Img src="img-18.png" alt="CLI installation event logs" caption="Event logs from CLI-based CRD installation" />
+                        </Section>
+
+                        {/* ═══════════ SUMMARY ═══════════ */}
+                        <Section id="summary" title="Investigation Summary" icon="ClipboardList">
+                            <p className="text-gray-700 leading-relaxed">
+                                Key artifacts for detecting CRD installation and usage:
+                            </p>
+                            <Table
+                                headers={['Artifact', 'Location', 'Event/Detail']}
+                                rows={[
+                                    ['Service installation', 'System Event Log', 'Event ID 7045 — "Chrome Remote Desktop Service"'],
+                                    ['MSI installer', 'Application Event Log', 'Event ID 1040 — includes installer path'],
+                                    ['Remote Access setup', 'System Event Log', 'Event ID 7040 — service changed to automatic'],
+                                    ['Access code generated', 'Application Event Log', 'Event ID 5 (chromoting) — includes Gmail address'],
+                                    ['Connection established', 'Application Event Log', 'Event IDs 1 &amp; 4 (chromoting) — includes remote email'],
+                                    ['Connection terminated', 'Application Event Log', 'Event ID 2 (chromoting)'],
+                                    ['Config file', '<code>C:\\ProgramData\\Google\\Chrome Remote Desktop\\host.json</code>', 'host_id, computer name, Gmail account'],
+                                    ['Browser extension', '<code>...\\Extensions\\inomeogfingihgjfjlpeplalcfajhgai\\</code>', 'CRD Chrome extension files'],
+                                ]}
+                            />
+                            <Img src="img-19.png" alt="CRD investigation artifacts summary" caption="Summary of CRD forensic artifacts" />
+                        </Section>
+
+                        {/* Footer Nav */}
+                        <div className="border-t border-gray-200 pt-6 flex items-center justify-between text-sm">
+                            <a href="#" className="flex items-center gap-1.5 text-gray-500 hover:text-indigo-600 transition-colors">
+                                <Icon name="ArrowUp" className="w-4 h-4" />
+                                Back to top
+                            </a>
+                            <a href="/research/index.html" className="flex items-center gap-1.5 text-gray-500 hover:text-indigo-600 transition-colors">
+                                <Icon name="ArrowLeft" className="w-4 h-4" />
+                                All Research
+                            </a>
+                        </div>
+                    </main>
+                </div>
+            );
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>

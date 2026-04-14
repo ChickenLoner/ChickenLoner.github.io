@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deep dive into RustDesk RMM Investigation &amp; Forensics on Windows | Chicken0248</title>
+    <link rel="icon" href="/chicken0248.png" type="image/png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fadeIn { animation: fadeIn 0.5s ease-out; }
+        .dark.min-h-screen { background: linear-gradient(135deg, #0f172a 0%, #141f35 50%, #0a1628 100%) !important; }
+        .dark nav { background-color: rgba(15,23,42,0.96) !important; border-bottom-color: rgba(51,65,85,0.5) !important; }
+        .dark .bg-white    { background-color: #1e293b !important; }
+        .dark .bg-gray-50  { background-color: #0f172a !important; }
+        .dark .bg-gray-100 { background-color: #334155 !important; }
+        .dark .bg-gray-900 { background-color: #0f172a !important; }
+        .dark .bg-blue-50    { background-color: rgba(37,99,235,0.12) !important; }
+        .dark .bg-blue-100   { background-color: rgba(37,99,235,0.20) !important; }
+        .dark .bg-green-50   { background-color: rgba(22,163,74,0.10) !important; }
+        .dark .bg-yellow-50  { background-color: rgba(202,138,4,0.10) !important; }
+        .dark .bg-orange-100 { background-color: rgba(234,88,12,0.20) !important; }
+        .dark .bg-indigo-50  { background-color: rgba(99,102,241,0.10) !important; }
+        .dark .text-gray-800 { color: #e2e8f0 !important; }
+        .dark .text-gray-700 { color: #cbd5e1 !important; }
+        .dark .text-gray-600 { color: #94a3b8 !important; }
+        .dark .text-gray-500 { color: #64748b !important; }
+        .dark .text-gray-400 { color: #475569 !important; }
+        .dark .text-red-600    { color: #f87171 !important; }
+        .dark .text-blue-600   { color: #60a5fa !important; }
+        .dark .text-green-600  { color: #4ade80 !important; }
+        .dark .text-orange-700 { color: #fb923c !important; }
+        .dark .text-indigo-600 { color: #818cf8 !important; }
+        .dark .border-gray-100 { border-color: #334155 !important; }
+        .dark .border-gray-200 { border-color: #475569 !important; }
+        .dark .divide-gray-100 > * + * { border-color: #334155 !important; }
+        .dark .hover\:bg-gray-50:hover { background-color: #1e293b !important; }
+        .dark .hover\:text-blue-600:hover { color: #60a5fa !important; }
+        .dark pre { background-color: #0f172a !important; border-color: #334155 !important; }
+        .dark code { color: #e2e8f0 !important; }
+        .dark table thead { background-color: #1e293b !important; }
+        .dark table thead th { color: #e2e8f0 !important; border-color: #475569 !important; }
+        .dark table td { border-color: #334155 !important; }
+        .dark ::-webkit-scrollbar { width: 6px; }
+        .dark ::-webkit-scrollbar-track { background: #0f172a; }
+        .dark ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        const Icon = ({ name, className = "w-6 h-6", ...props }) => {
+            const ref = useRef(null);
+            useEffect(() => {
+                if (ref.current) {
+                    const el = lucide.createElement(lucide[name], { class: className });
+                    ref.current.innerHTML = '';
+                    ref.current.appendChild(el);
+                }
+            }, [name, className]);
+            return <i ref={ref} className={`flex-shrink-0 ${className}`} {...props}></i>;
+        };
+
+        const IMG = '/assets/research/rustdesk-forensics-windows';
+
+        const Section = ({ id, title, icon, children }) => (
+            <section id={id} className="scroll-mt-24">
+                <h2 className="text-2xl font-bold text-gray-800 mb-5 flex items-center gap-3 border-b border-gray-200 pb-3">
+                    <Icon name={icon} className="w-6 h-6 text-indigo-600" />
+                    {title}
+                </h2>
+                <div className="space-y-4">{children}</div>
+            </section>
+        );
+
+        const SubSection = ({ title, children }) => (
+            <div className="space-y-3">
+                <h3 className="text-xl font-semibold text-gray-800">{title}</h3>
+                {children}
+            </div>
+        );
+
+        const Table = ({ headers, rows, compact }) => (
+            <div className="overflow-x-auto rounded-xl border border-gray-200 my-4">
+                <table className={`w-full ${compact ? 'text-xs' : 'text-sm'}`}>
+                    <thead className="bg-gray-50">
+                        <tr>{headers.map((h, i) => <th key={i} className="px-4 py-3 text-left font-semibold text-gray-700 border-b border-gray-200 whitespace-nowrap">{h}</th>)}</tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-100">
+                        {rows.map((row, i) => (
+                            <tr key={i} className="hover:bg-gray-50 transition-colors">
+                                {row.map((cell, j) => <td key={j} className="px-4 py-2.5 text-gray-700" dangerouslySetInnerHTML={{ __html: cell }}></td>)}
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        );
+
+        const CodeBlock = ({ language, children }) => (
+            <div className="rounded-xl border border-gray-200 overflow-hidden my-4">
+                <div className="bg-gray-800 text-gray-400 text-xs px-4 py-2 font-mono">{language}</div>
+                <pre className="bg-gray-900 text-gray-100 p-4 overflow-x-auto text-sm font-mono leading-relaxed"><code>{children}</code></pre>
+            </div>
+        );
+
+        const Img = ({ src, alt, caption }) => (
+            <figure className="my-4">
+                <img src={`${IMG}/${src}`} alt={alt || ''} className="rounded-xl border border-gray-200 shadow-sm w-full" loading="lazy" />
+                {caption && <figcaption className="text-center text-sm text-gray-500 mt-2 italic">{caption}</figcaption>}
+            </figure>
+        );
+
+        const Callout = ({ type = "info", children }) => {
+            const styles = { info: "bg-blue-50 border-blue-200 text-blue-800", warning: "bg-yellow-50 border-yellow-200 text-yellow-800", tip: "bg-green-50 border-green-200 text-green-800" };
+            const icons = { info: "Info", warning: "AlertTriangle", tip: "Lightbulb" };
+            return (
+                <div className={`rounded-xl border p-4 flex gap-3 my-4 ${styles[type]}`}>
+                    <Icon name={icons[type]} className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                    <div className="space-y-1 text-sm leading-relaxed">{children}</div>
+                </div>
+            );
+        };
+
+        const B = ({ children }) => <strong className="text-gray-800">{children}</strong>;
+        const C = ({ children }) => <code className="bg-gray-100 text-red-600 px-1.5 py-0.5 rounded text-sm font-mono">{children}</code>;
+
+        const App = () => {
+            const [dark, setDark] = useState(() => localStorage.getItem('darkMode') === 'true');
+            useEffect(() => { localStorage.setItem('darkMode', dark); }, [dark]);
+
+            const tocItems = [
+                { id: 'introduction', label: 'Introduction', icon: 'BookOpen' },
+                { id: 'terminology', label: 'Terminology', icon: 'BookMarked' },
+                { id: 'behavior', label: 'RustDesk Usage & Behavior', icon: 'Monitor' },
+                { id: 'installation', label: 'Installation Behavior', icon: 'Download' },
+                { id: 'cli', label: 'CLI Functionality', icon: 'Terminal' },
+                { id: 'connections', label: 'Investigate Connection Activity', icon: 'Network' },
+                { id: 'file-transfer', label: 'Investigate File Transfer', icon: 'FolderOpen' },
+                { id: 'unattended', label: 'Unattended Access Investigation', icon: 'Lock' },
+                { id: 'self-hosting', label: 'Self-Hosting & Custom Clients', icon: 'Server' },
+                { id: 'decryption', label: 'Decrypt RustDesk Configuration', icon: 'KeyRound' },
+            ];
+
+            return (
+                <div className={`min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50 to-blue-50 ${dark ? 'dark' : ''}`}>
+                    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 px-4 py-3">
+                        <div className="max-w-4xl mx-auto flex items-center justify-between">
+                            <div className="flex items-center gap-2 text-sm flex-wrap">
+                                <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                                    <img src="/chicken0248.png" alt="Logo" className="w-7 h-7 rounded-lg" />
+                                    <span className="font-bold text-gray-800 hidden sm:inline">Chicken0248</span>
+                                </a>
+                                <span className="text-gray-400">/</span>
+                                <a href="/research/index.html" className="font-medium text-gray-600 hover:text-blue-600 transition-colors">Research</a>
+                                <span className="text-gray-400">/</span>
+                                <span className="font-semibold text-gray-700">RustDesk Forensics</span>
+                            </div>
+                            <button onClick={() => setDark(!dark)} className="p-2 rounded-lg hover:bg-gray-100 text-gray-600 transition-colors text-lg">
+                                {dark ? '\u2600\uFE0F' : '\uD83C\uDF19'}
+                            </button>
+                        </div>
+                    </nav>
+
+                    <main className="max-w-4xl mx-auto px-4 py-8 space-y-10 animate-fadeIn">
+
+                        {/* Hero */}
+                        <div className="relative overflow-hidden rounded-3xl shadow-2xl">
+                            <img src={`${IMG}/cover.png`} alt="RustDesk Forensics" className="w-full h-48 sm:h-64 md:h-80 object-cover" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                            <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white">
+                                <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight mb-3">Deep dive into RustDesk RMM Investigation &amp; Forensics on Windows</h1>
+                                <div className="flex flex-wrap gap-3 text-sm">
+                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Calendar" className="w-3.5 h-3.5" /> January 29, 2026
+                                    </span>
+                                    <span className="bg-indigo-500/80 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Tag" className="w-3.5 h-3.5" /> Digital Forensics
+                                    </span>
+                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Cpu" className="w-3.5 h-3.5" /> RMM Investigation
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Metadata */}
+                        <div className="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm">
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                                <div><span className="text-gray-500 block">Author</span><span className="font-semibold text-gray-800">Warawut Manosong (Chicken0248)</span></div>
+                                <div><span className="text-gray-500 block">Published</span><span className="font-semibold text-gray-800">January 29, 2026</span></div>
+                                <div><span className="text-gray-500 block">Originally on</span><a href="https://medium.com/@chaoskist/deep-dive-into-rustdesk-rmm-investigation-forensics-on-windows-6d8ba816a11e" target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-600 hover:underline">Medium ↗</a></div>
+                                <div><span className="text-gray-500 block">Category</span><span className="font-semibold text-indigo-600">Digital Forensics</span></div>
+                            </div>
+                        </div>
+
+                        {/* TOC */}
+                        <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                            <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                <Icon name="List" className="w-5 h-5 text-indigo-600" />
+                                Table of Contents
+                            </h2>
+                            <div className="grid sm:grid-cols-2 gap-2">
+                                {tocItems.map((item, i) => (
+                                    <a key={item.id} href={`#${item.id}`}
+                                       className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors text-sm">
+                                        <Icon name={item.icon} className="w-4 h-4 text-gray-400" />
+                                        <span className="text-gray-400 font-mono text-xs w-5">{i + 1}.</span>
+                                        <span className="font-medium">{item.label}</span>
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* ═══════════ INTRODUCTION ═══════════ */}
+                        <Section id="introduction" title="Introduction" icon="BookOpen">
+                            <p className="text-gray-700 leading-relaxed">
+                                <B>RustDesk</B> is an open-source, cross-platform remote desktop application written in Rust. This article examines its normal operational behavior, logging mechanisms, persistence techniques, CLI functionality, and the encryption methods used for storing configuration data.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                RustDesk enables remote control of devices across different operating systems by specifying a target device's unique identifier. While legitimate for administrative purposes, the tool has been <B>misused by fraudsters for initial access and data theft</B>, making forensic investigation skills valuable. RustDesk is freely available, easy to deploy (including via command-line), and digitally signed by <B>"Open Source Developer, Huabing Zhou."</B>
+                            </p>
+                            <Img src="img-01.png" alt="RustDesk overview" caption="RustDesk forensics investigation overview" />
+                        </Section>
+
+                        {/* ═══════════ TERMINOLOGY ═══════════ */}
+                        <Section id="terminology" title="Terminology" icon="BookMarked">
+                            <Table
+                                headers={['Term', 'Definition']}
+                                rows={[
+                                    ['Remote device', 'The system requesting connection to control another device'],
+                                    ['End device', 'The local system accepting incoming connection requests'],
+                                    ['ID', 'Unique identifier required for establishing connections between devices'],
+                                ]}
+                            />
+                        </Section>
+
+                        {/* ═══════════ BEHAVIOR ═══════════ */}
+                        <Section id="behavior" title="RustDesk Usage and Behavior" icon="Monitor">
+                            <SubSection title="Portable Installation & File Locations">
+                                <p className="text-gray-700 leading-relaxed">
+                                    When launched as a portable executable, RustDesk creates directories at:
+                                </p>
+                                <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                    <li><C>C:\Users\%username%\AppData\Local\rustdesk</C> — application files</li>
+                                    <li><C>C:\Users\%username%\AppData\Roaming\rustdesk</C> — configuration and logs</li>
+                                </ul>
+                                <p className="text-gray-700 leading-relaxed">
+                                    The primary executable (<C>rustdesk.exe</C>) extracted from the initial launcher is the <B>key forensic artifact</B> for determining if RustDesk executed on a system.
+                                </p>
+                                <Img src="img-02.png" alt="RustDesk portable file structure" caption="RustDesk portable execution file locations" />
+                            </SubSection>
+
+                            <SubSection title="Configuration & Logging Files">
+                                <p className="text-gray-700 leading-relaxed">
+                                    RustDesk stores configuration in <C>RustDesk.toml</C>, containing the device's unique ID in encrypted form along with password and salt values. The <C>rustdesk_rCURRENT.log</C> file serves as the main access log, using the system's local timezone for timestamps.
+                                </p>
+                                <p className="text-gray-700 leading-relaxed">
+                                    Log file naming conventions include process ID (PID), thread ID (TID), and UNIX timestamps. When RustDesk restarts, previous logs are renamed to <C>rustdesk_rYYYY-MM-DD_HH-MM-SS.log</C>.
+                                </p>
+                                <Img src="img-03.png" alt="RustDesk.toml configuration file" caption="RustDesk.toml with encrypted ID and password" />
+                                <Img src="img-04.png" alt="rustdesk_rCURRENT.log" caption="RustDesk main log file structure" />
+                            </SubSection>
+                        </Section>
+
+                        {/* ═══════════ INSTALLATION ═══════════ */}
+                        <Section id="installation" title="Installation Behavior on Windows" icon="Download">
+                            <SubSection title="EXE Installation">
+                                <p className="text-gray-700 leading-relaxed">
+                                    EXE installation creates batch scripts (<C>RustDesk_install.bat</C>) that execute registry modifications, create VBScript-generated shortcuts, and install a Windows service. <B>Two service creation events</B> appear — one for configuration import and one for normal service operation.
+                                </p>
+                                <Img src="img-05.png" alt="RustDesk EXE installation process" caption="RustDesk EXE installer creating service and registry entries" />
+                            </SubSection>
+
+                            <SubSection title="MSI Installation">
+                                <p className="text-gray-700 leading-relaxed">
+                                    MSI installation uses standard Windows installer processes, creating only a <B>single service event</B> and performing direct registry modifications without pre-existing user configuration import.
+                                </p>
+                                <Img src="img-06.png" alt="RustDesk MSI installation" caption="RustDesk MSI installer — single service creation event" />
+                            </SubSection>
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Both installation types result in firewall rules allowing RustDesk network access and create an <C>install</C> folder in the RustDesk log/config directory, identifying which user performed installation.
+                            </p>
+                            <Img src="img-07.png" alt="RustDesk firewall rule" caption="Firewall rule created by RustDesk installation" />
+
+                            <SubSection title="Uninstall Behavior">
+                                <p className="text-gray-700 leading-relaxed">
+                                    Uninstall behavior creates additional forensic artifacts worth documenting — log and configuration files may persist after uninstallation.
+                                </p>
+                            </SubSection>
+                        </Section>
+
+                        {/* ═══════════ CLI ═══════════ */}
+                        <Section id="cli" title="RustDesk Command-Line Interface (CLI)" icon="Terminal">
+                            <p className="text-gray-700 leading-relaxed">
+                                RustDesk provides documented CLI options. Additionally, undocumented advanced features discoverable in source code include:
+                            </p>
+                            <Table
+                                headers={['Flag', 'Description']}
+                                rows={[
+                                    ['<code>--connect &lt;ID&gt;</code>', 'Initiate a remote session to a device ID'],
+                                    ['<code>--file-transfer &lt;ID&gt;</code>', 'Start a file transfer-only session'],
+                                    ['<code>--port-forward &lt;ID&gt;</code>', 'Establish port forwarding'],
+                                    ['<code>--elevate</code>', 'Execute with elevated privileges'],
+                                    ['<code>--run-as-system</code>', 'Run under SYSTEM account'],
+                                    ['<code>--install-service</code>', 'Install RustDesk as a system service'],
+                                    ['<code>--password &lt;pwd&gt;</code>', 'Set unattended access permanent password'],
+                                ]}
+                            />
+                            <Callout type="warning">
+                                <p>Windows console output redirection is required for viewing CLI results on Windows systems. The undocumented flags are not listed in official documentation but are discoverable in source code.</p>
+                            </Callout>
+                            <Img src="img-08.png" alt="RustDesk CLI usage" caption="RustDesk CLI flag usage" />
+                        </Section>
+
+                        {/* ═══════════ CONNECTIONS ═══════════ */}
+                        <Section id="connections" title="Investigate RustDesk Connection" icon="Network">
+                            <SubSection title="Connection Logging Behavior">
+                                <p className="text-gray-700 leading-relaxed">
+                                    The <C>rustdesk_rCURRENT.log</C> records the connecting device's <B>public IP address</B> even before session acceptance. However, RustDesk doesn't log the connecting client's ID or other identifying metadata — only the external IP address is consistently recorded.
+                                </p>
+                                <p className="text-gray-700 leading-relaxed">
+                                    Key log keywords indicating session events:
+                                </p>
+                                <Table
+                                    headers={['Log Keyword', 'Meaning']}
+                                    rows={[
+                                        ['"Connection opened from"', 'Public IP and timestamp of connection attempt'],
+                                        ['"new wakelock"', 'Remote session established; "require display on: true" = screen control'],
+                                        ['"drop wakelock"', 'Remote session terminated'],
+                                    ]}
+                                />
+                                <Callout type="warning">
+                                    <p>RustDesk's limited logging requires supplementary investigation through <B>Windows audit policies</B>, <B>Sysmon process monitoring</B>, and <B>firewall logs</B>.</p>
+                                </Callout>
+                                <Img src="img-09.png" alt="RustDesk connection log entries" caption="rustdesk_rCURRENT.log showing connection activity" />
+                                <Img src="img-10.png" alt="RustDesk session wakelock log" caption="Session wakelock events indicating remote control activity" />
+                            </SubSection>
+                        </Section>
+
+                        {/* ═══════════ FILE TRANSFER ═══════════ */}
+                        <Section id="file-transfer" title="Investigate File Transfer Activity over RustDesk" icon="FolderOpen">
+                            <p className="text-gray-700 leading-relaxed">
+                                File transfers establish <B>separate sessions</B> from remote-control connections. When downloading files, the log shows <C>"new read File:"</C> with full path and file size. Uploads appear in the clipboard manager log (<C>%APPDATA%\rustdesk\log\cm</C>) with <C>"new write File:"</C> entries.
+                            </p>
+                            <Callout type="warning">
+                                <p>File transfers via clipboard (copy/paste) don't generate file path logs, making network connection and file creation event tracking essential for investigation.</p>
+                            </Callout>
+                            <p className="text-gray-700 leading-relaxed">
+                                The command <C>rustdesk --file-transfer &lt;ID&gt;</C> initiates file-transfer-only sessions without remote desktop control.
+                            </p>
+                            <Img src="img-11.png" alt="RustDesk file transfer log" caption="File transfer entries in RustDesk logs" />
+                            <Img src="img-12.png" alt="RustDesk clipboard manager log" caption="Clipboard manager log during file transfer" />
+                        </Section>
+
+                        {/* ═══════════ UNATTENDED ═══════════ */}
+                        <Section id="unattended" title="Investigate Unattended Access / Permanent Password" icon="Lock">
+                            <p className="text-gray-700 leading-relaxed">
+                                Unattended access enables permanent password configuration via GUI or the <C>--password</C> flag. Passwords are encrypted and stored in <C>RustDesk.toml</C> using the same encryption as device IDs.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                When permanent passwords are set on installed services, the log file at <C>C:\Windows\ServiceProfiles\LocalService\AppData\Roaming\RustDesk\log\server\RustDesk_rCurrent.log</C> records a distinct <C>"permanent-password"</C> update event. Connections using unattended access generate logs in the service account's log directory rather than user AppData.
+                            </p>
+                            <Img src="img-13.png" alt="RustDesk unattended access setup" caption="Permanent password configuration log entry" />
+                            <Img src="img-14.png" alt="RustDesk service account log directory" caption="Service account log directory for unattended connections" />
+                        </Section>
+
+                        {/* ═══════════ SELF-HOSTING ═══════════ */}
+                        <Section id="self-hosting" title="Self-Hosting and Custom Client Configuration" icon="Server">
+                            <p className="text-gray-700 leading-relaxed">
+                                RustDesk offers a <B>Custom Client Generator</B> that enables:
+                            </p>
+                            <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                <li>Pre-configured installation binaries with embedded server settings</li>
+                                <li>Custom branding (logos, icons, application names)</li>
+                                <li>Locked configuration preventing end-user modification</li>
+                            </ul>
+                            <Callout type="warning">
+                                <p>This feature poses <B>significant abuse potential</B>: threat actors can create malicious clients disguised as legitimate tools, automatically connecting to attacker infrastructure with locked, unmodifiable server endpoints.</p>
+                            </Callout>
+                        </Section>
+
+                        {/* ═══════════ DECRYPTION ═══════════ */}
+                        <Section id="decryption" title="Decrypt RustDesk Configuration (ID and Password)" icon="KeyRound">
+                            <p className="text-gray-700 leading-relaxed">
+                                RustDesk encrypts IDs and passwords using:
+                            </p>
+                            <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                <li><B>XSalsa20-Poly1305</B> cipher</li>
+                                <li>Encryption key derived from the device's <B>machine UUID</B></li>
+                                <li>Static 24-byte nonce of all zeros</li>
+                                <li>Base64 encoding with "00" prepended to ciphertext</li>
+                            </ul>
+                            <p className="text-gray-700 leading-relaxed">
+                                The <a href="https://github.com/ChickenLoner/rustdesk-decrypt" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline font-medium">RustDesk Decrypt tool</a> requires:
+                            </p>
+                            <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                <li>System machine UUID from <C>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Cryptography\MachineGuid</C></li>
+                                <li>Encrypted configuration string or RustDesk configuration file path</li>
+                            </ul>
+                            <Callout type="warning">
+                                <p>Without access to the machine UUID, decryption is impossible.</p>
+                            </Callout>
+
+                            <SubSection title="Interesting Finding: CLI Flag Folder Creation">
+                                <p className="text-gray-700 leading-relaxed">
+                                    Experimenting with various RustDesk CLI flags revealed that <B>incorrect flags create folders named "--"</B> in the log directory, effectively documenting which flags were executed with the RustDesk binary — useful for file creation activity detection.
+                                </p>
+                            </SubSection>
+
+                            <Callout type="info">
+                                <p>See the <a href="https://github.com/ChickenLoner/RMM-Forensics-Cheatsheet/tree/main/RustDesk" target="_blank" rel="noopener noreferrer" className="underline text-blue-600">RustDesk Forensics Cheatsheet on GitHub</a> for a complete artifact reference.</p>
+                            </Callout>
+                        </Section>
+
+                        {/* Footer Nav */}
+                        <div className="border-t border-gray-200 pt-6 flex items-center justify-between text-sm">
+                            <a href="#" className="flex items-center gap-1.5 text-gray-500 hover:text-indigo-600 transition-colors">
+                                <Icon name="ArrowUp" className="w-4 h-4" />
+                                Back to top
+                            </a>
+                            <a href="/research/index.html" className="flex items-center gap-1.5 text-gray-500 hover:text-indigo-600 transition-colors">
+                                <Icon name="ArrowLeft" className="w-4 h-4" />
+                                All Research
+                            </a>
+                        </div>
+                    </main>
+                </div>
+            );
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>

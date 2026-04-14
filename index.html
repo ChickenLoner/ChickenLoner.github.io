@@ -229,6 +229,7 @@
                 { id: 'ir-reports', label: 'IR Reports', icon: 'FileText', external: true, url: '/ir-reports/index.html' },
                 { id: 'cloud-labs', label: 'Cloud Labs', icon: 'Cloud', external: true, url: '/cloud-labs/index.html' },
                 { id: 'siem-labs', label: 'SIEM Labs', icon: 'Shield', external: true, url: '/siem-labs/index.html' },
+                { id: 'research', label: 'Research', icon: 'ScrollText', external: true, url: '/research/index.html' },
                 { id: 'writeups', label: 'Write-Ups', icon: 'BookOpen', external: true, url: 'https://chickenloner.github.io/Write_It_UP/index.html' },
             ];
 
@@ -236,30 +237,31 @@
             const HomePage = () => (
                 <div className="space-y-10 animate-fadeIn">
                     {/* Hero */}
-                    <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-600 via-blue-700 to-cyan-600 text-white shadow-2xl shadow-blue-200">
+                    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-600 via-blue-700 to-cyan-600 text-white shadow-2xl shadow-blue-200">
                         <div className="hero-dots absolute inset-0" />
                         <div className="absolute -top-16 -right-16 w-64 h-64 bg-white/10 rounded-full blur-xl" />
-                        <div className="absolute -bottom-12 -left-12 w-48 h-48 bg-cyan-400/20 rounded-full blur-xl" />
-                        <div className="relative px-8 py-14 md:py-20 text-center">
-                            <div className="flex justify-center mb-7">
+                        <div className="relative px-8 py-6 md:py-8 flex flex-col sm:flex-row sm:items-center gap-5">
+                            <div className="flex-shrink-0 flex justify-center sm:justify-start">
                                 <div className="relative">
                                     <div className="absolute inset-0 rounded-2xl bg-white/30 animate-pulse-ring" />
                                     <div className="relative bg-white/10 p-1 rounded-2xl border border-white/25">
-                                        <img src="/chicken0248.png" alt="Chicken0248" className="w-28 h-28 rounded-xl" />
+                                        <img src="/chicken0248.png" alt="Chicken0248" className="w-16 h-16 rounded-xl" />
                                     </div>
                                 </div>
                             </div>
-                            <h1 className="text-4xl md:text-5xl font-extrabold mb-2 tracking-tight">Chicken0248</h1>
-                            <p className="text-blue-100 text-lg md:text-xl font-medium mb-10">DFIR Analyst &amp; Blue Team Enthusiast</p>
-                            <div className="flex justify-center gap-8 md:gap-16 flex-wrap">
+                            <div className="flex-1 text-center sm:text-left">
+                                <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight">Chicken0248</h1>
+                                <p className="text-blue-100 text-sm font-medium mt-0.5">DFIR Analyst &amp; Blue Team Enthusiast</p>
+                            </div>
+                            <div className="flex justify-center sm:justify-end gap-6 flex-shrink-0">
                                 {[
                                     { value: certifications.length, label: 'Certifications' },
                                     { value: labs.filter(l => l.type === 'lab').length, label: 'Labs Built' },
                                     { value: certificationReviews.length, label: 'Reviews' },
                                 ].map((s, i) => (
                                     <div key={i} className="text-center">
-                                        <div className="text-3xl font-bold">{s.value}</div>
-                                        <div className="text-blue-200 text-sm font-medium mt-0.5">{s.label}</div>
+                                        <div className="text-2xl font-bold">{s.value}</div>
+                                        <div className="text-blue-200 text-xs font-medium mt-0.5">{s.label}</div>
                                     </div>
                                 ))}
                             </div>

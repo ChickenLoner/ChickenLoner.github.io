@@ -1,0 +1,67 @@
+[
+  {
+    "slug": "chrome-remote-desktop-forensics",
+    "title": "Chrome Remote Desktop RMM Investigation (Windows)",
+    "subtitle": "Investigating Remote Support and Remote Access modes, Windows Event Log artifacts, and file transfer forensics",
+    "date": "2026-03-28",
+    "source": "Medium",
+    "sourceUrl": "https://medium.com/@chaoskist/chrome-remote-desktop-rmm-investigation-c61f8545da26",
+    "cover": "/assets/research/chrome-remote-desktop-forensics/cover.jpeg",
+    "tags": ["Digital Forensics", "RMM", "Chrome Remote Desktop", "Windows"],
+    "category": "Digital Forensics",
+    "summary": "Investigation guide for Chrome Remote Desktop (CRD) forensics on Windows — covering Remote Support and Remote Access modes, Windows Event Log artifacts (Event IDs 1, 2, 4, 5), process behavior, and file transfer detection.",
+    "url": "/research/chrome-remote-desktop-forensics/index.html"
+  },
+  {
+    "slug": "rustdesk-forensics-windows",
+    "title": "Deep dive into RustDesk RMM Investigation & Forensics on Windows",
+    "subtitle": "Examining RustDesk installation artifacts, logging, connection analysis, encryption, and CLI functionality",
+    "date": "2026-01-29",
+    "source": "Medium",
+    "sourceUrl": "https://medium.com/@chaoskist/deep-dive-into-rustdesk-rmm-investigation-forensics-on-windows-6d8ba816a11e",
+    "cover": "/assets/research/rustdesk-forensics-windows/cover.png",
+    "tags": ["Digital Forensics", "RMM", "RustDesk", "Windows"],
+    "category": "Digital Forensics",
+    "summary": "Deep dive into RustDesk forensic investigation on Windows, examining installation artifacts, logging behavior, connection analysis, file transfer detection, configuration encryption/decryption, and CLI functionality.",
+    "url": "/research/rustdesk-forensics-windows/index.html"
+  },
+  {
+    "slug": "anydesk-forensics-windows",
+    "title": "Deep dive into AnyDesk Investigation & Forensics on Windows",
+    "subtitle": "Covering AnyDesk behavior, CLI usage, connection artifacts, file transfer forensics, and unattended access investigation",
+    "date": "2026-01-10",
+    "source": "Medium",
+    "sourceUrl": "https://medium.com/@chaoskist/deep-dive-into-anydesk-investigation-forensics-on-windows-24dc531bcc78",
+    "cover": "/assets/research/anydesk-forensics-windows/cover.png",
+    "tags": ["Digital Forensics", "RMM", "AnyDesk", "Windows"],
+    "category": "Digital Forensics",
+    "summary": "Comprehensive investigation guide for AnyDesk forensics on Windows — covering normal behavior, CLI usage, connection logging, file transfer artifacts, and unattended access investigation techniques.",
+    "url": "/research/anydesk-forensics-windows/index.html"
+  },
+  {
+    "slug": "git-commits-persistence",
+    "title": "Using Git Commits as a Persistence Mechanism",
+    "subtitle": "Exploring how version control systems can be weaponized to hide payloads in commit history",
+    "date": "2026-01-08",
+    "source": "Medium",
+    "sourceUrl": "https://medium.com/@chaoskist/using-git-commits-as-a-persistence-mechanism-c44a0ee22068",
+    "cover": "/assets/research/git-commits-persistence/cover.png",
+    "tags": ["Red Teaming", "Persistence", "Git"],
+    "category": "Red Teaming",
+    "summary": "Exploring how Git version control can be weaponized as a persistence mechanism — hiding malicious payloads in commit history, steganography techniques, multi-file payload splitting, and detection strategies for defenders.",
+    "url": "/research/git-commits-persistence/index.html"
+  },
+  {
+    "slug": "windows-forensics-lab",
+    "title": "Design your first Windows Forensics Lab and make it decent!",
+    "subtitle": "A guide to building a proper Windows forensics analysis environment for defensive security work",
+    "date": "2024-01-01",
+    "source": "Medium",
+    "sourceUrl": "https://medium.com/system-weakness/design-your-first-windows-forensics-lab-as-a-defensive-content-engineer-523bf891fbd7",
+    "cover": "/assets/labs/designwindowslab.jpg",
+    "tags": ["Digital Forensics", "Lab Making", "Windows Forensics"],
+    "category": "Lab Making",
+    "summary": "Step-by-step guide to designing and building a Windows forensics lab environment, covering tool selection, VM configuration, network setup, and essential forensic software for defensive security content creation.",
+    "url": "/research/windows-forensics-lab/index.html"
+  }
+]
