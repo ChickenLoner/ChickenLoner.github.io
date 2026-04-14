@@ -372,7 +372,7 @@
                             <p className="text-gray-700 leading-relaxed">
                                 To initiate a remote connection, the remote device must specify the correct <B>RustDesk ID</B>, and the RustDesk client must be actively running on the end device.
                             </p>
-                            <Img src="img-34.png" alt="Connection request on end device showing hostname and ID" caption="End device receives connection request showing the hostname and ID of the connecting client" />
+                            <Img src="img-34.png" alt="Prompt for password if the remote connection user has OTP or password for unattended access" caption="Prompt for password if the remote connection user has OTP or password for unattended access" />
                             <p className="text-gray-700 leading-relaxed">
                                 The connecting client first communicates with the relay/rendezvous server to locate the endpoint. If the connecting user has the <B>OTP</B> or if <B>unattended access</B> is configured, the connection can be established without manual acceptance.
                             </p>
@@ -381,7 +381,7 @@
                             <SubSection title="Connection Logging">
                                 <Img src="img-36.png" alt="Public IP already logged before session accepted" caption="Public IP of connecting device is logged BEFORE the session is accepted" />
                                 <p className="text-gray-700 leading-relaxed">
-                                    Even before a session is accepted, <C>rustdesk_rCURRENT.log</C> already records the <B>public IP address</B> of the connecting device.
+                                    Even before a session is accepted, <C>rustdesk_rCURRENT.log</C> already records the <B>public IP address</B> of the connecting device or private IP address if it's happened to come from the same subnet.
                                 </p>
                                 <Img src="img-37.png" alt="Additional log entries after Accept, but no RustDesk ID logged" caption="After Accept — more entries written, but RustDesk ID of connecting device is NOT logged" />
                                 <p className="text-gray-700 leading-relaxed">
@@ -407,7 +407,7 @@
                                 <Img src="img-40.png" alt="Old log renamed to timestamped filename on new RustDesk launch" caption="On new RustDesk launch, old log renamed to rustdesk_rYYYY-MM-DD_HH-MM-SS.log" />
                                 <Img src="img-41.png" alt="Same log rotation for clipboard manager logs" caption="Log rotation also applies to clipboard manager logs" />
                                 <p className="text-gray-700 leading-relaxed">
-                                    When RustDesk restarts, <C>rustdesk_rCURRENT.log</C> is renamed to <C>rustdesk_rYYYY-MM-DD_HH-MM-SS.log</C>. The same applies to all other logs including clipboard manager logs.
+                                    When RustDesk restarts, <C>rustdesk_rCURRENT.log</C> is renamed to <C>rustdesk_rYYYY-MM-DD_HH-MM-SS.log</C>. The same applies to all other logs including clipboard manager logs as shown in the image above as the example.
                                 </p>
                             </SubSection>
                         </Section>
@@ -451,9 +451,9 @@
                             <SubSection title="File Transfer via --file-transfer CLI">
                                 <Img src="img-50.png" alt="rustdesk --file-transfer ID command" caption="rustdesk --file-transfer &lt;ID&gt; — requests a file transfer-only session" />
                                 <Img src="img-51.png" alt="File transfer only session: no remote control" caption="File transfer-only session: files transferred and deleted, but no remote control" />
-                                <Img src="img-52.png" alt="Download activity in file transfer CLI session" caption="Download activity in --file-transfer CLI session" />
-                                <Img src="img-53.png" alt="Upload activity in file transfer CLI session" caption="Upload activity in --file-transfer CLI session" />
-                                <Img src="img-54.png" alt="File transfer CLI session closed" caption="File transfer CLI session closed" />
+                                <Img src="img-52.png" alt="Transfer chisel from remote system to target and download credential file from target to remote" caption="Transfer chisel from remote system to target and download credential file from target to remote" />
+                                <Img src="img-53.png" alt="File transfer activities event that could be seen from log file" caption="File transfer activities event that could be seen from log file" />
+                                <Img src="img-54.png" alt="File transferred from remote host logged in clipboard manager" caption="File transferred from remote host logged in clipboard manager" />
                                 <p className="text-gray-700 leading-relaxed">
                                     <C>rustdesk --file-transfer &lt;ID&gt;</C> creates a file transfer-only session. The same logging methodology applies for identifying download/upload activity.
                                 </p>
