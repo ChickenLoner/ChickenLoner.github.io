@@ -257,6 +257,7 @@
                                 {[
                                     { value: certifications.length, label: 'Certifications' },
                                     { value: labs.filter(l => l.type === 'lab').length, label: 'Labs Built' },
+                                    { value: labs.filter(l => l.type === 'project').length, label: 'Projects' },
                                     { value: certificationReviews.length, label: 'Reviews' },
                                 ].map((s, i) => (
                                     <div key={i} className="text-center">
