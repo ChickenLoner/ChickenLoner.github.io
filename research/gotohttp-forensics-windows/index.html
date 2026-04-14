@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investigating GotoHTTP on Windows: Behavior, Forensic Artifacts &amp; Detection | Chicken0248</title>
+    <link rel="icon" href="/chicken0248.png" type="image/png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fadeIn { animation: fadeIn 0.5s ease-out; }
+        .dark.min-h-screen { background: linear-gradient(135deg, #0f172a 0%, #141f35 50%, #0a1628 100%) !important; }
+        .dark nav { background-color: rgba(15,23,42,0.96) !important; border-bottom-color: rgba(51,65,85,0.5) !important; }
+        .dark .bg-white    { background-color: #1e293b !important; }
+        .dark .bg-gray-50  { background-color: #0f172a !important; }
+        .dark .bg-gray-100 { background-color: #334155 !important; }
+        .dark .bg-gray-900 { background-color: #0f172a !important; }
+        .dark .bg-red-50   { background-color: rgba(220,38,38,0.10) !important; }
+        .dark .bg-orange-50  { background-color: rgba(234,88,12,0.10) !important; }
+        .dark .bg-blue-50    { background-color: rgba(37,99,235,0.12) !important; }
+        .dark .bg-green-50   { background-color: rgba(22,163,74,0.10) !important; }
+        .dark .bg-yellow-50  { background-color: rgba(202,138,4,0.10) !important; }
+        .dark .bg-indigo-50  { background-color: rgba(99,102,241,0.10) !important; }
+        .dark .text-gray-800 { color: #e2e8f0 !important; }
+        .dark .text-gray-700 { color: #cbd5e1 !important; }
+        .dark .text-gray-600 { color: #94a3b8 !important; }
+        .dark .text-gray-500 { color: #64748b !important; }
+        .dark .text-red-600    { color: #f87171 !important; }
+        .dark .text-blue-600   { color: #60a5fa !important; }
+        .dark .text-green-600  { color: #4ade80 !important; }
+        .dark .text-orange-700 { color: #fb923c !important; }
+        .dark .text-yellow-700 { color: #fbbf24 !important; }
+        .dark .text-indigo-600 { color: #818cf8 !important; }
+        .dark .border-gray-100 { border-color: #334155 !important; }
+        .dark .border-gray-200 { border-color: #475569 !important; }
+        .dark .divide-gray-100 > * + * { border-color: #334155 !important; }
+        .dark .hover\:bg-gray-50:hover { background-color: #1e293b !important; }
+        .dark pre, .dark .code-block { background-color: #0f172a !important; border-color: #334155 !important; }
+        .dark code { color: #e2e8f0 !important; }
+        .dark table thead { background-color: #1e293b !important; }
+        .dark table thead th { color: #e2e8f0 !important; border-color: #475569 !important; }
+        .dark table td { border-color: #334155 !important; }
+        .dark ::-webkit-scrollbar { width: 6px; }
+        .dark ::-webkit-scrollbar-track { background: #0f172a; }
+        .dark ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        const Icon = ({ name, className = "w-6 h-6", ...props }) => {
+            const ref = useRef(null);
+            useEffect(() => {
+                if (ref.current) {
+                    const el = lucide.createElement(lucide[name], { class: className });
+                    ref.current.innerHTML = '';
+                    ref.current.appendChild(el);
+                }
+            }, [name, className]);
+            return <i ref={ref} className={`flex-shrink-0 ${className}`} {...props}></i>;
+        };
+
+        const IMG = '/assets/research/gotohttp-forensics-windows';
+
+        const Section = ({ id, title, icon, children }) => (
+            <section id={id} className="scroll-mt-24">
+                <h2 className="text-2xl font-bold text-gray-800 mb-5 flex items-center gap-3 border-b border-gray-200 pb-3">
+                    <Icon name={icon} className="w-6 h-6 text-indigo-600" />
+                    {title}
+                </h2>
+                <div className="space-y-4">{children}</div>
+            </section>
+        );
+
+        const Img = ({ src, alt, caption }) => (
+            <figure className="my-4">
+                <img src={`${IMG}/${src}`} alt={alt || ''} className="rounded-xl border border-gray-200 shadow-sm w-full" loading="lazy" />
+                {caption && <figcaption className="text-center text-sm text-gray-500 mt-2 italic">{caption}</figcaption>}
+            </figure>
+        );
+
+        const Callout = ({ type = "info", children }) => {
+            const styles = { info: "bg-blue-50 border-blue-200 text-blue-800", warning: "bg-yellow-50 border-yellow-200 text-yellow-800", tip: "bg-green-50 border-green-200 text-green-800" };
+            const icons = { info: "Info", warning: "AlertTriangle", tip: "Lightbulb" };
+            return (
+                <div className={`rounded-xl border p-4 flex gap-3 my-4 ${styles[type]}`}>
+                    <Icon name={icons[type]} className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                    <div className="space-y-1 text-sm leading-relaxed">{children}</div>
+                </div>
+            );
+        };
+
+        const B = ({ children }) => <strong className="text-gray-800">{children}</strong>;
+        const C = ({ children }) => <code className="bg-gray-100 text-red-600 px-1.5 py-0.5 rounded text-sm font-mono">{children}</code>;
+
+        const App = () => {
+            const [dark, setDark] = useState(() => localStorage.getItem('darkMode') === 'true');
+            useEffect(() => { localStorage.setItem('darkMode', dark); }, [dark]);
+
+            const tocItems = [
+                { id: 'introduction',  label: 'Introduction',       icon: 'BookOpen'   },
+                { id: 'binary',        label: 'Binary Overview',    icon: 'FileCode'   },
+                { id: 'behavior',      label: 'Usage & Behavior',   icon: 'Monitor'    },
+                { id: 'detection',     label: 'Detection Summary',  icon: 'Shield'     },
+                { id: 'conclusion',    label: 'Conclusion',         icon: 'CheckCircle'},
+            ];
+
+            return (
+                <div className={`min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50 to-blue-50 ${dark ? 'dark' : ''}`}>
+                    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 px-4 py-3">
+                        <div className="max-w-4xl mx-auto flex items-center justify-between">
+                            <div className="flex items-center gap-2 text-sm flex-wrap">
+                                <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                                    <img src="/chicken0248.png" alt="Logo" className="w-7 h-7 rounded-lg" />
+                                    <span className="font-bold text-gray-800 hidden sm:inline">Chicken0248</span>
+                                </a>
+                                <span className="text-gray-400">/</span>
+                                <a href="/research/index.html" className="font-medium text-gray-600 hover:text-blue-600 transition-colors">Research</a>
+                                <span className="text-gray-400">/</span>
+                                <span className="font-semibold text-gray-700">GotoHTTP Forensics</span>
+                            </div>
+                            <button onClick={() => setDark(!dark)} className="p-2 rounded-lg hover:bg-gray-100 text-gray-600 transition-colors text-lg">
+                                {dark ? '\u2600\uFE0F' : '\uD83C\uDF19'}
+                            </button>
+                        </div>
+                    </nav>
+
+                    <main className="max-w-4xl mx-auto px-4 py-8 space-y-10 animate-fadeIn">
+
+                        {/* Hero */}
+                        <div className="relative overflow-hidden rounded-3xl shadow-2xl">
+                            <img src={`${IMG}/cover.png`} alt="Investigating GotoHTTP on Windows: Behavior, Forensic Artifacts & Detection" className="w-full h-48 sm:h-64 md:h-80 object-cover" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                            <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white">
+                                <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight mb-3">Investigating GotoHTTP on Windows: Behavior, Forensic Artifacts &amp; Detection</h1>
+                                <div className="flex flex-wrap gap-3 text-sm">
+                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5"><Icon name="Calendar" className="w-3.5 h-3.5" /> April 15, 2026</span>
+                                    <span className="bg-indigo-500/80 backdrop-blur-sm px-3 py-1 rounded-full">Digital Forensics</span>
+                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">RMM Investigation</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Metadata */}
+                        <div className="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm">
+                            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
+                                <div><span className="text-gray-500 block">Author</span><span className="font-semibold text-gray-800">Chicken0248</span></div>
+                                <div><span className="text-gray-500 block">Published</span><span className="font-semibold text-gray-800">April 15, 2026</span></div>
+                                <div><span className="text-gray-500 block">Category</span><span className="font-semibold text-indigo-600">Digital Forensics</span></div>
+                            </div>
+                        </div>
+
+                        {/* TOC */}
+                        <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                            <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                <Icon name="List" className="w-5 h-5 text-indigo-600" />Table of Contents
+                            </h2>
+                            <div className="grid sm:grid-cols-2 gap-2">
+                                {tocItems.map((item, i) => (
+                                    <a key={item.id} href={`#${item.id}`} className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors text-sm">
+                                        <Icon name={item.icon} className="w-4 h-4 text-gray-400" />
+                                        <span className="text-gray-400 font-mono text-xs w-5">{i + 1}.</span>
+                                        <span className="font-medium">{item.label}</span>
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* ═══ INTRODUCTION ═══ */}
+                        <Section id="introduction" title="Introduction" icon="BookOpen">
+                            <p className="text-gray-700 leading-relaxed">
+                                Hey everyone — Chicken0248 here. In this post, I'll be sharing my research on investigating <B>GotoHTTP</B>, a cross-platform Remote Monitoring and Management (RMM) tool that, once deployed on a target endpoint, behaves very much like a Remote Access Trojan (RAT). The entire session can be controlled through a web browser, which makes it both operationally convenient for attackers and an interesting target for forensic investigation.
+                            </p>
+                            <Img src="img-01.png" alt="GotoHTTP website" caption="Figure 1: GotoHTTP website" />
+                            <p className="text-gray-700 leading-relaxed">
+                                To control a machine running a GotoHTTP instance — or to download its binary — you can visit <a href="https://gotohttp.com/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">gotohttp.com</a> and use the web interface from there.
+                            </p>
+                            <Img src="img-02.png" alt="Downloading GotoHTTP agent/client" caption="Figure 2: Downloading GotoHTTP agent/client" />
+                            <p className="text-gray-700 leading-relaxed">
+                                The GotoHTTP client binary is available at <C>https://gotohttp.com/goto/download.12x</C>. It supports a wide range of platforms: Windows, Linux (both ARM and AMD64), macOS, Android, and even Raspberry Pi.
+                            </p>
+                            <Img src="img-03.png" alt="Defender blocked GotoHTTP download - 1" caption="Figure 3: Windows Defender blocked — attempt 1" />
+                            <Img src="img-04.png" alt="Defender blocked GotoHTTP download - 2" caption="Figure 4: Windows Defender blocked — attempt 2" />
+                            <p className="text-gray-700 leading-relaxed">
+                                On Windows, Defender flags and blocks the binary immediately upon download. This is a bit unusual — Defender typically leaves other RMM tools like AnyDesk or TeamViewer alone. The aggressive detection likely reflects GotoHTTP's track record in malicious campaigns. In most legitimate environments, remote support is handled via TeamViewer, AnyDesk, Quick Assist, or RDP, so there is very little reason for GotoHTTP to appear on a corporate endpoint.
+                            </p>
+                        </Section>
+
+                        {/* ═══ BINARY OVERVIEW ═══ */}
+                        <Section id="binary" title="Binary Overview" icon="FileCode">
+                            <Img src="img-05.png" alt="GotoHTTP Windows binary metadata" caption="Figure 5: GotoHTTP Windows binary metadata" />
+                            <Img src="img-06.png" alt="GotoHTTP Windows binary digital signature" caption="Figure 6: GotoHTTP Windows binary digital signature" />
+                            <p className="text-gray-700 leading-relaxed">
+                                Once downloaded (with Defender exclusion or in a lab environment), the Windows binary is a <B>self-contained standalone executable</B> — no installer, no additional dependencies. It is digitally signed by <B>"Hefei Pingbo Network Technology Co. Ltd."</B>, indicating Chinese origin. The GotoHTTP website contains Chinese text and references an ICP filing.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                The original filename is <C>GotoHTTP.exe</C>, with both the Product Name and File Description fields set to "GotoHTTP."
+                            </p>
+                        </Section>
+
+                        {/* ═══ USAGE & BEHAVIOR ═══ */}
+                        <Section id="behavior" title="Usage & Behavior" icon="Monitor">
+                            <Img src="img-07.png" alt="gotohttp.ini creation" caption="Figure 7: gotohttp.ini creation in the same directory as the binary" />
+                            <Img src="img-08.png" alt="Content of gotohttp.ini" caption="Figure 8: Content of gotohttp.ini — sf, host, name (Computer ID), tmp (Access Code)" />
+                            <p className="text-gray-700 leading-relaxed">
+                                GotoHTTP is designed to run as Administrator. On first launch, the binary contacts the relay server to retrieve a <B>Computer ID</B> (9-digit code) and an <B>Access Code</B> (4-digit code). It then creates a configuration file, <C>gotohttp.ini</C>, in the same directory as the binary. This file contains four fields: <C>sf</C> (purpose unclear, likely a session or fingerprint value), <C>host</C> (the relay server — the observed subdomain was <C>hk</C>, suggesting a Hong Kong relay), <C>name</C> (the Computer ID), and <C>tmp</C> (the Access Code).
+                            </p>
+                            <Img src="img-09.png" alt="Type Computer ID and Access Code in GotoHTTP website to start control" caption="Figure 9: Enter Computer ID and Access Code on the GotoHTTP website to start control" />
+                            <p className="text-gray-700 leading-relaxed">
+                                To connect to a running GotoHTTP instance, the operator navigates to the GotoHTTP website, enters the Computer ID and Access Code, and clicks <B>"Start Control"</B> — gaining full administrator-level remote access. No prompt or consent is required on the victim's side.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Before diving into what happens over an active session, let's first look at what the binary does immediately after launch.
+                            </p>
+                            <Img src="img-10.png" alt="Sysmon Event ID 1 reveals command line argument of GotoHTTP binary" caption="Figure 10: Sysmon Event ID 1 — command line argument of the GotoHTTP binary" />
+                            <Img src="img-11.png" alt="System Event ID 7045 shows service creation" caption="Figure 11: System Event ID 7045 — Windows service creation for 'TTXN GotoHTTP Agent'" />
+                            <p className="text-gray-700 leading-relaxed">
+                                When executed with administrator privileges, GotoHTTP escalates to <B>SYSTEM</B> and relaunches itself with the <C>server</C> argument. This creates a Windows service named <B>"TTXN GotoHTTP Agent"</B> with an auto-start configuration, running as SYSTEM on every boot without any user interaction. This service creation event is a key forensic indicator, alongside the <C>gotohttp.ini</C> file creation.
+                            </p>
+                            <Img src="img-12.png" alt="DNS request to *.gotohttp.com" caption="Figure 12: DNS request to *.gotohttp.com" />
+                            <Img src="img-13.png" alt="Another DNS request to *.gotohttp.com" caption="Figure 13: Additional DNS request to *.gotohttp.com" />
+                            <p className="text-gray-700 leading-relaxed">
+                                From a network perspective, the most reliable indicator is DNS queries to <C>*.gotohttp.com</C>. Since GotoHTTP is entirely browser-controlled via an HTTP relay, these queries will be present whenever the agent is running or being actively controlled.
+                            </p>
+                            <Img src="img-14.png" alt="Start control from browser, shortcut panel on right side" caption="Figure 14: Active session — browser control panel with one-click shortcuts" />
+                            <p className="text-gray-700 leading-relaxed">
+                                Once connected, there is no prompt or notification on the victim's side — this is unattended access by design, with full administrator privileges. On the controller's browser panel, a suite of one-click shortcuts is available:
+                            </p>
+                            <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                <li>Open Start Menu</li>
+                                <li>Go to Desktop</li>
+                                <li>Open File Explorer</li>
+                                <li>Open Run Dialog</li>
+                                <li>Open Command Prompt</li>
+                                <li>Open Registry Editor (<C>regedit</C>)</li>
+                                <li>Open Task Manager</li>
+                                <li>Open Control Panel</li>
+                                <li>Open Device Manager</li>
+                                <li>Open SuperTerminal (covered below)</li>
+                            </ul>
+                            <Img src="img-15.png" alt="Super Terminal" caption="Figure 15: SuperTerminal — server-side command execution, no visible window on victim's screen" />
+                            <p className="text-gray-700 leading-relaxed">
+                                The <B>SuperTerminal</B> solves the window visibility problem. Opening a regular Command Prompt through screen sharing would be visible to the victim. The SuperTerminal renders entirely on the controller's side, executing commands on the victim machine and returning output without any visible window appearing on the client end.
+                            </p>
+                            <Img src="img-16.png" alt="More advanced GotoHTTP capabilities" caption="Figure 16: Additional built-in capabilities — audio capture, screenshots, file transfer, video chat, messaging" />
+                            <p className="text-gray-700 leading-relaxed">
+                                Beyond screen sharing and the SuperTerminal, GotoHTTP includes built-in capabilities that put it firmly in RAT territory: <B>audio capture, screenshots, file transfer, video chat</B>, and the ability to send messages directly to the victim's screen.
+                            </p>
+                            <Img src="img-17.png" alt="Sending message from browser controller to client" caption="Figure 17: Sending a message from the controller's browser to the client machine" />
+                            <Img src="img-18.png" alt="Message box displayed on client" caption="Figure 18: Message box displayed on the client's screen" />
+                            <p className="text-gray-700 leading-relaxed">
+                                The built-in chat feature is illustrated above. Notably, no artifacts from this interaction are written to disk on the client side — the entire chat history lives in memory only.
+                            </p>
+                            <Img src="img-19.png" alt="Process Monitor showing process tree" caption="Figure 19: Process Monitor — system utilities spawned as direct child processes of GotoHTTP binary" />
+                            <p className="text-gray-700 leading-relaxed">
+                                If Sysmon or Security Event 4688 (with command-line auditing enabled) is deployed, every shortcut button click leaves a trace — the associated executable is spawned as a direct child process of the GotoHTTP binary. The SuperTerminal specifically produces <C>cmd.exe</C> with <C>chcp.com 65001</C> as a child, which is a reliable behavioral indicator that the feature was used.
+                            </p>
+                            <Img src="img-20.png" alt="File transfer UI" caption="Figure 20: File transfer — full read/write access via browser-based UI" />
+                            <p className="text-gray-700 leading-relaxed">
+                                For file transfer, the operator has full read/write access to the victim's filesystem — download, upload, create, rename, and delete — through a clean browser-based UI.
+                            </p>
+                            <Img src="img-21.png" alt="File transfer showing unique ID before renaming to original name" caption="Figure 21: Uploaded files written with a random unique name first, then renamed to the intended filename on completion" />
+                            <p className="text-gray-700 leading-relaxed">
+                                GotoHTTP generates no dedicated log entries or Windows events for file transfer operations. The only reliable ways to catch file activity are the <B>USN Journal</B> or a <B>File Integrity Monitoring (FIM)</B> solution. One useful behavioral pattern: uploaded files are initially written with the correct extension but a random unique filename, then renamed to the intended name only after the transfer completes. This two-step write-then-rename sequence can be correlated through USN Journal records or FIM alerts.
+                            </p>
+                            <Img src="img-22.png" alt="All file transfers visible in client message box during connection" caption="Figure 22: File transfers visible in the chat panel while GotoHTTP is running — no disk persistence" />
+                            <p className="text-gray-700 leading-relaxed">
+                                If GotoHTTP is still running at investigation time, file transfers are visible in the chat panel. However, no chat history is persisted to disk — once the process is terminated, that evidence is gone permanently.
+                            </p>
+                            <Img src="img-23.png" alt="Warning box displayed after clicking exit on GotoHTTP client" caption="Figure 23: Exit warning — keeping GotoHTTP running enables auto-start on next boot" />
+                            <Img src="img-24.png" alt="GotoHTTP web message confirming unattended mode" caption="Figure 24: GotoHTTP web panel confirms it always operates in unattended mode" />
+                            <p className="text-gray-700 leading-relaxed">
+                                When the operator closes the GotoHTTP window, a popup warns that keeping the application running will auto-start it on the next boot, while closing it removes that persistence — though the service entry remains.
+                            </p>
+                        </Section>
+
+                        {/* ═══ DETECTION SUMMARY ═══ */}
+                        <Section id="detection" title="Detection Summary" icon="Shield">
+                            <Callout type="warning">
+                                <p>GotoHTTP's artifact footprint is minimal by design — no session logs, no chat history on disk, no file transfer events in standard Windows logs. Detection relies on telemetry quality.</p>
+                            </Callout>
+                            <p className="text-gray-700 leading-relaxed">Consolidated indicators and detection opportunities for GotoHTTP abuse on Windows endpoints:</p>
+                            <ul className="list-disc list-outside ml-5 space-y-2 text-gray-700">
+                                <li><B><C>gotohttp.ini</C> creation</B> in the same directory as the GotoHTTP binary — contains relay host, Computer ID, and Access Code</li>
+                                <li><B>DNS queries and connections to <C>*.gotohttp.com</C></B> — detectable via DNS logging, firewall logs, or network monitoring</li>
+                                <li><B>Windows service creation — "TTXN GotoHTTP Agent"</B> — auto-start, SYSTEM context (Event ID 7045)</li>
+                                <li><B>Child process anomalies</B> — system utilities (<C>regedit.exe</C>, <C>taskmgr.exe</C>, <C>cmd.exe</C>, etc.) spawned as children of the GotoHTTP binary (Sysmon Event ID 1 / Security Event 4688 with command-line logging)</li>
+                                <li><B>SuperTerminal indicator</B> — <C>cmd.exe</C> spawning <C>chcp.com 65001</C> as a child of GotoHTTP</li>
+                                <li><B>USN Journal or FIM alerts</B> — random-named temp files appearing then being renamed to their final filename, indicating an in-progress file upload via the transfer module</li>
+                            </ul>
+                        </Section>
+
+                        {/* ═══ CONCLUSION ═══ */}
+                        <Section id="conclusion" title="Conclusion" icon="CheckCircle">
+                            <p className="text-gray-700 leading-relaxed">
+                                GotoHTTP is a lean, capable, and dangerously easy-to-deploy RMM tool that blurs the line between legitimate remote support software and a fully-featured RAT. Its broker-relay architecture, unattended access model, SYSTEM-level persistence via service installation, and built-in SuperTerminal make it attractive for threat actors who want to avoid deploying custom malware.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                From a defensive standpoint, the artifact footprint is minimal by design — no session logs, no chat history on disk, no file transfer events in standard Windows logs. Detection relies almost entirely on getting your telemetry right: DNS visibility, service creation monitoring, and process tree analysis via Sysmon. If you're not collecting those, GotoHTTP can operate with very little noise.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Know your environment, baseline your RMM tool usage, and flag anything that doesn't belong.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Thanks for reading — see you on the next one. peace! ✌️
+                            </p>
+                        </Section>
+
+                        {/* Back link */}
+                        <div className="pt-4 pb-8">
+                            <a href="/research/index.html" className="inline-flex items-center gap-2 text-indigo-600 hover:text-indigo-700 font-medium text-sm transition-colors">
+                                <Icon name="ArrowLeft" className="w-4 h-4" />
+                                Back to Research
+                            </a>
+                        </div>
+
+                    </main>
+                </div>
+            );
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>

@@ -1,5 +1,18 @@
 [
   {
+    "slug": "gotohttp-forensics-windows",
+    "title": "Investigating GotoHTTP on Windows: Behavior, Forensic Artifacts & Detection",
+    "subtitle": "Analyzing GotoHTTP RMM behavior, persistence via service installation, SuperTerminal forensics, and detection opportunities",
+    "date": "2026-04-15",
+    "source": "Original",
+    "sourceUrl": "",
+    "cover": "/assets/research/gotohttp-forensics-windows/cover.png",
+    "tags": ["Digital Forensics", "RMM", "GotoHTTP", "Windows"],
+    "category": "Digital Forensics",
+    "summary": "Investigation guide for GotoHTTP forensics on Windows — covering binary metadata, SYSTEM-level service persistence, SuperTerminal artifacts, file transfer detection via USN Journal, DNS indicators, and child process anomalies.",
+    "url": "/research/gotohttp-forensics-windows/index.html"
+  },
+  {
     "slug": "chrome-remote-desktop-forensics",
     "title": "Chrome Remote Desktop RMM Investigation (Windows)",
     "subtitle": "Investigating Remote Support and Remote Access modes, Windows Event Log artifacts, and file transfer forensics",
@@ -55,7 +68,7 @@
     "slug": "windows-forensics-lab",
     "title": "Design your first Windows Forensics Lab and make it decent!",
     "subtitle": "A guide to building a proper Windows forensics analysis environment for defensive security work",
-    "date": "2024-01-01",
+    "date": "2025-12-17",
     "source": "Medium",
     "sourceUrl": "https://medium.com/system-weakness/design-your-first-windows-forensics-lab-as-a-defensive-content-engineer-523bf891fbd7",
     "cover": "/assets/labs/designwindowslab.jpg",

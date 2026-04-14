@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Design your first Windows Forensics Lab | Chicken0248</title>
+    <title>Design your first Windows Forensics Lab and make it decent! | Chicken0248</title>
     <link rel="icon" href="/chicken0248.png" type="image/png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -19,25 +19,27 @@
         .dark .bg-gray-50  { background-color: #0f172a !important; }
         .dark .bg-gray-100 { background-color: #334155 !important; }
         .dark .bg-gray-900 { background-color: #0f172a !important; }
+        .dark .bg-red-50   { background-color: rgba(220,38,38,0.10) !important; }
+        .dark .bg-orange-50  { background-color: rgba(234,88,12,0.10) !important; }
         .dark .bg-blue-50    { background-color: rgba(37,99,235,0.12) !important; }
         .dark .bg-green-50   { background-color: rgba(22,163,74,0.10) !important; }
         .dark .bg-yellow-50  { background-color: rgba(202,138,4,0.10) !important; }
-        .dark .bg-orange-100 { background-color: rgba(234,88,12,0.20) !important; }
         .dark .bg-indigo-50  { background-color: rgba(99,102,241,0.10) !important; }
         .dark .text-gray-800 { color: #e2e8f0 !important; }
         .dark .text-gray-700 { color: #cbd5e1 !important; }
         .dark .text-gray-600 { color: #94a3b8 !important; }
         .dark .text-gray-500 { color: #64748b !important; }
-        .dark .text-gray-400 { color: #475569 !important; }
         .dark .text-red-600    { color: #f87171 !important; }
         .dark .text-blue-600   { color: #60a5fa !important; }
+        .dark .text-green-600  { color: #4ade80 !important; }
+        .dark .text-orange-700 { color: #fb923c !important; }
+        .dark .text-yellow-700 { color: #fbbf24 !important; }
         .dark .text-indigo-600 { color: #818cf8 !important; }
         .dark .border-gray-100 { border-color: #334155 !important; }
         .dark .border-gray-200 { border-color: #475569 !important; }
         .dark .divide-gray-100 > * + * { border-color: #334155 !important; }
         .dark .hover\:bg-gray-50:hover { background-color: #1e293b !important; }
-        .dark .hover\:text-blue-600:hover { color: #60a5fa !important; }
-        .dark pre { background-color: #0f172a !important; }
+        .dark pre, .dark .code-block { background-color: #0f172a !important; border-color: #334155 !important; }
         .dark code { color: #e2e8f0 !important; }
         .dark table thead { background-color: #1e293b !important; }
         .dark table thead th { color: #e2e8f0 !important; border-color: #475569 !important; }
@@ -83,30 +85,6 @@
             </div>
         );
 
-        const Table = ({ headers, rows, compact }) => (
-            <div className="overflow-x-auto rounded-xl border border-gray-200 my-4">
-                <table className={`w-full ${compact ? 'text-xs' : 'text-sm'}`}>
-                    <thead className="bg-gray-50">
-                        <tr>{headers.map((h, i) => <th key={i} className="px-4 py-3 text-left font-semibold text-gray-700 border-b border-gray-200 whitespace-nowrap">{h}</th>)}</tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-100">
-                        {rows.map((row, i) => (
-                            <tr key={i} className="hover:bg-gray-50 transition-colors">
-                                {row.map((cell, j) => <td key={j} className="px-4 py-2.5 text-gray-700" dangerouslySetInnerHTML={{ __html: cell }}></td>)}
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-        );
-
-        const CodeBlock = ({ language, children }) => (
-            <div className="rounded-xl border border-gray-200 overflow-hidden my-4">
-                <div className="bg-gray-800 text-gray-400 text-xs px-4 py-2 font-mono">{language}</div>
-                <pre className="bg-gray-900 text-gray-100 p-4 overflow-x-auto text-sm font-mono leading-relaxed"><code>{children}</code></pre>
-            </div>
-        );
-
         const Img = ({ src, alt, caption }) => (
             <figure className="my-4">
                 <img src={`${IMG}/${src}`} alt={alt || ''} className="rounded-xl border border-gray-200 shadow-sm w-full" loading="lazy" />
@@ -133,14 +111,11 @@
             useEffect(() => { localStorage.setItem('darkMode', dark); }, [dark]);
 
             const tocItems = [
-                { id: 'introduction', label: 'Introduction', icon: 'BookOpen' },
-                { id: 'why-lab', label: 'Why Build a Forensics Lab?', icon: 'HelpCircle' },
-                { id: 'hardware', label: 'Hardware Requirements', icon: 'Cpu' },
-                { id: 'vm-setup', label: 'VM Setup & Configuration', icon: 'Monitor' },
-                { id: 'network', label: 'Network Configuration', icon: 'Network' },
-                { id: 'tools', label: 'Essential Forensic Tools', icon: 'Wrench' },
-                { id: 'evidence-handling', label: 'Evidence Handling', icon: 'FolderOpen' },
-                { id: 'snapshots', label: 'Snapshots & Lab Management', icon: 'Camera' },
+                { id: 'introduction',  label: 'Introduction',                   icon: 'BookOpen'   },
+                { id: 'why-lab',       label: 'Why Build a Forensics Lab?',      icon: 'HelpCircle' },
+                { id: 'flavors',       label: 'Flavors of Windows Forensics',    icon: 'Layers'     },
+                { id: 'acquisition',   label: 'Evidence Acquisition Approaches', icon: 'Database'   },
+                { id: 'malware',       label: 'Malware Considerations',          icon: 'Bug'        },
             ];
 
             return (
@@ -167,18 +142,14 @@
 
                         {/* Hero */}
                         <div className="relative overflow-hidden rounded-3xl shadow-2xl">
-                            <img src="/assets/labs/designwindowslab.jpg" alt="Design your first Windows Forensics Lab"
-                                 className="w-full h-48 sm:h-64 md:h-80 object-cover" />
+                            <img src="/assets/labs/designwindowslab.jpg" alt="Design your first Windows Forensics Lab and make it decent!" className="w-full h-48 sm:h-64 md:h-80 object-cover" />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
                             <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white">
                                 <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight mb-3">Design your first Windows Forensics Lab and make it decent!</h1>
                                 <div className="flex flex-wrap gap-3 text-sm">
-                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
-                                        <Icon name="Tag" className="w-3.5 h-3.5" /> Lab Making
-                                    </span>
-                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
-                                        <Icon name="Shield" className="w-3.5 h-3.5" /> Windows Forensics
-                                    </span>
+                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5"><Icon name="Calendar" className="w-3.5 h-3.5" /> December 17, 2025</span>
+                                    <span className="bg-indigo-500/80 backdrop-blur-sm px-3 py-1 rounded-full">Lab Making</span>
+                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">Windows Forensics</span>
                                 </div>
                             </div>
                         </div>
@@ -186,27 +157,21 @@
                         {/* Metadata */}
                         <div className="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm">
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                                <div><span className="text-gray-500 block">Author</span><span className="font-semibold text-gray-800">Warawut Manosong (Chicken0248)</span></div>
-                                <div><span className="text-gray-500 block">Published</span><span className="font-semibold text-gray-800">2024</span></div>
+                                <div><span className="text-gray-500 block">Author</span><span className="font-semibold text-gray-800">Chicken0248</span></div>
+                                <div><span className="text-gray-500 block">Published</span><span className="font-semibold text-gray-800">December 17, 2025</span></div>
                                 <div><span className="text-gray-500 block">Originally on</span><a href="https://medium.com/system-weakness/design-your-first-windows-forensics-lab-as-a-defensive-content-engineer-523bf891fbd7" target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-600 hover:underline">Medium ↗</a></div>
                                 <div><span className="text-gray-500 block">Category</span><span className="font-semibold text-indigo-600">Lab Making</span></div>
                             </div>
                         </div>
 
-                        <Callout type="info">
-                            <p>This article was originally published on <B>Medium (System Weakness publication)</B>. Full content migration is in progress. <a href="https://medium.com/system-weakness/design-your-first-windows-forensics-lab-as-a-defensive-content-engineer-523bf891fbd7" target="_blank" rel="noopener noreferrer" className="underline font-medium">Read the original article on Medium ↗</a></p>
-                        </Callout>
-
                         {/* TOC */}
                         <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
                             <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-                                <Icon name="List" className="w-5 h-5 text-indigo-600" />
-                                Table of Contents
+                                <Icon name="List" className="w-5 h-5 text-indigo-600" />Table of Contents
                             </h2>
                             <div className="grid sm:grid-cols-2 gap-2">
                                 {tocItems.map((item, i) => (
-                                    <a key={item.id} href={`#${item.id}`}
-                                       className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors text-sm">
+                                    <a key={item.id} href={`#${item.id}`} className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors text-sm">
                                         <Icon name={item.icon} className="w-4 h-4 text-gray-400" />
                                         <span className="text-gray-400 font-mono text-xs w-5">{i + 1}.</span>
                                         <span className="font-medium">{item.label}</span>
@@ -215,137 +180,257 @@
                             </div>
                         </div>
 
-                        {/* ═══════════ INTRODUCTION ═══════════ */}
+                        {/* ═══ INTRODUCTION ═══ */}
                         <Section id="introduction" title="Introduction" icon="BookOpen">
                             <p className="text-gray-700 leading-relaxed">
-                                Building a Windows forensics lab is an essential step for anyone looking to practice and develop their digital forensics and incident response (DFIR) skills. This guide walks through designing a <B>proper, functional Windows forensics lab</B> that you can use for CTFs, research, and content creation.
+                                Hello everyone, Chicken0248 here. As the subject of this blog suggests, I'll be briefly talking about how you can design your own Windows Forensics lab. I expect some of you to do more research about each Windows artifact I mention here — or if you already know them, it will be fairly easy to get started!
+                            </p>
+                            <Img src="img-01.png" alt="Windows forensics artifacts overview" caption="Windows forensics: correlating artifacts scattered across the OS to reconstruct what happened" />
+                            <p className="text-gray-700 leading-relaxed">
+                                Let's talk about Windows Forensics first. <B>Windows Forensics</B> is a process — and sometimes an art — of analyzing individual Windows components, or <B>Windows artifacts</B>, to understand what actually happened on a specific machine during a given time span of interest.
                             </p>
                             <p className="text-gray-700 leading-relaxed">
-                                Read the full article on <a href="https://medium.com/system-weakness/design-your-first-windows-forensics-lab-as-a-defensive-content-engineer-523bf891fbd7" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline font-medium">Medium (System Weakness)</a>.
+                                As you might already know, the Windows operating system performs a lot of actions behind the scenes — whether for optimization or other internal purposes. Almost every action on a Windows system leaves traces behind (unless someone intentionally clears them). By examining these artifacts, we can extract valuable information that allows us to <B>reconstruct what happened on a particular endpoint</B> within a specific timeframe.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                There are a lot of Windows artifacts that can be useful. Most people initially think that <B>Windows Event Logs alone</B> are enough to understand what happened during a specific period of time. Well, I hate to break it to you, but most of the time, they are not. Not every organization has Sysmon installed, and many environments run with default Windows configurations without any additional audit logging policies at all.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                This is where Windows forensics really shines. By correlating multiple legitimate Windows components — what we commonly refer to as Windows artifacts — we can still determine what actions were actually performed on the system. Some of these artifacts are even reliable enough to be used in court.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                The purpose of this blog is to help you understand how to build a <B>"decent" Windows forensics lab</B>: what factors you should consider, what pitfalls to avoid, and which approaches work better in different scenarios — along with their advantages and disadvantages.
                             </p>
                         </Section>
 
-                        {/* ═══════════ WHY LAB ═══════════ */}
-                        <Section id="why-lab" title="Why Build a Forensics Lab?" icon="HelpCircle">
+                        {/* ═══ WHY BUILD A LAB ═══ */}
+                        <Section id="why-lab" title="Why Build a Windows Forensics Lab?" icon="HelpCircle">
                             <p className="text-gray-700 leading-relaxed">
-                                Having a dedicated forensics lab environment allows you to:
+                                Let's start with the basics — why create a Windows forensics lab? There are several reasons to consider, and below are the main ones.
                             </p>
-                            <ul className="list-disc list-outside ml-5 space-y-2 text-gray-700">
-                                <li>Safely analyze malware and suspicious artifacts without risking your main system</li>
-                                <li>Create repeatable scenarios for CTF challenges and content creation</li>
-                                <li>Practice forensic techniques on controlled evidence</li>
-                                <li>Develop and test detection rules in a safe environment</li>
+                            <div className="space-y-4">
+                                <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm space-y-1">
+                                    <div className="flex items-center gap-2 mb-1">
+                                        <Icon name="GraduationCap" className="w-5 h-5 text-indigo-500" />
+                                        <span className="font-semibold text-gray-800">Hands-on Learning</span>
+                                    </div>
+                                    <p className="text-gray-700 text-sm leading-relaxed">
+                                        Whether you are approaching this from a <B>red teaming perspective</B> — simulating attacker behavior or APT-style TTPs — or from a <B>blue teaming perspective</B> focused on detection and investigation, hands-on activities provide the best learning experience for both sides.
+                                    </p>
+                                </div>
+                                <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm space-y-1">
+                                    <div className="flex items-center gap-2 mb-1">
+                                        <Icon name="BookMarked" className="w-5 h-5 text-indigo-500" />
+                                        <span className="font-semibold text-gray-800">Education & Instruction</span>
+                                    </div>
+                                    <p className="text-gray-700 text-sm leading-relaxed">
+                                        A Windows forensics lab allows you to provide students with <B>realistic artifacts to analyze</B>, whether as part of assignments, practical exercises, or exams — helping them connect theory with real-world investigations.
+                                    </p>
+                                </div>
+                                <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm space-y-1">
+                                    <div className="flex items-center gap-2 mb-1">
+                                        <Icon name="Briefcase" className="w-5 h-5 text-indigo-500" />
+                                        <span className="font-semibold text-gray-800">Professional Lab Maintenance</span>
+                                    </div>
+                                    <p className="text-gray-700 text-sm leading-relaxed">
+                                        This is a more specialized case, as not every organization requires a Windows forensics lab. Most environments that do need one are typically <B>cybersecurity education platforms</B> — such as TryHackMe, Hack The Box, Blue Team Labs Online, CyberDefenders, and similar services — where realistic forensic scenarios are essential for effective learning.
+                                    </p>
+                                </div>
+                            </div>
+                            <p className="text-gray-700 leading-relaxed">
+                                Now, let's explore the endless possibilities of what a Windows Forensics lab can look like.
+                            </p>
+                        </Section>
+
+                        {/* ═══ FLAVORS ═══ */}
+                        <Section id="flavors" title="Flavors of Windows Forensics" icon="Layers">
+                            <p className="text-gray-700 leading-relaxed">
+                                There are multiple flavors of Windows forensics labs, and below are some of the most common ones.
+                            </p>
+                            <Img src="img-02.png" alt="Flavors of Windows forensics scenarios" caption="Common Windows forensics lab scenarios: infected machine, insider threat, criminal investigation" />
+                            <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                <li>An <B>infected machine scenario</B>, where the system has been compromised by a threat actor or subjected to malware execution.</li>
+                                <li>An <B>insider threat scenario</B>, involving corporate espionage or intentional exposure of sensitive information by an employee.</li>
+                                <li>A <B>criminal investigation scenario</B>, where traces of illegal activities are scattered across the system and must be pieced together.</li>
                             </ul>
-                        </Section>
-
-                        {/* ═══════════ HARDWARE ═══════════ */}
-                        <Section id="hardware" title="Hardware Requirements" icon="Cpu">
                             <p className="text-gray-700 leading-relaxed">
-                                For a functional Windows forensics lab, you'll need adequate hardware to run multiple virtual machines simultaneously.
+                                Sometimes, you may not want to focus on a detailed scenario at all — simply providing a set of artifacts and asking participants to extract a flag, similar to a forensics-style CTF. However, in my opinion, having a clear scenario adds important context to the investigation.
                             </p>
-                            <Table
-                                headers={['Component', 'Minimum', 'Recommended']}
-                                rows={[
-                                    ['RAM', '16 GB', '32 GB or more'],
-                                    ['CPU', '4 cores', '8+ cores with virtualization support'],
-                                    ['Storage', '500 GB SSD', '1 TB+ NVMe SSD'],
-                                    ['Virtualization', 'Intel VT-x / AMD-V enabled', 'Same'],
-                                ]}
-                            />
-                        </Section>
-
-                        {/* ═══════════ VM SETUP ═══════════ */}
-                        <Section id="vm-setup" title="VM Setup & Configuration" icon="Monitor">
-                            <p className="text-gray-700 leading-relaxed">
-                                The core of your lab will consist of virtual machines running Windows. Key VMs to set up:
-                            </p>
-                            <ul className="list-disc list-outside ml-5 space-y-2 text-gray-700">
-                                <li><B>Windows 10/11 (Victim)</B> — Target machine for forensic analysis and malware execution</li>
-                                <li><B>Windows Server (optional)</B> — For Active Directory scenarios</li>
-                                <li><B>SIFT Workstation or REMnux</B> — Linux-based forensic analysis platform</li>
-                                <li><B>FlareVM</B> — Windows-based malware analysis and reverse engineering environment</li>
-                            </ul>
-                        </Section>
-
-                        {/* ═══════════ NETWORK ═══════════ */}
-                        <Section id="network" title="Network Configuration" icon="Network">
-                            <p className="text-gray-700 leading-relaxed">
-                                Network isolation is critical in a forensics lab. Use <B>host-only or internal network</B> adapters to prevent malware from reaching the internet. Consider these network setups:
-                            </p>
-                            <Table
-                                headers={['Network Type', 'Use Case']}
-                                rows={[
-                                    ['Host-only', 'Complete isolation — VMs communicate only with host'],
-                                    ['Internal network', 'VM-to-VM communication without host or internet access'],
-                                    ['NAT (controlled)', 'Internet access for malware samples that need C2 (use with INetSim)'],
-                                ]}
-                            />
-                        </Section>
-
-                        {/* ═══════════ TOOLS ═══════════ */}
-                        <Section id="tools" title="Essential Forensic Tools" icon="Wrench">
-                            <SubSection title="Disk & Memory Analysis">
-                                <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
-                                    <li><B>Autopsy / Sleuth Kit</B> — Disk forensics and timeline analysis</li>
-                                    <li><B>Volatility</B> — Memory analysis framework</li>
-                                    <li><B>FTK Imager</B> — Disk imaging and evidence acquisition</li>
-                                </ul>
-                            </SubSection>
-                            <SubSection title="Log Analysis">
-                                <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
-                                    <li><B>EvtxECmd</B> — Windows Event Log parsing</li>
-                                    <li><B>Chainsaw</B> — Fast Windows Event Log hunting</li>
-                                    <li><B>Hayabusa</B> — Sigma-based Windows log threat hunting</li>
-                                </ul>
-                            </SubSection>
-                            <SubSection title="Artifact Analysis">
-                                <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
-                                    <li><B>KAPE</B> — Targeted collection of forensic artifacts</li>
-                                    <li><B>RegRipper</B> — Windows Registry analysis</li>
-                                    <li><B>PECmd / LnkCmd</B> — Prefetch and LNK file analysis</li>
-                                </ul>
-                            </SubSection>
-                        </Section>
-
-                        {/* ═══════════ EVIDENCE HANDLING ═══════════ */}
-                        <Section id="evidence-handling" title="Evidence Handling" icon="FolderOpen">
-                            <p className="text-gray-700 leading-relaxed">
-                                Proper evidence handling ensures forensic integrity. Key practices:
-                            </p>
-                            <ul className="list-disc list-outside ml-5 space-y-2 text-gray-700">
-                                <li>Always work on <B>copies</B>, never on original evidence</li>
-                                <li>Verify image integrity with <B>MD5/SHA256 hashes</B></li>
-                                <li>Document every action in a chain of custody</li>
-                                <li>Use write blockers when acquiring physical drives</li>
-                            </ul>
-                        </Section>
-
-                        {/* ═══════════ SNAPSHOTS ═══════════ */}
-                        <Section id="snapshots" title="Snapshots & Lab Management" icon="Camera">
-                            <p className="text-gray-700 leading-relaxed">
-                                VM snapshots are your best friend in a forensics lab. Take snapshots at key states:
-                            </p>
-                            <ul className="list-disc list-outside ml-5 space-y-2 text-gray-700">
-                                <li><B>Clean baseline</B> — Fresh OS install with logging configured</li>
-                                <li><B>Post-tool installation</B> — After installing Sysmon and other monitoring tools</li>
-                                <li><B>Pre-scenario</B> — Before running malware or creating artifacts</li>
-                            </ul>
                             <Callout type="tip">
-                                <p>Label snapshots descriptively with dates and what state the machine is in. A good naming convention: <C>Win10-Clean-Sysmon-2024-01-01</C></p>
+                                <p>The scenario you choose directly shapes which artifacts matter. An infected machine case focuses on malware execution traces. An insider threat case is heavily centered around user behavior, identity, and timelines. Different scenarios require different investigative approaches — so define your flavor early.</p>
+                            </Callout>
+
+                            <SubSection title="Case 1: A Compromised Machine (Malware / Threat Actor Activity)">
+                                <p className="text-gray-700 leading-relaxed">
+                                    This case can be further divided into two sub-cases. The first involves <B>malware that operates autonomously</B> without direct keyboard interaction from a threat actor. The second involves <B>malware that connects back to a C2 server</B>, allowing the threat actor to perform hands-on activities on the compromised system.
+                                </p>
+                                <p className="text-gray-700 leading-relaxed">
+                                    The first sub-case is the most classic scenario — a family member, friend, or employee unknowingly downloads malware through phishing emails, malvertising, or cracked software. This scenario leans more toward <B>malware analysis</B> than a full forensic investigation.
+                                </p>
+                                <Img src="img-03.png" alt="Compromised machine with C2 connection" caption="Case 1b: Threat actor actively interacts with the compromised system via C2 infrastructure" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    The second sub-case is where things get serious. The threat actor actively interacts with the system after establishing a C2 connection — executing commands to gather system info, deploy additional tools, establish persistence, or loot sensitive data such as browser-stored credentials, cryptocurrency wallets, or deploying keyloggers and ransomware.
+                                </p>
+                                <Callout type="info">
+                                    <p>To create a realistic lab scenario, study <B>threat intelligence reports</B> from various vendors to understand current attacker trends, techniques, and behaviors. By doing so, you can craft a believable attack chain and select payloads that reflect real-world adversary activity.</p>
+                                </Callout>
+                                <p className="text-gray-700 leading-relaxed">
+                                    Investigating this type of activity requires extensive knowledge of common Windows artifacts such as <B>Prefetch, Amcache, the file system, registry hives</B>, and many others. By correlating these artifacts, an investigator can reconstruct a detailed timeline of events.
+                                </p>
+                            </SubSection>
+
+                            <SubSection title="Case 2: Insider Threat — Corporate Espionage">
+                                <p className="text-gray-700 leading-relaxed">
+                                    This case involves an employee who becomes an insider threat, either knowingly or unknowingly. The investigation heavily relies on <B>user behavior analysis</B> — using artifacts that help determine what activities were performed during the time span of interest.
+                                </p>
+                                <Img src="img-04.png" alt="Insider threat - file exfiltration via USB" caption="Case 2: Employee copies files from a corporate file-share, archives them, and exfiltrates via USB or cloud" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    Typical artifacts include web browsing history, suspicious usage of instant messaging applications, archive utilities, and USB devices. For example, an employee may copy a large number of files from a corporate file-sharing server, compress the data with an archival program, then either upload it to cloud storage or copy it to a USB flash drive.
+                                </p>
+                                <Img src="img-05.png" alt="Registry forensics and user-centric artifacts" caption="Investigating insider threats: registry forensics correlated with JumpLists, ShellBags, file system metadata, and browser history" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    Investigating such activity requires extensive knowledge of <B>registry forensics</B>, correlated with other user-centric artifacts such as <B>JumpLists, ShellBags, file system metadata, and browser history</B>. By correlating these artifacts, an investigator can reconstruct a complete timeline of events.
+                                </p>
+                            </SubSection>
+
+                            <SubSection title="Case 3: Suspected System Used to Conduct Malicious Activities">
+                                <p className="text-gray-700 leading-relaxed">
+                                    This case is closely related to Case 2, but it is one of the most common scenarios encountered by <B>law enforcement and police investigators</B>. A suspect is believed to have conducted illegal activities using a personal computer, and the investigator's role is to substantiate those alleged actions through digital evidence.
+                                </p>
+                                <p className="text-gray-700 leading-relaxed">
+                                    In real-world investigations, law enforcement typically relies on <B>enterprise-grade, court-approved forensic software</B> to automate evidence acquisition, artifact parsing, and initial analysis. Manual analysis is then performed to validate findings and build a defensible case.
+                                </p>
+                                <Img src="img-06.png" alt="Open-source forensic tools for lab training" caption="Case 3 lab training: open-source tools like Eric Zimmerman's suite can parse and analyze artifacts manually" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    For training and lab purposes, this scenario can be simulated <B>without enterprise forensic tools</B>. While not representative of real law enforcement workflows, it is highly valuable for learning how artifacts are generated, stored, and correlated at a low level. Open-source tools — such as <B>Eric Zimmerman's tools</B> — can be used to parse and analyze individual artifacts manually.
+                                </p>
+                                <p className="text-gray-700 leading-relaxed">
+                                    This case also allows more room for creativity: introduce privacy-focused applications, or include communication platforms such as <B>Discord, WhatsApp, Zoom, or Telegram</B>, and study how these applications store metadata, usage traces, and — in some cases — local chat artifacts on the system.
+                                </p>
+                            </SubSection>
+                        </Section>
+
+                        {/* ═══ EVIDENCE ACQUISITION ═══ */}
+                        <Section id="acquisition" title="Evidence Acquisition Approaches" icon="Database">
+                            <p className="text-gray-700 leading-relaxed">
+                                When it comes to evidence acquisition, there are <B>two main approaches</B> you can take.
+                            </p>
+
+                            <SubSection title="Approach 1: Full Disk (and Memory) Imaging">
+                                <p className="text-gray-700 leading-relaxed">
+                                    The first approach is to capture the <B>entire disk image</B>, and optionally a memory image as well. This requires a large amount of storage — if the disk size is 40 GB, the resulting image will also be roughly 40 GB (unless compressed with a tool like FTK Imager).
+                                </p>
+                                <div className="grid sm:grid-cols-2 gap-4 my-4">
+                                    <div className="bg-green-50 rounded-xl border border-green-200 p-4">
+                                        <div className="flex items-center gap-2 mb-2">
+                                            <Icon name="ThumbsUp" className="w-4 h-4 text-green-600" />
+                                            <span className="font-semibold text-green-800 text-sm">Advantages</span>
+                                        </div>
+                                        <ul className="list-disc list-outside ml-4 space-y-1 text-green-800 text-sm">
+                                            <li>You retain <em>everything</em> on the system</li>
+                                            <li>Most realistic — closely resembles real-world investigations</li>
+                                            <li>You can always go back and analyze artifacts you didn't initially consider</li>
+                                        </ul>
+                                    </div>
+                                    <div className="bg-red-50 rounded-xl border border-red-200 p-4">
+                                        <div className="flex items-center gap-2 mb-2">
+                                            <Icon name="ThumbsDown" className="w-4 h-4 text-red-600" />
+                                            <span className="font-semibold text-red-800 text-sm">Disadvantages</span>
+                                        </div>
+                                        <ul className="list-disc list-outside ml-4 space-y-1 text-red-800 text-sm">
+                                            <li>Large storage requirements</li>
+                                            <li>For lab design, may be <em>too easy</em> — sometimes you want to intentionally omit certain files to increase difficulty</li>
+                                            <li>Managing and distributing large images can be inconvenient</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </SubSection>
+
+                            <SubSection title="Approach 2: Artifact Triage (e.g., KAPE)">
+                                <p className="text-gray-700 leading-relaxed">
+                                    The second approach is to use <B>triage tools</B> such as KAPE to collect only the artifacts that matter for your case, scenario, or learning objective. You must carefully decide which Windows artifacts are relevant and collect only those. If you later realize something is missing, you can always return to the same system and re-triage — this is where <B>VM snapshots of the compromised state</B> become extremely useful.
+                                </p>
+                                <div className="grid sm:grid-cols-2 gap-4 my-4">
+                                    <div className="bg-green-50 rounded-xl border border-green-200 p-4">
+                                        <div className="flex items-center gap-2 mb-2">
+                                            <Icon name="ThumbsUp" className="w-4 h-4 text-green-600" />
+                                            <span className="font-semibold text-green-800 text-sm">Advantages</span>
+                                        </div>
+                                        <ul className="list-disc list-outside ml-4 space-y-1 text-green-800 text-sm">
+                                            <li>Much smaller disk footprint</li>
+                                            <li>Forces you to truly understand how Windows artifacts correlate with one another</li>
+                                            <li>Excellent training for reconstructing timelines using limited data — just like many real-world cases</li>
+                                        </ul>
+                                    </div>
+                                    <div className="bg-red-50 rounded-xl border border-red-200 p-4">
+                                        <div className="flex items-center gap-2 mb-2">
+                                            <Icon name="ThumbsDown" className="w-4 h-4 text-red-600" />
+                                            <span className="font-semibold text-red-800 text-sm">Disadvantages</span>
+                                        </div>
+                                        <ul className="list-disc list-outside ml-4 space-y-1 text-red-800 text-sm">
+                                            <li>You <em>will</em> miss things if you're not careful</li>
+                                            <li>Once an artifact is gone, it's gone — unless you preserved the original system state</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </SubSection>
+
+                            <Callout type="tip">
+                                <p>What you really need to learn is <B>how Windows records user and system activity across many different artifacts scattered throughout the OS</B>. In many cases, you'll also need additional knowledge about specific software installed on the system — such as RMM tools or instant messaging applications — because each application leaves traces in its own unique way.</p>
+                            </Callout>
+                            <p className="text-gray-700 leading-relaxed">
+                                Too complex? That's actually the charm of Windows Forensics — especially in environments <B>without Sysmon or enhanced audit logging policies</B>. You are forced to understand how each artifact contributes to the bigger picture and how to reconstruct incidents <em>without</em> relying on verbose logs.
+                            </p>
+                            <Callout type="warning">
+                                <p><B>Remember: you are the lab author.</B> You performed every action yourself. Your job is to ensure that each action leaves behind evidence that can be discovered and correlated by the investigator.</p>
                             </Callout>
                         </Section>
 
-                        {/* Footer Nav */}
-                        <div className="border-t border-gray-200 pt-6 flex items-center justify-between text-sm">
-                            <a href="#" className="flex items-center gap-1.5 text-gray-500 hover:text-indigo-600 transition-colors">
-                                <Icon name="ArrowUp" className="w-4 h-4" />
-                                Back to top
-                            </a>
-                            <a href="/research/index.html" className="flex items-center gap-1.5 text-gray-500 hover:text-indigo-600 transition-colors">
+                        {/* ═══ MALWARE CONSIDERATIONS ═══ */}
+                        <Section id="malware" title="Malware Considerations for Case 1" icon="Bug">
+                            <p className="text-gray-700 leading-relaxed">
+                                Now let's talk about malware for <B>Case 1</B>. There are multiple ways to increase the difficulty of your lab by blending <B>malware analysis</B> into it.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                For example, if you want the player to identify the <B>hash of a malicious file</B>, how could you implement that? Here are a few possibilities:
+                            </p>
+                            <div className="space-y-3 my-4">
+                                {[
+                                    { n: '1', title: 'Provide the malware directly', desc: 'Hand the malware sample directly to the player as part of the lab artifacts.' },
+                                    { n: '2', title: 'Leave the SHA-1 hash in Amcache', desc: 'Execute the malware so Amcache records its SHA-1 hash, then remove the binary — the hash remains as a forensic artifact.' },
+                                    { n: '3', title: 'Let Windows Defender detect it', desc: 'Allow Defender to detect the malware and store SHA-1 / SHA-256 hashes in MPLog — another reliable artifact source.' },
+                                    { n: '4', title: 'Transfer via certutil', desc: 'Transfer the file using certutil, then triage the cryptneturlcache Content folder — the malware still exists in the collected artifacts even if deleted from disk.' },
+                                    { n: '5', title: 'Leave it in the Recycle Bin', desc: 'Delete the malware file normally so it lands in the Recycle Bin, preserving the file and its metadata for the investigator to find.' },
+                                ].map(item => (
+                                    <div key={item.n} className="flex gap-4 bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
+                                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 font-bold text-sm flex items-center justify-center">{item.n}</div>
+                                        <div>
+                                            <p className="font-semibold text-gray-800 text-sm">{item.title}</p>
+                                            <p className="text-gray-600 text-sm mt-0.5">{item.desc}</p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                            <p className="text-gray-700 leading-relaxed">
+                                Each approach creates a different investigative experience and difficulty level. Mix and match them to craft the right challenge for your audience.
+                            </p>
+                            <Callout type="info">
+                                <p>In the end, always ask yourself: <B>"What is the goal of this lab?"</B> The answer to that question will determine everything — from the scenario design, to the artifacts you collect, and even how difficult the investigation becomes.</p>
+                            </Callout>
+                            <p className="text-gray-700 leading-relaxed">
+                                I hope this helps someone finally take the first step in designing their own Windows Forensics lab — and maybe even give something back to the community one day.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">Thanks for reading!</p>
+                        </Section>
+
+                        {/* Back link */}
+                        <div className="pt-4 pb-8">
+                            <a href="/research/index.html" className="inline-flex items-center gap-2 text-indigo-600 hover:text-indigo-700 font-medium text-sm transition-colors">
                                 <Icon name="ArrowLeft" className="w-4 h-4" />
-                                All Research
+                                Back to Research
                             </a>
                         </div>
+
                     </main>
                 </div>
             );
