@@ -423,7 +423,7 @@ anydesk.exe --install`}</CodeBlock>
                                 <p className="text-gray-700 leading-relaxed">
                                     A file uploaded from the remote device to the end device is displayed in the File Transfer pane. From the end device's perspective, it is logged as a <B>Download</B> (the file was downloaded to this device).
                                 </p>
-                                <Img src="img-40.png" alt="file_transfer_trace.txt download entry" caption="file_transfer_trace.txt — download (upload from remote) activity logged" />
+                                <Img src="img-40.png" alt="Download file from local to remote" caption="Download file from local to remote" />
                                 <Img src="img-41.png" alt="File download from end device shown as Upload" caption="File download from end device is displayed as 'Upload' (exfiltration from end device)" />
                                 <p className="text-gray-700 leading-relaxed">
                                     Conversely, file download from the end device to the remote device is displayed as an <B>Upload</B> from the end device's perspective.
@@ -450,7 +450,7 @@ anydesk.exe --install`}</CodeBlock>
 
                             <SubSection title="File Deletion via File Manager">
                                 <Img src="img-44.png" alt="Deleting a file via AnyDesk file manager" caption="File deletion via AnyDesk file manager" />
-                                <Img src="img-45.png" alt="Delete confirmation in file manager" caption="Deletion confirmation dialog" />
+                                <Img src="img-45.png" alt="Deletion activity display on the client" caption="Deletion activity display on the client" />
                                 <Img src="img-46.png" alt="Deletion logged in ad.trace" caption="Deletion logged in ad.trace — path shown, 'Deleting x files' message" />
                                 <p className="text-gray-700 leading-relaxed">
                                     Files can also be deleted via the file manager. Deletion is <B>not</B> logged in <C>file_transfer_trace.txt</C> (since it's not a "transfer"), but the <C>.trace</C> file does log the file path with an explicit "Deleting x files" message, including whether the deletion completed successfully.
