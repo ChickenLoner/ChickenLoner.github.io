@@ -885,7 +885,7 @@
 
                 const getProjectCategory = (p) => {
                     if (p.tags && p.tags.includes('Tool')) return 'Tool';
-                    if (p.platform === 'Medium') return 'Blog';
+                    if (p.platform === 'Medium' || p.platform === 'Original') return 'Blog';
                     return 'Misc';
                 };
 
