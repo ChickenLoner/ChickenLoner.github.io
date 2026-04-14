@@ -146,9 +146,9 @@
             const ref = React.useRef(null);
             
             useEffect(() => {
-                if (ref.current) {
+                if (ref.current && lucide[name]) {
                     const iconElement = lucide.createElement(lucide[name], {
-                        class: className 
+                        class: className
                     });
                     ref.current.innerHTML = '';
                     ref.current.appendChild(iconElement);
@@ -333,7 +333,10 @@
                                 <a key={idx} href={social.url} target="_blank" rel="noopener noreferrer" className="bg-white rounded-lg p-6 shadow-lg border-2 border-gray-100 hover:border-blue-400 hover:shadow-xl transition-all group">
                                     <div className="flex items-center gap-4">
                                         <div className="bg-blue-50 p-4 rounded-full group-hover:bg-blue-100 transition-colors">
-                                            <Icon name={social.icon} className="w-8 h-8 text-blue-600" />
+                                            {social.svg
+                                                ? <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8 text-blue-600"><path d={social.svg} /></svg>
+                                                : <Icon name={social.icon} className="w-8 h-8 text-blue-600" />
+                                            }
                                         </div>
                                         <div className="flex-1">
                                             <h3 className="text-xl font-bold text-gray-800 mb-1">{social.platform}</h3>
