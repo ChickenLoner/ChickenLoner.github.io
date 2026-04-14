@@ -270,6 +270,15 @@
     "image": "./assets/labs/rustdeskdfir.png"
   },
   {
+    "title": "Investigating GotoHTTP on Windows: Behavior, Forensic Artifacts & Detection",
+    "description": "Research on GotoHTTP RMM — covering SYSTEM-level service persistence, SuperTerminal forensics, file transfer detection via USN Journal, DNS indicators, and child process anomalies.",
+    "platform": "Original",
+    "link": "/research/gotohttp-forensics-windows/index.html",
+    "tags": ["Digital Forensics", "RMM", "GotoHTTP", "Windows"],
+    "type": "project",
+    "image": "./assets/research/gotohttp-forensics-windows/cover.png"
+  },
+  {
     "title": "Chrome Remote Desktop RMM Investigation (Windows)",
     "description": "Research about Chrome Remote Desktop RMM Investigation on Windows from installation to connection, file transfer and unattended access.",
     "platform": "Medium",
