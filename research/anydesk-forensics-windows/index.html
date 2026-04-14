@@ -261,7 +261,6 @@
                                     <C>ad.trace</C> is the main log file for AnyDesk — we can expect most events to come from this file.
                                 </p>
                                 <Img src="img-09.png" alt="system.conf showing AnyDesk ID and relay address" caption="system.conf containing the unique AnyDesk ID and last relay address" />
-                                <Img src="img-10.png" alt="system.conf additional view" />
                                 <p className="text-gray-700 leading-relaxed">
                                     The unique ID is stored in <C>system.conf</C> under the variable name <C>ad.anynet.id</C>. In order for AnyDesk to connect to a target and look up this unique ID, both devices must connect to AnyDesk servers to find the matching ID, then proceed to create a session via the AnyDesk Relay infrastructure. The last relay address is also present in <C>system.conf</C>.
                                 </p>
@@ -271,6 +270,7 @@
                             </SubSection>
 
                             <SubSection title="Screenshots and Recordings Folders">
+                                <Img src="img-10.png" alt="Screenshot and screen recording folders created in Pictures and Videos" caption="Folders for screenshots and screen recordings created in user's Pictures and Videos directories" />
                                 <Img src="img-11.png" alt="Screenshot and screen recording folders created in Pictures and Videos" caption="Folders for screenshots and screen recordings created in user's Pictures and Videos directories" />
                                 <p className="text-gray-700 leading-relaxed">
                                     Two folders for screenshots and screen recordings are also created in the user's <C>Pictures</C> and <C>Videos</C> folders respectively.
@@ -287,7 +287,7 @@
                                     Once installed, AnyDesk copies its executable to <C>C:\Program Files (x86)\AnyDesk</C>.
                                 </p>
                                 <Img src="img-14.png" alt="AnyDesk Remote Printer installation" caption="AnyDesk installs a Remote Printer by default" />
-                                <Img src="img-15.png" alt="AnyDesk printer device" caption="AnyDesk Printer device created for Remote Printing feature" />
+                                <Img src="img-15.png" alt="AnyDesk service in services.msc" caption="AnyDesk service in services.msc" />
                                 <p className="text-gray-700 leading-relaxed">
                                     In the default configuration, AnyDesk also installs <B>AnyDesk Printers</B>, used with the "Remote Printing" feature to print documents remotely.
                                 </p>
@@ -306,6 +306,7 @@
                                 <p className="text-gray-700 leading-relaxed">
                                     A shortcut to start AnyDesk is also created inside the global startup folder, ensuring AnyDesk runs in each user's context on every logon.
                                 </p>
+                                <Img src="img-19.png" alt="AnyDesk instances" caption="AnyDesk instances" />
                                 <p className="text-gray-700 leading-relaxed">
                                     At any point in time on a device with AnyDesk installed, there will be at least <B>two AnyDesk instances</B> running: one in <B>SYSTEM context</B> (from the service) and one in <B>user context</B> (from the startup folder). Even if the user context instance is not running, the SYSTEM context instance can still connect to AnyDesk servers using the same unique ID and will display the remote request when someone specifies that ID.
                                 </p>
@@ -325,7 +326,7 @@ echo <my_password> | anydesk.exe --set-password
 
 # Install AnyDesk as a service
 anydesk.exe --install`}</CodeBlock>
-                            <Img src="img-19.png" alt="AnyDesk CLI commands in use" caption="AnyDesk CLI: setting unattended password and retrieving ID" />
+                            <Img src="img-20.png" alt="Conti's leak" caption="Conti's leak" />
                             <p className="text-gray-700 leading-relaxed">
                                 To give a real-world example, the <a href="https://github.com/ForbiddenProgrammer/conti-pentester-guide-leak/blob/main/MANUALS/%D0%97%D0%B0%D0%BA%D1%80%D0%B5%D0%BF%20AnyDesk.txt" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Conti ransomware gang leak</a> revealed their playbook included creating a new backdoor user and installing AnyDesk with Unattended Access as a persistence mechanism — demonstrating actual malicious use of AnyDesk CLI for automation.
                             </p>
@@ -333,36 +334,36 @@ anydesk.exe --install`}</CodeBlock>
 
                         {/* ═══ CONNECTIONS ═══ */}
                         <Section id="connections" title="Investigate AnyDesk Connection" icon="Network">
-                            <Img src="img-20.png" alt="AnyDesk quick start guide documentation" caption="AnyDesk quick start guide — support.anydesk.com" />
-                            <Img src="img-21.png" alt="AnyDesk GUI interface on Linux" caption="AnyDesk GUI interface on Linux (used as the connecting/remote device)" />
+                            <Img src="img-21.png" alt="AnyDesk quick start guide documentation" caption="AnyDesk quick start guide — support.anydesk.com" />
+                            <Img src="img-22.png" alt="AnyDesk GUI interface on Linux" caption="AnyDesk GUI interface on Linux (used as the connecting/remote device)" />
                             <p className="text-gray-700 leading-relaxed">
                                 To start a remote connection, the device that will take control over another device must specify the AnyDesk ID of the remote device (and password if Unattended Access is set up). The remote device must have at least one AnyDesk instance running when a request is made.
                             </p>
 
                             <SubSection title="Connection Request and Permissions">
-                                <Img src="img-22.png" alt="AnyDesk request when service was installed and SYSTEM instance handles connection" caption="AnyDesk connection request — service installed, SYSTEM instance handles it" />
-                                <Img src="img-23.png" alt="AnyDesk request without service installed" caption="AnyDesk connection request — portable version, no service" />
+                                <Img src="img-23.png" alt="AnyDesk request when service was installed and SYSTEM instance handles connection" caption="AnyDesk connection request — service installed, SYSTEM instance handles it" />
+                                <Img src="img-24.png" alt="AnyDesk request without service installed" caption="AnyDesk connection request — portable version, no service" />
                                 <p className="text-gray-700 leading-relaxed">
                                     In normal circumstances, when a request is made, a popup appears on the end device showing the ID and potentially the profile name of the requesting device. Users can <B>Accept</B> or <B>Dismiss</B> the request.
                                 </p>
-                                <Img src="img-24.png" alt="AnyDesk permissions window" caption="AnyDesk permission settings for an incoming connection" />
-                                <Img src="img-25.png" alt="AnyDesk permission configuration options" caption="Configurable permissions: control, file manager, clipboard, sound, recording, draw on screen" />
+                                <Img src="img-25.png" alt="AnyDesk permissions window" caption="AnyDesk permission settings for an incoming connection" />
+                                <Img src="img-26.png" alt="AnyDesk permission configuration options" caption="Configurable permissions: control, file manager, clipboard, sound, recording, draw on screen" />
                                 <p className="text-gray-700 leading-relaxed">
                                     The remote device can manage which permissions are allowed: <em>Allow to take control, Allow to use file manager, Allow to use clipboard, Allow to hear sound, Record session, Allow to draw on screen</em>. These can be changed at any time before and during the session. Without session establishment, users on both devices can also communicate via the built-in Chat feature.
                                 </p>
                             </SubSection>
 
                             <SubSection title="Session Logging in ad.trace">
-                                <Img src="img-26.png" alt="Session started log when AnyDesk runs as SYSTEM" caption="'Session started' logged — AnyDesk running as SYSTEM handles the connection" />
-                                <Img src="img-27.png" alt="Session started log for user context AnyDesk" caption="'Session started' logged — AnyDesk running as normal user" />
+                                <Img src="img-27.png" alt="Session started log when AnyDesk runs as SYSTEM" caption="'Session started' logged — AnyDesk running as SYSTEM handles the connection" />
+                                <Img src="img-28.png" alt="Session started log for user context AnyDesk" caption="'Session started' logged — AnyDesk running as normal user" />
                                 <p className="text-gray-700 leading-relaxed">
                                     When a remote connection is established, a "Session started" message is logged. We can see the duration of the session and investigators can calculate it by comparing the accept and termination timestamps.
                                 </p>
                             </SubSection>
 
                             <SubSection title="connection_trace.txt">
-                                <Img src="img-28.png" alt="connection_trace.txt from ProgramData AnyDesk" caption="connection_trace.txt — C:\\ProgramData\\AnyDesk (service-based installation)" />
-                                <Img src="img-29.png" alt="connection_trace.txt from User AppData AnyDesk" caption="connection_trace.txt — C:\\Users\\%username%\\AppData\\Roaming\\AnyDesk (portable)" />
+                                <Img src="img-29.png" alt="connection_trace.txt from ProgramData AnyDesk" caption="connection_trace.txt — C:\\ProgramData\\AnyDesk (service-based installation)" />
+                                <Img src="img-30.png" alt="connection_trace.txt from User AppData AnyDesk" caption="connection_trace.txt — C:\\Users\\%username%\\AppData\\Roaming\\AnyDesk (portable)" />
                                 <p className="text-gray-700 leading-relaxed">
                                     <C>connection_trace.txt</C> logs all incoming connections:
                                 </p>
@@ -385,18 +386,18 @@ anydesk.exe --install`}</CodeBlock>
                             </SubSection>
 
                             <SubSection title="Detailed Connection Logs in ad.trace">
-                                <Img src="img-30.png" alt="ad.trace showing profile name and AnyDesk ID of connecting device" caption="ad.trace — profile name and AnyDesk ID of the requesting device" />
-                                <Img src="img-31.png" alt="ad.trace additional connection details" caption="ad.trace — further connection detail entries" />
+                                <Img src="img-31.png" alt="ad.trace showing profile name and AnyDesk ID of connecting device" caption="ad.trace — profile name and AnyDesk ID of the requesting device" />
+                                <Img src="img-32.png" alt="ad.trace additional connection details" caption="ad.trace — further connection detail entries" />
                                 <p className="text-gray-700 leading-relaxed">
                                     In the <C>ad.trace</C> log file, when a request is made, we can find the <B>profile name, AnyDesk ID, OS and version</B> of the requesting device.
                                 </p>
-                                <Img src="img-32.png" alt="ad.trace Accept request with public and private IP" caption="ad.trace — 'Accept request' logged with both public and private IP addresses" />
-                                <Img src="img-33.png" alt="ad_svc.trace for service-based connection" caption="ad_svc.trace — connection handled by AnyDesk service instance" />
-                                <Img src="img-34.png" alt="ad_svc.trace additional service connection logs" caption="ad_svc.trace — additional service connection entries" />
+                                <Img src="img-33.png" alt="ad.trace Accept request with public and private IP" caption="ad.trace — 'Accept request' logged with both public and private IP addresses" />
+                                <Img src="img-34.png" alt="ad_svc.trace for service-based connection" caption="ad_svc.trace — connection handled by AnyDesk service instance" />
+                                <Img src="img-35.png" alt="ad_svc.trace additional service connection logs" caption="ad_svc.trace — additional service connection entries" />
                                 <p className="text-gray-700 leading-relaxed">
                                     After the user accepts the request, "Accept request" is logged along with the AnyDesk ID, and both <B>public and private IP addresses</B> of the connecting device. If AnyDesk is installed as a service, the connection is handled by the SYSTEM instance and all connection logs are written to <C>ad_svc.trace</C> instead of <C>ad.trace</C>.
                                 </p>
-                                <Img src="img-35.png" alt="Session termination logs in ad.trace" caption="Session termination logged — use timestamps to calculate session duration" />
+                                <Img src="img-36.png" alt="Session termination logs in ad.trace" caption="Session termination logged — use timestamps to calculate session duration" />
                                 <p className="text-gray-700 leading-relaxed">
                                     When a session is terminated, the termination logs appear in the respective <C>.trace</C> file. Comparing the acceptance and termination timestamps gives us the exact session duration.
                                 </p>
@@ -411,26 +412,26 @@ anydesk.exe --install`}</CodeBlock>
 
                         {/* ═══ FILE TRANSFER ═══ */}
                         <Section id="file-transfer" title="Investigate File Transfer Activity over AnyDesk" icon="FolderOpen">
-                            <Img src="img-36.png" alt="File transfer is enabled by default in AnyDesk" caption="File transfer is enabled by default when a remote connection is established" />
+                            <Img src="img-37.png" alt="File transfer is enabled by default in AnyDesk" caption="File transfer is enabled by default when a remote connection is established" />
                             <p className="text-gray-700 leading-relaxed">
                                 When a remote connection is established, the user on the remote side can disable file transfer (enabled by default). With the default settings, both devices can transfer files via the built-in File Manager — allowing the requesting device to freely browse the file system of the end device, upload, download, and delete files. If clipboard is enabled, AnyDesk also supports file transfers over clipboard.
                             </p>
 
                             <SubSection title="Upload Activity">
-                                <Img src="img-37.png" alt="Uploading a file via AnyDesk File Manager" caption="Uploading a shellcode loader to the Windows VM via AnyDesk File Manager" />
-                                <Img src="img-38.png" alt="File transfer displayed as Download on end device" caption="File upload from remote perspective is displayed as 'Download' on the end device" />
+                                <Img src="img-38.png" alt="Uploading a file via AnyDesk File Manager" caption="Uploading a shellcode loader to the Windows VM via AnyDesk File Manager" />
+                                <Img src="img-39.png" alt="File transfer displayed as Download on end device" caption="File upload from remote perspective is displayed as 'Download' on the end device" />
                                 <p className="text-gray-700 leading-relaxed">
                                     A file uploaded from the remote device to the end device is displayed in the File Transfer pane. From the end device's perspective, it is logged as a <B>Download</B> (the file was downloaded to this device).
                                 </p>
-                                <Img src="img-39.png" alt="file_transfer_trace.txt download entry" caption="file_transfer_trace.txt — download (upload from remote) activity logged" />
-                                <Img src="img-40.png" alt="File download from end device shown as Upload" caption="File download from end device is displayed as 'Upload' (exfiltration from end device)" />
+                                <Img src="img-40.png" alt="file_transfer_trace.txt download entry" caption="file_transfer_trace.txt — download (upload from remote) activity logged" />
+                                <Img src="img-41.png" alt="File download from end device shown as Upload" caption="File download from end device is displayed as 'Upload' (exfiltration from end device)" />
                                 <p className="text-gray-700 leading-relaxed">
                                     Conversely, file download from the end device to the remote device is displayed as an <B>Upload</B> from the end device's perspective.
                                 </p>
                             </SubSection>
 
                             <SubSection title="file_transfer_trace.txt">
-                                <Img src="img-41.png" alt="file_transfer_trace.txt showing upload and download events with timestamps" caption="file_transfer_trace.txt — timestamps for both start and completion of transfers" />
+                                <Img src="img-42.png" alt="file_transfer_trace.txt showing upload and download events with timestamps" caption="file_transfer_trace.txt — timestamps for both start and completion of transfers" />
                                 <p className="text-gray-700 leading-relaxed">
                                     A <C>file_transfer_trace.txt</C> file is created and logs all upload/download activities with timestamps for both start and completion:
                                 </p>
@@ -438,7 +439,7 @@ anydesk.exe --install`}</CodeBlock>
                                     <li>Installed AnyDesk: <C>C:\ProgramData\AnyDesk\file_transfer_trace.txt</C></li>
                                     <li>Portable AnyDesk: <C>C:\Users\%username%\AppData\Roaming\AnyDesk\file_transfer_trace.txt</C></li>
                                 </ul>
-                                <Img src="img-42.png" alt="ad.trace logs for file transfer activities" caption="ad.trace — file transfer activities also logged here with file paths (for uploads/exfiltration)" />
+                                <Img src="img-43.png" alt="ad.trace logs for file transfer activities" caption="ad.trace — file transfer activities also logged here with file paths (for uploads/exfiltration)" />
                                 <p className="text-gray-700 leading-relaxed">
                                     Both activities are also logged in the respective <C>.trace</C> file. The download log (file arriving at the end device) does not include the file path — only the filename and size from <C>file_transfer_trace.txt</C>. However, the upload log (file leaving the end device) explicitly includes the file path, so combining it with <C>file_transfer_trace.txt</C> gives us exactly which file was exfiltrated.
                                 </p>
@@ -448,9 +449,9 @@ anydesk.exe --install`}</CodeBlock>
                             </SubSection>
 
                             <SubSection title="File Deletion via File Manager">
-                                <Img src="img-43.png" alt="Deleting a file via AnyDesk file manager" caption="File deletion via AnyDesk file manager" />
-                                <Img src="img-44.png" alt="Delete confirmation in file manager" caption="Deletion confirmation dialog" />
-                                <Img src="img-45.png" alt="Deletion logged in ad.trace" caption="Deletion logged in ad.trace — path shown, 'Deleting x files' message" />
+                                <Img src="img-44.png" alt="Deleting a file via AnyDesk file manager" caption="File deletion via AnyDesk file manager" />
+                                <Img src="img-45.png" alt="Delete confirmation in file manager" caption="Deletion confirmation dialog" />
+                                <Img src="img-46.png" alt="Deletion logged in ad.trace" caption="Deletion logged in ad.trace — path shown, 'Deleting x files' message" />
                                 <p className="text-gray-700 leading-relaxed">
                                     Files can also be deleted via the file manager. Deletion is <B>not</B> logged in <C>file_transfer_trace.txt</C> (since it's not a "transfer"), but the <C>.trace</C> file does log the file path with an explicit "Deleting x files" message, including whether the deletion completed successfully.
                                 </p>
@@ -467,19 +468,19 @@ anydesk.exe --install`}</CodeBlock>
                             </p>
 
                             <SubSection title="Setting Up Unattended Access">
-                                <Img src="img-46.png" alt="Configuring AnyDesk unattended access via GUI" caption="Configuring AnyDesk unattended access via GUI" />
-                                <Img src="img-47.png" alt="Setting AnyDesk unattended access password via CLI" caption="Setting unattended access password via CLI" />
+                                <Img src="img-47.png" alt="Configuring AnyDesk unattended access via GUI" caption="Configuring AnyDesk unattended access via GUI" />
+                                <Img src="img-48.png" alt="Setting AnyDesk unattended access password via CLI" caption="Setting unattended access password via CLI" />
                                 <p className="text-gray-700 leading-relaxed">
                                     Unattended Access can be configured via <B>GUI</B> or <B>CLI</B>, both requiring administrator privileges. Once set up, any device with the correct AnyDesk ID and password can connect without manual acceptance.
                                 </p>
-                                <Img src="img-48.png" alt="CLI command logged in ad.trace" caption="ad.trace logs the entire AnyDesk command line — CLI password setup is forensically visible" />
+                                <Img src="img-49.png" alt="CLI command logged in ad.trace" caption="ad.trace logs the entire AnyDesk command line — CLI password setup is forensically visible" />
                                 <p className="text-gray-700 leading-relaxed">
                                     When the password is set via CLI, the command line is logged in <C>ad.trace</C> (AnyDesk logs every CLI command invocation), making it a forensic artifact that confirms the persistence mechanism was set up via automation.
                                 </p>
                             </SubSection>
 
                             <SubSection title="Retrieving the AnyDesk ID (Attacker Simulation)">
-                                <Img src="img-49.png" alt="PowerShell script to retrieve AnyDesk ID" caption="PowerShell: retrieving AnyDesk ID from config file or via --get-id flag" />
+                                <Img src="img-50.png" alt="PowerShell script to retrieve AnyDesk ID" caption="PowerShell: retrieving AnyDesk ID from config file or via --get-id flag" />
                                 <CodeBlock language="powershell">{`# From configuration file
 Get-Content "$env:ProgramData\\AnyDesk\\system.conf" | Select-String "ad.anynet.id"
 
@@ -501,20 +502,20 @@ $p.StandardOutput.ReadToEnd().Trim()`}</CodeBlock>
                             </SubSection>
 
                             <SubSection title="Connecting via Unattended Access">
-                                <Img src="img-50.png" alt="AnyDesk service runs at boot enabling unattended access" caption="AnyDesk service starts at boot — no user login required for unattended access" />
+                                <Img src="img-51.png" alt="AnyDesk service runs at boot enabling unattended access" caption="AnyDesk service starts at boot — no user login required for unattended access" />
                                 <p className="text-gray-700 leading-relaxed">
                                     Since the AnyDesk service runs at boot, no login or user interaction is required on the end device. The threat actor only needs the correct ID and password to connect.
                                 </p>
-                                <Img src="img-51.png" alt="Threat actor still needs valid credentials to fully interact" caption="Valid Windows credentials still required for full system interaction" />
+                                <Img src="img-52.png" alt="Threat actor still needs valid credentials to fully interact" caption="Valid Windows credentials still required for full system interaction" />
                                 <p className="text-gray-700 leading-relaxed">
                                     However, the threat actor still needs valid credentials to log in and fully interact with the system. This is why many AnyDesk backdoor scripts also create a new local administrator account — allowing the threat actor to return to the compromised machine with high privileges.
                                 </p>
                             </SubSection>
 
                             <SubSection title="Artifacts from Unattended Sessions">
-                                <Img src="img-52.png" alt="connection_trace.txt showing Passwd authentication for unattended access" caption="connection_trace.txt — auth type 'Passwd' indicates unattended access" />
-                                <Img src="img-53.png" alt="ad_svc.trace during unattended access session" caption="ad_svc.trace — unattended sessions handled by service instance" />
-                                <Img src="img-54.png" alt="Additional service trace entries" caption="Additional ad_svc.trace entries during unattended session" />
+                                <Img src="img-53.png" alt="connection_trace.txt showing Passwd authentication for unattended access" caption="connection_trace.txt — auth type 'Passwd' indicates unattended access" />
+                                <Img src="img-54.png" alt="ad_svc.trace during unattended access session" caption="ad_svc.trace — unattended sessions handled by service instance" />
+                                <Img src="img-55.png" alt="Additional service trace entries" caption="Additional ad_svc.trace entries during unattended session" />
                                 <p className="text-gray-700 leading-relaxed">
                                     In Unattended Access, the connection is handled by the AnyDesk service instance. Key artifacts:
                                 </p>
@@ -527,7 +528,7 @@ $p.StandardOutput.ReadToEnd().Trim()`}</CodeBlock>
                                         ['Chat logs', '<code>C:\\Users\\%username%\\AppData\\Roaming\\AnyDesk\\chat\\</code>', 'Still in user context — potential social engineering evidence'],
                                     ]}
                                 />
-                                <Img src="img-55.png" alt="file_transfer_trace.txt for unattended access file transfers" caption="file_transfer_trace.txt — file transfers during unattended session logged in ProgramData" />
+                                <Img src="img-56.png" alt="file_transfer_trace.txt for unattended access file transfers" caption="file_transfer_trace.txt — file transfers during unattended session logged in ProgramData" />
                                 <p className="text-gray-700 leading-relaxed">
                                     File transfers via the file manager during unattended sessions are logged in <C>C:\ProgramData\AnyDesk\file_transfer_trace.txt</C>. Chat logs remain in the user context path — relevant if the threat actor uses the chat feature for social engineering (e.g., impersonating IT support while the machine is in use).
                                 </p>
