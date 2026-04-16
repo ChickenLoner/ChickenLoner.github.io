@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CCEH Review — Cyber5W Certified Evidence Handler | Chicken0248</title>
+    <meta name="description" content="A detailed review and guide on the Cyber5W Certified Evidence Handler certification — a beginner-friendly exam that tests Digital Forensics evidence acquisition knowledge in both theory and hands-on approaches." />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Chicken0248" />
+    <meta property="og:url" content="https://chickenloner.github.io/reviews/cceh/" />
+    <meta property="og:title" content="So I tried Cyber5W — Certified Evidence Handler (CCEH) exam, How was it?" />
+    <meta property="og:description" content="A detailed review and guide on the Cyber5W Certified Evidence Handler certification — a beginner-friendly exam that tests Digital Forensics evidence acquisition knowledge in both theory and hands-on approaches." />
+    <meta property="og:image" content="https://chickenloner.github.io/reviews/cceh/cover.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@Chicken_0248" />
+    <meta name="twitter:title" content="So I tried Cyber5W — Certified Evidence Handler (CCEH) exam, How was it?" />
+    <meta name="twitter:description" content="A detailed review and guide on the Cyber5W Certified Evidence Handler certification — a beginner-friendly exam that tests Digital Forensics evidence acquisition knowledge in both theory and hands-on approaches." />
+    <meta name="twitter:image" content="https://chickenloner.github.io/reviews/cceh/cover.png" />
+    <link rel="icon" href="/chicken0248.png" type="image/png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn { animation: fadeIn 0.5s ease-out; }
+
+        /* ── DARK MODE ── */
+        .dark.min-h-screen { background: linear-gradient(135deg, #0f172a 0%, #141f35 50%, #0a1628 100%) !important; }
+        .dark nav { background-color: rgba(15,23,42,0.96) !important; border-bottom-color: rgba(51,65,85,0.5) !important; }
+        .dark .bg-white    { background-color: #1e293b !important; }
+        .dark .bg-gray-50  { background-color: #0f172a !important; }
+        .dark .bg-gray-100 { background-color: #334155 !important; }
+        .dark .bg-amber-50   { background-color: rgba(245,158,11,0.10) !important; }
+        .dark .bg-amber-100  { background-color: rgba(245,158,11,0.20) !important; }
+        .dark .bg-orange-50  { background-color: rgba(234,88,12,0.10) !important; }
+        .dark .bg-orange-100 { background-color: rgba(234,88,12,0.20) !important; }
+        .dark .bg-blue-50    { background-color: rgba(37,99,235,0.12) !important; }
+        .dark .bg-blue-100   { background-color: rgba(37,99,235,0.20) !important; }
+        .dark .bg-green-100  { background-color: rgba(22,163,74,0.20) !important; }
+        .dark .text-gray-800 { color: #e2e8f0 !important; }
+        .dark .text-gray-700 { color: #cbd5e1 !important; }
+        .dark .text-gray-600 { color: #94a3b8 !important; }
+        .dark .text-gray-500 { color: #64748b !important; }
+        .dark .text-gray-400 { color: #475569 !important; }
+        .dark .text-amber-700  { color: #fbbf24 !important; }
+        .dark .text-orange-700 { color: #fb923c !important; }
+        .dark .text-blue-600   { color: #60a5fa !important; }
+        .dark .text-green-700  { color: #4ade80 !important; }
+        .dark .border-gray-100 { border-color: #334155 !important; }
+        .dark .border-gray-200 { border-color: #475569 !important; }
+        .dark .border-amber-200  { border-color: rgba(245,158,11,0.3) !important; }
+        .dark .border-orange-200 { border-color: rgba(234,88,12,0.3) !important; }
+        .dark .hover\:bg-gray-50:hover { background-color: #1e293b !important; }
+        .dark .hover\:text-blue-600:hover { color: #60a5fa !important; }
+        .dark ::-webkit-scrollbar       { width: 6px; }
+        .dark ::-webkit-scrollbar-track { background: #0f172a; }
+        .dark ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        const Icon = ({ name, className = "w-6 h-6", ...props }) => {
+            const ref = useRef(null);
+            useEffect(() => {
+                if (ref.current) {
+                    const el = lucide.createElement(lucide[name], { class: className });
+                    ref.current.innerHTML = '';
+                    ref.current.appendChild(el);
+                }
+            }, [name, className]);
+            return <i ref={ref} className={`flex-shrink-0 ${className}`} {...props}></i>;
+        };
+
+        /* ── Reusable Components ── */
+
+        const Section = ({ id, title, icon, children }) => (
+            <section id={id} className="scroll-mt-24">
+                <h2 className="text-2xl font-bold text-gray-800 mb-5 flex items-center gap-3 border-b border-gray-200 pb-3">
+                    <Icon name={icon} className="w-6 h-6 text-amber-600" />
+                    {title}
+                </h2>
+                <div className="space-y-4">{children}</div>
+            </section>
+        );
+
+        let figCount = 0;
+        const resetFigCount = () => { figCount = 0; };
+
+        const Fig = ({ src, alt }) => {
+            figCount += 1;
+            const n = figCount;
+            return (
+                <figure className="my-5">
+                    <img src={src} alt={alt || `Figure ${n}`}
+                         className="rounded-xl border border-gray-200 shadow-sm max-w-full mx-auto block" loading="lazy" />
+                    <figcaption className="text-center text-xs text-gray-400 mt-1.5 font-mono">Figure {n}</figcaption>
+                </figure>
+            );
+        };
+
+        const Callout = ({ children }) => (
+            <blockquote className="bg-amber-50 border-l-4 border-amber-400 rounded-r-xl px-5 py-4 my-4 text-gray-700 italic text-sm leading-relaxed">
+                {children}
+            </blockquote>
+        );
+
+        const TipList = ({ items }) => (
+            <ul className="list-disc list-outside ml-5 space-y-2 text-gray-700">
+                {items.map((item, i) => <li key={i}>{item}</li>)}
+            </ul>
+        );
+
+        const B = ({ children }) => <strong className="text-gray-800">{children}</strong>;
+        const A = ({ href, children }) => (
+            <a href={href} target="_blank" rel="noopener noreferrer"
+               className="text-blue-600 hover:underline">{children}</a>
+        );
+
+        const renderStars = (rating) => {
+            const full = Math.floor(rating);
+            const half = rating - full >= 0.5;
+            return '★'.repeat(full) + (half ? '½' : '') + '☆'.repeat(5 - full - (half ? 1 : 0));
+        };
+
+        /* ── App ── */
+
+        const App = () => {
+            const [dark, setDark] = useState(() => localStorage.getItem('darkMode') === 'true');
+            const [meta, setMeta] = useState(null);
+            useEffect(() => { localStorage.setItem('darkMode', dark); }, [dark]);
+
+            useEffect(() => {
+                fetch('/data/reviews.json')
+                    .then(r => r.json())
+                    .then(data => {
+                        const entry = data.find(r => r.url === '/reviews/cceh/index.html');
+                        if (entry) setMeta(entry);
+                    })
+                    .catch(() => {});
+            }, []);
+
+            resetFigCount();
+
+            const tocItems = [
+                { id: 'introduction',    label: 'Introduction',             icon: 'BookOpen'     },
+                { id: 'exam-preparation', label: 'Exam Preparation',        icon: 'ListChecks'   },
+                { id: 'exam-experience', label: 'Exam Experience',           icon: 'ClipboardList'},
+                { id: 'exam-tips',       label: 'Exam Tips & Key Takeaways', icon: 'Lightbulb'   },
+            ];
+
+            return (
+                <div className={`min-h-screen bg-gradient-to-br from-slate-50 via-amber-50 to-orange-50 ${dark ? 'dark' : ''}`}>
+
+                    {/* Navigation */}
+                    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 px-4 py-3">
+                        <div className="max-w-4xl mx-auto flex items-center justify-between">
+                            <div className="flex items-center gap-2 text-sm flex-wrap">
+                                <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                                    <img src="/chicken0248.png" alt="Logo" className="w-7 h-7 rounded-lg" />
+                                    <span className="font-bold text-gray-800 hidden sm:inline">Chicken0248</span>
+                                </a>
+                                <span className="text-gray-400">/</span>
+                                <a href="/reviews/index.html" className="font-medium text-gray-600 hover:text-blue-600 transition-colors">Reviews</a>
+                                <span className="text-gray-400">/</span>
+                                <span className="font-semibold text-gray-700">CCEH</span>
+                            </div>
+                            <button onClick={() => setDark(!dark)}
+                                className="p-2 rounded-lg hover:bg-gray-100 text-gray-600 transition-colors text-lg">
+                                {dark ? '\u2600\uFE0F' : '\uD83C\uDF19'}
+                            </button>
+                        </div>
+                    </nav>
+
+                    <main className="max-w-4xl mx-auto px-4 py-8 space-y-10 animate-fadeIn">
+
+                        {/* Hero */}
+                        <div className="relative overflow-hidden rounded-3xl shadow-2xl">
+                            <img src="cover.png" alt="Cyber5W Certified Evidence Handler (CCEH)"
+                                 className="w-full h-48 sm:h-64 md:h-80 object-cover" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                            <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white">
+                                <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-3 leading-snug">
+                                    So I tried Cyber5W — Certified Evidence Handler (CCEH) exam, How was it?
+                                </h1>
+                                <div className="flex flex-wrap gap-2 text-sm">
+                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Building2" className="w-3.5 h-3.5" /> Cyber5W
+                                    </span>
+                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Calendar" className="w-3.5 h-3.5" /> May 2025
+                                    </span>
+                                    <span className="bg-amber-500/80 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Shield" className="w-3.5 h-3.5" /> Blue Team · Digital Forensics
+                                    </span>
+                                    <span className="bg-green-500/80 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="CheckCircle" className="w-3.5 h-3.5" /> Passed
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Metadata */}
+                        <div className="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm">
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                                <div><span className="text-gray-500 block">Certification</span><span className="font-semibold text-gray-800">CCEH</span></div>
+                                <div><span className="text-gray-500 block">Provider</span><span className="font-semibold text-gray-800">Cyber5W</span></div>
+                                <div><span className="text-gray-500 block">Difficulty</span><span className="font-semibold text-amber-600">{meta?.difficulty ?? '—'}</span></div>
+                                <div><span className="text-gray-500 block">Rating</span>
+                                    {meta?.rating ? (
+                                        <span className="font-semibold text-gray-800 flex items-center gap-1">
+                                            <span className="text-yellow-500">{renderStars(meta.rating)}</span>
+                                            <span className="text-gray-500 font-normal text-xs ml-0.5">{meta.rating.toFixed(1)}/5.0</span>
+                                        </span>
+                                    ) : <span className="text-gray-400">—</span>}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Table of Contents */}
+                        <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                            <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                <Icon name="List" className="w-5 h-5 text-amber-600" />
+                                Table of Contents
+                            </h2>
+                            <div className="grid sm:grid-cols-2 gap-1">
+                                {tocItems.map((item, i) => (
+                                    <a key={item.id} href={`#${item.id}`}
+                                       className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors text-sm">
+                                        <Icon name={item.icon} className="w-4 h-4 text-gray-400" />
+                                        <span className="text-gray-400 font-mono text-xs w-5">{i + 1}.</span>
+                                        <span className="font-medium">{item.label}</span>
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* ═══════════ INTRODUCTION ═══════════ */}
+                        <Section id="introduction" title="Introduction" icon="BookOpen">
+                            <p className="text-gray-700 leading-relaxed">
+                                <A href="https://cyber5w.com/">Cyber5W</A> is a training and certification provider for blue teamers,
+                                co-founded by <A href="https://www.ashemery.com/">Ali Hadi</A> — well known in the Digital Forensics
+                                community and the author of the popular eCDFP certification and course from INE.
+                                My experience with eCDFP was not the most satisfying; it could have been more challenging and engaging,
+                                and the hands-on portion felt underwhelming. So I've always been on the lookout for a Digital Forensics
+                                certification that is actually fun and relevant to real forensics work.
+                            </p>
+
+                            <Fig src="image-1.png" alt="Cyber5W Certified Evidence Handler exam page" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                When I heard about the <B>Certified Evidence Handler (CCEH)</B> exam — which features both theory and
+                                hands-on parts, just like eCDFP — I wanted to take it and compare the two, expecting at least a step up
+                                in quality given that CCEH was released much later.
+                            </p>
+
+                            <Fig src="image-2.png" alt="CCEH certification overview" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                There was one more reason I decided to purchase this cert: the name. I joked with a friend —
+                                "If I pass this exam, I'll have (C)CEH 🤣" — and with all of that combined, here we are.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ EXAM PREPARATION ═══════════ */}
+                        <Section id="exam-preparation" title="Exam Preparation" icon="ListChecks">
+                            <Fig src="image-3.png" alt="CCEH required skills listed on the certification page" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                As the name implies, this certification tests your knowledge as a <B>Digital Forensics Evidence Handler</B>.
+                                All the required skills are listed on the{' '}
+                                <A href="https://academy.cyber5w.com/courses/C5W-Certified-Digital-Forensics-Evidence-Handler-Exam">certification page</A>.
+                                If you don't yet have those skills but still want to take the exam, here are the Cyber5W courses that
+                                will help you prepare.
+                            </p>
+
+                            <Fig src="image-4.png" alt="C5W-100 Introduction to Digital Forensics course bundle" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                First, the <A href="https://academy.cyber5w.com/courses/C5W-100">C5W-100: Introduction to Digital Forensics</A> bundle
+                                combines 10 courses (both paid and free) and is offered at no cost to anyone interested in the field.
+                                It's a solid resource, though not everything in the bundle is exam-relevant. The five courses most
+                                applicable to CCEH are:
+                            </p>
+                            <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                <li>Digital Forensics Concepts</li>
+                                <li>Working with Virtual Hard Disk</li>
+                                <li>Evidence Acquisition under Windows</li>
+                                <li>Working with FTK Imager</li>
+                                <li>Writing Forensic Reports</li>
+                            </ul>
+                            <p className="text-gray-700 leading-relaxed">
+                                There is also one additional course outside the bundle worth looking at:{' '}
+                                <A href="https://academy.cyber5w.com/courses/introduction-to-evidence-acquisition">Introduction to Evidence Acquisition</A>.
+                            </p>
+
+                            <Fig src="image-5.png" alt="Exam structure: 24-hour window, theory and hands-on parts, VM provided" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                A few key things to know about the exam format:
+                            </p>
+                            <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                <li>You have <B>24 hours</B> to complete the exam.</li>
+                                <li>It is split into two parts: theory-based questions and hands-on questions.</li>
+                                <li>A virtual machine is provided for the hands-on lab.</li>
+                            </ul>
+                            <p className="text-gray-700 leading-relaxed">
+                                What they don't mention up front: the hands-on portion also includes an <B>Incident Response</B> component,
+                                so you'll need to know how to conduct basic dynamic malware analysis as well. All questions throughout —
+                                including the hands-on section — are multiple choice.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                The exam costs <B>$50 per attempt</B>. If you fail, you'll need to purchase another attempt separately.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ EXAM EXPERIENCE ═══════════ */}
+                        <Section id="exam-experience" title="Exam Experience" icon="ClipboardList">
+                            <Fig src="image-6.png" alt="Exam purchased on Friday 2nd May 2025" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                I purchased the exam on Friday, 2nd May 2025, during the workday — with my own money, of course —
+                                without any prior preparation, and planned to take it on Saturday. But after nearly a month of grinding
+                                nonstop for OSCP, I was burned out and wanted something to re-ignite my motivation. So after finishing
+                                work and getting back to my apartment, I started the exam right away at <B>6:26:57 PM</B>.
+                            </p>
+
+                            <Fig src="image-7.png" alt="Exam started — theory questions first, hands-on second" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                After starting, I was presented with theory-based questions first, followed by hands-on questions.
+                                There were two distinct hands-on labs. I couldn't get an exact question count, but compared to eCDFP
+                                (which has 15 theory + 15 hands-on), CCEH has <B>more than 40 questions</B> across both parts combined.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                The theory questions are roughly 80% technical and 20% conceptual — if you're comfortable with evidence
+                                acquisition tools and processes, they should be straightforward.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                For the hands-on section, you're given a machine provisioned via Apache Guacamole — accessible entirely
+                                through a browser, so only an internet connection is required. You also have the option to download
+                                the artifacts locally, though the provided VM is more than sufficient.
+                            </p>
+
+                            <Fig src="image-8.png" alt="Hands-on lab environment via Guacamole" />
+
+                            <Fig src="image-9.png" alt="Second hands-on lab — artifact download option available" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                I finished the entire exam in about an hour and a half. I spent most of that time on the theory section
+                                and the first hands-on lab; the second lab was much quicker. Overall it was a genuinely fun and
+                                challenging exam.
+                            </p>
+
+                            <Fig src="image-10.png" alt="Exam completion page" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                After finishing and landing on the completion page, I noticed there was no certificate in sight and
+                                wondered where it was. I emailed Cyber5W support, and they replied within an hour with the certificate
+                                attached as a PDF — and that wrapped up my journey with this exam (if you can really call it a journey 😄).
+                            </p>
+
+                            <Fig src="image-11.png" alt="Certificate received via email as a PDF attachment" />
+                        </Section>
+
+                        {/* ═══════════ EXAM TIPS ═══════════ */}
+                        <Section id="exam-tips" title="Exam Tips &amp; Key Takeaways" icon="Lightbulb">
+                            <div className="bg-amber-50 rounded-2xl border border-amber-200 p-6">
+                                <TipList items={[
+                                    'Have a stable internet connection.',
+                                    'Perform the hands-on lab on the provided virtual machine.',
+                                    'Understand each disk image format — E01, dd (raw), AFF.',
+                                    'Learn how to use FTK Imager to acquire different disk image formats.',
+                                    'Learn how to conduct basic dynamic malware analysis.',
+                                    'The exam window is 24 hours — rest when you need to.',
+                                ]} />
+                            </div>
+                            <p className="text-gray-700 leading-relaxed">
+                                So who is this certification for? It targets first responders who need to acquire digital evidence
+                                and maintain its integrity throughout the chain of custody.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Overall, the exam was fun and challenging. That said, if you're looking for something to boost your resume,
+                                this probably isn't the right pick — even eCDFP doesn't move the needle much with HR. There isn't really
+                                a widely recognized Digital Forensics certification at the entry level yet. But if you want to take it
+                                for the fun of it, like I did, $50 is a fair price and well worth it.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">Peace out~ ✌</p>
+                        </Section>
+
+                        {/* Footer navigation */}
+                        <div className="text-center py-8 border-t border-gray-200">
+                            <a href="#" className="text-blue-600 hover:text-blue-700 font-medium text-sm inline-flex items-center gap-1">
+                                <Icon name="ArrowUp" className="w-4 h-4" /> Back to top
+                            </a>
+                            <span className="mx-3 text-gray-300">|</span>
+                            <a href="/reviews/index.html" className="text-blue-600 hover:text-blue-700 font-medium text-sm inline-flex items-center gap-1">
+                                <Icon name="ArrowLeft" className="w-4 h-4" /> All Reviews
+                            </a>
+                        </div>
+
+                    </main>
+                </div>
+            );
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>
