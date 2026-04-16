@@ -106,7 +106,7 @@
 
         const Img = ({ src, alt, caption }) => (
             <figure className="my-4">
-                <img src={`${IMG}/${src}`} alt={alt || ''} className="rounded-xl border border-gray-200 shadow-sm w-full" loading="lazy" />
+                <img src={`${IMG}/${src}`} alt={alt || ''} className="rounded-xl border border-gray-200 shadow-sm max-w-full mx-auto block" loading="lazy" />
                 {caption && <figcaption className="text-center text-sm text-gray-500 mt-2 italic">{caption}</figcaption>}
             </figure>
         );

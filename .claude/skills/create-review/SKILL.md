@@ -95,7 +95,7 @@ Include all of these exactly as in `reviews/psap/index.html`:
 |---|---|
 | `Icon` | Lucide icon wrapper using `useRef` + `useEffect` |
 | `Section` | H2 section with amber icon, scroll-mt-24 anchor, `id` for TOC links |
-| `Fig` | Figure with auto-incrementing counter — shows **only "Figure N"**, no caption text |
+| `Fig` | Figure with auto-incrementing counter — shows **only "Figure N"**, no caption text. Image uses `max-w-full mx-auto block` (not `w-full`) so small screenshots render at natural size rather than stretching to container width |
 | `Callout` | Amber-accent blockquote for exam descriptions or key quotes |
 | `TipList` | Styled bullet list, used for exam tips sections |
 | `B` | `<strong>` wrapper |
