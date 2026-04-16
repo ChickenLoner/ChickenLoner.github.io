@@ -10,12 +10,12 @@
     <meta property="og:url" content="https://chickenloner.github.io/reviews/cbteamerx/" />
     <meta property="og:title" content="CBTeamerX Exam Review &amp; How to Prepare Yourself for This Exam" />
     <meta property="og:description" content="A review and guide on the Certified Blue Teamer eXpert certification — covering exam preparation, a two-round exam experience with a technical incident, and honest takeaways on whether it lives up to the expert label." />
-    <meta property="og:image" content="https://chickenloner.github.io/reviews/cbteamerx/image.png" />
+    <meta property="og:image" content="https://chickenloner.github.io/reviews/cbteamerx/cover.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@Chicken_0248" />
     <meta name="twitter:title" content="CBTeamerX Exam Review &amp; How to Prepare Yourself for This Exam" />
     <meta name="twitter:description" content="A review and guide on the Certified Blue Teamer eXpert certification — covering exam preparation, a two-round exam experience with a technical incident, and honest takeaways on whether it lives up to the expert label." />
-    <meta name="twitter:image" content="https://chickenloner.github.io/reviews/cbteamerx/image.png" />
+    <meta name="twitter:image" content="https://chickenloner.github.io/reviews/cbteamerx/cover.png" />
     <link rel="icon" href="/chicken0248.png" type="image/png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -186,7 +186,7 @@
 
                         {/* Hero */}
                         <div className="relative overflow-hidden rounded-3xl shadow-2xl">
-                            <img src="image.png" alt="Certified Blue Teamer eXpert (CBTeamerX)"
+                            <img src="cover.png" alt="Certified Blue Teamer eXpert (CBTeamerX)"
                                  className="w-full h-48 sm:h-64 md:h-80 object-cover" />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
                             <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white">
@@ -252,7 +252,7 @@
                                 <B>Certified Blue Teamer eXpert (CBTeamerX)</B> exam from <B>The SecOps Group</B> — a company that focuses exclusively on practical exams with no associated courses, and is now expanding into the blue team space. I had already attempted their intermediate-level blue team exam, <B>CBTeamer</B>, which was quite fun, so I wanted to take their "expert" level exam next. It did not disappoint on content — but my first experience was far from enjoyable, as you'll find out. And yes, I took this exam <B>twice</B>.
                             </p>
 
-                            <Fig src="image 1.png" alt="CBTeamerX certification page on The SecOps Group website" />
+                            <Fig src="image-1.png" alt="CBTeamerX certification page on The SecOps Group website" />
 
                             <p className="text-gray-700 leading-relaxed">
                                 <A href="https://pentestingexams.com/product/certified-blue-teamer-expert/">CBTeamerX</A>{' '}
@@ -262,7 +262,7 @@
                                 This model has some similarities with GIAC — you're not required to take a SANS course to sit the exam (those run around $8,900 per course). At least GIAC is globally recognised and its certifications are listed in DoD 8140. The same can't be said for The SecOps Group, so in my opinion, purchasing at full price is quite expensive relative to the return. If you're interested, wait for a discount.
                             </p>
 
-                            <Fig src="image 2.png" alt="CBTeamerX comparison chart against BTL2, GSOC, CCD, and MBT" />
+                            <Fig src="image-2.png" alt="CBTeamerX comparison chart against BTL2, GSOC, CCD, and MBT" />
 
                             <p className="text-gray-700 leading-relaxed">
                                 You can also see that The SecOps Group compares CBTeamerX to BTL2, GSOC, CCD, and MBT — which is a very bold claim. I have no idea who put that comparison together, and I don't know whether the team who designed this exam has actually attempted those certifications (neither have I, LOL).
@@ -277,7 +277,7 @@
 
                         {/* ═══════════ EXAM INFORMATION & PREPARATION ═══════════ */}
                         <Section id="exam-preparation" title="Exam Information & Preparation" icon="ListChecks">
-                            <Fig src="image 3.png" alt="CBTeamerX learning resources and exam syllabus" />
+                            <Fig src="image-3.png" alt="CBTeamerX learning resources and exam syllabus" />
 
                             <p className="text-gray-700 leading-relaxed">
                                 The SecOps Group provides both "learning resources" and an "exam syllabus." After taking the exam, I'd say not everything in the syllabus actually appears, but the learning resources are more closely aligned with what you'll encounter. Here's what you need to prepare:
@@ -298,7 +298,7 @@
                                 Assuming you have that knowledge and want to take the exam — I'll walk through my experience in the next sections. I won't give away exact answers, so you'll need to read between the lines. But first, here's how the exam actually works.
                             </p>
 
-                            <Fig src="image 4.png" alt="CBTeamerX exam format details" />
+                            <Fig src="image-4.png" alt="CBTeamerX exam format details" />
 
                             <p className="text-gray-700 leading-relaxed">
                                 CBTeamerX is a practical exam with a <B>7 hours 30 minutes</B> time limit. The voucher includes <B>1 free retake</B>, and you need at least <B>60%</B> to pass. Scoring above <B>75%</B> earns a <em>"with merit"</em> distinction on your certificate.
@@ -317,7 +317,7 @@
                                 I purchased the exam on Friday (16 Jan) with the intention of sitting it on Saturday (17 Jan). I was tired from work and had two other blue team exams planned for the same month, so I wanted to get this done in one go — but it didn't go as planned. I ran into a technical issue from the start.
                             </p>
 
-                            <Fig src="image 5.png" alt="CBTeamerX VPN connection and exam environment setup" />
+                            <Fig src="image-5.png" alt="CBTeamerX VPN connection and exam environment setup" />
 
                             <p className="text-gray-700 leading-relaxed">
                                 The exam requires a VPN connection. Once you start, their firewall applies rules to allow access to the exam machines — but there's a catch: you need to wait around 8–10 minutes, then reconnect to the same VPN before the machines become reachable. The first machine is an Ubuntu host running Splunk, and the second is a Windows VM for disk and malware analysis.
@@ -329,7 +329,7 @@
                                 I started with Splunk since it lets you cut across multiple hosts and log sources quickly. I was able to answer 30–40% of the questions from the SIEM alone. But when I tried to reach the Windows VM for malware reverse engineering and disk analysis, it was completely unresponsive. This led directly to my failed attempt — 30–40% correct is well below the 60% passing threshold.
                             </p>
 
-                            <Fig src="image 6.png" alt="Email to The SecOps Group support — automated response received" />
+                            <Fig src="image-6.png" alt="Email to The SecOps Group support — automated response received" />
 
                             <p className="text-gray-700 leading-relaxed">
                                 I reached out to The SecOps Group via email and received only an automated FAQ response about reconnecting the VPN — which wasn't my issue at all. The SIEM machine was fine; it was the Windows VM that was dead. I also realised I had taken the exam on a <B>Saturday</B>, outside their working hours, so there was no live support available. I gave up, submitted what I had, and posted about it on LinkedIn.
@@ -338,7 +338,7 @@
                                 I had a community gathering to attend that day (a party for the Thailand Blue Team Community after the Thailand Women Top Talent 2025 Qualifier), and at that point I was ready to write the whole thing off. Then <B>Sumit Siddharth</B>, CEO of The SecOps Group, sent me a direct message on LinkedIn saying they were looking into the issue. Within minutes, they traced it to an AWS error that had stopped the instance from booting.
                             </p>
 
-                            <Fig src="image 7.png" alt="LinkedIn DM from The SecOps Group CEO acknowledging the issue" />
+                            <Fig src="image-7.png" alt="LinkedIn DM from The SecOps Group CEO acknowledging the issue" />
 
                             <p className="text-gray-700 leading-relaxed">
                                 To compensate me, they gave me one extra attempt — effectively giving me 2 full attempts plus the original retake. I was genuinely impressed that they cared enough to track down the root cause and reach out personally. I told them I'd try again the next day (Sunday), which brings us to Round 2.
@@ -357,7 +357,7 @@
                                 By the time Monday was approaching — I had another exam and work the next day — I decided to submit without answering the last question, accepting that I might not hit "with merit."
                             </p>
 
-                            <Fig src="image 8.png" alt="CBTeamerX result — Passed with Merit" />
+                            <Fig src="image-8.png" alt="CBTeamerX result — Passed with Merit" />
 
                             <p className="text-gray-700 leading-relaxed">
                                 To my surprise, I passed <B>with merit</B>. I'm fairly confident I answered every other question correctly and only left one blank, though it looks like one answer was also wrong (I still don't know which). As you can see, I spent <B>343 minutes</B> on this attempt — I wrapped up everything else in the first 3–4 hours and spent the remainder on that last question.
@@ -369,7 +369,7 @@
 
                         {/* ═══════════ AFTERMATH ═══════════ */}
                         <Section id="aftermath" title="Aftermath" icon="MessageSquare">
-                            <Fig src="image 9.png" alt="Follow-up message from The SecOps Group CEO on Sunday" />
+                            <Fig src="image-9.png" alt="Follow-up message from The SecOps Group CEO on Sunday" />
 
                             <p className="text-gray-700 leading-relaxed">
                                 The CEO of The SecOps Group messaged me again on Sunday to check if I'd had any further issues. I replied once I'd finished the exam and shared a short review on LinkedIn. My honest take: the exam is great — using knowledge across multiple domains in a single investigation is always a solid design choice, and they nailed it. That said, I wouldn't recommend this to a <B>SOC L1 analyst</B>. But if you're confident in your skills and want a genuine challenge, go for it while the 90% discount is still available.

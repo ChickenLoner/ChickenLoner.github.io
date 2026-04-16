@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PWFA Review — Practical Windows Forensic Analyst | Chicken0248</title>
+    <meta name="description" content="A detailed review of the Blue Cape Security Practical Windows Forensic Analyst (PWFA) — covering the PWF course, FOR200 investigation scenarios, the unique timeline-based exam format, and honest tips for passing." />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Chicken0248" />
+    <meta property="og:url" content="https://chickenloner.github.io/reviews/pwfa/" />
+    <meta property="og:title" content="New Forensics Certification from Blue Cape Security? I got it, here is my review." />
+    <meta property="og:description" content="A detailed review of the Blue Cape Security Practical Windows Forensic Analyst (PWFA) — covering the PWF course, FOR200 investigation scenarios, the unique timeline-based exam format, and honest tips for passing." />
+    <meta property="og:image" content="https://chickenloner.github.io/reviews/pwfa/cover.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@Chicken_0248" />
+    <meta name="twitter:title" content="New Forensics Certification from Blue Cape Security? I got it, here is my review." />
+    <meta name="twitter:description" content="A detailed review of the Blue Cape Security Practical Windows Forensic Analyst (PWFA) — covering the PWF course, FOR200 investigation scenarios, the unique timeline-based exam format, and honest tips for passing." />
+    <meta name="twitter:image" content="https://chickenloner.github.io/reviews/pwfa/cover.png" />
+    <link rel="icon" href="/chicken0248.png" type="image/png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn { animation: fadeIn 0.5s ease-out; }
+
+        /* ── DARK MODE ── */
+        .dark.min-h-screen { background: linear-gradient(135deg, #0f172a 0%, #141f35 50%, #0a1628 100%) !important; }
+        .dark nav { background-color: rgba(15,23,42,0.96) !important; border-bottom-color: rgba(51,65,85,0.5) !important; }
+        .dark .bg-white    { background-color: #1e293b !important; }
+        .dark .bg-gray-50  { background-color: #0f172a !important; }
+        .dark .bg-gray-100 { background-color: #334155 !important; }
+        .dark .bg-amber-50   { background-color: rgba(245,158,11,0.10) !important; }
+        .dark .bg-amber-100  { background-color: rgba(245,158,11,0.20) !important; }
+        .dark .bg-orange-50  { background-color: rgba(234,88,12,0.10) !important; }
+        .dark .bg-orange-100 { background-color: rgba(234,88,12,0.20) !important; }
+        .dark .bg-blue-50    { background-color: rgba(37,99,235,0.12) !important; }
+        .dark .bg-blue-100   { background-color: rgba(37,99,235,0.20) !important; }
+        .dark .bg-green-100  { background-color: rgba(22,163,74,0.20) !important; }
+        .dark .text-gray-800 { color: #e2e8f0 !important; }
+        .dark .text-gray-700 { color: #cbd5e1 !important; }
+        .dark .text-gray-600 { color: #94a3b8 !important; }
+        .dark .text-gray-500 { color: #64748b !important; }
+        .dark .text-gray-400 { color: #475569 !important; }
+        .dark .text-amber-700  { color: #fbbf24 !important; }
+        .dark .text-orange-700 { color: #fb923c !important; }
+        .dark .text-blue-600   { color: #60a5fa !important; }
+        .dark .text-green-700  { color: #4ade80 !important; }
+        .dark .border-gray-100 { border-color: #334155 !important; }
+        .dark .border-gray-200 { border-color: #475569 !important; }
+        .dark .border-amber-200  { border-color: rgba(245,158,11,0.3) !important; }
+        .dark .border-orange-200 { border-color: rgba(234,88,12,0.3) !important; }
+        .dark .hover\:bg-gray-50:hover { background-color: #1e293b !important; }
+        .dark .hover\:text-blue-600:hover { color: #60a5fa !important; }
+        .dark ::-webkit-scrollbar       { width: 6px; }
+        .dark ::-webkit-scrollbar-track { background: #0f172a; }
+        .dark ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        const Icon = ({ name, className = "w-6 h-6", ...props }) => {
+            const ref = useRef(null);
+            useEffect(() => {
+                if (ref.current && lucide[name]) {
+                    const el = lucide.createElement(lucide[name], { class: className });
+                    ref.current.innerHTML = '';
+                    ref.current.appendChild(el);
+                }
+            }, [name, className]);
+            return <i ref={ref} className={`flex-shrink-0 ${className}`} {...props}></i>;
+        };
+
+        /* ── Reusable Components ── */
+
+        const Section = ({ id, title, icon, children }) => (
+            <section id={id} className="scroll-mt-24">
+                <h2 className="text-2xl font-bold text-gray-800 mb-5 flex items-center gap-3 border-b border-gray-200 pb-3">
+                    <Icon name={icon} className="w-6 h-6 text-amber-600" />
+                    {title}
+                </h2>
+                <div className="space-y-4">{children}</div>
+            </section>
+        );
+
+        let figCount = 0;
+        const resetFigCount = () => { figCount = 0; };
+
+        const Fig = ({ src, alt }) => {
+            figCount += 1;
+            const n = figCount;
+            return (
+                <figure className="my-5">
+                    <img src={src} alt={alt || `Figure ${n}`}
+                         className="rounded-xl border border-gray-200 shadow-sm max-w-full mx-auto block" loading="lazy" />
+                    <figcaption className="text-center text-xs text-gray-400 mt-1.5 font-mono">Figure {n}</figcaption>
+                </figure>
+            );
+        };
+
+        const Callout = ({ children }) => (
+            <blockquote className="bg-amber-50 border-l-4 border-amber-400 rounded-r-xl px-5 py-4 my-4 text-gray-700 italic text-sm leading-relaxed">
+                {children}
+            </blockquote>
+        );
+
+        const TipList = ({ items }) => (
+            <ul className="list-disc list-outside ml-5 space-y-2 text-gray-700">
+                {items.map((item, i) => <li key={i}>{item}</li>)}
+            </ul>
+        );
+
+        const B = ({ children }) => <strong className="text-gray-800">{children}</strong>;
+        const A = ({ href, children }) => (
+            <a href={href} target="_blank" rel="noopener noreferrer"
+               className="text-blue-600 hover:underline">{children}</a>
+        );
+
+        const renderStars = (rating) => {
+            const full = Math.floor(rating);
+            const half = rating - full >= 0.5;
+            return '★'.repeat(full) + (half ? '½' : '') + '☆'.repeat(5 - full - (half ? 1 : 0));
+        };
+
+        /* ── App ── */
+
+        const App = () => {
+            const [dark, setDark] = useState(() => localStorage.getItem('darkMode') === 'true');
+            const [meta, setMeta] = useState(null);
+            useEffect(() => { localStorage.setItem('darkMode', dark); }, [dark]);
+
+            useEffect(() => {
+                fetch('/data/reviews.json')
+                    .then(r => r.json())
+                    .then(data => {
+                        const entry = data.find(r => r.url === '/reviews/pwfa/index.html');
+                        if (entry) setMeta(entry);
+                    })
+                    .catch(() => {});
+            }, []);
+
+            resetFigCount();
+
+            const tocItems = [
+                { id: 'introduction',    label: 'Introduction',              icon: 'BookOpen'      },
+                { id: 'pwf-course',      label: 'PWF Course Review',         icon: 'GraduationCap' },
+                { id: 'for200-labs',     label: 'FOR200 Lab Review',          icon: 'FlaskConical'  },
+                { id: 'exam-experience', label: 'Exam Experience & Review',   icon: 'ClipboardList' },
+                { id: 'exam-tips',       label: 'Exam Tips & Key Takeaways',  icon: 'Lightbulb'     },
+            ];
+
+            return (
+                <div className={`min-h-screen bg-gradient-to-br from-slate-50 via-amber-50 to-orange-50 ${dark ? 'dark' : ''}`}>
+
+                    {/* Navigation */}
+                    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 px-4 py-3">
+                        <div className="max-w-4xl mx-auto flex items-center justify-between">
+                            <div className="flex items-center gap-2 text-sm flex-wrap">
+                                <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                                    <img src="/chicken0248.png" alt="Logo" className="w-7 h-7 rounded-lg" />
+                                    <span className="font-bold text-gray-800 hidden sm:inline">Chicken0248</span>
+                                </a>
+                                <span className="text-gray-400">/</span>
+                                <a href="/reviews/index.html" className="font-medium text-gray-600 hover:text-blue-600 transition-colors">Reviews</a>
+                                <span className="text-gray-400">/</span>
+                                <span className="font-semibold text-gray-700">PWFA</span>
+                            </div>
+                            <button onClick={() => setDark(!dark)}
+                                className="p-2 rounded-lg hover:bg-gray-100 text-gray-600 transition-colors text-lg">
+                                {dark ? '☀️' : '🌙'}
+                            </button>
+                        </div>
+                    </nav>
+
+                    <main className="max-w-4xl mx-auto px-4 py-8 space-y-10 animate-fadeIn">
+
+                        {/* Hero */}
+                        <div className="relative overflow-hidden rounded-3xl shadow-2xl">
+                            <img src="cover.png" alt="Practical Windows Forensic Analyst (PWFA) Certificate"
+                                 className="w-full h-48 sm:h-64 md:h-80 object-cover" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                            <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white">
+                                <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-3 leading-snug">
+                                    New Forensics Certification from Blue Cape Security? I Got It — Here Is My Review.
+                                </h1>
+                                <div className="flex flex-wrap gap-2 text-sm">
+                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Building2" className="w-3.5 h-3.5" /> Blue Cape Security
+                                    </span>
+                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Calendar" className="w-3.5 h-3.5" /> October 2025
+                                    </span>
+                                    <span className="bg-amber-500/80 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Shield" className="w-3.5 h-3.5" /> Blue Team · Forensics
+                                    </span>
+                                    <span className="bg-green-500/80 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="CheckCircle" className="w-3.5 h-3.5" /> Passed
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Metadata */}
+                        <div className="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm">
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                                <div><span className="text-gray-500 block">Certification</span><span className="font-semibold text-gray-800">PWFA</span></div>
+                                <div><span className="text-gray-500 block">Provider</span><span className="font-semibold text-gray-800">Blue Cape Security</span></div>
+                                <div><span className="text-gray-500 block">Difficulty</span><span className="font-semibold text-amber-600">{meta?.difficulty ?? '—'}</span></div>
+                                <div><span className="text-gray-500 block">Rating</span>
+                                    {meta?.rating ? (
+                                        <span className="font-semibold text-gray-800 flex items-center gap-1">
+                                            <span className="text-yellow-500">{renderStars(meta.rating)}</span>
+                                            <span className="text-gray-500 font-normal text-xs ml-0.5">{meta.rating.toFixed(1)}/5.0</span>
+                                        </span>
+                                    ) : <span className="text-gray-400">—</span>}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Table of Contents */}
+                        <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                            <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                <Icon name="List" className="w-5 h-5 text-amber-600" />
+                                Table of Contents
+                            </h2>
+                            <div className="grid sm:grid-cols-2 gap-1">
+                                {tocItems.map((item, i) => (
+                                    <a key={item.id} href={`#${item.id}`}
+                                       className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors text-sm">
+                                        <Icon name={item.icon} className="w-4 h-4 text-gray-400" />
+                                        <span className="text-gray-400 font-mono text-xs w-5">{i + 1}.</span>
+                                        <span className="font-medium">{item.label}</span>
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* ═══════════ INTRODUCTION ═══════════ */}
+                        <Section id="introduction" title="Introduction" icon="BookOpen">
+                            <p className="text-gray-700 leading-relaxed">
+                                Hello everyone, it's me <B>Chicken0248</B> with a review of the first-ever forensics certification exam from{' '}
+                                <A href="https://bluecapesecurity.com/">Blue Cape Security</A>:{' '}
+                                the <B>Practical Windows Forensic Analyst (PWFA)</B>. This exam was announced in August 2025 and has a very unique format — one that requires you to apply your Windows forensics methodology to the fullest to pass.
+                            </p>
+
+                            <Fig src="image-1.png" alt="Blue Cape Security platform overview" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Blue Cape Security is a well-known blue team training and consulting company. It offers several packages:
+                            </p>
+                            <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                <li><B>Analyst I — $697:</B> includes the 201 Practical Windows Forensics (PWF) course, 4 forensic investigation scenarios (FOR200), and 2 PWFA exam attempts</li>
+                                <li><B>Analyst II — $997:</B> includes the 301 Advanced DFIR course and 3 Advanced DFIR investigation scenarios (IR300). This package does not include the PWFA exam, though it's possible Blue Cape Security will release an advanced certification down the road — but that's just my guess ¯\_(ツ)_/¯</li>
+                                <li><B>Hero Bundle — $1,297:</B> includes everything in Analyst I and Analyst II, plus the 101 Enterprise Security Fundamentals course</li>
+                            </ul>
+                            <p className="text-gray-700 leading-relaxed">
+                                I only purchased the Analyst I package during a discount, so I'll be reviewing the PWF course, the FOR200 labs, and the exam. Let's see what this package has to offer.
+                            </p>
+
+                            <Fig src="image-2.png" alt="Analyst I package details" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                <A href="https://bluecapesecurity.com/analyst1/">Analyst I</A> is also known as the <B>Core Forensic Track</B>. It comes with 12 months of on-demand access to the course and <B>150 hours of lab access</B>. Once you purchase it, the 12-month access timer starts immediately.
+                            </p>
+
+                            <Fig src="image-3.png" alt="Blue Cape Security learning pathway" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Here is the pathway Blue Cape Security lays out for you: start with the PWF course to learn the fundamentals, then apply your knowledge through the FOR200 investigation scenarios, and finally validate your skills in the PWFA exam. It's a clean, logical progression — and I'll cover each step in that order.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                R U READY? LET'S GO.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ PWF COURSE REVIEW ═══════════ */}
+                        <Section id="pwf-course" title="PWF Course Review" icon="GraduationCap">
+                            <Fig src="image-4.png" alt="PWF course landing page" />
+
+                            <Fig src="image-5.png" alt="PWF course syllabus" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                The PWF course is designed to teach the fundamentals of Windows forensics. It starts with the data collection process — how to acquire and triage disk images with KAPE — then walks through key Windows forensics artifacts, timeline construction, and a brief introduction to report writing. You can read the full syllabus here:{' '}
+                                <A href="https://docs.google.com/spreadsheets/d/1qQlfIsjiGj-o8DKcYk9haY7dfHhyAqer/view?gid=1355574215#gid=1355574215">course syllabus (Google Sheets)</A>.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                The majority of the course is video-based, recorded by <B>Markus Schober</B>, the CEO of Blue Cape Security — and likely the face you'll be most familiar with from this company.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                The course is excellent for <B>absolute beginners</B> who want to learn Windows forensics. It covers what each key Windows artifact does without going too deep, and teaches you how to parse them with free, industry-recognized tools and interpret the results. That said, it does move quickly through certain areas.
+                            </p>
+
+                            <Fig src="image-6.png" alt="Further reading resources at the bottom of each lesson" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Many topics include extra resources at the bottom of each video under a <B>"Further Reading"</B> section for those who want to go deeper into each artifact's background. I highly recommend taking the time to read them — they're great.
+                            </p>
+
+                            <Fig src="image-7.png" alt="PWF course browser-based lab environment" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                The course also includes labs you can follow along with for each topic, accessible entirely in your browser — no extra tools or VM required. One thing I don't love is the time limit: you have to extend your session every hour, and if you don't finish in time you'll need to relaunch the instance. (I haven't tested whether in-progress work is fully lost on relaunch.)
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                What I <em>do</em> like is the <B>Stop feature</B>, which lets you pause your running lab and have all parsed artifacts preserved when you resume it later.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                One more thing worth mentioning: the course includes a <B>Windows Forensics cheat sheet</B> covering all the key artifacts taught throughout. It's a handy reference — and it'll also come in useful during the PWFA exam itself. 😄
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Honestly, I did pick up a few fundamentals I'd been glossing over for years. But the course got a bit repetitive for me since I was already familiar with most of the artifacts and tools. The report writing module was also quite vague — I was expecting something closer to an industry-standard forensics report, but it's only briefly touched on.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                The evidence acquisition section is similarly surface-level, covering FTK Imager for full disk and memory images, and VM acquisition. Alternative tools and methods aren't discussed, so you'll need to research those on your own.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                If I had to score it: <B>4.5 ⭐ / 5 ⭐ for complete beginners</B>, and <B>2 ⭐ / 5 ⭐ for seasoned analysts</B>. In my opinion, experienced analysts should skip straight to a more advanced course.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Now let's talk about the FOR200 investigation scenarios.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ FOR200 LAB REVIEW ═══════════ */}
+                        <Section id="for200-labs" title="FOR200 Lab Review" icon="FlaskConical">
+                            <Fig src="image-8.png" alt="FOR200 investigation scenarios overview" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                The FOR200 Investigation Scenarios are lab-based forensic cases designed to let you practice Windows forensics skills and methodology. There are <B>four scenarios</B> in total.
+                            </p>
+
+                            <Fig src="image-9.png" alt="FOR200 scenario difficulty levels" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                The difficulty varies across scenarios — from Beginner to Advanced — and all labs are browser-accessible, just like the PWF course.
+                            </p>
+
+                            <Fig src="image-10.png" alt="Shared lab directory with artifacts from all four scenarios" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                All artifacts from all four scenarios are accessible from the <B>same shared directory</B>, so you can effectively work through every scenario from a single VM instance — you just need to keep extending your session each hour.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                The lab instances run very smoothly — no lag or freezing in my experience. A stable internet connection is all you need to work comfortably and practice your timelining.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                One important note on difficulty order: despite the numbering, FOR001–FOR004 don't scale in difficulty sequentially. If you want to go from easier to harder, I recommend: <B>FOR004 → FOR001 → FOR002 → FOR003</B>.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Since the PWF course covers disk and memory image analysis, each scenario provides a <B>full disk image</B>, a <B>full memory dump</B>, or both — depending on the case. Some scenarios have multiple systems. Getting comfortable with all of these is essential preparation for the PWFA exam.
+                            </p>
+
+                            <Fig src="image-11.png" alt="FOR200 scenario course structure with case information and quiz" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Each scenario is structured as its own course. You'll receive a case brief, conduct your analysis, then complete a quiz to confirm your findings. (Blue Cape Security uses their course platform for everything — the exam included.)
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Blue Cape Security also encourages you to build your own timeline and perform independent analysis. They provide a <B>reference timeline and summary report</B> for comparison afterward, which is a genuinely valuable learning tool. That said, don't treat their version as the absolute ground truth — some artifacts are intentionally omitted to keep the timeline readable.
+                            </p>
+
+                            <Fig src="image-12.png" alt="Timeline download resource in FOR200" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                I recommend downloading the timeline provided in <B>FOR004</B>, keeping only the header row, and using it as your template for building your own timelines. Once you're done, compare your version with theirs to see what you may have missed — it's a great way to reinforce your learning.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                For real-world incidents involving multiple analysts, the CrowdStrike DFIR tracker is a solid option:{' '}
+                                <A href="https://www.crowdstrike.com/en-us/blog/crowdstrike-releases-digital-forensics-and-incident-response-tracker/">CrowdStrike DFIR Tracker</A>.
+                            </p>
+
+                            <Fig src="image-13.png" alt="Walkthrough videos by Markus at the end of FOR200" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                At the end of each scenario, Blue Cape Security provides <B>walkthrough videos</B> recorded by Markus himself — a great resource to validate your findings and methodology before sitting the exam.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                I made a significant mistake here that you should avoid: I only completed one lab and never practiced building a proper timeline. That meant I had to figure out Blue Cape Security's preferred timeline format during the actual exam, which made my experience considerably harder than it needed to be. Learn from my mistake.
+                            </p>
+
+                            <Fig src="image-14.png" alt="Badge and certificate awarded after completing each FOR200 scenario quiz" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Before moving on to the exam, note that you'll earn a <B>badge and certificate</B> for passing the quiz in each scenario. Collect them all and post them on LinkedIn to show what you can do!
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ EXAM EXPERIENCE & REVIEW ═══════════ */}
+                        <Section id="exam-experience" title="Exam Experience & Review" icon="ClipboardList">
+                            <Fig src="image-15.png" alt="Analyst I Training Track — pre-exam checklist and gateway" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                After purchasing the Analyst I package, three courses are added to your account: the PWF course, FOR200, and the <B>Analyst I Training Track</B> — which acts as a pre-exam checklist and the gateway to the exam itself. You can review the exam overview, requirements, and grading and retake policy in Section 3 of this course before starting.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Originally, I planned to take the exam in the same month I purchased it — I assumed, incorrectly, that the deliverable would be a report similar to the HTB CDSA exam. Once I realized the submission is a <B>timeline in XLSX format</B> (DOCX is technically accepted but XLSX is preferred), I postponed until late September and started the exam then.
+                            </p>
+
+                            <Fig src="image-16.png" alt="PWFA exam start — now available anytime without pre-booking" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                At launch, you had to book an exam slot in advance — but that requirement has since been removed. You can now start the exam at any time. Once started, you're enrolled in a dedicated exam course where you'll find the core logistics, the tools list, submission requirements, technical requirements, the grading breakdown, a lab VM, the case scenario, and your exam objectives.
+                            </p>
+
+                            <Fig src="image-17.png" alt="Exam confirmation email with instructions and exam objectives" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                A confirmation email is also sent to remind you of everything you need to deliver. As you can see, I started the exam during my lunch break on Monday, 30th September. I read through everything carefully to understand the deliverables and all exam objectives, then launched the lab VM and started parsing artifacts while building my initial hypothesis. I then wrapped up for the rest of the workday.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                In the evening, I worked through each artifact methodically. But as I mentioned earlier — I hadn't practiced building a timeline before the exam, and that caught up with me. I spent most of the night struggling with the format until I settled on an approach: add every relevant entry, keep only what's tied to the incident, group supporting artifacts together, sort chronologically to see the full picture, and repeat until it's coherent.
+                            </p>
+
+                            <Fig src="image-18.png" alt="Timeline submitted via the course assignment section" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                I spent the whole night completing my timeline, then submitted a first draft through the <B>assignment section</B> of the exam course. (Blue Cape Security uses their platform's assignment feature as the submission form.) After submitting, you'll receive another email confirming receipt. Importantly, <B>grading only begins after the 7-day exam window closes</B> — and you can retract and resubmit a revised timeline at any point before then.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                I took a vacation day to recover from the sleepless night, but when I woke up I realized the exhaustion had caused me to miss several important pieces of evidence. I retracted my submission, filled in the gaps, and rested. The following day I planned to do a thorough final review — but work completely overwhelmed me, and I couldn't focus at all. At that point I just wanted it to be over, and submitted my timeline with barely enough technical analysis to pass.
+                            </p>
+
+                            <Fig src="image-19.png" alt="Exam grading breakdown — technical analysis vs. timeline weighting" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                On grading: you need at least <B>70%</B> to pass. Your score comes from two parts — <B>technical analysis (66%)</B> and <B>timeline quality (33%)</B>. The analysis carries significantly more weight, so you need to show your reasoning clearly, not just list events. Score above <B>85%</B> and you'll receive the exclusive <B>PWFA challenge coin + swag</B>, plus an additional line on your certificate.
+                            </p>
+
+                            <Fig src="image-20.png" alt="Exam result email received on Friday" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                I expected to receive results the week after my exam window closed, but I actually got the email on <B>Friday</B> — they may have noticed I had already submitted and graded it early. Either way, I was fine with that.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                As you can see, I performed well on the timeline portion but scored poorly on technical analysis — which was expected given how I'd rushed it. That gap cost me the challenge coin, but honestly, if I were in the same situation again, I'd still submit the same report. At least it was over. 😄
+                            </p>
+
+                            <Fig src="image-21.png" alt="Digital certificate with option to order a printed copy" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                The result email included a link to my <B>digital certificate</B>, along with the option to order a <B>printed version</B> directly from the same service.
+                            </p>
+
+                            <Fig src="image-22.png" alt="Markus congratulating on Blue Cape Security Discord" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                After I posted my result on LinkedIn, Markus congratulated me in the Blue Cape Security Discord and encouraged others to try the exam as well. I genuinely appreciate this kind of community culture — it's the same vibe as CyberDefenders, where the community rallies around certified members and encourages others to give it a go.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ EXAM TIPS ═══════════ */}
+                        <Section id="exam-tips" title="Exam Tips & Key Takeaways" icon="Lightbulb">
+                            <div className="bg-amber-50 rounded-2xl border border-amber-200 p-6">
+                                <TipList items={[
+                                    'Familiarize yourself with timeline building. Use the FOR200 scenarios to practice your timelining before exam day — this is the single most important thing you can do.',
+                                    'Don\'t be lazy like me 😄 — explain in detail what the threat actor did, based on your timeline, and present it as fact. No guessing.',
+                                    'Try sketching a quick flowchart by hand to understand what happened. It helps you see the big picture instead of keeping everything in your head, which will overwhelm you fast.',
+                                    'Read the exam objectives carefully. Your analysis and timeline need to address them directly.',
+                                    'Don\'t rush to write your summary first. Build out the relevant timeline entries first, then analyze what happened — this keeps you from tunnel-visioning on incomplete parts of the picture and losing the big picture.',
+                                    'You have 7 days. Don\'t hurry to submit. Submit when your timeline is complete (or near-complete), and plan your week so you balance your day job and exam time effectively.',
+                                    'Treat the exam like another FOR200 scenario — just another Monday. The exam is not hard and is beginner-friendly, but you need to see the whole picture to reach the right conclusion.',
+                                ]} />
+                            </div>
+                            <p className="text-gray-700 leading-relaxed">
+                                That's it for today — I hope you enjoyed it. Peace out~ ✌️
+                            </p>
+                        </Section>
+
+                        {/* Footer navigation */}
+                        <div className="text-center py-8 border-t border-gray-200">
+                            <a href="#" className="text-blue-600 hover:text-blue-700 font-medium text-sm inline-flex items-center gap-1">
+                                <Icon name="ArrowUp" className="w-4 h-4" /> Back to top
+                            </a>
+                            <span className="mx-3 text-gray-300">|</span>
+                            <a href="/reviews/index.html" className="text-blue-600 hover:text-blue-700 font-medium text-sm inline-flex items-center gap-1">
+                                <Icon name="ArrowLeft" className="w-4 h-4" /> All Reviews
+                            </a>
+                        </div>
+
+                    </main>
+                </div>
+            );
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>

@@ -82,7 +82,7 @@
     "date": "October 2025",
     "readTime": "10 min read",
     "tags": ["PWFA", "Blue Team", "Forensics", "Windows", "Blue Cape Security"],
-    "url": "https://systemweakness.com/new-forensics-certification-from-blue-cape-security-i-got-it-here-is-my-review-892e10545f34",
+    "url": "/reviews/pwfa/index.html",
     "image": "/assets/badges/pwfa.png",
     "difficulty": "Beginner",
     "rating": 4.7
@@ -126,7 +126,7 @@
     "date": "March 2026",
     "readTime": "15 min read",
     "tags": ["CCDFA", "Cyber5W", "Blue Team", "Digital Forensics", "Intermediate Level"],
-    "url": "https://medium.com/@chaoskist/cyber5w-certified-digital-forensic-analyst-ccdfa-a-good-start-for-your-digital-forensics-e3779ce15211",
+    "url": "/reviews/ccdfa/index.html",
     "image": "/assets/badges/ccdfa.webp",
     "difficulty": "Intermediate",
     "rating": 4.9
