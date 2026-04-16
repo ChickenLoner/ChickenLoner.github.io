@@ -1,5 +1,16 @@
 [
   {
+    "title": "Practical SOC Analyst Professional (PSAP) — A Detailed Review on SOC 201 Course and Its Exam",
+    "excerpt": "A detailed review of the PSAP certification from TCM Security, covering the SOC 201 course content, exam experience, and honest takeaways",
+    "date": "April 2026",
+    "readTime": "15 min read",
+    "tags": ["PSAP", "TCM Security", "Blue Team", "SOC", "Threat Hunting", "Intermediate"],
+    "url": "/reviews/psap/index.html",
+    "image": "/assets/badges/psap.png",
+    "difficulty": "Intermediate",
+    "rating": 4.5
+  },
+  {
     "title": "Passed OSCP+ as a blue teamer, what it took?",
     "excerpt": "A review of my OSCP certification journey, covering my exam preparation, exam experience, preparation tips, and whether it's worth it in 2025-2026.",
     "date": "May 2025",

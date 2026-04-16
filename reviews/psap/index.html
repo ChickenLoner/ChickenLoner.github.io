@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PSAP Review — Practical SOC Analyst Professional | Chicken0248</title>
+    <meta name="description" content="A detailed review of the PSAP certification from TCM Security — covering the SOC 201 course, exam experience, the report template confusion, and honest takeaways on whether the SIEM data volume lives up to the Professional label." />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Chicken0248" />
+    <meta property="og:url" content="https://chickenloner.github.io/reviews/psap/" />
+    <meta property="og:title" content="Practical SOC Analyst Professional (PSAP) — A Detailed Review on SOC 201 Course and Its Exam" />
+    <meta property="og:description" content="A detailed review of the PSAP certification from TCM Security — covering the SOC 201 course, exam experience, the report template confusion, and honest takeaways on whether the SIEM data volume lives up to the Professional label." />
+    <meta property="og:image" content="https://chickenloner.github.io/reviews/psap/psap.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@Chicken_0248" />
+    <meta name="twitter:title" content="Practical SOC Analyst Professional (PSAP) — A Detailed Review on SOC 201 Course and Its Exam" />
+    <meta name="twitter:description" content="A detailed review of the PSAP certification from TCM Security — covering the SOC 201 course, exam experience, the report template confusion, and honest takeaways on whether the SIEM data volume lives up to the Professional label." />
+    <meta name="twitter:image" content="https://chickenloner.github.io/reviews/psap/psap.jpg" />
+    <link rel="icon" href="/chicken0248.png" type="image/png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn { animation: fadeIn 0.5s ease-out; }
+
+        /* ── DARK MODE ── */
+        .dark.min-h-screen { background: linear-gradient(135deg, #0f172a 0%, #141f35 50%, #0a1628 100%) !important; }
+        .dark nav { background-color: rgba(15,23,42,0.96) !important; border-bottom-color: rgba(51,65,85,0.5) !important; }
+        .dark .bg-white    { background-color: #1e293b !important; }
+        .dark .bg-gray-50  { background-color: #0f172a !important; }
+        .dark .bg-gray-100 { background-color: #334155 !important; }
+        .dark .bg-amber-50   { background-color: rgba(245,158,11,0.10) !important; }
+        .dark .bg-amber-100  { background-color: rgba(245,158,11,0.20) !important; }
+        .dark .bg-orange-50  { background-color: rgba(234,88,12,0.10) !important; }
+        .dark .bg-orange-100 { background-color: rgba(234,88,12,0.20) !important; }
+        .dark .bg-blue-50    { background-color: rgba(37,99,235,0.12) !important; }
+        .dark .bg-blue-100   { background-color: rgba(37,99,235,0.20) !important; }
+        .dark .bg-green-100  { background-color: rgba(22,163,74,0.20) !important; }
+        .dark .text-gray-800 { color: #e2e8f0 !important; }
+        .dark .text-gray-700 { color: #cbd5e1 !important; }
+        .dark .text-gray-600 { color: #94a3b8 !important; }
+        .dark .text-gray-500 { color: #64748b !important; }
+        .dark .text-gray-400 { color: #475569 !important; }
+        .dark .text-amber-700  { color: #fbbf24 !important; }
+        .dark .text-orange-700 { color: #fb923c !important; }
+        .dark .text-blue-600   { color: #60a5fa !important; }
+        .dark .text-green-700  { color: #4ade80 !important; }
+        .dark .border-gray-100 { border-color: #334155 !important; }
+        .dark .border-gray-200 { border-color: #475569 !important; }
+        .dark .border-amber-200  { border-color: rgba(245,158,11,0.3) !important; }
+        .dark .border-orange-200 { border-color: rgba(234,88,12,0.3) !important; }
+        .dark .hover\:bg-gray-50:hover { background-color: #1e293b !important; }
+        .dark .hover\:text-blue-600:hover { color: #60a5fa !important; }
+        .dark ::-webkit-scrollbar       { width: 6px; }
+        .dark ::-webkit-scrollbar-track { background: #0f172a; }
+        .dark ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        const Icon = ({ name, className = "w-6 h-6", ...props }) => {
+            const ref = useRef(null);
+            useEffect(() => {
+                if (ref.current) {
+                    const el = lucide.createElement(lucide[name], { class: className });
+                    ref.current.innerHTML = '';
+                    ref.current.appendChild(el);
+                }
+            }, [name, className]);
+            return <i ref={ref} className={`flex-shrink-0 ${className}`} {...props}></i>;
+        };
+
+        /* ── Reusable Components ── */
+
+        const Section = ({ id, title, icon, children }) => (
+            <section id={id} className="scroll-mt-24">
+                <h2 className="text-2xl font-bold text-gray-800 mb-5 flex items-center gap-3 border-b border-gray-200 pb-3">
+                    <Icon name={icon} className="w-6 h-6 text-amber-600" />
+                    {title}
+                </h2>
+                <div className="space-y-4">{children}</div>
+            </section>
+        );
+
+        let figCount = 0;
+        const resetFigCount = () => { figCount = 0; };
+
+        const Fig = ({ src, alt }) => {
+            figCount += 1;
+            const n = figCount;
+            return (
+                <figure className="my-5">
+                    <img src={src} alt={alt || `Figure ${n}`}
+                         className="rounded-xl border border-gray-200 shadow-sm w-full" loading="lazy" />
+                    <figcaption className="text-center text-xs text-gray-400 mt-1.5 font-mono">Figure {n}</figcaption>
+                </figure>
+            );
+        };
+
+        const Callout = ({ children }) => (
+            <blockquote className="bg-amber-50 border-l-4 border-amber-400 rounded-r-xl px-5 py-4 my-4 text-gray-700 italic text-sm leading-relaxed">
+                {children}
+            </blockquote>
+        );
+
+        const TipList = ({ items }) => (
+            <ul className="list-disc list-outside ml-5 space-y-2 text-gray-700">
+                {items.map((item, i) => <li key={i}>{item}</li>)}
+            </ul>
+        );
+
+        const B = ({ children }) => <strong className="text-gray-800">{children}</strong>;
+        const A = ({ href, children }) => (
+            <a href={href} target="_blank" rel="noopener noreferrer"
+               className="text-blue-600 hover:underline">{children}</a>
+        );
+
+        /* ── App ── */
+
+        const App = () => {
+            const [dark, setDark] = useState(() => localStorage.getItem('darkMode') === 'true');
+            useEffect(() => { localStorage.setItem('darkMode', dark); }, [dark]);
+
+            resetFigCount();
+
+            const tocItems = [
+                { id: 'introduction',   label: 'Introduction',              icon: 'BookOpen'  },
+                { id: 'course-review',  label: 'Course Review & Experience', icon: 'GraduationCap' },
+                { id: 'exam-experience',label: 'Exam Experience',            icon: 'ClipboardList' },
+                { id: 'final-review',   label: 'Final Review',               icon: 'Star'      },
+                { id: 'exam-tips',      label: 'Exam Tips & Key Takeaways',  icon: 'Lightbulb' },
+            ];
+
+            return (
+                <div className={`min-h-screen bg-gradient-to-br from-slate-50 via-amber-50 to-orange-50 ${dark ? 'dark' : ''}`}>
+
+                    {/* Navigation */}
+                    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 px-4 py-3">
+                        <div className="max-w-4xl mx-auto flex items-center justify-between">
+                            <div className="flex items-center gap-2 text-sm flex-wrap">
+                                <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                                    <img src="/chicken0248.png" alt="Logo" className="w-7 h-7 rounded-lg" />
+                                    <span className="font-bold text-gray-800 hidden sm:inline">Chicken0248</span>
+                                </a>
+                                <span className="text-gray-400">/</span>
+                                <a href="/reviews/index.html" className="font-medium text-gray-600 hover:text-blue-600 transition-colors">Reviews</a>
+                                <span className="text-gray-400">/</span>
+                                <span className="font-semibold text-gray-700">PSAP</span>
+                            </div>
+                            <button onClick={() => setDark(!dark)}
+                                className="p-2 rounded-lg hover:bg-gray-100 text-gray-600 transition-colors text-lg">
+                                {dark ? '\u2600\uFE0F' : '\uD83C\uDF19'}
+                            </button>
+                        </div>
+                    </nav>
+
+                    <main className="max-w-4xl mx-auto px-4 py-8 space-y-10 animate-fadeIn">
+
+                        {/* Hero */}
+                        <div className="relative overflow-hidden rounded-3xl shadow-2xl">
+                            <img src="psap.jpg" alt="Practical SOC Analyst Professional (PSAP)"
+                                 className="w-full h-48 sm:h-64 md:h-80 object-cover" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                            <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white">
+                                <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-3 leading-snug">
+                                    Practical SOC Analyst Professional (PSAP) — A Detailed Review on SOC 201 Course and Its Exam
+                                </h1>
+                                <div className="flex flex-wrap gap-2 text-sm">
+                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Building2" className="w-3.5 h-3.5" /> TCM Security
+                                    </span>
+                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Calendar" className="w-3.5 h-3.5" /> April 2026
+                                    </span>
+                                    <span className="bg-amber-500/80 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Shield" className="w-3.5 h-3.5" /> Blue Team · SOC
+                                    </span>
+                                    <span className="bg-green-500/80 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="CheckCircle" className="w-3.5 h-3.5" /> Passed
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Metadata */}
+                        <div className="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm">
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                                <div><span className="text-gray-500 block">Certification</span><span className="font-semibold text-gray-800">PSAP</span></div>
+                                <div><span className="text-gray-500 block">Provider</span><span className="font-semibold text-gray-800">TCM Security / Educate360</span></div>
+                                <div><span className="text-gray-500 block">Difficulty</span><span className="font-semibold text-amber-600">Intermediate</span></div>
+                                <div><span className="text-gray-500 block">Rating</span>
+                                    <span className="font-semibold text-gray-800 flex items-center gap-1">
+                                        <span className="text-yellow-500">★★★★</span><span className="text-yellow-300">★</span>
+                                        <span className="text-gray-500 font-normal text-xs ml-0.5">TBD</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Table of Contents */}
+                        <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                            <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                <Icon name="List" className="w-5 h-5 text-amber-600" />
+                                Table of Contents
+                            </h2>
+                            <div className="grid sm:grid-cols-2 gap-1">
+                                {tocItems.map((item, i) => (
+                                    <a key={item.id} href={`#${item.id}`}
+                                       className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors text-sm">
+                                        <Icon name={item.icon} className="w-4 h-4 text-gray-400" />
+                                        <span className="text-gray-400 font-mono text-xs w-5">{i + 1}.</span>
+                                        <span className="font-medium">{item.label}</span>
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* ═══════════ INTRODUCTION ═══════════ */}
+                        <Section id="introduction" title="Introduction" icon="BookOpen">
+                            <p className="text-gray-700 leading-relaxed">
+                                Hello everyone, it's me <B>Chicken0248</B> again. In this blog, I'll be sharing my <B>review, experience, and tips</B> for the{' '}
+                                <A href="https://certifications.tcm-sec.com/psap/">Practical SOC Analyst Professional (PSAP)</A>{' '}
+                                exam from TCM Security, as well as the SOC 201 course that serves as the associated training.
+                            </p>
+
+                            <Fig src="image.png" alt="PSAP certification badge" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                First of all, I already passed PSAA in 2025 and didn't write a review, as I thought it had enough coverage already. But the course and its instructor, Andrew Prince, left a strong impression — so when SOC 201 and PSAP were announced, I wanted to take it right away. At the time of release, though, I already had a backlog of certifications, so I postponed it until April 2026.
+                            </p>
+
+                            <Fig src="image 1.png" alt="PSAA badge" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                I purchased the exam with a military veteran discount, as in 2024, I was drafted and had to serve in the Royal Thai Navy as a seaman for a year. So after I was discharged, I asked for a veteran discount to use on Practical Malware Research Professional (PMRP) but didn't use it until April 2026, when I tried to use it on PSAP instead, but the discount code is now invalid because TCM Security was acquired by Educate360, so they had to migrate their courses to{' '}
+                                <A href="https://learn.educate360.com/">learn.educate360.com</A>{' '}
+                                which made my code invalid.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                To be honest with you, if the support hadn't been fast enough, I would not have taken the exam this early — my original plan was late 2026, since I'm saving up for my first GIAC cert. But hey, hats off to them for having such a great support team.
+                            </p>
+
+                            <Fig src="image 2.png" alt="TCM Security support response" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                So with the price of $499, what did we get?
+                            </p>
+                            <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                <li>12 months access to the SOC 201 course, which includes 25 hours of on-demand training — more on that in the course review section</li>
+                                <li>1 Exam Attempt and 1 retake</li>
+                                <li>24/7/365 course support</li>
+                            </ul>
+
+                            <Fig src="image 3.png" alt="PSAP bundle pricing and contents" />
+
+                            <Fig src="image 4.png" alt="PSAP certification learning path overview" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                And after you purchase it, you will be enrolled in the <B>Practical SOC Analyst Professional (PSAP) Certification Learning Path</B>, and there are 2 courses available for you in this path.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                The first course is Practical SOC Analyst Professional (PSAP) Certification Information; it is not exactly the course but a place to let you know what you need to know about the PSAP exam, such as the certification process, the exam format, what you should expect in the actual (not technical) exam, and information about the exam retake.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                The second course is the main course that the exam is based on, the Security Operations (SOC) 201 course.
+                            </p>
+
+                            <Fig src="image 5.png" alt="SOC 201 course page on Educate360" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Even though it is stated that we will have 12 months of access to the course, when we actually enter the course inside{' '}
+                                <A href="https://learn.educate360.com/courses/security-operations-soc-201">learn.educate360.com/courses/security-operations-soc-201</A>,
+                                {' '}it is explicitly stated here that we have "6-month access." To be honest, I'm not entirely sure which one is correct either.
+                            </p>
+
+                            <Fig src="image 6.png" alt="Course access duration discrepancy on Educate360" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                About the exam voucher, it is explicitly stated on this{' '}
+                                <A href="https://certifications.tcm-sec.com/psap/">page</A>{' '}
+                                that it is valid for 12 months, so after purchasing it, you will need to take the exam within 12 months, which I think is far more generous than most providers. Besides that, if you fail your initial attempt, they will provide feedback and give you one free retake, which is valid for a lifetime.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                So if you find yourself unable to sit the exam within 12 months of purchase, one practical workaround is to start your first attempt, explore the environment as much as you can to get familiar with it, and submit whatever you have. You still have a lifetime retake available, and that initial exposure can be invaluable when you go again.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                And that's quite an introduction! Let's jump into the course review in the next section.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ COURSE REVIEW ═══════════ */}
+                        <Section id="course-review" title="Course Review &amp; Experience" icon="GraduationCap">
+                            <p className="text-gray-700 leading-relaxed">
+                                To be completely transparent with you all, I only watched a few of the videos before taking the exam, so take this as a grain of salt with my perspective after already having taken an exam.
+                            </p>
+
+                            <Fig src="image 7.png" alt="SOC 201 course content overview" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                First of all, the course is quite long and somewhat dense for beginners, which is expected for something aiming at the professional level. Since the main focus is SOC, you'll work through the incident response process from theory to practical application, much as a SOC Analyst would on the job.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Here is a general course outline covered in the course:
+                            </p>
+                            <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                <li><B>Course Introduction</B></li>
+                                <li><B>Lab Setup</B></li>
+                                <li><B>Introduction to Incident Response</B></li>
+                                <li><B>Introduction to Threat Hunting</B></li>
+                                <li><B>Data Transformation</B></li>
+                                <li><B>Understanding Anomalies</B></li>
+                                <li><B>Dissecting Threat Reports</B></li>
+                                <li><B>Threat Hunting Lab</B></li>
+                                <li><B>Collection at Scale</B></li>
+                                <li><B>PowerShell 101</B></li>
+                                <li><B>PowerShell for Incident Response</B></li>
+                            </ul>
+
+                            <Fig src="image 8.png" alt="SOC 201 course modules list" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                This course does not come with online lab access like courses from CyberDefenders, HackTheBox, and Security Blue Team. The course has its own lab setup section to let you install a Hypervisor, Ubuntu VM, Windows VM, and even set up Splunk, but the required resources can be quite intensive, so I skipped that. The pro of this approach is you have full access to the lab at the cost of your own infrastructure.
+                            </p>
+
+                            <Fig src="image 9.png" alt="Lab setup section in SOC 201" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                The fundamental of this course is incident response and threat hunting, so after finishing this, you are expected to know how to respond to threats effectively at scale in the incident response process manner and be able to conduct threat hunting in the enterprise environment with not just Splunk but the core methodology on how to do it regardless of the SIEM tool.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Andrew still makes sure you understand everything, even though the course is marketed for "professionals" — he walks through almost everything on screen and explains his thought process, which will be genuinely helpful if you're newer to the field.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Overall, the course is solid — not overly technical, but it covers everything you need to carry out real IR and threat hunting work.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ EXAM EXPERIENCE ═══════════ */}
+                        <Section id="exam-experience" title="Exam Experience" icon="ClipboardList">
+                            <Callout>
+                                <em>You'll be dropped directly into a corporate network under investigation for potential intrusion by a sophisticated adversary group. You will need to proactively hunt for signs of compromise, reconstruct the attacker's activity, and propose actionable containment, eradication, and recovery measures — all based on realistic attack techniques and campaigns observed in similar organizations.</em>
+                            </Callout>
+
+                            <p className="text-gray-700 leading-relaxed">
+                                This is the description they provided on their main page to let you know what to expect and tell your potential employer what you are capable of once you've passed the exam.
+                            </p>
+
+                            <Fig src="image 10.png" alt="PSAP exam portal — exam details and timer" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                After purchasing the bundle, you will be granted access to the course on Educate360 and the exam at{' '}
+                                <A href="https://exams.tcmsecurity.com/login">exams.tcmsecurity.com</A>,
+                                {' '}and you will see the same screen shown above, confirming that you have 3 full days to complete the assessment and another 2 days to write and submit your report.
+                            </p>
+
+                            <Fig src="image 11.png" alt="PSAP exam details page with start button" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Once you click the "Details" button, you're taken to a page with a green start button. The other buttons are greyed out, but they become active once the exam begins.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                I started the exam on 4th April 2026, which is Saturday, and I wanted to finish my exam in 2–3 days if possible because 6th April is a holiday in Thailand but I have to work on 7th and 8th April.
+                            </p>
+
+                            <Fig src="image 12.png" alt="Exam start confirmation window" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                I woke up at around 8–9 AM that day and after eating breakfast, I logged into the exam website to start. The confirmation window appeared as a final checkpoint — one last chance to back out before committing. Since I had already planned my weekend around it, I clicked "Agree."
+                            </p>
+
+                            <Fig src="image 13.png" alt="Exam environment initialized — countdown and VPN download" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                It takes a while for the exam environment to finish initializing, but once it's ready, the countdown begins. From here you can download the OpenVPN configuration file using the key button on the bottom left, and the Rules of Engagement from the document button.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                You will need to connect via OpenVPN to access the exam environment. You will not be allowed to pull artifacts down to your own machine — this is to preserve exam integrity — but the good news is that most of the investigation can be done entirely within the Splunk instance they provide.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                If you're concerned about a Digital Forensics component, don't be. The exam's focus is threat hunting across an enterprise environment. The Rules of Engagement include a threat actor profile that you can use to build your hunting hypotheses.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Once I started the exam and accessed Splunk, I felt somewhat underwhelmed — there were noticeably few events ingested into the SIEM. The data came from many hosts, but I expected more volume for a "Professional"-level certification.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                You might think that fewer events would make things easier — and in terms of raw complexity, that's fair. But the core focus of both the course and exam is IR and threat hunting, and that's where my concern lies. I spent only 1–2 hours reviewing all the logs in the SIEM and was able to piece together the full attack chain without needing to apply any formal threat hunting methodology.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                That said, once I had a rough picture of what had happened from reading through the logs, I started working on my report that same day — but then I hit a snag.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                I noticed that the report template included in the Rules of Engagement was the PSAA report template, not the PSAP one, so I contacted support about it and they replied with this.
+                            </p>
+
+                            <Fig src="image 14.png" alt="TCM Security support reply about report template" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                "Unfortunately, we do not have a specific template for PSAP exam." That threw me off — I was about to just use the PSAA template when I remembered that a friend of mine had taken the PSAP beta, so I reached out to him to check.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Surprisingly, he sent me a PSAP template link he'd found in his own Rules of Engagement, and it looked legitimate — so I downloaded it and got to work on my report. As for what the TCM support team's reply actually meant, I still have no idea. 😄
+                            </p>
+
+                            <Fig src="image 15.png" alt="PSAP report template" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                I found it hard to stay motivated and kept putting the report off, so I finally submitted on Monday, 6th April 2026, as planned, then took the rest of the day to recover. Submissions must be a single PDF file under 200 MB.
+                            </p>
+
+                            <Fig src="image 16.png" alt="Exam submission — PDF under 200MB requirement" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Once you submit, whatever time you had left on the exam disappears immediately. The page switches to an "Awaiting Review" status and the OpenVPN connection stops working — so it's a waiting game from there. Based on my previous PSAA exam being graded in 6 days, I expected a similar turnaround of 1–2 weeks.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                FYI, the maximum score is 100 points and you need at least 70 to pass. As for how they weight each section of the report — no idea, but I went in feeling optimistic.
+                            </p>
+
+                            <Fig src="image 17.png" alt="Exam status changed to Awaiting Review" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                After 10 days of waiting, on 16th April 2026 — the day after Thailand's Songkran holiday — I received two emails from TCM Security. The first notified me of a status change on the exam website.
+                            </p>
+
+                            <Fig src="image 18.png" alt="Email notification — exam status change" />
+
+                            <Fig src="image 19.png" alt="Email — certificate and badge on Accredible" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                The other contained my certificate and badge link on Accredible, where you can download both the PDF certificate and the PNG badge.
+                            </p>
+
+                            <Fig src="image 20.png" alt="Exam portal — status updated to Passed" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                On the exam portal, you'll see the status updated to "Passed," as shown above.
+                            </p>
+
+                            <Fig src="image 21.png" alt="Exam details — congratulations message and Discord role instructions" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Clicking "Details" brings up the congratulations message, and from there you can find instructions to email TCM Security's support team to have the PSAP role added to your profile in their Discord server.
+                            </p>
+
+                            <Fig src="image 22.png" alt="PSAP Discord role added within 2 minutes" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                I was genuinely surprised by how fast they responded — after emailing support to request the PSAP Discord role, a new role was added and I was let into the exclusive PSAP-certified channel within 2 minutes.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                That's it for this section. Let's head into the final review.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ FINAL REVIEW ═══════════ */}
+                        <Section id="final-review" title="Final Review" icon="Star">
+                            <p className="text-gray-700 leading-relaxed">
+                                The course is video-based and does a great job teaching the core ideas behind incident response and threat hunting without getting lost in technical minutiae. Andrew makes sure you understand what's happening throughout — he consistently shares his thought process on screen, which makes the material genuinely approachable.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                For the exam, I came away with mixed feelings. You have 5 days in total — 3 for the engagement and 2 to polish your report — and most of your time will be spent in the SIEM, where you're expected to apply the threat hunting methodology covered in the course. That said, the volume of events is on the lighter side; it's possible to work through all of them within a few hours and piece together the attack chain without formally applying a hypothesis-driven approach.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                On a separate note, a PSAP report template does appear to exist, though the support team I contacted was unaware of it — if in doubt, check with someone who has taken the exam before or follow up with support.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                If you're looking for a certification that requires you to use a SIEM to correlate events across multiple hosts and produce a structured report, and the words "SOC Analyst" and "Professional" in the name matter to you, then this is worth considering.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ EXAM TIPS ═══════════ */}
+                        <Section id="exam-tips" title="Exam Tips &amp; Key Takeaways" icon="Lightbulb">
+                            <div className="bg-amber-50 rounded-2xl border border-amber-200 p-6">
+                                <TipList items={[
+                                    'Before taking this exam, make yourself comfortable with investigating multiple hosts at once.',
+                                    'Familiarize yourself with Splunk and get comfortable working with logs spanning at least 4 different hosts (as a bare minimum) while conducting threat hunting.',
+                                    <span>Refer to <A href="https://thedfirreport.com/">The DFIR Report</A> when writing your report — TCM Security uses it as an example of what a good IR report looks like.</span>,
+                                    'Do not forget IOCs.',
+                                    'Do not forget the Timeline.',
+                                    'Write the report as you go. Use the last 2 days given for report writing as a polishing time, because you might need to revisit the exam environment just to take a good screenshot for your report.',
+                                    'Recommendation and Response measures are also a grading criterion — study some to put in your report.',
+                                    'The exam has no rabbit holes; everything is straightforward.',
+                                    'The course is a good fit for beginners and SOC L1 analysts who want to upskill toward L2 or potentially L3, though it doesn\'t go too deep into specific techniques.',
+                                    "In the course, there are parts where Andrew will walk through his methodology — study that to know what he expects from students.",
+                                ]} />
+                            </div>
+                        </Section>
+
+                        {/* Footer navigation */}
+                        <div className="text-center py-8 border-t border-gray-200">
+                            <a href="#" className="text-blue-600 hover:text-blue-700 font-medium text-sm inline-flex items-center gap-1">
+                                <Icon name="ArrowUp" className="w-4 h-4" /> Back to top
+                            </a>
+                            <span className="mx-3 text-gray-300">|</span>
+                            <a href="/reviews/index.html" className="text-blue-600 hover:text-blue-700 font-medium text-sm inline-flex items-center gap-1">
+                                <Icon name="ArrowLeft" className="w-4 h-4" /> All Reviews
+                            </a>
+                        </div>
+
+                    </main>
+                </div>
+            );
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>
