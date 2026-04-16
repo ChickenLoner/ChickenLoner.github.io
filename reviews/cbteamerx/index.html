@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBTeamerX Exam Review &amp; How to Prepare | Chicken0248</title>
+    <meta name="description" content="A review and guide on the Certified Blue Teamer eXpert certification — covering exam preparation, a two-round exam experience with a technical incident, and honest takeaways on whether it lives up to the expert label." />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Chicken0248" />
+    <meta property="og:url" content="https://chickenloner.github.io/reviews/cbteamerx/" />
+    <meta property="og:title" content="CBTeamerX Exam Review &amp; How to Prepare Yourself for This Exam" />
+    <meta property="og:description" content="A review and guide on the Certified Blue Teamer eXpert certification — covering exam preparation, a two-round exam experience with a technical incident, and honest takeaways on whether it lives up to the expert label." />
+    <meta property="og:image" content="https://chickenloner.github.io/reviews/cbteamerx/image.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@Chicken_0248" />
+    <meta name="twitter:title" content="CBTeamerX Exam Review &amp; How to Prepare Yourself for This Exam" />
+    <meta name="twitter:description" content="A review and guide on the Certified Blue Teamer eXpert certification — covering exam preparation, a two-round exam experience with a technical incident, and honest takeaways on whether it lives up to the expert label." />
+    <meta name="twitter:image" content="https://chickenloner.github.io/reviews/cbteamerx/image.png" />
+    <link rel="icon" href="/chicken0248.png" type="image/png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn { animation: fadeIn 0.5s ease-out; }
+
+        /* ── DARK MODE ── */
+        .dark.min-h-screen { background: linear-gradient(135deg, #0f172a 0%, #141f35 50%, #0a1628 100%) !important; }
+        .dark nav { background-color: rgba(15,23,42,0.96) !important; border-bottom-color: rgba(51,65,85,0.5) !important; }
+        .dark .bg-white    { background-color: #1e293b !important; }
+        .dark .bg-gray-50  { background-color: #0f172a !important; }
+        .dark .bg-gray-100 { background-color: #334155 !important; }
+        .dark .bg-amber-50   { background-color: rgba(245,158,11,0.10) !important; }
+        .dark .bg-amber-100  { background-color: rgba(245,158,11,0.20) !important; }
+        .dark .bg-orange-50  { background-color: rgba(234,88,12,0.10) !important; }
+        .dark .bg-orange-100 { background-color: rgba(234,88,12,0.20) !important; }
+        .dark .bg-blue-50    { background-color: rgba(37,99,235,0.12) !important; }
+        .dark .bg-blue-100   { background-color: rgba(37,99,235,0.20) !important; }
+        .dark .bg-green-100  { background-color: rgba(22,163,74,0.20) !important; }
+        .dark .text-gray-800 { color: #e2e8f0 !important; }
+        .dark .text-gray-700 { color: #cbd5e1 !important; }
+        .dark .text-gray-600 { color: #94a3b8 !important; }
+        .dark .text-gray-500 { color: #64748b !important; }
+        .dark .text-gray-400 { color: #475569 !important; }
+        .dark .text-amber-700  { color: #fbbf24 !important; }
+        .dark .text-orange-700 { color: #fb923c !important; }
+        .dark .text-blue-600   { color: #60a5fa !important; }
+        .dark .text-green-700  { color: #4ade80 !important; }
+        .dark .border-gray-100 { border-color: #334155 !important; }
+        .dark .border-gray-200 { border-color: #475569 !important; }
+        .dark .border-amber-200  { border-color: rgba(245,158,11,0.3) !important; }
+        .dark .border-orange-200 { border-color: rgba(234,88,12,0.3) !important; }
+        .dark .hover\:bg-gray-50:hover { background-color: #1e293b !important; }
+        .dark .hover\:text-blue-600:hover { color: #60a5fa !important; }
+        .dark ::-webkit-scrollbar       { width: 6px; }
+        .dark ::-webkit-scrollbar-track { background: #0f172a; }
+        .dark ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        const Icon = ({ name, className = "w-6 h-6", ...props }) => {
+            const ref = useRef(null);
+            useEffect(() => {
+                if (ref.current) {
+                    const el = lucide.createElement(lucide[name], { class: className });
+                    ref.current.innerHTML = '';
+                    ref.current.appendChild(el);
+                }
+            }, [name, className]);
+            return <i ref={ref} className={`flex-shrink-0 ${className}`} {...props}></i>;
+        };
+
+        /* ── Reusable Components ── */
+
+        const Section = ({ id, title, icon, children }) => (
+            <section id={id} className="scroll-mt-24">
+                <h2 className="text-2xl font-bold text-gray-800 mb-5 flex items-center gap-3 border-b border-gray-200 pb-3">
+                    <Icon name={icon} className="w-6 h-6 text-amber-600" />
+                    {title}
+                </h2>
+                <div className="space-y-4">{children}</div>
+            </section>
+        );
+
+        let figCount = 0;
+        const resetFigCount = () => { figCount = 0; };
+
+        const Fig = ({ src, alt }) => {
+            figCount += 1;
+            const n = figCount;
+            return (
+                <figure className="my-5">
+                    <img src={src} alt={alt || `Figure ${n}`}
+                         className="rounded-xl border border-gray-200 shadow-sm max-w-full mx-auto block" loading="lazy" />
+                    <figcaption className="text-center text-xs text-gray-400 mt-1.5 font-mono">Figure {n}</figcaption>
+                </figure>
+            );
+        };
+
+        const Callout = ({ children }) => (
+            <blockquote className="bg-amber-50 border-l-4 border-amber-400 rounded-r-xl px-5 py-4 my-4 text-gray-700 italic text-sm leading-relaxed">
+                {children}
+            </blockquote>
+        );
+
+        const TipList = ({ items }) => (
+            <ul className="list-disc list-outside ml-5 space-y-2 text-gray-700">
+                {items.map((item, i) => <li key={i}>{item}</li>)}
+            </ul>
+        );
+
+        const B = ({ children }) => <strong className="text-gray-800">{children}</strong>;
+        const A = ({ href, children }) => (
+            <a href={href} target="_blank" rel="noopener noreferrer"
+               className="text-blue-600 hover:underline">{children}</a>
+        );
+
+        const renderStars = (rating) => {
+            const full = Math.floor(rating);
+            const half = rating - full >= 0.5;
+            return '★'.repeat(full) + (half ? '½' : '') + '☆'.repeat(5 - full - (half ? 1 : 0));
+        };
+
+        /* ── App ── */
+
+        const App = () => {
+            const [dark, setDark] = useState(() => localStorage.getItem('darkMode') === 'true');
+            const [meta, setMeta] = useState(null);
+            useEffect(() => { localStorage.setItem('darkMode', dark); }, [dark]);
+
+            useEffect(() => {
+                fetch('/data/reviews.json')
+                    .then(r => r.json())
+                    .then(data => {
+                        const entry = data.find(r => r.url === '/reviews/cbteamerx/index.html');
+                        if (entry) setMeta(entry);
+                    })
+                    .catch(() => {});
+            }, []);
+
+            resetFigCount();
+
+            const tocItems = [
+                { id: 'introduction',      label: 'Introduction',                    icon: 'BookOpen'      },
+                { id: 'exam-preparation',  label: 'Exam Information & Preparation',  icon: 'ListChecks'    },
+                { id: 'exam-experience-1', label: 'Exam Experience (Round 1)',        icon: 'ClipboardList' },
+                { id: 'exam-experience-2', label: 'Exam Experience (Round 2)',        icon: 'ClipboardCheck'},
+                { id: 'aftermath',         label: 'Aftermath',                        icon: 'MessageSquare' },
+                { id: 'exam-tips',         label: 'Exam Tips & Key Takeaways',        icon: 'Lightbulb'     },
+            ];
+
+            return (
+                <div className={`min-h-screen bg-gradient-to-br from-slate-50 via-amber-50 to-orange-50 ${dark ? 'dark' : ''}`}>
+
+                    {/* Navigation */}
+                    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 px-4 py-3">
+                        <div className="max-w-4xl mx-auto flex items-center justify-between">
+                            <div className="flex items-center gap-2 text-sm flex-wrap">
+                                <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                                    <img src="/chicken0248.png" alt="Logo" className="w-7 h-7 rounded-lg" />
+                                    <span className="font-bold text-gray-800 hidden sm:inline">Chicken0248</span>
+                                </a>
+                                <span className="text-gray-400">/</span>
+                                <a href="/reviews/index.html" className="font-medium text-gray-600 hover:text-blue-600 transition-colors">Reviews</a>
+                                <span className="text-gray-400">/</span>
+                                <span className="font-semibold text-gray-700">CBTeamerX</span>
+                            </div>
+                            <button onClick={() => setDark(!dark)}
+                                className="p-2 rounded-lg hover:bg-gray-100 text-gray-600 transition-colors text-lg">
+                                {dark ? '\u2600\uFE0F' : '\uD83C\uDF19'}
+                            </button>
+                        </div>
+                    </nav>
+
+                    <main className="max-w-4xl mx-auto px-4 py-8 space-y-10 animate-fadeIn">
+
+                        {/* Hero */}
+                        <div className="relative overflow-hidden rounded-3xl shadow-2xl">
+                            <img src="image.png" alt="Certified Blue Teamer eXpert (CBTeamerX)"
+                                 className="w-full h-48 sm:h-64 md:h-80 object-cover" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                            <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white">
+                                <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-3 leading-snug">
+                                    CBTeamerX Exam Review &amp; How to Prepare Yourself for This Exam
+                                </h1>
+                                <div className="flex flex-wrap gap-2 text-sm">
+                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Building2" className="w-3.5 h-3.5" /> The SecOps Group
+                                    </span>
+                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Calendar" className="w-3.5 h-3.5" /> January 2026
+                                    </span>
+                                    <span className="bg-blue-500/80 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Shield" className="w-3.5 h-3.5" /> Blue Team · Advanced
+                                    </span>
+                                    <span className="bg-green-500/80 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="CheckCircle" className="w-3.5 h-3.5" /> Passed with Merit
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Metadata */}
+                        <div className="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm">
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                                <div><span className="text-gray-500 block">Certification</span><span className="font-semibold text-gray-800">CBTeamerX</span></div>
+                                <div><span className="text-gray-500 block">Provider</span><span className="font-semibold text-gray-800">The SecOps Group</span></div>
+                                <div><span className="text-gray-500 block">Difficulty</span><span className="font-semibold text-amber-600">{meta?.difficulty ?? '—'}</span></div>
+                                <div><span className="text-gray-500 block">Rating</span>
+                                    {meta?.rating ? (
+                                        <span className="font-semibold text-gray-800 flex items-center gap-1">
+                                            <span className="text-yellow-500">{renderStars(meta.rating)}</span>
+                                            <span className="text-gray-500 font-normal text-xs ml-0.5">{meta.rating.toFixed(1)}/5.0</span>
+                                        </span>
+                                    ) : <span className="text-gray-400">—</span>}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Table of Contents */}
+                        <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                            <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                <Icon name="List" className="w-5 h-5 text-amber-600" />
+                                Table of Contents
+                            </h2>
+                            <div className="grid sm:grid-cols-2 gap-1">
+                                {tocItems.map((item, i) => (
+                                    <a key={item.id} href={`#${item.id}`}
+                                       className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors text-sm">
+                                        <Icon name={item.icon} className="w-4 h-4 text-gray-400" />
+                                        <span className="text-gray-400 font-mono text-xs w-5">{i + 1}.</span>
+                                        <span className="font-medium">{item.label}</span>
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* ═══════════ INTRODUCTION ═══════════ */}
+                        <Section id="introduction" title="Introduction" icon="BookOpen">
+                            <p className="text-gray-700 leading-relaxed">
+                                Hello everyone, it's me <B>Chicken0248</B> again, and in this blog post I'll give you a review of the{' '}
+                                <B>Certified Blue Teamer eXpert (CBTeamerX)</B> exam from <B>The SecOps Group</B> — a company that focuses exclusively on practical exams with no associated courses, and is now expanding into the blue team space. I had already attempted their intermediate-level blue team exam, <B>CBTeamer</B>, which was quite fun, so I wanted to take their "expert" level exam next. It did not disappoint on content — but my first experience was far from enjoyable, as you'll find out. And yes, I took this exam <B>twice</B>.
+                            </p>
+
+                            <Fig src="image 1.png" alt="CBTeamerX certification page on The SecOps Group website" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                <A href="https://pentestingexams.com/product/certified-blue-teamer-expert/">CBTeamerX</A>{' '}
+                                was released in January 2026 as The SecOps Group's first blue team "expert" level exam, priced at <B>400 GBP</B> (their standard price for all expert-level exams). However, it also comes with a <B>90% discount</B>, which brings the actual cost down to around 48 GBP including VAT. Since no course is bundled with the exam, keep that in mind when comparing the cost against other vendors.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                This model has some similarities with GIAC — you're not required to take a SANS course to sit the exam (those run around $8,900 per course). At least GIAC is globally recognised and its certifications are listed in DoD 8140. The same can't be said for The SecOps Group, so in my opinion, purchasing at full price is quite expensive relative to the return. If you're interested, wait for a discount.
+                            </p>
+
+                            <Fig src="image 2.png" alt="CBTeamerX comparison chart against BTL2, GSOC, CCD, and MBT" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                You can also see that The SecOps Group compares CBTeamerX to BTL2, GSOC, CCD, and MBT — which is a very bold claim. I have no idea who put that comparison together, and I don't know whether the team who designed this exam has actually attempted those certifications (neither have I, LOL).
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Compared to those certifications, CBTeamerX lacks global recognition — it's very new, has no associated course, and The SecOps Group is not yet a well-known name at the scale of Security Blue Team, GIAC, CyberDefenders, or Mosse Institute. It won't carry much weight in a job search right now.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                That said, if you still want to take the exam — to test your knowledge, for fun (like me), or because you received a giveaway — the next section is for you.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ EXAM INFORMATION & PREPARATION ═══════════ */}
+                        <Section id="exam-preparation" title="Exam Information & Preparation" icon="ListChecks">
+                            <Fig src="image 3.png" alt="CBTeamerX learning resources and exam syllabus" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                The SecOps Group provides both "learning resources" and an "exam syllabus." After taking the exam, I'd say not everything in the syllabus actually appears, but the learning resources are more closely aligned with what you'll encounter. Here's what you need to prepare:
+                            </p>
+                            <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                <li>Splunk, with Sysmon and AWS CloudTrail log sources</li>
+                                <li>AWS CloudTrail — know or be able to look up suspicious API calls (<code className="bg-gray-100 px-1 rounded text-sm">eventName</code>), such as <code className="bg-gray-100 px-1 rounded text-sm">GetCallerIdentity</code> (whoami in AWS), <code className="bg-gray-100 px-1 rounded text-sm">GetObject</code> (S3 retrieval), <code className="bg-gray-100 px-1 rounded text-sm">CreateUser</code>, and so on</li>
+                                <li>Malware reverse engineering with IDA (or another decompiler/debugger of your choice)</li>
+                                <li>Windows API knowledge — this comes with malware RE; be able to look up what each call does</li>
+                                <li>Script-based malware analysis (JavaScript and PowerShell)</li>
+                                <li>Basic Windows disk analysis (Sysmon logs reduce the need for heavy forensics tooling)</li>
+                                <li>Basic Windows &amp; Active Directory attacks and privilege escalation detection (nothing too advanced)</li>
+                            </ul>
+                            <p className="text-gray-700 leading-relaxed">
+                                In my opinion, none of these domains are pushed to an extreme depth. If you're a <B>SOC L2 analyst</B> by the global definition, you should be able to move through this comfortably.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Assuming you have that knowledge and want to take the exam — I'll walk through my experience in the next sections. I won't give away exact answers, so you'll need to read between the lines. But first, here's how the exam actually works.
+                            </p>
+
+                            <Fig src="image 4.png" alt="CBTeamerX exam format details" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                CBTeamerX is a practical exam with a <B>7 hours 30 minutes</B> time limit. The voucher includes <B>1 free retake</B>, and you need at least <B>60%</B> to pass. Scoring above <B>75%</B> earns a <em>"with merit"</em> distinction on your certificate.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                The exam includes both MCQ and open-answer questions. The MCQ portion is only around 5–10% of the exam, and even those are practical rather than theory — you can't guess your way through them.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Now that you know the format, let's get into the exam experience.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ EXAM EXPERIENCE (ROUND 1) ═══════════ */}
+                        <Section id="exam-experience-1" title="Exam Experience (Round 1)" icon="ClipboardList">
+                            <p className="text-gray-700 leading-relaxed">
+                                I purchased the exam on Friday (16 Jan) with the intention of sitting it on Saturday (17 Jan). I was tired from work and had two other blue team exams planned for the same month, so I wanted to get this done in one go — but it didn't go as planned. I ran into a technical issue from the start.
+                            </p>
+
+                            <Fig src="image 5.png" alt="CBTeamerX VPN connection and exam environment setup" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                The exam requires a VPN connection. Once you start, their firewall applies rules to allow access to the exam machines — but there's a catch: you need to wait around 8–10 minutes, then reconnect to the same VPN before the machines become reachable. The first machine is an Ubuntu host running Splunk, and the second is a Windows VM for disk and malware analysis.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                The exam also gives you a situation brief — effectively a letter of engagement — which, combined with the questions on the platform, tells you exactly what you're investigating.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                I started with Splunk since it lets you cut across multiple hosts and log sources quickly. I was able to answer 30–40% of the questions from the SIEM alone. But when I tried to reach the Windows VM for malware reverse engineering and disk analysis, it was completely unresponsive. This led directly to my failed attempt — 30–40% correct is well below the 60% passing threshold.
+                            </p>
+
+                            <Fig src="image 6.png" alt="Email to The SecOps Group support — automated response received" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                I reached out to The SecOps Group via email and received only an automated FAQ response about reconnecting the VPN — which wasn't my issue at all. The SIEM machine was fine; it was the Windows VM that was dead. I also realised I had taken the exam on a <B>Saturday</B>, outside their working hours, so there was no live support available. I gave up, submitted what I had, and posted about it on LinkedIn.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                I had a community gathering to attend that day (a party for the Thailand Blue Team Community after the Thailand Women Top Talent 2025 Qualifier), and at that point I was ready to write the whole thing off. Then <B>Sumit Siddharth</B>, CEO of The SecOps Group, sent me a direct message on LinkedIn saying they were looking into the issue. Within minutes, they traced it to an AWS error that had stopped the instance from booting.
+                            </p>
+
+                            <Fig src="image 7.png" alt="LinkedIn DM from The SecOps Group CEO acknowledging the issue" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                To compensate me, they gave me one extra attempt — effectively giving me 2 full attempts plus the original retake. I was genuinely impressed that they cared enough to track down the root cause and reach out personally. I told them I'd try again the next day (Sunday), which brings us to Round 2.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ EXAM EXPERIENCE (ROUND 2) ═══════════ */}
+                        <Section id="exam-experience-2" title="Exam Experience (Round 2)" icon="ClipboardCheck">
+                            <p className="text-gray-700 leading-relaxed">
+                                Sunday morning. Mild headache from the after-party the night before, but I remembered exactly where I'd left off. Since I'd already worked through the Splunk questions, all that remained was the malware analysis and disk analysis — and this time, I could finally RDP into the Windows VM.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Everything went smoothly for a while and I picked up answers fairly quickly — until I hit two questions I got stuck on. One involved a rabbit hole I'd fallen into by not reviewing all the evidence carefully enough. The other required malware reverse engineering in IDA, which carries the most weight of any single question on the exam and is my weakest area. I thought I understood the logic, but in the end my analysis didn't produce a useful result.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                By the time Monday was approaching — I had another exam and work the next day — I decided to submit without answering the last question, accepting that I might not hit "with merit."
+                            </p>
+
+                            <Fig src="image 8.png" alt="CBTeamerX result — Passed with Merit" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                To my surprise, I passed <B>with merit</B>. I'm fairly confident I answered every other question correctly and only left one blank, though it looks like one answer was also wrong (I still don't know which). As you can see, I spent <B>343 minutes</B> on this attempt — I wrapped up everything else in the first 3–4 hours and spent the remainder on that last question.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                It ended well, and I still had enough mental energy left to prepare for Monday's exam.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ AFTERMATH ═══════════ */}
+                        <Section id="aftermath" title="Aftermath" icon="MessageSquare">
+                            <Fig src="image 9.png" alt="Follow-up message from The SecOps Group CEO on Sunday" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                The CEO of The SecOps Group messaged me again on Sunday to check if I'd had any further issues. I replied once I'd finished the exam and shared a short review on LinkedIn. My honest take: the exam is great — using knowledge across multiple domains in a single investigation is always a solid design choice, and they nailed it. That said, I wouldn't recommend this to a <B>SOC L1 analyst</B>. But if you're confident in your skills and want a genuine challenge, go for it while the 90% discount is still available.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ EXAM TIPS ═══════════ */}
+                        <Section id="exam-tips" title="Exam Tips &amp; Key Takeaways" icon="Lightbulb">
+                            <div className="bg-amber-50 rounded-2xl border border-amber-200 p-6">
+                                <TipList items={[
+                                    'Start with the SIEM to build context around the malware, then move to reverse engineering.',
+                                    'Do not forget browser forensics.',
+                                    'Your VM has internet access — download any tools you need. Python is also pre-installed.',
+                                    'Learn how AWS privilege escalation and persistence techniques work.',
+                                    'Learn basic Windows attacks, including privilege escalation and persistence.',
+                                    "Don't fixate on a single question. Move on and answer others — they often provide context that unlocks the question you were stuck on.",
+                                    'In Splunk, check every log source and event ID carefully. Not all logs are ingested, and you may not have every event ID you expect.',
+                                ]} />
+                            </div>
+                            <p className="text-gray-700 leading-relaxed">
+                                That's it — good luck to everyone going for this exam. It's not that hard, but you need a solid logical foundation to understand what the attacker was really after and how the incident unfolded.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">Peace ✌️</p>
+                        </Section>
+
+                        {/* Footer navigation */}
+                        <div className="text-center py-8 border-t border-gray-200">
+                            <a href="#" className="text-blue-600 hover:text-blue-700 font-medium text-sm inline-flex items-center gap-1">
+                                <Icon name="ArrowUp" className="w-4 h-4" /> Back to top
+                            </a>
+                            <span className="mx-3 text-gray-300">|</span>
+                            <a href="/reviews/index.html" className="text-blue-600 hover:text-blue-700 font-medium text-sm inline-flex items-center gap-1">
+                                <Icon name="ArrowLeft" className="w-4 h-4" /> All Reviews
+                            </a>
+                        </div>
+
+                    </main>
+                </div>
+            );
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>
