@@ -38,7 +38,7 @@
     "date": "March 2025",
     "readTime": "15 min read",
     "tags": ["HTB CDSA", "Blue Team", "DFIR", "SOC", "HackTheBox"],
-    "url": "https://systemweakness.com/conquer-the-hackthebox-cdsa-certification-tips-and-insights-09f35c00932e",
+    "url": "/reviews/cdsa/index.html",
     "image": "/assets/badges/cdsa.png",
     "difficulty": "Intermediate",
     "rating": 4.8
@@ -49,7 +49,7 @@
     "date": "August 2026",
     "readTime": "15 min read",
     "tags": ["HTB CJCA", "Blue Team", "Red Team", "SOC", "Entry Level", "Penetration Testing", "HackTheBox"],
-    "url": "https://systemweakness.com/your-first-definitive-guide-and-review-on-hackthebox-cjca-certification-exam-9606474a91bc",
+    "url": "/reviews/cjca/index.html",
     "image": "/assets/badges/cjca.png",
     "difficulty": "Beginner",
     "rating": 4.5

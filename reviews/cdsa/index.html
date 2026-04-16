@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTB CDSA Review — Conquer the HackTheBox CDSA Certification | Chicken0248</title>
+    <meta name="description" content="A detailed review of the HackTheBox Certified Defensive Security Analyst (CDSA) certification — covering the SOC Analyst path, cost breakdown, exam preparation strategy, and exam experience." />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Chicken0248" />
+    <meta property="og:url" content="https://chickenloner.github.io/reviews/cdsa/" />
+    <meta property="og:title" content="Conquer the HackTheBox CDSA Certification: Tips and Insights" />
+    <meta property="og:description" content="A detailed review of the HackTheBox Certified Defensive Security Analyst (CDSA) certification — covering the SOC Analyst path, cost breakdown, exam preparation strategy, and exam experience." />
+    <meta property="og:image" content="https://chickenloner.github.io/reviews/cdsa/cover.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@Chicken_0248" />
+    <meta name="twitter:title" content="Conquer the HackTheBox CDSA Certification: Tips and Insights" />
+    <meta name="twitter:description" content="A detailed review of the HackTheBox Certified Defensive Security Analyst (CDSA) certification — covering the SOC Analyst path, cost breakdown, exam preparation strategy, and exam experience." />
+    <meta name="twitter:image" content="https://chickenloner.github.io/reviews/cdsa/cover.png" />
+    <link rel="icon" href="/chicken0248.png" type="image/png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn { animation: fadeIn 0.5s ease-out; }
+
+        /* ── DARK MODE ── */
+        .dark.min-h-screen { background: linear-gradient(135deg, #0f172a 0%, #141f35 50%, #0a1628 100%) !important; }
+        .dark nav { background-color: rgba(15,23,42,0.96) !important; border-bottom-color: rgba(51,65,85,0.5) !important; }
+        .dark .bg-white    { background-color: #1e293b !important; }
+        .dark .bg-gray-50  { background-color: #0f172a !important; }
+        .dark .bg-gray-100 { background-color: #334155 !important; }
+        .dark .bg-amber-50   { background-color: rgba(245,158,11,0.10) !important; }
+        .dark .bg-amber-100  { background-color: rgba(245,158,11,0.20) !important; }
+        .dark .bg-orange-50  { background-color: rgba(234,88,12,0.10) !important; }
+        .dark .bg-orange-100 { background-color: rgba(234,88,12,0.20) !important; }
+        .dark .bg-blue-50    { background-color: rgba(37,99,235,0.12) !important; }
+        .dark .bg-blue-100   { background-color: rgba(37,99,235,0.20) !important; }
+        .dark .bg-green-100  { background-color: rgba(22,163,74,0.20) !important; }
+        .dark .text-gray-800 { color: #e2e8f0 !important; }
+        .dark .text-gray-700 { color: #cbd5e1 !important; }
+        .dark .text-gray-600 { color: #94a3b8 !important; }
+        .dark .text-gray-500 { color: #64748b !important; }
+        .dark .text-gray-400 { color: #475569 !important; }
+        .dark .text-amber-700  { color: #fbbf24 !important; }
+        .dark .text-orange-700 { color: #fb923c !important; }
+        .dark .text-blue-600   { color: #60a5fa !important; }
+        .dark .text-green-700  { color: #4ade80 !important; }
+        .dark .border-gray-100 { border-color: #334155 !important; }
+        .dark .border-gray-200 { border-color: #475569 !important; }
+        .dark .border-amber-200  { border-color: rgba(245,158,11,0.3) !important; }
+        .dark .border-orange-200 { border-color: rgba(234,88,12,0.3) !important; }
+        .dark .hover\:bg-gray-50:hover { background-color: #1e293b !important; }
+        .dark .hover\:text-blue-600:hover { color: #60a5fa !important; }
+        .dark ::-webkit-scrollbar       { width: 6px; }
+        .dark ::-webkit-scrollbar-track { background: #0f172a; }
+        .dark ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        const Icon = ({ name, className = "w-6 h-6", ...props }) => {
+            const ref = useRef(null);
+            useEffect(() => {
+                if (ref.current) {
+                    const el = lucide.createElement(lucide[name], { class: className });
+                    ref.current.innerHTML = '';
+                    ref.current.appendChild(el);
+                }
+            }, [name, className]);
+            return <i ref={ref} className={`flex-shrink-0 ${className}`} {...props}></i>;
+        };
+
+        /* ── Reusable Components ── */
+
+        const Section = ({ id, title, icon, children }) => (
+            <section id={id} className="scroll-mt-24">
+                <h2 className="text-2xl font-bold text-gray-800 mb-5 flex items-center gap-3 border-b border-gray-200 pb-3">
+                    <Icon name={icon} className="w-6 h-6 text-amber-600" />
+                    {title}
+                </h2>
+                <div className="space-y-4">{children}</div>
+            </section>
+        );
+
+        let figCount = 0;
+        const resetFigCount = () => { figCount = 0; };
+
+        const Fig = ({ src, alt }) => {
+            figCount += 1;
+            const n = figCount;
+            return (
+                <figure className="my-5">
+                    <img src={src} alt={alt || `Figure ${n}`}
+                         className="rounded-xl border border-gray-200 shadow-sm max-w-full mx-auto block" loading="lazy" />
+                    <figcaption className="text-center text-xs text-gray-400 mt-1.5 font-mono">Figure {n}</figcaption>
+                </figure>
+            );
+        };
+
+        const Callout = ({ children }) => (
+            <blockquote className="bg-amber-50 border-l-4 border-amber-400 rounded-r-xl px-5 py-4 my-4 text-gray-700 italic text-sm leading-relaxed">
+                {children}
+            </blockquote>
+        );
+
+        const TipList = ({ items }) => (
+            <ul className="list-disc list-outside ml-5 space-y-2 text-gray-700">
+                {items.map((item, i) => <li key={i}>{item}</li>)}
+            </ul>
+        );
+
+        const B = ({ children }) => <strong className="text-gray-800">{children}</strong>;
+        const A = ({ href, children }) => (
+            <a href={href} target="_blank" rel="noopener noreferrer"
+               className="text-blue-600 hover:underline">{children}</a>
+        );
+
+        const renderStars = (rating) => {
+            const full = Math.floor(rating);
+            const half = rating - full >= 0.5;
+            return '★'.repeat(full) + (half ? '½' : '') + '☆'.repeat(5 - full - (half ? 1 : 0));
+        };
+
+        /* ── App ── */
+
+        const App = () => {
+            const [dark, setDark] = useState(() => localStorage.getItem('darkMode') === 'true');
+            const [meta, setMeta] = useState(null);
+            useEffect(() => { localStorage.setItem('darkMode', dark); }, [dark]);
+
+            useEffect(() => {
+                fetch('/data/reviews.json')
+                    .then(r => r.json())
+                    .then(data => {
+                        const entry = data.find(r => r.url === '/reviews/cdsa/index.html');
+                        if (entry) setMeta(entry);
+                    })
+                    .catch(() => {});
+            }, []);
+
+            resetFigCount();
+
+            const tocItems = [
+                { id: 'introduction',           label: 'Introduction',                   icon: 'BookOpen'      },
+                { id: 'prerequisite-strategy',  label: 'Exam Prerequisite & Strategy',   icon: 'ListChecks'    },
+                { id: 'exam-preparation',       label: 'Exam Preparation',               icon: 'GraduationCap' },
+                { id: 'exam-experience',        label: 'Exam Experience',                icon: 'ClipboardList' },
+                { id: 'exam-tips',              label: 'Exam Tips & Key Takeaways',      icon: 'Lightbulb'     },
+            ];
+
+            return (
+                <div className={`min-h-screen bg-gradient-to-br from-slate-50 via-amber-50 to-orange-50 ${dark ? 'dark' : ''}`}>
+
+                    {/* Navigation */}
+                    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 px-4 py-3">
+                        <div className="max-w-4xl mx-auto flex items-center justify-between">
+                            <div className="flex items-center gap-2 text-sm flex-wrap">
+                                <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                                    <img src="/chicken0248.png" alt="Logo" className="w-7 h-7 rounded-lg" />
+                                    <span className="font-bold text-gray-800 hidden sm:inline">Chicken0248</span>
+                                </a>
+                                <span className="text-gray-400">/</span>
+                                <a href="/reviews/index.html" className="font-medium text-gray-600 hover:text-blue-600 transition-colors">Reviews</a>
+                                <span className="text-gray-400">/</span>
+                                <span className="font-semibold text-gray-700">HTB CDSA</span>
+                            </div>
+                            <button onClick={() => setDark(!dark)}
+                                className="p-2 rounded-lg hover:bg-gray-100 text-gray-600 transition-colors text-lg">
+                                {dark ? '\u2600\uFE0F' : '\uD83C\uDF19'}
+                            </button>
+                        </div>
+                    </nav>
+
+                    <main className="max-w-4xl mx-auto px-4 py-8 space-y-10 animate-fadeIn">
+
+                        {/* Hero */}
+                        <div className="relative overflow-hidden rounded-3xl shadow-2xl">
+                            <img src="cover.png" alt="HackTheBox Certified Defensive Security Analyst (CDSA)"
+                                 className="w-full h-48 sm:h-64 md:h-80 object-cover" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                            <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white">
+                                <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-3 leading-snug">
+                                    Conquer the HackTheBox CDSA Certification: Tips and Insights
+                                </h1>
+                                <div className="flex flex-wrap gap-2 text-sm">
+                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Building2" className="w-3.5 h-3.5" /> HackTheBox
+                                    </span>
+                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Calendar" className="w-3.5 h-3.5" /> March 2025
+                                    </span>
+                                    <span className="bg-amber-500/80 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Shield" className="w-3.5 h-3.5" /> Blue Team · SOC · DFIR
+                                    </span>
+                                    <span className="bg-green-500/80 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="CheckCircle" className="w-3.5 h-3.5" /> Passed
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Metadata */}
+                        <div className="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm">
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                                <div><span className="text-gray-500 block">Certification</span><span className="font-semibold text-gray-800">CDSA</span></div>
+                                <div><span className="text-gray-500 block">Provider</span><span className="font-semibold text-gray-800">HackTheBox</span></div>
+                                <div><span className="text-gray-500 block">Difficulty</span><span className="font-semibold text-amber-600">{meta?.difficulty ?? '—'}</span></div>
+                                <div><span className="text-gray-500 block">Rating</span>
+                                    {meta?.rating ? (
+                                        <span className="font-semibold text-gray-800 flex items-center gap-1">
+                                            <span className="text-yellow-500">{renderStars(meta.rating)}</span>
+                                            <span className="text-gray-500 font-normal text-xs ml-0.5">{meta.rating.toFixed(1)}/5.0</span>
+                                        </span>
+                                    ) : <span className="text-gray-400">—</span>}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Table of Contents */}
+                        <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                            <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                <Icon name="List" className="w-5 h-5 text-amber-600" />
+                                Table of Contents
+                            </h2>
+                            <div className="grid sm:grid-cols-2 gap-1">
+                                {tocItems.map((item, i) => (
+                                    <a key={item.id} href={`#${item.id}`}
+                                       className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors text-sm">
+                                        <Icon name={item.icon} className="w-4 h-4 text-gray-400" />
+                                        <span className="text-gray-400 font-mono text-xs w-5">{i + 1}.</span>
+                                        <span className="font-medium">{item.label}</span>
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* ═══════════ INTRODUCTION ═══════════ */}
+                        <Section id="introduction" title="Introduction" icon="BookOpen">
+                            <p className="text-gray-700 leading-relaxed">
+                                HackTheBox (HTB) is a well-known cybersecurity platform where you can legally "hack" into virtual machines, testing and improving your penetration testing skills. Beyond that, HTB also offers a learning platform called HackTheBox Academy. With an existing HTB account, you can log in via SSO and access a wide range of modules covering offensive and defensive security, as well as foundational topics like Windows, Linux, macOS, and more.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                HTB also provides certifications to validate skills for various career paths, including Bug Bounty, Penetration Testing, Web Exploitation, Active Directory Penetration Testing, and, most importantly for this blog, the SOC Analyst path.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                The HTB Certified Defensive Security Analyst (CDSA) certification, launched in September 2023, focuses on skills essential for SOC Analysts and is the highlight of this article.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                So without further ado, let's explore what this certification has to offer and what it takes to get certified!
+                            </p>
+                            <Callout>WARNING: A LOT OF TEXT ahead. Grab a coffee. ☕</Callout>
+                        </Section>
+
+                        {/* ═══════════ EXAM PREREQUISITE & STRATEGY ═══════════ */}
+                        <Section id="prerequisite-strategy" title="Exam Prerequisite &amp; Strategy" icon="ListChecks">
+                            <p className="text-gray-700 leading-relaxed">
+                                To be able to take the HTB CDSA exam, you need to enroll in and complete the SOC Analyst Path, which has a total of <B>15 modules</B> combined — costing <B>1,190 cubes</B> to unlock them all. I've already calculated which approach gives you the best value for money and the most preparation time while spending less than a yearly subscription.
+                            </p>
+
+                            <Fig src="image-1.png" alt="HTB Academy annual subscription tiers comparison" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                First, let's talk about the annual subscription. HTB Academy has 2 types of annual subscriptions as shown in the figure above, and both can access the SOC Analyst path since there are no Tier 3 or Tier 4 modules in this path. Getting the <B>Gold Annual is overkill</B> for CDSA, which means the only sensible choice here is Silver Annual.
+                            </p>
+
+                            <Fig src="image-2.png" alt="HTB Academy Silver Annual subscription details" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                The <B>Silver Annual</B> doesn't limit you to the SOC Analyst path — it also covers <B>all Tier 2 modules and below</B>, including the Bug Bounty Hunter path and Penetration Tester path. If you don't want to limit yourself to just blue team work and can commit to studying for a full year, this subscription is for you. It also includes <B>step-by-step module solutions</B> and <B>1 exam voucher</B> (2 exam attempts: first try plus one retake). It's best if you can get your employer to cover the cost.
+                            </p>
+
+                            <Fig src="image-3.png" alt="HTB Academy monthly subscription options" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Now let's talk about the monthly subscription plus exam voucher option. You won't get step-by-step solutions with this option, but it's the better value if you only want to tackle the SOC Analyst path and CDSA exam — just like I did.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                The <B>Student</B> tier is the best bang for your buck here. You can access all Tier 2 modules and below — just like Silver Annual — while paying only $8 per month. If you have an educational email address, definitely use it to work through all the Tier 0–2 modules available to you.
+                            </p>
+
+                            <Fig src="image-4.png" alt="HTB Academy Student tier and PwnBox usage details" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Before we compare options, one more thing worth considering is <B>PwnBox</B> — HTB's <B>pre-built Parrot VM</B> that learners can access via the browser. With PwnBox, you can access Academy labs from anywhere, including your workplace. That said, if you already have your own workstation (which you really should), connecting to the lab via VPN is sufficient.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Now you might see why PwnBox factors into this calculation. Another thing to factor in is the cube reward for completing modules. The strategy here is to <B>get 1,000 cubes</B>, unlock 10 Tier 2 modules and complete them, and you'll <B>get 200 cubes back</B> — enough to unlock all the rest, complete the path, buy an exam voucher ($210, valid for 365 days after purchase), and take the exam. Here's a breakdown of your options:
+                            </p>
+                            <ol className="list-decimal list-outside ml-5 space-y-2 text-gray-700">
+                                <li><B>1 month of Platinum (Total: $278 USD)</B> — The lowest upfront cost outside of the Student tier. Only one month of PwnBox, but you can unlock all modules in the path with a single purchase.</li>
+                                <li><B>5 months of Silver (Total: $305 USD)</B> — Best for people who need PwnBox access and can't afford to pay for a full month of Platinum at once. Think of it as an installment plan.</li>
+                                <li><B>2 months of Gold (Total: $286 USD)</B> — Slightly pricier than the first option, but it breaks the mental barrier of a single large payment. A compromise between options 1 and 2 — you get 2 months of PwnBox and can still unlock all modules in the path.</li>
+                            </ol>
+                            <p className="text-gray-700 leading-relaxed">
+                                Note that all totals above already include the exam voucher price. To see the subscription-only cost, deduct $210 from any figure.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                The choice is yours. Now let's talk about the modules I recommend you immerse yourself in — they'll make a real difference in the exam.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ EXAM PREPARATION ═══════════ */}
+                        <Section id="exam-preparation" title="Exam Preparation" icon="GraduationCap">
+                            <p className="text-gray-700 leading-relaxed">
+                                As mentioned above, you have a total of 15 modules to complete before taking the exam. Here are the ones I particularly emphasized — spend real time fully understanding the context and content of each:
+                            </p>
+                            <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                <li><B>Introduction to Threat Hunting &amp; Hunting with Elastic</B> — especially the Hunting with Stuxbot section and the Skills Assessment</li>
+                                <li><B>Windows Event Logs &amp; Finding Evil</B> — especially Analyzing Evil with Sysmon &amp; Event Logs and the Skills Assessment</li>
+                                <li><B>Understanding Log Sources &amp; Investigating with Splunk</B> — the whole module is a gem</li>
+                                <li><B>Detecting Windows Attacks with Splunk</B> — the whole module is a gem; take notes and keep all queries in your cheatsheet</li>
+                                <li><B>Introduction to Digital Forensics</B> — especially Memory Forensics, Rapid Triage Examination &amp; Analysis Tools, the Practical Digital Forensics Scenario, and the Skills Assessment</li>
+                                <li><B>Windows Attacks &amp; Defense</B> — the whole module is a gem</li>
+                                <li><B>Security Incident Report</B> — especially the Real-world Incident Report section</li>
+                            </ul>
+                            <p className="text-gray-700 leading-relaxed">
+                                Beyond the Academy modules, you can also practice in labs that have Splunk or Elastic available to help you get comfortable with SIEM, since you'll be spending the most time there — followed closely by Volatility. Practicing with labs from <A href="https://blueteamlabs.online/home/investigations">Blue Team Labs Online (BTLO)</A> or <A href="https://cyberdefenders.org/">CyberDefenders.org</A> will build both skill and confidence heading into the exam.
+                            </p>
+
+                            <Fig src="image-5.png" alt="HackTheBox Sherlocks — practice for CDSA" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Another question people often ask: "Can we practice for CDSA using Sherlocks?" My answer is <B>Yes and No</B>. Sherlocks will help you build a digital forensics mindset and sharpen your skills, but the volume of evidence provided is nowhere near what you'll face in the exam — and there's no time limit unless you set one yourself.
+                            </p>
+
+                            <Fig src="image-6.png" alt="HTB Sherlocks list" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                <B>Note — this next part is for "PEOPLE WHO CAN SPEND MONEY WITHOUT WORRYING ABOUT IT" only.</B> If budget isn't a concern, or you want to spend more to boost your confidence, I recommend participating in <A href="https://store.thedfirreport.com/collections/dfir-labs">The DFIR Labs CTF</A> or working through their cases using Splunk and Elastic. I participated in the DFIR Labs CTF during March 2025 and it was the most enjoyable DFIR-style CTF I've ever done — it also boosted my confidence and fired up my motivation to keep learning.
+                            </p>
+
+                            <Fig src="image-7.png" alt="The DFIR Labs CTF — store page" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                One important point about DFIR Labs cases: access is purchased on a time basis. To best simulate the actual CDSA exam environment, I recommend working on two cases — one using Splunk and another using Elastic — opting for 2-day access on each, giving you a total of 4 days in the labs. Then spend 2–3 days practicing report writing, aligning with the 7-day timeframe of the real CDSA exam.
+                            </p>
+
+                            <Fig src="image-8.png" alt="DFIR Labs case access and time-based pricing" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Speaking of the report: you'll need to write <B>a single report covering 2 incidents</B>, and the formatting must strictly follow HTB's format. I recommend using <A href="https://github.com/Syslifters/sysreptor">SysReptor</A>, which already has a template for all HTB exams — you can use their free cloud service (for HTB exam reports only) or self-host it. That said, you can absolutely write the report without SysReptor. You'll receive a report template when you start the exam, so your favorite Microsoft Word works just fine — just save it as a PDF before submitting.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                With that, let's talk about my experience with the exam.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ EXAM EXPERIENCE ═══════════ */}
+                        <Section id="exam-experience" title="Exam Experience" icon="ClipboardList">
+
+                            <Fig src="image-9.png" alt="CDSA exam start — environment overview" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                I originally planned to take this exam around August 2025, but thanks to a lot of "encouragement" from my friends, I changed my plan and scheduled it for 20:00 on 14th March 2025 — a time when I could take two days off work and be well-rested going in.
+                            </p>
+
+                            <Fig src="image-10.png" alt="HTB CDSA exam scheduling" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                As it turned out, I took a sick day that day — I was ill with a severe headache and couldn't go to work. The plan was still the plan, though: I slept and expected to recover before the scheduled start time. I woke up at 12:00 to a message from a friend asking "How was your exam?" I don't quite remember what I was thinking in that moment, but I told him: "Let me have breakfast first, then I'll tell you after I start." That led to me kicking off the exam an hour and a half later than planned.
+                            </p>
+
+                            <Fig src="image-11.png" alt="CDSA exam environment initialization" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                After starting the exam, I was presented with all the information needed to access the exam environment, including the initial brief, exam guide, all flags that needed to be submitted, and the report template. I began by accessing the exam environment and taking a quick look at what I had to work with.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                After exploring the environment and discovering the evidence and tools available, I jumped straight into Incident 1. Within 7 hours, I had submitted all 20 flags, scoring a perfect 100%. That huge confidence boost had me thinking: <em>"Maybe I can finish both incidents in a single day?"</em>
+                            </p>
+
+                            <Fig src="image-12.png" alt="CDSA 20 flags submitted — 100% score on Incident 1" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                As you might have guessed, I managed to complete my <B>initial</B> findings for both incidents on the first day. Why "initial"? Because over the next two days, I focused on writing my report — and during that time, I had to revisit the exam environment to retake screenshots and fill in missing details. Writing the report made me realize I had overlooked some obvious elements that needed to be addressed. But the more time I spent on the exam, the more the headache and illness began to creep back, so I pushed through, finished my report on day 3, submitted it, and rested for the remainder of the day.
+                            </p>
+
+                            <Fig src="image-13.png" alt="CDSA report writing process" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                And don't get me wrong — the exam is not "easy," but it was manageable for me. I had spent 2 months completing 180 labs from BTLO while working full-time, so my body and focus were already trained for sustained effort. The same may not apply to everyone, so take your time and don't rush to finish.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Since the review process can take up to 20 business days (Monday–Friday), I expected my result sometime during Thailand's Songkran week, between 13th and 18th April 2025.
+                            </p>
+
+                            <Fig src="image-14.png" alt="Waiting for CDSA exam result" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Then, during a workday on 27th March 2025, I received an email with my exam result — and as you can see, I passed! I wasn't alone either: many people on the HackTheBox Discord were reporting passes at the same time, which revealed that HTB grades and releases results in batches. You won't get certified in isolation if many people took the exam around the same period as you.
+                            </p>
+
+                            <Fig src="image-15.png" alt="CDSA exam result email — Passed" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Upon logging back into the Academy, I was able to specify the name I wanted displayed on my certification.
+                            </p>
+
+                            <Fig src="image-16.png" alt="HTB Academy — specify name for certification" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Once I specified my name, it appeared on the certification preview as shown above. I could go back to edit it or confirm by clicking "CLAIM CERTIFICATION."
+                            </p>
+
+                            <Fig src="image-17.png" alt="CDSA certification preview with name" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                With the certification claimed, it became available to download. A link to the HackTheBox store was also generated for certification holders — you can order a certification package that includes a physical certificate, frame, 2 stickers, 1 pin, and a themed T-shirt in your specified size.
+                            </p>
+
+                            <Fig src="image-18.png" alt="HTB certification store — physical package options" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                You'll also receive feedback from the examiner who graded your report, which you can review in your exam history.
+                            </p>
+
+                            <Fig src="image-19.png" alt="HTB exam history — examiner feedback on report" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                HackTheBox will also send out a badge via a separate email, which you can accept on Credly and share on social media — in addition to the digital certification downloadable from the Academy.
+                            </p>
+
+                            <Fig src="image-20.png" alt="CDSA Credly badge email" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Lastly, if you want to look cooler on the HackTheBox Discord, type the <code className="bg-gray-100 px-1.5 py-0.5 rounded text-sm font-mono">/verifycertification</code> command followed by your certification ID (found in the top-right corner of your certificate) and your real name — and boom, you'll have a custom CDSA holder badge on the HackTheBox Discord!
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ EXAM TIPS ═══════════ */}
+                        <Section id="exam-tips" title="Exam Tips &amp; Key Takeaways" icon="Lightbulb">
+                            <div className="bg-amber-50 rounded-2xl border border-amber-200 p-6">
+                                <TipList items={[
+                                    'Explore the exam environment first — find your tools and evidence before diving into investigation.',
+                                    'Know your tools: what each one does and what output you should expect from it.',
+                                    'Know your evidence: what story each piece can tell and how to pivot between sources to build complete findings.',
+                                    'Start with Incident 1 — it will give you a massive confidence boost if you make solid progress early.',
+                                    "Don't be too hard on yourself. Don't fixate on a single flag for too long.",
+                                    'Take breaks and come back with fresh eyes when you get stuck.',
+                                    <span>Use <A href="https://github.com/Syslifters/sysreptor">SysReptor</A> for report writing — it has an HTB exam template ready to go.</span>,
+                                    'Write a brief description for each screenshot as you take it. It will save you time when writing the report.',
+                                    'Keep all of your queries saved. Linking each query to its corresponding screenshot is extremely helpful during report writing.',
+                                    'Write the report as you go through the investigation — you may come up with new angles and need new screenshots to support your findings.',
+                                    'Build a timeline as you investigate. It keeps you oriented and prevents you from retracing the same steps.',
+                                ]} />
+                            </div>
+                            <p className="text-gray-700 leading-relaxed">
+                                That's my key takeaway for those studying and preparing for the HTB CDSA exam. Good luck!
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Peace Out~ ✌
+                            </p>
+                        </Section>
+
+                        {/* Footer navigation */}
+                        <div className="text-center py-8 border-t border-gray-200">
+                            <a href="#" className="text-blue-600 hover:text-blue-700 font-medium text-sm inline-flex items-center gap-1">
+                                <Icon name="ArrowUp" className="w-4 h-4" /> Back to top
+                            </a>
+                            <span className="mx-3 text-gray-300">|</span>
+                            <a href="/reviews/index.html" className="text-blue-600 hover:text-blue-700 font-medium text-sm inline-flex items-center gap-1">
+                                <Icon name="ArrowLeft" className="w-4 h-4" /> All Reviews
+                            </a>
+                        </div>
+
+                    </main>
+                </div>
+            );
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>

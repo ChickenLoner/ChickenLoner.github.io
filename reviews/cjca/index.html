@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTB CJCA Review — Your First Definitive Guide on HackTheBox CJCA | Chicken0248</title>
+    <meta name="description" content="A detailed review and guide on the HackTheBox Certified Junior Cybersecurity Associate (CJCA) certification — covering the Junior Cybersecurity Analyst path, cube strategy, exam preparation, and exam experience." />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Chicken0248" />
+    <meta property="og:url" content="https://chickenloner.github.io/reviews/cjca/" />
+    <meta property="og:title" content="Your First Definitive Guide and Review on HackTheBox CJCA Certification Exam" />
+    <meta property="og:description" content="A detailed review and guide on the HackTheBox Certified Junior Cybersecurity Associate (CJCA) certification — covering the Junior Cybersecurity Analyst path, cube strategy, exam preparation, and exam experience." />
+    <meta property="og:image" content="https://chickenloner.github.io/reviews/cjca/cover.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@Chicken_0248" />
+    <meta name="twitter:title" content="Your First Definitive Guide and Review on HackTheBox CJCA Certification Exam" />
+    <meta name="twitter:description" content="A detailed review and guide on the HackTheBox Certified Junior Cybersecurity Associate (CJCA) certification — covering the Junior Cybersecurity Analyst path, cube strategy, exam preparation, and exam experience." />
+    <meta name="twitter:image" content="https://chickenloner.github.io/reviews/cjca/cover.jpg" />
+    <link rel="icon" href="/chicken0248.png" type="image/png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn { animation: fadeIn 0.5s ease-out; }
+
+        /* ── DARK MODE ── */
+        .dark.min-h-screen { background: linear-gradient(135deg, #0f172a 0%, #141f35 50%, #0a1628 100%) !important; }
+        .dark nav { background-color: rgba(15,23,42,0.96) !important; border-bottom-color: rgba(51,65,85,0.5) !important; }
+        .dark .bg-white    { background-color: #1e293b !important; }
+        .dark .bg-gray-50  { background-color: #0f172a !important; }
+        .dark .bg-gray-100 { background-color: #334155 !important; }
+        .dark .bg-amber-50   { background-color: rgba(245,158,11,0.10) !important; }
+        .dark .bg-amber-100  { background-color: rgba(245,158,11,0.20) !important; }
+        .dark .bg-orange-50  { background-color: rgba(234,88,12,0.10) !important; }
+        .dark .bg-orange-100 { background-color: rgba(234,88,12,0.20) !important; }
+        .dark .bg-blue-50    { background-color: rgba(37,99,235,0.12) !important; }
+        .dark .bg-blue-100   { background-color: rgba(37,99,235,0.20) !important; }
+        .dark .bg-green-100  { background-color: rgba(22,163,74,0.20) !important; }
+        .dark .text-gray-800 { color: #e2e8f0 !important; }
+        .dark .text-gray-700 { color: #cbd5e1 !important; }
+        .dark .text-gray-600 { color: #94a3b8 !important; }
+        .dark .text-gray-500 { color: #64748b !important; }
+        .dark .text-gray-400 { color: #475569 !important; }
+        .dark .text-amber-700  { color: #fbbf24 !important; }
+        .dark .text-orange-700 { color: #fb923c !important; }
+        .dark .text-blue-600   { color: #60a5fa !important; }
+        .dark .text-green-700  { color: #4ade80 !important; }
+        .dark .border-gray-100 { border-color: #334155 !important; }
+        .dark .border-gray-200 { border-color: #475569 !important; }
+        .dark .border-amber-200  { border-color: rgba(245,158,11,0.3) !important; }
+        .dark .border-orange-200 { border-color: rgba(234,88,12,0.3) !important; }
+        .dark .hover\:bg-gray-50:hover { background-color: #1e293b !important; }
+        .dark .hover\:text-blue-600:hover { color: #60a5fa !important; }
+        .dark ::-webkit-scrollbar       { width: 6px; }
+        .dark ::-webkit-scrollbar-track { background: #0f172a; }
+        .dark ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        const Icon = ({ name, className = "w-6 h-6", ...props }) => {
+            const ref = useRef(null);
+            useEffect(() => {
+                if (ref.current) {
+                    const el = lucide.createElement(lucide[name], { class: className });
+                    ref.current.innerHTML = '';
+                    ref.current.appendChild(el);
+                }
+            }, [name, className]);
+            return <i ref={ref} className={`flex-shrink-0 ${className}`} {...props}></i>;
+        };
+
+        const Section = ({ id, title, icon, children }) => (
+            <section id={id} className="scroll-mt-24">
+                <h2 className="text-2xl font-bold text-gray-800 mb-5 flex items-center gap-3 border-b border-gray-200 pb-3">
+                    <Icon name={icon} className="w-6 h-6 text-amber-600" />
+                    {title}
+                </h2>
+                <div className="space-y-4">{children}</div>
+            </section>
+        );
+
+        let figCount = 0;
+        const resetFigCount = () => { figCount = 0; };
+
+        const Fig = ({ src, alt }) => {
+            figCount += 1;
+            const n = figCount;
+            return (
+                <figure className="my-5">
+                    <img src={src} alt={alt || `Figure ${n}`}
+                         className="rounded-xl border border-gray-200 shadow-sm max-w-full mx-auto block" loading="lazy" />
+                    <figcaption className="text-center text-xs text-gray-400 mt-1.5 font-mono">Figure {n}</figcaption>
+                </figure>
+            );
+        };
+
+        const Callout = ({ children }) => (
+            <blockquote className="bg-amber-50 border-l-4 border-amber-400 rounded-r-xl px-5 py-4 my-4 text-gray-700 italic text-sm leading-relaxed">
+                {children}
+            </blockquote>
+        );
+
+        const TipList = ({ items }) => (
+            <ul className="list-disc list-outside ml-5 space-y-2 text-gray-700">
+                {items.map((item, i) => <li key={i}>{item}</li>)}
+            </ul>
+        );
+
+        const B = ({ children }) => <strong className="text-gray-800">{children}</strong>;
+        const A = ({ href, children }) => (
+            <a href={href} target="_blank" rel="noopener noreferrer"
+               className="text-blue-600 hover:underline">{children}</a>
+        );
+
+        const renderStars = (rating) => {
+            const full = Math.floor(rating);
+            const half = rating - full >= 0.5;
+            return '★'.repeat(full) + (half ? '½' : '') + '☆'.repeat(5 - full - (half ? 1 : 0));
+        };
+
+        const App = () => {
+            const [dark, setDark] = useState(() => localStorage.getItem('darkMode') === 'true');
+            const [meta, setMeta] = useState(null);
+            useEffect(() => { localStorage.setItem('darkMode', dark); }, [dark]);
+
+            useEffect(() => {
+                fetch('/data/reviews.json')
+                    .then(r => r.json())
+                    .then(data => {
+                        const entry = data.find(r => r.url === '/reviews/cjca/index.html');
+                        if (entry) setMeta(entry);
+                    })
+                    .catch(() => {});
+            }, []);
+
+            resetFigCount();
+
+            const tocItems = [
+                { id: 'introduction',          label: 'Introduction',                              icon: 'BookOpen'      },
+                { id: 'prerequisite-strategy', label: 'Exam Prerequisite & Path Unlocking Strategy', icon: 'ListChecks'  },
+                { id: 'exam-preparation',      label: 'Exam Preparation',                          icon: 'GraduationCap' },
+                { id: 'exam-experience',       label: 'Exam Experience',                           icon: 'ClipboardList' },
+                { id: 'exam-tips',             label: 'Exam Tips & Key Takeaways',                 icon: 'Lightbulb'     },
+            ];
+
+            return (
+                <div className={`min-h-screen bg-gradient-to-br from-slate-50 via-amber-50 to-orange-50 ${dark ? 'dark' : ''}`}>
+
+                    {/* Navigation */}
+                    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 px-4 py-3">
+                        <div className="max-w-4xl mx-auto flex items-center justify-between">
+                            <div className="flex items-center gap-2 text-sm flex-wrap">
+                                <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                                    <img src="/chicken0248.png" alt="Logo" className="w-7 h-7 rounded-lg" />
+                                    <span className="font-bold text-gray-800 hidden sm:inline">Chicken0248</span>
+                                </a>
+                                <span className="text-gray-400">/</span>
+                                <a href="/reviews/index.html" className="font-medium text-gray-600 hover:text-blue-600 transition-colors">Reviews</a>
+                                <span className="text-gray-400">/</span>
+                                <span className="font-semibold text-gray-700">HTB CJCA</span>
+                            </div>
+                            <button onClick={() => setDark(!dark)}
+                                className="p-2 rounded-lg hover:bg-gray-100 text-gray-600 transition-colors text-lg">
+                                {dark ? '\u2600\uFE0F' : '\uD83C\uDF19'}
+                            </button>
+                        </div>
+                    </nav>
+
+                    <main className="max-w-4xl mx-auto px-4 py-8 space-y-10 animate-fadeIn">
+
+                        {/* Hero */}
+                        <div className="relative overflow-hidden rounded-3xl shadow-2xl">
+                            <img src="cover.jpg" alt="HackTheBox Certified Junior Cybersecurity Associate (CJCA)"
+                                 className="w-full h-48 sm:h-64 md:h-80 object-cover" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                            <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white">
+                                <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-3 leading-snug">
+                                    Your First Definitive Guide and Review on HackTheBox CJCA Certification Exam
+                                </h1>
+                                <div className="flex flex-wrap gap-2 text-sm">
+                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Building2" className="w-3.5 h-3.5" /> HackTheBox
+                                    </span>
+                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Calendar" className="w-3.5 h-3.5" /> August 2025
+                                    </span>
+                                    <span className="bg-amber-500/80 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Shield" className="w-3.5 h-3.5" /> Blue Team · Red Team · SOC
+                                    </span>
+                                    <span className="bg-green-500/80 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="CheckCircle" className="w-3.5 h-3.5" /> Passed
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Metadata */}
+                        <div className="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm">
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                                <div><span className="text-gray-500 block">Certification</span><span className="font-semibold text-gray-800">CJCA</span></div>
+                                <div><span className="text-gray-500 block">Provider</span><span className="font-semibold text-gray-800">HackTheBox</span></div>
+                                <div><span className="text-gray-500 block">Difficulty</span><span className="font-semibold text-amber-600">{meta?.difficulty ?? '—'}</span></div>
+                                <div><span className="text-gray-500 block">Rating</span>
+                                    {meta?.rating ? (
+                                        <span className="font-semibold text-gray-800 flex items-center gap-1">
+                                            <span className="text-yellow-500">{renderStars(meta.rating)}</span>
+                                            <span className="text-gray-500 font-normal text-xs ml-0.5">{meta.rating.toFixed(1)}/5.0</span>
+                                        </span>
+                                    ) : <span className="text-gray-400">—</span>}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Table of Contents */}
+                        <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                            <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                <Icon name="List" className="w-5 h-5 text-amber-600" />
+                                Table of Contents
+                            </h2>
+                            <div className="grid sm:grid-cols-2 gap-1">
+                                {tocItems.map((item, i) => (
+                                    <a key={item.id} href={`#${item.id}`}
+                                       className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors text-sm">
+                                        <Icon name={item.icon} className="w-4 h-4 text-gray-400" />
+                                        <span className="text-gray-400 font-mono text-xs w-5">{i + 1}.</span>
+                                        <span className="font-medium">{item.label}</span>
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* ═══════════ INTRODUCTION ═══════════ */}
+                        <Section id="introduction" title="Introduction" icon="BookOpen">
+                            <p className="text-gray-700 leading-relaxed">
+                                Hello everyone! Chicken0248 here again — and this time, I've successfully passed a newly released certification: the{' '}
+                                <A href="https://academy.hackthebox.com/preview/certifications/htb-certified-junior-cybersecurity-associate">HTB Certified Junior Cybersecurity Associate (HTB CJCA)</A>,
+                                {' '}released on 23rd July 2025. It's now the entry-level certification for people interested in both Pentesting and SOC. Yes, that means you'll need to conduct penetration testing <em>and</em> triage alerts with a SIEM. So without further ado, let's talk about this certification, the job-role path you need to complete before taking the exam, exam preparation, and my experience!
+                            </p>
+
+                            <Fig src="image-1.png" alt="HackTheBox certification ladder — current state" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                The current state of HackTheBox certifications — I'm still waiting for a Specialized Role certification on the blue team side!
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ EXAM PREREQUISITE & PATH UNLOCKING STRATEGY ═══════════ */}
+                        <Section id="prerequisite-strategy" title="Exam Prerequisite &amp; Path Unlocking Strategy" icon="ListChecks">
+
+                            <Fig src="image-2.png" alt="Junior Cybersecurity Analyst job-role path overview" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                For those already familiar with HackTheBox Academy and its certifications, you'll know that every certificate has a "job-role" path associated with it — you must complete all modules in the path before you can use your exam voucher. HTB CJCA follows that same pattern, aligning with the{' '}
+                                <A href="https://academy.hackthebox.com/path/preview/junior-cybersecurity-analyst">Junior Cybersecurity Analyst job-role path</A>.
+                                {' '}No new modules were released specifically for this path or certification — it's made up of 20 already-existing modules, which we'll cover in this section.
+                            </p>
+
+                            <Fig src="image-3.png" alt="CJCA exam knowledge domains" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Now let's talk about the knowledge domains that are claimed to be evaluated. Looking at these might make some of you nervous — but don't worry. This is a "Junior" / "Associate" certification, which means they expect you to know <em>some</em> of these topics, not master them in depth. I can confirm that all of these areas were thoughtfully represented on the exam after passing it.
+                            </p>
+
+                            <Fig src="image-4.png" alt="Junior Cybersecurity Analyst path — 20 modules breakdown" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                The job-role path consists of 20 modules, as shown in the image above (made by HackTheBox themselves), requiring a total of 810 Cubes to unlock — less when you factor in the completion rewards:
+                            </p>
+                            <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                <li>11 Tier 0 modules (110 Cubes)</li>
+                                <li>4 Tier I modules (200 Cubes)</li>
+                                <li>5 Tier II modules (500 Cubes)</li>
+                            </ul>
+                            <p className="text-gray-700 leading-relaxed">
+                                The path combines a bit of Offensive (Red) and Defensive (Blue) content, along with 9 fundamental modules. Don't underestimate those fundamentals — some of them offer a genuinely different perspective on things you may already know. That said, I did use the word "some," because there are other modules that can be tedious, so I hope you have enough patience to clear them all. 😄
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                I've calculated the <em>actual</em> cube cost to unlock the full path: <B>560 Cubes</B> net, after deducting the completion rewards.
+                            </p>
+
+                            <Fig src="image-5.png" alt="Cube reward breakdown per tier" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                That's right — Tier 0 modules give you all your Cubes back, Tier I modules give back 10 Cubes, and Tier II modules give back 20 Cubes, bringing the net total cube cost to 560.
+                            </p>
+
+                            <Fig src="image-6.png" alt="Student subscription pricing details" />
+                            <Fig src="image-7.png" alt="Student monthly subscription — best value option" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                If you have an educational email, you don't need to worry about any of this — just subscribe to the "Student" monthly tier for $8 and you can access all these modules. Add $125 (VAT included) for the exam voucher, and your total cost is just $132. But for those without a student email, here's what I recommend.
+                            </p>
+
+                            <Fig src="image-8.png" alt="HTB Silver Annual subscription — includes CJCA voucher" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                If you're going to invest in this certification, invest wisely. In my honest opinion, the CJCA isn't the most cost-efficient standalone purchase — I'd recommend aiming for intermediate-level certifications like CPTS, CBBH, or CDSA instead. HackTheBox seems to understand this too, which is why the CJCA exam voucher is included in the Silver Annual subscription. It's essentially the same deal as before, but with the CJCA voucher bundled in. So if your employer is covering the cost, go for it. If you're spending your own money, the annual subscription is a far smarter investment for the value you get.
+                            </p>
+
+                            <Fig src="image-9.png" alt="Cube spending strategy overview" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Now let's talk cube spending for those who want to see exactly how it plays out. Assuming you're starting with a fresh account (30 Cubes by default) and have at least 10 Cubes to spare, here's the strategy:
+                            </p>
+                            <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                <li>Complete the Tier 0 modules one at a time. Since each costs 10 Cubes and gives 10 back on completion, you only ever need 10 Cubes available at once. After finishing all Tier 0 modules, you'll need 550 more Cubes to unlock everything else.</li>
+                                <li>Charge $38 to get 500 Cubes and unlock all Tier II modules. Clear them, and you'll unlock 2 Tier I modules — with 2 remaining Tier I modules still locked.</li>
+                            </ul>
+
+                            <Fig src="image-10.png" alt="Gold subscription — 500 cube purchase" />
+
+                            <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                <li>At this point, you can either wait for your next monthly Cube allocation from your subscription, or purchase an additional 100 Cubes ($12 including VAT).</li>
+                            </ul>
+
+                            <Fig src="image-11.png" alt="100 Cubes additional purchase — $12 including VAT" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Total cost including the exam voucher — assuming no Silver Annual subscription and no student pricing — would be: $125 (exam voucher) + $38 (one month of Gold to unlock content) + $12 (100 Cubes) = <B>$175 USD</B>. Surprisingly affordable for a well-known cybersecurity platform. The decision is yours.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                One more thing worth mentioning: once you've completed this path, you'll have already finished 2 modules of the CPTS job-role path (out of 28) and 5 modules of the CDSA job-role path (out of 15). So if blue teaming is your goal, just 10 more modules stand between you and the CDSA exam.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Key takeaways from this section:
+                            </p>
+                            <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                <li>You need to complete the <A href="https://academy.hackthebox.com/path/preview/junior-cybersecurity-analyst">Junior Cybersecurity Analyst job-role path</A> before taking the CJCA exam.</li>
+                                <li>The path consists of 20 modules covering Tier 0, Tier I, and Tier II levels.</li>
+                                <li>The most budget-friendly way to unlock the full path and purchase the exam voucher is <B>$175 USD</B> (including VAT).</li>
+                                <li>The Silver Annual subscription includes the CJCA exam voucher and unlocks all modules — no extra Cube purchases needed.</li>
+                                <li>5 out of the 20 modules in this path overlap with the CDSA job-role path, giving you a head start if you plan to continue down the blue team route.</li>
+                            </ul>
+                        </Section>
+
+                        {/* ═══════════ EXAM PREPARATION ═══════════ */}
+                        <Section id="exam-preparation" title="Exam Preparation" icon="GraduationCap">
+                            <p className="text-gray-700 leading-relaxed">
+                                As mentioned earlier, some modules in the path are just tedious — so here are the ones I recommend spending focused time on. These will equip you with enough knowledge to pass the exam:
+                            </p>
+                            <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                <li><B>Pentest in a Nutshell</B> — strongly recommended; spend time here and take detailed notes</li>
+                                <li><B>Footprinting</B> — great module that teaches you to enumerate and find vulnerabilities across various network protocols</li>
+                                <li><B>Windows Event Logs &amp; Finding Evil</B> — your introduction to the world of Windows Event Logs</li>
+                                <li><B>Security Monitoring &amp; SIEM Fundamentals</B> — learn about SIEM and build dashboards in Elastic</li>
+                                <li><B>Introduction to Threat Hunting &amp; Hunting With Elastic</B> — simulated threat hunting with Elastic SIEM</li>
+                            </ul>
+                            <p className="text-gray-700 leading-relaxed">
+                                For those with a penetration testing or red teaming background — the path doesn't fully prepare you for the SIEM portion of the exam. You'll likely get stuck at some point. Even having already passed CDSA, I'll admit the SIEM section in this exam is tough — probably more advanced than what's expected of a typical SOC L1 analyst in some countries. But if you're motivated, you can pick up the key concepts during the exam itself and apply them on the fly. If you already have the voucher: take the shot. It's completely okay to fail on the first try. You'll walk away knowing exactly what to improve, and that knowledge will carry you through on your second attempt.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                People will ask: "Are there any extra resources that'll help prepare for the exam?" — and the answer is yes, specifically for the SIEM side. The offensive modules are more than enough to build the right mindset for the pentest section. But for the SIEM part? Even completing all the CDSA job-role path modules may not be sufficient.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                My advice: get comfortable with Elastic SIEM. The modules will teach you to build dashboards, but practicing with varied scenarios across different log sources will deepen your understanding significantly. To that end, here's a GitHub repository I created that collects SIEM practice labs for both Splunk and Elastic:
+                            </p>
+                            <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                <li><A href="https://github.com/ChickenLoner/Awesome-Splunk-and-Elastic-SIEM-Practice-Labs">Awesome Splunk and Elastic SIEM Practice Labs</A></li>
+                            </ul>
+                            <p className="text-gray-700 leading-relaxed">
+                                That's all I can share on preparation due to the ToS — and remember, this is still a "Junior" certification.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ EXAM EXPERIENCE ═══════════ */}
+                        <Section id="exam-experience" title="Exam Experience" icon="ClipboardList">
+                            <p className="text-gray-700 leading-relaxed">
+                                I was eager to be the first Thai to take and pass this exam, but a tight schedule and overwhelming workload pushed the earliest possible date to August 1st, 2025. Unfortunately, someone I know — who had already passed HTB CBBH and HTB CPTS — bought the voucher and took the exam before me. So I gave up on that particular goal.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Then I realized something: HackTheBox grades and announces certification results in batches. So if he and I took the exam in the same batch window, we'd technically both be the first Thais to pass it simultaneously.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                The exam was released on July 23rd, 2025, and it typically takes around 20 business days to be graded (though usually much sooner). Even starting on August 1st, there was still plenty of time before the first batch would be graded and announced.
+                            </p>
+
+                            <Fig src="image-12.png" alt="CJCA exam start — August 2025" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Since August 1st was a Friday and I was managing two projects simultaneously, I was completely exhausted by the end of the day. I ended up hitting "Enter Exam" around 2 AM on August 2nd, 2025 (local time). Later than planned — but the show must go on.
+                            </p>
+
+                            <Fig src="image-13.png" alt="CJCA exam terms and conditions screen" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                The exam opens with its terms and conditions, which you must accept to begin. Once you do, the clock starts. All the relevant information is laid out immediately: engagement details, requirements, objectives, scope, and a report template — so you won't need to source a template separately.
+                            </p>
+
+                            <Fig src="image-14.png" alt="SysReptor — CJCA exam report project" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                I had a different plan for reporting, though. I knew <A href="https://labs.sysre.pt/projects/new/">SysReptor</A> already had a template for the CJCA exam, so I created the project beforehand and pre-filled basic info (like my name) before the exam even started. Using SysReptor means zero formatting headaches when you're putting the final touches on your report. I really liked it — highly recommended.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                The exam also provides an OpenVPN configuration file to connect from your own machine, or you can use HTB's "AttackBox" directly in the browser. That means you could technically connect to the exam environment from anywhere — even your workplace. (Assuming, of course, you don't tell anyone about it — that would violate the ToS.)
+                            </p>
+
+                            <Fig src="image-15.png" alt="CJCA exam environment — connected via OpenVPN" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                I went with OpenVPN since I already have all the tools I need on my Kali VM. I started with the penetration testing portion, which took me around 13 hours (including sleep) to capture all the flags — leaving me with 4 days and 11 hours to triage SIEM alerts and complete the exam report.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                You might be wondering — is the exam that easy? Well, yes — this is a Junior certification, so it's not as intense as CBBH or CPTS, and I'd expect it's even lighter than the Pro Labs. Proper enumeration is all you need. The phrase keeps repeating itself for a reason: <em>"Enumeration is the key."</em>
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Rather than jumping straight into SIEM triage, I spent time organizing my notes first — because those notes would directly feed my exam report. While conducting any engagement, take proper notes that will serve your <em>future</em> self, not just your current self.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                After getting my notes in order, I started triaging the SIEM alerts — and I was genuinely surprised. Some of the log sources that appeared weren't ones I'd investigated in a SIEM before. That said, they weren't too different from what I was familiar with, so I knew how to approach them. Still, it took me a full day to triage everything. It wasn't impossibly hard, but Elastic isn't my preferred SIEM — I'd always pick Splunk if I had the choice.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                The sheer volume of events aggregated in the SIEM was also significant. Unlike SAL1 — which brands itself as a Junior/SOC L1-level exam and keeps data volumes manageable — this one doesn't hold back. You'll need to stay organized and know exactly what you're looking for, just as you would in a real threat hunting scenario.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                I finished triaging everything around midnight, then called it a night to let my body decompress. I wanted a fresh mind the next morning for the report.
+                            </p>
+
+                            <Fig src="image-16.png" alt="Report writing — organized notes in progress" />
+                            <Fig src="image-17.png" alt="Report writing — polishing the final document" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                I spent all of Sunday writing and polishing the report, then submitted it — I had work on Monday and needed to be done. My organized notes made the whole process faster than expected. After that, it was just a matter of waiting for the first batch announcement.
+                            </p>
+
+                            <Fig src="image-18.png" alt="Email from HackTheBox — CJCA result notification" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Morning of August 21st. While getting ready for the TB-CERT Annual Security Conference 2025, I checked my inbox and found an email from HackTheBox. I'm now officially a Certified Junior Cybersecurity Associate (CJCA). The news gave me an instant boost and set the perfect tone for the day. I headed straight to HackTheBox Academy to claim my certificate.
+                            </p>
+
+                            <Fig src="image-19.png" alt="HTB Academy — claim certificate page" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                The certificate has to be manually claimed from the Academy.
+                            </p>
+
+                            <Fig src="image-20.png" alt="HTB Academy — specify name for certificate" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                You'll need to specify the name to display on the certificate — it can be anything. I've seen many people use a made-up or "signature" name. If you want to look professional, I'd recommend using your real name.
+                            </p>
+
+                            <Fig src="image-21.png" alt="Certificate preview with name" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                After clicking "NEXT," your name will appear on a certificate preview. You can still go back and modify it. Once you're happy with how it looks, click "CLAIM CERTIFICATE" to make it official.
+                            </p>
+
+                            <Fig src="image-22.png" alt="CJCA certificate — ready to download" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                You can now download your certificate in PDF format — the only format currently supported. You can convert it to PNG or JPG later if you want to post it on LinkedIn or other platforms.
+                            </p>
+
+                            <Fig src="image-23.png" alt="CJCA certification page — examiner feedback section, no print certificate option yet" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                One thing worth noting: don't skip the <B>examiner's feedback</B> section on the certification page. I won't share mine here, but it was great and constructive — and it'll help me write a better report when I attempt CPTS later. As you can also see, there's no "Print Certificate" option yet, no pins, stickers, or T-shirts for CJCA either. They may add them alongside CAPE, or all at once — but for now, it's digital only.
+                            </p>
+
+                            <Fig src="image-24.png" alt="CJCA badge on Credly — ready to accept" />
+                            <Fig src="image-25.png" alt="Badge email from HackTheBox" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                After claiming your certificate, a separate email will arrive with your badge.
+                            </p>
+
+                            <Fig src="image-26.png" alt="HackTheBox Discord — /verifycertification command" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                You can find your Certificate ID in the top-right corner of your certificate. Head to the HackTheBox Discord and use the <code className="bg-gray-100 px-1.5 py-0.5 rounded text-sm font-mono">/verifycertification</code> command to claim your role. At the time of writing, CJCA certificate verification hadn't been deployed yet — I'll update this section once it goes live.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ EXAM TIPS ═══════════ */}
+                        <Section id="exam-tips" title="Exam Tips &amp; Key Takeaways" icon="Lightbulb">
+                            <div className="bg-amber-50 rounded-2xl border border-amber-200 p-6">
+                                <TipList items={[
+                                    'Stay organized — disorganization only complicates everything downstream.',
+                                    'Stay hydrated. Dehydration will affect your performance and focus in any high-pressure environment.',
+                                    "Remember, this is a 'Junior' cert — what might seem basic to an experienced penetration tester is still valid and worth doing properly.",
+                                    'Save all scan results to files so you never have to re-run them.',
+                                    'Always run network scans more than once on the same host — you may miss something on the first pass.',
+                                    'Think outside the box and chain multiple vulnerabilities. If one isn\'t enough, look for a second or even a third.',
+                                    'This is a real-world enterprise network — keep that in mind and it will serve you well. 😉',
+                                    'Practice threat hunting with Elastic until you\'re comfortable correlating multiple log sources and confirming findings with confidence.',
+                                    'A timeline is crucial for every investigation — build it as you go.',
+                                    'Keep the SIEM URL for each alert. When you apply filters in Elastic, the URL updates to reflect your current view — bookmark it so you can return to the same perspective later if you need to verify something.',
+                                    'Don\'t just close alerts robotically with "This is TP." Explain <em>why</em> a specific alert is a True Positive (TP) or a False Positive (FP).',
+                                    'Research your FP alerts — you need to understand what\'s normal in the environment and what isn\'t.',
+                                ]} />
+                            </div>
+                            <p className="text-gray-700 leading-relaxed">
+                                That's all for this blog — thank you for your time, and good luck to anyone preparing for the exam!
+                            </p>
+                        </Section>
+
+                        {/* Footer navigation */}
+                        <div className="text-center py-8 border-t border-gray-200">
+                            <a href="#" className="text-blue-600 hover:text-blue-700 font-medium text-sm inline-flex items-center gap-1">
+                                <Icon name="ArrowUp" className="w-4 h-4" /> Back to top
+                            </a>
+                            <span className="mx-3 text-gray-300">|</span>
+                            <a href="/reviews/index.html" className="text-blue-600 hover:text-blue-700 font-medium text-sm inline-flex items-center gap-1">
+                                <Icon name="ArrowLeft" className="w-4 h-4" /> All Reviews
+                            </a>
+                        </div>
+
+                    </main>
+                </div>
+            );
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>

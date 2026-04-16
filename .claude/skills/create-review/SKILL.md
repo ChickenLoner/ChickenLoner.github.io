@@ -31,8 +31,11 @@ Before starting, confirm:
 ## Step 2 — Prepare assets
 
 1. Create `reviews/<slug>/` directory.
-2. Copy all images (`.png`, `.jpg`, `.webp`, etc.) from the export directory to `reviews/<slug>/`.
-3. Verify copy: `ls reviews/<slug>/` should show all images.
+2. Copy all images (`.png`, `.jpg`, `.webp`, etc.) from the export directory to `reviews/<slug>/`, renaming them as follows:
+   - **Hero/cover image** → `cover.png` (or `cover.jpg` if the source is JPEG)
+   - **All other images** → `image-1.png`, `image-2.png`, … `image-N.png` in the order they appear in the markdown (top to bottom). Keep the original extension.
+3. Use these renamed filenames in all `<Fig src="...">` references in the HTML — never use Notion hash filenames like `09a09d2ac97a87abec4ff8f9bca6ce64.png`.
+4. Verify copy: `ls reviews/<slug>/` should show `cover.*`, `image-1.*` … `image-N.*` and `index.html`.
 
 ---
 
