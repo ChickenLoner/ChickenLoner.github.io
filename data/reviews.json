@@ -99,6 +99,17 @@
     "rating": 4.0
   },
   {
+    "title": "Your First Definitive Guide and Review on HackTheBox CJCA Certification Exam",
+    "excerpt": "A detailed review and guide on the HackTheBox Certified Junior Cybersecurity Associate certification, good way to start for aspiring SOC analysts / Pentester. Covers course material, path unlocking guide, exam preparation, exam experience and tips.",
+    "date": "August 2025",
+    "readTime": "15 min read",
+    "tags": ["HTB CJCA", "Blue Team", "Red Team", "SOC", "Entry Level", "Penetration Testing", "HackTheBox"],
+    "url": "/reviews/cjca/index.html",
+    "image": "/assets/badges/cjca.png",
+    "difficulty": "Beginner",
+    "rating": 4.5
+  },
+  {
     "title": "Review — CyberWarFare Labs : Certified Enterprise Lateral Movement Specialist [CELMS], When lateral movement also have a course and exam!",
     "excerpt": "A detailed review and guide on the Certified Enterprise Lateral Movement Specialist certification, The intemediate level certification focus the lateral movement aspect of the red teaming side. Covers course material, exam preparation, exam experience and tips.",
     "date": "September 2025",
@@ -184,17 +195,6 @@
     "url": "/reviews/psap/index.html",
     "image": "/assets/badges/psap.png",
     "difficulty": "Intermediate",
-    "rating": 4.5
-  },
-  {
-    "title": "Your First Definitive Guide and Review on HackTheBox CJCA Certification Exam",
-    "excerpt": "A detailed review and guide on the HackTheBox Certified Junior Cybersecurity Associate certification, good way to start for aspiring SOC analysts / Pentester. Covers course material, path unlocking guide, exam preparation, exam experience and tips.",
-    "date": "August 2026",
-    "readTime": "15 min read",
-    "tags": ["HTB CJCA", "Blue Team", "Red Team", "SOC", "Entry Level", "Penetration Testing", "HackTheBox"],
-    "url": "/reviews/cjca/index.html",
-    "image": "/assets/badges/cjca.png",
-    "difficulty": "Beginner",
     "rating": 4.5
   }
 ]
