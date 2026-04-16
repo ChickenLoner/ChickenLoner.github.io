@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CCDL1 Review — Certified CyberDefender Level 1 | Chicken0248</title>
+    <meta name="description" content="A detailed review of the Certified CyberDefender Level 1 certification — covering the dense course content, exam preparation, the MCQ-based practical exam experience, and honest takeaways on whether it lives up to its SOC L1 label." />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Chicken0248" />
+    <meta property="og:url" content="https://chickenloner.github.io/reviews/ccdl1/" />
+    <meta property="og:title" content="CCDL1 (Certified CyberDefender Level 1 Certification) Review" />
+    <meta property="og:description" content="A detailed review of the Certified CyberDefender Level 1 certification — covering the dense course content, exam preparation, the MCQ-based practical exam experience, and honest takeaways on whether it lives up to its SOC L1 label." />
+    <meta property="og:image" content="https://chickenloner.github.io/reviews/ccdl1/image.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@Chicken_0248" />
+    <meta name="twitter:title" content="CCDL1 (Certified CyberDefender Level 1 Certification) Review" />
+    <meta name="twitter:description" content="A detailed review of the Certified CyberDefender Level 1 certification — covering the dense course content, exam preparation, the MCQ-based practical exam experience, and honest takeaways on whether it lives up to its SOC L1 label." />
+    <meta name="twitter:image" content="https://chickenloner.github.io/reviews/ccdl1/image.png" />
+    <link rel="icon" href="/chicken0248.png" type="image/png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn { animation: fadeIn 0.5s ease-out; }
+
+        /* ── DARK MODE ── */
+        .dark.min-h-screen { background: linear-gradient(135deg, #0f172a 0%, #141f35 50%, #0a1628 100%) !important; }
+        .dark nav { background-color: rgba(15,23,42,0.96) !important; border-bottom-color: rgba(51,65,85,0.5) !important; }
+        .dark .bg-white    { background-color: #1e293b !important; }
+        .dark .bg-gray-50  { background-color: #0f172a !important; }
+        .dark .bg-gray-100 { background-color: #334155 !important; }
+        .dark .bg-amber-50   { background-color: rgba(245,158,11,0.10) !important; }
+        .dark .bg-amber-100  { background-color: rgba(245,158,11,0.20) !important; }
+        .dark .bg-orange-50  { background-color: rgba(234,88,12,0.10) !important; }
+        .dark .bg-orange-100 { background-color: rgba(234,88,12,0.20) !important; }
+        .dark .bg-blue-50    { background-color: rgba(37,99,235,0.12) !important; }
+        .dark .bg-blue-100   { background-color: rgba(37,99,235,0.20) !important; }
+        .dark .bg-green-100  { background-color: rgba(22,163,74,0.20) !important; }
+        .dark .text-gray-800 { color: #e2e8f0 !important; }
+        .dark .text-gray-700 { color: #cbd5e1 !important; }
+        .dark .text-gray-600 { color: #94a3b8 !important; }
+        .dark .text-gray-500 { color: #64748b !important; }
+        .dark .text-gray-400 { color: #475569 !important; }
+        .dark .text-amber-700  { color: #fbbf24 !important; }
+        .dark .text-orange-700 { color: #fb923c !important; }
+        .dark .text-blue-600   { color: #60a5fa !important; }
+        .dark .text-green-700  { color: #4ade80 !important; }
+        .dark .border-gray-100 { border-color: #334155 !important; }
+        .dark .border-gray-200 { border-color: #475569 !important; }
+        .dark .border-amber-200  { border-color: rgba(245,158,11,0.3) !important; }
+        .dark .border-orange-200 { border-color: rgba(234,88,12,0.3) !important; }
+        .dark .hover\:bg-gray-50:hover { background-color: #1e293b !important; }
+        .dark .hover\:text-blue-600:hover { color: #60a5fa !important; }
+        .dark ::-webkit-scrollbar       { width: 6px; }
+        .dark ::-webkit-scrollbar-track { background: #0f172a; }
+        .dark ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        const Icon = ({ name, className = "w-6 h-6", ...props }) => {
+            const ref = useRef(null);
+            useEffect(() => {
+                if (ref.current) {
+                    const el = lucide.createElement(lucide[name], { class: className });
+                    ref.current.innerHTML = '';
+                    ref.current.appendChild(el);
+                }
+            }, [name, className]);
+            return <i ref={ref} className={`flex-shrink-0 ${className}`} {...props}></i>;
+        };
+
+        /* ── Reusable Components ── */
+
+        const Section = ({ id, title, icon, children }) => (
+            <section id={id} className="scroll-mt-24">
+                <h2 className="text-2xl font-bold text-gray-800 mb-5 flex items-center gap-3 border-b border-gray-200 pb-3">
+                    <Icon name={icon} className="w-6 h-6 text-amber-600" />
+                    {title}
+                </h2>
+                <div className="space-y-4">{children}</div>
+            </section>
+        );
+
+        let figCount = 0;
+        const resetFigCount = () => { figCount = 0; };
+
+        const Fig = ({ src, alt }) => {
+            figCount += 1;
+            const n = figCount;
+            return (
+                <figure className="my-5">
+                    <img src={src} alt={alt || `Figure ${n}`}
+                         className="rounded-xl border border-gray-200 shadow-sm max-w-full mx-auto block" loading="lazy" />
+                    <figcaption className="text-center text-xs text-gray-400 mt-1.5 font-mono">Figure {n}</figcaption>
+                </figure>
+            );
+        };
+
+        const Callout = ({ children }) => (
+            <blockquote className="bg-amber-50 border-l-4 border-amber-400 rounded-r-xl px-5 py-4 my-4 text-gray-700 italic text-sm leading-relaxed">
+                {children}
+            </blockquote>
+        );
+
+        const TipList = ({ items }) => (
+            <ul className="list-disc list-outside ml-5 space-y-2 text-gray-700">
+                {items.map((item, i) => <li key={i}>{item}</li>)}
+            </ul>
+        );
+
+        const B = ({ children }) => <strong className="text-gray-800">{children}</strong>;
+        const A = ({ href, children }) => (
+            <a href={href} target="_blank" rel="noopener noreferrer"
+               className="text-blue-600 hover:underline">{children}</a>
+        );
+
+        const renderStars = (rating) => {
+            const full = Math.floor(rating);
+            const half = rating - full >= 0.5;
+            return '★'.repeat(full) + (half ? '½' : '') + '☆'.repeat(5 - full - (half ? 1 : 0));
+        };
+
+        /* ── App ── */
+
+        const App = () => {
+            const [dark, setDark] = useState(() => localStorage.getItem('darkMode') === 'true');
+            const [meta, setMeta] = useState(null);
+            useEffect(() => { localStorage.setItem('darkMode', dark); }, [dark]);
+
+            useEffect(() => {
+                fetch('/data/reviews.json')
+                    .then(r => r.json())
+                    .then(data => {
+                        const entry = data.find(r => r.url === '/reviews/ccdl1/index.html');
+                        if (entry) setMeta(entry);
+                    })
+                    .catch(() => {});
+            }, []);
+
+            resetFigCount();
+
+            const tocItems = [
+                { id: 'introduction',     label: 'Introduction',                  icon: 'BookOpen'      },
+                { id: 'course-experience',label: 'Course Experience',              icon: 'GraduationCap' },
+                { id: 'exam-preparation', label: 'Exam Preparation',               icon: 'ListChecks'    },
+                { id: 'exam-experience',  label: 'My Exam Experience',             icon: 'ClipboardList' },
+                { id: 'final-review',     label: 'My Final Review',                icon: 'Star'          },
+                { id: 'exam-tips',        label: 'Exam Tips & Key Takeaways',      icon: 'Lightbulb'     },
+            ];
+
+            return (
+                <div className={`min-h-screen bg-gradient-to-br from-slate-50 via-amber-50 to-orange-50 ${dark ? 'dark' : ''}`}>
+
+                    {/* Navigation */}
+                    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 px-4 py-3">
+                        <div className="max-w-4xl mx-auto flex items-center justify-between">
+                            <div className="flex items-center gap-2 text-sm flex-wrap">
+                                <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                                    <img src="/chicken0248.png" alt="Logo" className="w-7 h-7 rounded-lg" />
+                                    <span className="font-bold text-gray-800 hidden sm:inline">Chicken0248</span>
+                                </a>
+                                <span className="text-gray-400">/</span>
+                                <a href="/reviews/index.html" className="font-medium text-gray-600 hover:text-blue-600 transition-colors">Reviews</a>
+                                <span className="text-gray-400">/</span>
+                                <span className="font-semibold text-gray-700">CCDL1</span>
+                            </div>
+                            <button onClick={() => setDark(!dark)}
+                                className="p-2 rounded-lg hover:bg-gray-100 text-gray-600 transition-colors text-lg">
+                                {dark ? '\u2600\uFE0F' : '\uD83C\uDF19'}
+                            </button>
+                        </div>
+                    </nav>
+
+                    <main className="max-w-4xl mx-auto px-4 py-8 space-y-10 animate-fadeIn">
+
+                        {/* Hero */}
+                        <div className="relative overflow-hidden rounded-3xl shadow-2xl">
+                            <img src="image.png" alt="Certified CyberDefender Level 1 (CCDL1)"
+                                 className="w-full h-48 sm:h-64 md:h-80 object-cover" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                            <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white">
+                                <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-3 leading-snug">
+                                    CCDL1 (Certified CyberDefender Level 1 Certification) Review
+                                </h1>
+                                <div className="flex flex-wrap gap-2 text-sm">
+                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Building2" className="w-3.5 h-3.5" /> CyberDefenders
+                                    </span>
+                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Calendar" className="w-3.5 h-3.5" /> January 2026
+                                    </span>
+                                    <span className="bg-blue-500/80 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Shield" className="w-3.5 h-3.5" /> Blue Team · SOC
+                                    </span>
+                                    <span className="bg-green-500/80 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="CheckCircle" className="w-3.5 h-3.5" /> Passed
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Metadata */}
+                        <div className="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm">
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                                <div><span className="text-gray-500 block">Certification</span><span className="font-semibold text-gray-800">CCDL1</span></div>
+                                <div><span className="text-gray-500 block">Provider</span><span className="font-semibold text-gray-800">CyberDefenders</span></div>
+                                <div><span className="text-gray-500 block">Difficulty</span><span className="font-semibold text-amber-600">{meta?.difficulty ?? '—'}</span></div>
+                                <div><span className="text-gray-500 block">Rating</span>
+                                    {meta?.rating ? (
+                                        <span className="font-semibold text-gray-800 flex items-center gap-1">
+                                            <span className="text-yellow-500">{renderStars(meta.rating)}</span>
+                                            <span className="text-gray-500 font-normal text-xs ml-0.5">{meta.rating.toFixed(1)}/5.0</span>
+                                        </span>
+                                    ) : <span className="text-gray-400">—</span>}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Table of Contents */}
+                        <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                            <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                <Icon name="List" className="w-5 h-5 text-amber-600" />
+                                Table of Contents
+                            </h2>
+                            <div className="grid sm:grid-cols-2 gap-1">
+                                {tocItems.map((item, i) => (
+                                    <a key={item.id} href={`#${item.id}`}
+                                       className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors text-sm">
+                                        <Icon name={item.icon} className="w-4 h-4 text-gray-400" />
+                                        <span className="text-gray-400 font-mono text-xs w-5">{i + 1}.</span>
+                                        <span className="font-medium">{item.label}</span>
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* ═══════════ INTRODUCTION ═══════════ */}
+                        <Section id="introduction" title="Introduction" icon="BookOpen">
+                            <p className="text-gray-700 leading-relaxed">
+                                Hello everyone! It's me, <B>Chicken0248</B>, again, and in this blog we'll talk about the{' '}
+                                <B>Certified CyberDefender Level 1 (CCD L1)</B> certification — the newest certification from the{' '}
+                                <B>CyberDefenders</B> platform, which is well-known for its cyber range and blue team labs. I've even made some labs for them myself!
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                CyberDefenders already has one well-established certification — <B>CCD (Certified CyberDefender)</B> — but with the growing trend of SOC L1 and Junior SOC Analyst certifications, many platforms (including big players like TryHackMe) have been launching their own entry-level SOC certs to compete in this space.
+                            </p>
+
+                            <Fig src="image 1.png" alt="CCDL1 certification page on CyberDefenders" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                <A href="https://cyberdefenders.org/certifications/certified-cyberdefender-level1/">SOC Analyst Training &amp; Certification — CCDL1</A>
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Since <B>CCD</B> (which we can now think of as CCD L2) is regarded as an intermediate-to-advanced certification for blue teamers and SOC analysts, CyberDefenders finally introduced <B>CCD L1</B> for the SOC L1 audience. I was fortunate enough to join the beta access for both the course and the exam — so keep in mind that this review reflects the beta state, and some content or exam details may have changed since.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ COURSE EXPERIENCE ═══════════ */}
+                        <Section id="course-experience" title="Course Experience" icon="GraduationCap">
+                            <p className="text-gray-700 leading-relaxed">
+                                Let's talk about pricing first, because it sets expectations. <B>CCD L1 is priced at USD 500</B>, putting it directly on par with <B>BTL1</B> (GBP 399 ≈ USD 500) — its most direct competitor and one of the most established SOC L1 certifications on the market. CyberDefenders is clearly positioning this as a serious contender, and that ambition shows clearly in the course content.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                The CCD L1 course is divided into <B>six modules</B> that you'll need to complete within <B>four months</B>:
+                            </p>
+                            <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                <li>SOC &amp; Threat Intelligence Foundations</li>
+                                <li>Network &amp; Endpoint Essentials</li>
+                                <li>SIEM Basics (Splunk &amp; Sentinel)</li>
+                                <li>Phishing &amp; Email Security</li>
+                                <li>Digital Forensics and Incident Response</li>
+                                <li>Cloud Security &amp; AI</li>
+                            </ul>
+
+                            <Fig src="image 2.png" alt="CCDL1 course syllabus overview" />
+
+                            <p className="text-xs text-gray-500 -mt-3 mb-2 text-center">
+                                Check out the{' '}
+                                <A href="https://docs.google.com/spreadsheets/d/1eWyMhBmAaTRT4oHQzovF6xvnm1mBr5AVlIYh3xjBlGk/edit?gid=730246548#gid=730246548">full syllabus</A>
+                                {' '}here.
+                            </p>
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Each module covers a different area — some focusing on mandatory SOC fundamentals, others going well beyond what most SOC L1 analysts would encounter day-to-day. In many cases, the course teaches <B>advanced concepts and real execution</B> that you'd only get to apply in a startup or a very lean SOC environment.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Even for me — having already gone through <B>BTL1, SAL1, PSAA, and HTB CDSA</B> — there were sections I genuinely struggled with. Topics like <B>Microsoft Sentinel, rkhunter, OpenCTI, and AWS log analysis</B> were either new to me or covered at a much deeper level than I expected.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Notably, the course covers <B>Cloud (AWS)</B> and <B>Microsoft Sentinel</B> — which is still surprisingly rare in most SOC-focused courses available today.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                As a beta access member, I watched the content evolve significantly over time. Early on I didn't engage heavily — the material still had room to improve. Later, CyberDefenders announced they would revoke beta access and refund users with little to no activity, since the main goal of the beta phase was to collect <B>feedback</B>. They also launched a beta leaderboard event where the top three participants (measured by lab completions, lessons, investigations, and feedback) would receive a CyberDefenders subscription. That's when I decided to speedrun the course — and I was genuinely impressed. The labs are well-designed and include <B>detailed walkthroughs</B>, which are extremely useful for building the right investigation mindset when you get stuck.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                In addition to labs, each module has its own <B>Investigation</B> — essentially a post-knowledge test without walkthroughs. Students can discuss findings and ask for hints in dedicated Discord channels for each investigation.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Here's a non-exhaustive list of tools used across the course:
+                            </p>
+                            <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                <li>OpenCTI</li>
+                                <li>TOR Browser</li>
+                                <li>AlienVault OTX</li>
+                                <li>VirusTotal, Any.Run, and Hybrid Analysis</li>
+                                <li>Wireshark</li>
+                                <li>Splunk</li>
+                                <li>Microsoft Sentinel</li>
+                                <li>AWS Log Analyzer</li>
+                                <li>n8n</li>
+                                <li>oletools</li>
+                                <li>GoPhish</li>
+                                <li>log2timeline</li>
+                                <li>Eric Zimmerman's Tools (selected) and KAPE</li>
+                                <li>DB Browser for SQLite</li>
+                                <li>Autopsy</li>
+                                <li>FTK Imager</li>
+                                <li>Volatility</li>
+                                <li>rkhunter</li>
+                                <li>AIDE</li>
+                            </ul>
+                            <p className="text-gray-700 leading-relaxed">
+                                And the list goes on.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Although the certification name suggests it is designed for <B>SOC L1</B>, the course content clearly exceeds what an average SOC L1 analyst would normally handle. Examples include:
+                            </p>
+                            <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                <li>Decrypting Cobalt Strike C2 traffic</li>
+                                <li>Shellcode extraction and debugging from email attachments</li>
+                                <li>n8n workflow integration with Splunk and threat intelligence automation</li>
+                            </ul>
+                            <p className="text-gray-700 leading-relaxed">
+                                Without a solid foundation, you will get stuck — but that's not necessarily a bad thing. The detailed walkthroughs give you the tools to learn new techniques and gradually build a stronger foundation.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                If I had to score the course alone, I'd give it <B>4.8/5</B>. It's long and dense, but the content is information-rich, the walkthroughs are thorough, and the topic coverage spans both essential and advanced areas.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ EXAM PREPARATION ═══════════ */}
+                        <Section id="exam-preparation" title="Exam Preparation" icon="ListChecks">
+                            <Fig src="image 3.png" alt="CyberDefenders exam readiness tracker" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                CyberDefenders has an <B>Exam Readiness</B> feature that tracks your progress through the course. In practice it's more of a completion tracker than a true readiness indicator, but hitting 90% — where the majority of the score comes from labs and investigations — does a good job of building confidence before you sit the exam.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                For my own preparation, I reviewed all the modules again and built an <B>index</B> — a structured list of topics and labs with hyperlinks, so I could jump directly to a relevant section if I encountered something familiar during the exam.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                If you're wondering whether any external labs are worth doing beforehand: honestly, I think the course labs and investigations are sufficient. Any cyber range labs I could point you to would likely feel "out of scope" in some sense and might leave you feeling underprepared rather than more confident.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Beyond that, I didn't do much additional preparation — this is a SOC L1 exam and I had completed 99% of the course (the remaining 1% was pure laziness). I then waited for the exam to be released. One thing we knew in advance: the exam would be <B>MCQ-format</B>, but not theory-based. Every question would require you to perform an actual investigation before selecting the right answer — no guessing your way through. I appreciate this approach. It gives students instant results without the need for manual grading (as the original CCD requires), and I'm glad they didn't go down the AI-graded path like SAL1 or the OffSec Gauntlet.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ MY EXAM EXPERIENCE ═══════════ */}
+                        <Section id="exam-experience" title="My Exam Experience" icon="ClipboardList">
+                            <p className="text-gray-700 leading-relaxed">
+                                A couple of months passed, and on <B>18 January 2026</B> I received an email inviting me to try the exam. I was one of ten beta testers selected for this. Since 19 January was a Monday and I knew I'd be busy from Tuesday onward, I attempted the exam that same evening after getting enough rest from work.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                When I clicked Start, I had to select a region for the exam instance — this directly affects lab performance, so choose the closest one to you. After waiting 6–8 minutes for provisioning to complete, I was in.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                All the information I needed was presented upfront. As mentioned, the exam is <B>MCQ-format</B> — but nothing like the theory-based MCQs from CompTIA CySA+ or SAL1. Every question required real technical analysis to find the correct answer. I also only then realised I had just <B>5 hours</B> to complete everything. After exploring the lab environment to get my bearings, I made my first move — and from there, it was smooth sailing. The exam calibration feels right for a SOC L1 certification.
+                            </p>
+
+                            <Fig src="image 4.png" alt="CCDL1 exam result — 90%+ score" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Within 3 hours (it could've been faster, but I was ordering dinner mid-exam), I submitted and scored <B>90%+</B>. I thought a perfect score was within reach, but 90%+ is more than enough — and if CyberDefenders ever introduces a gold distinction for CCD L1, I'd still qualify. Pass is pass regardless of the score.
+                            </p>
+
+                            <Fig src="image 5.png" alt="CCDL1 exam feedback — domain breakdown" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                The <B>View Feedback</B> button reveals a domain-by-domain breakdown of what you did well and where to improve. There were two areas where I scored lower — both times because I was too lazy to dig deeper for the answer.
+                            </p>
+
+                            <Fig src="image 6.png" alt="Discord — Certified CyberDefender role granted" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                After passing, my Discord account was automatically granted the <B>Certified CyberDefender</B> role. Since there's no dedicated CCD L1 role yet — the existing role was originally created for CCD — I gladly accepted it.
+                            </p>
+
+                            <Fig src="image 7.png" alt="CCDL1 certificate from CyberDefenders" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                That's it for my exam experience — fairly short, all things considered. Let's move on to my final review.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ FINAL REVIEW ═══════════ */}
+                        <Section id="final-review" title="My Final Review" icon="Star">
+                            <p className="text-gray-700 leading-relaxed">
+                                In my opinion, <B>CCD L1 is one of the best SOC courses currently available on the market</B>. The content goes well beyond what is typically expected from a SOC L1 role — covering Microsoft Sentinel, AWS, Cobalt Strike C2 traffic analysis, shellcode extraction, and a touch of malware analysis. These are topics more commonly associated with advanced SOC or DFIR positions.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                That said, <B>CCD L1 is still suitable for SOC L1 analysts</B> — it just isn't easy. Anyone new to cybersecurity or early in their SOC journey should expect to struggle at times. The learning curve is steep; the course doesn't linger at fundamentals and frequently dives into advanced concepts and real-world execution. Without a solid foundation, the material can feel overwhelming — but it's also extremely rewarding if you push through it.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                If you digest the content, truly understand it, and later land a SOC role, you may find that many SOC L1 positions focus primarily on alert triage — deciding what to escalate and what to close — with limited exposure to DFIR work or automation. In that sense, CCD L1 can leave you feeling somewhat overqualified for certain entry-level roles.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                There are, of course, exceptions. In certain countries or organisations — especially those building or operating a SOC from the ground up — this depth of knowledge is extremely valuable and helps bridge significant technical gaps.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                To be clear: <B>the labs, the course content, and the exam are all excellent</B>. The concern is not quality — it's expectation management. CCD L1 is ideal for anyone who wants to go beyond basic alert handling and gain hands-on experience with <B>Microsoft Sentinel, AWS, and real-world attack analysis</B>. SOC L1 analysts can absolutely benefit from this course, as long as you're prepared to struggle, learn, and grow through material that regularly exceeds your current level.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ EXAM TIPS ═══════════ */}
+                        <Section id="exam-tips" title="Exam Tips &amp; Key Takeaways" icon="Lightbulb">
+                            <div className="bg-amber-50 rounded-2xl border border-amber-200 p-6">
+                                <TipList items={[
+                                    'Build a course index — a structured list of topics covered in each lab with hyperlinks, so you can jump directly back to relevant material when you encounter something similar in the exam.',
+                                    'Always maintain an incident timeline as you work through the exam.',
+                                    'Build your own cheat sheet of commands and queries — whether for Volatility, Eric Zimmerman\'s tools, Splunk, AWS, or anything else. (I built mine while playing through threat hunting labs on the cyber range, and it meant I didn\'t need to craft new queries from scratch during the exam.)',
+                                    'If a tool prints output to stdout, pipe it to a text file so you can read it again later without re-running the command.',
+                                    'When working through labs, always read the walkthroughs — even if you solved the lab yourself. They reveal the mindset of the course authors, which directly maps to what the exam expects.',
+                                ]} />
+                            </div>
+                            <p className="text-gray-700 leading-relaxed">
+                                That's it for today — good luck to everyone going for this exam!
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">Peace ✌️</p>
+                        </Section>
+
+                        {/* Footer navigation */}
+                        <div className="text-center py-8 border-t border-gray-200">
+                            <a href="#" className="text-blue-600 hover:text-blue-700 font-medium text-sm inline-flex items-center gap-1">
+                                <Icon name="ArrowUp" className="w-4 h-4" /> Back to top
+                            </a>
+                            <span className="mx-3 text-gray-300">|</span>
+                            <a href="/reviews/index.html" className="text-blue-600 hover:text-blue-700 font-medium text-sm inline-flex items-center gap-1">
+                                <Icon name="ArrowLeft" className="w-4 h-4" /> All Reviews
+                            </a>
+                        </div>
+
+                    </main>
+                </div>
+            );
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>
