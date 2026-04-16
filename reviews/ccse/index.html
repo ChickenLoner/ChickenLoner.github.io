@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberWarFare Labs CCSE Review — Certified Cyber Security Engineer | Chicken0248</title>
+    <meta name="description" content="A detailed review of the Certified Cyber Security Engineer (CCSE) certification from CyberWarFare Labs — covering its broad penetration testing course, online labs, 48-hour exam format, and honest takeaways on what to focus on." />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Chicken0248" />
+    <meta property="og:url" content="https://chickenloner.github.io/reviews/ccse/" />
+    <meta property="og:title" content="CyberWarFare Labs - Certified Cyber Security Engineer [CCSE] - My Experience and Review" />
+    <meta property="og:description" content="A detailed review of the Certified Cyber Security Engineer (CCSE) certification from CyberWarFare Labs — covering its broad penetration testing course, online labs, 48-hour exam format, and honest takeaways on what to focus on." />
+    <meta property="og:image" content="https://chickenloner.github.io/reviews/ccse/ccse.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@Chicken_0248" />
+    <meta name="twitter:title" content="CyberWarFare Labs - Certified Cyber Security Engineer [CCSE] - My Experience and Review" />
+    <meta name="twitter:description" content="A detailed review of the Certified Cyber Security Engineer (CCSE) certification from CyberWarFare Labs — covering its broad penetration testing course, online labs, 48-hour exam format, and honest takeaways on what to focus on." />
+    <meta name="twitter:image" content="https://chickenloner.github.io/reviews/ccse/ccse.jpg" />
+    <link rel="icon" href="/chicken0248.png" type="image/png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn { animation: fadeIn 0.5s ease-out; }
+
+        /* ── DARK MODE ── */
+        .dark.min-h-screen { background: linear-gradient(135deg, #0f172a 0%, #141f35 50%, #0a1628 100%) !important; }
+        .dark nav { background-color: rgba(15,23,42,0.96) !important; border-bottom-color: rgba(51,65,85,0.5) !important; }
+        .dark .bg-white    { background-color: #1e293b !important; }
+        .dark .bg-gray-50  { background-color: #0f172a !important; }
+        .dark .bg-gray-100 { background-color: #334155 !important; }
+        .dark .bg-amber-50   { background-color: rgba(245,158,11,0.10) !important; }
+        .dark .bg-amber-100  { background-color: rgba(245,158,11,0.20) !important; }
+        .dark .bg-orange-50  { background-color: rgba(234,88,12,0.10) !important; }
+        .dark .bg-orange-100 { background-color: rgba(234,88,12,0.20) !important; }
+        .dark .bg-blue-50    { background-color: rgba(37,99,235,0.12) !important; }
+        .dark .bg-blue-100   { background-color: rgba(37,99,235,0.20) !important; }
+        .dark .bg-green-100  { background-color: rgba(22,163,74,0.20) !important; }
+        .dark .text-gray-800 { color: #e2e8f0 !important; }
+        .dark .text-gray-700 { color: #cbd5e1 !important; }
+        .dark .text-gray-600 { color: #94a3b8 !important; }
+        .dark .text-gray-500 { color: #64748b !important; }
+        .dark .text-gray-400 { color: #475569 !important; }
+        .dark .text-amber-700  { color: #fbbf24 !important; }
+        .dark .text-orange-700 { color: #fb923c !important; }
+        .dark .text-blue-600   { color: #60a5fa !important; }
+        .dark .text-green-700  { color: #4ade80 !important; }
+        .dark .border-gray-100 { border-color: #334155 !important; }
+        .dark .border-gray-200 { border-color: #475569 !important; }
+        .dark .border-amber-200  { border-color: rgba(245,158,11,0.3) !important; }
+        .dark .border-orange-200 { border-color: rgba(234,88,12,0.3) !important; }
+        .dark .hover\:bg-gray-50:hover { background-color: #1e293b !important; }
+        .dark .hover\:text-blue-600:hover { color: #60a5fa !important; }
+        .dark ::-webkit-scrollbar       { width: 6px; }
+        .dark ::-webkit-scrollbar-track { background: #0f172a; }
+        .dark ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        const Icon = ({ name, className = "w-6 h-6", ...props }) => {
+            const ref = useRef(null);
+            useEffect(() => {
+                if (ref.current) {
+                    const el = lucide.createElement(lucide[name], { class: className });
+                    ref.current.innerHTML = '';
+                    ref.current.appendChild(el);
+                }
+            }, [name, className]);
+            return <i ref={ref} className={`flex-shrink-0 ${className}`} {...props}></i>;
+        };
+
+        /* ── Reusable Components ── */
+
+        const Section = ({ id, title, icon, children }) => (
+            <section id={id} className="scroll-mt-24">
+                <h2 className="text-2xl font-bold text-gray-800 mb-5 flex items-center gap-3 border-b border-gray-200 pb-3">
+                    <Icon name={icon} className="w-6 h-6 text-amber-600" />
+                    {title}
+                </h2>
+                <div className="space-y-4">{children}</div>
+            </section>
+        );
+
+        let figCount = 0;
+        const resetFigCount = () => { figCount = 0; };
+
+        const Fig = ({ src, alt }) => {
+            figCount += 1;
+            const n = figCount;
+            return (
+                <figure className="my-5">
+                    <img src={src} alt={alt || `Figure ${n}`}
+                         className="rounded-xl border border-gray-200 shadow-sm max-w-full mx-auto block" loading="lazy" />
+                    <figcaption className="text-center text-xs text-gray-400 mt-1.5 font-mono">Figure {n}</figcaption>
+                </figure>
+            );
+        };
+
+        const Callout = ({ children }) => (
+            <blockquote className="bg-amber-50 border-l-4 border-amber-400 rounded-r-xl px-5 py-4 my-4 text-gray-700 italic text-sm leading-relaxed">
+                {children}
+            </blockquote>
+        );
+
+        const TipList = ({ items }) => (
+            <ul className="list-disc list-outside ml-5 space-y-2 text-gray-700">
+                {items.map((item, i) => <li key={i}>{item}</li>)}
+            </ul>
+        );
+
+        const B = ({ children }) => <strong className="text-gray-800">{children}</strong>;
+        const A = ({ href, children }) => (
+            <a href={href} target="_blank" rel="noopener noreferrer"
+               className="text-blue-600 hover:underline">{children}</a>
+        );
+
+        const renderStars = (rating) => {
+            const full = Math.floor(rating);
+            const half = rating - full >= 0.5;
+            return '★'.repeat(full) + (half ? '½' : '') + '☆'.repeat(5 - full - (half ? 1 : 0));
+        };
+
+        /* ── App ── */
+
+        const App = () => {
+            const [dark, setDark] = useState(() => localStorage.getItem('darkMode') === 'true');
+            const [meta, setMeta] = useState(null);
+            useEffect(() => { localStorage.setItem('darkMode', dark); }, [dark]);
+
+            useEffect(() => {
+                fetch('/data/reviews.json')
+                    .then(r => r.json())
+                    .then(data => {
+                        const entry = data.find(r => r.url === '/reviews/ccse/index.html');
+                        if (entry) setMeta(entry);
+                    })
+                    .catch(() => {});
+            }, []);
+
+            resetFigCount();
+
+            const tocItems = [
+                { id: 'introduction',   label: 'Introduction',                    icon: 'BookOpen'      },
+                { id: 'course-review',  label: 'Course & Lab Review and Experience', icon: 'GraduationCap' },
+                { id: 'exam-experience',label: 'Exam Experience',                  icon: 'ClipboardList' },
+                { id: 'exam-tips',      label: 'Exam Tips & Key Takeaways',        icon: 'Lightbulb'     },
+            ];
+
+            return (
+                <div className={`min-h-screen bg-gradient-to-br from-slate-50 via-amber-50 to-orange-50 ${dark ? 'dark' : ''}`}>
+
+                    {/* Navigation */}
+                    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 px-4 py-3">
+                        <div className="max-w-4xl mx-auto flex items-center justify-between">
+                            <div className="flex items-center gap-2 text-sm flex-wrap">
+                                <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                                    <img src="/chicken0248.png" alt="Logo" className="w-7 h-7 rounded-lg" />
+                                    <span className="font-bold text-gray-800 hidden sm:inline">Chicken0248</span>
+                                </a>
+                                <span className="text-gray-400">/</span>
+                                <a href="/reviews/index.html" className="font-medium text-gray-600 hover:text-blue-600 transition-colors">Reviews</a>
+                                <span className="text-gray-400">/</span>
+                                <span className="font-semibold text-gray-700">CCSE</span>
+                            </div>
+                            <button onClick={() => setDark(!dark)}
+                                className="p-2 rounded-lg hover:bg-gray-100 text-gray-600 transition-colors text-lg">
+                                {dark ? '\u2600\uFE0F' : '\uD83C\uDF19'}
+                            </button>
+                        </div>
+                    </nav>
+
+                    <main className="max-w-4xl mx-auto px-4 py-8 space-y-10 animate-fadeIn">
+
+                        {/* Hero */}
+                        <div className="relative overflow-hidden rounded-3xl shadow-2xl">
+                            <img src="ccse.jpg" alt="CyberWarFare Labs Certified Cyber Security Engineer (CCSE)"
+                                 className="w-full h-48 sm:h-64 md:h-80 object-cover" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                            <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white">
+                                <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-3 leading-snug">
+                                    CyberWarFare Labs — Certified Cyber Security Engineer (CCSE) — My Experience and Review
+                                </h1>
+                                <div className="flex flex-wrap gap-2 text-sm">
+                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Building2" className="w-3.5 h-3.5" /> CyberWarFare Labs
+                                    </span>
+                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Calendar" className="w-3.5 h-3.5" /> April 2026
+                                    </span>
+                                    <span className="bg-red-500/80 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Sword" className="w-3.5 h-3.5" /> Red Team · Penetration Testing
+                                    </span>
+                                    <span className="bg-green-500/80 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="CheckCircle" className="w-3.5 h-3.5" /> Passed
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Metadata */}
+                        <div className="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm">
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                                <div><span className="text-gray-500 block">Certification</span><span className="font-semibold text-gray-800">CCSE</span></div>
+                                <div><span className="text-gray-500 block">Provider</span><span className="font-semibold text-gray-800">CyberWarFare Labs</span></div>
+                                <div><span className="text-gray-500 block">Difficulty</span><span className="font-semibold text-amber-600">{meta?.difficulty ?? '—'}</span></div>
+                                <div><span className="text-gray-500 block">Rating</span>
+                                    {meta?.rating ? (
+                                        <span className="font-semibold text-gray-800 flex items-center gap-1">
+                                            <span className="text-yellow-500">{renderStars(meta.rating)}</span>
+                                            <span className="text-gray-500 font-normal text-xs ml-0.5">{meta.rating.toFixed(1)}/5.0</span>
+                                        </span>
+                                    ) : <span className="text-gray-400">—</span>}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Table of Contents */}
+                        <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                            <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                <Icon name="List" className="w-5 h-5 text-amber-600" />
+                                Table of Contents
+                            </h2>
+                            <div className="grid sm:grid-cols-2 gap-1">
+                                {tocItems.map((item, i) => (
+                                    <a key={item.id} href={`#${item.id}`}
+                                       className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors text-sm">
+                                        <Icon name={item.icon} className="w-4 h-4 text-gray-400" />
+                                        <span className="text-gray-400 font-mono text-xs w-5">{i + 1}.</span>
+                                        <span className="font-medium">{item.label}</span>
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* ═══════════ INTRODUCTION ═══════════ */}
+                        <Section id="introduction" title="Introduction" icon="BookOpen">
+                            <p className="text-gray-700 leading-relaxed">
+                                Hello everyone, it's me, <B>Chicken0248</B>, back again with another course and exam I just passed — the{' '}
+                                <B>Certified Cyber Security Engineer (CCSE)</B> certification from CyberWarFare Labs. The name is pretty broad and doesn't tell you much about what's inside, so if you're curious about what the course covers and what the exam is like, stay tuned — I'll break it all down in this post.
+                            </p>
+
+                            <Fig src="image.png" alt="CCSE certification badge" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                First, let's talk about the price. The CCSE course and exam come bundled at <B>$199</B>, but CWL occasionally releases discounts. During their latest anniversary event, you could grab it for just <B>$49</B> — incredibly cheap for everything it has to offer.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                From the screenshot above, you can see that once you purchase the course, you get access to <B>12 modules</B> of video content and course materials, along with <B>50+ online lab challenges</B>.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                It also comes with <B>2 exam attempts</B>, which we'll cover in the exam experience section.
+                            </p>
+
+                            <Fig src="image 1.png" alt="CWL course portal after purchase" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                After purchasing, you'll be granted access to the CCSE course at{' '}
+                                <A href="https://labs.cyberwarfare.live/">labs.cyberwarfare.live</A>,
+                                {' '}where you can find everything from study materials and lab access to exam booking.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                With that out of the way, let's jump into the next section and dig into what the course actually teaches.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ COURSE & LAB REVIEW ═══════════ */}
+                        <Section id="course-review" title="Course & Lab Review and Experience" icon="GraduationCap">
+                            <Fig src="image 2.png" alt="CCSE course modules overview" />
+
+                            <Callout>
+                                CCSE contains 12+ cyber security domains and each contains practical real-world penetration testing exercises. You will be tasked as a penetration tester to practically complete the exercises taught in the course videos. We have provided either write-up documentation or video walkthrough to help your penetration testing operations. Complete the CCSE exercises &amp; earn the module based badges.
+                            </Callout>
+
+                            <p className="text-gray-700 leading-relaxed">
+                                This is what CWL claims about their course, and as you can see, it's firmly focused on penetration testing — making this more of a <B>red teaming certification</B>. It covers a wide range of domains, including OSINT, Phishing, Network, Web, Cloud, Docker, Mobile, Active Directory, and even Wi-Fi. That breadth is exactly what made me uncertain about how all of these topics could realistically be tested in an exam, and it's honestly what made me hesitate to take it for nearly a year.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                The course covers various interesting topics, including:
+                            </p>
+                            <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                <li>Basic scripting for IP-to-geolocation lookups and Wi-Fi password dumping</li>
+                                <li>OSINT techniques — Google Dorking, finding exposed credentials with TruffleHog, and more</li>
+                                <li>Setting up a phishing infrastructure with GoPhish</li>
+                                <li>Web vulnerabilities and attacks: XXE, SSTI, File Inclusion, SQLi, RCE, XSS, CSRF, IDOR, parameter injection, and OAuth attacks</li>
+                                <li>Network pentesting: SSH, SMB, SNMP, RDP, FTP, WinRM, LDAP, SMTP</li>
+                                <li>Network pivoting techniques</li>
+                                <li>Windows and Linux privilege escalation, credential dumping and cracking, persistence, and data exfiltration</li>
+                                <li>Exploit development (Buffer Overflow)</li>
+                                <li>Basic cloud pentesting for AWS S3, Azure Blobs, Entra ID, and a little GCP</li>
+                                <li>Docker escape with various techniques</li>
+                                <li>Mobile app pentesting (APK analysis, Android device rooting, SSL pinning, etc.)</li>
+                                <li>Active Directory attacks</li>
+                                <li>Wi-Fi pentesting (WEP, WPA2, WPA3 cracking, MitM attacks, and rogue access points)</li>
+                            </ul>
+                            <p className="text-gray-700 leading-relaxed">
+                                And now you know why I was hesitant. The scope is enormous, and I was genuinely worried I'd fail if the exam heavily tested Cloud, Mobile, or Buffer Overflow topics. But don't worry — just learn as much as you can, because as you'll hear in the exam experience section, it's nowhere near as intimidating as it initially seems.
+                            </p>
+
+                            <Fig src="image 3.png" alt="Lab types available in CCSE" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Now, onto the labs. Every module has its own labs, and CCSE offers two types as shown above: a <B>Local VM Setup</B>, where they provide a VM image for you to deploy locally, and a <B>VPN Lab</B>, which requires you to generate a VPN configuration to access the remote lab environment.
+                            </p>
+
+                            <Fig src="image 4.png" alt="Lab Access section — Start Lab button" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                To start the VPN Lab, head to the "Lab Access" section and click "Start Lab" to generate your VPN configuration. Keep in mind that once you generate the configuration file, the <B>30-day countdown begins immediately</B> and cannot be paused.
+                            </p>
+
+                            <Fig src="image 5.png" alt="VPN Lab infrastructure overview" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                The VPN Lab infrastructure includes a web pentesting environment, a network pentesting environment, a Docker pentesting environment, and a small cloud pentesting environment.
+                            </p>
+
+                            <Fig src="image 6.png" alt="Lab write-ups available alongside exercises" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Some of the local and VPN labs also come with associated write-ups, so you can refer to them to understand the intended approach, expand your knowledge, and fill out your cheat sheet.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                There's not much more to add about the course and labs, so let's move on to the next section.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ EXAM EXPERIENCE ═══════════ */}
+                        <Section id="exam-experience" title="Exam Experience" icon="ClipboardList">
+                            <Fig src="image 7.png" alt="CCSP exam portal overview" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                To earn the CCSE certification, you need to book your exam through the <B>CCSP Portal</B> and complete it within <B>48 hours</B>. The first 24 hours are dedicated to the hands-on exam environment — you'll download a VPN configuration file, connect to it, and conduct your engagement. Once that window closes, you have an additional 24 hours to write and submit your exam report. If you successfully complete the exam objectives and clearly document them in your report, you'll qualify for the certification.
+                            </p>
+
+                            <Fig src="image 8.png" alt="Exam booking interface — schedule up to 30 days out" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                To book the exam, head to the "Exam" page — you'll see an interface similar to the screenshot above. You can schedule your exam up to <B>30 days from the current date</B>, so if you're booking on April 13th, you can choose any date up to May 13th.
+                            </p>
+
+                            <Fig src="image 9.png" alt="Exam scheduled for April 11th, 2026" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                A friend of mine had taken this exam before and reassured me that it wasn't as broad or difficult as the course content might suggest — which finally convinced me to go for it. I scheduled my exam for <B>April 11th, 2026</B>, with a plan to finish everything — hacking and report writing — within the first 24 hours while the exam environment was still accessible.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Writing the report while you still have access to the environment is a key strategy. You can revisit the machines at any time during that window to capture clean screenshots, re-run commands, or verify findings before including them in the report.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Once your exam is booked, the portal will also display additional exam details, including submission instructions and a reminder of the 24-hour hands-on window followed by the 24-hour reporting period.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                On April 11th, I woke up a bit late, but it was still manageable. I logged back into the CCSP portal and found that my 24-hour hands-on timer had already started. I downloaded the OpenVPN configuration file, connected to the exam environment, and read through the exam instructions — covering the objective, scope of engagement, and what was expected.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                To put it simply: you're given a network range as your starting point. The goal is to obtain a <B>secret flag</B> located on the final endpoint in that range, which also requires you to achieve the highest privilege level on that machine before you can read it.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                After enumerating for a while, I found the initial access point, which led me to compromise the first endpoint. From there, everything progressed smoothly until I captured the final flag. One important note: since the scope is strictly within the exam environment, OSINT and Cloud are considered out of scope. The exam is very manageable if you've gone through the course material and taken good notes.
+                            </p>
+
+                            <Fig src="image 10.png" alt="CCSE report template from course materials" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                As for the report template, CWL provides one in the introductory course materials, so I downloaded it. What's interesting about this template is that it's close to a <B>client-ready format</B> — it blends a write-up style with a structured findings report, making it a solid foundation to build your submission around.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                I finished writing my report within the first 24 hours and submitted it to the support email using the subject line specified on the exam page.
+                            </p>
+
+                            <Fig src="image 11.png" alt="CWL acknowledgment email confirming report receipt" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                After submitting your report via email, CWL will send an acknowledgment email confirming they received it and letting you know they'll get back to you within <B>7–10 working days</B>.
+                            </p>
+
+                            <Fig src="image 12.png" alt="Countdown timer after the 24-hour hands-on window expires" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                The screenshot above shows the countdown timer after the first 24-hour hands-on window has expired. One thing I'd love to see CWL improve is a <B>dedicated report submission portal</B> — it would make the process much smoother and eliminate the risk of forgetting to attach the report to the email.
+                            </p>
+
+                            <Fig src="image 13.png" alt="Exam environment after the countdown ended" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                And here is what the portal looked like once the countdown ended.
+                            </p>
+
+                            <Fig src="image 14.png" alt="Result email from CWL — exam passed" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Five days later, on the evening of <B>April 16th, 2026</B> — right after Thailand's Songkran holiday — I received an email with the exam result. I passed.
+                            </p>
+
+                            <Fig src="image 15.png" alt="CCSP portal — Get Your Accredible button" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                To claim your certificate and digital badge from Accredible, log back into the portal, head to the Exam page, and click "Get Your Accredible."
+                            </p>
+
+                            <Fig src="image 16.png" alt="Accredible badge and certificate assigned" />
+
+                            <Fig src="image 17.png" alt="Accredible confirmation email" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Once you do that, the Accredible badge and certificate will be assigned to your account. You can view them directly from the exam page, or check your inbox for a confirmation email sent from Accredible.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                That's it for the exam experience.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ EXAM TIPS ═══════════ */}
+                        <Section id="exam-tips" title="Exam Tips &amp; Key Takeaways" icon="Lightbulb">
+                            <div className="bg-amber-50 rounded-2xl border border-amber-200 p-6">
+                                <TipList items={[
+                                    'The course covers a wide range of penetration testing topics, from web and network to cloud and Wi-Fi.',
+                                    'Focus on Docker escape, web exploitation, network attacks, and Active Directory for the exam.',
+                                    'The exam is 48 hours total: 24 hours for hands-on hacking and 24 hours for report writing and submission.',
+                                    'Learn network pivoting — you may not always need it, but it can make your life significantly easier.',
+                                    "Use CWL's provided report template; it's well-structured and practically client-ready.",
+                                    'The objective is to obtain a secret flag with the highest privilege on the final endpoint — you\'ll identify which one it is naturally as you progress.',
+                                    'Do the VPN labs. You will almost certainly use at least one technique from them during the exam.',
+                                ]} />
+                            </div>
+                            <p className="text-gray-700 leading-relaxed">
+                                That's it for this blog. Thank you all for reading!
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">Peace ✌️</p>
+                        </Section>
+
+                        {/* Footer navigation */}
+                        <div className="text-center py-8 border-t border-gray-200">
+                            <a href="#" className="text-blue-600 hover:text-blue-700 font-medium text-sm inline-flex items-center gap-1">
+                                <Icon name="ArrowUp" className="w-4 h-4" /> Back to top
+                            </a>
+                            <span className="mx-3 text-gray-300">|</span>
+                            <a href="/reviews/index.html" className="text-blue-600 hover:text-blue-700 font-medium text-sm inline-flex items-center gap-1">
+                                <Icon name="ArrowLeft" className="w-4 h-4" /> All Reviews
+                            </a>
+                        </div>
+
+                    </main>
+                </div>
+            );
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>

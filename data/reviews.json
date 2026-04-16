@@ -1,5 +1,16 @@
 [
   {
+    "title": "CyberWarFare Labs - Certified Cyber Security Engineer [CCSE] - My Experience and Review",
+    "excerpt": "A detailed review of the Certified Cyber Security Engineer certification from CyberWarFare Labs — covering its broad penetration testing course, online labs, 48-hour exam format, and honest takeaways on what to focus on.",
+    "date": "April 2026",
+    "readTime": "10 min read",
+    "tags": ["CCSE", "CWL", "Red Team", "Penetration Testing", "Intermediate"],
+    "url": "/reviews/ccse/index.html",
+    "image": "/assets/badges/ccse.png",
+    "difficulty": "Intermediate",
+    "rating": 4.5
+  },
+  {
     "title": "Practical SOC Analyst Professional (PSAP) — A Detailed Review on SOC 201 Course and Its Exam",
     "excerpt": "A detailed review of the PSAP certification from TCM Security, covering the SOC 201 course content, exam experience, and honest takeaways",
     "date": "April 2026",
