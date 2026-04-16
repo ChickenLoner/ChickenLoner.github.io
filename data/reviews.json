@@ -27,7 +27,7 @@
     "date": "May 2025",
     "readTime": "5 min read",
     "tags": ["OSCP", "Penetration Testing", "OffSec", "Red Team"],
-    "url": "https://systemweakness.com/passed-oscp-as-a-blue-teamer-what-it-took-c8520e79f734",
+    "url": "/reviews/oscp/index.html",
     "image": "/assets/badges/oscpplus.png",
     "difficulty": "Intermediate",
     "rating": 4.0
@@ -93,7 +93,7 @@
     "date": "July 2025",
     "readTime": "20 min read",
     "tags": ["PT1", "Red Team", "TryHackMe", "Penetration Testing"],
-    "url": "https://systemweakness.com/full-guide-to-help-you-pass-your-tryhackme-pt1-exam-3cf1f1fcb30b",
+    "url": "/reviews/pt1/index.html",
     "image": "/assets/badges/pt1.png",
     "difficulty": "Intermediate",
     "rating": 4.0
@@ -104,7 +104,7 @@
     "date": "March 2025",
     "readTime": "10 min read",
     "tags": ["SAL1", "Blue Team", "SOC", "Entry Level", "TryHackMe"],
-    "url": "https://systemweakness.com/how-i-passed-tryhackme-security-analyst-level-1-sal1-certification-exam-on-my-second-attempt-c1fc3dbd7510",
+    "url": "/reviews/sal1/index.html",
     "image": "/assets/badges/sal1.png",
     "difficulty": "Beginner",
     "rating": 4.2
