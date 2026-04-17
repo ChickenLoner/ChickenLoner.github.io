@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CCDA Review — CyberWarFare Labs Cyber Defence Analyst | Chicken0248</title>
+    <meta name="description" content="A detailed review and guide on the CyberWarFare Labs Cyber Defence Analyst certification — covering the course, 21-lab environment, exam scheduling process, and tips for passing." />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Chicken0248" />
+    <meta property="og:url" content="https://chickenloner.github.io/reviews/ccda/" />
+    <meta property="og:title" content="CyberWarFare Labs : Cyber Defence Analyst [CCDA] Certification — My Experience and Review" />
+    <meta property="og:description" content="A detailed review and guide on the CyberWarFare Labs Cyber Defence Analyst certification — covering the course, 21-lab environment, exam scheduling process, and tips for passing." />
+    <meta property="og:image" content="https://chickenloner.github.io/reviews/ccda/cover.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@Chicken_0248" />
+    <meta name="twitter:title" content="CyberWarFare Labs : Cyber Defence Analyst [CCDA] Certification — My Experience and Review" />
+    <meta name="twitter:description" content="A detailed review and guide on the CyberWarFare Labs Cyber Defence Analyst certification — covering the course, 21-lab environment, exam scheduling process, and tips for passing." />
+    <meta name="twitter:image" content="https://chickenloner.github.io/reviews/ccda/cover.png" />
+    <link rel="icon" href="/chicken0248.png" type="image/png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn { animation: fadeIn 0.5s ease-out; }
+
+        /* ── DARK MODE ── */
+        .dark.min-h-screen { background: linear-gradient(135deg, #0f172a 0%, #141f35 50%, #0a1628 100%) !important; }
+        .dark nav { background-color: rgba(15,23,42,0.96) !important; border-bottom-color: rgba(51,65,85,0.5) !important; }
+        .dark .bg-white    { background-color: #1e293b !important; }
+        .dark .bg-gray-50  { background-color: #0f172a !important; }
+        .dark .bg-gray-100 { background-color: #334155 !important; }
+        .dark .bg-amber-50   { background-color: rgba(245,158,11,0.10) !important; }
+        .dark .bg-amber-100  { background-color: rgba(245,158,11,0.20) !important; }
+        .dark .bg-orange-50  { background-color: rgba(234,88,12,0.10) !important; }
+        .dark .bg-orange-100 { background-color: rgba(234,88,12,0.20) !important; }
+        .dark .bg-blue-50    { background-color: rgba(37,99,235,0.12) !important; }
+        .dark .bg-blue-100   { background-color: rgba(37,99,235,0.20) !important; }
+        .dark .bg-green-100  { background-color: rgba(22,163,74,0.20) !important; }
+        .dark .text-gray-800 { color: #e2e8f0 !important; }
+        .dark .text-gray-700 { color: #cbd5e1 !important; }
+        .dark .text-gray-600 { color: #94a3b8 !important; }
+        .dark .text-gray-500 { color: #64748b !important; }
+        .dark .text-gray-400 { color: #475569 !important; }
+        .dark .text-amber-700  { color: #fbbf24 !important; }
+        .dark .text-orange-700 { color: #fb923c !important; }
+        .dark .text-blue-600   { color: #60a5fa !important; }
+        .dark .text-green-700  { color: #4ade80 !important; }
+        .dark .border-gray-100 { border-color: #334155 !important; }
+        .dark .border-gray-200 { border-color: #475569 !important; }
+        .dark .border-amber-200  { border-color: rgba(245,158,11,0.3) !important; }
+        .dark .border-orange-200 { border-color: rgba(234,88,12,0.3) !important; }
+        .dark .hover\:bg-gray-50:hover { background-color: #1e293b !important; }
+        .dark .hover\:text-blue-600:hover { color: #60a5fa !important; }
+        .dark ::-webkit-scrollbar       { width: 6px; }
+        .dark ::-webkit-scrollbar-track { background: #0f172a; }
+        .dark ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        const Icon = ({ name, className = "w-6 h-6", ...props }) => {
+            const ref = useRef(null);
+            useEffect(() => {
+                if (ref.current) {
+                    const el = lucide.createElement(lucide[name], { class: className });
+                    ref.current.innerHTML = '';
+                    ref.current.appendChild(el);
+                }
+            }, [name, className]);
+            return <i ref={ref} className={`flex-shrink-0 ${className}`} {...props}></i>;
+        };
+
+        const Section = ({ id, title, icon, children }) => (
+            <section id={id} className="scroll-mt-24">
+                <h2 className="text-2xl font-bold text-gray-800 mb-5 flex items-center gap-3 border-b border-gray-200 pb-3">
+                    <Icon name={icon} className="w-6 h-6 text-amber-600" />
+                    {title}
+                </h2>
+                <div className="space-y-4">{children}</div>
+            </section>
+        );
+
+        let figCount = 0;
+        const resetFigCount = () => { figCount = 0; };
+
+        const Fig = ({ src, alt }) => {
+            figCount += 1;
+            const n = figCount;
+            return (
+                <figure className="my-5">
+                    <img src={src} alt={alt || `Figure ${n}`}
+                         className="rounded-xl border border-gray-200 shadow-sm max-w-full mx-auto block" loading="lazy" />
+                    <figcaption className="text-center text-xs text-gray-400 mt-1.5 font-mono">Figure {n}</figcaption>
+                </figure>
+            );
+        };
+
+        const TipList = ({ items }) => (
+            <ul className="list-disc list-outside ml-5 space-y-2 text-gray-700">
+                {items.map((item, i) => <li key={i}>{item}</li>)}
+            </ul>
+        );
+
+        const B = ({ children }) => <strong className="text-gray-800">{children}</strong>;
+        const A = ({ href, children }) => (
+            <a href={href} target="_blank" rel="noopener noreferrer"
+               className="text-blue-600 hover:underline">{children}</a>
+        );
+
+        const renderStars = (rating) => {
+            const full = Math.floor(rating);
+            const half = rating - full >= 0.5;
+            return '★'.repeat(full) + (half ? '½' : '') + '☆'.repeat(5 - full - (half ? 1 : 0));
+        };
+
+        const App = () => {
+            const [dark, setDark] = useState(() => localStorage.getItem('darkMode') === 'true');
+            const [meta, setMeta] = useState(null);
+            useEffect(() => { localStorage.setItem('darkMode', dark); }, [dark]);
+
+            useEffect(() => {
+                fetch('/data/reviews.json')
+                    .then(r => r.json())
+                    .then(data => {
+                        const entry = data.find(r => r.url === '/reviews/ccda/index.html');
+                        if (entry) setMeta(entry);
+                    })
+                    .catch(() => {});
+            }, []);
+
+            resetFigCount();
+
+            const tocItems = [
+                { id: 'introduction',    label: 'Introduction',          icon: 'BookOpen'      },
+                { id: 'course-experience', label: 'Course Experience',   icon: 'GraduationCap' },
+                { id: 'lab-experience',  label: 'Lab Experience',        icon: 'FlaskConical'  },
+                { id: 'exam-experience', label: 'Exam Experience & Tips', icon: 'ClipboardList' },
+            ];
+
+            return (
+                <div className={`min-h-screen bg-gradient-to-br from-slate-50 via-amber-50 to-orange-50 ${dark ? 'dark' : ''}`}>
+
+                    {/* Navigation */}
+                    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 px-4 py-3">
+                        <div className="max-w-4xl mx-auto flex items-center justify-between">
+                            <div className="flex items-center gap-2 text-sm flex-wrap">
+                                <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                                    <img src="/chicken0248.png" alt="Logo" className="w-7 h-7 rounded-lg" />
+                                    <span className="font-bold text-gray-800 hidden sm:inline">Chicken0248</span>
+                                </a>
+                                <span className="text-gray-400">/</span>
+                                <a href="/reviews/index.html" className="font-medium text-gray-600 hover:text-blue-600 transition-colors">Reviews</a>
+                                <span className="text-gray-400">/</span>
+                                <span className="font-semibold text-gray-700">CCDA</span>
+                            </div>
+                            <button onClick={() => setDark(!dark)}
+                                className="p-2 rounded-lg hover:bg-gray-100 text-gray-600 transition-colors text-lg">
+                                {dark ? '\u2600\uFE0F' : '\uD83C\uDF19'}
+                            </button>
+                        </div>
+                    </nav>
+
+                    <main className="max-w-4xl mx-auto px-4 py-8 space-y-10 animate-fadeIn">
+
+                        {/* Hero */}
+                        <div className="relative overflow-hidden rounded-3xl shadow-2xl">
+                            <img src="cover.png" alt="CyberWarFare Labs Cyber Defence Analyst (CCDA)"
+                                 className="w-full h-48 sm:h-64 md:h-80 object-cover" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                            <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white">
+                                <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-3 leading-snug">
+                                    CyberWarFare Labs : Cyber Defence Analyst [CCDA] Certification — My Experience and Review
+                                </h1>
+                                <div className="flex flex-wrap gap-2 text-sm">
+                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Building2" className="w-3.5 h-3.5" /> CyberWarFare Labs
+                                    </span>
+                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Calendar" className="w-3.5 h-3.5" /> February 2025
+                                    </span>
+                                    <span className="bg-amber-500/80 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Shield" className="w-3.5 h-3.5" /> Blue Team · SOC
+                                    </span>
+                                    <span className="bg-green-500/80 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="CheckCircle" className="w-3.5 h-3.5" /> Passed
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Metadata */}
+                        <div className="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm">
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                                <div><span className="text-gray-500 block">Certification</span><span className="font-semibold text-gray-800">CCDA</span></div>
+                                <div><span className="text-gray-500 block">Provider</span><span className="font-semibold text-gray-800">CyberWarFare Labs</span></div>
+                                <div><span className="text-gray-500 block">Difficulty</span><span className="font-semibold text-amber-600">{meta?.difficulty ?? '—'}</span></div>
+                                <div><span className="text-gray-500 block">Rating</span>
+                                    {meta?.rating ? (
+                                        <span className="font-semibold text-gray-800 flex items-center gap-1">
+                                            <span className="text-yellow-500">{renderStars(meta.rating)}</span>
+                                            <span className="text-gray-500 font-normal text-xs ml-0.5">{meta.rating.toFixed(1)}/5.0</span>
+                                        </span>
+                                    ) : <span className="text-gray-400">—</span>}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Table of Contents */}
+                        <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                            <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                <Icon name="List" className="w-5 h-5 text-amber-600" />
+                                Table of Contents
+                            </h2>
+                            <div className="grid sm:grid-cols-2 gap-1">
+                                {tocItems.map((item, i) => (
+                                    <a key={item.id} href={`#${item.id}`}
+                                       className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors text-sm">
+                                        <Icon name={item.icon} className="w-4 h-4 text-gray-400" />
+                                        <span className="text-gray-400 font-mono text-xs w-5">{i + 1}.</span>
+                                        <span className="font-medium">{item.label}</span>
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* ═══════════ INTRODUCTION ═══════════ */}
+                        <Section id="introduction" title="Introduction" icon="BookOpen">
+                            <p className="text-gray-700 leading-relaxed">
+                                Hello everyone! I just passed the <B>Cyber Defence Analyst [CCDA]</B> exam from CyberWarFare Labs,
+                                so in this blog I'll share my review and insights on the course, the labs, and tips for the exam.
+                            </p>
+
+                            <Fig src="image-1.png" alt="CyberWarFare Labs overview" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                <A href="https://cyberwarfare.live/">CyberWarFare Labs</A> brands itself as an infosec education company
+                                providing cybersecurity training and certifications for both red teamers and blue teamers. That said,
+                                I think they really shine on the red team side — they even have their own{' '}
+                                <A href="https://github.com/RedTeamOperations/RedCloud-OS">RedCloud OS</A> purpose-built for
+                                cloud red team assessments.
+                            </p>
+
+                            <Fig src="image-2.png" alt="CyberWarFare Labs blue team certification lineup" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                As of February 2025, they offer two blue team certifications: the{' '}
+                                <A href="https://cyberwarfare.live/product/blue-team-fundamentals-btf/">Blue Team Fundamentals [BTF]</A>{' '}
+                                and the main topic of this blog,{' '}
+                                <A href="https://cyberwarfare.live/product/cyber-defence-analyst-ccda/">Cyber Defence Analyst [CCDA]</A>,
+                                priced at <B>$149</B>.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                After purchasing, you'll receive three emails: an invoice, course access credentials for their portal,
+                                and lab access credentials for their labs site. Before buying, I'd recommend reading through the{' '}
+                                <A href="https://cyberwarfare.live/wp-content/uploads/2024/04/CCDA-Syllabus.pdf">course syllabus</A>{' '}
+                                to get a clear picture of what's covered.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ COURSE EXPERIENCE ═══════════ */}
+                        <Section id="course-experience" title="Course Experience" icon="GraduationCap">
+                            <Fig src="image-3.png" alt="CCDA course portal on cyberwarfare.live" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                After purchasing, you'll get credentials to access the course at{' '}
+                                <A href="https://portal.cyberwarfare.live/">portal.cyberwarfare.live</A>.
+                                The course covers five main topics:
+                            </p>
+                            <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                <li>Cyber Defence roles and responsibilities</li>
+                                <li>Phishing investigation</li>
+                                <li>Web-based investigation</li>
+                                <li>Network-based investigation</li>
+                                <li>Endpoint investigation</li>
+                            </ul>
+
+                            <Fig src="image-4.png" alt="CCDA course module with downloadable slides" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Each module has a downloadable slide deck available from the first lesson, and every lesson is
+                                accompanied by a video. Reading the slides while watching the video works well for building a complete
+                                understanding of what the course expects you to know.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                One thing worth flagging: the instructor teaches with an Indian accent, so if you're not already
+                                comfortable with it, give yourself a little time to adjust. In my case I skipped through most of the
+                                videos since I was already familiar with the underlying concepts, but the slide diagrams were genuinely
+                                well put together so I did refer back to them occasionally.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ LAB EXPERIENCE ═══════════ */}
+                        <Section id="lab-experience" title="Lab Experience" icon="FlaskConical">
+                            <p className="text-gray-700 leading-relaxed">
+                                Lab access comes via a separate email with its own credentials for{' '}
+                                <A href="https://labs.cyberwarfare.live/">labs.cyberwarfare.live</A>.
+                            </p>
+
+                            <Fig src="image-5.png" alt="CyberWarFare Labs lab platform — 21 CCDA labs" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                There are <B>21 labs</B> in total, and you can start each one at any time.
+                                CyberWarFare Labs provides write-ups for all of them, so you'll always have a reference for
+                                how they approach each scenario.
+                            </p>
+
+                            <Fig src="image-6.png" alt="Lab access request page — 30-day window, OpenVPN required" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                To activate lab access, head to the{' '}
+                                <A href="https://labs.cyberwarfare.live/app/mycourse/ccda/labaccess">lab access request page</A>.
+                                You get a <B>30-day window</B> once activated, and you'll need to download an OpenVPN config file
+                                to connect to the lab environment. The tools you'll work with are:
+                            </p>
+                            <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                <li><B>TheHive</B> — case management</li>
+                                <li><B>Velociraptor</B> — endpoint monitoring</li>
+                                <li><B>Moloch / Arkime</B> — network monitoring</li>
+                                <li><B>Wazuh</B> — file integrity monitoring</li>
+                            </ul>
+
+                            <Fig src="image-7.png" alt="Lab write-up with investigation mind map" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                What I really liked about the write-ups is the <B>investigation mind map</B> included in each one —
+                                it walks through how they approach a case from start to finish. If you're new to this kind of work,
+                                taking notes from these mind maps will genuinely help you in the exam.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                There are no flags to capture; you simply follow the write-up and mark each lab as complete.
+                                Once you've finished all 21, you can share the achievement on LinkedIn.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ EXAM EXPERIENCE & TIPS ═══════════ */}
+                        <Section id="exam-experience" title="Exam Experience &amp; Tips" icon="ClipboardList">
+                            <Fig src="image-8.png" alt="CCDA exam procedures from CyberWarFare Labs" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Unlike most providers, CCDA doesn't have an on-demand exam — you need to <B>schedule it by email</B>.
+                                Send your request to{' '}
+                                <A href="mailto:support@cyberwarfare.live">support@cyberwarfare.live</A>{' '}
+                                using the same email address you used to purchase the course, and include your preferred time in both
+                                UK time and your local timezone. Here's a template you can adapt:
+                            </p>
+
+                            <div className="bg-gray-50 rounded-xl border border-gray-200 p-5 font-mono text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">
+{`Hi CyberWarFare Labs,
+
+I would like to schedule my CCDA exam for the following date:
+
+Friday, February 14, 2025 (GMT+7)
+20:00:00 - Time in Bangkok, Thailand
+
+Or according to the time in Karnataka, India:
+18:30:00 - Indian Standard Time (IST), UTC+5:30
+
+Or according to UK timezone:
+13:00:00 - GMT/UTC
+
+Best Regards`}
+                            </div>
+
+                            <Fig src="image-9.png" alt="CyberWarFare Labs reply confirming exam schedule" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Once they confirm your schedule, they'll send two follow-up emails in addition to the confirmation reply:
+                            </p>
+                            <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                <li><B>First email</B> — sent alongside the confirmation, containing an overview of the exam (not the full details yet) with some useful general information.</li>
+                                <li><B>Second email</B> — sent shortly before the exam itself, containing the OpenVPN config file, scope of engagement, exam objectives, credentials, scenario, deliverables, and a few additional notes.</li>
+                            </ul>
+                            <p className="text-gray-700 leading-relaxed">
+                                I connected via OpenVPN at my scheduled time and had no technical issues whatsoever — all tools worked
+                                smoothly. I finished the exam and submitted my report within <B>6 hours</B> of connecting.
+                                The exam isn't hard; the labs prepare you thoroughly and you won't need to go hunting for extra resources.
+                            </p>
+
+                            <Fig src="image-10.png" alt="Email acknowledging receipt of exam report" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                After submitting the report, CyberWarFare Labs replied to confirm they'd received it and would follow up soon.
+                            </p>
+
+                            <Fig src="image-11.png" alt="Waiting for results — submitted on Saturday, expected by Monday" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Since I submitted on a Saturday, I expected results sometime between the 17th and 21st of February —
+                                accounting for business days. I was right: I received the pass notification on Monday.
+                            </p>
+
+                            <Fig src="image-12.png" alt="CCDA badge and certificate issued via Accredible" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                CyberWarFare Labs issues badges and certificates through Accredible, which wraps up the exam and
+                                review process. If you're planning to take this exam, good luck on your journey!
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">Thanks for reading!</p>
+                        </Section>
+
+                        {/* Footer navigation */}
+                        <div className="text-center py-8 border-t border-gray-200">
+                            <a href="#" className="text-blue-600 hover:text-blue-700 font-medium text-sm inline-flex items-center gap-1">
+                                <Icon name="ArrowUp" className="w-4 h-4" /> Back to top
+                            </a>
+                            <span className="mx-3 text-gray-300">|</span>
+                            <a href="/reviews/index.html" className="text-blue-600 hover:text-blue-700 font-medium text-sm inline-flex items-center gap-1">
+                                <Icon name="ArrowLeft" className="w-4 h-4" /> All Reviews
+                            </a>
+                        </div>
+
+                    </main>
+                </div>
+            );
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>
