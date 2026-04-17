@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRTA Review — CyberWarFare Labs Certified Red Team Analyst | Chicken0248</title>
+    <meta name="description" content="A detailed review and guide on the CyberWarFare Labs Certified Red Team Analyst certification — covering the course, Active Directory lab, exam scheduling process, and tips for passing." />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Chicken0248" />
+    <meta property="og:url" content="https://chickenloner.github.io/reviews/crta/" />
+    <meta property="og:title" content="CyberWarFare Labs : Certified Red Team Analyst [CRTA] Certification — My Experience and Review" />
+    <meta property="og:description" content="A detailed review and guide on the CyberWarFare Labs Certified Red Team Analyst certification — covering the course, Active Directory lab, exam scheduling process, and tips for passing." />
+    <meta property="og:image" content="https://chickenloner.github.io/reviews/crta/cover.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@Chicken_0248" />
+    <meta name="twitter:title" content="CyberWarFare Labs : Certified Red Team Analyst [CRTA] Certification — My Experience and Review" />
+    <meta name="twitter:description" content="A detailed review and guide on the CyberWarFare Labs Certified Red Team Analyst certification — covering the course, Active Directory lab, exam scheduling process, and tips for passing." />
+    <meta name="twitter:image" content="https://chickenloner.github.io/reviews/crta/cover.png" />
+    <link rel="icon" href="/chicken0248.png" type="image/png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn { animation: fadeIn 0.5s ease-out; }
+
+        /* ── DARK MODE ── */
+        .dark.min-h-screen { background: linear-gradient(135deg, #0f172a 0%, #141f35 50%, #0a1628 100%) !important; }
+        .dark nav { background-color: rgba(15,23,42,0.96) !important; border-bottom-color: rgba(51,65,85,0.5) !important; }
+        .dark .bg-white    { background-color: #1e293b !important; }
+        .dark .bg-gray-50  { background-color: #0f172a !important; }
+        .dark .bg-gray-100 { background-color: #334155 !important; }
+        .dark .bg-amber-50   { background-color: rgba(245,158,11,0.10) !important; }
+        .dark .bg-amber-100  { background-color: rgba(245,158,11,0.20) !important; }
+        .dark .bg-orange-50  { background-color: rgba(234,88,12,0.10) !important; }
+        .dark .bg-orange-100 { background-color: rgba(234,88,12,0.20) !important; }
+        .dark .bg-blue-50    { background-color: rgba(37,99,235,0.12) !important; }
+        .dark .bg-blue-100   { background-color: rgba(37,99,235,0.20) !important; }
+        .dark .bg-green-100  { background-color: rgba(22,163,74,0.20) !important; }
+        .dark .text-gray-800 { color: #e2e8f0 !important; }
+        .dark .text-gray-700 { color: #cbd5e1 !important; }
+        .dark .text-gray-600 { color: #94a3b8 !important; }
+        .dark .text-gray-500 { color: #64748b !important; }
+        .dark .text-gray-400 { color: #475569 !important; }
+        .dark .text-amber-700  { color: #fbbf24 !important; }
+        .dark .text-orange-700 { color: #fb923c !important; }
+        .dark .text-blue-600   { color: #60a5fa !important; }
+        .dark .text-green-700  { color: #4ade80 !important; }
+        .dark .border-gray-100 { border-color: #334155 !important; }
+        .dark .border-gray-200 { border-color: #475569 !important; }
+        .dark .border-amber-200  { border-color: rgba(245,158,11,0.3) !important; }
+        .dark .border-orange-200 { border-color: rgba(234,88,12,0.3) !important; }
+        .dark .hover\:bg-gray-50:hover { background-color: #1e293b !important; }
+        .dark .hover\:text-blue-600:hover { color: #60a5fa !important; }
+        .dark ::-webkit-scrollbar       { width: 6px; }
+        .dark ::-webkit-scrollbar-track { background: #0f172a; }
+        .dark ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        const Icon = ({ name, className = "w-6 h-6", ...props }) => {
+            const ref = useRef(null);
+            useEffect(() => {
+                if (ref.current) {
+                    const el = lucide.createElement(lucide[name], { class: className });
+                    ref.current.innerHTML = '';
+                    ref.current.appendChild(el);
+                }
+            }, [name, className]);
+            return <i ref={ref} className={`flex-shrink-0 ${className}`} {...props}></i>;
+        };
+
+        const Section = ({ id, title, icon, children }) => (
+            <section id={id} className="scroll-mt-24">
+                <h2 className="text-2xl font-bold text-gray-800 mb-5 flex items-center gap-3 border-b border-gray-200 pb-3">
+                    <Icon name={icon} className="w-6 h-6 text-amber-600" />
+                    {title}
+                </h2>
+                <div className="space-y-4">{children}</div>
+            </section>
+        );
+
+        let figCount = 0;
+        const resetFigCount = () => { figCount = 0; };
+
+        const Fig = ({ src, alt }) => {
+            figCount += 1;
+            const n = figCount;
+            return (
+                <figure className="my-5">
+                    <img src={src} alt={alt || `Figure ${n}`}
+                         className="rounded-xl border border-gray-200 shadow-sm max-w-full mx-auto block" loading="lazy" />
+                    <figcaption className="text-center text-xs text-gray-400 mt-1.5 font-mono">Figure {n}</figcaption>
+                </figure>
+            );
+        };
+
+        const TipList = ({ items }) => (
+            <ul className="list-disc list-outside ml-5 space-y-2 text-gray-700">
+                {items.map((item, i) => <li key={i}>{item}</li>)}
+            </ul>
+        );
+
+        const B = ({ children }) => <strong className="text-gray-800">{children}</strong>;
+        const A = ({ href, children }) => (
+            <a href={href} target="_blank" rel="noopener noreferrer"
+               className="text-blue-600 hover:underline">{children}</a>
+        );
+
+        const renderStars = (rating) => {
+            const full = Math.floor(rating);
+            const half = rating - full >= 0.5;
+            return '★'.repeat(full) + (half ? '½' : '') + '☆'.repeat(5 - full - (half ? 1 : 0));
+        };
+
+        const App = () => {
+            const [dark, setDark] = useState(() => localStorage.getItem('darkMode') === 'true');
+            const [meta, setMeta] = useState(null);
+            useEffect(() => { localStorage.setItem('darkMode', dark); }, [dark]);
+
+            useEffect(() => {
+                fetch('/data/reviews.json')
+                    .then(r => r.json())
+                    .then(data => {
+                        const entry = data.find(r => r.url === '/reviews/crta/index.html');
+                        if (entry) setMeta(entry);
+                    })
+                    .catch(() => {});
+            }, []);
+
+            resetFigCount();
+
+            const tocItems = [
+                { id: 'introduction',     label: 'Introduction',             icon: 'BookOpen'      },
+                { id: 'course-experience', label: 'Course Experience',       icon: 'GraduationCap' },
+                { id: 'lab-experience',   label: 'Lab Experience',           icon: 'FlaskConical'  },
+                { id: 'exam-experience',  label: 'Exam Experience & Tips',   icon: 'ClipboardList' },
+            ];
+
+            return (
+                <div className={`min-h-screen bg-gradient-to-br from-slate-50 via-amber-50 to-orange-50 ${dark ? 'dark' : ''}`}>
+
+                    {/* Navigation */}
+                    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 px-4 py-3">
+                        <div className="max-w-4xl mx-auto flex items-center justify-between">
+                            <div className="flex items-center gap-2 text-sm flex-wrap">
+                                <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                                    <img src="/chicken0248.png" alt="Logo" className="w-7 h-7 rounded-lg" />
+                                    <span className="font-bold text-gray-800 hidden sm:inline">Chicken0248</span>
+                                </a>
+                                <span className="text-gray-400">/</span>
+                                <a href="/reviews/index.html" className="font-medium text-gray-600 hover:text-blue-600 transition-colors">Reviews</a>
+                                <span className="text-gray-400">/</span>
+                                <span className="font-semibold text-gray-700">CRTA</span>
+                            </div>
+                            <button onClick={() => setDark(!dark)}
+                                className="p-2 rounded-lg hover:bg-gray-100 text-gray-600 transition-colors text-lg">
+                                {dark ? '\u2600\uFE0F' : '\uD83C\uDF19'}
+                            </button>
+                        </div>
+                    </nav>
+
+                    <main className="max-w-4xl mx-auto px-4 py-8 space-y-10 animate-fadeIn">
+
+                        {/* Hero */}
+                        <div className="relative overflow-hidden rounded-3xl shadow-2xl">
+                            <img src="cover.png" alt="CyberWarFare Labs Certified Red Team Analyst (CRTA)"
+                                 className="w-full h-48 sm:h-64 md:h-80 object-cover" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                            <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white">
+                                <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-3 leading-snug">
+                                    CyberWarFare Labs : Certified Red Team Analyst [CRTA] Certification — My Experience and Review
+                                </h1>
+                                <div className="flex flex-wrap gap-2 text-sm">
+                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Building2" className="w-3.5 h-3.5" /> CyberWarFare Labs
+                                    </span>
+                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Calendar" className="w-3.5 h-3.5" /> March 2025
+                                    </span>
+                                    <span className="bg-red-500/80 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Sword" className="w-3.5 h-3.5" /> Red Team · Penetration Testing
+                                    </span>
+                                    <span className="bg-green-500/80 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="CheckCircle" className="w-3.5 h-3.5" /> Passed
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Metadata */}
+                        <div className="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm">
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                                <div><span className="text-gray-500 block">Certification</span><span className="font-semibold text-gray-800">CRTA</span></div>
+                                <div><span className="text-gray-500 block">Provider</span><span className="font-semibold text-gray-800">CyberWarFare Labs</span></div>
+                                <div><span className="text-gray-500 block">Difficulty</span><span className="font-semibold text-amber-600">{meta?.difficulty ?? '—'}</span></div>
+                                <div><span className="text-gray-500 block">Rating</span>
+                                    {meta?.rating ? (
+                                        <span className="font-semibold text-gray-800 flex items-center gap-1">
+                                            <span className="text-yellow-500">{renderStars(meta.rating)}</span>
+                                            <span className="text-gray-500 font-normal text-xs ml-0.5">{meta.rating.toFixed(1)}/5.0</span>
+                                        </span>
+                                    ) : <span className="text-gray-400">—</span>}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Table of Contents */}
+                        <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                            <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                <Icon name="List" className="w-5 h-5 text-amber-600" />
+                                Table of Contents
+                            </h2>
+                            <div className="grid sm:grid-cols-2 gap-1">
+                                {tocItems.map((item, i) => (
+                                    <a key={item.id} href={`#${item.id}`}
+                                       className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors text-sm">
+                                        <Icon name={item.icon} className="w-4 h-4 text-gray-400" />
+                                        <span className="text-gray-400 font-mono text-xs w-5">{i + 1}.</span>
+                                        <span className="font-medium">{item.label}</span>
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* ═══════════ INTRODUCTION ═══════════ */}
+                        <Section id="introduction" title="Introduction" icon="BookOpen">
+                            <p className="text-gray-700 leading-relaxed">
+                                Hello everyone, it's me Chicken0248 again! After passing the{' '}
+                                <a href="/reviews/ccda/index.html" className="text-blue-600 hover:underline">CCDA</a>{' '}
+                                exam from CyberWarFare Labs last month, I decided to put my pentesting methodology to the test with
+                                the <B>Certified Red Team Analyst [CRTA]</B> certification. I was not disappointed — it was a
+                                memorable experience. In this blog I'll briefly review the course, the lab, the exam process,
+                                and share some tips.
+                            </p>
+
+                            <Fig src="image-1.png" alt="CRTA pricing and discount banner" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                CRTA is regularly priced at <B>$99</B>, but at the time of writing, CyberWarFare Labs had a 90%
+                                discount code running that brought the price down to <B>$9</B> — outstanding value for an exam of
+                                this quality.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                After purchasing, you'll receive three emails: an <B>invoice</B>, <B>course access credentials</B>
+                                for their portal, and <B>lab access credentials</B> for their labs site.
+                            </p>
+
+                            <Fig src="image-2.png" alt="What's included: 150+ page PDF, 6 hours of video, 30-day lab access, 2 exam attempts" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                The bundle includes over <B>150 pages of PDF material</B>, <B>6 hours of video content</B>,
+                                <B> 30 days of lab access</B> to a red team infrastructure (activatable whenever you're ready),
+                                and <B>2 exam attempts</B>.
+                            </p>
+
+                            <Fig src="image-3.png" alt="CRTA course contents overview" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                The image above shows the full course contents. For a closer look, check out the{' '}
+                                <A href="https://cyberwarfare.live/wp-content/uploads/2023/05/Red-Team-Analyst-CRTA.pdf">course syllabus</A>{' '}
+                                directly.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ COURSE EXPERIENCE ═══════════ */}
+                        <Section id="course-experience" title="Course Experience" icon="GraduationCap">
+                            <Fig src="image-4.png" alt="CRTA course portal on cyberwarfare.live" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                After purchasing, you access the course at{' '}
+                                <A href="https://portal.cyberwarfare.live/">portal.cyberwarfare.live</A>.
+                                There are <B>16 lessons</B> in total, plus 9 walkthrough videos covering the lab and a course introduction.
+                            </p>
+
+                            <Fig src="image-5.png" alt="PDF download available from the first lesson" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                The full course PDF is available for download from the first lesson (BRT-Intro#1).
+                            </p>
+
+                            <Fig src="image-6.png" alt="Course video player — slow-paced delivery" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                The videos are on the slow side, so I'd recommend bumping playback speed to 1.25× or 1.5× to stay
+                                engaged. The instructor teaches with an Indian accent — if that's new to you, give yourself a bit of
+                                time to adjust, or follow along with the slides and mute the audio if needed.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ LAB EXPERIENCE ═══════════ */}
+                        <Section id="lab-experience" title="Lab Experience" icon="FlaskConical">
+                            <Fig src="image-7.png" alt="CyberWarFare Labs lab platform for CRTA" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Lab access comes via a separate credentials email for{' '}
+                                <A href="https://labs.cyberwarfare.live/">labs.cyberwarfare.live</A>.
+                                Unlike CCDA's 21 labs, CRTA has <B>one practice lab</B> — but the write-up on the lab site is
+                                comprehensive, including the full command set you can copy and paste.
+                            </p>
+
+                            <Fig src="image-8.png" alt="Lab access request page — 30-day window, OpenVPN required" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Activate lab access from the{' '}
+                                <A href="https://labs.cyberwarfare.live/app/mycourse/crta/labaccess">lab access page</A>.
+                                You get a <B>30-day window</B> once activated and connect via OpenVPN.
+                            </p>
+
+                            <Fig src="image-9.png" alt="Lab completion — no flags, just mark as done and share on LinkedIn" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                There are no flags to capture; work through the write-up and mark the lab complete. Once done,
+                                you can share the achievement on LinkedIn.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                My experience with the lab was genuinely good. I learned how to pivot with{' '}
+                                <B>ligolo-ng</B>, enumerate an AD environment for low-hanging fruit using{' '}
+                                <B>nxc</B> (formerly CrackMapExec), forge a <B>Golden Ticket</B> to move laterally from a child
+                                domain to a parent domain, and fully compromise the parent domain. For anyone starting their
+                                Active Directory pentesting journey, this is a solid foundation.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ EXAM EXPERIENCE & TIPS ═══════════ */}
+                        <Section id="exam-experience" title="Exam Experience &amp; Tips" icon="ClipboardList">
+                            <Fig src="image-10.png" alt="CRTA exam procedures from CyberWarFare Labs" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Like CCDA, the CRTA exam is <B>scheduled by email</B> — send your request to{' '}
+                                <A href="mailto:support@cyberwarfare.live">support@cyberwarfare.live</A>{' '}
+                                from the same address used to purchase the course, with your preferred time in UK timezone.
+                            </p>
+
+                            <Fig src="image-11.png" alt="CyberWarFare Labs email template for scheduling the CRTA exam" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                CyberWarFare Labs provides an email template directly — just fill in your date and time details
+                                and send it off.
+                            </p>
+
+                            <Fig src="image-12.png" alt="Confirmation reply — two additional emails will follow" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Once your schedule is confirmed, expect two more emails in addition to the reply:
+                            </p>
+                            <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                <li><B>First email</B> — sent with the confirmation reply; contains an exam overview with useful general information.</li>
+                                <li><B>Second email</B> — sent shortly before the exam; contains the OpenVPN config, initial scope of engagement, exam objectives, VPN credentials, all requirements, and operational notes (such as the automatic revert schedule).</li>
+                            </ul>
+                            <p className="text-gray-700 leading-relaxed">
+                                I connected via OpenVPN at my scheduled time with no technical issues. I applied everything from the
+                                lab and completed all exam objectives within <B>9 hours</B> (with several breaks along the way).
+                                I then spent the rest of the day writing the report — I used the{' '}
+                                <A href="https://help.offsec.com/hc/en-us/articles/360046787731-PEN-200-Reporting-Requirements">OSCP report template</A>{' '}
+                                and documented every step from initial engagement to the final objective. Once I felt confident in it,
+                                I submitted by email.
+                            </p>
+
+                            <Fig src="image-13.png" alt="Email acknowledging receipt of the exam report" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                CyberWarFare Labs confirmed receipt of the report and noted they'd respond within 6–7 working days.
+                                In practice, they graded it much faster — I received my result the next day (a Monday, having submitted
+                                on Sunday). Fast turnaround.
+                            </p>
+
+                            <Fig src="image-14.png" alt="Pass notification and certificate issued via Accredible" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                After the pass notification, I received one more email asking me to confirm my real name for the
+                                certificate. Everything was already correct, so no action was needed — and CyberWarFare Labs issued
+                                the badge and certificate through Accredible shortly after.
+                            </p>
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Here are the tips I'd pass on to anyone planning to take the exam:
+                            </p>
+                            <div className="bg-amber-50 rounded-2xl border border-amber-200 p-6">
+                                <TipList items={[
+                                    'Enumeration is key — I know you\'ve heard this before, but there\'s no getting around it.',
+                                    'Don\'t fixate on a single exploit. There are multiple paths to initial access, so keep your options open.',
+                                    'Get comfortable with port forwarding and pivoting — you\'ll need it.',
+                                    'Brush up on Active Directory fundamentals. The exam requires you to compromise a domain, so grasp the core AD pentesting concepts.',
+                                    'Work through the lab carefully, especially the child-to-parent domain lateral movement section — it is directly relevant to the exam.',
+                                    'Rest. This is a 24-hour exam, and they expect you to take breaks.',
+                                    'Document every step and command in your report. Treat it like an OSCP report.',
+                                ]} />
+                            </div>
+                            <p className="text-gray-700 leading-relaxed">
+                                If you're planning to take this exam, good luck on your journey! Thanks for reading. Peace out ✌
+                            </p>
+                        </Section>
+
+                        {/* Footer navigation */}
+                        <div className="text-center py-8 border-t border-gray-200">
+                            <a href="#" className="text-blue-600 hover:text-blue-700 font-medium text-sm inline-flex items-center gap-1">
+                                <Icon name="ArrowUp" className="w-4 h-4" /> Back to top
+                            </a>
+                            <span className="mx-3 text-gray-300">|</span>
+                            <a href="/reviews/index.html" className="text-blue-600 hover:text-blue-700 font-medium text-sm inline-flex items-center gap-1">
+                                <Icon name="ArrowLeft" className="w-4 h-4" /> All Reviews
+                            </a>
+                        </div>
+
+                    </main>
+                </div>
+            );
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>
