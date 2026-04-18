@@ -43,7 +43,8 @@ If the badge or certificate file doesn't exist yet, note it to the user and use 
 ## Step 3 — Add to certifications.json
 
 1. Read `data/certifications.json`.
-2. Append the new entry at the **end** of the array (most recent = last):
+2. Remove `"latest": true` from whichever entry currently has it.
+3. Append the new entry at the **end** of the array with `"latest": true`:
 
 ```json
 {
@@ -52,13 +53,14 @@ If the badge or certificate file doesn't exist yet, note it to the user and use 
   "year": "<year>",
   "status": "<status>",
   "category": "<category>",
+  "latest": true,
   "badge": "<badge path>",
   "certificate": "<certificate path>",
   "url": "<url>"
 }
 ```
 
-3. Write the updated file. Preserve all existing entries exactly — do not reformat, reorder, or change any other entry.
+4. Write the updated file. Preserve all existing entries exactly — do not reformat, reorder, or change any other entry.
 
 ## Step 4 — Commit
 
