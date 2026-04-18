@@ -656,313 +656,170 @@
             };
 
             const CertificationsPage = () => {
-                const [mainTab, setMainTab] = useState('certifications');
                 const [certView, setCertView] = useState('badges');
-                const [expandedIdx, setExpandedIdx] = useState(null);
-
                 const categoryOrder = ['Offensive Security', 'Blue Team & Detection', 'Digital Forensics & DFIR', 'General & Foundational'];
                 const categoryConfig = {
-                    'Offensive Security':      { icon: 'Target',   gradient: 'from-red-500 to-orange-500',    border: 'border-red-100',    headerBg: 'bg-red-50',    countColor: 'text-red-600 bg-red-100' },
-                    'Blue Team & Detection':   { icon: 'Shield',   gradient: 'from-blue-500 to-cyan-500',     border: 'border-blue-100',   headerBg: 'bg-blue-50',   countColor: 'text-blue-600 bg-blue-100' },
-                    'Digital Forensics & DFIR':{ icon: 'Search',   gradient: 'from-purple-500 to-violet-500', border: 'border-purple-100', headerBg: 'bg-purple-50', countColor: 'text-purple-600 bg-purple-100' },
-                    'General & Foundational':  { icon: 'BookOpen', gradient: 'from-green-500 to-emerald-500', border: 'border-green-100',  headerBg: 'bg-green-50',  countColor: 'text-green-600 bg-green-100' },
+                    'Offensive Security':       { icon: 'Target',   gradient: 'from-red-500 to-orange-500',    border: 'border-red-100',    headerBg: 'bg-red-50',    countColor: 'text-red-600 bg-red-100' },
+                    'Blue Team & Detection':    { icon: 'Shield',   gradient: 'from-blue-500 to-cyan-500',     border: 'border-blue-100',   headerBg: 'bg-blue-50',   countColor: 'text-blue-600 bg-blue-100' },
+                    'Digital Forensics & DFIR': { icon: 'Search',   gradient: 'from-purple-500 to-violet-500', border: 'border-purple-100', headerBg: 'bg-purple-50', countColor: 'text-purple-600 bg-purple-100' },
+                    'General & Foundational':   { icon: 'BookOpen', gradient: 'from-green-500 to-emerald-500', border: 'border-green-100',  headerBg: 'bg-green-50',  countColor: 'text-green-600 bg-green-100' },
                 };
                 const [openCategories, setOpenCategories] = useState({ 'Offensive Security': true, 'Blue Team & Detection': true, 'Digital Forensics & DFIR': true, 'General & Foundational': true });
                 const toggleCategory = (cat) => setOpenCategories(prev => ({ ...prev, [cat]: !prev[cat] }));
+                const allOpen = Object.values(openCategories).every(Boolean);
+                const toggleAll = () => setOpenCategories(Object.fromEntries(categoryOrder.map(c => [c, !allOpen])));
 
                 const certsByCategory = categoryOrder.reduce((acc, cat) => {
                     acc[cat] = certifications.filter(c => c.category === cat);
                     return acc;
                 }, {});
 
-                const renderStars = (rating) => {
-                    if (!rating) return null;
-                    const fullStars = Math.floor(rating);
-                    const hasHalf = rating % 1 >= 0.5;
-                    return (
-                        <span className="text-yellow-500 inline-flex items-center">
-                            <span>{'★'.repeat(fullStars)}</span>
-                            {hasHalf && <span style={{opacity: 0.5}}>★</span>}
-                            <span>{'☆'.repeat(5 - fullStars - (hasHalf ? 1 : 0))}</span>
-                        </span>
-                    );
-                };
-
-                const difficultyColors = {
-                    'Beginner':     'bg-green-100 text-green-700',
-                    'Intermediate': 'bg-orange-100 text-orange-700',
-                    'Advanced':     'bg-red-100 text-red-700'
-                };
+                const activeCerts = certifications.filter(c => c.status === 'Active').length;
+                const expiredCerts = certifications.filter(c => c.status !== 'Active').length;
 
                 return (
-                <div className="space-y-8 animate-fadeIn">
-                    <div className="text-center space-y-3">
-                        <h1 className="text-4xl font-bold text-gray-800 flex items-center justify-center gap-3">
-                            <Icon name="Award" className="w-10 h-10 text-blue-500" />
-                            Professional Certifications
-                        </h1>
-                        <p className="text-gray-500">Validated expertise in both Red &amp; Blue Teaming</p>
+                <div className="space-y-6 animate-fadeIn">
+
+                    {/* Hero banner */}
+                    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-700 text-white shadow-xl p-7">
+                        <div className="hero-dots absolute inset-0" />
+                        <div className="absolute -top-12 -right-12 w-48 h-48 bg-white/10 rounded-full blur-2xl" />
+                        <div className="relative">
+                            <div className="flex items-center gap-3 mb-5">
+                                <div className="w-11 h-11 rounded-xl bg-white/20 flex items-center justify-center flex-shrink-0">
+                                    <Icon name="Award" className="w-6 h-6 text-white" />
+                                </div>
+                                <div>
+                                    <h1 className="text-2xl font-extrabold leading-tight">Professional Certifications</h1>
+                                    <p className="text-blue-200 text-sm mt-0.5">Validated expertise across offensive &amp; defensive security</p>
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                                {[
+                                    { value: certifications.length, label: 'Total', icon: 'Award' },
+                                    { value: activeCerts,           label: 'Active', icon: 'CheckCircle' },
+                                    { value: expiredCerts,          label: 'Expired', icon: 'Clock' },
+                                    { value: categoryOrder.length,  label: 'Domains', icon: 'Layers' },
+                                ].map((s, i) => (
+                                    <div key={i} className="bg-white/10 backdrop-blur-sm rounded-xl px-4 py-3 border border-white/20">
+                                        <div className="text-2xl font-bold">{s.value}</div>
+                                        <div className="text-blue-200 text-xs font-medium mt-0.5 flex items-center gap-1">
+                                            <Icon name={s.icon} className="w-3 h-3" />{s.label}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
                     </div>
 
-                    {/* Main tab switcher: Badges & Certificates | Reviews */}
-                    <div className="flex gap-1 p-1 bg-gray-100 rounded-xl w-fit">
-                        {[
-                            { id: 'certifications', label: 'Badges & Certificates', icon: 'Award' },
-                            { id: 'reviews', label: 'Reviews', icon: 'FileText' }
-                        ].map(tab => (
-                            <button key={tab.id} onClick={() => setMainTab(tab.id)}
-                                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all
-                                    ${mainTab === tab.id ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}>
-                                <Icon name={tab.icon} className="w-4 h-4" />
-                                {tab.label}
-                            </button>
-                        ))}
-                    </div>
-
-                    {/* ── Certifications tab ── */}
-                    {mainTab === 'certifications' && (
-                    <div className="space-y-8">
-                        {/* Sub-view switcher */}
-                        <div className="flex gap-1 p-1 bg-gray-100 rounded-xl w-fit">
-                            {[
-                                { id: 'badges', label: 'Badges', icon: 'Award' },
-                                { id: 'certificates', label: 'Certificates', icon: 'FileText' }
-                            ].map(tab => (
+                    {/* Controls */}
+                    <div className="flex items-center justify-between flex-wrap gap-3">
+                        <div className="flex gap-1 p-1 bg-gray-100 rounded-xl">
+                            {[{ id: 'badges', label: 'Badges', icon: 'Award' }, { id: 'certificates', label: 'Certificates', icon: 'FileText' }].map(tab => (
                                 <button key={tab.id} onClick={() => setCertView(tab.id)}
-                                    className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all
-                                        ${certView === tab.id ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}>
-                                    <Icon name={tab.icon} className="w-4 h-4" />
-                                    {tab.label}
+                                    className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${certView === tab.id ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}>
+                                    <Icon name={tab.icon} className="w-4 h-4" />{tab.label}
                                 </button>
                             ))}
                         </div>
+                        <button onClick={toggleAll}
+                            className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium text-gray-600 bg-white border border-gray-200 hover:border-blue-300 hover:text-blue-600 shadow-sm transition-all">
+                            <Icon name={allOpen ? 'ChevronsUp' : 'ChevronsDown'} className="w-4 h-4" />
+                            {allOpen ? 'Collapse All' : 'Expand All'}
+                        </button>
+                    </div>
 
-                        {/* Badges view */}
-                        {certView === 'badges' && (
-                        <div className="space-y-5">
-                            {categoryOrder.map(cat => {
-                                const certs = certsByCategory[cat];
-                                if (!certs || !certs.length) return null;
-                                const cfg = categoryConfig[cat];
-                                const isOpen = openCategories[cat];
-                                return (
-                                    <div key={cat} className={`rounded-2xl border ${cfg.border} overflow-hidden bg-white shadow-sm`}>
-                                        <button onClick={() => toggleCategory(cat)} className={`w-full flex items-center gap-3 px-5 py-3.5 ${cfg.headerBg} hover:brightness-95 transition-all`}>
-                                            <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${cfg.gradient} flex items-center justify-center flex-shrink-0`}>
-                                                <Icon name={cfg.icon} className="w-4 h-4 text-white" />
-                                            </div>
-                                            <span className="flex-1 text-left font-bold text-gray-800">{cat}</span>
-                                            <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${cfg.countColor}`}>{certs.length}</span>
-                                            <Icon name={isOpen ? 'ChevronUp' : 'ChevronDown'} className="w-4 h-4 text-gray-400" />
-                                        </button>
-                                        {isOpen && (
-                                            <div className="grid md:grid-cols-2 gap-4 p-4 border-t border-gray-100">
-                                                {certs.map((cert, idx) => (
-                                                    <div key={idx} className="relative bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:border-blue-200 hover:shadow-lg transition-all group overflow-hidden">
-                                                        <div className={`absolute left-0 top-0 bottom-0 w-1 rounded-l-2xl ${cert.status === 'Active' ? 'bg-gradient-to-b from-green-400 to-emerald-500' : 'bg-gradient-to-b from-gray-300 to-gray-400'}`} />
-                                                        <div className="flex gap-4 pl-3">
-                                                            <div className="flex-shrink-0">
-                                                                <a href={cert.url} target="_blank" rel="noopener noreferrer" className="block">
-                                                                    <div className="w-20 h-20 rounded-xl bg-gray-50 border border-gray-100 group-hover:border-blue-200 flex items-center justify-center overflow-hidden transition-colors">
-                                                                        <img src={cert.badge} alt={`${cert.name} badge`} className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300" />
-                                                                    </div>
-                                                                </a>
-                                                            </div>
-                                                            <div className="flex-1 min-w-0">
-                                                                <div className="flex items-start justify-between mb-1.5">
-                                                                    <a href={cert.url} target="_blank" rel="noopener noreferrer" className="flex-1 min-w-0 pr-2">
-                                                                        <h3 className="text-sm font-bold text-gray-800 leading-snug group-hover:text-blue-600 transition-colors">{cert.name}</h3>
-                                                                    </a>
-                                                                    <span className={`flex-shrink-0 px-2 py-0.5 rounded-full text-xs font-semibold border ${cert.status === 'Active' ? 'bg-green-50 text-green-700 border-green-200' : 'bg-gray-50 text-gray-500 border-gray-200'}`}>{cert.status}</span>
-                                                                </div>
-                                                                <p className="text-blue-600 text-sm font-semibold mb-2">{cert.issuer}</p>
-                                                                <div className="flex items-center justify-between">
-                                                                    <span className="text-gray-400 text-xs flex items-center gap-1">
-                                                                        <Icon name="Calendar" className="w-3 h-3" />{cert.year}
-                                                                    </span>
-                                                                    <a href={cert.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-blue-500 hover:text-blue-700 text-xs font-medium">
-                                                                        Verify <Icon name="ExternalLink" className="w-3 h-3" />
-                                                                    </a>
-                                                                </div>
-                                                            </div>
+                    {/* Category sections */}
+                    <div className="space-y-4">
+                        {categoryOrder.map(cat => {
+                            const certs = certsByCategory[cat];
+                            if (!certs || !certs.length) return null;
+                            const cfg = categoryConfig[cat];
+                            const isOpen = openCategories[cat];
+                            return (
+                                <div key={cat} className={`rounded-2xl border ${cfg.border} overflow-hidden shadow-sm`}>
+                                    <button onClick={() => toggleCategory(cat)}
+                                        className={`w-full flex items-center gap-3 px-5 py-4 ${cfg.headerBg} hover:brightness-[0.97] transition-all`}>
+                                        <div className={`w-9 h-9 rounded-xl bg-gradient-to-br ${cfg.gradient} flex items-center justify-center flex-shrink-0 shadow-sm`}>
+                                            <Icon name={cfg.icon} className="w-5 h-5 text-white" />
+                                        </div>
+                                        <span className="flex-1 text-left font-bold text-gray-800 text-[15px]">{cat}</span>
+                                        <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${cfg.countColor}`}>{certs.length} certs</span>
+                                        <Icon name={isOpen ? 'ChevronUp' : 'ChevronDown'} className="w-4 h-4 text-gray-400 ml-1" />
+                                    </button>
+
+                                    {isOpen && certView === 'badges' && (
+                                        <div className="grid md:grid-cols-2 gap-3 p-4 bg-white border-t border-gray-100">
+                                            {certs.map((cert, idx) => (
+                                                <a key={idx} href={cert.url || '#'} target="_blank" rel="noopener noreferrer"
+                                                    className="flex items-center gap-4 p-3.5 rounded-xl border border-gray-100 hover:border-blue-200 hover:shadow-md bg-white hover:bg-blue-50/30 transition-all group">
+                                                    <div className={`w-14 h-14 rounded-full flex-shrink-0 ring-2 ${cert.status === 'Active' ? 'ring-green-200 group-hover:ring-blue-300' : 'ring-gray-200'} bg-gray-50 flex items-center justify-center overflow-hidden transition-all`}>
+                                                        <img src={cert.badge} alt={cert.name} className="w-12 h-12 object-contain group-hover:scale-110 transition-transform duration-300" />
+                                                    </div>
+                                                    <div className="flex-1 min-w-0">
+                                                        <p className="text-sm font-bold text-gray-800 group-hover:text-blue-700 transition-colors leading-snug">{cert.name}</p>
+                                                        <p className="text-xs text-blue-600 font-medium mt-0.5">{cert.issuer}</p>
+                                                        <div className="flex items-center gap-2 mt-1.5">
+                                                            <span className="text-[11px] text-gray-400 flex items-center gap-0.5">
+                                                                <Icon name="Calendar" className="w-3 h-3" />{cert.year}
+                                                            </span>
+                                                            <span className={`text-[11px] font-semibold px-1.5 py-0.5 rounded-full ${cert.status === 'Active' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}`}>{cert.status}</span>
                                                         </div>
                                                     </div>
-                                                ))}
-                                            </div>
-                                        )}
-                                    </div>
-                                );
-                            })}
-                        </div>
-                        )}
+                                                    <Icon name="ExternalLink" className="w-3.5 h-3.5 text-gray-300 group-hover:text-blue-400 flex-shrink-0 transition-colors" />
+                                                </a>
+                                            ))}
+                                        </div>
+                                    )}
 
-                        {/* Certificates view */}
-                        {certView === 'certificates' && (
-                        <div className="space-y-5">
-                            {categoryOrder.map(cat => {
-                                const certs = certsByCategory[cat];
-                                if (!certs || !certs.length) return null;
-                                const cfg = categoryConfig[cat];
-                                const isOpen = openCategories[cat];
-                                return (
-                                    <div key={cat} className={`rounded-2xl border ${cfg.border} overflow-hidden bg-white shadow-sm`}>
-                                        <button onClick={() => toggleCategory(cat)} className={`w-full flex items-center gap-3 px-5 py-3.5 ${cfg.headerBg} hover:brightness-95 transition-all`}>
-                                            <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${cfg.gradient} flex items-center justify-center flex-shrink-0`}>
-                                                <Icon name={cfg.icon} className="w-4 h-4 text-white" />
-                                            </div>
-                                            <span className="flex-1 text-left font-bold text-gray-800">{cat}</span>
-                                            <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${cfg.countColor}`}>{certs.length}</span>
-                                            <Icon name={isOpen ? 'ChevronUp' : 'ChevronDown'} className="w-4 h-4 text-gray-400" />
-                                        </button>
-                                        {isOpen && (
-                                            <div className="grid md:grid-cols-2 gap-4 p-4 border-t border-gray-100">
-                                                {certs.map((cert, idx) => (
-                                                    <div key={idx} className="relative bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all group">
-                                                        <div className={`absolute left-0 top-0 bottom-0 w-1 ${cert.status === 'Active' ? 'bg-gradient-to-b from-green-400 to-emerald-500' : 'bg-gradient-to-b from-gray-300 to-gray-400'}`} />
-                                                        <div className="pl-4 p-4 flex flex-col gap-3">
-                                                            {cert.certificate ? (
-                                                                <a href={cert.certificate} target="_blank" rel="noopener noreferrer"
-                                                                    className="block w-full h-48 rounded-xl overflow-hidden bg-gray-50 border border-gray-100">
-                                                                    <img src={cert.certificate} alt={`${cert.name} certificate`}
-                                                                        className="w-full h-full object-contain group-hover:scale-[1.02] transition-transform duration-300" />
-                                                                </a>
-                                                            ) : (
-                                                                <div className="w-full h-48 rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 flex flex-col items-center justify-center gap-2 text-gray-400">
-                                                                    <Icon name="ImageOff" className="w-8 h-8" />
-                                                                    <span className="text-sm font-medium">Certificate not yet available</span>
-                                                                </div>
-                                                            )}
-                                                            <div>
-                                                                <p className="font-semibold text-gray-800 text-sm leading-tight">{cert.name}</p>
-                                                                <p className="text-xs text-gray-500 mt-0.5">{cert.issuer} · {cert.year}</p>
-                                                            </div>
+                                    {isOpen && certView === 'certificates' && (
+                                        <div className="grid md:grid-cols-2 gap-3 p-4 bg-white border-t border-gray-100">
+                                            {certs.map((cert, idx) => (
+                                                <div key={idx} className="rounded-xl border border-gray-100 overflow-hidden hover:shadow-md transition-all group bg-white">
+                                                    {cert.certificate ? (
+                                                        <a href={cert.certificate} target="_blank" rel="noopener noreferrer"
+                                                            className="block w-full h-44 bg-gray-50 overflow-hidden">
+                                                            <img src={cert.certificate} alt={`${cert.name} certificate`}
+                                                                className="w-full h-full object-contain group-hover:scale-[1.03] transition-transform duration-300" />
+                                                        </a>
+                                                    ) : (
+                                                        <div className="w-full h-44 bg-gray-50 flex flex-col items-center justify-center gap-2 text-gray-300">
+                                                            <Icon name="ImageOff" className="w-8 h-8" />
+                                                            <span className="text-xs font-medium">Not yet available</span>
                                                         </div>
+                                                    )}
+                                                    <div className="px-4 py-3 flex items-center gap-3 border-t border-gray-100">
+                                                        <div className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center flex-shrink-0 overflow-hidden ring-1 ring-gray-200">
+                                                            <img src={cert.badge} alt={cert.name} className="w-7 h-7 object-contain" />
+                                                        </div>
+                                                        <div className="flex-1 min-w-0">
+                                                            <p className="text-xs font-bold text-gray-800 truncate">{cert.name}</p>
+                                                            <p className="text-[11px] text-gray-400 mt-0.5">{cert.issuer} · {cert.year}</p>
+                                                        </div>
+                                                        <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full flex-shrink-0 ${cert.status === 'Active' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}`}>{cert.status}</span>
                                                     </div>
-                                                ))}
-                                            </div>
-                                        )}
-                                    </div>
-                                );
-                            })}
-                        </div>
-                        )}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            );
+                        })}
+                    </div>
 
-                        <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-2xl p-6 border border-blue-100">
-                            <h3 className="font-bold text-gray-800 mb-2 flex items-center gap-2">
-                                <Icon name="Shield" className="w-5 h-5 text-blue-600" />
-                                Continuous Learning
-                            </h3>
+                    {/* Footer */}
+                    <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-100 flex gap-4 items-start">
+                        <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center flex-shrink-0">
+                            <Icon name="TrendingUp" className="w-5 h-5 text-white" />
+                        </div>
+                        <div>
+                            <h3 className="font-bold text-gray-800 mb-1">Always Learning</h3>
                             <p className="text-gray-600 text-sm leading-relaxed">
-                                I'm constantly expanding my knowledge through platforms like CyberDefenders, Blue Team Labs Online,
-                                HackTheBox, and LetsDefend. Currently working towards advanced certifications in threat hunting, detection engineering and malware analysis.
+                                Continuously expanding through CyberDefenders, Blue Team Labs Online, HackTheBox, and LetsDefend.
+                                Currently working towards advanced certifications in threat hunting, detection engineering, and malware analysis.
                             </p>
                         </div>
                     </div>
-                    )}
-
-                    {/* ── Reviews tab ── */}
-                    {mainTab === 'reviews' && (
-                    <div className="space-y-8">
-                        <p className="text-gray-600 text-center">Honest reviews and insights from my certification journey — click any row to expand</p>
-
-                        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden divide-y divide-gray-100">
-                            {certificationReviews.map((review, idx) => {
-                                const isOpen = expandedIdx === idx;
-                                return (
-                                    <div key={idx}>
-                                        <button
-                                            className="w-full flex items-center gap-4 px-5 py-4 hover:bg-gray-50 transition-colors text-left"
-                                            onClick={() => setExpandedIdx(isOpen ? null : idx)}
-                                        >
-                                            {review.image && (
-                                                <img src={review.image} alt={review.title} className="w-12 h-12 rounded-lg object-contain flex-shrink-0 bg-gray-50" />
-                                            )}
-                                            <div className="flex-1 min-w-0">
-                                                <p className="font-semibold text-gray-800 truncate leading-snug">{review.title}</p>
-                                                <div className="flex items-center gap-2 mt-0.5 flex-wrap">
-                                                    {review.rating && (
-                                                        <>
-                                                            <span className="text-yellow-500 text-sm leading-none">{renderStars(review.rating)}</span>
-                                                            <span className="text-xs text-gray-500">{review.rating.toFixed(1)}/5.0</span>
-                                                            <span className="text-gray-300">&middot;</span>
-                                                        </>
-                                                    )}
-                                                    <span className="text-xs text-gray-500 flex items-center gap-1">
-                                                        <Icon name="Calendar" className="w-3 h-3" />{review.date}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            {review.difficulty && (
-                                                <span className={`hidden sm:inline-flex px-2.5 py-0.5 rounded-full text-xs font-bold uppercase flex-shrink-0 ${difficultyColors[review.difficulty]}`}>
-                                                    {review.difficulty}
-                                                </span>
-                                            )}
-                                            <Icon name={isOpen ? 'ChevronUp' : 'ChevronDown'} className="w-4 h-4 text-gray-400 flex-shrink-0" />
-                                        </button>
-
-                                        {isOpen && (
-                                            <div className="border-t border-gray-100 px-5 py-6 bg-gray-50">
-                                                <div className="flex flex-col md:flex-row gap-6">
-                                                    {review.image && (
-                                                        <div className="flex-shrink-0 w-full md:w-40">
-                                                            <img src={review.image} alt={`${review.title} badge`} className="rounded-xl object-contain w-full h-auto shadow-md" />
-                                                        </div>
-                                                    )}
-                                                    <div className="flex-1">
-                                                        <div className="flex items-start gap-3 mb-3">
-                                                            <h3 className="text-xl font-bold text-gray-800 flex-1">{review.title}</h3>
-                                                            {review.difficulty && (
-                                                                <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase flex-shrink-0 ${difficultyColors[review.difficulty]}`}>
-                                                                    {review.difficulty}
-                                                                </span>
-                                                            )}
-                                                        </div>
-                                                        {review.rating && (
-                                                            <div className="flex items-center gap-2 mb-3">
-                                                                <span className="text-yellow-500 text-xl">{renderStars(review.rating)}</span>
-                                                                <span className="text-sm font-semibold text-gray-700">{review.rating.toFixed(1)}/5.0</span>
-                                                            </div>
-                                                        )}
-                                                        <p className="text-gray-600 mb-4 leading-relaxed">{review.excerpt}</p>
-                                                        <div className="flex flex-wrap gap-2 mb-4">
-                                                            {review.tags.map((tag, i) => (
-                                                                <span key={i} className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm font-medium">{tag}</span>
-                                                            ))}
-                                                        </div>
-                                                        <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                                                            <div className="flex items-center gap-3 text-sm text-gray-500">
-                                                                <span className="flex items-center gap-1">
-                                                                    <Icon name="Calendar" className="w-4 h-4" />{review.date}
-                                                                </span>
-                                                                <span className="flex items-center gap-1">
-                                                                    <Icon name="Clock" className="w-4 h-4" />{review.readTime}
-                                                                </span>
-                                                            </div>
-                                                            <a href={review.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-semibold">
-                                                                Read Review <Icon name="ExternalLink" className="w-4 h-4 self-center" />
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
-                                );
-                            })}
-                        </div>
-
-                        <div className="bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl p-6 text-center border border-purple-100">
-                            <h3 className="font-bold text-gray-800 mb-2 flex items-center justify-center gap-2">
-                                <Icon name="Lightbulb" className="w-5 h-5 text-purple-500" />
-                                More Reviews Coming Soon!
-                            </h3>
-                            <p className="text-gray-600 text-sm">
-                                I regularly write detailed certification reviews covering exam prep, course content, hands-on labs, and career value.
-                                Follow me on Medium for the latest reviews and cybersecurity insights.
-                            </p>
-                        </div>
-                    </div>
-                    )}
                 </div>
                 );
             };
