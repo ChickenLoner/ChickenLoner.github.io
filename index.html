@@ -490,10 +490,13 @@
 
             const StatsPage = () => {
                 const [showCertsByIssuer, setShowCertsByIssuer] = useState(true);
+                const [showCertsByCategory, setShowCertsByCategory] = useState(true);
+                const [showCertsByYear, setShowCertsByYear] = useState(true);
                 const [showByPlatform, setShowByPlatform] = useState(true);
                 const [showLabDiff, setShowLabDiff] = useState(true);
                 const [showLabRatings, setShowLabRatings] = useState(true);
-                const [showAchievements, setShowAchievements] = useState(true);
+                const [showCompsByOrg, setShowCompsByOrg] = useState(true);
+                const [showCompsByYear, setShowCompsByYear] = useState(true);
 
                 const activeCerts = certifications.filter(c => c.status === 'Active').length;
                 const expiredCerts = certifications.filter(c => c.status === 'Expired').length;
@@ -528,6 +531,22 @@
                 const certsByIssuer = certifications.reduce((acc, c) => { acc[c.issuer] = (acc[c.issuer] || 0) + 1; return acc; }, {});
                 const sortedIssuers = Object.entries(certsByIssuer).sort((a, b) => b[1] - a[1]);
                 const maxIssuerCount = sortedIssuers[0]?.[1] || 1;
+
+                const certCategoryOrder = ['Offensive Security', 'Blue Team & Detection', 'Digital Forensics & DFIR', 'General & Foundational'];
+                const certCategoryColors = {
+                    'Offensive Security':       { bar: 'bg-gradient-to-r from-red-400 to-orange-500',    dot: 'bg-red-500' },
+                    'Blue Team & Detection':    { bar: 'bg-gradient-to-r from-blue-400 to-cyan-500',     dot: 'bg-blue-500' },
+                    'Digital Forensics & DFIR': { bar: 'bg-gradient-to-r from-purple-400 to-violet-500', dot: 'bg-purple-500' },
+                    'General & Foundational':   { bar: 'bg-gradient-to-r from-green-400 to-emerald-500', dot: 'bg-green-500' },
+                };
+                const certsByCategoryData = certCategoryOrder.map(cat => ({
+                    label: cat, count: certifications.filter(c => c.category === cat).length,
+                }));
+                const maxCategoryCount = Math.max(...certsByCategoryData.map(c => c.count), 1);
+
+                const certsByYear = certifications.reduce((acc, c) => { if (c.year) acc[c.year] = (acc[c.year] || 0) + 1; return acc; }, {});
+                const sortedCertYears = Object.entries(certsByYear).sort((a, b) => a[0] - b[0]);
+                const maxCertYearCount = sortedCertYears[0] ? Math.max(...sortedCertYears.map(([,v]) => v), 1) : 1;
 
                 const labsByPlatform = labs.reduce((acc, l) => { acc[l.platform] = (acc[l.platform] || 0) + 1; return acc; }, {});
                 const sortedPlatforms = Object.entries(labsByPlatform).sort((a, b) => b[1] - a[1]);
@@ -596,13 +615,20 @@
                 );
 
                 return (
-                    <div className="space-y-10 animate-fadeIn">
-                        <div className="text-center space-y-4">
-                            <h1 className="text-4xl font-bold text-gray-800 flex items-center justify-center gap-3">
-                                <Icon name="BarChart2" className="w-10 h-10 text-blue-500" />
-                                Portfolio Stats
-                            </h1>
-                            <p className="text-gray-600">A snapshot of my cybersecurity journey by the numbers</p>
+                    <div className="space-y-8 animate-fadeIn">
+                        {/* Hero banner */}
+                        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-700 text-white shadow-xl p-7">
+                            <div className="hero-dots absolute inset-0" />
+                            <div className="absolute -top-12 -right-12 w-48 h-48 bg-white/10 rounded-full blur-2xl" />
+                            <div className="relative flex items-center gap-3">
+                                <div className="w-11 h-11 rounded-xl bg-white/20 flex items-center justify-center flex-shrink-0">
+                                    <Icon name="BarChart2" className="w-6 h-6 text-white" />
+                                </div>
+                                <div>
+                                    <h1 className="text-2xl font-extrabold leading-tight">Portfolio Stats</h1>
+                                    <p className="text-blue-200 text-sm mt-0.5">A snapshot of my cybersecurity journey by the numbers</p>
+                                </div>
+                            </div>
                         </div>
 
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -614,13 +640,52 @@
                             <StatCard icon="Mic" value={talks.length} label="Talks Given" sub="conferences & meetups" color="purple" />
                         </div>
 
+                        <div className="grid md:grid-cols-2 gap-6">
+                            <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-gray-100">
+                                <SectionToggle title="Certs by Issuer" icon="Building2" iconColor="text-blue-500" show={showCertsByIssuer} onToggle={() => setShowCertsByIssuer(v => !v)} />
+                                {showCertsByIssuer && (
+                                    <div className="space-y-1 mt-5">
+                                        {sortedIssuers.map(([issuer, count]) => (
+                                            <BarRow key={issuer} label={issuer} count={count} max={maxIssuerCount} colorClass="bg-gradient-to-r from-blue-400 to-blue-600" pct={Math.round((count / certifications.length) * 100)} />
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+
+                            <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-gray-100">
+                                <SectionToggle title="Certs by Category" icon="Layers" iconColor="text-purple-500" show={showCertsByCategory} onToggle={() => setShowCertsByCategory(v => !v)} />
+                                {showCertsByCategory && (
+                                    <div className="space-y-3 mt-5">
+                                        {certsByCategoryData.map(({ label, count }) => (
+                                            <div key={label} className="flex items-center gap-3 py-1">
+                                                <span className={`w-2 h-2 rounded-full flex-shrink-0 ${certCategoryColors[label]?.dot}`} />
+                                                <span className="text-sm text-gray-700 w-44 flex-shrink-0 truncate" title={label}>{label}</span>
+                                                <div className="flex-1 bg-gray-100 rounded-full h-4 overflow-hidden">
+                                                    <div className={`h-4 rounded-full transition-all ${certCategoryColors[label]?.bar}`} style={{ width: `${Math.round((count / maxCategoryCount) * 100)}%` }} />
+                                                </div>
+                                                <span className="text-sm font-bold text-gray-700 w-5 text-right">{count}</span>
+                                                <span className="text-xs text-gray-400 w-9 text-right">{certifications.length ? Math.round((count / certifications.length) * 100) : 0}%</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
                         <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-gray-100">
-                            <SectionToggle title="Certs by Issuer" icon="Building2" iconColor="text-blue-500" show={showCertsByIssuer} onToggle={() => setShowCertsByIssuer(v => !v)} />
-                            {showCertsByIssuer && (
-                                <div className="space-y-1 mt-5">
-                                    {sortedIssuers.map(([issuer, count]) => (
-                                        <BarRow key={issuer} label={issuer} count={count} max={maxIssuerCount} colorClass="bg-gradient-to-r from-blue-400 to-blue-600" pct={Math.round((count / certifications.length) * 100)} />
-                                    ))}
+                            <SectionToggle title="Certifications by Year" icon="TrendingUp" iconColor="text-indigo-500" show={showCertsByYear} onToggle={() => setShowCertsByYear(v => !v)} />
+                            {showCertsByYear && sortedCertYears.length > 0 && (
+                                <div className="mt-5">
+                                    <div className="flex items-end gap-3 h-28">
+                                        {sortedCertYears.map(([year, count]) => (
+                                            <div key={year} className="flex-1 flex flex-col items-center gap-1 min-w-0">
+                                                <span className="text-sm font-bold text-blue-600">{count}</span>
+                                                <div className="w-full rounded-t-lg bg-gradient-to-t from-blue-500 to-indigo-400 transition-all"
+                                                    style={{ height: `${Math.round((count / maxCertYearCount) * 80)}px` }} />
+                                                <span className="text-xs text-gray-500 truncate w-full text-center">{year}</span>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
                             )}
                         </div>
@@ -700,8 +765,8 @@
                         {/* Achievements breakdown */}
                         <div className="grid md:grid-cols-2 gap-6">
                             <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-gray-100">
-                                <SectionToggle title="Competitions by Organizer" icon="Trophy" iconColor="text-yellow-500" show={showAchievements} onToggle={() => setShowAchievements(v => !v)} />
-                                {showAchievements && (
+                                <SectionToggle title="Competitions by Organizer" icon="Trophy" iconColor="text-yellow-500" show={showCompsByOrg} onToggle={() => setShowCompsByOrg(v => !v)} />
+                                {showCompsByOrg && (
                                     <div className="space-y-1 mt-5">
                                         {sortedOrganizers.map(([org, count]) => (
                                             <BarRow key={org} label={org} count={count} max={maxOrgCount} colorClass="bg-gradient-to-r from-yellow-400 to-amber-500" pct={Math.round((count / comps.length) * 100)} />
@@ -711,8 +776,8 @@
                             </div>
 
                             <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-gray-100">
-                                <SectionToggle title="Competitions by Year" icon="Calendar" iconColor="text-blue-500" show={showAchievements} onToggle={() => setShowAchievements(v => !v)} />
-                                {showAchievements && (
+                                <SectionToggle title="Competitions by Year" icon="Calendar" iconColor="text-blue-500" show={showCompsByYear} onToggle={() => setShowCompsByYear(v => !v)} />
+                                {showCompsByYear && (
                                     <div className="space-y-1 mt-5">
                                         {sortedYears.map(([year, count]) => (
                                             <BarRow key={year} label={year} count={count} max={maxYearCount} colorClass="bg-gradient-to-r from-blue-400 to-blue-600" pct={Math.round((count / comps.length) * 100)} />
