@@ -52,7 +52,7 @@
   "Spooler - APT28": {
     "rating": 4.8,
     "player_difficulty": "hard",
-    "is_retired": false,
+    "is_retired": true,
     "tactics": [
       "Persistence",
       "Privilege Escalation",
