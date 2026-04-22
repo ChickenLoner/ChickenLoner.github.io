@@ -34,6 +34,17 @@
   },
   {
     "category": "competition",
+    "name": "Jack of all Hacks DFIR CTF",
+    "organizer": "Null404",
+    "placement": "Winner",
+    "year": "2026",
+    "team": "",
+    "description": "Investigate 6 Windows KAPE triages, Export logs from AWS (Guardduty and CloudTrail) and Memory image from simulated enterprise company attacked by the malicious actor group",
+    "image": "./assets/achievements/null_dfir_april2026.png",
+    "tags": ["CTF"]
+  },
+  {
+    "category": "competition",
     "name": "Hackloween CTF 2025",
     "organizer": "SEC Playground",
     "placement": "Winner",
