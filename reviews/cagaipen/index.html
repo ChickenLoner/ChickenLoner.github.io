@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C-AgAIPen Review — Certified Agentic AI Pentester | Chicken0248</title>
+    <meta name="description" content="A detailed review of the C-AgAIPen (Certified Agentic AI Pentester) exam from SecOps Group — covering agentic AI attack surfaces, exam preparation starting from zero, and what to expect from this unique AI security exam." />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Chicken0248" />
+    <meta property="og:url" content="https://chickenloner.github.io/reviews/cagaipen/" />
+    <meta property="og:title" content="C-AgAIPen (Certified Agentic AI Pentester) Exam Review" />
+    <meta property="og:description" content="A detailed review of the C-AgAIPen (Certified Agentic AI Pentester) exam from SecOps Group — covering agentic AI attack surfaces, exam preparation starting from zero, and what to expect from this unique AI security exam." />
+    <meta property="og:image" content="https://chickenloner.github.io/reviews/cagaipen/cover.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@Chicken_0248" />
+    <meta name="twitter:title" content="C-AgAIPen (Certified Agentic AI Pentester) Exam Review" />
+    <meta name="twitter:description" content="A detailed review of the C-AgAIPen (Certified Agentic AI Pentester) exam from SecOps Group — covering agentic AI attack surfaces, exam preparation starting from zero, and what to expect from this unique AI security exam." />
+    <meta name="twitter:image" content="https://chickenloner.github.io/reviews/cagaipen/cover.jpg" />
+    <link rel="icon" href="/chicken0248.png" type="image/png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn { animation: fadeIn 0.5s ease-out; }
+
+        /* ── DARK MODE ── */
+        .dark.min-h-screen { background: linear-gradient(135deg, #0f172a 0%, #141f35 50%, #0a1628 100%) !important; }
+        .dark nav { background-color: rgba(15,23,42,0.96) !important; border-bottom-color: rgba(51,65,85,0.5) !important; }
+        .dark .bg-white    { background-color: #1e293b !important; }
+        .dark .bg-gray-50  { background-color: #0f172a !important; }
+        .dark .bg-gray-100 { background-color: #334155 !important; }
+        .dark .bg-amber-50   { background-color: rgba(245,158,11,0.10) !important; }
+        .dark .bg-amber-100  { background-color: rgba(245,158,11,0.20) !important; }
+        .dark .bg-orange-50  { background-color: rgba(234,88,12,0.10) !important; }
+        .dark .bg-orange-100 { background-color: rgba(234,88,12,0.20) !important; }
+        .dark .bg-blue-50    { background-color: rgba(37,99,235,0.12) !important; }
+        .dark .bg-blue-100   { background-color: rgba(37,99,235,0.20) !important; }
+        .dark .bg-green-100  { background-color: rgba(22,163,74,0.20) !important; }
+        .dark .text-gray-800 { color: #e2e8f0 !important; }
+        .dark .text-gray-700 { color: #cbd5e1 !important; }
+        .dark .text-gray-600 { color: #94a3b8 !important; }
+        .dark .text-gray-500 { color: #64748b !important; }
+        .dark .text-gray-400 { color: #475569 !important; }
+        .dark .text-amber-700  { color: #fbbf24 !important; }
+        .dark .text-orange-700 { color: #fb923c !important; }
+        .dark .text-blue-600   { color: #60a5fa !important; }
+        .dark .text-green-700  { color: #4ade80 !important; }
+        .dark .border-gray-100 { border-color: #334155 !important; }
+        .dark .border-gray-200 { border-color: #475569 !important; }
+        .dark .border-amber-200  { border-color: rgba(245,158,11,0.3) !important; }
+        .dark .border-orange-200 { border-color: rgba(234,88,12,0.3) !important; }
+        .dark .hover\:bg-gray-50:hover { background-color: #1e293b !important; }
+        .dark .hover\:text-blue-600:hover { color: #60a5fa !important; }
+        .dark ::-webkit-scrollbar       { width: 6px; }
+        .dark ::-webkit-scrollbar-track { background: #0f172a; }
+        .dark ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        const Icon = ({ name, className = "w-6 h-6", ...props }) => {
+            const ref = useRef(null);
+            useEffect(() => {
+                if (ref.current) {
+                    const el = lucide.createElement(lucide[name], { class: className });
+                    ref.current.innerHTML = '';
+                    ref.current.appendChild(el);
+                }
+            }, [name, className]);
+            return <i ref={ref} className={`flex-shrink-0 ${className}`} {...props}></i>;
+        };
+
+        /* ── Reusable Components ── */
+
+        const Section = ({ id, title, icon, children }) => (
+            <section id={id} className="scroll-mt-24">
+                <h2 className="text-2xl font-bold text-gray-800 mb-5 flex items-center gap-3 border-b border-gray-200 pb-3">
+                    <Icon name={icon} className="w-6 h-6 text-amber-600" />
+                    {title}
+                </h2>
+                <div className="space-y-4">{children}</div>
+            </section>
+        );
+
+        let figCount = 0;
+        const resetFigCount = () => { figCount = 0; };
+
+        const Fig = ({ src, alt }) => {
+            figCount += 1;
+            const n = figCount;
+            return (
+                <figure className="my-5">
+                    <img src={src} alt={alt || `Figure ${n}`}
+                         className="rounded-xl border border-gray-200 shadow-sm max-w-full mx-auto block" loading="lazy" />
+                    <figcaption className="text-center text-xs text-gray-400 mt-1.5 font-mono">Figure {n}</figcaption>
+                </figure>
+            );
+        };
+
+        const Callout = ({ children }) => (
+            <blockquote className="bg-amber-50 border-l-4 border-amber-400 rounded-r-xl px-5 py-4 my-4 text-gray-700 italic text-sm leading-relaxed">
+                {children}
+            </blockquote>
+        );
+
+        const TipList = ({ items }) => (
+            <ul className="list-disc list-outside ml-5 space-y-2 text-gray-700">
+                {items.map((item, i) => <li key={i}>{item}</li>)}
+            </ul>
+        );
+
+        const B = ({ children }) => <strong className="text-gray-800">{children}</strong>;
+        const A = ({ href, children }) => (
+            <a href={href} target="_blank" rel="noopener noreferrer"
+               className="text-blue-600 hover:underline">{children}</a>
+        );
+
+        const renderStars = (rating) => {
+            const full = Math.floor(rating);
+            const half = rating - full >= 0.5;
+            return '★'.repeat(full) + (half ? '½' : '') + '☆'.repeat(5 - full - (half ? 1 : 0));
+        };
+
+        /* ── App ── */
+
+        const App = () => {
+            const [dark, setDark] = useState(() => localStorage.getItem('darkMode') === 'true');
+            const [meta, setMeta] = useState(null);
+            useEffect(() => { localStorage.setItem('darkMode', dark); }, [dark]);
+
+            useEffect(() => {
+                fetch('/data/reviews.json')
+                    .then(r => r.json())
+                    .then(data => {
+                        const entry = data.find(r => r.url === '/reviews/cagaipen/index.html');
+                        if (entry) setMeta(entry);
+                    })
+                    .catch(() => {});
+            }, []);
+
+            resetFigCount();
+
+            const tocItems = [
+                { id: 'introduction',    label: 'Introduction',               icon: 'BookOpen'      },
+                { id: 'exam-preparation',label: 'Exam Preparation',           icon: 'GraduationCap' },
+                { id: 'exam-experience', label: 'Exam Experience',            icon: 'ClipboardList' },
+                { id: 'final-review',    label: 'Final Review',               icon: 'Star'          },
+                { id: 'exam-tips',       label: 'Exam Tips &amp; Key Takeaways', icon: 'Lightbulb'  },
+            ];
+
+            return (
+                <div className={`min-h-screen bg-gradient-to-br from-slate-50 via-amber-50 to-orange-50 ${dark ? 'dark' : ''}`}>
+
+                    {/* Navigation */}
+                    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 px-4 py-3">
+                        <div className="max-w-4xl mx-auto flex items-center justify-between">
+                            <div className="flex items-center gap-2 text-sm flex-wrap">
+                                <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                                    <img src="/chicken0248.png" alt="Logo" className="w-7 h-7 rounded-lg" />
+                                    <span className="font-bold text-gray-800 hidden sm:inline">Chicken0248</span>
+                                </a>
+                                <span className="text-gray-400">/</span>
+                                <a href="/reviews/index.html" className="font-medium text-gray-600 hover:text-blue-600 transition-colors">Reviews</a>
+                                <span className="text-gray-400">/</span>
+                                <span className="font-semibold text-gray-700">C-AgAIPen</span>
+                            </div>
+                            <button onClick={() => setDark(!dark)}
+                                className="p-2 rounded-lg hover:bg-gray-100 text-gray-600 transition-colors text-lg">
+                                {dark ? '☀️' : '🌙'}
+                            </button>
+                        </div>
+                    </nav>
+
+                    <main className="max-w-4xl mx-auto px-4 py-8 space-y-10 animate-fadeIn">
+
+                        {/* Hero */}
+                        <div className="relative overflow-hidden rounded-3xl shadow-2xl">
+                            <img src="cover.jpg" alt="C-AgAIPen Certified Agentic AI Pentester"
+                                 className="w-full h-48 sm:h-64 md:h-80 object-cover" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                            <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white">
+                                <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-3 leading-snug">
+                                    C-AgAIPen (Certified Agentic AI Pentester) Review
+                                </h1>
+                                <div className="flex flex-wrap gap-2 text-sm">
+                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Building2" className="w-3.5 h-3.5" /> SecOps Group
+                                    </span>
+                                    <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Calendar" className="w-3.5 h-3.5" /> April 2026
+                                    </span>
+                                    <span className="bg-amber-500/80 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="Shield" className="w-3.5 h-3.5" /> AI Security
+                                    </span>
+                                    <span className="bg-green-500/80 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <Icon name="CheckCircle" className="w-3.5 h-3.5" /> Passed
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Metadata */}
+                        <div className="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm">
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                                <div><span className="text-gray-500 block">Certification</span><span className="font-semibold text-gray-800">C-AgAIPen</span></div>
+                                <div><span className="text-gray-500 block">Provider</span><span className="font-semibold text-gray-800">SecOps Group / pentestingexams.com</span></div>
+                                <div><span className="text-gray-500 block">Difficulty</span><span className="font-semibold text-amber-600">{meta?.difficulty ?? '—'}</span></div>
+                                <div><span className="text-gray-500 block">Rating</span>
+                                    {meta?.rating ? (
+                                        <span className="font-semibold text-gray-800 flex items-center gap-1">
+                                            <span className="text-yellow-500">{renderStars(meta.rating)}</span>
+                                            <span className="text-gray-500 font-normal text-xs ml-0.5">{meta.rating.toFixed(1)}/5.0</span>
+                                        </span>
+                                    ) : <span className="text-gray-400">—</span>}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Table of Contents */}
+                        <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                            <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                <Icon name="List" className="w-5 h-5 text-amber-600" />
+                                Table of Contents
+                            </h2>
+                            <div className="grid sm:grid-cols-2 gap-1">
+                                {tocItems.map((item, i) => (
+                                    <a key={item.id} href={`#${item.id}`}
+                                       className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors text-sm">
+                                        <Icon name={item.icon} className="w-4 h-4 text-gray-400" />
+                                        <span className="text-gray-400 font-mono text-xs w-5">{i + 1}.</span>
+                                        <span className="font-medium">{item.label}</span>
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* ═══════════ INTRODUCTION ═══════════ */}
+                        <Section id="introduction" title="Introduction" icon="BookOpen">
+                            <p className="text-gray-700 leading-relaxed">
+                                Hello everyone, it's me <B>Chicken0248</B> again. In this blog, I'll be sharing my <B>review, experience, and tips</B> for the{' '}
+                                <A href="https://pentestingexams.com/certifications/professional/certified-agentic-ai-pentester/">Certified Agentic AI Pentester (C-AgAIPen)</A>{' '}
+                                exam from SecOps Group / pentestingexams.com.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                To be transparent, the CEO reached out and asked me to try their AI exam in exchange for an honest review. At the time, they only had two AI-focused certifications — <B>Certified AI/ML Pentester</B> and <B>Certified Agentic AI Pentester</B> — and since many organizations are now adopting AI into their platforms, I thought it was worth exploring, so I asked them to give me a voucher for this certification.
+                            </p>
+
+                            <Fig src="image-1.png" alt="C-AgAIPen certification page overview" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                But first, what even is Agentic AI? Most people think AI security is just about jailbreaking a chatbot. An agentic AI goes further than that — it doesn't just chat; it takes real actions on your behalf by calling tools and APIs. Think submitting forms, approving workflows, and reading databases — all autonomously. That's where the real attack surface starts to get interesting. You don't just want to jailbreak your AI anymore, because it's not the only attack surface. Now you have a whole application to analyze: where the vulnerability might be, what can be leveraged, and how AI agents — individually or as a group — might be performing actions that you can exploit. The exam focuses exactly on that.
+                            </p>
+
+                            <Fig src="image-2.png" alt="Agentic AI concept illustration" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                I should also mention the price. The original cost is <B>250 GBP</B>, but pentestingexams.com regularly offers discounts across all their exams — so I doubt anyone would pay full price. The discounted price is <B>63 GBP</B>, as shown in the image above.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                The voucher comes with <B>2 attempts</B> (1 free retake if your first attempt fails), but there is no associated course. You are expected to study on your own or already possess the relevant knowledge.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Now let's talk about the exam. As far as I know, none of the certifications from pentestingexams.com come with a course — so in the next section, I'll cover how I prepared, including information I think is safe to share.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ EXAM PREPARATION ═══════════ */}
+                        <Section id="exam-preparation" title="Exam Preparation" icon="GraduationCap">
+                            <p className="text-gray-700 leading-relaxed">
+                                To be upfront: I had <B>zero knowledge</B> of AI-related attacks before this exam. All I knew were some basic encoding tricks and simple jailbreaking techniques like "ignore previous instruction" and the classic "You are Abdul the all-knowing." But I wanted to force myself to study the topic — it's clearly becoming mainstream, and agentic AI pentesting is something I might actually get to do on the job.
+                            </p>
+
+                            <Fig src="image-3.png" alt="C-AgAIPen exam syllabus page" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                On the official exam page, they list a syllabus covering all possible agentic AI pentesting topics — though not everything listed actually appears in the exam. I focused on: <B>Agent Goal Hijack</B> (direct and indirect prompt injection), <B>Sensitive Information Disclosure</B>, <B>Insecure Output Handling</B>, <B>Tool Misuse and Exploitation</B>, <B>Identity and Privilege Abuse</B>, <B>RCE</B>, <B>Memory &amp; Context Poisoning</B>, <B>Insecure Inter-Agent Communication</B>, and <B>Human-Agent Trust Exploitation</B>. Trying to learn all of this in one week was already a stretch — I was also preparing for my first GIAC cert and working full-time.
+                            </p>
+
+                            <Fig src="image-4.png" alt="pentestingexams.com free resources list" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                pentestingexams.com also lists free resources on the exam page. These are useful for getting a grounding in basic AI pentesting, but for agentic AI specifically, you'll need to explore real-world case studies and understand how AI agents are actually integrated into applications — how they work at a high level and where the attack surface lies.
+                            </p>
+
+                            <Fig src="image-5.png" alt="HTB Academy AI Red Teamer path modules" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                For fundamentals, I also used my <B>HTB Academy</B> subscription and worked through a few modules from the AI Red Teamer path. There I learned about model recon, jailbreaking techniques, prompt leaking and sensitive data exposure attacks, and — most importantly — function calling and LLM output attacks.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Most AI pentesting exercises, like Gandalf, focus on sensitive data exposure rather than agentic AI pentesting — so I planned to use my first attempt to understand how the exam works and study more before coming back to pass it properly.
+                            </p>
+
+                            <Fig src="image-6.png" alt="Mock exam availability note on exam page" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                One thing worth mentioning: this certification is quite new, and the mock exam had not been released at the time of writing. If it becomes available, definitely take it first — it'll give you a feel for how the exam is structured before you start the clock.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ EXAM EXPERIENCE ═══════════ */}
+                        <Section id="exam-experience" title="Exam Experience" icon="ClipboardList">
+
+                            <Fig src="image-7.png" alt="Exam registration email with exam details" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                When you purchase or receive an exam voucher, you'll get two emails. The first contains the exam information as shown here.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                It tells you that the exam can be taken any time you like, runs for <B>4 hours and 15 minutes</B>, and has three possible outcomes based on your score: <B>Failed</B> (0–59.99%), <B>Passed</B> (60–74.99%), and <B>Passed with Merit</B> (75–100%).
+                            </p>
+
+                            <Fig src="image-8.png" alt="VPN access email with OpenVPN download instructions" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                The second email contains your VPN access information: the same core details plus instructions on how to connect to the exam environment. The OpenVPN configuration file can be downloaded from <B>certvpn.secops.group</B> using credentials provided in this email.
+                            </p>
+
+                            <Fig src="image-9.png" alt="certvpn.secops.group download page" />
+                            <Fig src="image-10.png" alt="OpenVPN connection confirmation page" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                After downloading the OpenVPN config and connecting to the exam environment, you'll need to verify access to the confirmation page. If it loads, your VPN is working — just start the exam and the firewall rule will push through to allow connections to the designated exam endpoints.
+                            </p>
+
+                            <Fig src="image-11.png" alt="Exam portal login at candidate.speedexam.net" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                To start the exam, log in to the exam portal at{' '}
+                                <A href="https://candidate.speedexam.net/signin.aspx">candidate.speedexam.net</A>.
+                            </p>
+
+                            <Fig src="image-12.png" alt="Upcoming Exams section showing C-AgAIPen exam" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Your exam should appear in the <B>Upcoming Exams</B> section. If you don't see it, switch to the C-AgAIPen group first.
+                            </p>
+
+                            <Fig src="image-13.png" alt="Exam portal pre-start system checks" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                I started the exam on <B>Thursday, April 23, 2026</B>, after work. The portal runs a few checks before you can begin — once everything passes, you're in.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                You'll be redirected to the exam submission portal, where you'll need to accept the terms and conditions — at which point the countdown begins. You're presented with <B>8 questions</B>. Each one tells you what type of vulnerability to identify and exploit. As I mentioned in the introduction, this isn't just "jailbreak the chatbot and get the flag." An AI agent is integrated into different parts of the application, and the vulnerability could be anywhere in the system. The agent might be invoking a specific function or leaking data it wasn't supposed to — and that's your foothold.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                After starting, you'll be directed to the designated URL once the firewall rule is applied. Wait 5–7 minutes; if it still isn't working, disconnect from the VPN and reconnect.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                The difficulty of each question is already factored into its score weighting, which you can look up to calculate how many flags you need to pass or achieve merit. I found the experience genuinely interesting — every question felt distinct. This isn't about brute-forcing a jailbreak; when the correct vulnerability is identified and exploited, the flag reveals itself cleanly.
+                            </p>
+
+                            <Fig src="image-14.png" alt="Exam submission portal with active countdown timer" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                I managed to find flags for <B>6 of the 8 questions</B>, which gave me just enough to pass. The remaining 2 were weighted heavily — almost half the total score between them — and I couldn't identify them within the 4-hour window despite spending every available minute on them. Six flags it was — skill issue on my part.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Looking back, I hadn't originally planned to pass on this attempt — I wanted to use it as a recon run and come back better prepared. As it turned out, that won't be possible anymore. But let's move on to the final review.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ FINAL REVIEW ═══════════ */}
+                        <Section id="final-review" title="Final Review" icon="Star">
+                            <p className="text-gray-700 leading-relaxed">
+                                C-AgAIPen is a certification focused on exploiting applications that integrate AI agents — systems that perform real actions on behalf of users rather than just responding to prompts.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                At <B>63 GBP</B> (75% off the 250 GBP list price), you get 2 exam attempts and no associated course. You're responsible for your own preparation, though the provider supplies a reasonable collection of free resources to get you started.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                <B>Definitely recommended</B> for anyone looking for a place to test their AI pentesting skills and explore how agentic AI can be integrated into — and exploited within — real applications.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ EXAM TIPS ═══════════ */}
+                        <Section id="exam-tips" title="Exam Tips &amp; Key Takeaways" icon="Lightbulb">
+                            <div className="bg-amber-50 rounded-2xl border border-amber-200 p-6">
+                                <TipList items={[
+                                    'Learn how to conduct reconnaissance on AI agents.',
+                                    'Study a wide range of jailbreaking techniques.',
+                                    'Try to identify the capabilities of each AI agent integrated into the application — understand what functions it can call and what data it can access.',
+                                    'Learn how to expose system prompts and sensitive data.',
+                                    "Don't switch to a different question if you feel close to a solution — all context from that session will be gone once you move away.",
+                                ]} />
+                            </div>
+                            <p className="text-gray-700 leading-relaxed">
+                                That's it for this blog — see you on the next one.
+                            </p>
+                        </Section>
+
+                        {/* Footer navigation */}
+                        <div className="text-center py-8 border-t border-gray-200">
+                            <a href="#" className="text-blue-600 hover:text-blue-700 font-medium text-sm inline-flex items-center gap-1">
+                                <Icon name="ArrowUp" className="w-4 h-4" /> Back to top
+                            </a>
+                            <span className="mx-3 text-gray-300">|</span>
+                            <a href="/reviews/index.html" className="text-blue-600 hover:text-blue-700 font-medium text-sm inline-flex items-center gap-1">
+                                <Icon name="ArrowLeft" className="w-4 h-4" /> All Reviews
+                            </a>
+                        </div>
+
+                    </main>
+                </div>
+            );
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>

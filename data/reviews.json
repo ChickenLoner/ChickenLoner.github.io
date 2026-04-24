@@ -1,5 +1,16 @@
 [
   {
+    "title": "C-AgAIPen (Certified Agentic AI Pentester) Exam Review",
+    "excerpt": "A detailed review of the C-AgAIPen exam from SecOps Group — covering agentic AI attack surfaces, exam preparation from zero knowledge, the 4-hour flag submission format, and tips for anyone interested in AI security testing.",
+    "date": "April 2026",
+    "readTime": "10 min read",
+    "tags": ["C-AgAIPen", "SecOps Group", "AI Pentesting", "Agentic AI", "Intermediate"],
+    "url": "/reviews/cagaipen/index.html",
+    "image": "/assets/badges/cagaipen.webp",
+    "difficulty": "Intermediate",
+    "rating": 4.7
+  },
+  {
     "title": "CyberWarFare Labs : Cyber Defence Analyst [CCDA] Certification — My Experience and Review",
     "excerpt": "A detailed review and guide on the Cyber Defence Analyst certification, The beginner level certification for SOC analyst with the usage of velocirapter and arkime to investigate tickets in TheHive. Covers course material, exam preparation, exam experience and tips.",
     "date": "Febuary 2025",
