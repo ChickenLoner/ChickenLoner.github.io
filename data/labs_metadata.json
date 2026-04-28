@@ -65,7 +65,7 @@
   "Perfect Survey": {
     "rating": 4.4,
     "player_difficulty": "medium",
-    "is_retired": false,
+    "is_retired": true,
     "tactics": [
       "Reconnaissance",
       "Initial Access",
