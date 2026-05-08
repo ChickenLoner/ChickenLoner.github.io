@@ -429,12 +429,12 @@
                             <span className="w-1 h-5 bg-gradient-to-b from-blue-500 to-cyan-400 rounded-full inline-block flex-shrink-0"></span>
                             Recently Added
                         </h2>
-                        <div className="grid sm:grid-cols-3 gap-4">
+                        <div className="flex gap-4 overflow-x-auto pb-1 sm:grid sm:grid-cols-3 sm:overflow-x-visible sm:pb-0" style={{scrollbarWidth:'none'}}>
                             {certifications.length > 0 && (() => {
                                 const cert = certifications.find(c => c.latest) || certifications[certifications.length - 1];
                                 return (
                                     <a href={cert.url || '#'} target="_blank" rel="noopener noreferrer"
-                                        className="flex items-center gap-3 bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:border-blue-200 hover:shadow-md transition-all group">
+                                        className="flex items-center gap-3 bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:border-blue-200 hover:shadow-md transition-all group flex-shrink-0 w-64 sm:w-auto">
                                         <div className="w-12 h-12 rounded-full ring-2 ring-green-200 bg-gray-50 flex items-center justify-center overflow-hidden flex-shrink-0">
                                             <img src={cert.badge} alt={cert.name} className="w-10 h-10 object-contain group-hover:scale-110 transition-transform" />
                                         </div>
@@ -450,7 +450,7 @@
                             {irReports.length > 0 && (() => {
                                 const report = irReports[0];
                                 return (
-                                    <a href={report.url} className="flex items-center gap-3 bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:border-red-200 hover:shadow-md transition-all group">
+                                    <a href={report.url} className="flex items-center gap-3 bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:border-red-200 hover:shadow-md transition-all group flex-shrink-0 w-64 sm:w-auto">
                                         <div className="w-12 h-12 rounded-full ring-2 ring-red-100 bg-red-50 flex items-center justify-center flex-shrink-0">
                                             <Icon name="FileText" className="w-5 h-5 text-red-500" />
                                         </div>
@@ -466,7 +466,7 @@
                             {researchData.length > 0 && (() => {
                                 const article = researchData[0];
                                 return (
-                                    <a href={article.url} className="flex items-center gap-3 bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:border-indigo-200 hover:shadow-md transition-all group">
+                                    <a href={article.url} className="flex items-center gap-3 bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:border-indigo-200 hover:shadow-md transition-all group flex-shrink-0 w-64 sm:w-auto">
                                         <div className="w-12 h-12 rounded-full ring-2 ring-indigo-100 bg-indigo-50 flex items-center justify-center flex-shrink-0">
                                             <Icon name="ScrollText" className="w-5 h-5 text-indigo-500" />
                                         </div>
