@@ -264,6 +264,18 @@
             transition: transform 0.15s cubic-bezier(0.32,0.72,0,1);
         }
         .lg-tab-btn:active .lg-tab-btn-inner { transform: scale(0.92); }
+        .lg-tab-count {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 1px 7px;
+            border-radius: 99px;
+            background: rgba(37,99,235,0.12);
+            color: rgba(37,99,235,0.65);
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+        .lg-tab-btn.active .lg-tab-count { background: rgba(37,99,235,0.15); color: #2563eb; }
+        .dark .lg-tab-count { background: rgba(148,163,184,0.15); color: rgba(148,163,184,0.65); }
+        .dark .lg-tab-btn.active .lg-tab-count { background: rgba(147,197,253,0.2); color: #93c5fd; }
     </style>
 </head>
 <body>
@@ -1299,6 +1311,41 @@
                 const labPlatformCounts = Object.fromEntries(labPlatforms.slice(1).map(p => [p, labsOnly.filter(l => l.platform === p).length]));
                 const projectCategoryCounts = Object.fromEntries(projectCategories.slice(1).map(c => [c, projectsOnly.filter(p => getProjectCategory(p) === c).length]));
 
+                const labsTabItems = [
+                    { id: 'labs',     label: 'Labs',     count: labsOnly.length,     icon: 'FlaskConical' },
+                    { id: 'projects', label: 'Projects', count: projectsOnly.length, icon: 'FolderOpen'   },
+                ];
+                const labsTabNavRef = React.useRef(null);
+                const labsTabBtnRefs = React.useRef([]);
+                const labsGlareRef = React.useRef(null);
+                const labsPillRef = React.useRef(null);
+
+                const updateLabsPill = (btn, animate) => {
+                    if (!btn || !labsPillRef.current) return;
+                    labsPillRef.current.style.transition = animate ? '' : 'none';
+                    labsPillRef.current.style.width = btn.offsetWidth + 'px';
+                    labsPillRef.current.style.transform = `translateX(${btn.offsetLeft}px)`;
+                };
+
+                useEffect(() => {
+                    const idx = labsTabItems.findIndex(t => t.id === activeTab);
+                    updateLabsPill(labsTabBtnRefs.current[idx], true);
+                }, [activeTab]);
+
+                useEffect(() => {
+                    requestAnimationFrame(() => {
+                        const idx = labsTabItems.findIndex(t => t.id === activeTab);
+                        updateLabsPill(labsTabBtnRefs.current[idx], false);
+                    });
+                }, []);
+
+                const onLabsGlareMove = (e) => {
+                    if (!labsTabNavRef.current || !labsGlareRef.current) return;
+                    const r = labsTabNavRef.current.getBoundingClientRect();
+                    labsGlareRef.current.style.setProperty('--x', `${e.clientX - r.left}px`);
+                    labsGlareRef.current.style.setProperty('--y', `${e.clientY - r.top}px`);
+                };
+
                 const uniquePlatforms = [...new Set(labsOnly.map(l => l.platform))].length;
 
                 return (
@@ -1334,28 +1381,22 @@
                         </div>
 
                         {/* ── Tab switcher ── */}
-                        <div className="flex gap-1 p-1 bg-gray-100 rounded-xl w-fit">
-                            {[
-                                { id: 'labs',     label: 'Labs',     count: labsOnly.length,     icon: 'FlaskConical' },
-                                { id: 'projects', label: 'Projects', count: projectsOnly.length, icon: 'FolderOpen'   },
-                            ].map(tab => (
-                                <button
-                                    key={tab.id}
+                        <nav className="lg-tab-nav w-fit" ref={labsTabNavRef} onMouseMove={onLabsGlareMove}>
+                            <div className="lg-tab-glare-wrap"><div className="lg-tab-glare" ref={labsGlareRef} /></div>
+                            <div ref={labsPillRef} className="lg-tab-pill" />
+                            {labsTabItems.map((tab, i) => (
+                                <button key={tab.id}
+                                    ref={el => labsTabBtnRefs.current[i] = el}
                                     onClick={() => setActiveTab(tab.id)}
-                                    className={`flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold transition-all ${
-                                        activeTab === tab.id
-                                            ? 'bg-white text-blue-600 shadow-sm'
-                                            : 'text-gray-500 hover:text-gray-700'
-                                    }`}
-                                >
-                                    <Icon name={tab.icon} className="w-4 h-4" />
-                                    {tab.label}
-                                    <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${activeTab === tab.id ? 'bg-blue-100 text-blue-600' : 'bg-gray-200 text-gray-500'}`}>
-                                        {tab.count}
+                                    className={`lg-tab-btn${activeTab === tab.id ? ' active' : ''}`}>
+                                    <span className="lg-tab-btn-inner">
+                                        <Icon name={tab.icon} className="w-4 h-4" />
+                                        {tab.label}
+                                        <span className="lg-tab-count">{tab.count}</span>
                                     </span>
                                 </button>
                             ))}
-                        </div>
+                        </nav>
 
                         {/* ── Labs tab ── */}
                         {activeTab === 'labs' && (
@@ -1487,6 +1528,41 @@
                            p.includes('winner') || p.includes('champion');
                 }).length;
 
+                const achievTabItems = [
+                    { id: 'competitions', label: 'Competitions', icon: 'Trophy', count: comps.length },
+                    { id: 'speaking',     label: 'Speaking',     icon: 'Mic',   count: talks.length },
+                ];
+                const achievTabNavRef = React.useRef(null);
+                const achievTabBtnRefs = React.useRef([]);
+                const achievGlareRef = React.useRef(null);
+                const achievPillRef = React.useRef(null);
+
+                const updateAchievPill = (btn, animate) => {
+                    if (!btn || !achievPillRef.current) return;
+                    achievPillRef.current.style.transition = animate ? '' : 'none';
+                    achievPillRef.current.style.width = btn.offsetWidth + 'px';
+                    achievPillRef.current.style.transform = `translateX(${btn.offsetLeft}px)`;
+                };
+
+                useEffect(() => {
+                    const idx = achievTabItems.findIndex(t => t.id === tab);
+                    updateAchievPill(achievTabBtnRefs.current[idx], true);
+                }, [tab]);
+
+                useEffect(() => {
+                    requestAnimationFrame(() => {
+                        const idx = achievTabItems.findIndex(t => t.id === tab);
+                        updateAchievPill(achievTabBtnRefs.current[idx], false);
+                    });
+                }, []);
+
+                const onAchievGlareMove = (e) => {
+                    if (!achievTabNavRef.current || !achievGlareRef.current) return;
+                    const r = achievTabNavRef.current.getBoundingClientRect();
+                    achievGlareRef.current.style.setProperty('--x', `${e.clientX - r.left}px`);
+                    achievGlareRef.current.style.setProperty('--y', `${e.clientY - r.top}px`);
+                };
+
                 return (
                 <div className="space-y-8 animate-fadeIn">
                     {/* Hero banner */}
@@ -1521,22 +1597,22 @@
                     </div>
 
                     {/* Tab switcher */}
-                    <div className="flex gap-1 p-1 bg-gray-100 rounded-xl w-fit">
-                        {[
-                            { id: 'competitions', label: 'Competitions', icon: 'Trophy', count: comps.length },
-                            { id: 'speaking',     label: 'Speaking',     icon: 'Mic',   count: talks.length },
-                        ].map(t => (
-                            <button key={t.id} onClick={() => setTab(t.id)}
-                                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all
-                                    ${tab === t.id ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}>
-                                <Icon name={t.icon} className="w-4 h-4" />
-                                {t.label}
-                                <span className={`text-xs px-1.5 py-0.5 rounded-full font-medium ${tab === t.id ? 'bg-blue-100 text-blue-600' : 'bg-gray-200 text-gray-500'}`}>
-                                    {t.count}
+                    <nav className="lg-tab-nav w-fit" ref={achievTabNavRef} onMouseMove={onAchievGlareMove}>
+                        <div className="lg-tab-glare-wrap"><div className="lg-tab-glare" ref={achievGlareRef} /></div>
+                        <div ref={achievPillRef} className="lg-tab-pill" />
+                        {achievTabItems.map((t, i) => (
+                            <button key={t.id}
+                                ref={el => achievTabBtnRefs.current[i] = el}
+                                onClick={() => setTab(t.id)}
+                                className={`lg-tab-btn${tab === t.id ? ' active' : ''}`}>
+                                <span className="lg-tab-btn-inner">
+                                    <Icon name={t.icon} className="w-4 h-4" />
+                                    {t.label}
+                                    <span className="lg-tab-count">{t.count}</span>
                                 </span>
                             </button>
                         ))}
-                    </div>
+                    </nav>
 
                     {/* ── COMPETITIONS TAB ── */}
                     {tab === 'competitions' && (
