@@ -193,7 +193,7 @@
                             </div>
                         </div>
 
-                        {/* Search + Difficulty Filter */}
+                        {/* Filters */}
                         {!loading && (
                             <div className="flex flex-col sm:flex-row gap-3">
                                 <div className="relative flex-1">
@@ -206,6 +206,13 @@
                                         className="w-full pl-9 pr-4 py-2 rounded-xl border border-gray-200 bg-white text-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400"
                                     />
                                 </div>
+                                <select
+                                    value={activeTag || ''}
+                                    onChange={e => setActiveTag(e.target.value || null)}
+                                    className="px-3 py-2 rounded-xl border border-gray-200 bg-white text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 cursor-pointer">
+                                    <option value="">All Tags</option>
+                                    {allTags.map(tag => <option key={tag} value={tag}>{tag}</option>)}
+                                </select>
                                 <div className="flex gap-2 flex-shrink-0">
                                     {['Beginner', 'Intermediate', 'Advanced'].map(d => (
                                         <button key={d} onClick={() => setActiveDifficulty(activeDifficulty === d ? null : d)}
@@ -218,30 +225,6 @@
                                         </button>
                                     ))}
                                 </div>
-                            </div>
-                        )}
-
-                        {/* Tag Filters */}
-                        {!loading && allTags.length > 0 && (
-                            <div className="flex flex-wrap gap-2">
-                                <button onClick={() => setActiveTag(null)}
-                                    className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors border ${
-                                        !activeTag
-                                            ? 'bg-amber-600 text-white border-amber-600'
-                                            : 'bg-white text-gray-600 border-gray-200 hover:border-amber-300 hover:bg-amber-50'
-                                    }`}>
-                                    All
-                                </button>
-                                {allTags.map(tag => (
-                                    <button key={tag} onClick={() => setActiveTag(tag === activeTag ? null : tag)}
-                                        className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors border ${
-                                            activeTag === tag
-                                                ? 'bg-amber-600 text-white border-amber-600'
-                                                : 'bg-white text-gray-600 border-gray-200 hover:border-amber-300 hover:bg-amber-50'
-                                        }`}>
-                                        {tag}
-                                    </button>
-                                ))}
                             </div>
                         )}
 
