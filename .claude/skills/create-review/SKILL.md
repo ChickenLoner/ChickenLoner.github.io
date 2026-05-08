@@ -114,6 +114,8 @@ resetFigCount();
 ```
 The hero image is NOT a `Fig`. Every other image in the markdown becomes one `<Fig>` in order.
 
+**Ampersand in JS strings vs JSX attributes** — `&amp;` is only valid in JSX attribute string literals (Babel decodes it). Inside plain JS object literals (e.g., `tocItems` label strings), use `&` directly — `&amp;` will render literally as the string `&amp;`.
+
 ### 4d. Metadata fetch from reviews.json
 
 ```jsx
