@@ -196,15 +196,14 @@
                         {/* Filters */}
                         {!loading && (
                             <div className="flex flex-col sm:flex-row gap-3">
-                                <div className="relative flex-1">
-                                    <Icon name="Search" className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                                <div className="flex items-center flex-1 rounded-xl border border-gray-200 bg-white focus-within:ring-2 focus-within:ring-amber-400 px-3 gap-2">
+                                    <Icon name="Search" className="w-4 h-4 text-gray-400 flex-shrink-0" />
                                     <input
                                         type="text"
                                         placeholder="Search reviews..."
                                         value={search}
                                         onChange={e => setSearch(e.target.value)}
-                                        className="w-full pr-4 py-2 rounded-xl border border-gray-200 bg-white text-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400"
-                                        style={{paddingLeft:'2.75rem'}}
+                                        className="flex-1 py-2 bg-transparent text-gray-800 text-sm focus:outline-none"
                                     />
                                 </div>
                                 <select
