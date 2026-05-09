@@ -137,6 +137,8 @@
         .dark .to-blue-50     { --tw-gradient-to:   #1e293b !important; }
         .dark .from-cyan-50   { --tw-gradient-from: #1e293b !important; }
         .dark .to-cyan-50     { --tw-gradient-to:   #1e293b !important; }
+        .dark .from-indigo-50 { --tw-gradient-from: #1e2040 !important; }
+        .dark .to-indigo-50   { --tw-gradient-to:   #1e2040 !important; }
         .dark .from-purple-50 { --tw-gradient-from: #1e2040 !important; }
         .dark .to-purple-50   { --tw-gradient-to:   #1e2040 !important; }
         .dark .from-slate-50  { --tw-gradient-from: #0f172a !important; }
@@ -390,7 +392,7 @@
             const HomePage = () => (
                 <div className="space-y-10 animate-fadeIn">
                     {/* Hero */}
-                    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-600 via-blue-700 to-cyan-600 text-white shadow-xl">
+                    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 text-white shadow-xl">
                         <div className="hero-dots absolute inset-0" />
                         <div className="absolute -top-16 -right-16 w-64 h-64 bg-white/10 rounded-full blur-xl" />
                         <div className="relative px-8 py-6 md:py-8 flex flex-col sm:flex-row sm:items-center gap-5">
@@ -738,7 +740,7 @@
                 return (
                     <div className="space-y-8 animate-fadeIn">
                         {/* Hero banner */}
-                        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-700 text-white shadow-xl p-7">
+                        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 text-white shadow-xl p-7">
                             <div className="hero-dots absolute inset-0" />
                             <div className="absolute -top-12 -right-12 w-48 h-48 bg-white/10 rounded-full blur-2xl" />
                             <div className="relative flex items-center gap-3">
@@ -969,7 +971,7 @@
                 <div className="space-y-6 animate-fadeIn">
 
                     {/* Hero banner */}
-                    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-700 text-white shadow-xl p-7">
+                    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 text-white shadow-xl p-7">
                         <div className="hero-dots absolute inset-0" />
                         <div className="absolute -top-12 -right-12 w-48 h-48 bg-white/10 rounded-full blur-2xl" />
                         <div className="relative">
@@ -1289,24 +1291,59 @@
                     );
                 };
 
-                const FilterPills = ({ options, selected, onSelect, counts }) => (
-                    <div className="flex flex-wrap gap-2 items-center">
-                        <Icon name="Filter" className="w-4 h-4 text-gray-500 flex-shrink-0" />
-                        {options.map(opt => (
-                            <button
-                                key={opt}
-                                onClick={() => onSelect(opt)}
-                                className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all border-2 ${
-                                    selected === opt
-                                        ? 'bg-blue-600 text-white border-blue-600'
-                                        : 'bg-white text-gray-600 border-gray-200 hover:border-blue-400 hover:text-blue-600'
-                                }`}
-                            >
-                                {opt}{opt !== 'All' && counts && ` (${counts[opt] || 0})`}
-                            </button>
-                        ))}
-                    </div>
-                );
+                const GlassFilter = ({ options, selected, onSelect, counts }) => {
+                    const navRef = React.useRef(null);
+                    const glareRef = React.useRef(null);
+                    const pillRef = React.useRef(null);
+                    const btnRefs = React.useRef([]);
+
+                    const updatePill = (btn, animate) => {
+                        if (!btn || !pillRef.current) return;
+                        pillRef.current.style.transition = animate ? '' : 'none';
+                        pillRef.current.style.width = btn.offsetWidth + 'px';
+                        pillRef.current.style.transform = `translateX(${btn.offsetLeft}px)`;
+                    };
+
+                    useEffect(() => {
+                        const idx = options.indexOf(selected);
+                        updatePill(btnRefs.current[idx], true);
+                    }, [selected, options]);
+
+                    useEffect(() => {
+                        requestAnimationFrame(() => {
+                            const idx = options.indexOf(selected);
+                            updatePill(btnRefs.current[idx], false);
+                        });
+                    }, []);
+
+                    const onMouseMove = (e) => {
+                        if (!navRef.current || !glareRef.current) return;
+                        const r = navRef.current.getBoundingClientRect();
+                        glareRef.current.style.setProperty('--x', `${e.clientX - r.left}px`);
+                        glareRef.current.style.setProperty('--y', `${e.clientY - r.top}px`);
+                    };
+
+                    return (
+                        <div className="flex items-center gap-2">
+                            <Icon name="Filter" className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                            <nav className="lg-tab-nav" ref={navRef} onMouseMove={onMouseMove}
+                                style={{overflowX:'auto', scrollbarWidth:'none'}}>
+                                <div className="lg-tab-glare-wrap"><div className="lg-tab-glare" ref={glareRef} /></div>
+                                <div ref={pillRef} className="lg-tab-pill" />
+                                {options.map((opt, i) => (
+                                    <button key={opt}
+                                        ref={el => btnRefs.current[i] = el}
+                                        onClick={() => onSelect(opt)}
+                                        className={`lg-tab-btn${selected === opt ? ' active' : ''}`}>
+                                        <span className="lg-tab-btn-inner">
+                                            {opt}{opt !== 'All' && counts && <span className="lg-tab-count">{counts[opt] || 0}</span>}
+                                        </span>
+                                    </button>
+                                ))}
+                            </nav>
+                        </div>
+                    );
+                };
 
                 const labPlatformCounts = Object.fromEntries(labPlatforms.slice(1).map(p => [p, labsOnly.filter(l => l.platform === p).length]));
                 const projectCategoryCounts = Object.fromEntries(projectCategories.slice(1).map(c => [c, projectsOnly.filter(p => getProjectCategory(p) === c).length]));
@@ -1404,13 +1441,13 @@
                                 {/* Search + sort bar */}
                                 <div className="flex flex-col sm:flex-row gap-3">
                                     <div className="relative flex-1">
-                                        <Icon name="Search" className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                                        <Icon name="Search" className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
                                         <input
                                             type="text"
                                             placeholder="Search labs by name or tag…"
                                             value={labSearch}
                                             onChange={e => setLabSearch(e.target.value)}
-                                            className="w-full pl-9 pr-4 py-2 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 bg-white text-gray-800"
+                                            className="w-full pl-10 pr-4 py-2 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 bg-white text-gray-800"
                                         />
                                     </div>
                                     <select
@@ -1424,7 +1461,7 @@
                                     </select>
                                 </div>
                                 {/* Platform filter */}
-                                <FilterPills options={labPlatforms} selected={selectedLabPlatform} onSelect={setSelectedLabPlatform} counts={labPlatformCounts} />
+                                <GlassFilter options={labPlatforms} selected={selectedLabPlatform} onSelect={setSelectedLabPlatform} counts={labPlatformCounts} />
                                 {/* Difficulty filter */}
                                 <div className="flex flex-wrap gap-2 items-center">
                                     <span className="text-xs font-semibold text-gray-400 uppercase tracking-wide">Difficulty:</span>
@@ -1475,7 +1512,7 @@
                                         className="w-full pl-9 pr-4 py-2 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 bg-white text-gray-800"
                                     />
                                 </div>
-                                <FilterPills options={projectCategories} selected={selectedProjectCategory} onSelect={setSelectedProjectCategory} counts={projectCategoryCounts} />
+                                <GlassFilter options={projectCategories} selected={selectedProjectCategory} onSelect={setSelectedProjectCategory} counts={projectCategoryCounts} />
                                 <div className="text-sm text-gray-500">
                                     Showing <span className="font-semibold text-gray-700">{filteredProjects.length}</span> of <span className="font-semibold text-gray-700">{projectsOnly.length}</span> projects
                                 </div>
@@ -1566,7 +1603,7 @@
                 return (
                 <div className="space-y-8 animate-fadeIn">
                     {/* Hero banner */}
-                    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-700 text-white shadow-xl p-7">
+                    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 text-white shadow-xl p-7">
                         <div className="hero-dots absolute inset-0" />
                         <div className="absolute -top-12 -right-12 w-48 h-48 bg-white/10 rounded-full blur-2xl" />
                         <div className="relative">
