@@ -1447,7 +1447,8 @@
                                             placeholder="Search labs by name or tag…"
                                             value={labSearch}
                                             onChange={e => setLabSearch(e.target.value)}
-                                            className="w-full pl-11 pr-4 py-2 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 bg-white text-gray-800"
+                                            className="w-full pr-4 py-2 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 bg-white text-gray-800"
+                                            style={{paddingLeft:'2.75rem'}}
                                         />
                                     </div>
                                     <select
@@ -1509,7 +1510,8 @@
                                         placeholder="Search projects…"
                                         value={projectSearch}
                                         onChange={e => setProjectSearch(e.target.value)}
-                                        className="w-full pl-11 pr-4 py-2 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 bg-white text-gray-800"
+                                        className="w-full pr-4 py-2 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 bg-white text-gray-800"
+                                        style={{paddingLeft:'2.75rem'}}
                                     />
                                 </div>
                                 <GlassFilter options={projectCategories} selected={selectedProjectCategory} onSelect={setSelectedProjectCategory} counts={projectCategoryCounts} />
