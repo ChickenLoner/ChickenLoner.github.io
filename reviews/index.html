@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -16,6 +16,7 @@
     <meta name="twitter:title" content="Certification Reviews | Chicken0248" />
     <meta name="twitter:description" content="Honest certification reviews from Chicken0248 — covering exam prep, course content, hands-on labs, and career value for SOC, DFIR, and Red Team certifications." />
     <meta name="twitter:image" content="https://chickenloner.github.io/chicken0248.png" />
+    <link rel="canonical" href="https://chickenloner.github.io/reviews/" />
     <link rel="icon" href="/chicken0248.png" type="image/png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -74,7 +75,17 @@
     </style>
 </head>
 <body>
-    <div id="root"></div>
+        <a href="#main-content"
+       class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-white focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg focus:text-blue-600 focus:font-semibold">
+      Skip to content
+    </a>    <noscript>
+      <style>body{font-family:system-ui,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}</style>
+      <div style="text-align:center;padding:2rem">
+        <h1>JavaScript required</h1>
+        <p>This site requires JavaScript to display content. Please enable it in your browser settings.</p>
+        <a href="https://chickenloner.github.io">chickenloner.github.io</a>
+      </div>
+    </noscript><div id="root"></div>
 
     <script type="text/babel">
         const { useState, useEffect, useRef, useMemo } = React;
@@ -99,8 +110,27 @@
 
         const renderStars = (rating) => {
             const full = Math.floor(rating);
-            const half = rating - full >= 0.5;
-            return '★'.repeat(full) + (half ? '½' : '') + '☆'.repeat(5 - full - (half ? 1 : 0));
+            const hasHalf = rating - full >= 0.5;
+            const uid = `sr-${Math.round(rating * 10)}`;
+            const stars = [];
+            for (let i = 1; i <= 5; i++) {
+                const isFull = i <= full;
+                const isHalf = !isFull && hasHalf && i === full + 1;
+                const clipId = `${uid}-${i}`;
+                stars.push(
+                    <svg key={i} width="13" height="13" viewBox="0 0 24 24" style={{display:'inline-block',verticalAlign:'middle',flexShrink:0}}>
+                        {isHalf && <defs><clipPath id={clipId}><rect x="0" y="0" width="12" height="24"/></clipPath></defs>}
+                        <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
+                            fill="none" stroke="#d1d5db" strokeWidth="2" strokeLinejoin="round"/>
+                        {(isFull || isHalf) && (
+                            <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
+                                fill="#eab308" stroke="#eab308" strokeWidth="2" strokeLinejoin="round"
+                                clipPath={isHalf ? `url(#${clipId})` : undefined}/>
+                        )}
+                    </svg>
+                );
+            }
+            return <span style={{display:'inline-flex',alignItems:'center',gap:'1px'}}>{stars}</span>;
         };
 
         const App = () => {
@@ -149,7 +179,7 @@
             return (
                 <div className={`min-h-screen bg-gray-50 ${dark ? 'dark' : ''}`}>
                     {/* Navigation */}
-                    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 px-4 py-3">
+                    <nav aria-label="Site navigation" className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 px-4 py-3">
                         <div className="max-w-6xl mx-auto flex items-center justify-between">
                             <div className="flex items-center gap-3">
                                 <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
@@ -160,13 +190,14 @@
                                 <span className="font-semibold text-gray-600">Reviews</span>
                             </div>
                             <button onClick={() => setDark(!dark)}
+                                aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
                                 className="p-2 rounded-lg hover:bg-gray-100 text-gray-600 transition-colors text-lg">
                                 {dark ? '\u2600\uFE0F' : '\uD83C\uDF19'}
                             </button>
                         </div>
                     </nav>
 
-                    <main className="max-w-6xl mx-auto px-4 py-8 space-y-6 animate-fadeIn">
+                    <main id="main-content" className="max-w-6xl mx-auto px-4 py-8 space-y-6 animate-fadeIn">
                         {/* Hero */}
                         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-amber-600 to-orange-600 text-white shadow-xl">
                             <div className="absolute -top-16 -right-16 w-64 h-64 bg-white/5 rounded-full blur-xl" />

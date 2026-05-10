@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -16,6 +16,7 @@
     <meta name="twitter:title" content="Awesome SIEM Practice Labs | Chicken0248" />
     <meta name="twitter:description" content="Curated Splunk and Elastic SIEM practice labs from top cybersecurity platforms — filterable by difficulty, platform, and pricing." />
     <meta name="twitter:image" content="https://chickenloner.github.io/chicken0248.png" />
+    <link rel="canonical" href="https://chickenloner.github.io/siem-labs/" />
     <link rel="icon" href="/chicken0248.png" type="image/png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -76,7 +77,17 @@
     </style>
 </head>
 <body>
-<div id="root"></div>
+    <a href="#main-content"
+       class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-white focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg focus:text-blue-600 focus:font-semibold">
+      Skip to content
+    </a>    <noscript>
+      <style>body{font-family:system-ui,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}</style>
+      <div style="text-align:center;padding:2rem">
+        <h1>JavaScript required</h1>
+        <p>This site requires JavaScript to display content. Please enable it in your browser settings.</p>
+        <a href="https://chickenloner.github.io">chickenloner.github.io</a>
+      </div>
+    </noscript><div id="root"></div>
 <script type="text/babel">
     const { useState, useEffect, useMemo } = React;
 
@@ -243,7 +254,7 @@
             <div className={`min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/40 to-cyan-50/30 ${dark ? 'dark' : ''}`}>
 
                 {/* ── Nav ── */}
-                <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 px-4 py-3">
+                <nav aria-label="Site navigation" className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 px-4 py-3">
                     <div className="max-w-6xl mx-auto flex items-center justify-between">
                         <div className="flex items-center gap-2 min-w-0">
                             <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity flex-shrink-0">
@@ -270,7 +281,7 @@
                     </div>
                 </nav>
 
-                <main className="max-w-6xl mx-auto px-4 py-8 space-y-6 animate-fadeIn">
+                <main id="main-content" className="max-w-6xl mx-auto px-4 py-8 space-y-6 animate-fadeIn">
 
                     {/* ── Hero ── */}
                     <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-600 via-violet-600 to-cyan-500 text-white shadow-2xl shadow-blue-200 p-8 md:p-12">

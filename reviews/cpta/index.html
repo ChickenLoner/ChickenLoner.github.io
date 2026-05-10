@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -16,6 +16,7 @@
     <meta name="twitter:title" content="Review — CyberWarFare Labs : Certified Purple Team Analyst [CPTA v2], My First Purple Team Certification" />
     <meta name="twitter:description" content="A detailed review of the CyberWarFare Labs Certified Purple Team Analyst v2 certification — covering the course, AD lab environment, exam scheduling, and tips for passing your first purple team cert." />
     <meta name="twitter:image" content="https://chickenloner.github.io/reviews/cpta/cover.png" />
+    <link rel="canonical" href="https://chickenloner.github.io/reviews/cpta/" />
     <link rel="icon" href="/chicken0248.png" type="image/png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -63,7 +64,17 @@
     </style>
 </head>
 <body>
-    <div id="root"></div>
+        <a href="#main-content"
+       class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-white focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg focus:text-blue-600 focus:font-semibold">
+      Skip to content
+    </a>    <noscript>
+      <style>body{font-family:system-ui,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}</style>
+      <div style="text-align:center;padding:2rem">
+        <h1>JavaScript required</h1>
+        <p>This site requires JavaScript to display content. Please enable it in your browser settings.</p>
+        <a href="https://chickenloner.github.io">chickenloner.github.io</a>
+      </div>
+    </noscript><div id="root"></div>
 
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
@@ -158,7 +169,7 @@
                 <div className={`min-h-screen bg-gradient-to-br from-slate-50 via-amber-50 to-orange-50 ${dark ? 'dark' : ''}`}>
 
                     {/* Navigation */}
-                    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 px-4 py-3">
+                    <nav aria-label="Site navigation" className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 px-4 py-3">
                         <div className="max-w-4xl mx-auto flex items-center justify-between">
                             <div className="flex items-center gap-2 text-sm flex-wrap">
                                 <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
@@ -171,13 +182,14 @@
                                 <span className="font-semibold text-gray-700">CPTA v2</span>
                             </div>
                             <button onClick={() => setDark(!dark)}
+                                aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
                                 className="p-2 rounded-lg hover:bg-gray-100 text-gray-600 transition-colors text-lg">
                                 {dark ? '\u2600\uFE0F' : '\uD83C\uDF19'}
                             </button>
                         </div>
                     </nav>
 
-                    <main className="max-w-4xl mx-auto px-4 py-8 space-y-10 animate-fadeIn">
+                    <main id="main-content" className="max-w-4xl mx-auto px-4 py-8 space-y-10 animate-fadeIn">
 
                         {/* Hero */}
                         <div className="relative overflow-hidden rounded-3xl shadow-2xl">
