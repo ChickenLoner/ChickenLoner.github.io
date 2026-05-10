@@ -1,0 +1,116 @@
+/* SOC Console Theme — shared palette and base styles */
+/* Used by all pages in ChickenLoner.github.io */
+
+:root {
+  --soc-bg:    #070b14;
+  --soc-bg-1:  #0c1322;
+  --soc-bg-2:  #121a2e;
+  --soc-line:  #1c2740;
+  --soc-line2: #2a3a5c;
+  --soc-ink:   #e4ecff;
+  --soc-ink2:  #a9b6d3;
+  --soc-ink3:  #6c7a9c;
+  --soc-ink4:  #475070;
+  --soc-cy:    #22e1ff;
+  --soc-cy2:   #06b8d9;
+  --soc-am:    #ffb547;
+  --soc-gn:    #3ddc84;
+  --soc-rd:    #ff5577;
+  --soc-vi:    #a78bfa;
+}
+
+/* ── Dark mode base ────────────────────────────────────── */
+.dark.min-h-screen {
+  background: linear-gradient(135deg, var(--soc-bg) 0%, var(--soc-bg-1) 50%, var(--soc-bg) 100%) !important;
+}
+
+/* Navigation bar */
+.dark nav,
+.dark nav.sticky {
+  background-color: rgba(7,11,20,0.96) !important;
+  border-bottom-color: var(--soc-line) !important;
+}
+
+/* Surfaces */
+.dark .bg-white       { background-color: var(--soc-bg-1) !important; }
+.dark .bg-gray-50     { background-color: var(--soc-bg)   !important; }
+.dark .bg-gray-100    { background-color: var(--soc-bg-2) !important; }
+.dark .bg-gray-800    { background-color: var(--soc-bg-2) !important; }
+.dark .bg-gray-900    { background-color: var(--soc-bg)   !important; }
+
+/* Text */
+.dark .text-gray-900  { color: var(--soc-ink)  !important; }
+.dark .text-gray-800  { color: var(--soc-ink)  !important; }
+.dark .text-gray-700  { color: var(--soc-ink2) !important; }
+.dark .text-gray-600  { color: var(--soc-ink3) !important; }
+.dark .text-gray-500  { color: var(--soc-ink3) !important; }
+.dark .text-gray-400  { color: var(--soc-ink4) !important; }
+
+/* Borders */
+.dark .border-gray-100  { border-color: var(--soc-line)  !important; }
+.dark .border-gray-200  { border-color: var(--soc-line)  !important; }
+.dark .border-gray-700  { border-color: var(--soc-line)  !important; }
+.dark .border-gray-800  { border-color: var(--soc-line2) !important; }
+.dark .divide-gray-100 > * + * { border-color: var(--soc-line) !important; }
+.dark .divide-gray-200 > * + * { border-color: var(--soc-line) !important; }
+
+/* Accent colours */
+.dark .text-blue-500,
+.dark .text-blue-600    { color: var(--soc-cy)  !important; }
+.dark .text-indigo-500,
+.dark .text-indigo-600  { color: var(--soc-cy)  !important; }
+.dark .text-green-500,
+.dark .text-green-600   { color: var(--soc-gn)  !important; }
+.dark .text-yellow-500,
+.dark .text-amber-500   { color: var(--soc-am)  !important; }
+.dark .text-red-500,
+.dark .text-red-600     { color: var(--soc-rd)  !important; }
+.dark .text-purple-500,
+.dark .text-violet-500  { color: var(--soc-vi)  !important; }
+
+/* Tinted panels */
+.dark .bg-blue-50,
+.dark .bg-indigo-50     { background-color: rgba(34,225,255,0.06) !important; }
+.dark .bg-green-50      { background-color: rgba(61,220,132,0.06) !important; }
+.dark .bg-yellow-50,
+.dark .bg-amber-50      { background-color: rgba(255,181,71,0.06) !important; }
+.dark .bg-red-50        { background-color: rgba(255,85,119,0.06) !important; }
+.dark .bg-purple-50     { background-color: rgba(167,139,250,0.06) !important; }
+
+/* Accent border replacements */
+.dark .border-blue-200,
+.dark .border-indigo-200  { border-color: rgba(34,225,255,0.3)  !important; }
+.dark .border-green-200   { border-color: rgba(61,220,132,0.3)  !important; }
+.dark .border-yellow-200,
+.dark .border-amber-200   { border-color: rgba(255,181,71,0.3)  !important; }
+.dark .border-red-200     { border-color: rgba(255,85,119,0.3)  !important; }
+
+/* Badge / pill tags */
+.dark .bg-blue-100    { background-color: rgba(34,225,255,0.1) !important; color: var(--soc-cy)  !important; }
+.dark .bg-green-100   { background-color: rgba(61,220,132,0.1) !important; color: var(--soc-gn)  !important; }
+.dark .bg-yellow-100,
+.dark .bg-amber-100   { background-color: rgba(255,181,71,0.1) !important; color: var(--soc-am)  !important; }
+.dark .bg-red-100     { background-color: rgba(255,85,119,0.1) !important; color: var(--soc-rd)  !important; }
+.dark .bg-purple-100  { background-color: rgba(167,139,250,0.1)!important; color: var(--soc-vi)  !important; }
+.dark .bg-gray-200    { background-color: var(--soc-bg-2) !important; }
+
+/* Ring / focus */
+.dark .ring-blue-500   { --tw-ring-color: var(--soc-cy) !important; }
+.dark .focus\:ring-blue-500:focus { --tw-ring-color: var(--soc-cy) !important; }
+
+/* Form elements */
+.dark input,
+.dark textarea,
+.dark select {
+  background-color: var(--soc-bg-1) !important;
+  border-color: var(--soc-line2) !important;
+  color: var(--soc-ink) !important;
+}
+.dark input::placeholder,
+.dark textarea::placeholder { color: var(--soc-ink3) !important; }
+
+/* Scrollbar */
+.dark ::-webkit-scrollbar       { width: 6px; height: 6px; }
+.dark ::-webkit-scrollbar-track { background: var(--soc-bg); }
+.dark ::-webkit-scrollbar-thumb { background: var(--soc-line2); border-radius: 4px; }
+.dark * { scrollbar-color: var(--soc-line2) var(--soc-bg); }

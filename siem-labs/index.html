@@ -75,6 +75,7 @@
         .dark ::-webkit-scrollbar-track { background: #0f172a; }
         .dark ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
     </style>
+    <link rel="stylesheet" href="/themes/soc.css">
 </head>
 <body>
     <a href="#main-content"
@@ -200,7 +201,7 @@
 
     /* ── App ── */
     const App = () => {
-        const [dark, setDark]   = useState(() => localStorage.getItem('darkMode') === 'true');
+        const [dark, setDark]   = useState(() => localStorage.getItem('darkMode') !== 'false');
         const [sections, setSections] = useState([]);
         const [loading, setLoading]   = useState(true);
         const [error, setError]       = useState(null);
