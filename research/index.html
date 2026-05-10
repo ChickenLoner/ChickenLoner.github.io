@@ -4,6 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Security Research | Chicken0248</title>
+    <meta name="description" content="Original security research articles on digital forensics, incident response, red teaming, and security lab building by Chicken0248." />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Chicken0248" />
+    <meta property="og:url" content="https://chickenloner.github.io/research/" />
+    <meta property="og:title" content="Security Research | Chicken0248" />
+    <meta property="og:description" content="Original security research articles on digital forensics, incident response, red teaming, and security lab building by Chicken0248." />
+    <meta property="og:image" content="https://chickenloner.github.io/chicken0248.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@Chicken_0248" />
+    <meta name="twitter:title" content="Security Research | Chicken0248" />
+    <meta name="twitter:description" content="Original security research articles on digital forensics, incident response, red teaming, and security lab building by Chicken0248." />
+    <meta name="twitter:image" content="https://chickenloner.github.io/chicken0248.png" />
     <link rel="icon" href="/chicken0248.png" type="image/png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -53,6 +65,7 @@
         .dark .hover\:bg-indigo-50:hover { background-color: rgba(99,102,241,0.1) !important; }
         .dark input { background-color: #1e293b !important; border-color: #334155 !important; color: #e2e8f0 !important; }
         .dark input::placeholder { color: #64748b !important; }
+        .dark select { background-color: #1e293b !important; border-color: #334155 !important; color: #e2e8f0 !important; }
         .dark ::-webkit-scrollbar       { width: 6px; }
         .dark ::-webkit-scrollbar-track { background: #0f172a; }
         .dark ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
@@ -81,6 +94,7 @@
             const [articles, setArticles] = useState([]);
             const [loading, setLoading] = useState(true);
             const [activeTag, setActiveTag] = useState(null);
+            const [search, setSearch] = useState('');
 
             useEffect(() => { localStorage.setItem('darkMode', dark); }, [dark]);
 
@@ -96,10 +110,19 @@
                 [articles]
             );
 
-            const filtered = useMemo(() =>
-                activeTag ? articles.filter(a => a.tags.includes(activeTag)) : articles,
-                [articles, activeTag]
-            );
+            const filtered = useMemo(() => {
+                let result = articles;
+                if (search.trim()) {
+                    const q = search.toLowerCase();
+                    result = result.filter(a =>
+                        a.title.toLowerCase().includes(q) ||
+                        a.summary.toLowerCase().includes(q) ||
+                        a.tags.some(t => t.toLowerCase().includes(q))
+                    );
+                }
+                if (activeTag) result = result.filter(a => a.tags.includes(activeTag));
+                return result;
+            }, [articles, search, activeTag]);
 
             return (
                 <div className={`min-h-screen bg-gray-50 ${dark ? 'dark' : ''}`}>
@@ -140,15 +163,29 @@
                             </div>
                         </div>
 
-                        {/* Tag Filter */}
-                        {!loading && allTags.length > 0 && (
-                            <select
-                                value={activeTag || ''}
-                                onChange={e => setActiveTag(e.target.value || null)}
-                                className="px-3 py-2 rounded-xl border border-gray-200 bg-white text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 cursor-pointer w-full sm:w-64">
-                                <option value="">All Tags</option>
-                                {allTags.map(tag => <option key={tag} value={tag}>{tag}</option>)}
-                            </select>
+                        {/* Search & Tag Filter */}
+                        {!loading && (
+                            <div className="flex flex-col sm:flex-row gap-3">
+                                <div className="flex items-center flex-1 rounded-xl border border-gray-200 bg-white focus-within:ring-2 focus-within:ring-indigo-400 px-3 gap-2">
+                                    <Icon name="Search" className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                                    <input
+                                        type="text"
+                                        placeholder="Search articles..."
+                                        value={search}
+                                        onChange={e => setSearch(e.target.value)}
+                                        className="flex-1 py-2 bg-transparent text-gray-800 text-sm focus:outline-none"
+                                    />
+                                </div>
+                                {allTags.length > 0 && (
+                                    <select
+                                        value={activeTag || ''}
+                                        onChange={e => setActiveTag(e.target.value || null)}
+                                        className="px-3 py-2 rounded-xl border border-gray-200 bg-white text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 cursor-pointer">
+                                        <option value="">All Tags</option>
+                                        {allTags.map(tag => <option key={tag} value={tag}>{tag}</option>)}
+                                    </select>
+                                )}
+                            </div>
                         )}
 
                         {/* Loading */}
@@ -196,9 +233,9 @@
                         {!loading && filtered.length === 0 && (
                             <div className="text-center py-16 text-gray-500">
                                 <Icon name="ScrollText" className="w-12 h-12 mx-auto mb-3 opacity-40" />
-                                <p className="text-lg font-medium">No articles found for this tag.</p>
-                                <button onClick={() => setActiveTag(null)} className="mt-3 text-indigo-600 text-sm font-medium hover:underline">
-                                    Clear filter
+                                <p className="text-lg font-medium">No articles match your filters.</p>
+                                <button onClick={() => { setSearch(''); setActiveTag(null); }} className="mt-3 text-indigo-600 text-sm font-medium hover:underline">
+                                    Clear filters
                                 </button>
                             </div>
                         )}

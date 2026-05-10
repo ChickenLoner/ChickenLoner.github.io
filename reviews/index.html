@@ -238,8 +238,8 @@
                         {/* Review Cards */}
                         {!loading && (
                             <div className="grid md:grid-cols-2 gap-6">
-                                {filtered.map((review, idx) => (
-                                    <a key={idx} href={review.url} target="_blank" rel="noopener noreferrer"
+                                {filtered.map((review) => (
+                                    <a key={review.url} href={review.url} target="_blank" rel="noopener noreferrer"
                                        className="group bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg hover:border-amber-300 transition-all duration-200">
                                         <div className="p-5 space-y-3">
                                             {/* Header: badge + title */}
