@@ -506,7 +506,22 @@
     
     <script type="text/babel">
         const { useState, useEffect } = React;
-        
+
+        const SocClock = () => {
+            const ref = React.useRef(null);
+            useEffect(() => {
+                const tick = () => {
+                    if (!ref.current) return;
+                    const n = new Date();
+                    ref.current.textContent = n.toISOString().slice(0,10) + ' \xb7 ' + n.toISOString().slice(11,19) + 'Z';
+                };
+                tick();
+                const id = setInterval(tick, 1000);
+                return () => clearInterval(id);
+            }, []);
+            return <span ref={ref} className="soc-clock" />;
+        };
+
         const Icon = ({ name, className = "w-6 h-6", ...props }) => {
             const ref = React.useRef(null);
             
@@ -528,16 +543,6 @@
             const [labsMetadata, setLabsMetadata] = useState({});
             const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
             const [darkMode, setDarkMode] = useState(() => localStorage.getItem('darkMode') !== 'false');
-            const [socClock, setSocClock] = useState('');
-            useEffect(() => {
-                const tick = () => {
-                    const n = new Date();
-                    setSocClock(n.toISOString().slice(0,10) + ' · ' + n.toISOString().slice(11,19) + 'Z');
-                };
-                tick();
-                const id = setInterval(tick, 1000);
-                return () => clearInterval(id);
-            }, []);
 
             // Data state — loaded from JSON files
             const [certifications, setCertifications] = useState([]);
@@ -2002,7 +2007,7 @@
                                 <span className="sev cyan"><span className="dot"></span>TLP:CLEAR</span>
                                 <span className="sev green"><span className="dot"></span>SHIFT · DAY</span>
                             </span>
-                            <span className="soc-clock">{socClock}</span>
+                            <SocClock />
                             <button onClick={() => setDarkMode(!darkMode)} style={{background:'transparent',border:'none',cursor:'pointer',color:'var(--soc-ink3)',padding:'2px 6px',borderRadius:'4px'}} title={darkMode ? 'Light mode' : 'Dark mode'}>
                                 <Icon name={darkMode ? 'Sun' : 'Moon'} className="w-4 h-4" />
                             </button>
