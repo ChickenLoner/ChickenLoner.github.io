@@ -300,7 +300,7 @@
                 total:   allLabs.length,
                 splunk:  get('splunk'),
                 elastic: get('elastic'),
-                both:    sections.filter(s => !s.id.includes('splunk') && !s.id.startsWith('elastic')).reduce((a,s) => a + s.labs.length, 0),
+                both:    sections.filter(s => s.id.includes('splunk') && s.id.includes('elastic')).reduce((a,s) => a + s.labs.length, 0),
                 free:    allLabs.filter(l => l.pricing === 'Free').length,
             };
         }, [allLabs, sections]);
