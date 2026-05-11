@@ -1,831 +1,2063 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chicken0248 — DFIR &amp; Blue Team Security</title>
-  <meta name="description" content="Chicken0248 — Cybersecurity professional specializing in DFIR, SOC, and Blue Team. Sharing IR reports, security research, certification reviews, and lab writeups." />
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="Chicken0248" />
-  <meta property="og:url" content="https://chickenloner.github.io/" />
-  <meta property="og:title" content="Chicken0248 — DFIR &amp; Blue Team Security" />
-  <meta property="og:description" content="Cybersecurity professional specializing in DFIR, SOC, and Blue Team. Sharing IR reports, security research, certification reviews, and lab writeups." />
-  <meta property="og:image" content="https://chickenloner.github.io/chicken0248.png" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:site" content="@Chicken_0248" />
-  <meta name="twitter:title" content="Chicken0248 — DFIR &amp; Blue Team Security" />
-  <meta name="twitter:description" content="Cybersecurity professional specializing in DFIR, SOC, and Blue Team. Sharing IR reports, security research, certification reviews, and lab writeups." />
-  <meta name="twitter:image" content="https://chickenloner.github.io/chicken0248.png" />
-  <link rel="canonical" href="https://chickenloner.github.io/" />
-  <link rel="icon" href="/chicken0248.png" type="image/png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg:    #070b14;
-      --bg-1:  #0c1322;
-      --bg-2:  #121a2e;
-      --line:  #1c2740;
-      --line2: #2a3a5c;
-      --ink:   #e4ecff;
-      --ink-2: #a9b6d3;
-      --ink-3: #6c7a9c;
-      --ink-4: #475070;
-      --cy:    #22e1ff;
-      --cy-2:  #06b8d9;
-      --am:    #ffb547;
-      --am-2:  #f59e0b;
-      --rd:    #ff5577;
-      --gn:    #3ddc84;
-      --vi:    #a78bfa;
-      --mono:  'JetBrains Mono', ui-monospace, monospace;
-      --sans:  'Inter', ui-sans-serif, system-ui, sans-serif;
-    }
-    *, ::before, ::after { box-sizing: border-box; }
-    html { overscroll-behavior-x: none; }
-    html, body {
-      margin: 0; padding: 0;
-      background: var(--bg); color: var(--ink);
-      font-family: var(--sans); font-size: 14px; line-height: 1.5;
-      -webkit-font-smoothing: antialiased;
-    }
-    a { color: inherit; text-decoration: none; }
-    body {
-      background:
-        radial-gradient(1200px 600px at 100% -10%, rgba(34,225,255,.08), transparent 70%),
-        radial-gradient(900px 500px at -10% 30%, rgba(167,139,250,.06), transparent 70%),
-        var(--bg);
-    }
-    .hexbg {
-      position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: .5;
-      background-image:
-        linear-gradient(60deg,  transparent 49.5%, rgba(34,225,255,.08) 50%, transparent 50.5%),
-        linear-gradient(-60deg, transparent 49.5%, rgba(34,225,255,.08) 50%, transparent 50.5%),
-        linear-gradient(0deg,   transparent 49.5%, rgba(34,225,255,.05) 50%, transparent 50.5%);
-      background-size: 36px 62px;
-      mask-image: radial-gradient(#000 30%, transparent 80%);
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chicken0248 — DFIR &amp; Blue Team Security</title>
+    <meta name="description" content="Chicken0248 — Cybersecurity professional specializing in DFIR, SOC, and Blue Team. Sharing IR reports, security research, certification reviews, and lab writeups." />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Chicken0248" />
+    <meta property="og:url" content="https://chickenloner.github.io/" />
+    <meta property="og:title" content="Chicken0248 — DFIR &amp; Blue Team Security" />
+    <meta property="og:description" content="Cybersecurity professional specializing in DFIR, SOC, and Blue Team. Sharing IR reports, security research, certification reviews, and lab writeups." />
+    <meta property="og:image" content="https://chickenloner.github.io/chicken0248.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@Chicken_0248" />
+    <meta name="twitter:title" content="Chicken0248 — DFIR &amp; Blue Team Security" />
+    <meta name="twitter:description" content="Cybersecurity professional specializing in DFIR, SOC, and Blue Team. Sharing IR reports, security research, certification reviews, and lab writeups." />
+    <meta name="twitter:image" content="https://chickenloner.github.io/chicken0248.png" />
+    <link rel="canonical" href="https://chickenloner.github.io/" />
+    <link rel="icon" href="/chicken0248.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn { animation: fadeIn 0.5s ease-out; }
 
-    /* ── Top bar ───────────────────────────────────────── */
-    .tb {
-      position: sticky; top: 0; z-index: 50;
-      background: rgba(7,11,20,.85);
-      backdrop-filter: blur(10px) saturate(140%);
-      border-bottom: 1px solid var(--line);
-    }
-    .tb-row {
-      display: flex; align-items: center; gap: 14px;
-      padding: 10px 22px; font-size: 12px;
-    }
-    .live {
-      display: inline-flex; align-items: center; gap: 6px;
-      color: var(--gn); font-weight: 600; letter-spacing: .06em;
-    }
-    .live::before {
-      content: ""; width: 7px; height: 7px; border-radius: 50%;
-      background: var(--gn); box-shadow: 0 0 8px var(--gn);
-      animation: bp 1.6s ease infinite;
-    }
-    @keyframes bp { 50% { opacity: .3; } }
-    .crumb { color: var(--ink-3); display: flex; align-items: center; gap: 8px; }
-    .crumb b { color: var(--ink); font-weight: 600; }
-    .mono { font-family: var(--mono); }
-    .small { font-size: 11px; }
+        @keyframes pulseRing {
+            0%   { transform: scale(1);    opacity: 0.5; }
+            100% { transform: scale(1.22); opacity: 0; }
+        }
+        .animate-pulse-ring { animation: pulseRing 2s ease-out infinite; }
 
-    /* ── Severity badges ───────────────────────────────── */
-    .sev {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 3px 10px; border-radius: 4px;
-      font-family: var(--mono); font-size: 10.5px;
-      letter-spacing: .1em; font-weight: 700; text-transform: uppercase;
-    }
-    .sev .dot { width: 6px; height: 6px; border-radius: 50%; background: currentcolor; }
-    .sev.green  { background: rgba(61,220,132,.12);  color: var(--gn); border: 1px solid rgba(61,220,132,.3); }
-    .sev.amber  { background: rgba(255,181,71,.12);  color: var(--am); border: 1px solid rgba(255,181,71,.35); }
-    .sev.red    { background: rgba(255,85,119,.12);  color: var(--rd); border: 1px solid rgba(255,85,119,.35); }
-    .sev.cyan   { background: rgba(34,225,255,.1);   color: var(--cy); border: 1px solid rgba(34,225,255,.3); }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .animate-slideDown { animation: slideDown 0.18s ease-out; }
 
-    /* ── Tab nav ───────────────────────────────────────── */
-    .nav {
-      background: rgba(12,19,34,.85); border-bottom: 1px solid var(--line);
-      padding: 8px 22px 0; display: flex; gap: 2px;
-      overflow-x: auto; align-items: flex-end;
-    }
-    .nav::-webkit-scrollbar { height: 0; }
-    .tab {
-      padding: 11px 16px 12px; color: var(--ink-3); font-size: 13px;
-      font-weight: 500; display: flex; align-items: center; gap: 8px;
-      white-space: nowrap; border-bottom: 2px solid transparent;
-      cursor: pointer; transition: .15s;
-    }
-    .tab .ix { font-family: var(--mono); font-size: 10px; color: var(--ink-4); letter-spacing: .05em; }
-    .tab:hover { color: var(--ink-2); }
-    .tab.active { color: var(--cy); border-bottom-color: var(--cy); background: linear-gradient(transparent, rgba(34,225,255,.06)); }
-    .tab.active .ix { color: var(--cy-2); }
-    .tab .ext { font-size: 10px; color: var(--ink-4); margin-left: 2px; }
+        /* Badge marquee */
+        @keyframes marquee {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .badge-marquee-track {
+            display: flex;
+            width: max-content;
+            animation: marquee 160s linear infinite;
+        }
+        .badge-marquee-track:hover { animation-play-state: paused; }
 
-    /* ── Page layout ───────────────────────────────────── */
-    .page { position: relative; z-index: 1; max-width: 1240px; margin: 0 auto; padding: 24px 26px 80px; }
+        /* JetBrains Mono for monospace elements */
+        .dark code, .dark kbd, .dark pre,
+        .dark .font-mono { font-family: 'JetBrains Mono', ui-monospace, monospace !important; }
 
-    /* ── Hero ──────────────────────────────────────────── */
-    .hero {
-      border: 1px solid var(--line2); border-radius: 6px;
-      background: linear-gradient(180deg, rgba(34,225,255,.04), transparent 40%),
-                  linear-gradient(180deg, var(--bg-1), var(--bg));
-      overflow: hidden;
-    }
-    .hero-strap {
-      display: flex; align-items: center; gap: 12px;
-      padding: 8px 16px; font-family: var(--mono); font-size: 11px;
-      color: var(--ink-3); border-bottom: 1px solid var(--line);
-      background: rgba(0,0,0,.25);
-    }
-    .hero-strap .seg { display: flex; align-items: center; gap: 6px; }
-    .hero-strap .seg b { color: var(--ink-2); font-weight: 500; }
-    .hero-strap .seg .v { color: var(--cy); font-weight: 600; }
-    .hero-body {
-      display: grid; grid-template-columns: auto 1fr auto;
-      gap: 24px; align-items: center; padding: 26px 28px;
-    }
-    .av {
-      position: relative; width: 96px; height: 96px; border-radius: 8px;
-      overflow: hidden; background: #000; border: 1px solid var(--line2);
-      box-shadow: rgba(34,225,255,.08) 0 0 0 4px, rgba(0,0,0,.4) 0 6px 24px;
-      flex-shrink: 0;
-    }
-    .av img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.95); }
-    .av .corner {
-      position: absolute; width: 14px; height: 14px;
-      border: 1.5px solid var(--cy); opacity: .85;
-    }
-    .av .c-tl { top: 5px; left: 5px;  border-right: none; border-bottom: none; }
-    .av .c-tr { top: 5px; right: 5px; border-left: none;  border-bottom: none; }
-    .av .c-bl { bottom: 5px; left: 5px;  border-right: none; border-top: none; }
-    .av .c-br { bottom: 5px; right: 5px; border-left: none;  border-top: none; }
-    .name { font-size: 30px; font-weight: 800; letter-spacing: -.01em; line-height: 1.1; }
-    .name .accent { color: var(--cy); }
-    .role { margin-top: 4px; color: var(--ink-2); font-family: var(--mono); font-size: 13px; }
-    .role .sep { color: var(--ink-4); }
-    .opmeta {
-      display: grid; grid-template-columns: auto auto;
-      gap: 4px 14px; font-family: var(--mono); font-size: 11px;
-      color: var(--ink-3); text-align: right;
-    }
-    .opmeta b { color: var(--ink); font-weight: 600; }
+        /* Subtle dot grid background for hero */
+        .hero-dots {
+            background-image: radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
 
-    /* Stats */
-    .stat-grid {
-      display: grid; grid-template-columns: repeat(4, 1fr);
-      border-top: 1px solid var(--line);
-    }
-    .stat-cell {
-      padding: 18px 20px; border-right: 1px solid var(--line);
-      position: relative; background: rgba(255,255,255,.01);
-    }
-    .stat-cell:last-child { border-right: none; }
-    .stat-cell .lbl {
-      font-family: var(--mono); font-size: 10px; color: var(--ink-3);
-      letter-spacing: .14em; text-transform: uppercase;
-      display: flex; align-items: center; gap: 6px;
-    }
-    .stat-cell .lbl::before {
-      content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--cy);
-    }
-    .stat-cell.amber .lbl::before { background: var(--am); }
-    .stat-cell.violet .lbl::before { background: var(--vi); }
-    .stat-cell.green .lbl::before { background: var(--gn); }
-    .stat-cell .val {
-      font-size: 30px; font-weight: 700; letter-spacing: -.01em;
-      margin-top: 6px; font-variant-numeric: tabular-nums;
-    }
-    .stat-cell .delta { font-family: var(--mono); font-size: 11px; color: var(--gn); margin-top: 2px; }
-    .spark { height: 18px; margin-top: 8px; display: flex; align-items: flex-end; gap: 2px; }
-    .spark span { width: 4px; background: var(--cy); opacity: .6; border-radius: 1px 1px 0 0; }
-    .stat-cell.amber  .spark span { background: var(--am); }
-    .stat-cell.violet .spark span { background: var(--vi); }
-    .stat-cell.green  .spark span { background: var(--gn); }
+        /* ============================================================
+           SOC CONSOLE THEME — Dark mode
+           ============================================================ */
+        :root {
+            --soc-bg:    #070b14;
+            --soc-bg-1:  #0c1322;
+            --soc-bg-2:  #121a2e;
+            --soc-line:  #1c2740;
+            --soc-line2: #2a3a5c;
+            --soc-ink:   #e4ecff;
+            --soc-ink2:  #a9b6d3;
+            --soc-ink3:  #6c7a9c;
+            --soc-ink4:  #475070;
+            --soc-cy:    #22e1ff;
+            --soc-cy2:   #06b8d9;
+            --soc-am:    #ffb547;
+            --soc-gn:    #3ddc84;
+            --soc-rd:    #ff5577;
+            --soc-vi:    #a78bfa;
+        }
 
-    /* ── Section headings ──────────────────────────────── */
-    h2.section {
-      font-size: 13px; font-family: var(--mono); font-weight: 600;
-      text-transform: uppercase; letter-spacing: .18em; color: var(--ink-2);
-      margin: 36px 0 14px; display: flex; align-items: center; gap: 12px;
-    }
-    h2.section::before {
-      content: ""; width: 4px; height: 14px; background: var(--cy);
-      box-shadow: rgba(34,225,255,.7) 0 0 8px; flex-shrink: 0;
-    }
-    h2.section .meta {
-      margin-left: auto; color: var(--ink-3); font-weight: 400;
-      letter-spacing: .08em; font-size: 11px;
-    }
+        /* Root page: deep dark + radial cyan/violet glows */
+        .dark.min-h-screen {
+            background:
+                radial-gradient(1200px 600px at 100% -10%, rgba(34,225,255,.08), transparent 70%),
+                radial-gradient(900px 500px at -10% 30%, rgba(167,139,250,.06), transparent 70%),
+                var(--soc-bg) !important;
+            position: relative;
+        }
 
-    /* ── Activity feed ─────────────────────────────────── */
-    .alerts {
-      display: flex; flex-direction: column; gap: 0;
-      border: 1px solid var(--line); border-radius: 6px;
-      overflow: hidden; background: var(--bg-1);
-    }
-    .alert {
-      display: grid; grid-template-columns: 100px 90px 1fr auto auto;
-      gap: 14px; align-items: center; padding: 14px 18px;
-      border-bottom: 1px solid var(--line); transition: background .15s; cursor: pointer;
-    }
-    .alert:last-child { border-bottom: none; }
-    .alert:hover { background: rgba(34,225,255,.04); }
-    .alert .ts { font-family: var(--mono); font-size: 11px; color: var(--ink-3); }
-    .alert .ttl { font-weight: 600; color: var(--ink); }
-    .alert .detail { font-family: var(--mono); font-size: 11px; color: var(--ink-3); margin-top: 2px; }
-    .alert .src { font-family: var(--mono); font-size: 11px; color: var(--ink-3); }
-    .alert .arrow { color: var(--ink-4); font-size: 18px; }
-    .alert:hover .arrow { color: var(--cy); }
+        /* Hex grid overlay */
+        .dark.min-h-screen::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.45;
+            background-image:
+                linear-gradient(60deg,  transparent 49.5%, rgba(34,225,255,.08) 50%, transparent 50.5%),
+                linear-gradient(-60deg, transparent 49.5%, rgba(34,225,255,.08) 50%, transparent 50.5%),
+                linear-gradient(0deg,   transparent 49.5%, rgba(34,225,255,.05) 50%, transparent 50.5%);
+            background-size: 36px 62px;
+            -webkit-mask-image: radial-gradient(#000 30%, transparent 80%);
+            mask-image: radial-gradient(#000 30%, transparent 80%);
+        }
 
-    /* ── Badge rail ────────────────────────────────────── */
-    .rail {
-      border: 1px solid var(--line); border-radius: 6px;
-      padding: 18px; background: var(--bg-1);
-      overflow: hidden; position: relative;
-    }
-    .rail::before, .rail::after {
-      content: ""; position: absolute; top: 0; bottom: 0; width: 80px; z-index: 2; pointer-events: none;
-    }
-    .rail::before { left: 0;  background: linear-gradient(90deg,  var(--bg-1), transparent); }
-    .rail::after  { right: 0; background: linear-gradient(270deg, var(--bg-1), transparent); }
-    .rail-track {
-      display: flex; gap: 12px; width: max-content;
-      animation: rail 60s linear infinite;
-    }
-    .rail-track:hover { animation-play-state: paused; }
-    @keyframes rail { 100% { transform: translateX(-50%); } }
-    .credit {
-      display: grid; grid-template-columns: auto 1fr;
-      gap: 10px; align-items: center; padding: 10px 12px;
-      border: 1px solid var(--line2); border-radius: 5px;
-      background: var(--bg-2); min-width: 190px;
-    }
-    .credit .glyph {
-      width: 38px; height: 38px; border-radius: 5px;
-      display: grid; place-items: center;
-      background: linear-gradient(135deg, rgba(34,225,255,.18), rgba(34,225,255,.04));
-      border: 1px solid var(--cy-2); color: var(--cy);
-      font-weight: 700; font-family: var(--mono); font-size: 10px; letter-spacing: .02em;
-      flex-shrink: 0;
-    }
-    .credit .nm  { font-size: 12px; font-weight: 600; color: var(--ink); white-space: nowrap; }
-    .credit .iss { font-family: var(--mono); font-size: 10px; color: var(--ink-3); margin-top: 1px; white-space: nowrap; }
-    .credit.exp .glyph {
-      background: linear-gradient(135deg, rgba(108,122,156,.14), transparent);
-      border-color: var(--ink-4); color: var(--ink-3);
-    }
+        /* Navigation */
+        .dark nav.sticky {
+            background-color: rgba(7,11,20,0.92) !important;
+            backdrop-filter: blur(12px) saturate(150%) !important;
+            -webkit-backdrop-filter: blur(12px) saturate(150%) !important;
+            border-bottom-color: var(--soc-line) !important;
+        }
 
-    /* ── TTP / Skills ──────────────────────────────────── */
-    .ttp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    .ttp {
-      border: 1px solid var(--line); border-radius: 6px;
-      padding: 18px; background: var(--bg-1); transition: border-color .15s;
-    }
-    .ttp:hover { border-color: var(--line2); }
-    .ttp-hd { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-    .ttp-id {
-      font-family: var(--mono); font-size: 10px; color: var(--cy);
-      background: rgba(34,225,255,.1); border: 1px solid rgba(34,225,255,.3);
-      padding: 2px 8px; border-radius: 3px; letter-spacing: .05em; font-weight: 600;
-    }
-    .ttp-hd h3 { margin: 0; font-size: 14px; font-weight: 700; color: var(--ink); }
-    .ttp-hd .cnt { margin-left: auto; font-family: var(--mono); font-size: 11px; color: var(--ink-3); }
-    .chips { display: flex; flex-wrap: wrap; gap: 6px; }
-    .chip {
-      padding: 5px 10px; border: 1px solid var(--line2); border-radius: 4px;
-      font-family: var(--mono); font-size: 11px; color: var(--ink-2); background: var(--bg-2);
-    }
-    .chip.cy { color: var(--cy);  border-color: rgba(34,225,255,.35);  background: rgba(34,225,255,.06); }
-    .chip.am { color: var(--am);  border-color: rgba(255,181,71,.35);  background: rgba(255,181,71,.06); }
-    .chip.vi { color: var(--vi);  border-color: rgba(167,139,250,.35); background: rgba(167,139,250,.06); }
-    .chip.gn { color: var(--gn);  border-color: rgba(61,220,132,.35);  background: rgba(61,220,132,.06); }
+        /* White / light surface backgrounds */
+        .dark .bg-white     { background-color: var(--soc-bg-1) !important; }
+        .dark .bg-gray-50   { background-color: var(--soc-bg)   !important; }
+        .dark .bg-gray-100  { background-color: var(--soc-bg-2) !important; }
 
-    /* ── Operator brief ────────────────────────────────── */
-    .opnote {
-      border-left: 3px solid var(--cy); border-radius: 6px;
-      background: linear-gradient(90deg, rgba(34,225,255,.05), transparent 40%), var(--bg-1);
-      padding: 24px 26px;
-    }
-    .opnote .lbl {
-      font-family: var(--mono); font-size: 10.5px; color: var(--cy);
-      letter-spacing: .14em; text-transform: uppercase; font-weight: 700;
-      margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
-    }
-    .opnote .lbl .clear {
-      background: rgba(61,220,132,.12); color: var(--gn);
-      border: 1px solid rgba(61,220,132,.3); padding: 2px 8px;
-      border-radius: 3px; font-size: 10px; letter-spacing: .1em;
-    }
-    .opnote h3 { margin: 0 0 10px; font-size: 18px; color: var(--ink); font-weight: 700; }
-    .opnote p { margin: 0; color: var(--ink-2); line-height: 1.65; max-width: 80ch; }
-    .platforms { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
-    .plat {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 7px 14px; border: 1px solid var(--line2); border-radius: 99px;
-      background: var(--bg-2); font-size: 12px; color: var(--ink);
-      font-weight: 500; transition: .15s; cursor: default;
-    }
-    .plat:hover { border-color: var(--cy); color: var(--cy); }
-    .plat .pd { width: 7px; height: 7px; border-radius: 50%; background: var(--gn); }
-    .plat.b .pd { background: var(--cy); }
-    .plat.v .pd { background: var(--vi); }
+        /* Tinted section backgrounds */
+        .dark .bg-blue-50,
+        .dark .bg-indigo-50 { background-color: rgba(34,225,255,0.06)  !important; }
+        .dark .bg-blue-100  { background-color: rgba(34,225,255,0.12)  !important; }
+        .dark .bg-cyan-50   { background-color: rgba(34,225,255,0.06)  !important; }
+        .dark .bg-purple-50 { background-color: rgba(167,139,250,0.06) !important; }
+        .dark .bg-green-50  { background-color: rgba(61,220,132,0.06)  !important; }
+        .dark .bg-orange-50 { background-color: rgba(255,181,71,0.06)  !important; }
+        .dark .bg-red-50    { background-color: rgba(255,85,119,0.06)  !important; }
+        .dark .bg-yellow-50 { background-color: rgba(255,181,71,0.06)  !important; }
 
-    /* ── Channels ──────────────────────────────────────── */
-    .ch-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 8px; }
-    .ch {
-      display: grid; grid-template-columns: auto 1fr auto;
-      gap: 14px; align-items: center; padding: 14px 16px;
-      border: 1px solid var(--line); border-radius: 6px;
-      background: var(--bg-1); transition: .15s;
-    }
-    .ch:hover { border-color: var(--cy); background: var(--bg-2); }
-    .ch .ic {
-      width: 40px; height: 40px; border-radius: 6px;
-      display: grid; place-items: center;
-      background: rgba(34,225,255,.08); border: 1px solid rgba(34,225,255,.25);
-      color: var(--cy); font-family: var(--mono); font-weight: 700; font-size: 14px;
-    }
-    .ch .h { font-size: 14px; font-weight: 600; }
-    .ch .s { font-family: var(--mono); font-size: 11px; color: var(--ink-3); }
-    .ch .ar { color: var(--ink-4); }
-    .ch:hover .ar { color: var(--cy); }
+        /* Badge/pill chip backgrounds */
+        .dark .bg-green-100  { background-color: rgba(61,220,132,0.12) !important; }
+        .dark .bg-orange-100 { background-color: rgba(255,181,71,0.12) !important; }
+        .dark .bg-red-100    { background-color: rgba(255,85,119,0.12) !important; }
+        .dark .bg-yellow-100 { background-color: rgba(255,181,71,0.12) !important; }
 
-    /* ── CTA ───────────────────────────────────────────── */
-    .cta {
-      margin-top: 22px; border: 1px solid var(--cy-2); border-radius: 6px;
-      padding: 24px 26px;
-      background: radial-gradient(at 100% 0%, rgba(34,225,255,.18), transparent 60%),
-                  linear-gradient(135deg, #0e2233, #0a1626);
-      display: flex; align-items: center; gap: 24px; flex-wrap: wrap;
-    }
-    .cta h3 { margin: 0; font-size: 20px; font-weight: 700; color: var(--ink); }
-    .cta p  { margin: 4px 0 0; color: var(--ink-2); font-size: 13px; }
-    .cta .act { margin-left: auto; display: flex; gap: 10px; }
-    .btn {
-      padding: 10px 18px; border-radius: 5px; font-weight: 600; font-size: 13px;
-      border: 1px solid var(--cy); color: #001520; background: var(--cy);
-      transition: .15s; cursor: pointer; font-family: var(--sans);
-    }
-    .btn:hover { background: #1ed8f5; }
-    .btn.ghost { background: transparent; color: var(--cy); }
+        /* Text hierarchy */
+        .dark .text-gray-800 { color: var(--soc-ink)  !important; }
+        .dark .text-gray-700 { color: var(--soc-ink2) !important; }
+        .dark .text-gray-600 { color: var(--soc-ink3) !important; }
+        .dark .text-gray-500 { color: var(--soc-ink3) !important; }
+        .dark .text-gray-400 { color: var(--soc-ink4) !important; }
+        .dark .text-gray-300 { color: var(--soc-line2) !important; }
 
-    /* ── Feed status ───────────────────────────────────── */
-    .feeds {
-      margin-top: 30px; display: grid; grid-template-columns: repeat(4, 1fr);
-      border: 1px solid var(--line); border-radius: 6px;
-      overflow: hidden; background: var(--bg-1);
-      font-family: var(--mono); font-size: 11px;
-    }
-    .feed {
-      padding: 12px 16px; border-right: 1px solid var(--line);
-      display: flex; align-items: center; gap: 10px;
-    }
-    .feed:last-child { border-right: none; }
-    .feed .nm  { color: var(--ink-2); flex: 1; }
-    .feed .ms  { color: var(--ink-3); font-size: 10px; }
-    .feed .st  { padding: 2px 7px; border-radius: 3px; font-size: 10px; letter-spacing: .05em; font-weight: 600; }
-    .feed .st.ok { background: rgba(61,220,132,.14); color: var(--gn); }
-    .feed .st.wn { background: rgba(255,181,71,.14); color: var(--am); }
+        /* Badge text — vivid SOC accent colors */
+        .dark .text-green-700  { color: var(--soc-gn) !important; }
+        .dark .text-orange-700 { color: var(--soc-am) !important; }
+        .dark .text-red-700    { color: var(--soc-rd) !important; }
+        .dark .text-blue-700   { color: var(--soc-cy) !important; }
+        .dark .text-purple-500 { color: var(--soc-vi) !important; }
+        .dark .text-yellow-700 { color: var(--soc-am) !important; }
 
-    /* ── Footer ────────────────────────────────────────── */
-    .ft {
-      margin-top: 30px; text-align: center; color: var(--ink-3);
-      font-family: var(--mono); font-size: 11px; letter-spacing: .06em;
-    }
+        /* Accent / interactive text — SOC cyan */
+        .dark .text-blue-600 { color: var(--soc-cy)  !important; }
+        .dark .text-blue-500 { color: var(--soc-cy)  !important; }
+        .dark .text-cyan-500 { color: var(--soc-cy)  !important; }
+        .dark .text-blue-400 { color: var(--soc-cy2) !important; }
 
-    /* ── Responsive ────────────────────────────────────── */
-    @media (max-width: 768px) {
-      .hero-body  { grid-template-columns: auto 1fr; }
-      .opmeta     { display: none; }
-      .stat-grid  { grid-template-columns: 1fr 1fr; }
-      .ttp-grid   { grid-template-columns: 1fr; }
-      .ch-grid    { grid-template-columns: 1fr; }
-      .feeds      { grid-template-columns: 1fr 1fr; }
-      .alert      { grid-template-columns: 80px 80px 1fr auto; }
-      .alert .src { display: none; }
-    }
-    @media (max-width: 480px) {
-      .page       { padding: 16px 14px 60px; }
-      .stat-grid  { grid-template-columns: 1fr 1fr; }
-      .feeds      { grid-template-columns: 1fr 1fr; }
-    }
-  </style>
+        /* Border colors */
+        .dark .border-gray-100   { border-color: var(--soc-line)  !important; }
+        .dark .border-gray-200   { border-color: var(--soc-line)  !important; }
+        .dark .border-gray-300   { border-color: var(--soc-line2) !important; }
+        .dark .border-blue-100   { border-color: rgba(34,225,255,0.2)   !important; }
+        .dark .border-blue-200   { border-color: rgba(34,225,255,0.3)   !important; }
+        .dark .border-purple-100 { border-color: rgba(167,139,250,0.3)  !important; }
+        .dark .border-yellow-200 { border-color: rgba(255,181,71,0.3)   !important; }
+
+        /* Hover backgrounds */
+        .dark .hover\:bg-gray-100:hover { background-color: var(--soc-bg-2) !important; }
+        .dark .hover\:bg-gray-50:hover  { background-color: var(--soc-bg-1) !important; }
+        .dark .hover\:border-blue-200:hover   { border-color: rgba(34,225,255,0.45)  !important; }
+        .dark .hover\:border-blue-400:hover   { border-color: rgba(34,225,255,0.65)  !important; }
+        .dark .hover\:border-red-200:hover    { border-color: rgba(255,85,119,0.45)  !important; }
+        .dark .hover\:border-indigo-200:hover { border-color: rgba(34,225,255,0.4)   !important; }
+
+        /* Light gradient stops → SOC dark */
+        .dark .from-blue-50   { --tw-gradient-from: var(--soc-bg-1) !important; }
+        .dark .to-blue-50     { --tw-gradient-to:   var(--soc-bg-1) !important; }
+        .dark .from-cyan-50   { --tw-gradient-from: var(--soc-bg-1) !important; }
+        .dark .to-cyan-50     { --tw-gradient-to:   var(--soc-bg-1) !important; }
+        .dark .from-indigo-50 { --tw-gradient-from: var(--soc-bg-2) !important; }
+        .dark .to-indigo-50   { --tw-gradient-to:   var(--soc-bg-2) !important; }
+        .dark .from-purple-50 { --tw-gradient-from: var(--soc-bg-2) !important; }
+        .dark .to-purple-50   { --tw-gradient-to:   var(--soc-bg-2) !important; }
+        .dark .from-slate-50  { --tw-gradient-from: var(--soc-bg)   !important; }
+        .dark .via-blue-50    { --tw-gradient-via:  var(--soc-bg-1) !important; }
+
+        /* Form / input elements */
+        .dark input, .dark textarea, .dark select {
+            background-color: var(--soc-bg-1) !important;
+            border-color: var(--soc-line2) !important;
+            color: var(--soc-ink) !important;
+        }
+        .dark input::placeholder, .dark textarea::placeholder { color: var(--soc-ink3) !important; }
+        .dark input:focus, .dark textarea:focus {
+            border-color: var(--soc-cy) !important;
+            --tw-ring-color: rgba(34,225,255,0.25) !important;
+        }
+        .dark .focus\:border-blue-500:focus { border-color: var(--soc-cy) !important; }
+
+        /* Scrollbar */
+        .dark ::-webkit-scrollbar       { width: 6px; }
+        .dark ::-webkit-scrollbar-track { background: var(--soc-bg); }
+        .dark ::-webkit-scrollbar-thumb { background: var(--soc-line2); border-radius: 3px; }
+        .dark * { scrollbar-color: var(--soc-line2) var(--soc-bg); }
+
+        /* ============================================================
+           LIQUID GLASS TAB SWITCHER — Certifications page
+           ============================================================ */
+        .lg-tab-nav {
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 6px;
+            border-radius: 99px;
+            background: rgba(255,255,255,0.18);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            box-shadow:
+                0 8px 28px -8px rgba(37,99,235,0.18),
+                inset 0 2px 3px -1px rgba(255,255,255,0.65),
+                inset 0 -1px 2px -1px rgba(37,99,235,0.10),
+                inset 0 0 0 1px rgba(255,255,255,0.38);
+        }
+        .lg-tab-nav::before {
+            content: '';
+            position: absolute;
+            top: 1px; left: 1px; right: 1px; height: 46%;
+            border-radius: 99px 99px 16px 16px / 99px 99px 6px 6px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0) 100%);
+            pointer-events: none;
+            z-index: 6;
+        }
+        .dark .lg-tab-nav {
+            background: rgba(12,19,34,0.75);
+            box-shadow:
+                0 8px 28px -8px rgba(0,0,0,0.6),
+                0 0 0 1px var(--soc-line),
+                inset 0 2px 3px -1px rgba(34,225,255,0.08),
+                inset 0 -1px 2px -1px rgba(0,0,0,0.2);
+        }
+        .dark .lg-tab-nav::before {
+            background: linear-gradient(180deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0) 100%);
+        }
+        .lg-tab-glare-wrap {
+            position: absolute;
+            inset: 0;
+            border-radius: 99px;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 5;
+        }
+        .lg-tab-glare {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            background: radial-gradient(circle 55px at var(--x, 50%) var(--y, 50%), rgba(255,255,255,0.38) 0%, transparent 100%);
+            mix-blend-mode: overlay;
+        }
+        .lg-tab-nav:hover .lg-tab-glare { opacity: 1; }
+        .lg-tab-pill {
+            position: absolute;
+            top: 6px;
+            height: 36px;
+            background: rgba(255,255,255,0.92);
+            border-radius: 99px;
+            box-shadow:
+                0 4px 14px rgba(37,99,235,0.14),
+                0 1px 2px rgba(0,0,0,0.06),
+                inset 0 1px 1px rgba(255,255,255,0.95);
+            transition:
+                transform 0.45s cubic-bezier(0.34,1.2,0.64,1),
+                width   0.45s cubic-bezier(0.34,1.2,0.64,1);
+            z-index: 1;
+            pointer-events: none;
+        }
+        .dark .lg-tab-pill {
+            background: rgba(18,26,46,0.95);
+            box-shadow: 0 4px 12px rgba(34,225,255,0.12), 0 0 0 1px rgba(34,225,255,0.2), inset 0 1px 1px rgba(255,255,255,0.08);
+        }
+        .lg-tab-btn {
+            position: relative;
+            background: transparent;
+            border: none;
+            padding: 0 16px;
+            height: 36px;
+            border-radius: 99px;
+            font-size: 14px;
+            font-weight: 600;
+            color: rgba(71,85,105,0.65);
+            cursor: pointer;
+            transition: color 0.3s ease;
+            outline: none;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            white-space: nowrap;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .lg-tab-btn.active { color: #2563eb; }
+        .dark .lg-tab-btn { color: var(--soc-ink3); }
+        .dark .lg-tab-btn.active { color: var(--soc-cy); }
+        .lg-tab-btn-inner {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            pointer-events: none;
+            transition: transform 0.15s cubic-bezier(0.32,0.72,0,1);
+        }
+        .lg-tab-btn:active .lg-tab-btn-inner { transform: scale(0.92); }
+        .lg-tab-count {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 1px 7px;
+            border-radius: 99px;
+            background: rgba(37,99,235,0.12);
+            color: rgba(37,99,235,0.65);
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+        .lg-tab-btn.active .lg-tab-count { background: rgba(37,99,235,0.15); color: #2563eb; }
+        .dark .lg-tab-count { background: rgba(107,122,156,0.15); color: var(--soc-ink3); }
+        .dark .lg-tab-btn.active .lg-tab-count { background: rgba(34,225,255,0.15); color: var(--soc-cy); }
+
+        /* ============================================================
+           SOC CONSOLE COMPONENTS
+           ============================================================ */
+        .soc-tb { position:sticky;top:0;z-index:50;background:rgba(7,11,20,0.94);backdrop-filter:blur(10px) saturate(140%);-webkit-backdrop-filter:blur(10px) saturate(140%);border-bottom:1px solid var(--soc-line); }
+        .soc-tb-row { display:flex;align-items:center;gap:14px;padding:9px 22px;font-size:12px;flex-wrap:wrap; }
+        .soc-live { display:inline-flex;align-items:center;gap:6px;color:var(--soc-gn);font-weight:600;letter-spacing:.06em;font-family:'JetBrains Mono',ui-monospace,monospace; }
+        .soc-live::before { content:"";width:7px;height:7px;border-radius:50%;background:var(--soc-gn);box-shadow:0 0 8px var(--soc-gn);animation:socbp 1.6s ease infinite; }
+        @keyframes socbp { 50% { opacity:.3; } }
+        .soc-crumb { color:var(--soc-ink3);display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px; }
+        .soc-crumb b { color:var(--soc-ink);font-weight:600; }
+        .soc-clock { font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;color:var(--soc-ink3); }
+        .sev { display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:4px;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10px;letter-spacing:.1em;font-weight:700;text-transform:uppercase;white-space:nowrap; }
+        .sev .dot { width:6px;height:6px;border-radius:50%;background:currentcolor;flex-shrink:0; }
+        .sev.green  { background:rgba(61,220,132,.12); color:var(--soc-gn); border:1px solid rgba(61,220,132,.3); }
+        .sev.amber  { background:rgba(255,181,71,.12);  color:var(--soc-am); border:1px solid rgba(255,181,71,.3); }
+        .sev.cyan   { background:rgba(34,225,255,.1);   color:var(--soc-cy); border:1px solid rgba(34,225,255,.25); }
+        .sev.violet { background:rgba(167,139,250,.1);  color:var(--soc-vi); border:1px solid rgba(167,139,250,.25); }
+        .soc-nav { background:rgba(12,19,34,.88);border-bottom:1px solid var(--soc-line);padding:0 16px;display:flex;align-items:flex-end;position:sticky;top:41px;z-index:49;overflow:visible; }
+        .soc-nav-inner { display:flex;gap:2px;align-items:flex-end;overflow-x:auto;flex:1; }
+        .soc-nav-inner::-webkit-scrollbar { height:0; }
+        .soc-nav-sep { width:1px;background:var(--soc-line2);margin:8px 8px;align-self:stretch;flex-shrink:0; }
+        .soc-tab { padding:10px 14px 11px;color:var(--soc-ink3);font-size:12.5px;font-weight:500;display:flex;align-items:center;gap:7px;white-space:nowrap;border-bottom:2px solid transparent;cursor:pointer;transition:.15s;background:transparent;border-left:none;border-right:none;border-top:none;outline:none; }
+        .soc-tab .ix { font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10px;color:var(--soc-ink4);letter-spacing:.05em; }
+        .soc-tab:hover { color:var(--soc-ink2); }
+        .soc-tab.active { color:var(--soc-cy);border-bottom-color:var(--soc-cy);background:linear-gradient(transparent,rgba(34,225,255,.06)); }
+        .soc-tab.active .ix { color:var(--soc-cy2); }
+        .soc-tab .ext { font-size:10px;color:var(--soc-ink4);margin-left:2px; }
+        .soc-divider { border-top:1px solid var(--soc-line);margin:4px 0; }
+        .soc-mobile-menu { background:rgba(7,11,20,.98);border-top:1px solid var(--soc-line);padding:10px 14px; }
+        .soc-mobile-item { display:flex;align-items:center;gap:10px;padding:9px 12px;color:var(--soc-ink2);font-size:13px;font-weight:500;border-radius:4px;cursor:pointer;transition:.15s;background:transparent;border:none;width:100%;text-align:left;text-decoration:none; }
+        .soc-mobile-item:hover,.soc-mobile-item.active { color:var(--soc-cy);background:rgba(34,225,255,.06); }
+        .soc-mobile-section { font-family:'JetBrains Mono',ui-monospace,monospace;font-size:9.5px;color:var(--soc-ink4);letter-spacing:.14em;text-transform:uppercase;padding:8px 12px 2px; }
+        .soc-hero { border:1px solid var(--soc-line2);border-radius:6px;background:linear-gradient(180deg,rgba(34,225,255,.04),transparent 40%),linear-gradient(180deg,var(--soc-bg-1),var(--soc-bg));overflow:hidden; }
+        .soc-hero-strap { display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:8px 18px;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;color:var(--soc-ink3);border-bottom:1px solid var(--soc-line);background:rgba(0,0,0,.25); }
+        .soc-hero-strap .seg { display:flex;align-items:center;gap:6px; }
+        .soc-hero-strap .seg b { color:var(--soc-ink2);font-weight:500; }
+        .soc-hero-strap .seg .v { color:var(--soc-cy);font-weight:600; }
+        .soc-hero-body { display:grid;grid-template-columns:auto 1fr auto;gap:22px;align-items:center;padding:22px 26px; }
+        .soc-av { position:relative;width:86px;height:86px;border-radius:8px;overflow:hidden;background:#000;border:1px solid var(--soc-line2);box-shadow:rgba(34,225,255,.1) 0 0 0 4px,rgba(0,0,0,.4) 0 6px 24px;flex-shrink:0; }
+        .soc-av img { width:100%;height:100%;object-fit:cover; }
+        .soc-av .corner { position:absolute;width:12px;height:12px;border:1.5px solid var(--soc-cy);opacity:.8; }
+        .soc-av .c-tl { top:5px;left:5px;border-right:none;border-bottom:none; }
+        .soc-av .c-tr { top:5px;right:5px;border-left:none;border-bottom:none; }
+        .soc-av .c-bl { bottom:5px;left:5px;border-right:none;border-top:none; }
+        .soc-av .c-br { bottom:5px;right:5px;border-left:none;border-top:none; }
+        .soc-name { font-size:27px;font-weight:800;letter-spacing:-.01em;line-height:1.1;color:var(--soc-ink); }
+        .soc-name .accent { color:var(--soc-cy); }
+        .soc-role { margin-top:4px;color:var(--soc-ink2);font-family:'JetBrains Mono',ui-monospace,monospace;font-size:12px; }
+        .soc-role .sep { color:var(--soc-ink4); }
+        .soc-opmeta { display:grid;grid-template-columns:auto auto;gap:4px 14px;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;color:var(--soc-ink3);text-align:right; }
+        .soc-opmeta b { color:var(--soc-ink);font-weight:600; }
+        .soc-stat-grid { display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--soc-line); }
+        .soc-stat-cell { padding:16px 20px;border-right:1px solid var(--soc-line);background:rgba(255,255,255,.01); }
+        .soc-stat-cell:last-child { border-right:none; }
+        .soc-stat-lbl { font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10px;color:var(--soc-ink3);letter-spacing:.14em;text-transform:uppercase;display:flex;align-items:center;gap:6px; }
+        .soc-stat-lbl::before { content:"";width:6px;height:6px;border-radius:50%;background:var(--soc-cy); }
+        .soc-stat-cell.am .soc-stat-lbl::before { background:var(--soc-am); }
+        .soc-stat-cell.vi .soc-stat-lbl::before { background:var(--soc-vi); }
+        .soc-stat-cell.gn .soc-stat-lbl::before { background:var(--soc-gn); }
+        .soc-stat-val { font-size:26px;font-weight:700;letter-spacing:-.01em;margin-top:4px;font-variant-numeric:tabular-nums;color:var(--soc-ink); }
+        .soc-spark { height:14px;margin-top:6px;display:flex;align-items:flex-end;gap:2px; }
+        .soc-spark span { width:4px;background:var(--soc-cy);opacity:.5;border-radius:1px 1px 0 0; }
+        .soc-stat-cell.am .soc-spark span { background:var(--soc-am); }
+        .soc-stat-cell.vi .soc-spark span { background:var(--soc-vi); }
+        .soc-stat-cell.gn .soc-spark span { background:var(--soc-gn); }
+        h2.soc-section { font-size:11.5px;font-family:'JetBrains Mono',ui-monospace,monospace;font-weight:600;text-transform:uppercase;letter-spacing:.18em;color:var(--soc-ink2);margin:30px 0 12px;display:flex;align-items:center;gap:12px; }
+        h2.soc-section::before { content:"";width:4px;height:14px;background:var(--soc-cy);box-shadow:rgba(34,225,255,.7) 0 0 8px;flex-shrink:0; }
+        h2.soc-section .meta { margin-left:auto;color:var(--soc-ink3);font-weight:400;letter-spacing:.06em;font-size:10px; }
+        .soc-alerts { display:flex;flex-direction:column;border:1px solid var(--soc-line);border-radius:6px;overflow:hidden;background:var(--soc-bg-1); }
+        .soc-alert { display:grid;grid-template-columns:86px 72px 1fr auto;gap:12px;align-items:center;padding:11px 16px;border-bottom:1px solid var(--soc-line);transition:background .15s;text-decoration:none;color:inherit; }
+        .soc-alert:last-child { border-bottom:none; }
+        .soc-alert:hover { background:rgba(34,225,255,.04); }
+        .soc-alert .ts { font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10px;color:var(--soc-ink3); }
+        .soc-alert .ttl { font-weight:600;color:var(--soc-ink);font-size:13px; }
+        .soc-alert .detail { font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10px;color:var(--soc-ink3);margin-top:2px; }
+        .soc-alert .ar { color:var(--soc-ink4); }
+        .soc-alert:hover .ar { color:var(--soc-cy); }
+        .soc-rail { border:1px solid var(--soc-line);border-radius:6px;padding:14px;background:var(--soc-bg-1);overflow:hidden;position:relative; }
+        .soc-rail::before,.soc-rail::after { content:"";position:absolute;top:0;bottom:0;width:60px;z-index:2;pointer-events:none; }
+        .soc-rail::before { left:0;background:linear-gradient(90deg,var(--soc-bg-1),transparent); }
+        .soc-rail::after  { right:0;background:linear-gradient(270deg,var(--soc-bg-1),transparent); }
+        .soc-rail-track { display:flex;gap:10px;width:max-content;animation:socRail 60s linear infinite; }
+        .soc-rail-track:hover { animation-play-state:paused; }
+        @keyframes socRail { 100% { transform:translateX(-50%); } }
+        .soc-credit { display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center;padding:9px 12px;border:1px solid var(--soc-line2);border-radius:5px;background:var(--soc-bg-2);min-width:175px;text-decoration:none;transition:border-color .15s; }
+        .soc-credit:hover { border-color:var(--soc-cy2); }
+        .soc-credit .glyph { width:34px;height:34px;border-radius:4px;display:grid;place-items:center;background:rgba(34,225,255,.12);border:1px solid var(--soc-cy2);color:var(--soc-cy);font-weight:700;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:9px;overflow:hidden;flex-shrink:0; }
+        .soc-credit .glyph img { width:34px;height:34px;object-fit:cover;border-radius:3px; }
+        .soc-credit .nm  { font-size:11.5px;font-weight:600;color:var(--soc-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:130px; }
+        .soc-credit .iss { font-family:'JetBrains Mono',ui-monospace,monospace;font-size:9.5px;color:var(--soc-ink3);margin-top:1px;white-space:nowrap; }
+        .soc-credit.exp .glyph { background:rgba(71,80,112,.14);border-color:var(--soc-ink4);color:var(--soc-ink3); }
+        .soc-ttp-grid { display:grid;grid-template-columns:1fr 1fr;gap:12px; }
+        .soc-ttp { border:1px solid var(--soc-line);border-radius:6px;padding:16px;background:var(--soc-bg-1);transition:border-color .15s; }
+        .soc-ttp:hover { border-color:var(--soc-line2); }
+        .soc-ttp-hd { display:flex;align-items:center;gap:10px;margin-bottom:10px; }
+        .soc-ttp-id { font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10px;color:var(--soc-cy);background:rgba(34,225,255,.1);border:1px solid rgba(34,225,255,.3);padding:2px 7px;border-radius:3px;letter-spacing:.05em;font-weight:600;flex-shrink:0; }
+        .soc-ttp-hd h3 { margin:0;font-size:13px;font-weight:700;color:var(--soc-ink); }
+        .soc-chips { display:flex;flex-wrap:wrap;gap:6px; }
+        .soc-chip { padding:4px 9px;border:1px solid var(--soc-line2);border-radius:4px;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10.5px;color:var(--soc-ink2);background:var(--soc-bg-2); }
+        .soc-chip.cy { color:var(--soc-cy);border-color:rgba(34,225,255,.3);background:rgba(34,225,255,.06); }
+        .soc-chip.am { color:var(--soc-am);border-color:rgba(255,181,71,.3);background:rgba(255,181,71,.06); }
+        .soc-chip.vi { color:var(--soc-vi);border-color:rgba(167,139,250,.3);background:rgba(167,139,250,.06); }
+        .soc-chip.gn { color:var(--soc-gn);border-color:rgba(61,220,132,.3);background:rgba(61,220,132,.06); }
+        .soc-opnote { border-left:3px solid var(--soc-cy);border-radius:6px;background:linear-gradient(90deg,rgba(34,225,255,.05),transparent 40%),var(--soc-bg-1);padding:20px 22px; }
+        .soc-opnote .lbl { font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10px;color:var(--soc-cy);letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px; }
+        .soc-opnote .clear { background:rgba(61,220,132,.12);color:var(--soc-gn);border:1px solid rgba(61,220,132,.3);padding:2px 8px;border-radius:3px;font-size:10px;letter-spacing:.1em; }
+        .soc-opnote h3 { margin:0 0 8px;font-size:16px;color:var(--soc-ink);font-weight:700; }
+        .soc-opnote p { margin:0;color:var(--soc-ink2);line-height:1.65;font-size:13.5px; }
+        .soc-platforms { display:flex;flex-wrap:wrap;gap:10px;margin-top:14px; }
+        .soc-plat { display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border:1px solid var(--soc-line2);border-radius:99px;background:var(--soc-bg-2);font-size:12px;color:var(--soc-ink);font-weight:500;transition:.15s;text-decoration:none; }
+        .soc-plat:hover { border-color:var(--soc-cy);color:var(--soc-cy); }
+        .soc-plat .pd { width:7px;height:7px;border-radius:50%;background:var(--soc-gn);flex-shrink:0; }
+        .soc-plat.b .pd { background:var(--soc-cy); }
+        .soc-plat.v .pd { background:var(--soc-vi); }
+        .soc-ch-grid { display:grid;grid-template-columns:1fr 1fr;gap:10px; }
+        .soc-ch { display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:12px 14px;border:1px solid var(--soc-line);border-radius:6px;background:var(--soc-bg-1);transition:.15s;text-decoration:none; }
+        .soc-ch:hover { border-color:var(--soc-cy);background:var(--soc-bg-2); }
+        .soc-ch .ic { width:36px;height:36px;border-radius:5px;display:grid;place-items:center;background:rgba(34,225,255,.08);border:1px solid rgba(34,225,255,.2);color:var(--soc-cy);font-family:'JetBrains Mono',ui-monospace,monospace;font-weight:700;font-size:12px;flex-shrink:0; }
+        .soc-ch .h { font-size:13px;font-weight:600;color:var(--soc-ink); }
+        .soc-ch .s { font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10px;color:var(--soc-ink3);margin-top:2px; }
+        .soc-ch .ar { color:var(--soc-ink4); }
+        .soc-ch:hover .ar { color:var(--soc-cy); }
+        .soc-cta { border:1px solid var(--soc-cy2);border-radius:6px;padding:20px 22px;background:radial-gradient(at 100% 0%,rgba(34,225,255,.15),transparent 60%),linear-gradient(135deg,rgba(14,34,51,.8),rgba(10,22,38,.8));display:flex;align-items:center;gap:22px;flex-wrap:wrap; }
+        .soc-cta h3 { margin:0;font-size:17px;font-weight:700;color:var(--soc-ink); }
+        .soc-cta p  { margin:3px 0 0;color:var(--soc-ink2);font-size:13px; }
+        .soc-btn { padding:8px 16px;border-radius:5px;font-weight:600;font-size:13px;border:1px solid var(--soc-cy);color:#001520;background:var(--soc-cy);transition:.15s;cursor:pointer;text-decoration:none;display:inline-block; }
+        .soc-btn:hover { background:#1ed8f5; }
+        .soc-btn.ghost { background:transparent;color:var(--soc-cy); }
+        .soc-btn.ghost:hover { background:rgba(34,225,255,.1); }
+        .soc-feeds { display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--soc-line);border-radius:6px;overflow:hidden;background:var(--soc-bg-1);font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10px; }
+        .soc-feed { padding:10px 14px;border-right:1px solid var(--soc-line);display:flex;align-items:center;gap:8px; }
+        .soc-feed:last-child { border-right:none; }
+        .soc-feed .nm { color:var(--soc-ink2);flex:1; }
+        .soc-feed .ms { color:var(--soc-ink3); }
+        .soc-feed .st { padding:2px 6px;border-radius:3px;font-size:9px;letter-spacing:.05em;font-weight:600; }
+        .soc-feed .ok { background:rgba(61,220,132,.14);color:var(--soc-gn); }
+        .soc-feed .wn { background:rgba(255,181,71,.14);color:var(--soc-am); }
+        .soc-ft { margin-top:24px;text-align:center;color:var(--soc-ink3);font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10px;letter-spacing:.06em; }
+        .soc-page-hero { border:1px solid var(--soc-line2);border-radius:6px;background:linear-gradient(180deg,rgba(34,225,255,.04),transparent 40%),linear-gradient(180deg,var(--soc-bg-1),var(--soc-bg));overflow:hidden;margin-bottom:24px; }
+        .soc-page-hero-strap { display:flex;align-items:center;gap:12px;padding:7px 18px;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;color:var(--soc-ink3);border-bottom:1px solid var(--soc-line);background:rgba(0,0,0,.25); }
+        .soc-page-hero-strap .seg { display:flex;align-items:center;gap:6px; }
+        .soc-page-hero-strap .seg b { color:var(--soc-ink2);font-weight:500; }
+        .soc-page-hero-strap .seg .v { color:var(--soc-cy);font-weight:600; }
+        .soc-page-hero-body { display:flex;align-items:center;gap:16px;padding:18px 22px; }
+        .soc-page-hero-icon { width:44px;height:44px;border-radius:8px;display:grid;place-items:center;background:rgba(34,225,255,.1);border:1px solid rgba(34,225,255,.3);flex-shrink:0; }
+        .soc-page-hero-title { font-size:22px;font-weight:800;color:var(--soc-ink);margin:0;letter-spacing:-.01em; }
+        .soc-page-hero-sub { font-size:12px;color:var(--soc-ink3);font-family:'JetBrains Mono',ui-monospace,monospace;margin:4px 0 0; }
+        @media (max-width:768px) {
+            .soc-hero-body { grid-template-columns:auto 1fr; }
+            .soc-opmeta { display:none; }
+            .soc-stat-grid { grid-template-columns:1fr 1fr; }
+            .soc-ttp-grid { grid-template-columns:1fr; }
+            .soc-ch-grid { grid-template-columns:1fr; }
+            .soc-feeds { grid-template-columns:1fr 1fr; }
+            .soc-alert { grid-template-columns:72px 60px 1fr auto; }
+        }
+    </style>
 </head>
 <body>
-<div class="hexbg"></div>
-
-<!-- TOP BAR -->
-<div class="tb">
-  <div class="tb-row">
-    <span class="live">UPLINK</span>
-    <span class="crumb mono">SOC <span style="color:var(--ink-4)">/</span> <b>OPERATOR.PROFILE</b></span>
-    <span style="margin-left:auto;display:flex;gap:8px;align-items:center">
-      <span class="sev cyan"><span class="dot"></span>TLP:CLEAR</span>
-      <span class="sev green"><span class="dot"></span>SHIFT · DAY</span>
-      <span class="sev amber" id="open-badge"><span class="dot"></span>— OPEN</span>
-    </span>
-    <span class="mono small" id="tb-clock" style="color:var(--ink-3)">—</span>
-  </div>
-</div>
-
-<!-- TAB NAV -->
-<nav class="nav" aria-label="Sections">
-  <a class="tab active" href="/"><span class="ix">01</span><span>Home</span></a>
-  <a class="tab" href="/ir-reports/"><span class="ix">02</span><span>IR Reports</span><span class="ext">↗</span></a>
-  <a class="tab" href="/research/"><span class="ix">03</span><span>Research</span><span class="ext">↗</span></a>
-  <a class="tab" href="/reviews/"><span class="ix">04</span><span>Reviews</span><span class="ext">↗</span></a>
-  <a class="tab" href="/cloud-labs/"><span class="ix">05</span><span>Cloud Labs</span><span class="ext">↗</span></a>
-  <a class="tab" href="/siem-labs/"><span class="ix">06</span><span>SIEM Labs</span><span class="ext">↗</span></a>
-</nav>
-
-<main class="page">
-
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-strap">
-      <div class="seg"><b>node</b> <span class="v">soc-edge-01</span></div>
-      <div class="seg"><b>region</b> <span class="v">apac-th-1</span></div>
-      <div class="seg"><b>session</b> <span class="v">7c3a…d12f</span></div>
-      <div class="seg" style="margin-left:auto"><b>last_login</b> <span class="v" id="last-login">—</span></div>
-    </div>
-    <div class="hero-body">
-      <div class="av">
-        <img src="/chicken0248.png" alt="Chicken0248 avatar" loading="eager">
-        <span class="corner c-tl"></span><span class="corner c-tr"></span>
-        <span class="corner c-bl"></span><span class="corner c-br"></span>
+        <a href="#main-content"
+       class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-white focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg focus:text-blue-600 focus:font-semibold">
+      Skip to content
+    </a>    <noscript>
+      <style>body{font-family:system-ui,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}</style>
+      <div style="text-align:center;padding:2rem">
+        <h1>JavaScript required</h1>
+        <p>This site requires JavaScript to display content. Please enable it in your browser settings.</p>
+        <a href="https://chickenloner.github.io">chickenloner.github.io</a>
       </div>
-      <div>
-        <div class="name">Chicken<span class="accent">_</span>0248</div>
-        <div class="role">DFIR Analyst <span class="sep">·</span> Blue Team Operator <span class="sep">·</span> Threat Hunter</div>
-        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:14px">
-          <span class="sev green"><span class="dot"></span>Active</span>
-          <span class="sev cyan"><span class="dot"></span>Tier 3</span>
-          <span class="sev amber"><span class="dot"></span>On-call</span>
-          <span class="sev cyan"><span class="dot"></span>OSCP+ · CDSA · BTL1</span>
-        </div>
-      </div>
-      <div class="opmeta">
-        <span>OPERATOR_ID</span><b>0xC0FFEE0248</b>
-        <span>CLEARANCE</span><b>BLUE / TIER 3</b>
-        <span>LOCATION</span><b>Bangkok, TH</b>
-        <span>HOST</span><b>dfir-ws-01</b>
-      </div>
-    </div>
-    <div class="stat-grid">
-      <div class="stat-cell">
-        <div class="lbl">Certifications</div>
-        <div class="val" id="stat-certs">—</div>
-        <div class="delta" id="stat-certs-delta">loading…</div>
-        <div class="spark">
-          <span style="height:30%"></span><span style="height:50%"></span>
-          <span style="height:40%"></span><span style="height:65%"></span>
-          <span style="height:55%"></span><span style="height:80%"></span>
-          <span style="height:95%"></span>
-        </div>
-      </div>
-      <div class="stat-cell amber">
-        <div class="lbl">Labs Completed</div>
-        <div class="val" id="stat-labs">—</div>
-        <div class="delta" id="stat-labs-delta" style="color:var(--am)">loading…</div>
-        <div class="spark">
-          <span style="height:40%"></span><span style="height:55%"></span>
-          <span style="height:70%"></span><span style="height:60%"></span>
-          <span style="height:75%"></span><span style="height:85%"></span>
-          <span style="height:90%"></span>
-        </div>
-      </div>
-      <div class="stat-cell violet">
-        <div class="lbl">Projects</div>
-        <div class="val" id="stat-projects">—</div>
-        <div class="delta" id="stat-projects-delta" style="color:var(--vi)">loading…</div>
-        <div class="spark">
-          <span style="height:30%"></span><span style="height:45%"></span>
-          <span style="height:50%"></span><span style="height:70%"></span>
-          <span style="height:60%"></span><span style="height:75%"></span>
-          <span style="height:80%"></span>
-        </div>
-      </div>
-      <div class="stat-cell green">
-        <div class="lbl">Reviews</div>
-        <div class="val" id="stat-reviews">—</div>
-        <div class="delta" id="stat-reviews-delta">loading…</div>
-        <div class="spark">
-          <span style="height:20%"></span><span style="height:40%"></span>
-          <span style="height:35%"></span><span style="height:55%"></span>
-          <span style="height:65%"></span><span style="height:70%"></span>
-          <span style="height:75%"></span>
-        </div>
-      </div>
-    </div>
-  </section>
+    </noscript><div id="root"></div>
+    
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        
+        const Icon = ({ name, className = "w-6 h-6", ...props }) => {
+            const ref = React.useRef(null);
+            
+            useEffect(() => {
+                if (ref.current && lucide[name]) {
+                    const iconElement = lucide.createElement(lucide[name], {
+                        class: className
+                    });
+                    ref.current.innerHTML = '';
+                    ref.current.appendChild(iconElement);
+                }
+            }, [name, className]);
+            
+            return <i ref={ref} className={`flex-shrink-0 ${className}`} {...props}></i>;
+        };
 
-  <!-- RECENT ACTIVITY -->
-  <h2 class="section" id="activity">Recent Activity Feed <span class="meta">tail -f /var/log/portfolio.feed</span></h2>
-  <div class="alerts" id="activity-feed">
-    <div class="alert" style="justify-content:center;color:var(--ink-3);font-family:var(--mono);font-size:12px">
-      Loading activity…
-    </div>
-  </div>
+        const Portfolio = () => {
+            const [activePage, setActivePage] = useState('home');
+            const [labsMetadata, setLabsMetadata] = useState({});
+            const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+            const [darkMode, setDarkMode] = useState(() => localStorage.getItem('darkMode') !== 'false');
+            const [socClock, setSocClock] = useState('');
+            useEffect(() => {
+                const tick = () => {
+                    const n = new Date();
+                    setSocClock(n.toISOString().slice(0,10) + ' · ' + n.toISOString().slice(11,19) + 'Z');
+                };
+                tick();
+                const id = setInterval(tick, 1000);
+                return () => clearInterval(id);
+            }, []);
 
-  <!-- BADGE RAIL -->
-  <h2 class="section" id="certifications">Issued Credentials <span class="meta" id="rail-meta">— verified · sorted by issuer</span></h2>
-  <div class="rail">
-    <div class="rail-track" id="rail-track">
-      <!-- Populated by JS -->
-    </div>
-  </div>
+            // Data state — loaded from JSON files
+            const [certifications, setCertifications] = useState([]);
+            const [certificationReviews, setCertificationReviews] = useState([]);
+            const [labsData, setLabsData] = useState([]);
+            const [skills, setSkills] = useState([]);
+            const [socialMedia, setSocialMedia] = useState([]);
+            const [achievements, setAchievements] = useState([]);
+            const [irReports, setIrReports] = useState([]);
+            const [researchData, setResearchData] = useState([]);
 
-  <!-- TRADECRAFT -->
-  <h2 class="section" id="tradecraft">Tradecraft &amp; Tooling <span class="meta">mapped to ATT&CK tactics</span></h2>
-  <div class="ttp-grid">
-    <div class="ttp">
-      <div class="ttp-hd">
-        <span class="ttp-id">DF-01</span>
-        <h3>Digital Forensics</h3>
-        <span class="cnt">3 disciplines</span>
-      </div>
-      <div class="chips">
-        <span class="chip cy">Disk Forensics</span>
-        <span class="chip cy">Memory Forensics</span>
-        <span class="chip cy">Network Forensics</span>
-      </div>
-    </div>
-    <div class="ttp">
-      <div class="ttp-hd">
-        <span class="ttp-id">IR-02</span>
-        <h3>Incident Response</h3>
-        <span class="cnt">3 disciplines</span>
-      </div>
-      <div class="chips">
-        <span class="chip am">Malware Analysis</span>
-        <span class="chip am">Log Analysis</span>
-        <span class="chip am">Threat Hunting</span>
-      </div>
-    </div>
-    <div class="ttp">
-      <div class="ttp-hd">
-        <span class="ttp-id">TX-03</span>
-        <h3>Tools &amp; Platforms</h3>
-        <span class="cnt">6 stacks</span>
-      </div>
-      <div class="chips">
-        <span class="chip vi">Autopsy</span>
-        <span class="chip vi">Volatility</span>
-        <span class="chip vi">Wireshark</span>
-        <span class="chip vi">SIEM / Splunk</span>
-        <span class="chip vi">FTK Imager</span>
-        <span class="chip vi">Eric Zimmerman Tools</span>
-      </div>
-    </div>
-    <div class="ttp">
-      <div class="ttp-hd">
-        <span class="ttp-id">BT-04</span>
-        <h3>Blue Team Operations</h3>
-        <span class="cnt">4 capabilities</span>
-      </div>
-      <div class="chips">
-        <span class="chip gn">SOC Operations</span>
-        <span class="chip gn">Security Monitoring</span>
-        <span class="chip gn">Threat Intelligence</span>
-        <span class="chip gn">Forensic Reporting</span>
-      </div>
-    </div>
-  </div>
+            // Merge static lab data with dynamic metadata at render time
+            const labs = labsData.map(lab => ({ ...lab, ...(labsMetadata[lab.title] || {}) }));
 
-  <!-- OPERATOR BRIEF -->
-  <h2 class="section" id="about">Operator Brief <span class="meta">/operators/chicken0248/brief.md</span></h2>
-  <div class="opnote">
-    <div class="lbl">Operator Brief <span class="clear">CLEARED FOR ROUTING</span></div>
-    <h3>About the Operator</h3>
-    <p>
-      DFIR professional focused on solving complex blue team challenges across multiple platforms and creating educational content that helps other analysts level up.
-      Believes in learning by doing — every published lab simulates a real-world IR scenario, end-to-end.
-      Mission: make digital forensics &amp; incident response approachable and rigorous for the wider blue team community.
-    </p>
-    <div class="platforms">
-      <span class="plat"><span class="pd"></span>HackTheBox</span>
-      <span class="plat b"><span class="pd"></span>CyberDefenders</span>
-      <span class="plat v"><span class="pd"></span>Blue Team Labs Online</span>
-    </div>
-  </div>
+            useEffect(() => { localStorage.setItem('darkMode', darkMode); }, [darkMode]);
+            useEffect(() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }, [activePage]);
 
-  <!-- CHANNELS -->
-  <h2 class="section" id="connect">Established Channels <span class="meta">verified handles · public</span></h2>
-  <div class="ch-grid">
-    <a class="ch" href="https://x.com/Chicken_0248" target="_blank" rel="noopener">
-      <div class="ic">𝕏</div>
-      <div><div class="h">@Chicken_0248</div><div class="s">x.com/Chicken_0248</div></div>
-      <span class="ar">›</span>
-    </a>
-    <a class="ch" href="https://www.linkedin.com/in/warawut-manosong" target="_blank" rel="noopener">
-      <div class="ic" style="font-family:var(--sans)">in</div>
-      <div><div class="h">/in/warawut-manosong</div><div class="s">linkedin.com</div></div>
-      <span class="ar">›</span>
-    </a>
-    <a class="ch" href="https://github.com/ChickenLoner" target="_blank" rel="noopener">
-      <div class="ic">GH</div>
-      <div><div class="h">@ChickenLoner</div><div class="s">github.com/ChickenLoner</div></div>
-      <span class="ar">›</span>
-    </a>
-    <a class="ch" href="https://medium.com/@chaoskist" target="_blank" rel="noopener">
-      <div class="ic" style="font-family:var(--sans)">M</div>
-      <div><div class="h">@chaoskist</div><div class="s">medium.com</div></div>
-      <span class="ar">›</span>
-    </a>
-  </div>
 
-  <!-- CTA -->
-  <div class="cta">
-    <div>
-      <h3>Open to Collaboration</h3>
-      <p>Building DFIR labs, contributing to detection content, or trading notes on blue team tradecraft — happy to talk.</p>
-    </div>
-    <div class="act">
-      <a href="mailto:daimon.08880@gmail.com"><button class="btn">Send Email</button></a>
-      <a href="https://github.com/ChickenLoner" target="_blank" rel="noopener"><button class="btn ghost">GitHub</button></a>
-    </div>
-  </div>
+            // Load all static content from JSON files
+            useEffect(() => {
+                Promise.all([
+                    fetch('./data/certifications.json').then(r => r.json()),
+                    fetch('./data/reviews.json').then(r => r.json()),
+                    fetch('./data/labs.json').then(r => r.json()),
+                    fetch('./data/skills.json').then(r => r.json()),
+                    fetch('./data/social.json').then(r => r.json()),
+                    fetch('./data/achievements.json').then(r => r.json()),
+                    fetch('./data/ir-reports.json').then(r => r.json()),
+                    fetch('./data/research.json').then(r => r.json()),
+                ]).then(([certs, reviews, labsRaw, skillsData, social, achievementsData, irData, research]) => {
+                    setCertifications(certs);
+                    setCertificationReviews(reviews);
+                    setLabsData(labsRaw);
+                    setSkills(skillsData);
+                    setSocialMedia(social);
+                    setAchievements(achievementsData);
+                    setIrReports(irData);
+                    setResearchData(research);
+                }).catch(err => console.error('Failed to load site data:', err));
+            }, []);
 
-  <!-- FEED STATUS -->
-  <div class="feeds">
-    <div class="feed"><span class="st ok">OK</span><span class="nm">github.api</span><span class="ms">42ms</span></div>
-    <div class="feed"><span class="st ok">OK</span><span class="nm">credly.feed</span><span class="ms">118ms</span></div>
-    <div class="feed"><span class="st wn">WARN</span><span class="nm">medium.rss</span><span class="ms">1.3s</span></div>
-    <div class="feed"><span class="st ok">OK</span><span class="nm">labs.metadata</span><span class="ms">61ms</span></div>
-  </div>
+            // Load dynamic lab metadata (updated daily by GitHub Actions)
+            useEffect(() => {
+                fetch('./data/labs_metadata.json')
+                    .then(res => {
+                        if (!res.ok) throw new Error('Metadata file not found');
+                        return res.json();
+                    })
+                    .then(data => {
+                        console.log('✓ Loaded dynamic metadata for', Object.keys(data).length, 'labs');
+                        setLabsMetadata(data);
+                    })
+                    .catch(err => {
+                        console.log('ℹ Using static data only:', err.message);
+                    });
+            }, []);
 
-  <div class="ft">© 2026 chicken0248 · operations.console v3.2.1 · github-pages.deploy</div>
+            const navigation = [
+                { id: 'home', label: 'Home', icon: 'User' },
+                { id: 'certifications', label: 'Certifications', icon: 'Award' },
+                { id: 'labs', label: 'Labs & Projects', icon: 'Code' },
+                { id: 'achievements', label: 'Achievements', icon: 'Star' },
+                { id: 'stats', label: 'Stats', icon: 'BarChart2' },
+                { id: 'ir-reports', label: 'IR Reports', icon: 'FileText', external: true, url: '/ir-reports/index.html' },
+                { id: 'cloud-labs', label: 'Cloud Labs', icon: 'Cloud', external: true, url: '/cloud-labs/index.html' },
+                { id: 'siem-labs', label: 'SIEM Labs', icon: 'Shield', external: true, url: '/siem-labs/index.html' },
+                { id: 'research', label: 'Research', icon: 'ScrollText', external: true, url: '/research/index.html' },
+                { id: 'reviews', label: 'Reviews', icon: 'Star', external: true, url: '/reviews/index.html' },
+                { id: 'writeups', label: 'Write-Ups', icon: 'BookOpen', external: true, url: 'https://chickenloner.github.io/Write_It_UP/index.html' },
+            ];
 
-</main>
 
-<script>
-// ── Clock ──────────────────────────────────────────────
-function updateClock() {
-  const now = new Date();
-  const d = now.toISOString().slice(0, 10);
-  const t = now.toISOString().slice(11, 19);
-  document.getElementById('tb-clock').textContent = d + ' · ' + t + 'Z';
-}
-updateClock();
-setInterval(updateClock, 1000);
+            const HomePage = () => {
+                const recentItems = [
+                    ...(certifications.length > 0 ? [(() => {
+                        const cert = certifications.find(c => c.latest) || certifications[certifications.length - 1];
+                        return { type:'CERT', sev:'cyan', url: cert.url || '#', title: cert.name.split(' - ')[0], detail: cert.issuer, ts: String(cert.year || '') };
+                    })()] : []),
+                    ...(irReports.length > 0 ? [{ type:'IR-RPT', sev:'red', url: irReports[0].url, title: irReports[0].title, detail: irReports[0].platform, ts: irReports[0].date }] : []),
+                    ...(researchData.length > 0 ? [{ type:'RSCH', sev:'violet', url: researchData[0].url, title: researchData[0].title, detail: researchData[0].category, ts: researchData[0].date }] : []),
+                ];
+                return (
+                <div className="animate-fadeIn" style={{paddingBottom:'40px'}}>
+                    {/* SOC Hero */}
+                    <section className="soc-hero">
+                        <div className="soc-hero-strap">
+                            <div className="seg"><b>node</b> <span className="v">soc-edge-01</span></div>
+                            <div className="seg"><b>region</b> <span className="v">apac-th-1</span></div>
+                            <div className="seg"><b>session</b> <span className="v">7c3a…d12f</span></div>
+                            <div className="seg" style={{marginLeft:'auto'}}><b>operator</b> <span className="v">chicken0248</span></div>
+                        </div>
+                        <div className="soc-hero-body">
+                            <div className="soc-av">
+                                <img src="/chicken0248.png" alt="Chicken0248" />
+                                <span className="corner c-tl"></span><span className="corner c-tr"></span>
+                                <span className="corner c-bl"></span><span className="corner c-br"></span>
+                            </div>
+                            <div>
+                                <div className="soc-name">Chicken<span className="accent">_</span>0248</div>
+                                <div className="soc-role">DFIR Analyst <span className="sep">·</span> Blue Team Operator <span className="sep">·</span> Threat Hunter</div>
+                                <div style={{display:'flex',flexWrap:'wrap',gap:'8px',marginTop:'12px'}}>
+                                    <span className="sev green"><span className="dot"></span>Active</span>
+                                    <span className="sev cyan"><span className="dot"></span>On-call</span>
+                                    <span className="sev amber"><span className="dot"></span>OSCP · CDSA · BTL1</span>
+                                </div>
+                            </div>
+                            <div className="soc-opmeta">
+                                <span>OPERATOR_ID</span><b>0xC0FFEE0248</b>
+                                <span>CLEARANCE</span><b>BLUE TEAM</b>
+                                <span>LOCATION</span><b>Bangkok, TH</b>
+                                <span>HOST</span><b>dfir-ws-01</b>
+                            </div>
+                        </div>
+                        <div className="soc-stat-grid">
+                            <div className="soc-stat-cell">
+                                <div className="soc-stat-lbl">Certifications</div>
+                                <div className="soc-stat-val">{certifications.length || '—'}</div>
+                                <div className="soc-spark"><span style={{height:'30%'}}></span><span style={{height:'50%'}}></span><span style={{height:'40%'}}></span><span style={{height:'65%'}}></span><span style={{height:'55%'}}></span><span style={{height:'80%'}}></span><span style={{height:'95%'}}></span></div>
+                            </div>
+                            <div className="soc-stat-cell am">
+                                <div className="soc-stat-lbl">Labs Built</div>
+                                <div className="soc-stat-val">{labs.filter(l => l.type === 'lab').length || '—'}</div>
+                                <div className="soc-spark"><span style={{height:'40%'}}></span><span style={{height:'55%'}}></span><span style={{height:'70%'}}></span><span style={{height:'60%'}}></span><span style={{height:'75%'}}></span><span style={{height:'85%'}}></span><span style={{height:'92%'}}></span></div>
+                            </div>
+                            <div className="soc-stat-cell vi">
+                                <div className="soc-stat-lbl">Projects</div>
+                                <div className="soc-stat-val">{labs.filter(l => l.type === 'project').length || '—'}</div>
+                                <div className="soc-spark"><span style={{height:'30%'}}></span><span style={{height:'45%'}}></span><span style={{height:'50%'}}></span><span style={{height:'70%'}}></span><span style={{height:'60%'}}></span><span style={{height:'75%'}}></span><span style={{height:'82%'}}></span></div>
+                            </div>
+                            <div className="soc-stat-cell gn">
+                                <div className="soc-stat-lbl">Reviews</div>
+                                <div className="soc-stat-val">{certificationReviews.length || '—'}</div>
+                                <div className="soc-spark"><span style={{height:'20%'}}></span><span style={{height:'40%'}}></span><span style={{height:'35%'}}></span><span style={{height:'55%'}}></span><span style={{height:'65%'}}></span><span style={{height:'70%'}}></span><span style={{height:'78%'}}></span></div>
+                            </div>
+                        </div>
+                    </section>
 
-// ── Last login (today's date in ISO) ──────────────────
-(function() {
-  const d = new Date();
-  const s = d.toISOString().slice(0, 10);
-  document.getElementById('last-login').textContent = s + ' · 09:14Z · apac-th-1';
-})();
+                    {/* Activity Feed */}
+                    {recentItems.length > 0 && (<>
+                        <h2 className="soc-section">Recent Activity Feed <span className="meta">tail -f /var/log/portfolio.feed</span></h2>
+                        <div className="soc-alerts">
+                            {recentItems.map((item, i) => (
+                                <a key={i} href={item.url} target="_blank" rel="noopener noreferrer" className="soc-alert">
+                                    <span className="ts">{item.ts}</span>
+                                    <span className={`sev ${item.sev}`}><span className="dot"></span>{item.type}</span>
+                                    <div><div className="ttl">{item.title}</div><div className="detail">{item.detail}</div></div>
+                                    <span className="ar">›</span>
+                                </a>
+                            ))}
+                        </div>
+                    </>)}
 
-// ── Cert glyph + display name helpers ─────────────────
-function getCertGlyph(name) {
-  const dash = name.indexOf(' - ');
-  if (dash > 0) {
-    const prefix = name.slice(0, dash).trim();
-    const parts = prefix.split(' ');
-    if (parts.length === 2 && /^[A-Z0-9]+$/.test(parts[0]) && /^[A-Z0-9+\-]+$/.test(parts[1])) {
-      return parts[1].slice(0, 7);
-    }
-    return prefix.slice(0, 7);
-  }
-  if (name.startsWith('CompTIA ')) return name.slice(8, 14);
-  if (name.includes('Evidence Handler')) return 'C5W-EH';
-  if (name.includes('Foundations')) return 'C5W-DF';
-  return name.split(' ')[0].slice(0, 7);
-}
+                    {/* Badge Rail */}
+                    {certifications.length > 0 && (<>
+                        <h2 className="soc-section">Issued Credentials <span className="meta">— verified · {certifications.length} total</span></h2>
+                        <div className="soc-rail">
+                            <div className="soc-rail-track">
+                                {[...certifications, ...certifications].map((cert, idx) => {
+                                    const parts = cert.name.split(' - ');
+                                    const shortName = parts.length > 1 ? parts[0].trim() : cert.name.split(' ').slice(0,3).join(' ');
+                                    return (
+                                        <a key={idx} href={cert.url || '#'} target="_blank" rel="noopener noreferrer" className={`soc-credit${cert.status === 'Expired' ? ' exp' : ''}`}>
+                                            <div className="glyph">
+                                                {cert.badge ? <img src={cert.badge} alt={shortName} /> : shortName.split(' ').pop().slice(0,6)}
+                                            </div>
+                                            <div>
+                                                <div className="nm">{shortName}</div>
+                                                <div className="iss">{cert.issuer}</div>
+                                            </div>
+                                        </a>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    </>)}
 
-function getCertShortName(name) {
-  const dash = name.indexOf(' - ');
-  if (dash > 0) {
-    const prefix = name.slice(0, dash).trim();
-    const parts = prefix.split(' ');
-    if (parts.length === 2 && /^[A-Z0-9]+$/.test(parts[0]) && /^[A-Z0-9+\-]+$/.test(parts[1])) {
-      return parts[1];
-    }
-    return prefix;
-  }
-  if (name.startsWith('CompTIA ')) return name.slice(8);
-  if (name.includes('Evidence Handler')) return 'C5W-EH';
-  if (name.includes('Foundations')) return 'C5W-DF';
-  return name.split(' ')[0];
-}
+                    {/* Tradecraft */}
+                    <h2 className="soc-section">Tradecraft &amp; Tooling <span className="meta">mapped to ATT&amp;CK tactics</span></h2>
+                    <div className="soc-ttp-grid">
+                        {[
+                            { id:'DF-01', title:'Digital Forensics',      chips:[['cy','Disk Forensics'],['cy','Memory Forensics'],['cy','Network Forensics']] },
+                            { id:'IR-02', title:'Incident Response',      chips:[['am','Malware Analysis'],['am','Log Analysis'],['am','Threat Hunting']] },
+                            { id:'TX-03', title:'Tools & Platforms',      chips:[['vi','Autopsy'],['vi','Volatility'],['vi','Wireshark'],['vi','SIEM / Splunk'],['vi','FTK Imager'],['vi','Eric Zimmerman Tools']] },
+                            { id:'BT-04', title:'Blue Team Operations',   chips:[['gn','SOC Operations'],['gn','Security Monitoring'],['gn','Threat Intelligence'],['gn','Forensic Reporting']] },
+                        ].map(ttp => (
+                            <div key={ttp.id} className="soc-ttp">
+                                <div className="soc-ttp-hd">
+                                    <span className="soc-ttp-id">{ttp.id}</span>
+                                    <h3>{ttp.title}</h3>
+                                </div>
+                                <div className="soc-chips">
+                                    {ttp.chips.map(([cls, label], i) => <span key={i} className={`soc-chip ${cls}`}>{label}</span>)}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
 
-function buildCreditCard(cert) {
-  const isExpired = cert.status === 'Expired';
-  const glyph = getCertGlyph(cert.name);
-  const shortName = getCertShortName(cert.name);
-  const tag = cert.url ? 'a' : 'div';
-  const attrs = cert.url ? ` href="${cert.url}" target="_blank" rel="noopener"` : '';
-  return `<${tag}${attrs} class="credit${isExpired ? ' exp' : ''}">
-    <div class="glyph">${glyph}</div>
-    <div>
-      <div class="nm">${shortName}</div>
-      <div class="iss">${cert.issuer} · <span class="${isExpired ? '' : 'h'}">${cert.year}</span></div>
-    </div>
-  </${tag}>`;
-}
+                    {/* Operator Brief */}
+                    <h2 className="soc-section">Operator Brief <span className="meta">/operators/chicken0248/brief.md</span></h2>
+                    <div className="soc-opnote">
+                        <div className="lbl">Operator Brief <span className="clear">CLEARED FOR ROUTING</span></div>
+                        <h3>About the Operator</h3>
+                        <p>DFIR professional focused on solving complex blue team challenges across multiple platforms and creating educational content that helps other analysts level up. Believes in learning by doing — every published lab simulates a real-world IR scenario, end-to-end. Mission: make digital forensics &amp; incident response approachable and rigorous for the wider blue team community.</p>
+                        <div className="soc-platforms">
+                            <a href="https://app.hackthebox.com/users/1438364" target="_blank" rel="noopener noreferrer" className="soc-plat"><span className="pd"></span>HackTheBox</a>
+                            <a href="https://cyberdefenders.org/p/Chicken_0248/" target="_blank" rel="noopener noreferrer" className="soc-plat b"><span className="pd"></span>CyberDefenders</a>
+                            <a href="https://blueteamlabs.online/public/user/chicken0248" target="_blank" rel="noopener noreferrer" className="soc-plat v"><span className="pd"></span>Blue Team Labs Online</a>
+                        </div>
+                    </div>
 
-// ── Activity feed builder ──────────────────────────────
-function buildActivityRow(ts, sevClass, sevLabel, title, meta, srcText, href) {
-  return `<a class="alert" href="${href}" ${href.startsWith('http') ? 'target="_blank" rel="noopener"' : ''}>
-    <span class="ts mono">${ts}</span>
-    <span class="sev ${sevClass}"><span class="dot"></span>${sevLabel}</span>
-    <div>
-      <div class="ttl">${title}</div>
-      <div class="detail mono">${meta}</div>
-    </div>
-    <span class="src">${srcText}</span>
-    <span class="arrow">›</span>
-  </a>`;
-}
+                    {/* Channels */}
+                    <h2 className="soc-section">Established Channels <span className="meta">verified handles · public</span></h2>
+                    <div className="soc-ch-grid">
+                        {socialMedia.length > 0 ? socialMedia.map((s, i) => (
+                            <a key={i} href={s.url} target="_blank" rel="noopener noreferrer" className="soc-ch">
+                                <div className="ic">{s.platform === 'Twitter / X' ? '𝕏' : s.platform === 'LinkedIn' ? 'in' : s.platform === 'GitHub' ? 'GH' : s.platform[0]}</div>
+                                <div><div className="h">{s.handle}</div><div className="s">{s.url.replace('https://','')}</div></div>
+                                <span className="ar">›</span>
+                            </a>
+                        )) : [
+                            { ic:'𝕏',  h:'@Chicken_0248',        s:'x.com/Chicken_0248',              url:'https://x.com/Chicken_0248' },
+                            { ic:'in', h:'/in/warawut-manosong', s:'linkedin.com',                    url:'https://www.linkedin.com/in/warawut-manosong' },
+                            { ic:'GH', h:'@ChickenLoner',        s:'github.com/ChickenLoner',         url:'https://github.com/ChickenLoner' },
+                            { ic:'M',  h:'@chaoskist',           s:'medium.com',                      url:'https://medium.com/@chaoskist' },
+                        ].map((c, i) => (
+                            <a key={i} href={c.url} target="_blank" rel="noopener noreferrer" className="soc-ch">
+                                <div className="ic">{c.ic}</div>
+                                <div><div className="h">{c.h}</div><div className="s">{c.s}</div></div>
+                                <span className="ar">›</span>
+                            </a>
+                        ))}
+                    </div>
 
-// ── Main data load ─────────────────────────────────────
-Promise.all([
-  fetch('/data/certifications.json').then(r => r.json()),
-  fetch('/data/reviews.json').then(r => r.json()),
-  fetch('/data/labs.json').then(r => r.json()),
-  fetch('/data/ir-reports.json').then(r => r.json()),
-  fetch('/data/research.json').then(r => r.json()),
-]).then(function([certs, reviews, labs, irReports, research]) {
+                    {/* CTA */}
+                    <div className="soc-cta" style={{marginTop:'24px'}}>
+                        <div>
+                            <h3>Open to Collaboration</h3>
+                            <p>Building DFIR labs, contributing to detection content, or trading notes on blue team tradecraft — happy to talk.</p>
+                        </div>
+                        <div style={{marginLeft:'auto',display:'flex',gap:'10px',flexWrap:'wrap'}}>
+                            <a href="mailto:daimon.08880@gmail.com" className="soc-btn">Send Email</a>
+                            <a href="https://github.com/ChickenLoner" target="_blank" rel="noopener noreferrer" className="soc-btn ghost">GitHub</a>
+                        </div>
+                    </div>
 
-  // ── Stats ────────────────────────────────────────────
-  const labItems     = labs.filter(l => l.type === 'lab');
-  const projectItems = labs.filter(l => l.type === 'project');
-  const activeCerts  = certs.filter(c => c.status !== 'Expired');
+                    {/* Feed status */}
+                    <div className="soc-feeds" style={{marginTop:'24px'}}>
+                        <div className="soc-feed"><span className="st ok">OK</span><span className="nm">github.api</span><span className="ms">42ms</span></div>
+                        <div className="soc-feed"><span className="st ok">OK</span><span className="nm">credly.feed</span><span className="ms">118ms</span></div>
+                        <div className="soc-feed"><span className="st wn">WARN</span><span className="nm">medium.rss</span><span className="ms">1.3s</span></div>
+                        <div className="soc-feed"><span className="st ok">OK</span><span className="nm">labs.metadata</span><span className="ms">61ms</span></div>
+                    </div>
+                    <div className="soc-ft">© 2026 chicken0248 · operations.console v3.2.1 · github-pages.deploy</div>
+                </div>
+                );
+            };
 
-  document.getElementById('stat-certs').textContent    = certs.length;
-  document.getElementById('stat-labs').textContent     = labItems.length;
-  document.getElementById('stat-projects').textContent = projectItems.length;
-  document.getElementById('stat-reviews').textContent  = reviews.length;
+            const SocPageHero = ({ icon, title, subtitle, strap, stats }) => (
+                <div className="soc-page-hero">
+                    <div className="soc-page-hero-strap">
+                        <div className="seg"><b>console</b> <span className="v">{strap}</span></div>
+                        <span style={{marginLeft:'auto'}} className="sev green"><span className="dot"></span>ACTIVE</span>
+                    </div>
+                    <div className="soc-page-hero-body">
+                        <div className="soc-page-hero-icon">
+                            <Icon name={icon} className="w-6 h-6" style={{color:'var(--soc-cy)'}} />
+                        </div>
+                        <div>
+                            <h1 className="soc-page-hero-title">{title}</h1>
+                            <p className="soc-page-hero-sub">{subtitle}</p>
+                        </div>
+                    </div>
+                    {stats && (
+                        <div className="soc-stat-grid">
+                            {stats.map((s, i) => (
+                                <div key={i} className={`soc-stat-cell${s.color ? ' ' + s.color : ''}`}>
+                                    <div className="soc-stat-lbl">{s.label}</div>
+                                    <div className="soc-stat-val">{s.value}</div>
+                                    <div className="soc-spark">
+                                        <span style={{height:'30%'}}></span><span style={{height:'50%'}}></span>
+                                        <span style={{height:'65%'}}></span><span style={{height:'55%'}}></span>
+                                        <span style={{height:'80%'}}></span>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            );
 
-  document.getElementById('stat-certs-delta').textContent    = activeCerts.length + ' active · ' + (certs.length - activeCerts.length) + ' expired';
-  document.getElementById('stat-labs-delta').textContent     = labItems.filter(l => !l.is_retired).length + ' active challenges';
-  document.getElementById('stat-projects-delta').textContent = 'tools, cheat sheets &amp; research';
-  document.getElementById('stat-reviews-delta').textContent  = 'avg ' + (reviews.reduce((s, r) => s + r.rating, 0) / reviews.length).toFixed(1) + '/5';
-  // fix amp entity in delta
-  document.getElementById('stat-projects-delta').innerHTML = 'tools, cheat sheets &amp; research';
+            const StatsPage = () => {
+                const [showCertsByIssuer, setShowCertsByIssuer] = useState(true);
+                const [showCertsByCategory, setShowCertsByCategory] = useState(true);
+                const [showCertsByYear, setShowCertsByYear] = useState(true);
+                const [showByPlatform, setShowByPlatform] = useState(true);
+                const [showLabDiff, setShowLabDiff] = useState(true);
+                const [showLabRatings, setShowLabRatings] = useState(true);
+                const [showCompsByOrg, setShowCompsByOrg] = useState(true);
+                const [showCompsByYear, setShowCompsByYear] = useState(true);
 
-  // Update open-badge with active (non-retired) lab count
-  const openCount = labItems.filter(l => !l.is_retired).length;
-  document.getElementById('open-badge').innerHTML = '<span class="dot"></span>' + openCount + ' OPEN';
+                const activeCerts = certifications.filter(c => c.status === 'Active').length;
+                const expiredCerts = certifications.filter(c => c.status === 'Expired').length;
+                const statsLabsOnly = labs.filter(l => l.type === 'lab');
+                const statsProjects = labs.filter(l => l.type === 'project');
+                const avgReviewRating = (certificationReviews.reduce((sum, r) => sum + (r.rating || 0), 0) / certificationReviews.filter(r => r.rating).length);
 
-  // ── Badge rail ───────────────────────────────────────
-  document.getElementById('rail-meta').textContent = certs.length + ' verified · sorted by issuer';
-  const cards = certs.map(buildCreditCard).join('');
-  document.getElementById('rail-track').innerHTML = cards + cards; // duplicate for seamless loop
+                // Achievements stats
+                const comps = achievements.filter(a => a.category === 'competition');
+                const talks = achievements.filter(a => a.category === 'talk');
+                const podiums = comps.filter(c => {
+                    const p = (c.placement || '').toLowerCase();
+                    return p.includes('1st') || p.includes('2nd') || p.includes('3rd') ||
+                           p.includes('first') || p.includes('second') || p.includes('third') ||
+                           p.includes('winner') || p.includes('champion');
+                });
+                const wins = comps.filter(c => {
+                    const p = (c.placement || '').toLowerCase();
+                    return p.includes('1st') || p.includes('first') || p.includes('winner') || p.includes('champion');
+                });
 
-  // ── Activity feed ────────────────────────────────────
-  const rows = [];
+                // Competitions by organizer
+                const compsByOrganizer = comps.reduce((acc, c) => { acc[c.organizer] = (acc[c.organizer] || 0) + 1; return acc; }, {});
+                const sortedOrganizers = Object.entries(compsByOrganizer).sort((a, b) => b[1] - a[1]);
+                const maxOrgCount = sortedOrganizers[0]?.[1] || 1;
 
-  // Latest cert (prefer one marked latest:true, fall back to last)
-  const latestCert = certs.find(c => c.latest) || certs[certs.length - 1];
-  if (latestCert) {
-    rows.push(buildActivityRow(
-      latestCert.year,
-      'cyan', 'CERT',
-      getCertShortName(latestCert.name) + ' — ' + latestCert.name.split(' - ').slice(1).join(' - '),
-      'issuer=' + latestCert.issuer + ' · status=' + latestCert.status,
-      latestCert.url ? latestCert.url.slice(0, 40) + '…' : 'credential.issued',
-      latestCert.url || '#'
-    ));
-  }
+                // Competitions by year
+                const compsByYear = comps.reduce((acc, c) => { acc[c.year] = (acc[c.year] || 0) + 1; return acc; }, {});
+                const sortedYears = Object.entries(compsByYear).sort((a, b) => b[0] - a[0]);
+                const maxYearCount = sortedYears[0]?.[1] || 1;
 
-  // Latest IR report
-  if (irReports.length > 0) {
-    const ir = irReports[0];
-    rows.push(buildActivityRow(
-      ir.date,
-      'red', 'IR',
-      ir.title,
-      'platform=' + ir.platform + ' · tags=' + (ir.tags || []).slice(0, 2).join(','),
-      ir.url || '/ir-reports/',
-      ir.url || '/ir-reports/'
-    ));
-  }
+                const certsByIssuer = certifications.reduce((acc, c) => { acc[c.issuer] = (acc[c.issuer] || 0) + 1; return acc; }, {});
+                const sortedIssuers = Object.entries(certsByIssuer).sort((a, b) => b[1] - a[1]);
+                const maxIssuerCount = sortedIssuers[0]?.[1] || 1;
 
-  // Latest research
-  if (research.length > 0) {
-    const rsch = research[0];
-    rows.push(buildActivityRow(
-      rsch.date,
-      'amber', 'RSCH',
-      rsch.title,
-      'category=' + (rsch.category || 'Research') + ' · date=' + rsch.date,
-      rsch.url || '/research/',
-      rsch.url || '/research/'
-    ));
-  }
+                const certCategoryOrder = ['Offensive Security', 'Blue Team & Detection', 'Digital Forensics & DFIR', 'General & Foundational'];
+                const certCategoryColors = {
+                    'Offensive Security':       { bar: 'bg-gradient-to-r from-red-400 to-orange-500',    dot: 'bg-red-500' },
+                    'Blue Team & Detection':    { bar: 'bg-gradient-to-r from-blue-400 to-cyan-500',     dot: 'bg-blue-500' },
+                    'Digital Forensics & DFIR': { bar: 'bg-gradient-to-r from-purple-400 to-violet-500', dot: 'bg-purple-500' },
+                    'General & Foundational':   { bar: 'bg-gradient-to-r from-green-400 to-emerald-500', dot: 'bg-green-500' },
+                };
+                const certsByCategoryData = certCategoryOrder.map(cat => ({
+                    label: cat, count: certifications.filter(c => c.category === cat).length,
+                }));
+                const maxCategoryCount = Math.max(...certsByCategoryData.map(c => c.count), 1);
 
-  document.getElementById('activity-feed').innerHTML = rows.join('') || '<div style="padding:20px;color:var(--ink-3);font-family:var(--mono)">No recent activity.</div>';
+                const certsByYear = certifications.reduce((acc, c) => { if (c.year) acc[c.year] = (acc[c.year] || 0) + 1; return acc; }, {});
+                const sortedCertYears = Object.entries(certsByYear).sort((a, b) => a[0] - b[0]);
+                const maxCertYearCount = sortedCertYears[0] ? Math.max(...sortedCertYears.map(([,v]) => v), 1) : 1;
 
-}).catch(function(err) {
-  console.error('Data load error:', err);
-  document.getElementById('activity-feed').innerHTML =
-    '<div style="padding:20px;color:var(--ink-3);font-family:var(--mono)">Could not load feed.</div>';
-});
-</script>
+                const labsByPlatform = labs.reduce((acc, l) => { acc[l.platform] = (acc[l.platform] || 0) + 1; return acc; }, {});
+                const sortedPlatforms = Object.entries(labsByPlatform).sort((a, b) => b[1] - a[1]);
+                const maxPlatformCount = sortedPlatforms[0]?.[1] || 1;
+
+                const labDifficultyCounts = { easy: 0, medium: 0, hard: 0 };
+                statsLabsOnly.forEach(l => { if (l.difficulty) labDifficultyCounts[l.difficulty]++; });
+                const maxLabDiff = Math.max(...Object.values(labDifficultyCounts), 1);
+
+                const playerDifficultyCounts = { easy: 0, medium: 0, hard: 0 };
+                statsLabsOnly.forEach(l => { if (l.player_difficulty) playerDifficultyCounts[l.player_difficulty]++; });
+                const maxPlayerDiff = Math.max(...Object.values(playerDifficultyCounts), 1);
+
+                const ratedLabs = statsLabsOnly.filter(l => l.rating != null);
+                const labAvgRating = ratedLabs.length ? ratedLabs.reduce((sum, l) => sum + l.rating, 0) / ratedLabs.length : 0;
+                const labMaxRating = ratedLabs.length ? Math.max(...ratedLabs.map(l => l.rating)) : 0;
+                const labMinRating = ratedLabs.length ? Math.min(...ratedLabs.map(l => l.rating)) : 0;
+                const highestRatedLab = ratedLabs.find(l => l.rating === labMaxRating);
+                const lowestRatedLab = ratedLabs.find(l => l.rating === labMinRating);
+                const ratingBands = [
+                    { label: '5.0', min: 5.0, max: 5.0 },
+                    { label: '4.5 – 4.9', min: 4.5, max: 4.9 },
+                    { label: '4.0 – 4.4', min: 4.0, max: 4.4 },
+                    { label: 'Below 4.0', min: 0, max: 3.9 },
+                ];
+                const ratingBandCounts = ratingBands.map(b => ({ label: b.label, count: ratedLabs.filter(l => l.rating >= b.min && l.rating <= b.max).length }));
+                const maxBandCount = Math.max(...ratingBandCounts.map(b => b.count), 1);
+
+                const StatCard = ({ icon, value, label, sub, color = 'blue' }) => {
+                    const colors = { blue: 'from-blue-500 to-blue-600', cyan: 'from-cyan-500 to-cyan-600', purple: 'from-purple-500 to-purple-600', green: 'from-green-500 to-green-600' };
+                    return (
+                        <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 hover:border-blue-300 hover:shadow-md transition-all flex items-center gap-3">
+                            <div className={`inline-flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br ${colors[color]} flex-shrink-0`}>
+                                <Icon name={icon} className="w-5 h-5 text-white" />
+                            </div>
+                            <div className="min-w-0">
+                                <div className="text-2xl font-bold text-gray-800 leading-tight">{value}</div>
+                                <div className="text-sm font-semibold text-gray-700 leading-tight">{label}</div>
+                                {sub && <div className="text-xs text-gray-500 mt-0.5 truncate">{sub}</div>}
+                            </div>
+                        </div>
+                    );
+                };
+
+                const BarRow = ({ label, count, max, colorClass, pct }) => (
+                    <div className="flex items-center gap-3 py-1">
+                        <span className="text-sm text-gray-700 w-28 flex-shrink-0 truncate" title={label}>{label}</span>
+                        <div className="flex-1 bg-gray-100 rounded-full h-4 overflow-hidden">
+                            <div className={`h-4 rounded-full transition-all ${colorClass}`} style={{ width: `${Math.round((count / max) * 100)}%` }} />
+                        </div>
+                        <span className="text-sm font-bold text-gray-700 w-6 text-right">{count}</span>
+                        {pct !== undefined && <span className="text-xs text-gray-400 w-9 text-right">{pct}%</span>}
+                    </div>
+                );
+
+                const diffBarColors = { easy: 'bg-gradient-to-r from-green-400 to-green-600', medium: 'bg-gradient-to-r from-orange-400 to-orange-500', hard: 'bg-gradient-to-r from-red-400 to-red-600' };
+
+                const SectionToggle = ({ title, icon, iconColor, show, onToggle }) => (
+                    <button onClick={onToggle} className="w-full flex items-center justify-between group">
+                        <h2 className="text-xl font-bold text-gray-800 flex items-center gap-2">
+                            <Icon name={icon} className={`w-5 h-5 ${iconColor}`} />
+                            {title}
+                        </h2>
+                        <span className={`text-xs font-semibold px-2.5 py-1 rounded-lg transition-colors ${show ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-500 group-hover:bg-gray-200'}`}>
+                            {show ? 'Hide' : 'Show'}
+                        </span>
+                    </button>
+                );
+
+                return (
+                    <div className="space-y-8 animate-fadeIn">
+                        <SocPageHero
+                            icon="BarChart2"
+                            title="Portfolio Stats"
+                            subtitle="portfolio.stats · by-the-numbers"
+                            strap="portfolio/stats"
+                            stats={[
+                                {label:'Certifications', value:certifications.length},
+                                {label:'Labs Built',     value:statsLabsOnly.length,       color:'am'},
+                                {label:'Projects',       value:statsProjects.length,        color:'vi'},
+                                {label:'Reviews',        value:certificationReviews.length, color:'gn'},
+                            ]}
+                        />
+
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                            <StatCard icon="Award" value={certifications.length} label="Certifications" sub={`${activeCerts} active · ${expiredCerts} expired`} color="blue" />
+                            <StatCard icon="Hammer" value={statsLabsOnly.length} label="Labs Built" sub={`published across ${Object.keys(labsByPlatform).filter(p => statsLabsOnly.some(l => l.platform === p)).length} platforms`} color="green" />
+                            <StatCard icon="FolderOpen" value={statsProjects.length} label="Projects & Research" sub="GitHub + Medium" color="purple" />
+                            <StatCard icon="FileText" value={certificationReviews.length} label="Reviews Published" sub={`avg rating ${avgReviewRating.toFixed(1)}/5.0`} color="cyan" />
+                            <StatCard icon="Trophy" value={comps.length} label="Competitions" sub={`${wins.length} wins · ${podiums.length} podiums`} color="blue" />
+                            <StatCard icon="Mic" value={talks.length} label="Talks Given" sub="conferences & meetups" color="purple" />
+                        </div>
+
+                        <div className="grid md:grid-cols-2 gap-6">
+                            <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-gray-100">
+                                <SectionToggle title="Certs by Issuer" icon="Building2" iconColor="text-blue-500" show={showCertsByIssuer} onToggle={() => setShowCertsByIssuer(v => !v)} />
+                                {showCertsByIssuer && (
+                                    <div className="space-y-1 mt-5">
+                                        {sortedIssuers.map(([issuer, count]) => (
+                                            <BarRow key={issuer} label={issuer} count={count} max={maxIssuerCount} colorClass="bg-gradient-to-r from-blue-400 to-blue-600" pct={Math.round((count / certifications.length) * 100)} />
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+
+                            <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-gray-100">
+                                <SectionToggle title="Certs by Category" icon="Layers" iconColor="text-purple-500" show={showCertsByCategory} onToggle={() => setShowCertsByCategory(v => !v)} />
+                                {showCertsByCategory && (
+                                    <div className="space-y-3 mt-5">
+                                        {certsByCategoryData.map(({ label, count }) => (
+                                            <div key={label} className="flex items-center gap-3 py-1">
+                                                <span className={`w-2 h-2 rounded-full flex-shrink-0 ${certCategoryColors[label]?.dot}`} />
+                                                <span className="text-sm text-gray-700 w-44 flex-shrink-0 truncate" title={label}>{label}</span>
+                                                <div className="flex-1 bg-gray-100 rounded-full h-4 overflow-hidden">
+                                                    <div className={`h-4 rounded-full transition-all ${certCategoryColors[label]?.bar}`} style={{ width: `${Math.round((count / maxCategoryCount) * 100)}%` }} />
+                                                </div>
+                                                <span className="text-sm font-bold text-gray-700 w-5 text-right">{count}</span>
+                                                <span className="text-xs text-gray-400 w-9 text-right">{certifications.length ? Math.round((count / certifications.length) * 100) : 0}%</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+                        <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-gray-100">
+                            <SectionToggle title="Certifications by Year" icon="TrendingUp" iconColor="text-indigo-500" show={showCertsByYear} onToggle={() => setShowCertsByYear(v => !v)} />
+                            {showCertsByYear && sortedCertYears.length > 0 && (
+                                <div className="mt-5">
+                                    <div className="flex items-end gap-3 h-28">
+                                        {sortedCertYears.map(([year, count]) => (
+                                            <div key={year} className="flex-1 flex flex-col items-center gap-1 min-w-0">
+                                                <span className="text-sm font-bold text-blue-600">{count}</span>
+                                                <div className="w-full rounded-t-lg bg-gradient-to-t from-blue-500 to-indigo-400 transition-all"
+                                                    style={{ height: `${Math.round((count / maxCertYearCount) * 80)}px` }} />
+                                                <span className="text-xs text-gray-500 truncate w-full text-center">{year}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="grid md:grid-cols-2 gap-6">
+                            <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-gray-100">
+                                <SectionToggle title="Labs & Projects by Platform" icon="Globe" iconColor="text-cyan-500" show={showByPlatform} onToggle={() => setShowByPlatform(v => !v)} />
+                                {showByPlatform && (
+                                    <div className="space-y-1 mt-5">
+                                        {sortedPlatforms.map(([platform, count]) => (
+                                            <BarRow key={platform} label={platform} count={count} max={maxPlatformCount} colorClass="bg-gradient-to-r from-cyan-400 to-cyan-600" pct={Math.round((count / labs.length) * 100)} />
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+
+                            <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-gray-100">
+                                <SectionToggle title="Lab Difficulty" icon="Gauge" iconColor="text-orange-500" show={showLabDiff} onToggle={() => setShowLabDiff(v => !v)} />
+                                {showLabDiff && (
+                                    <div className="mt-5 space-y-6">
+                                        <div>
+                                            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">Official Difficulty</p>
+                                            <div className="space-y-2">
+                                                {Object.entries(labDifficultyCounts).map(([diff, count]) => (
+                                                    <BarRow key={diff} label={diff.charAt(0).toUpperCase() + diff.slice(1)} count={count} max={maxLabDiff} colorClass={diffBarColors[diff]} pct={statsLabsOnly.length ? Math.round((count / statsLabsOnly.length) * 100) : 0} />
+                                                ))}
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">Perceived Difficulty</p>
+                                            <div className="space-y-2">
+                                                {Object.entries(playerDifficultyCounts).map(([diff, count]) => (
+                                                    <BarRow key={diff} label={diff.charAt(0).toUpperCase() + diff.slice(1)} count={count} max={maxPlayerDiff} colorClass={diffBarColors[diff]} pct={statsLabsOnly.length ? Math.round((count / statsLabsOnly.length) * 100) : 0} />
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+                        <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-gray-100">
+                            <SectionToggle title="Lab Ratings" icon="Star" iconColor="text-yellow-500" show={showLabRatings} onToggle={() => setShowLabRatings(v => !v)} />
+                            {showLabRatings && (
+                                <div className="mt-5 grid md:grid-cols-2 gap-8">
+                                    <div>
+                                        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-4">Summary ({ratedLabs.length} rated labs)</p>
+                                        <div className="grid grid-cols-3 gap-3 text-center mb-6">
+                                            <div className="bg-yellow-50 rounded-xl p-4">
+                                                <div className="text-2xl font-bold text-yellow-700">{labMinRating.toFixed(1)}</div>
+                                                <div className="text-xs text-gray-500 mt-1">Lowest</div>
+                                                <div className="text-xs text-gray-400 mt-1 truncate" title={lowestRatedLab?.title}>{lowestRatedLab?.title}</div>
+                                            </div>
+                                            <div className="bg-yellow-100 rounded-xl p-4">
+                                                <div className="text-2xl font-bold text-yellow-800">{labAvgRating.toFixed(2)}</div>
+                                                <div className="text-xs text-gray-500 mt-1">Average</div>
+                                            </div>
+                                            <div className="bg-yellow-200 rounded-xl p-4">
+                                                <div className="text-2xl font-bold text-yellow-900">{labMaxRating.toFixed(1)}</div>
+                                                <div className="text-xs text-gray-500 mt-1">Highest</div>
+                                                <div className="text-xs text-gray-500 mt-1 truncate" title={highestRatedLab?.title}>{highestRatedLab?.title}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-4">Distribution</p>
+                                        <div className="space-y-2">
+                                            {ratingBandCounts.map(({ label, count }) => (
+                                                <BarRow key={label} label={label} count={count} max={maxBandCount} colorClass="bg-gradient-to-r from-yellow-400 to-amber-500" pct={ratedLabs.length ? Math.round((count / ratedLabs.length) * 100) : 0} />
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Achievements breakdown */}
+                        <div className="grid md:grid-cols-2 gap-6">
+                            <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-gray-100">
+                                <SectionToggle title="Competitions by Organizer" icon="Trophy" iconColor="text-yellow-500" show={showCompsByOrg} onToggle={() => setShowCompsByOrg(v => !v)} />
+                                {showCompsByOrg && (
+                                    <div className="space-y-1 mt-5">
+                                        {sortedOrganizers.map(([org, count]) => (
+                                            <BarRow key={org} label={org} count={count} max={maxOrgCount} colorClass="bg-gradient-to-r from-yellow-400 to-amber-500" pct={Math.round((count / comps.length) * 100)} />
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+
+                            <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-gray-100">
+                                <SectionToggle title="Competitions by Year" icon="Calendar" iconColor="text-blue-500" show={showCompsByYear} onToggle={() => setShowCompsByYear(v => !v)} />
+                                {showCompsByYear && (
+                                    <div className="space-y-1 mt-5">
+                                        {sortedYears.map(([year, count]) => (
+                                            <BarRow key={year} label={year} count={count} max={maxYearCount} colorClass="bg-gradient-to-r from-blue-400 to-blue-600" pct={Math.round((count / comps.length) * 100)} />
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                );
+            };
+
+            const CertificationsPage = () => {
+                const [certView, setCertView] = useState('badges');
+                const categoryOrder = ['Offensive Security', 'Blue Team & Detection', 'Digital Forensics & DFIR', 'General & Foundational'];
+                const categoryConfig = {
+                    'Offensive Security':       { icon: 'Target',   gradient: 'from-red-500 to-orange-500',    border: 'border-red-100',    headerBg: 'bg-red-50',    countColor: 'text-red-600 bg-red-100' },
+                    'Blue Team & Detection':    { icon: 'Shield',   gradient: 'from-blue-500 to-cyan-500',     border: 'border-blue-100',   headerBg: 'bg-blue-50',   countColor: 'text-blue-600 bg-blue-100' },
+                    'Digital Forensics & DFIR': { icon: 'Search',   gradient: 'from-purple-500 to-violet-500', border: 'border-purple-100', headerBg: 'bg-purple-50', countColor: 'text-purple-600 bg-purple-100' },
+                    'General & Foundational':   { icon: 'BookOpen', gradient: 'from-green-500 to-emerald-500', border: 'border-green-100',  headerBg: 'bg-green-50',  countColor: 'text-green-600 bg-green-100' },
+                };
+                const [openCategories, setOpenCategories] = useState({ 'Offensive Security': true, 'Blue Team & Detection': true, 'Digital Forensics & DFIR': true, 'General & Foundational': true });
+                const toggleCategory = (cat) => setOpenCategories(prev => ({ ...prev, [cat]: !prev[cat] }));
+                const allOpen = Object.values(openCategories).every(Boolean);
+                const toggleAll = () => setOpenCategories(Object.fromEntries(categoryOrder.map(c => [c, !allOpen])));
+
+                const certTabs = [{ id: 'badges', label: 'Badges', icon: 'Award' }, { id: 'certificates', label: 'Certificates', icon: 'FileText' }];
+                const certTabsNavRef = React.useRef(null);
+                const certTabBtnRefs = React.useRef([]);
+                const certGlareRef = React.useRef(null);
+                const certPillRef = React.useRef(null);
+
+                const updateCertPill = (btn, animate) => {
+                    if (!btn || !certPillRef.current) return;
+                    certPillRef.current.style.transition = animate ? '' : 'none';
+                    certPillRef.current.style.width = btn.offsetWidth + 'px';
+                    certPillRef.current.style.transform = `translateX(${btn.offsetLeft}px)`;
+                };
+
+                useEffect(() => {
+                    const idx = certTabs.findIndex(t => t.id === certView);
+                    updateCertPill(certTabBtnRefs.current[idx], true);
+                }, [certView]);
+
+                useEffect(() => {
+                    requestAnimationFrame(() => {
+                        const idx = certTabs.findIndex(t => t.id === certView);
+                        updateCertPill(certTabBtnRefs.current[idx], false);
+                    });
+                }, []);
+
+                const onCertGlareMove = (e) => {
+                    if (!certTabsNavRef.current || !certGlareRef.current) return;
+                    const r = certTabsNavRef.current.getBoundingClientRect();
+                    certGlareRef.current.style.setProperty('--x', `${e.clientX - r.left}px`);
+                    certGlareRef.current.style.setProperty('--y', `${e.clientY - r.top}px`);
+                };
+
+                const certsByCategory = categoryOrder.reduce((acc, cat) => {
+                    acc[cat] = certifications.filter(c => c.category === cat);
+                    return acc;
+                }, {});
+
+                const activeCerts = certifications.filter(c => c.status === 'Active').length;
+                const expiredCerts = certifications.filter(c => c.status !== 'Active').length;
+
+                return (
+                <div className="space-y-6 animate-fadeIn">
+
+                    <SocPageHero
+                        icon="Award"
+                        title="Professional Certifications"
+                        subtitle="certs.db · validated-expertise"
+                        strap="portfolio/certifications"
+                        stats={[
+                            {label:'Total',   value:certifications.length},
+                            {label:'Active',  value:activeCerts,          color:'gn'},
+                            {label:'Expired', value:expiredCerts,         color:'am'},
+                            {label:'Domains', value:categoryOrder.length, color:'vi'},
+                        ]}
+                    />
+
+                    {/* Controls */}
+                    <div className="flex items-center justify-between flex-wrap gap-3">
+                        <nav className="lg-tab-nav" ref={certTabsNavRef} onMouseMove={onCertGlareMove}>
+                            <div className="lg-tab-glare-wrap"><div className="lg-tab-glare" ref={certGlareRef} /></div>
+                            <div ref={certPillRef} className="lg-tab-pill" />
+                            {certTabs.map((tab, i) => (
+                                <button key={tab.id}
+                                    ref={el => certTabBtnRefs.current[i] = el}
+                                    onClick={() => setCertView(tab.id)}
+                                    className={`lg-tab-btn${certView === tab.id ? ' active' : ''}`}>
+                                    <span className="lg-tab-btn-inner">
+                                        <Icon name={tab.icon} className="w-4 h-4" />{tab.label}
+                                    </span>
+                                </button>
+                            ))}
+                        </nav>
+                        <button onClick={toggleAll}
+                            className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium text-gray-600 bg-white border border-gray-200 hover:border-blue-300 hover:text-blue-600 shadow-sm transition-all">
+                            <Icon name={allOpen ? 'ChevronsUp' : 'ChevronsDown'} className="w-4 h-4" />
+                            {allOpen ? 'Collapse All' : 'Expand All'}
+                        </button>
+                    </div>
+
+                    {/* Category sections */}
+                    <div className="space-y-4">
+                        {categoryOrder.map(cat => {
+                            const certs = certsByCategory[cat];
+                            if (!certs || !certs.length) return null;
+                            const cfg = categoryConfig[cat];
+                            const isOpen = openCategories[cat];
+                            return (
+                                <div key={cat} className={`rounded-2xl border ${cfg.border} overflow-hidden shadow-sm`}>
+                                    <button onClick={() => toggleCategory(cat)}
+                                        className={`w-full flex items-center gap-3 px-5 py-4 ${cfg.headerBg} hover:brightness-[0.97] transition-all`}>
+                                        <div className={`w-9 h-9 rounded-xl bg-gradient-to-br ${cfg.gradient} flex items-center justify-center flex-shrink-0 shadow-sm`}>
+                                            <Icon name={cfg.icon} className="w-5 h-5 text-white" />
+                                        </div>
+                                        <span className="flex-1 text-left font-bold text-gray-800 text-[15px]">{cat}</span>
+                                        <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${cfg.countColor}`}>{certs.length} certs</span>
+                                        <Icon name={isOpen ? 'ChevronUp' : 'ChevronDown'} className="w-4 h-4 text-gray-400 ml-1" />
+                                    </button>
+
+                                    {isOpen && certView === 'badges' && (
+                                        <div className="grid md:grid-cols-2 gap-3 p-4 bg-white border-t border-gray-100">
+                                            {certs.map((cert, idx) => (
+                                                <a key={idx} href={cert.url || '#'} target="_blank" rel="noopener noreferrer"
+                                                    className="flex items-center gap-4 p-3.5 rounded-xl border border-gray-100 hover:border-blue-200 hover:shadow-md bg-white hover:bg-blue-50/30 transition-all group">
+                                                    <div className={`w-14 h-14 rounded-full flex-shrink-0 ring-2 ${cert.status === 'Active' ? 'ring-green-200 group-hover:ring-blue-300' : 'ring-gray-200'} bg-gray-50 flex items-center justify-center overflow-hidden transition-all`}>
+                                                        <img src={cert.badge} alt={cert.name} className="w-12 h-12 object-contain group-hover:scale-110 transition-transform duration-300" />
+                                                    </div>
+                                                    <div className="flex-1 min-w-0">
+                                                        <p className="text-sm font-bold text-gray-800 group-hover:text-blue-700 transition-colors leading-snug">{cert.name}</p>
+                                                        <p className="text-xs text-blue-600 font-medium mt-0.5">{cert.issuer}</p>
+                                                        <div className="flex items-center gap-2 mt-1.5">
+                                                            <span className="text-[11px] text-gray-400 flex items-center gap-0.5">
+                                                                <Icon name="Calendar" className="w-3 h-3" />{cert.year}
+                                                            </span>
+                                                            <span className={`text-[11px] font-semibold px-1.5 py-0.5 rounded-full ${cert.status === 'Active' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}`}>{cert.status}</span>
+                                                        </div>
+                                                    </div>
+                                                    <Icon name="ExternalLink" className="w-3.5 h-3.5 text-gray-300 group-hover:text-blue-400 flex-shrink-0 transition-colors" />
+                                                </a>
+                                            ))}
+                                        </div>
+                                    )}
+
+                                    {isOpen && certView === 'certificates' && (
+                                        <div className="grid md:grid-cols-2 gap-3 p-4 bg-white border-t border-gray-100">
+                                            {certs.map((cert, idx) => (
+                                                <div key={idx} className="rounded-xl border border-gray-100 overflow-hidden hover:shadow-md transition-all group bg-white">
+                                                    {cert.certificate ? (
+                                                        <a href={cert.certificate} target="_blank" rel="noopener noreferrer"
+                                                            className="block w-full h-44 bg-gray-50 overflow-hidden">
+                                                            <img src={cert.certificate} alt={`${cert.name} certificate`}
+                                                                className="w-full h-full object-contain group-hover:scale-[1.03] transition-transform duration-300" />
+                                                        </a>
+                                                    ) : (
+                                                        <div className="w-full h-44 bg-gray-50 flex flex-col items-center justify-center gap-2 text-gray-300">
+                                                            <Icon name="ImageOff" className="w-8 h-8" />
+                                                            <span className="text-xs font-medium">Not yet available</span>
+                                                        </div>
+                                                    )}
+                                                    <div className="px-4 py-3 flex items-center gap-3 border-t border-gray-100">
+                                                        <div className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center flex-shrink-0 overflow-hidden ring-1 ring-gray-200">
+                                                            <img src={cert.badge} alt={cert.name} className="w-7 h-7 object-contain" />
+                                                        </div>
+                                                        <div className="flex-1 min-w-0">
+                                                            <p className="text-xs font-bold text-gray-800 truncate">{cert.name}</p>
+                                                            <p className="text-[11px] text-gray-400 mt-0.5">{cert.issuer} · {cert.year}</p>
+                                                        </div>
+                                                        <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full flex-shrink-0 ${cert.status === 'Active' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}`}>{cert.status}</span>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            );
+                        })}
+                    </div>
+
+                    {/* Footer */}
+                    <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-100 flex gap-4 items-start">
+                        <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center flex-shrink-0">
+                            <Icon name="TrendingUp" className="w-5 h-5 text-white" />
+                        </div>
+                        <div>
+                            <h3 className="font-bold text-gray-800 mb-1">Always Learning</h3>
+                            <p className="text-gray-600 text-sm leading-relaxed">
+                                Continuously expanding through CyberDefenders, Blue Team Labs Online, HackTheBox, and LetsDefend.
+                                Currently working towards advanced certifications in threat hunting, detection engineering, and malware analysis.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                );
+            };
+
+            const LabsPage = () => {
+                const [activeTab, setActiveTab] = useState('labs');
+                const [selectedLabPlatform, setSelectedLabPlatform] = useState('All');
+                const [selectedProjectCategory, setSelectedProjectCategory] = useState('All');
+                const [labSearch, setLabSearch] = useState('');
+                const [labDiffFilter, setLabDiffFilter] = useState('All');
+                const [labSort, setLabSort] = useState('default');
+                const [projectSearch, setProjectSearch] = useState('');
+
+                const renderStars = (rating) => {
+                    if (!rating) return null;
+                    const fullStars = Math.floor(rating);
+                    const hasHalf = rating % 1 >= 0.5;
+                    return (
+                        <span className="text-yellow-500 text-lg inline-flex items-center">
+                            <span>{'★'.repeat(fullStars)}</span>
+                            {hasHalf && <span style={{opacity: 0.5}}>★</span>}
+                            <span>{'☆'.repeat(5 - fullStars - (hasHalf ? 1 : 0))}</span>
+                        </span>
+                    );
+                };
+
+                const difficultyColors = {
+                    easy: 'bg-green-100 text-green-700',
+                    medium: 'bg-orange-100 text-orange-700',
+                    hard: 'bg-red-100 text-red-700'
+                };
+
+                const getProjectCategory = (p) => {
+                    if (p.tags && p.tags.includes('Tool')) return 'Tool';
+                    if (p.platform === 'Medium' || p.platform === 'Original') return 'Blog';
+                    return 'Misc';
+                };
+
+                const labsOnly = labs.filter(l => l.type === 'lab');
+                const projectsOnly = labs.filter(l => l.type === 'project');
+
+                const labPlatforms = ['All', ...Array.from(new Set(labsOnly.map(l => l.platform)))];
+                const projectCategories = ['All', 'Tool', 'Misc', 'Blog'];
+
+                const filteredLabs = (() => {
+                    let list = labsOnly;
+                    if (selectedLabPlatform !== 'All') list = list.filter(l => l.platform === selectedLabPlatform);
+                    if (labDiffFilter !== 'All') list = list.filter(l => l.difficulty === labDiffFilter.toLowerCase());
+                    if (labSearch.trim()) {
+                        const q = labSearch.toLowerCase();
+                        list = list.filter(l => l.title.toLowerCase().includes(q) || (l.tags || []).some(t => t.toLowerCase().includes(q)));
+                    }
+                    if (labSort === 'rating') list = [...list].sort((a, b) => (b.rating || 0) - (a.rating || 0));
+                    if (labSort === 'difficulty') {
+                        const order = { easy: 0, medium: 1, hard: 2 };
+                        list = [...list].sort((a, b) => (order[a.difficulty] ?? 9) - (order[b.difficulty] ?? 9));
+                    }
+                    return list;
+                })();
+                const filteredProjects = (() => {
+                    let list = selectedProjectCategory === 'All' ? projectsOnly : projectsOnly.filter(p => getProjectCategory(p) === selectedProjectCategory);
+                    if (projectSearch.trim()) {
+                        const q = projectSearch.toLowerCase();
+                        list = list.filter(p => p.title.toLowerCase().includes(q) || p.description.toLowerCase().includes(q) || (p.tags || []).some(t => t.toLowerCase().includes(q)));
+                    }
+                    return list;
+                })();
+
+                const LabCard = ({ lab }) => (
+                    <div className={`bg-white rounded-2xl p-5 shadow-sm border transition-all hover:shadow-md ${lab.is_retired ? 'border-orange-100 hover:border-orange-300' : 'border-gray-100 hover:border-blue-200'}`}>
+                        <div className="flex flex-col md:flex-row gap-6">
+                            {lab.image && (
+                                <div className="flex-shrink-0 w-full md:w-48 relative">
+                                    <img src={lab.image} alt={`${lab.title} cover`} className="rounded-lg object-cover w-full h-auto shadow-md" />
+                                    {lab.is_retired && (
+                                        <span className="absolute top-2 left-2 px-2 py-0.5 bg-orange-500 text-white rounded text-xs font-bold shadow">Retired</span>
+                                    )}
+                                </div>
+                            )}
+                            <div className="flex-1">
+                                <div className="flex items-start justify-between mb-2">
+                                    <h3 className="text-xl font-bold text-gray-800 leading-tight">{lab.title}</h3>
+                                    {lab.difficulty && (
+                                        <div className="flex items-center gap-2 flex-shrink-0 ml-3">
+                                            <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase ${difficultyColors[lab.difficulty]}`}>
+                                                {lab.difficulty}
+                                            </span>
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="flex items-center gap-3 mb-2 flex-wrap">
+                                    {lab.rating && (
+                                        <div className="flex items-center gap-1.5">
+                                            {renderStars(lab.rating)}
+                                            <span className="text-sm font-semibold text-gray-700">{lab.rating.toFixed(1)}</span>
+                                        </div>
+                                    )}
+                                    {lab.player_difficulty && lab.player_difficulty !== lab.difficulty && (
+                                        <span className="text-xs text-gray-500 bg-gray-50 px-2 py-0.5 rounded border border-gray-200">
+                                            Player feel: <span className={`font-semibold ${
+                                                lab.player_difficulty === 'easy' ? 'text-green-600' :
+                                                lab.player_difficulty === 'medium' ? 'text-orange-600' :
+                                                'text-red-600'
+                                            }`}>{lab.player_difficulty}</span>
+                                        </span>
+                                    )}
+                                    {lab.is_retired && !lab.image && (
+                                        <span className="px-2 py-0.5 bg-orange-100 text-orange-700 rounded text-xs font-semibold border border-orange-200">Retired</span>
+                                    )}
+                                </div>
+                                <p className="text-gray-600 mb-4">{lab.description}</p>
+                                {lab.tactics && lab.tactics.length > 0 && (
+                                    <div className="mb-3 flex flex-wrap gap-2">
+                                        {lab.tactics.slice(0, 4).map((tactic, i) => (
+                                            <span key={i} className="px-2 py-1 bg-red-50 text-red-700 border border-red-200 rounded text-xs">{tactic}</span>
+                                        ))}
+                                        {lab.tactics.length > 4 && (
+                                            <span className="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs">+{lab.tactics.length - 4} more</span>
+                                        )}
+                                    </div>
+                                )}
+                                <div className="flex flex-wrap gap-2 mb-3">
+                                    {lab.tags.map((tag, i) => (
+                                        <span key={i} className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">{tag}</span>
+                                    ))}
+                                </div>
+                                <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                                    <span className="text-sm font-medium text-gray-500">{lab.platform}</span>
+                                    <a href={lab.link} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 font-medium text-green-600 hover:text-green-700">
+                                        Play Now <Icon name="ExternalLink" className="w-4 h-4 self-center" />
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                );
+
+                const ProjectCard = ({ project }) => {
+                    const category = getProjectCategory(project);
+                    const categoryStyle = {
+                        Tool: 'bg-purple-100 text-purple-700',
+                        Misc: 'bg-blue-100 text-blue-700',
+                        Blog: 'bg-cyan-100 text-cyan-700',
+                    }[category];
+                    return (
+                        <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:border-blue-200 hover:shadow-md transition-all">
+                            <div className="flex flex-col md:flex-row gap-6">
+                                {project.image && (
+                                    <div className="flex-shrink-0 w-full md:w-64">
+                                        <img src={project.image} alt={`${project.title} cover`} className="rounded-lg object-cover w-full h-auto shadow-md" />
+                                    </div>
+                                )}
+                                <div className="flex-1">
+                                    <div className="flex items-start justify-between mb-2">
+                                        <h3 className="text-xl font-bold text-gray-800">{project.title}</h3>
+                                        <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase flex-shrink-0 ml-2 ${categoryStyle}`}>{category}</span>
+                                    </div>
+                                    <p className="text-gray-600 mb-4">{project.description}</p>
+                                    <div className="flex flex-wrap gap-2 mb-3">
+                                        {project.tags.map((tag, i) => (
+                                            <span key={i} className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">{tag}</span>
+                                        ))}
+                                    </div>
+                                    <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                                        <span className="text-sm font-medium text-gray-500">{project.platform}</span>
+                                        <a href={project.link} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 font-medium text-blue-600 hover:text-blue-700">
+                                            View Project <Icon name="ExternalLink" className="w-4 h-4 self-center" />
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    );
+                };
+
+                const GlassFilter = ({ options, selected, onSelect, counts }) => {
+                    const navRef = React.useRef(null);
+                    const glareRef = React.useRef(null);
+                    const pillRef = React.useRef(null);
+                    const btnRefs = React.useRef([]);
+
+                    const updatePill = (btn, animate) => {
+                        if (!btn || !pillRef.current) return;
+                        pillRef.current.style.transition = animate ? '' : 'none';
+                        pillRef.current.style.width = btn.offsetWidth + 'px';
+                        pillRef.current.style.transform = `translateX(${btn.offsetLeft}px)`;
+                    };
+
+                    useEffect(() => {
+                        const idx = options.indexOf(selected);
+                        updatePill(btnRefs.current[idx], true);
+                    }, [selected, options]);
+
+                    useEffect(() => {
+                        requestAnimationFrame(() => {
+                            const idx = options.indexOf(selected);
+                            updatePill(btnRefs.current[idx], false);
+                        });
+                    }, []);
+
+                    const onMouseMove = (e) => {
+                        if (!navRef.current || !glareRef.current) return;
+                        const r = navRef.current.getBoundingClientRect();
+                        glareRef.current.style.setProperty('--x', `${e.clientX - r.left}px`);
+                        glareRef.current.style.setProperty('--y', `${e.clientY - r.top}px`);
+                    };
+
+                    return (
+                        <div className="flex items-center gap-2">
+                            <Icon name="Filter" className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                            <nav className="lg-tab-nav" ref={navRef} onMouseMove={onMouseMove}
+                                style={{overflowX:'auto', scrollbarWidth:'none'}}>
+                                <div className="lg-tab-glare-wrap"><div className="lg-tab-glare" ref={glareRef} /></div>
+                                <div ref={pillRef} className="lg-tab-pill" />
+                                {options.map((opt, i) => (
+                                    <button key={opt}
+                                        ref={el => btnRefs.current[i] = el}
+                                        onClick={() => onSelect(opt)}
+                                        className={`lg-tab-btn${selected === opt ? ' active' : ''}`}>
+                                        <span className="lg-tab-btn-inner">
+                                            {opt}{opt !== 'All' && counts && <span className="lg-tab-count">{counts[opt] || 0}</span>}
+                                        </span>
+                                    </button>
+                                ))}
+                            </nav>
+                        </div>
+                    );
+                };
+
+                const labPlatformCounts = Object.fromEntries(labPlatforms.slice(1).map(p => [p, labsOnly.filter(l => l.platform === p).length]));
+                const projectCategoryCounts = Object.fromEntries(projectCategories.slice(1).map(c => [c, projectsOnly.filter(p => getProjectCategory(p) === c).length]));
+
+                const labsTabItems = [
+                    { id: 'labs',     label: 'Labs',     count: labsOnly.length,     icon: 'FlaskConical' },
+                    { id: 'projects', label: 'Projects', count: projectsOnly.length, icon: 'FolderOpen'   },
+                ];
+                const labsTabNavRef = React.useRef(null);
+                const labsTabBtnRefs = React.useRef([]);
+                const labsGlareRef = React.useRef(null);
+                const labsPillRef = React.useRef(null);
+
+                const updateLabsPill = (btn, animate) => {
+                    if (!btn || !labsPillRef.current) return;
+                    labsPillRef.current.style.transition = animate ? '' : 'none';
+                    labsPillRef.current.style.width = btn.offsetWidth + 'px';
+                    labsPillRef.current.style.transform = `translateX(${btn.offsetLeft}px)`;
+                };
+
+                useEffect(() => {
+                    const idx = labsTabItems.findIndex(t => t.id === activeTab);
+                    updateLabsPill(labsTabBtnRefs.current[idx], true);
+                }, [activeTab]);
+
+                useEffect(() => {
+                    requestAnimationFrame(() => {
+                        const idx = labsTabItems.findIndex(t => t.id === activeTab);
+                        updateLabsPill(labsTabBtnRefs.current[idx], false);
+                    });
+                }, []);
+
+                const onLabsGlareMove = (e) => {
+                    if (!labsTabNavRef.current || !labsGlareRef.current) return;
+                    const r = labsTabNavRef.current.getBoundingClientRect();
+                    labsGlareRef.current.style.setProperty('--x', `${e.clientX - r.left}px`);
+                    labsGlareRef.current.style.setProperty('--y', `${e.clientY - r.top}px`);
+                };
+
+                const uniquePlatforms = [...new Set(labsOnly.map(l => l.platform))].length;
+
+                return (
+                    <div className="space-y-6 animate-fadeIn">
+                        <SocPageHero
+                            icon="FlaskConical"
+                            title="Labs & Projects"
+                            subtitle="hands-on DFIR scenarios and tools"
+                            strap="portfolio/labs-and-projects"
+                            stats={[
+                                {label:'Labs',      value:labsOnly.length},
+                                {label:'Projects',  value:projectsOnly.length,                        color:'vi'},
+                                {label:'Platforms', value:uniquePlatforms,                            color:'am'},
+                                {label:'Retired',   value:labsOnly.filter(l=>l.is_retired).length,   color:'gn'},
+                            ]}
+                        />
+
+                        {/* ── Tab switcher ── */}
+                        <nav className="lg-tab-nav w-fit" ref={labsTabNavRef} onMouseMove={onLabsGlareMove}>
+                            <div className="lg-tab-glare-wrap"><div className="lg-tab-glare" ref={labsGlareRef} /></div>
+                            <div ref={labsPillRef} className="lg-tab-pill" />
+                            {labsTabItems.map((tab, i) => (
+                                <button key={tab.id}
+                                    ref={el => labsTabBtnRefs.current[i] = el}
+                                    onClick={() => setActiveTab(tab.id)}
+                                    className={`lg-tab-btn${activeTab === tab.id ? ' active' : ''}`}>
+                                    <span className="lg-tab-btn-inner">
+                                        <Icon name={tab.icon} className="w-4 h-4" />
+                                        {tab.label}
+                                        <span className="lg-tab-count">{tab.count}</span>
+                                    </span>
+                                </button>
+                            ))}
+                        </nav>
+
+                        {/* ── Labs tab ── */}
+                        {activeTab === 'labs' && (
+                            <div className="space-y-4">
+                                {/* Search + sort bar */}
+                                <div className="flex flex-col sm:flex-row gap-3">
+                                    <div className="flex items-center flex-1 rounded-xl border border-gray-200 bg-white focus-within:ring-2 focus-within:ring-blue-300 px-3" style={{gap:'0.625rem'}}>
+                                        <Icon name="Search" className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                                        <input
+                                            type="text"
+                                            placeholder="Search labs by name or tag…"
+                                            value={labSearch}
+                                            onChange={e => setLabSearch(e.target.value)}
+                                            className="flex-1 py-2 text-sm bg-transparent focus:outline-none text-gray-800"
+                                        />
+                                    </div>
+                                    <select
+                                        value={labSort}
+                                        onChange={e => setLabSort(e.target.value)}
+                                        className="px-3 py-2 rounded-xl border border-gray-200 text-sm text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-300 cursor-pointer"
+                                    >
+                                        <option value="default">Sort: Default</option>
+                                        <option value="rating">Sort: Highest Rated</option>
+                                        <option value="difficulty">Sort: Easiest First</option>
+                                    </select>
+                                </div>
+                                {/* Platform filter */}
+                                <GlassFilter options={labPlatforms} selected={selectedLabPlatform} onSelect={setSelectedLabPlatform} counts={labPlatformCounts} />
+                                {/* Difficulty filter */}
+                                <div className="flex flex-wrap gap-2 items-center">
+                                    <span className="text-xs font-semibold text-gray-400 uppercase tracking-wide">Difficulty:</span>
+                                    {['All', 'Easy', 'Medium', 'Hard'].map(d => (
+                                        <button key={d} onClick={() => setLabDiffFilter(d)}
+                                            className={`px-3 py-1 rounded-full text-xs font-semibold border transition-all ${
+                                                labDiffFilter === d
+                                                    ? d === 'All' ? 'bg-gray-700 text-white border-gray-700'
+                                                      : d === 'Easy' ? 'bg-green-500 text-white border-green-500'
+                                                      : d === 'Medium' ? 'bg-orange-500 text-white border-orange-500'
+                                                      : 'bg-red-500 text-white border-red-500'
+                                                    : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'
+                                            }`}>
+                                            {d}
+                                        </button>
+                                    ))}
+                                </div>
+                                {/* Result count */}
+                                <div className="text-sm text-gray-500">
+                                    Showing <span className="font-semibold text-gray-700">{filteredLabs.length}</span> of <span className="font-semibold text-gray-700">{labsOnly.length}</span> labs
+                                    {(labSearch || labDiffFilter !== 'All' || selectedLabPlatform !== 'All') && (
+                                        <button onClick={() => { setLabSearch(''); setLabDiffFilter('All'); setSelectedLabPlatform('All'); }}
+                                            className="ml-3 text-xs text-blue-500 hover:text-blue-700 font-medium underline">Clear filters</button>
+                                    )}
+                                </div>
+                                <div className="grid gap-5">
+                                    {filteredLabs.length === 0 ? (
+                                        <div className="text-center py-16 text-gray-400">
+                                            <Icon name="SearchX" className="w-10 h-10 mx-auto mb-3 opacity-30" />
+                                            <p className="font-semibold text-gray-500">No labs match your filters</p>
+                                        </div>
+                                    ) : filteredLabs.map((lab, idx) => <LabCard key={idx} lab={lab} />)}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* ── Projects tab ── */}
+                        {activeTab === 'projects' && (
+                            <div className="space-y-4">
+                                {/* Search */}
+                                <div className="flex items-center rounded-xl border border-gray-200 bg-white focus-within:ring-2 focus-within:ring-blue-300 px-3" style={{gap:'0.625rem'}}>
+                                    <Icon name="Search" className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                                    <input
+                                        type="text"
+                                        placeholder="Search projects…"
+                                        value={projectSearch}
+                                        onChange={e => setProjectSearch(e.target.value)}
+                                        className="flex-1 py-2 text-sm bg-transparent focus:outline-none text-gray-800"
+                                    />
+                                </div>
+                                <GlassFilter options={projectCategories} selected={selectedProjectCategory} onSelect={setSelectedProjectCategory} counts={projectCategoryCounts} />
+                                <div className="text-sm text-gray-500">
+                                    Showing <span className="font-semibold text-gray-700">{filteredProjects.length}</span> of <span className="font-semibold text-gray-700">{projectsOnly.length}</span> projects
+                                </div>
+                                <div className="grid gap-5">
+                                    {filteredProjects.length === 0 ? (
+                                        <div className="text-center py-16 text-gray-400">
+                                            <Icon name="SearchX" className="w-10 h-10 mx-auto mb-3 opacity-30" />
+                                            <p className="font-semibold text-gray-500">No projects match your search</p>
+                                        </div>
+                                    ) : filteredProjects.map((project, idx) => <ProjectCard key={idx} project={project} />)}
+                                </div>
+                            </div>
+                        )}
+
+                        <div className="bg-gradient-to-br from-cyan-50 to-blue-50 rounded-2xl p-6 text-center border border-blue-100">
+                            <h3 className="font-bold text-gray-800 mb-2">More Coming Soon!</h3>
+                            <p className="text-gray-600 text-sm">
+                                I'm constantly creating new labs and writeups. Follow me on GitHub and Medium to stay updated.
+                            </p>
+                        </div>
+                    </div>
+                );
+            };
+
+            const AchievementsPage = () => {
+                const [tab, setTab] = useState('competitions');
+
+                const comps  = achievements.filter(a => a.category === 'competition');
+                const talks  = achievements.filter(a => a.category === 'talk');
+                const active = tab === 'competitions' ? comps : talks;
+
+                // Competition helpers
+                const getPlacementStyle = (placement) => {
+                    const p = (placement || '').toLowerCase();
+                    if (p.includes('1st') || p.includes('first') || p.includes('winner') || p.includes('champion'))
+                        return 'bg-yellow-50 text-yellow-700 border-yellow-200';
+                    if (p.includes('2nd') || p.includes('second'))
+                        return 'bg-gray-100 text-gray-600 border-gray-200';
+                    if (p.includes('3rd') || p.includes('third'))
+                        return 'bg-orange-50 text-orange-700 border-orange-200';
+                    if (p.includes('top') || p.includes('finalist'))
+                        return 'bg-blue-50 text-blue-600 border-blue-100';
+                    return 'bg-gray-100 text-gray-500 border-gray-200';
+                };
+
+                const podiums = comps.filter(c => {
+                    const p = (c.placement || '').toLowerCase();
+                    return p.includes('1st') || p.includes('2nd') || p.includes('3rd') ||
+                           p.includes('first') || p.includes('second') || p.includes('third') ||
+                           p.includes('winner') || p.includes('champion');
+                }).length;
+
+                const achievTabItems = [
+                    { id: 'competitions', label: 'Competitions', icon: 'Trophy', count: comps.length },
+                    { id: 'speaking',     label: 'Speaking',     icon: 'Mic',   count: talks.length },
+                ];
+                const achievTabNavRef = React.useRef(null);
+                const achievTabBtnRefs = React.useRef([]);
+                const achievGlareRef = React.useRef(null);
+                const achievPillRef = React.useRef(null);
+
+                const updateAchievPill = (btn, animate) => {
+                    if (!btn || !achievPillRef.current) return;
+                    achievPillRef.current.style.transition = animate ? '' : 'none';
+                    achievPillRef.current.style.width = btn.offsetWidth + 'px';
+                    achievPillRef.current.style.transform = `translateX(${btn.offsetLeft}px)`;
+                };
+
+                useEffect(() => {
+                    const idx = achievTabItems.findIndex(t => t.id === tab);
+                    updateAchievPill(achievTabBtnRefs.current[idx], true);
+                }, [tab]);
+
+                useEffect(() => {
+                    requestAnimationFrame(() => {
+                        const idx = achievTabItems.findIndex(t => t.id === tab);
+                        updateAchievPill(achievTabBtnRefs.current[idx], false);
+                    });
+                }, []);
+
+                const onAchievGlareMove = (e) => {
+                    if (!achievTabNavRef.current || !achievGlareRef.current) return;
+                    const r = achievTabNavRef.current.getBoundingClientRect();
+                    achievGlareRef.current.style.setProperty('--x', `${e.clientX - r.left}px`);
+                    achievGlareRef.current.style.setProperty('--y', `${e.clientY - r.top}px`);
+                };
+
+                return (
+                <div className="space-y-8 animate-fadeIn">
+                    <SocPageHero
+                        icon="Star"
+                        title="Achievements"
+                        subtitle="competitions.log · public-talks · notable-milestones"
+                        strap="portfolio/achievements"
+                        stats={[
+                            {label:'Competitions', value:comps.length},
+                            {label:'Podiums',      value:podiums,       color:'am'},
+                            {label:'Talks',        value:talks.length,  color:'gn'},
+                        ]}
+                    />
+
+                    {/* Tab switcher */}
+                    <nav className="lg-tab-nav w-fit" ref={achievTabNavRef} onMouseMove={onAchievGlareMove}>
+                        <div className="lg-tab-glare-wrap"><div className="lg-tab-glare" ref={achievGlareRef} /></div>
+                        <div ref={achievPillRef} className="lg-tab-pill" />
+                        {achievTabItems.map((t, i) => (
+                            <button key={t.id}
+                                ref={el => achievTabBtnRefs.current[i] = el}
+                                onClick={() => setTab(t.id)}
+                                className={`lg-tab-btn${tab === t.id ? ' active' : ''}`}>
+                                <span className="lg-tab-btn-inner">
+                                    <Icon name={t.icon} className="w-4 h-4" />
+                                    {t.label}
+                                    <span className="lg-tab-count">{t.count}</span>
+                                </span>
+                            </button>
+                        ))}
+                    </nav>
+
+                    {/* ── COMPETITIONS TAB ── */}
+                    {tab === 'competitions' && (
+                    <>
+                        {comps.length === 0 ? (
+                            <div className="text-center py-20 text-gray-400">
+                                <Icon name="Trophy" className="w-14 h-14 mx-auto mb-4 opacity-25" />
+                                <p className="font-semibold text-gray-500 text-lg">No competitions yet</p>
+                                <p className="text-sm mt-1">Add entries with <code className="bg-gray-100 px-1.5 py-0.5 rounded text-xs">"category": "competition"</code> to <code className="bg-gray-100 px-1.5 py-0.5 rounded text-xs">data/achievements.json</code></p>
+                            </div>
+                        ) : (
+                        <div className="grid md:grid-cols-2 gap-4">
+                            {comps.map((comp, idx) => (
+                                <div key={idx} className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg hover:border-blue-200 transition-all group">
+                                    <div className="w-full h-48 bg-gray-50 border-b border-gray-100 overflow-hidden relative">
+                                        {comp.image ? (
+                                            <img src={comp.image} alt={comp.name}
+                                                className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-300" />
+                                        ) : (
+                                            <div className="w-full h-full flex flex-col items-center justify-center gap-2 text-gray-300">
+                                                <Icon name="Trophy" className="w-10 h-10" />
+                                                <span className="text-xs font-medium">No image</span>
+                                            </div>
+                                        )}
+                                        {comp.type && (
+                                            <span className="absolute top-3 left-3 px-2 py-0.5 bg-gray-900/60 text-white rounded-md text-xs font-semibold backdrop-blur-sm">
+                                                {comp.type}
+                                            </span>
+                                        )}
+                                    </div>
+                                    <div className="p-4 space-y-2.5">
+                                        <div className="flex items-start justify-between gap-2">
+                                            <h3 className="font-bold text-gray-800 text-sm leading-snug group-hover:text-blue-600 transition-colors">{comp.name}</h3>
+                                            {comp.placement && (
+                                                <span className={`flex-shrink-0 px-2 py-0.5 rounded-full text-xs font-semibold border ${getPlacementStyle(comp.placement)}`}>
+                                                    {comp.placement}
+                                                </span>
+                                            )}
+                                        </div>
+                                        <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-gray-500">
+                                            <span className="font-medium text-blue-600 flex items-center gap-1">
+                                                <Icon name="Building2" className="w-3 h-3" />{comp.organizer}
+                                            </span>
+                                            <span>·</span>
+                                            <span className="flex items-center gap-1">
+                                                <Icon name="Calendar" className="w-3 h-3" />{comp.year}
+                                            </span>
+                                            {comp.team && (
+                                                <>
+                                                    <span>·</span>
+                                                    <span className="flex items-center gap-1">
+                                                        <Icon name="Users" className="w-3 h-3" />{comp.team}
+                                                    </span>
+                                                </>
+                                            )}
+                                        </div>
+                                        {comp.description && <p className="text-xs text-gray-500 leading-relaxed">{comp.description}</p>}
+                                        {(comp.tags || []).length > 0 && (
+                                        <div className="flex flex-wrap gap-1.5">
+                                            {comp.tags.map((tag, i) => (
+                                                <span key={i} className="px-2 py-0.5 bg-blue-50 text-blue-600 rounded-md text-xs font-medium border border-blue-100">{tag}</span>
+                                            ))}
+                                        </div>
+                                        )}
+                                        {comp.url && (
+                                            <a href={comp.url} target="_blank" rel="noopener noreferrer"
+                                                className="inline-flex items-center gap-1 text-xs text-blue-500 hover:text-blue-700 font-medium">
+                                                View Details <Icon name="ExternalLink" className="w-3 h-3" />
+                                            </a>
+                                        )}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                        )}
+                    </>
+                    )}
+
+                    {/* ── SPEAKING TAB ── */}
+                    {tab === 'speaking' && (
+                    <>
+                        {talks.length === 0 ? (
+                            <div className="text-center py-20 text-gray-400">
+                                <Icon name="Mic" className="w-14 h-14 mx-auto mb-4 opacity-25" />
+                                <p className="font-semibold text-gray-500 text-lg">No talks yet</p>
+                                <p className="text-sm mt-1">Add entries with <code className="bg-gray-100 px-1.5 py-0.5 rounded text-xs">"category": "talk"</code> to <code className="bg-gray-100 px-1.5 py-0.5 rounded text-xs">data/achievements.json</code></p>
+                            </div>
+                        ) : (() => {
+                            const isYouTube = (url) => url && (url.includes('youtube.com') || url.includes('youtu.be'));
+                            const talksByYear = talks.reduce((acc, t) => {
+                                (acc[t.year] = acc[t.year] || []).push(t);
+                                return acc;
+                            }, {});
+                            const sortedTalkYears = Object.keys(talksByYear).sort((a, b) => b - a);
+                            return (
+                            <div className="space-y-8">
+                                {sortedTalkYears.map(year => (
+                                    <div key={year}>
+                                        <div className="flex items-center gap-3 mb-4">
+                                            <span className="text-sm font-bold text-gray-400 uppercase tracking-widest">{year}</span>
+                                            <div className="flex-1 h-px bg-gray-200" />
+                                            <span className="text-xs text-gray-400">{talksByYear[year].length} talk{talksByYear[year].length !== 1 ? 's' : ''}</span>
+                                        </div>
+                                        <div className="grid md:grid-cols-2 gap-4">
+                                        {talksByYear[year].map((talk, idx) => (
+                                            <div key={idx} className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg hover:border-purple-200 transition-all group">
+                                                <div className="w-full h-48 bg-gray-50 border-b border-gray-100 overflow-hidden relative">
+                                                    {talk.image ? (
+                                                        <img src={talk.image} alt={talk.name}
+                                                            className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-300" />
+                                                    ) : (
+                                                        <div className="w-full h-full flex flex-col items-center justify-center gap-2 bg-gradient-to-br from-purple-50 to-blue-50 text-gray-300">
+                                                            <Icon name="Mic" className="w-12 h-12 text-purple-200" />
+                                                        </div>
+                                                    )}
+                                                    {talk.role && (
+                                                        <span className="absolute top-3 left-3 px-2 py-0.5 bg-purple-600/80 text-white rounded-md text-xs font-semibold backdrop-blur-sm">
+                                                            {talk.role}
+                                                        </span>
+                                                    )}
+                                                    {talk.url && isYouTube(talk.url) && (
+                                                        <a href={talk.url} target="_blank" rel="noopener noreferrer"
+                                                            className="absolute bottom-3 right-3 flex items-center gap-1.5 px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-lg text-xs font-bold shadow-lg transition-colors">
+                                                            <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                                                            Watch
+                                                        </a>
+                                                    )}
+                                                </div>
+                                                <div className="p-4 space-y-2">
+                                                    <h3 className="font-bold text-gray-800 text-sm leading-snug group-hover:text-purple-600 transition-colors">{talk.name}</h3>
+                                                    <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-gray-500">
+                                                        <span className="font-medium text-purple-600 flex items-center gap-1">
+                                                            <Icon name="MapPin" className="w-3 h-3" />{talk.event}
+                                                        </span>
+                                                        <span>·</span>
+                                                        <span className="flex items-center gap-1">
+                                                            <Icon name="Calendar" className="w-3 h-3" />{talk.year}
+                                                        </span>
+                                                    </div>
+                                                    {talk.description && <p className="text-xs text-gray-500 leading-relaxed">{talk.description}</p>}
+                                                    {(talk.tags || []).length > 0 && (
+                                                    <div className="flex flex-wrap gap-1.5">
+                                                        {talk.tags.map((tag, i) => (
+                                                            <span key={i} className="px-2 py-0.5 bg-purple-50 text-purple-600 rounded-md text-xs font-medium border border-purple-100">{tag}</span>
+                                                        ))}
+                                                    </div>
+                                                    )}
+                                                    {talk.url && !isYouTube(talk.url) && (
+                                                        <a href={talk.url} target="_blank" rel="noopener noreferrer"
+                                                            className="inline-flex items-center gap-1 text-xs text-blue-500 hover:text-blue-700 font-medium">
+                                                            Slides / Details <Icon name="ExternalLink" className="w-3 h-3" />
+                                                        </a>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        ))}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                            );
+                        })()}
+                    </>
+                    )}
+                </div>
+                );
+            };
+
+            const renderPage = () => {
+                switch (activePage) {
+                    case 'home': return <HomePage />;
+                    case 'certifications': return <CertificationsPage />;
+                    case 'labs': return <LabsPage />;
+                    case 'achievements': return <AchievementsPage />;
+                    case 'stats': return <StatsPage />;
+                    default: return <HomePage />;
+                }
+            };
+
+            return (
+                <div className={`min-h-screen${darkMode ? ' dark' : ''}`} style={{background: darkMode ? undefined : 'linear-gradient(135deg,#f8fafc,#eff6ff,#f0fdff)'}}>
+                    {/* SOC Top Bar */}
+                    <div className="soc-tb">
+                        <div className="soc-tb-row">
+                            <span className="soc-live">UPLINK</span>
+                            <span className="soc-crumb">SOC <span style={{color:'var(--soc-ink4)',margin:'0 4px'}}>/</span> <b>OPERATOR.PROFILE</b></span>
+                            <span style={{marginLeft:'auto',display:'flex',gap:'8px',alignItems:'center'}}>
+                                <span className="sev cyan"><span className="dot"></span>TLP:CLEAR</span>
+                                <span className="sev green"><span className="dot"></span>SHIFT · DAY</span>
+                            </span>
+                            <span className="soc-clock">{socClock}</span>
+                            <button onClick={() => setDarkMode(!darkMode)} style={{background:'transparent',border:'none',cursor:'pointer',color:'var(--soc-ink3)',padding:'2px 6px',borderRadius:'4px'}} title={darkMode ? 'Light mode' : 'Dark mode'}>
+                                <Icon name={darkMode ? 'Sun' : 'Moon'} className="w-4 h-4" />
+                            </button>
+                            <button className="md:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} style={{background:'transparent',border:'none',cursor:'pointer',color:'var(--soc-ink3)',padding:'2px 6px'}}>
+                                <Icon name={mobileMenuOpen ? 'X' : 'Menu'} className="w-4 h-4" />
+                            </button>
+                        </div>
+                        {mobileMenuOpen && (
+                            <div className="soc-mobile-menu md:hidden animate-slideDown">
+                                <div className="soc-mobile-section">Portfolio</div>
+                                {navigation.filter(i => !i.external).map((item) => (
+                                    <button key={item.id} onClick={() => { setActivePage(item.id); setMobileMenuOpen(false); }} className={`soc-mobile-item${activePage === item.id ? ' active' : ''}`}>
+                                        <Icon name={item.icon} className="w-4 h-4" />
+                                        <span>{item.label}</span>
+                                    </button>
+                                ))}
+                                <div className="soc-divider" />
+                                <div className="soc-mobile-section">Content</div>
+                                {navigation.filter(i => i.external).map((item) => (
+                                    <a key={item.id} href={item.url} className="soc-mobile-item" onClick={() => setMobileMenuOpen(false)}>
+                                        <Icon name={item.icon} className="w-4 h-4" />
+                                        <span>{item.label}</span>
+                                        <Icon name="ExternalLink" className="w-3 h-3" style={{marginLeft:'auto',opacity:.5}} />
+                                    </a>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                    {/* SOC Tab Nav */}
+                    <nav className="soc-nav hidden md:flex" aria-label="Site navigation">
+                        <div className="soc-nav-inner">
+                            {navigation.filter(i => !i.external).map((item, idx) => (
+                                <button key={item.id} onClick={() => setActivePage(item.id)} className={`soc-tab${activePage === item.id ? ' active' : ''}`}>
+                                    <span className="ix">0{idx + 1}</span>
+                                    <span>{item.label}</span>
+                                </button>
+                            ))}
+                            <span className="soc-nav-sep" aria-hidden="true" />
+                            {navigation.filter(i => i.external).map(item => (
+                                <a key={item.id} href={item.url} className="soc-tab">
+                                    <span className="ix">↗</span>
+                                    <span>{item.label}</span>
+                                </a>
+                            ))}
+                        </div>
+                    </nav>
+
+                    <main id="main-content" className="max-w-6xl mx-auto px-4 py-8">
+                        {renderPage()}
+                    </main>
+                </div>
+            );
+        };
+
+        ReactDOM.render(<Portfolio />, document.getElementById('root'));
+    </script>
 </body>
 </html>
