@@ -217,121 +217,12 @@
         /* ============================================================
            LIQUID GLASS TAB SWITCHER — Certifications page
            ============================================================ */
-        .lg-tab-nav {
-            position: relative;
-            display: flex;
-            align-items: center;
-            padding: 6px;
-            border-radius: 99px;
-            background: rgba(255,255,255,0.18);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            box-shadow:
-                0 8px 28px -8px rgba(37,99,235,0.18),
-                inset 0 2px 3px -1px rgba(255,255,255,0.65),
-                inset 0 -1px 2px -1px rgba(37,99,235,0.10),
-                inset 0 0 0 1px rgba(255,255,255,0.38);
-        }
-        .lg-tab-nav::before {
-            content: '';
-            position: absolute;
-            top: 1px; left: 1px; right: 1px; height: 46%;
-            border-radius: 99px 99px 16px 16px / 99px 99px 6px 6px;
-            background: linear-gradient(180deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0) 100%);
-            pointer-events: none;
-            z-index: 6;
-        }
-        .dark .lg-tab-nav {
-            background: rgba(12,19,34,0.75);
-            box-shadow:
-                0 8px 28px -8px rgba(0,0,0,0.6),
-                0 0 0 1px var(--soc-line),
-                inset 0 2px 3px -1px rgba(34,225,255,0.08),
-                inset 0 -1px 2px -1px rgba(0,0,0,0.2);
-        }
-        .dark .lg-tab-nav::before {
-            background: linear-gradient(180deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0) 100%);
-        }
-        .lg-tab-glare-wrap {
-            position: absolute;
-            inset: 0;
-            border-radius: 99px;
-            overflow: hidden;
-            pointer-events: none;
-            z-index: 5;
-        }
-        .lg-tab-glare {
-            position: absolute;
-            inset: 0;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            background: radial-gradient(circle 55px at var(--x, 50%) var(--y, 50%), rgba(255,255,255,0.38) 0%, transparent 100%);
-            mix-blend-mode: overlay;
-        }
-        .lg-tab-nav:hover .lg-tab-glare { opacity: 1; }
-        .lg-tab-pill {
-            position: absolute;
-            top: 6px;
-            height: 36px;
-            background: rgba(255,255,255,0.92);
-            border-radius: 99px;
-            box-shadow:
-                0 4px 14px rgba(37,99,235,0.14),
-                0 1px 2px rgba(0,0,0,0.06),
-                inset 0 1px 1px rgba(255,255,255,0.95);
-            transition:
-                transform 0.45s cubic-bezier(0.34,1.2,0.64,1),
-                width   0.45s cubic-bezier(0.34,1.2,0.64,1);
-            z-index: 1;
-            pointer-events: none;
-        }
-        .dark .lg-tab-pill {
-            background: rgba(18,26,46,0.95);
-            box-shadow: 0 4px 12px rgba(34,225,255,0.12), 0 0 0 1px rgba(34,225,255,0.2), inset 0 1px 1px rgba(255,255,255,0.08);
-        }
-        .lg-tab-btn {
-            position: relative;
-            background: transparent;
-            border: none;
-            padding: 0 16px;
-            height: 36px;
-            border-radius: 99px;
-            font-size: 14px;
-            font-weight: 600;
-            color: rgba(71,85,105,0.65);
-            cursor: pointer;
-            transition: color 0.3s ease;
-            outline: none;
-            z-index: 2;
-            display: flex;
-            align-items: center;
-            gap: 7px;
-            white-space: nowrap;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .lg-tab-btn.active { color: #2563eb; }
-        .dark .lg-tab-btn { color: var(--soc-ink3); }
-        .dark .lg-tab-btn.active { color: var(--soc-cy); }
-        .lg-tab-btn-inner {
-            display: flex;
-            align-items: center;
-            gap: 7px;
-            pointer-events: none;
-            transition: transform 0.15s cubic-bezier(0.32,0.72,0,1);
-        }
-        .lg-tab-btn:active .lg-tab-btn-inner { transform: scale(0.92); }
-        .lg-tab-count {
-            font-size: 11px;
-            font-weight: 700;
-            padding: 1px 7px;
-            border-radius: 99px;
-            background: rgba(37,99,235,0.12);
-            color: rgba(37,99,235,0.65);
-            transition: background 0.3s ease, color 0.3s ease;
-        }
-        .lg-tab-btn.active .lg-tab-count { background: rgba(37,99,235,0.15); color: #2563eb; }
-        .dark .lg-tab-count { background: rgba(107,122,156,0.15); color: var(--soc-ink3); }
-        .dark .lg-tab-btn.active .lg-tab-count { background: rgba(34,225,255,0.15); color: var(--soc-cy); }
+        .soc-seg { display:inline-flex;gap:1px;background:var(--soc-bg);border:1px solid var(--soc-line);border-radius:4px;padding:3px; }
+        .soc-seg-btn { padding:7px 16px;font-size:12.5px;font-weight:500;color:var(--soc-ink3);border-radius:3px;cursor:pointer;background:transparent;border:none;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;font-family:inherit;transition:.15s;outline:none; }
+        .soc-seg-btn:hover { color:var(--soc-ink2); }
+        .soc-seg-btn.active { background:var(--soc-bg-2);color:var(--soc-cy);box-shadow:inset 0 0 0 1px var(--soc-line2); }
+        .soc-seg-count { font-size:10px;font-weight:700;padding:1px 6px;border-radius:99px;background:rgba(34,225,255,0.10);color:var(--soc-ink3);font-family:'JetBrains Mono',monospace;transition:.15s; }
+        .soc-seg-btn.active .soc-seg-count { background:rgba(34,225,255,0.15);color:var(--soc-cy); }
 
         /* ============================================================
            SOC CONSOLE COMPONENTS
@@ -921,42 +812,44 @@
                 const maxBandCount = Math.max(...ratingBandCounts.map(b => b.count), 1);
 
                 const StatCard = ({ icon, value, label, sub, color = 'blue' }) => {
-                    const colors = { blue: 'from-blue-500 to-blue-600', cyan: 'from-cyan-500 to-cyan-600', purple: 'from-purple-500 to-purple-600', green: 'from-green-500 to-green-600' };
+                    const iconColors = { blue: 'var(--soc-cy)', cyan: 'var(--soc-cy)', purple: 'var(--soc-vi)', green: 'var(--soc-gn)' };
                     return (
-                        <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 hover:border-blue-300 hover:shadow-md transition-all flex items-center gap-3">
-                            <div className={`inline-flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br ${colors[color]} flex-shrink-0`}>
-                                <Icon name={icon} className="w-5 h-5 text-white" />
+                        <div style={{background:'var(--soc-bg-1)',border:'1px solid var(--soc-line)',borderRadius:'6px',padding:'14px 16px',display:'flex',alignItems:'center',gap:'12px',transition:'.15s'}}
+                            onMouseEnter={e=>e.currentTarget.style.borderColor='var(--soc-line2)'}
+                            onMouseLeave={e=>e.currentTarget.style.borderColor='var(--soc-line)'}>
+                            <div style={{width:'36px',height:'36px',borderRadius:'6px',background:'var(--soc-bg-2)',border:'1px solid var(--soc-line2)',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>
+                                <Icon name={icon} className="w-4 h-4" style={{color:iconColors[color]||'var(--soc-cy)'}} />
                             </div>
-                            <div className="min-w-0">
-                                <div className="text-2xl font-bold text-gray-800 leading-tight">{value}</div>
-                                <div className="text-sm font-semibold text-gray-700 leading-tight">{label}</div>
-                                {sub && <div className="text-xs text-gray-500 mt-0.5 truncate">{sub}</div>}
+                            <div style={{minWidth:0}}>
+                                <div style={{fontSize:'22px',fontWeight:700,color:'var(--soc-ink)',lineHeight:1.1,fontFamily:"'JetBrains Mono',monospace"}}>{value}</div>
+                                <div style={{fontSize:'12px',fontWeight:600,color:'var(--soc-ink2)',lineHeight:1.3}}>{label}</div>
+                                {sub && <div style={{fontSize:'11px',color:'var(--soc-ink3)',marginTop:'2px',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{sub}</div>}
                             </div>
                         </div>
                     );
                 };
 
                 const BarRow = ({ label, count, max, colorClass, pct }) => (
-                    <div className="flex items-center gap-3 py-1">
-                        <span className="text-sm text-gray-700 w-28 flex-shrink-0 truncate" title={label}>{label}</span>
-                        <div className="flex-1 bg-gray-100 rounded-full h-4 overflow-hidden">
-                            <div className={`h-4 rounded-full transition-all ${colorClass}`} style={{ width: `${Math.round((count / max) * 100)}%` }} />
+                    <div style={{display:'flex',alignItems:'center',gap:'10px',padding:'4px 0'}}>
+                        <span style={{fontSize:'12px',color:'var(--soc-ink2)',width:'112px',flexShrink:0,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}} title={label}>{label}</span>
+                        <div style={{flex:1,background:'var(--soc-bg)',borderRadius:'2px',height:'6px',overflow:'hidden',border:'1px solid var(--soc-line)'}}>
+                            <div style={{height:'100%',width:`${Math.round((count/max)*100)}%`,background:'var(--soc-cy)',opacity:.7,transition:'width .3s',borderRadius:'2px'}} />
                         </div>
-                        <span className="text-sm font-bold text-gray-700 w-6 text-right">{count}</span>
-                        {pct !== undefined && <span className="text-xs text-gray-400 w-9 text-right">{pct}%</span>}
+                        <span style={{fontSize:'12px',fontWeight:700,color:'var(--soc-ink)',width:'20px',textAlign:'right',fontFamily:"'JetBrains Mono',monospace"}}>{count}</span>
+                        {pct !== undefined && <span style={{fontSize:'11px',color:'var(--soc-ink3)',width:'36px',textAlign:'right'}}>{pct}%</span>}
                     </div>
                 );
 
                 const diffBarColors = { easy: 'bg-gradient-to-r from-green-400 to-green-600', medium: 'bg-gradient-to-r from-orange-400 to-orange-500', hard: 'bg-gradient-to-r from-red-400 to-red-600' };
 
-                const SectionToggle = ({ title, icon, iconColor, show, onToggle }) => (
-                    <button onClick={onToggle} className="w-full flex items-center justify-between group">
-                        <h2 className="text-xl font-bold text-gray-800 flex items-center gap-2">
-                            <Icon name={icon} className={`w-5 h-5 ${iconColor}`} />
+                const SectionToggle = ({ title, icon, show, onToggle }) => (
+                    <button onClick={onToggle} style={{width:'100%',display:'flex',alignItems:'center',justifyContent:'space-between',background:'transparent',border:'none',cursor:'pointer',padding:0}}>
+                        <h2 className="soc-section" style={{display:'flex',alignItems:'center',gap:'8px',fontSize:'13px',fontWeight:600,color:'var(--soc-ink2)',letterSpacing:'.04em',textTransform:'uppercase',fontFamily:"'JetBrains Mono',monospace",margin:0}}>
+                            <Icon name={icon} className="w-4 h-4" style={{color:'var(--soc-cy)'}} />
                             {title}
                         </h2>
-                        <span className={`text-xs font-semibold px-2.5 py-1 rounded-lg transition-colors ${show ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-500 group-hover:bg-gray-200'}`}>
-                            {show ? 'Hide' : 'Show'}
+                        <span style={{fontSize:'10px',fontWeight:600,padding:'2px 8px',borderRadius:'3px',fontFamily:"'JetBrains Mono',monospace",letterSpacing:'.06em',background:show?'rgba(34,225,255,0.1)':'var(--soc-bg-2)',color:show?'var(--soc-cy)':'var(--soc-ink3)',border:'1px solid',borderColor:show?'rgba(34,225,255,0.25)':'var(--soc-line)'}}>
+                            {show ? 'HIDE' : 'SHOW'}
                         </span>
                     </button>
                 );
@@ -986,7 +879,7 @@
                         </div>
 
                         <div className="grid md:grid-cols-2 gap-6">
-                            <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-gray-100">
+                            <div style={{background:"var(--soc-bg-1)",border:"1px solid var(--soc-line)",borderRadius:"6px",padding:"20px 22px"}}>
                                 <SectionToggle title="Certs by Issuer" icon="Building2" iconColor="text-blue-500" show={showCertsByIssuer} onToggle={() => setShowCertsByIssuer(v => !v)} />
                                 {showCertsByIssuer && (
                                     <div className="space-y-1 mt-5">
@@ -997,7 +890,7 @@
                                 )}
                             </div>
 
-                            <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-gray-100">
+                            <div style={{background:"var(--soc-bg-1)",border:"1px solid var(--soc-line)",borderRadius:"6px",padding:"20px 22px"}}>
                                 <SectionToggle title="Certs by Category" icon="Layers" iconColor="text-purple-500" show={showCertsByCategory} onToggle={() => setShowCertsByCategory(v => !v)} />
                                 {showCertsByCategory && (
                                     <div className="space-y-3 mt-5">
@@ -1017,17 +910,17 @@
                             </div>
                         </div>
 
-                        <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-gray-100">
+                        <div style={{background:"var(--soc-bg-1)",border:"1px solid var(--soc-line)",borderRadius:"6px",padding:"20px 22px"}}>
                             <SectionToggle title="Certifications by Year" icon="TrendingUp" iconColor="text-indigo-500" show={showCertsByYear} onToggle={() => setShowCertsByYear(v => !v)} />
                             {showCertsByYear && sortedCertYears.length > 0 && (
                                 <div className="mt-5">
                                     <div className="flex items-end gap-3 h-28">
                                         {sortedCertYears.map(([year, count]) => (
                                             <div key={year} className="flex-1 flex flex-col items-center gap-1 min-w-0">
-                                                <span className="text-sm font-bold text-blue-600">{count}</span>
+                                                <span style={{fontSize:"11px",fontWeight:700,color:"var(--soc-cy)",fontFamily:"'JetBrains Mono',monospace"}}>{count}</span>
                                                 <div className="w-full rounded-t-lg bg-gradient-to-t from-blue-500 to-indigo-400 transition-all"
-                                                    style={{ height: `${Math.round((count / maxCertYearCount) * 80)}px` }} />
-                                                <span className="text-xs text-gray-500 truncate w-full text-center">{year}</span>
+                                                    style={{ height: `${Math.round((count / maxCertYearCount) * 80)}px`, background: 'var(--soc-cy)', opacity: .7 }} />
+                                                <span style={{fontSize:"10px",color:"var(--soc-ink3)"}}>{year}</span>
                                             </div>
                                         ))}
                                     </div>
@@ -1036,7 +929,7 @@
                         </div>
 
                         <div className="grid md:grid-cols-2 gap-6">
-                            <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-gray-100">
+                            <div style={{background:"var(--soc-bg-1)",border:"1px solid var(--soc-line)",borderRadius:"6px",padding:"20px 22px"}}>
                                 <SectionToggle title="Labs & Projects by Platform" icon="Globe" iconColor="text-cyan-500" show={showByPlatform} onToggle={() => setShowByPlatform(v => !v)} />
                                 {showByPlatform && (
                                     <div className="space-y-1 mt-5">
@@ -1047,12 +940,12 @@
                                 )}
                             </div>
 
-                            <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-gray-100">
+                            <div style={{background:"var(--soc-bg-1)",border:"1px solid var(--soc-line)",borderRadius:"6px",padding:"20px 22px"}}>
                                 <SectionToggle title="Lab Difficulty" icon="Gauge" iconColor="text-orange-500" show={showLabDiff} onToggle={() => setShowLabDiff(v => !v)} />
                                 {showLabDiff && (
                                     <div className="mt-5 space-y-6">
                                         <div>
-                                            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">Official Difficulty</p>
+                                            <p style={{fontSize:"10px",fontWeight:600,color:"var(--soc-ink3)",textTransform:"uppercase",letterSpacing:".1em",marginBottom:"10px",fontFamily:"'JetBrains Mono',monospace"}}>Official Difficulty</p>
                                             <div className="space-y-2">
                                                 {Object.entries(labDifficultyCounts).map(([diff, count]) => (
                                                     <BarRow key={diff} label={diff.charAt(0).toUpperCase() + diff.slice(1)} count={count} max={maxLabDiff} colorClass={diffBarColors[diff]} pct={statsLabsOnly.length ? Math.round((count / statsLabsOnly.length) * 100) : 0} />
@@ -1060,7 +953,7 @@
                                             </div>
                                         </div>
                                         <div>
-                                            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">Perceived Difficulty</p>
+                                            <p style={{fontSize:"10px",fontWeight:600,color:"var(--soc-ink3)",textTransform:"uppercase",letterSpacing:".1em",marginBottom:"10px",fontFamily:"'JetBrains Mono',monospace"}}>Perceived Difficulty</p>
                                             <div className="space-y-2">
                                                 {Object.entries(playerDifficultyCounts).map(([diff, count]) => (
                                                     <BarRow key={diff} label={diff.charAt(0).toUpperCase() + diff.slice(1)} count={count} max={maxPlayerDiff} colorClass={diffBarColors[diff]} pct={statsLabsOnly.length ? Math.round((count / statsLabsOnly.length) * 100) : 0} />
@@ -1072,31 +965,31 @@
                             </div>
                         </div>
 
-                        <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-gray-100">
+                        <div style={{background:"var(--soc-bg-1)",border:"1px solid var(--soc-line)",borderRadius:"6px",padding:"20px 22px"}}>
                             <SectionToggle title="Lab Ratings" icon="Star" iconColor="text-yellow-500" show={showLabRatings} onToggle={() => setShowLabRatings(v => !v)} />
                             {showLabRatings && (
                                 <div className="mt-5 grid md:grid-cols-2 gap-8">
                                     <div>
-                                        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-4">Summary ({ratedLabs.length} rated labs)</p>
+                                        <p style={{fontSize:"10px",fontWeight:600,color:"var(--soc-ink3)",textTransform:"uppercase",letterSpacing:".1em",marginBottom:"12px",fontFamily:"'JetBrains Mono',monospace"}}>Summary ({ratedLabs.length} rated labs)</p>
                                         <div className="grid grid-cols-3 gap-3 text-center mb-6">
-                                            <div className="bg-yellow-50 rounded-xl p-4">
-                                                <div className="text-2xl font-bold text-yellow-700">{labMinRating.toFixed(1)}</div>
-                                                <div className="text-xs text-gray-500 mt-1">Lowest</div>
-                                                <div className="text-xs text-gray-400 mt-1 truncate" title={lowestRatedLab?.title}>{lowestRatedLab?.title}</div>
+                                            <div style={{background:"var(--soc-bg-2)",border:"1px solid var(--soc-line)",borderRadius:"6px",padding:"14px",textAlign:"center"}}>
+                                                <div style={{fontSize:"22px",fontWeight:700,color:"var(--soc-am)",fontFamily:"'JetBrains Mono',monospace"}}>{labMinRating.toFixed(1)}</div>
+                                                <div style={{fontSize:"10px",color:"var(--soc-ink3)",marginTop:"4px"}}>Lowest</div>
+                                                <div style={{fontSize:"10px",color:"var(--soc-ink4)",marginTop:"4px",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}} title={lowestRatedLab?.title}>{lowestRatedLab?.title}</div>
                                             </div>
-                                            <div className="bg-yellow-100 rounded-xl p-4">
-                                                <div className="text-2xl font-bold text-yellow-800">{labAvgRating.toFixed(2)}</div>
-                                                <div className="text-xs text-gray-500 mt-1">Average</div>
+                                            <div style={{background:"var(--soc-bg-2)",border:"1px solid var(--soc-line2)",borderRadius:"6px",padding:"14px",textAlign:"center"}}>
+                                                <div style={{fontSize:"22px",fontWeight:700,color:"var(--soc-am)",fontFamily:"'JetBrains Mono',monospace"}}>{labAvgRating.toFixed(2)}</div>
+                                                <div style={{fontSize:"10px",color:"var(--soc-ink3)",marginTop:"4px"}}>Average</div>
                                             </div>
-                                            <div className="bg-yellow-200 rounded-xl p-4">
-                                                <div className="text-2xl font-bold text-yellow-900">{labMaxRating.toFixed(1)}</div>
-                                                <div className="text-xs text-gray-500 mt-1">Highest</div>
-                                                <div className="text-xs text-gray-500 mt-1 truncate" title={highestRatedLab?.title}>{highestRatedLab?.title}</div>
+                                            <div style={{background:"var(--soc-bg-2)",border:"1px solid var(--soc-line2)",borderRadius:"6px",padding:"14px",textAlign:"center"}}>
+                                                <div style={{fontSize:"22px",fontWeight:700,color:"var(--soc-am)",fontFamily:"'JetBrains Mono',monospace"}}>{labMaxRating.toFixed(1)}</div>
+                                                <div style={{fontSize:"10px",color:"var(--soc-ink3)",marginTop:"4px"}}>Highest</div>
+                                                <div style={{fontSize:"10px",color:"var(--soc-ink3)",marginTop:"4px",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}} title={highestRatedLab?.title}>{highestRatedLab?.title}</div>
                                             </div>
                                         </div>
                                     </div>
                                     <div>
-                                        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-4">Distribution</p>
+                                        <p style={{fontSize:"10px",fontWeight:600,color:"var(--soc-ink3)",textTransform:"uppercase",letterSpacing:".1em",marginBottom:"12px",fontFamily:"'JetBrains Mono',monospace"}}>Distribution</p>
                                         <div className="space-y-2">
                                             {ratingBandCounts.map(({ label, count }) => (
                                                 <BarRow key={label} label={label} count={count} max={maxBandCount} colorClass="bg-gradient-to-r from-yellow-400 to-amber-500" pct={ratedLabs.length ? Math.round((count / ratedLabs.length) * 100) : 0} />
@@ -1109,7 +1002,7 @@
 
                         {/* Achievements breakdown */}
                         <div className="grid md:grid-cols-2 gap-6">
-                            <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-gray-100">
+                            <div style={{background:"var(--soc-bg-1)",border:"1px solid var(--soc-line)",borderRadius:"6px",padding:"20px 22px"}}>
                                 <SectionToggle title="Competitions by Organizer" icon="Trophy" iconColor="text-yellow-500" show={showCompsByOrg} onToggle={() => setShowCompsByOrg(v => !v)} />
                                 {showCompsByOrg && (
                                     <div className="space-y-1 mt-5">
@@ -1120,7 +1013,7 @@
                                 )}
                             </div>
 
-                            <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-gray-100">
+                            <div style={{background:"var(--soc-bg-1)",border:"1px solid var(--soc-line)",borderRadius:"6px",padding:"20px 22px"}}>
                                 <SectionToggle title="Competitions by Year" icon="Calendar" iconColor="text-blue-500" show={showCompsByYear} onToggle={() => setShowCompsByYear(v => !v)} />
                                 {showCompsByYear && (
                                     <div className="space-y-1 mt-5">
@@ -1150,36 +1043,6 @@
                 const toggleAll = () => setOpenCategories(Object.fromEntries(categoryOrder.map(c => [c, !allOpen])));
 
                 const certTabs = [{ id: 'badges', label: 'Badges', icon: 'Award' }, { id: 'certificates', label: 'Certificates', icon: 'FileText' }];
-                const certTabsNavRef = React.useRef(null);
-                const certTabBtnRefs = React.useRef([]);
-                const certGlareRef = React.useRef(null);
-                const certPillRef = React.useRef(null);
-
-                const updateCertPill = (btn, animate) => {
-                    if (!btn || !certPillRef.current) return;
-                    certPillRef.current.style.transition = animate ? '' : 'none';
-                    certPillRef.current.style.width = btn.offsetWidth + 'px';
-                    certPillRef.current.style.transform = `translateX(${btn.offsetLeft}px)`;
-                };
-
-                useEffect(() => {
-                    const idx = certTabs.findIndex(t => t.id === certView);
-                    updateCertPill(certTabBtnRefs.current[idx], true);
-                }, [certView]);
-
-                useEffect(() => {
-                    requestAnimationFrame(() => {
-                        const idx = certTabs.findIndex(t => t.id === certView);
-                        updateCertPill(certTabBtnRefs.current[idx], false);
-                    });
-                }, []);
-
-                const onCertGlareMove = (e) => {
-                    if (!certTabsNavRef.current || !certGlareRef.current) return;
-                    const r = certTabsNavRef.current.getBoundingClientRect();
-                    certGlareRef.current.style.setProperty('--x', `${e.clientX - r.left}px`);
-                    certGlareRef.current.style.setProperty('--y', `${e.clientY - r.top}px`);
-                };
 
                 const certsByCategory = categoryOrder.reduce((acc, cat) => {
                     acc[cat] = certifications.filter(c => c.category === cat);
@@ -1207,17 +1070,12 @@
 
                     {/* Controls */}
                     <div className="flex items-center justify-between flex-wrap gap-3">
-                        <nav className="lg-tab-nav" ref={certTabsNavRef} onMouseMove={onCertGlareMove}>
-                            <div className="lg-tab-glare-wrap"><div className="lg-tab-glare" ref={certGlareRef} /></div>
-                            <div ref={certPillRef} className="lg-tab-pill" />
-                            {certTabs.map((tab, i) => (
+                        <nav className="soc-seg">
+                            {certTabs.map((tab) => (
                                 <button key={tab.id}
-                                    ref={el => certTabBtnRefs.current[i] = el}
                                     onClick={() => setCertView(tab.id)}
-                                    className={`lg-tab-btn${certView === tab.id ? ' active' : ''}`}>
-                                    <span className="lg-tab-btn-inner">
-                                        <Icon name={tab.icon} className="w-4 h-4" />{tab.label}
-                                    </span>
+                                    className={`soc-seg-btn${certView === tab.id ? ' active' : ''}`}>
+                                    <Icon name={tab.icon} className="w-4 h-4" />{tab.label}
                                 </button>
                             ))}
                         </nav>
@@ -1497,50 +1355,15 @@
                 const GlassFilter = ({ options, selected, onSelect, counts }) => {
                     const navRef = React.useRef(null);
                     const glareRef = React.useRef(null);
-                    const pillRef = React.useRef(null);
-                    const btnRefs = React.useRef([]);
-
-                    const updatePill = (btn, animate) => {
-                        if (!btn || !pillRef.current) return;
-                        pillRef.current.style.transition = animate ? '' : 'none';
-                        pillRef.current.style.width = btn.offsetWidth + 'px';
-                        pillRef.current.style.transform = `translateX(${btn.offsetLeft}px)`;
-                    };
-
-                    useEffect(() => {
-                        const idx = options.indexOf(selected);
-                        updatePill(btnRefs.current[idx], true);
-                    }, [selected, options]);
-
-                    useEffect(() => {
-                        requestAnimationFrame(() => {
-                            const idx = options.indexOf(selected);
-                            updatePill(btnRefs.current[idx], false);
-                        });
-                    }, []);
-
-                    const onMouseMove = (e) => {
-                        if (!navRef.current || !glareRef.current) return;
-                        const r = navRef.current.getBoundingClientRect();
-                        glareRef.current.style.setProperty('--x', `${e.clientX - r.left}px`);
-                        glareRef.current.style.setProperty('--y', `${e.clientY - r.top}px`);
-                    };
-
                     return (
                         <div className="flex items-center gap-2">
-                            <Icon name="Filter" className="w-4 h-4 text-gray-400 flex-shrink-0" />
-                            <nav className="lg-tab-nav" ref={navRef} onMouseMove={onMouseMove}
-                                style={{overflowX:'auto', scrollbarWidth:'none'}}>
-                                <div className="lg-tab-glare-wrap"><div className="lg-tab-glare" ref={glareRef} /></div>
-                                <div ref={pillRef} className="lg-tab-pill" />
-                                {options.map((opt, i) => (
+                            <Icon name="Filter" className="w-4 h-4 flex-shrink-0" style={{color:'var(--soc-ink4)'}} />
+                            <nav className="soc-seg" style={{overflowX:'auto',scrollbarWidth:'none'}}>
+                                {options.map((opt) => (
                                     <button key={opt}
-                                        ref={el => btnRefs.current[i] = el}
                                         onClick={() => onSelect(opt)}
-                                        className={`lg-tab-btn${selected === opt ? ' active' : ''}`}>
-                                        <span className="lg-tab-btn-inner">
-                                            {opt}{opt !== 'All' && counts && <span className="lg-tab-count">{counts[opt] || 0}</span>}
-                                        </span>
+                                        className={`soc-seg-btn${selected === opt ? ' active' : ''}`}>
+                                        {opt}{opt !== 'All' && counts && <span className="soc-seg-count">{counts[opt] || 0}</span>}
                                     </button>
                                 ))}
                             </nav>
@@ -1555,36 +1378,7 @@
                     { id: 'labs',     label: 'Labs',     count: labsOnly.length,     icon: 'FlaskConical' },
                     { id: 'projects', label: 'Projects', count: projectsOnly.length, icon: 'FolderOpen'   },
                 ];
-                const labsTabNavRef = React.useRef(null);
-                const labsTabBtnRefs = React.useRef([]);
-                const labsGlareRef = React.useRef(null);
-                const labsPillRef = React.useRef(null);
 
-                const updateLabsPill = (btn, animate) => {
-                    if (!btn || !labsPillRef.current) return;
-                    labsPillRef.current.style.transition = animate ? '' : 'none';
-                    labsPillRef.current.style.width = btn.offsetWidth + 'px';
-                    labsPillRef.current.style.transform = `translateX(${btn.offsetLeft}px)`;
-                };
-
-                useEffect(() => {
-                    const idx = labsTabItems.findIndex(t => t.id === activeTab);
-                    updateLabsPill(labsTabBtnRefs.current[idx], true);
-                }, [activeTab]);
-
-                useEffect(() => {
-                    requestAnimationFrame(() => {
-                        const idx = labsTabItems.findIndex(t => t.id === activeTab);
-                        updateLabsPill(labsTabBtnRefs.current[idx], false);
-                    });
-                }, []);
-
-                const onLabsGlareMove = (e) => {
-                    if (!labsTabNavRef.current || !labsGlareRef.current) return;
-                    const r = labsTabNavRef.current.getBoundingClientRect();
-                    labsGlareRef.current.style.setProperty('--x', `${e.clientX - r.left}px`);
-                    labsGlareRef.current.style.setProperty('--y', `${e.clientY - r.top}px`);
-                };
 
                 const uniquePlatforms = [...new Set(labsOnly.map(l => l.platform))].length;
 
@@ -1604,19 +1398,14 @@
                         />
 
                         {/* ── Tab switcher ── */}
-                        <nav className="lg-tab-nav w-fit" ref={labsTabNavRef} onMouseMove={onLabsGlareMove}>
-                            <div className="lg-tab-glare-wrap"><div className="lg-tab-glare" ref={labsGlareRef} /></div>
-                            <div ref={labsPillRef} className="lg-tab-pill" />
-                            {labsTabItems.map((tab, i) => (
+                        <nav className="soc-seg">
+                            {labsTabItems.map((tab) => (
                                 <button key={tab.id}
-                                    ref={el => labsTabBtnRefs.current[i] = el}
                                     onClick={() => setActiveTab(tab.id)}
-                                    className={`lg-tab-btn${activeTab === tab.id ? ' active' : ''}`}>
-                                    <span className="lg-tab-btn-inner">
-                                        <Icon name={tab.icon} className="w-4 h-4" />
-                                        {tab.label}
-                                        <span className="lg-tab-count">{tab.count}</span>
-                                    </span>
+                                    className={`soc-seg-btn${activeTab === tab.id ? ' active' : ''}`}>
+                                    <Icon name={tab.icon} className="w-4 h-4" />
+                                    {tab.label}
+                                    <span className="soc-seg-count">{tab.count}</span>
                                 </button>
                             ))}
                         </nav>
@@ -1755,36 +1544,9 @@
                     { id: 'competitions', label: 'Competitions', icon: 'Trophy', count: comps.length },
                     { id: 'speaking',     label: 'Speaking',     icon: 'Mic',   count: talks.length },
                 ];
-                const achievTabNavRef = React.useRef(null);
-                const achievTabBtnRefs = React.useRef([]);
-                const achievGlareRef = React.useRef(null);
-                const achievPillRef = React.useRef(null);
 
-                const updateAchievPill = (btn, animate) => {
-                    if (!btn || !achievPillRef.current) return;
-                    achievPillRef.current.style.transition = animate ? '' : 'none';
-                    achievPillRef.current.style.width = btn.offsetWidth + 'px';
-                    achievPillRef.current.style.transform = `translateX(${btn.offsetLeft}px)`;
-                };
 
-                useEffect(() => {
-                    const idx = achievTabItems.findIndex(t => t.id === tab);
-                    updateAchievPill(achievTabBtnRefs.current[idx], true);
-                }, [tab]);
 
-                useEffect(() => {
-                    requestAnimationFrame(() => {
-                        const idx = achievTabItems.findIndex(t => t.id === tab);
-                        updateAchievPill(achievTabBtnRefs.current[idx], false);
-                    });
-                }, []);
-
-                const onAchievGlareMove = (e) => {
-                    if (!achievTabNavRef.current || !achievGlareRef.current) return;
-                    const r = achievTabNavRef.current.getBoundingClientRect();
-                    achievGlareRef.current.style.setProperty('--x', `${e.clientX - r.left}px`);
-                    achievGlareRef.current.style.setProperty('--y', `${e.clientY - r.top}px`);
-                };
 
                 return (
                 <div className="space-y-8 animate-fadeIn">
@@ -1801,19 +1563,14 @@
                     />
 
                     {/* Tab switcher */}
-                    <nav className="lg-tab-nav w-fit" ref={achievTabNavRef} onMouseMove={onAchievGlareMove}>
-                        <div className="lg-tab-glare-wrap"><div className="lg-tab-glare" ref={achievGlareRef} /></div>
-                        <div ref={achievPillRef} className="lg-tab-pill" />
-                        {achievTabItems.map((t, i) => (
+                    <nav className="soc-seg">
+                        {achievTabItems.map((t) => (
                             <button key={t.id}
-                                ref={el => achievTabBtnRefs.current[i] = el}
                                 onClick={() => setTab(t.id)}
-                                className={`lg-tab-btn${tab === t.id ? ' active' : ''}`}>
-                                <span className="lg-tab-btn-inner">
-                                    <Icon name={t.icon} className="w-4 h-4" />
-                                    {t.label}
-                                    <span className="lg-tab-count">{t.count}</span>
-                                </span>
+                                className={`soc-seg-btn${tab === t.id ? ' active' : ''}`}>
+                                <Icon name={t.icon} className="w-4 h-4" />
+                                {t.label}
+                                {t.count !== undefined && <span className="soc-seg-count">{t.count}</span>}
                             </button>
                         ))}
                     </nav>
