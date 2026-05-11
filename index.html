@@ -436,7 +436,6 @@
             const [activePage, setActivePage] = useState('home');
             const [labsMetadata, setLabsMetadata] = useState({});
             const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-            const [darkMode, setDarkMode] = useState(() => localStorage.getItem('darkMode') !== 'false');
 
             // Data state — loaded from JSON files
             const [certifications, setCertifications] = useState([]);
@@ -451,7 +450,6 @@
             // Merge static lab data with dynamic metadata at render time
             const labs = labsData.map(lab => ({ ...lab, ...(labsMetadata[lab.title] || {}) }));
 
-            useEffect(() => { localStorage.setItem('darkMode', darkMode); }, [darkMode]);
             useEffect(() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }, [activePage]);
 
 
@@ -710,7 +708,7 @@
                         </div>
                     </div>
                     {stats && (
-                        <div className="soc-stat-grid" style={{gridTemplateColumns:`repeat(${stats.length},1fr)`}}>
+                        <div className="soc-stat-grid">
                             {stats.map((s, i) => (
                                 <div key={i} className={`soc-stat-cell${s.color ? ' ' + s.color : ''}`}>
                                     <div className="soc-stat-lbl">{s.label}</div>
@@ -1739,7 +1737,7 @@
             };
 
             return (
-                <div className={`min-h-screen${darkMode ? ' dark' : ''}`} style={{background: darkMode ? undefined : 'linear-gradient(135deg,#f8fafc,#eff6ff,#f0fdff)'}}>
+                <div className="min-h-screen dark">
                     {/* SOC Top Bar */}
                     <div className="soc-tb">
                         <div className="soc-tb-row">
@@ -1750,9 +1748,6 @@
                                 <span className="sev green"><span className="dot"></span>SHIFT · DAY</span>
                             </span>
                             <SocClock />
-                            <button onClick={() => setDarkMode(!darkMode)} style={{background:'transparent',border:'none',cursor:'pointer',color:'var(--soc-ink3)',padding:'2px 6px',borderRadius:'4px'}} title={darkMode ? 'Light mode' : 'Dark mode'}>
-                                <Icon name={darkMode ? 'Sun' : 'Moon'} className="w-4 h-4" />
-                            </button>
                             <button className="md:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} style={{background:'transparent',border:'none',cursor:'pointer',color:'var(--soc-ink3)',padding:'2px 6px'}}>
                                 <Icon name={mobileMenuOpen ? 'X' : 'Menu'} className="w-4 h-4" />
                             </button>
