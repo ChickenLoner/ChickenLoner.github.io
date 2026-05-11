@@ -142,7 +142,7 @@
     "description": "When a candidate submits a resume that’s more than it seems, it’s up to you to hunt through the artifacts, reconstruct the infection chain, and stop a data breach in its tracks.",
     "platform": "CyberDefenders",
     "link": "https://cyberdefenders.org/blueteam-ctf-challenges/recruiter-hanoi-op/",
-    "tags": ["Endpoint Forensics", "Privilege Escalation", "Persistence"],
+    "tags": ["Endpoint Forensics", "Full-chain analysis"],
     "type": "lab",
     "image": "./assets/labs/recruiter-hanoi-op.png",
     "difficulty": "medium",
@@ -150,6 +150,20 @@
     "rating": 5,
     "is_retired": false,
     "tactics": ["Execution", "Persistence", "Privilege Escalation", "Defense Evasion", "Credential Access"]
+  },
+  {
+    "title": "CodeFreeze",
+    "description": "Reconstruct the complete attack timeline by analyzing browser history, event logs, registry, and Git artifacts to identify initial access, persistence, and data exfiltration mechanisms.",
+    "platform": "CyberDefenders",
+    "link": "https://cyberdefenders.org/blueteam-ctf-challenges/codefreeze/",
+    "tags": ["Endpoint Forensics", "Git", "Full-chain analysis"],
+    "type": "lab",
+    "image": "./assets/labs/codefreeze.webp",
+    "difficulty": "medium",
+    "player_difficulty": "medium",
+    "rating": 5,
+    "is_retired": false,
+    "tactics": ["Initial Access", "Execution", "Persistence", "Privilege Escalation", "Defense Evasion"]
   },
   {
     "title": "WorkFromHome (HTB)",
@@ -160,7 +174,7 @@
     "type": "lab",
     "image": "./assets/labs/htb-wfh.png",
     "difficulty": "medium",
-    "rating": 4.2,
+    "rating": 4.3,
     "is_retired": true
   },
   {
@@ -172,7 +186,7 @@
     "type": "lab",
     "image": "./assets/labs/htb-liberty.png",
     "difficulty": "medium",
-    "rating": 4.4,
+    "rating": 4.5,
     "is_retired": false
   },
   {

@@ -92,6 +92,10 @@ def update_lab_metadata():
         'Recruiter - Hanoi Op': {
             'platform': 'cyberdefenders',
             'slug': 'recruiter-hanoi-op'
+        },
+        'CodeFreeze': {
+            'platform': 'cyberdefenders',
+            'slug': 'codefreeze'
         }
     }
     
