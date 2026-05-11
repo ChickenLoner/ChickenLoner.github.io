@@ -110,7 +110,9 @@
 .dark textarea::placeholder { color: var(--soc-ink3) !important; }
 
 /* Scrollbar */
-.dark ::-webkit-scrollbar       { width: 6px; height: 6px; }
-.dark ::-webkit-scrollbar-track { background: var(--soc-bg); }
-.dark ::-webkit-scrollbar-thumb { background: var(--soc-line2); border-radius: 4px; }
-.dark * { scrollbar-color: var(--soc-line2) var(--soc-bg); }
+::-webkit-scrollbar              { width: 6px; height: 6px; }
+::-webkit-scrollbar-track        { background: var(--soc-bg); }
+::-webkit-scrollbar-thumb        { background: var(--soc-line2); border-radius: 3px; transition: background .15s; }
+::-webkit-scrollbar-thumb:hover  { background: var(--soc-cy2); }
+::-webkit-scrollbar-corner       { background: var(--soc-bg); }
+* { scrollbar-color: var(--soc-line2) var(--soc-bg); scrollbar-width: thin; }
