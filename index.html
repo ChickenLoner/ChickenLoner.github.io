@@ -284,12 +284,14 @@
         .soc-stat-cell.am .soc-stat-lbl::before { background:var(--soc-am); }
         .soc-stat-cell.vi .soc-stat-lbl::before { background:var(--soc-vi); }
         .soc-stat-cell.gn .soc-stat-lbl::before { background:var(--soc-gn); }
+        .soc-stat-cell.rd .soc-stat-lbl::before { background:var(--soc-rd); }
         .soc-stat-val { font-size:26px;font-weight:700;letter-spacing:-.01em;margin-top:4px;font-variant-numeric:tabular-nums;color:var(--soc-ink); }
         .soc-spark { height:14px;margin-top:6px;display:flex;align-items:flex-end;gap:2px; }
         .soc-spark span { width:4px;background:var(--soc-cy);opacity:.5;border-radius:1px 1px 0 0; }
         .soc-stat-cell.am .soc-spark span { background:var(--soc-am); }
         .soc-stat-cell.vi .soc-spark span { background:var(--soc-vi); }
         .soc-stat-cell.gn .soc-spark span { background:var(--soc-gn); }
+        .soc-stat-cell.rd .soc-spark span { background:var(--soc-rd); }
         h2.soc-section { font-size:11.5px;font-family:'JetBrains Mono',ui-monospace,monospace;font-weight:600;text-transform:uppercase;letter-spacing:.18em;color:var(--soc-ink2);margin:30px 0 12px;display:flex;align-items:center;gap:12px; }
         h2.soc-section::before { content:"";width:4px;height:14px;background:var(--soc-cy);box-shadow:rgba(34,225,255,.7) 0 0 8px;flex-shrink:0; }
         h2.soc-section .meta { margin-left:auto;color:var(--soc-ink3);font-weight:400;letter-spacing:.06em;font-size:10px; }
@@ -708,7 +710,7 @@
                         </div>
                     </div>
                     {stats && (
-                        <div className="soc-stat-grid">
+                        <div className="soc-stat-grid" style={{gridTemplateColumns:`repeat(${stats.length},1fr)`}}>
                             {stats.map((s, i) => (
                                 <div key={i} className={`soc-stat-cell${s.color ? ' ' + s.color : ''}`}>
                                     <div className="soc-stat-lbl">{s.label}</div>
@@ -770,12 +772,6 @@
                 const maxIssuerCount = sortedIssuers[0]?.[1] || 1;
 
                 const certCategoryOrder = ['Offensive Security', 'Blue Team & Detection', 'Digital Forensics & DFIR', 'General & Foundational'];
-                const certCategoryColors = {
-                    'Offensive Security':       { bar: 'bg-gradient-to-r from-red-400 to-orange-500',    dot: 'bg-red-500' },
-                    'Blue Team & Detection':    { bar: 'bg-gradient-to-r from-blue-400 to-cyan-500',     dot: 'bg-blue-500' },
-                    'Digital Forensics & DFIR': { bar: 'bg-gradient-to-r from-purple-400 to-violet-500', dot: 'bg-purple-500' },
-                    'General & Foundational':   { bar: 'bg-gradient-to-r from-green-400 to-emerald-500', dot: 'bg-green-500' },
-                };
                 const certsByCategoryData = certCategoryOrder.map(cat => ({
                     label: cat, count: certifications.filter(c => c.category === cat).length,
                 }));
@@ -888,17 +884,9 @@
                             <div style={{background:"var(--soc-bg-1)",border:"1px solid var(--soc-line)",borderRadius:"6px",padding:"20px 22px"}}>
                                 <SectionToggle title="Certs by Category" icon="Layers" iconColor="text-purple-500" show={showCertsByCategory} onToggle={() => setShowCertsByCategory(v => !v)} />
                                 {showCertsByCategory && (
-                                    <div className="space-y-3 mt-5">
+                                    <div style={{marginTop:'16px'}}>
                                         {certsByCategoryData.map(({ label, count }) => (
-                                            <div key={label} className="flex items-center gap-3 py-1">
-                                                <span className={`w-2 h-2 rounded-full flex-shrink-0 ${certCategoryColors[label]?.dot}`} />
-                                                <span className="text-sm text-gray-700 w-44 flex-shrink-0 truncate" title={label}>{label}</span>
-                                                <div className="flex-1 bg-gray-100 rounded-full h-4 overflow-hidden">
-                                                    <div className={`h-4 rounded-full transition-all ${certCategoryColors[label]?.bar}`} style={{ width: `${Math.round((count / maxCategoryCount) * 100)}%` }} />
-                                                </div>
-                                                <span className="text-sm font-bold text-gray-700 w-5 text-right">{count}</span>
-                                                <span className="text-xs text-gray-400 w-9 text-right">{certifications.length ? Math.round((count / certifications.length) * 100) : 0}%</span>
-                                            </div>
+                                            <BarRow key={label} label={label} count={count} max={maxCategoryCount} pct={certifications.length ? Math.round((count / certifications.length) * 100) : 0} />
                                         ))}
                                     </div>
                                 )}
@@ -1375,7 +1363,7 @@
                 const uniquePlatforms = [...new Set(labsOnly.map(l => l.platform))].length;
 
                 return (
-                    <div className="space-y-6 animate-fadeIn">
+                    <div className="space-y-4 animate-fadeIn">
                         <SocPageHero
                             icon="FlaskConical"
                             title="Labs & Projects"
@@ -1529,6 +1517,11 @@
                            p.includes('winner') || p.includes('champion');
                 }).length;
 
+                const wins = comps.filter(c => {
+                    const p = (c.placement || '').toLowerCase();
+                    return p.includes('1st') || p.includes('first') || p.includes('winner') || p.includes('champion');
+                }).length;
+
                 const achievTabItems = [
                     { id: 'competitions', label: 'Competitions', icon: 'Trophy', count: comps.length },
                     { id: 'speaking',     label: 'Speaking',     icon: 'Mic',   count: talks.length },
@@ -1538,7 +1531,7 @@
 
 
                 return (
-                <div className="space-y-8 animate-fadeIn">
+                <div className="space-y-4 animate-fadeIn">
                     <SocPageHero
                         icon="Star"
                         title="Achievements"
@@ -1546,6 +1539,7 @@
                         strap="portfolio/achievements"
                         stats={[
                             {label:'Competitions', value:comps.length},
+                            {label:'Wins',         value:wins,          color:'rd'},
                             {label:'Podiums',      value:podiums,       color:'am'},
                             {label:'Talks',        value:talks.length,  color:'gn'},
                         ]}
