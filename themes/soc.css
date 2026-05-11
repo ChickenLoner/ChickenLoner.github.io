@@ -116,3 +116,4 @@
 ::-webkit-scrollbar-thumb:hover  { background: var(--soc-cy2); }
 ::-webkit-scrollbar-corner       { background: var(--soc-bg); }
 * { scrollbar-color: var(--soc-line2) var(--soc-bg); scrollbar-width: thin; }
+
