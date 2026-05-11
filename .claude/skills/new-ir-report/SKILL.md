@@ -5,7 +5,7 @@ description: Scaffolds a complete IR report page for ChickenLoner.github.io from
 
 # New IR Report
 
-Scaffolds a complete, styled IR report page from the user's notes, following the established `htb-tinsel-trace-1` template pattern.
+Scaffolds a complete, styled IR report page from the user's notes, following the established `htb-tinsel-trace-1` template pattern (SOC Console dark theme).
 
 ## Step 1 — Gather required info
 
@@ -29,7 +29,7 @@ Ask for any missing fields not provided in the user's message:
 mkdir -p assets/reports/<slug>
 ```
 
-If the user has images for the report, copy them to `assets/reports/<slug>/`. Name them `image-1.png`, `image-2.png`, etc. in the order they appear.
+If the user has images for the report, copy them to `assets/reports/<slug>/`. Name them `img-01.png`, `img-02.png`, etc. in the order they appear.
 
 If a cover image exists at `assets/labs/<slug>.*`, note its path — it will be used in the listing card.
 
@@ -75,23 +75,41 @@ Use `ir-reports/htb-tinsel-trace-1/index.html` as the canonical template. Do not
 <link rel="icon" href="/chicken0248.png" type="image/png">
 ```
 
+Also include JetBrains Mono font and the SOC stylesheet:
+```html
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/themes/soc.css">
+```
+
 ### 4b. Components (copy verbatim from template)
 
 | Component | Purpose |
 |---|---|
+| `SocClock` | Live UTC clock via `useRef` + `setInterval` — no React state re-renders |
 | `Icon` | Lucide icon wrapper |
-| `ReportSection` | H2 section with red icon, scroll anchor |
-| `SubSection` | H3 subheading |
-| `ReportTable` | Styled table with headers + rows |
-| `CodeBlock` | Dark code block with language label |
-| `Img` | Figure with caption, references `IMG` const |
-| `Finding` | Red-badged finding card with number + title |
-| `B` | `<strong>` wrapper |
-| `C` | Inline `<code>` in red monospace |
+| `ReportSection` | H2 section with red icon box, scroll anchor, `ir-section` class |
+| `SubSection` | H3 subheading with red left border (`ir-subsection`) |
+| `ReportTable` | SOC-styled table (`ir-table-wrap` / `ir-table`) with headers + rows |
+| `CodeBlock` | Dark code block (`ir-code-wrap`) with language label |
+| `Img` | Figure (`ir-figure`) with caption, references `IMG` const, centered |
+| `Finding` | Red-badged finding card (`ir-finding`) with number + title |
+| `B` | `<strong>` wrapper — renders `var(--soc-ink)` white |
+| `C` | Inline code (`ir-c`) — cyan monospace on dark background |
 
 Set `const IMG = '/assets/reports/<slug>';` at the top of the script.
 
-### 4c. Standard TOC items
+### 4c. SOC top bar
+
+The page uses a sticky SOC Console top bar instead of a nav — no dark mode toggle:
+
+```
+UPLINK  •  SOC / OPERATOR.PROFILE / IR.REPORTS / <SLUG>  •  [TLP:CLEAR]  [IR.REPORT]  [clock]
+```
+
+Breadcrumb links: `SOC` → `/`, `OPERATOR.PROFILE` → `/`, `IR.REPORTS` → `/ir-reports/index.html`, then bold slug.
+Badges: `sev cyan` for `TLP:CLEAR`, `sev red` for `IR.REPORT`.
+
+### 4d. Standard TOC items
 
 Default sections for an IR report (adjust based on the user's writeup structure):
 
@@ -109,29 +127,31 @@ const tocItems = [
 
 Remove sections not covered in the user's writeup. Add custom sections as needed.
 
-### 4d. Page structure (in order)
+### 4e. Page structure (in order)
 
-1. **Nav** — `Chicken0248 / IR Reports / <title>` breadcrumb + dark mode toggle
-2. **Hero** — cover image with dark gradient overlay, title, subtitle, platform badge, date
-3. **TOC sidebar** — sticky left panel on desktop, inline on mobile
-4. **Report sections** — render user's writeup content using components above
-5. **Footer** — "Back to top" + links to `/ir-reports/index.html`
+1. **SOC top bar** — sticky, `soc-tb` class, breadcrumb + sev badges + `<SocClock />`
+2. **Cover** (`ir-cover`) — cover image with dark gradient overlay, title, subtitle pill badges, platform, date
+3. **Meta grid** (`ir-meta-grid`) — Platform, Date, Difficulty/Severity, Category columns
+4. **TOC** (`ir-toc`) — `// TABLE OF CONTENTS` header, one link per section
+5. **Report sections** — render user's writeup content using components above
+6. **Footer** (`soc-ft`) — `← ALL REPORTS` and `↑ BACK TO TOP` links
 
-### 4e. Content rendering rules
+### 4f. Content rendering rules
 
-| Writeup element | HTML output |
+| Writeup element | Output |
 |---|---|
 | Main heading | `<ReportSection id="..." title="..." icon="...">` |
 | Subheading | `<SubSection title="...">` |
-| Paragraph | `<p className="text-gray-700 leading-relaxed">` |
-| Code/command | `<CodeBlock language="...">` or inline `<C>` |
+| Paragraph | `<p className="ir-p">` |
+| Bullet list | `<ul><li className="ir-li">...</li></ul>` |
+| Code / command | `<CodeBlock language="...">` or inline `<C>` |
 | Table | `<ReportTable headers={[...]} rows={[[...]]} />` |
-| Image | `<Img src="image-N.png" alt="..." caption="..." />` |
+| Image | `<Img src="img-NN.png" alt="..." caption="..." />` |
 | Key finding | `<Finding number={N} title="...">` |
 | Bold | `<B>` |
 | Inline code | `<C>` |
 
-### 4f. Section icon suggestions
+### 4g. Section icon suggestions
 
 | Section | Icon |
 |---|---|
@@ -150,12 +170,13 @@ Remove sections not covered in the user's writeup. Add custom sections as needed
 ## Step 5 — Verify
 
 - [ ] Meta tags present with correct slug URLs
-- [ ] `data/ir-reports.json` has the new entry
+- [ ] `data/ir-reports.json` has the new entry prepended
 - [ ] `ir-reports/<slug>/index.html` created
 - [ ] `IMG` const set to `/assets/reports/<slug>`
-- [ ] Nav breadcrumb shows correct title
-- [ ] Dark mode CSS block present (copied from template)
+- [ ] SOC Console CSS block present (copied from template)
+- [ ] SOC top bar breadcrumb shows correct slug
 - [ ] TOC links match actual section IDs
+- [ ] JetBrains Mono font link in `<head>`
 
 ## Step 6 — Commit
 
@@ -167,6 +188,6 @@ git push origin main
 
 ## Reference files
 
-- `ir-reports/htb-tinsel-trace-1/index.html` — canonical IR report template
+- `ir-reports/htb-tinsel-trace-1/index.html` — canonical IR report template (SOC Console theme)
 - `data/ir-reports.json` — report listing metadata
 - `ir-reports/index.html` — listing page (for card rendering context)
