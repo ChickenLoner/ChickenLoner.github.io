@@ -522,7 +522,7 @@
                 const recentItems = [
                     ...(certifications.length > 0 ? [(() => {
                         const cert = certifications.find(c => c.latest) || certifications[certifications.length - 1];
-                        return { type:'CERT', sev:'cyan', url: cert.url || '#', title: cert.name.split(' - ')[0], detail: cert.issuer, ts: String(cert.year || '') };
+                        return { type:'CERT', sev:'cyan', url: cert.url || '#', title: cert.name.split(' - ')[0], detail: cert.issuer, ts: String(cert.year || ''), external: true };
                     })()] : []),
                     ...(irReports.length > 0 ? [{ type:'IR-RPT', sev:'red', url: irReports[0].url, title: irReports[0].title, detail: irReports[0].platform, ts: irReports[0].date }] : []),
                     ...(researchData.length > 0 ? [{ type:'RSCH', sev:'violet', url: researchData[0].url, title: researchData[0].title, detail: researchData[0].category, ts: researchData[0].date }] : []),
@@ -588,7 +588,9 @@
                         <h2 className="soc-section">Recent Activity Feed <span className="meta">tail -f /var/log/portfolio.feed</span></h2>
                         <div className="soc-alerts">
                             {recentItems.map((item, i) => (
-                                <a key={i} href={item.url} target="_blank" rel="noopener noreferrer" className="soc-alert">
+                                <a key={i} href={item.url}
+                                    {...(item.external ? { target:'_blank', rel:'noopener noreferrer' } : {})}
+                                    className="soc-alert">
                                     <span className="ts">{item.ts}</span>
                                     <span className={`sev ${item.sev}`}><span className="dot"></span>{item.type}</span>
                                     <div><div className="ttl">{item.title}</div><div className="detail">{item.detail}</div></div>
