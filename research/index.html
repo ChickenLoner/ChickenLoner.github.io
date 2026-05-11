@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -18,76 +18,148 @@
     <meta name="twitter:image" content="https://chickenloner.github.io/chicken0248.png" />
     <link rel="canonical" href="https://chickenloner.github.io/research/" />
     <link rel="icon" href="/chicken0248.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fadeIn { animation: fadeIn 0.5s ease-out; }
-
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .animate-spin { animation: spin 0.8s linear infinite; }
-
-        /* ── DARK MODE ── */
-        .dark.min-h-screen { background: linear-gradient(135deg, #0f172a 0%, #141f35 50%, #0a1628 100%) !important; }
-        .dark nav { background-color: rgba(15,23,42,0.96) !important; border-bottom-color: rgba(51,65,85,0.5) !important; }
-        .dark .bg-white    { background-color: #1e293b !important; }
-        .dark .bg-gray-50  { background-color: #0f172a !important; }
-        .dark .bg-gray-100 { background-color: #334155 !important; }
-        .dark .bg-red-50   { background-color: rgba(220,38,38,0.10) !important; }
-        .dark .bg-red-100  { background-color: rgba(220,38,38,0.20) !important; }
-        .dark .bg-orange-100 { background-color: rgba(234,88,12,0.20) !important; }
-        .dark .bg-blue-100   { background-color: rgba(37,99,235,0.20) !important; }
-        .dark .bg-green-100  { background-color: rgba(22,163,74,0.20) !important; }
-        .dark .bg-indigo-100 { background-color: rgba(99,102,241,0.20) !important; }
-        .dark .bg-indigo-600 { background-color: #4f46e5 !important; }
-        .dark .text-gray-800 { color: #e2e8f0 !important; }
-        .dark .text-gray-700 { color: #cbd5e1 !important; }
-        .dark .text-gray-600 { color: #94a3b8 !important; }
-        .dark .text-gray-500 { color: #64748b !important; }
-        .dark .text-gray-400 { color: #475569 !important; }
-        .dark .text-red-700    { color: #f87171 !important; }
-        .dark .text-blue-700   { color: #93c5fd !important; }
-        .dark .text-green-700  { color: #4ade80 !important; }
-        .dark .text-orange-700 { color: #fb923c !important; }
-        .dark .text-indigo-700 { color: #a5b4fc !important; }
-        .dark .text-blue-600   { color: #60a5fa !important; }
-        .dark .text-indigo-600 { color: #818cf8 !important; }
-        .dark .border-gray-100 { border-color: #334155 !important; }
-        .dark .border-gray-200 { border-color: #475569 !important; }
-        .dark .border-indigo-200 { border-color: rgba(99,102,241,0.3) !important; }
-        .dark .hover\:border-blue-300:hover { border-color: rgba(59,130,246,0.5) !important; }
-        .dark .hover\:bg-gray-50:hover { background-color: #1e293b !important; }
-        .dark .hover\:bg-indigo-50:hover { background-color: rgba(99,102,241,0.1) !important; }
-        .dark input { background-color: #1e293b !important; border-color: #334155 !important; color: #e2e8f0 !important; }
-        .dark input::placeholder { color: #64748b !important; }
-        .dark select { background-color: #1e293b !important; border-color: #334155 !important; color: #e2e8f0 !important; }
-        .dark ::-webkit-scrollbar       { width: 6px; }
-        .dark ::-webkit-scrollbar-track { background: #0f172a; }
-        .dark ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
-    </style>
     <link rel="stylesheet" href="/themes/soc.css">
+    <style>
+        :root {
+            --soc-bg:    #070b14;
+            --soc-bg-1:  #0c1322;
+            --soc-bg-2:  #121a2e;
+            --soc-line:  #1c2740;
+            --soc-line2: #2a3a5c;
+            --soc-ink:   #e4ecff;
+            --soc-ink2:  #a9b6d3;
+            --soc-ink3:  #6c7a9c;
+            --soc-ink4:  #475070;
+            --soc-cy:    #22e1ff;
+            --soc-cy2:   #06b8d9;
+            --soc-am:    #ffb547;
+            --soc-gn:    #3ddc84;
+            --soc-rd:    #ff5577;
+            --soc-vi:    #a78bfa;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { background: var(--soc-bg); color: var(--soc-ink); font-family: system-ui, -apple-system, sans-serif; margin: 0; }
+
+        @keyframes fadeIn { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes spin   { to { transform: rotate(360deg); } }
+        @keyframes socbp  { 50% { opacity:.3; } }
+
+        .animate-fadeIn { animation: fadeIn 0.45s ease-out; }
+        .animate-spin   { animation: spin 0.8s linear infinite; }
+
+        /* ── Top bar ── */
+        .soc-tb { position:sticky;top:0;z-index:50;background:rgba(7,11,20,0.94);backdrop-filter:blur(10px) saturate(140%);-webkit-backdrop-filter:blur(10px) saturate(140%);border-bottom:1px solid var(--soc-line); }
+        .soc-tb-row { display:flex;align-items:center;gap:14px;padding:9px 22px;font-size:12px;flex-wrap:wrap; }
+        .soc-live { display:inline-flex;align-items:center;gap:6px;color:var(--soc-gn);font-weight:600;letter-spacing:.06em;font-family:'JetBrains Mono',monospace; }
+        .soc-live::before { content:"";width:7px;height:7px;border-radius:50%;background:var(--soc-gn);box-shadow:0 0 8px var(--soc-gn);animation:socbp 1.6s ease infinite; }
+        .soc-crumb { color:var(--soc-ink3);display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:11px; }
+        .soc-crumb b { color:var(--soc-ink);font-weight:600; }
+        .soc-clock { font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--soc-ink3); }
+
+        /* ── Badges ── */
+        .sev { display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;font-weight:700;text-transform:uppercase;white-space:nowrap; }
+        .sev .dot { width:6px;height:6px;border-radius:50%;background:currentcolor;flex-shrink:0; }
+        .sev.green  { background:rgba(61,220,132,.12); color:var(--soc-gn); border:1px solid rgba(61,220,132,.3); }
+        .sev.red    { background:rgba(255,85,119,.12);  color:var(--soc-rd); border:1px solid rgba(255,85,119,.3); }
+        .sev.cyan   { background:rgba(34,225,255,.1);   color:var(--soc-cy); border:1px solid rgba(34,225,255,.25); }
+        .sev.amber  { background:rgba(255,181,71,.12);  color:var(--soc-am); border:1px solid rgba(255,181,71,.3); }
+        .sev.violet { background:rgba(167,139,250,.1);  color:var(--soc-vi); border:1px solid rgba(167,139,250,.25); }
+
+        /* ── Page hero ── */
+        .soc-page-hero { border:1px solid var(--soc-line2);border-radius:6px;background:linear-gradient(180deg,rgba(34,225,255,.04),transparent 40%),linear-gradient(180deg,var(--soc-bg-1),var(--soc-bg));overflow:hidden;margin-bottom:24px; }
+        .soc-page-hero-strap { display:flex;align-items:center;gap:12px;padding:7px 18px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--soc-ink3);border-bottom:1px solid var(--soc-line);background:rgba(0,0,0,.25); }
+        .soc-page-hero-strap .seg { display:flex;align-items:center;gap:6px; }
+        .soc-page-hero-strap .seg b { color:var(--soc-ink2);font-weight:500; }
+        .soc-page-hero-strap .seg .v { color:var(--soc-cy);font-weight:600; }
+        .soc-page-hero-body { display:flex;align-items:center;gap:16px;padding:18px 22px; }
+        .soc-page-hero-icon { width:44px;height:44px;border-radius:8px;display:grid;place-items:center;background:rgba(34,225,255,.1);border:1px solid rgba(34,225,255,.3);flex-shrink:0; }
+        .soc-page-hero-title { font-size:22px;font-weight:800;color:var(--soc-ink);margin:0;letter-spacing:-.01em; }
+        .soc-page-hero-sub { font-size:12px;color:var(--soc-ink3);font-family:'JetBrains Mono',monospace;margin:4px 0 0; }
+        .soc-stat-grid { display:grid;grid-template-columns:repeat(2,1fr);border-top:1px solid var(--soc-line); }
+        .soc-stat-cell { padding:14px 20px;border-right:1px solid var(--soc-line);background:rgba(255,255,255,.01); }
+        .soc-stat-cell:last-child { border-right:none; }
+        .soc-stat-lbl { font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--soc-ink3);letter-spacing:.14em;text-transform:uppercase;display:flex;align-items:center;gap:6px; }
+        .soc-stat-lbl::before { content:"";width:6px;height:6px;border-radius:50%;background:var(--soc-cy); }
+        .soc-stat-cell.am .soc-stat-lbl::before { background:var(--soc-am); }
+        .soc-stat-val { font-size:22px;font-weight:700;letter-spacing:-.01em;margin-top:4px;font-variant-numeric:tabular-nums;color:var(--soc-ink);font-family:'JetBrains Mono',monospace; }
+
+        /* ── Cards ── */
+        .res-card { display:flex;flex-direction:column;background:var(--soc-bg-1);border:1px solid var(--soc-line);border-radius:6px;overflow:hidden;text-decoration:none;color:inherit;transition:border-color .15s,box-shadow .15s; }
+        .res-card:hover { border-color:var(--soc-line2);box-shadow:0 0 0 1px var(--soc-line2),0 8px 32px rgba(0,0,0,.4); }
+        .res-card-cover { aspect-ratio:16/9;overflow:hidden;background:var(--soc-bg-2); }
+        .res-card-cover img { width:100%;height:100%;object-fit:cover;transition:transform .3s; }
+        .res-card:hover .res-card-cover img { transform:scale(1.04); }
+        .res-card-body { padding:16px;display:flex;flex-direction:column;gap:10px;flex:1; }
+        .res-card-meta { display:flex;align-items:center;gap:8px;font-size:11px;color:var(--soc-ink3);font-family:'JetBrains Mono',monospace;flex-wrap:wrap; }
+        .res-card-title { font-size:14px;font-weight:700;color:var(--soc-ink);line-height:1.4;transition:color .15s; }
+        .res-card:hover .res-card-title { color:var(--soc-cy); }
+        .res-card-summary { font-size:12px;color:var(--soc-ink3);line-height:1.6;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden; }
+        .res-card-tags { display:flex;flex-wrap:wrap;gap:6px; }
+        .res-tag { font-size:10px;font-weight:600;padding:2px 8px;border-radius:3px;background:rgba(255,181,71,.1);color:var(--soc-am);border:1px solid rgba(255,181,71,.2);font-family:'JetBrains Mono',monospace;letter-spacing:.04em; }
+        .res-card-cta { display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--soc-cy);margin-top:auto;padding-top:10px;border-top:1px solid var(--soc-line); }
+
+        /* ── Search / filter ── */
+        .soc-search-bar { display:flex;align-items:center;gap:8px;padding:0 12px;border:1px solid var(--soc-line2);border-radius:4px;background:var(--soc-bg-1);height:38px;flex:1; }
+        .soc-search-bar input { background:transparent;border:none;outline:none;color:var(--soc-ink);font-size:13px;width:100%; }
+        .soc-search-bar input::placeholder { color:var(--soc-ink4); }
+        .soc-select { padding:0 12px;height:38px;border:1px solid var(--soc-line2);border-radius:4px;background:var(--soc-bg-1);color:var(--soc-ink2);font-size:13px;outline:none;cursor:pointer;font-family:inherit; }
+
+        /* ── Section label ── */
+        h2.soc-section { font-size:11.5px;font-family:'JetBrains Mono',monospace;font-weight:600;text-transform:uppercase;letter-spacing:.18em;color:var(--soc-ink2);margin:0 0 12px;display:flex;align-items:center;gap:12px; }
+        h2.soc-section::before { content:"";width:4px;height:14px;background:var(--soc-cy);box-shadow:rgba(34,225,255,.7) 0 0 8px;flex-shrink:0; }
+        h2.soc-section .meta { margin-left:auto;color:var(--soc-ink3);font-weight:400;letter-spacing:.06em;font-size:10px; }
+
+        /* ── Footer ── */
+        .soc-ft { margin-top:32px;padding:16px 0;text-align:center;color:var(--soc-ink4);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;border-top:1px solid var(--soc-line); }
+
+        /* ── Scrollbar ── */
+        ::-webkit-scrollbar { width:6px;height:6px; }
+        ::-webkit-scrollbar-track { background:var(--soc-bg); }
+        ::-webkit-scrollbar-thumb { background:var(--soc-line2);border-radius:4px; }
+        * { scrollbar-color:var(--soc-line2) var(--soc-bg); }
+    </style>
 </head>
 <body>
-        <a href="#main-content"
-       class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-white focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg focus:text-blue-600 focus:font-semibold">
-      Skip to content
-    </a>    <noscript>
-      <style>body{font-family:system-ui,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}</style>
-      <div style="text-align:center;padding:2rem">
-        <h1>JavaScript required</h1>
-        <p>This site requires JavaScript to display content. Please enable it in your browser settings.</p>
-        <a href="https://chickenloner.github.io">chickenloner.github.io</a>
-      </div>
-    </noscript><div id="root"></div>
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-white focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg focus:text-blue-600 focus:font-semibold">
+        Skip to content
+    </a>
+    <noscript>
+        <style>body{font-family:system-ui,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}</style>
+        <div style="text-align:center;padding:2rem">
+            <h1>JavaScript required</h1>
+            <p>This site requires JavaScript to display content. Please enable it in your browser settings.</p>
+            <a href="https://chickenloner.github.io">chickenloner.github.io</a>
+        </div>
+    </noscript>
+    <div id="root"></div>
 
     <script type="text/babel">
         const { useState, useEffect, useRef, useMemo } = React;
+
+        const SocClock = () => {
+            const ref = useRef(null);
+            useEffect(() => {
+                const tick = () => {
+                    if (!ref.current) return;
+                    const n = new Date();
+                    ref.current.textContent = n.toISOString().slice(0,10) + ' · ' + n.toISOString().slice(11,19) + 'Z';
+                };
+                tick();
+                const id = setInterval(tick, 1000);
+                return () => clearInterval(id);
+            }, []);
+            return <span ref={ref} className="soc-clock" />;
+        };
 
         const Icon = ({ name, className = "w-6 h-6", ...props }) => {
             const ref = useRef(null);
@@ -102,13 +174,10 @@
         };
 
         const App = () => {
-            const [dark, setDark] = useState(() => localStorage.getItem('darkMode') !== 'false');
             const [articles, setArticles] = useState([]);
-            const [loading, setLoading] = useState(true);
+            const [loading, setLoading]   = useState(true);
             const [activeTag, setActiveTag] = useState(null);
-            const [search, setSearch] = useState('');
-
-            useEffect(() => { localStorage.setItem('darkMode', dark); }, [dark]);
+            const [search, setSearch]     = useState('');
 
             useEffect(() => {
                 fetch('/data/research.json')
@@ -136,122 +205,168 @@
                 return result;
             }, [articles, search, activeTag]);
 
+            const uniqueTags = useMemo(() => allTags.length, [allTags]);
+
             return (
-                <div className={`min-h-screen bg-gray-50 ${dark ? 'dark' : ''}`}>
-                    {/* Navigation */}
-                    <nav aria-label="Site navigation" className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 px-4 py-3">
-                        <div className="max-w-6xl mx-auto flex items-center justify-between">
-                            <div className="flex items-center gap-3">
-                                <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-                                    <img src="/chicken0248.png" alt="Logo" className="w-8 h-8 rounded-lg" />
-                                    <span className="font-bold text-gray-800">Chicken0248</span>
-                                </a>
-                                <span className="text-gray-400">/</span>
-                                <span className="font-semibold text-gray-600">Research</span>
-                            </div>
-                            <button onClick={() => setDark(!dark)}
-                                aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
-                                className="p-2 rounded-lg hover:bg-gray-100 text-gray-600 transition-colors text-lg">
-                                {dark ? '\u2600\uFE0F' : '\uD83C\uDF19'}
-                            </button>
+                <div style={{minHeight:'100vh',background:'var(--soc-bg)'}}>
+                    {/* Top bar */}
+                    <div className="soc-tb">
+                        <div className="soc-tb-row">
+                            <span className="soc-live">UPLINK</span>
+                            <span className="soc-crumb">
+                                SOC <span style={{color:'var(--soc-ink4)',margin:'0 4px'}}>/</span>
+                                <a href="/" style={{color:'var(--soc-ink3)',textDecoration:'none'}}>OPERATOR.PROFILE</a>
+                                <span style={{color:'var(--soc-ink4)',margin:'0 4px'}}>/</span>
+                                <b>RESEARCH</b>
+                            </span>
+                            <span style={{marginLeft:'auto',display:'flex',gap:'8px',alignItems:'center'}}>
+                                <span className="sev cyan"><span className="dot"></span>TLP:CLEAR</span>
+                                <span className="sev amber"><span className="dot"></span>RESEARCH</span>
+                            </span>
+                            <SocClock />
                         </div>
-                    </nav>
+                    </div>
 
-                    <main id="main-content" className="max-w-6xl mx-auto px-4 py-8 space-y-8 animate-fadeIn">
-                        {/* Hero */}
-                        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-indigo-800 to-indigo-900 text-white shadow-xl">
-                            <div className="absolute -top-16 -right-16 w-64 h-64 bg-white/5 rounded-full blur-xl" />
-                            <div className="relative px-8 py-6 md:py-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                                <div>
-                                    <div className="flex items-center gap-3 mb-1">
-                                        <Icon name="ScrollText" className="w-5 h-5 text-indigo-300" />
-                                        <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight">Security Research</h1>
+                    <main id="main-content" style={{maxWidth:'1152px',margin:'0 auto',padding:'28px 22px 48px'}}>
+                        <div className="animate-fadeIn">
+                            {/* Page hero */}
+                            <div className="soc-page-hero">
+                                <div className="soc-page-hero-strap">
+                                    <div className="seg"><b>console</b> <span className="v">portfolio/research</span></div>
+                                    <div className="seg"><b>type</b> <span className="v">security-research</span></div>
+                                    <span style={{marginLeft:'auto'}} className="sev green"><span className="dot"></span>ACTIVE</span>
+                                </div>
+                                <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',flexWrap:'wrap',gap:'16px'}}>
+                                    <div className="soc-page-hero-body">
+                                        <div className="soc-page-hero-icon">
+                                            <Icon name="ScrollText" className="w-6 h-6" style={{color:'var(--soc-cy)'}} />
+                                        </div>
+                                        <div>
+                                            <h1 className="soc-page-hero-title">Security Research</h1>
+                                            <p className="soc-page-hero-sub">digital-forensics · incident-response · red-teaming · lab-building</p>
+                                        </div>
                                     </div>
-                                    <p className="text-indigo-200 text-sm font-medium">Original research on digital forensics, red teaming, and security lab building</p>
+                                    {!loading && (
+                                        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',borderTop:'none',borderLeft:'1px solid var(--soc-line)',paddingLeft:'24px',marginRight:'22px',gap:'16px 32px'}}>
+                                            <div>
+                                                <div className="soc-stat-lbl">Articles</div>
+                                                <div className="soc-stat-val">{articles.length}</div>
+                                            </div>
+                                            <div>
+                                                <div className="soc-stat-lbl am">Topics</div>
+                                                <div className="soc-stat-val">{uniqueTags}</div>
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
-                                <div className="flex-shrink-0 bg-white/15 rounded-xl px-5 py-3 text-center sm:text-left">
-                                    <div className="text-2xl font-bold">{articles.length}</div>
-                                    <div className="text-indigo-200 text-xs">Articles Published</div>
+                            </div>
+
+                            {/* Filters */}
+                            {!loading && (
+                                <div style={{display:'flex',gap:'10px',marginBottom:'20px',flexWrap:'wrap'}}>
+                                    <div className="soc-search-bar">
+                                        <Icon name="Search" className="w-4 h-4" style={{color:'var(--soc-ink4)',flexShrink:0}} />
+                                        <input
+                                            type="text"
+                                            placeholder="Search articles, tags, topics…"
+                                            value={search}
+                                            onChange={e => setSearch(e.target.value)}
+                                            aria-label="Search articles"
+                                        />
+                                    </div>
+                                    {allTags.length > 0 && (
+                                        <select
+                                            value={activeTag || ''}
+                                            onChange={e => setActiveTag(e.target.value || null)}
+                                            className="soc-select"
+                                            aria-label="Filter by tag">
+                                            <option value="">All Tags</option>
+                                            {allTags.map(tag => <option key={tag} value={tag}>{tag}</option>)}
+                                        </select>
+                                    )}
                                 </div>
+                            )}
+
+                            {/* Section label */}
+                            {!loading && articles.length > 0 && (
+                                <h2 className="soc-section">
+                                    Article Index
+                                    <span className="meta">
+                                        <b style={{color:'var(--soc-cy)'}}>{filtered.length}</b> of {articles.length} articles
+                                        {(search || activeTag) && (
+                                            <button onClick={() => { setSearch(''); setActiveTag(null); }}
+                                                style={{marginLeft:'10px',color:'var(--soc-cy)',background:'none',border:'none',cursor:'pointer',font:'inherit',fontSize:'10px'}}>
+                                                clear ×
+                                            </button>
+                                        )}
+                                    </span>
+                                </h2>
+                            )}
+
+                            {/* Loading */}
+                            {loading && (
+                                <div style={{display:'flex',justifyContent:'center',padding:'80px 0'}}>
+                                    <div style={{width:'32px',height:'32px',borderRadius:'50%',border:'3px solid var(--soc-line2)',borderTopColor:'var(--soc-cy)'}} className="animate-spin" />
+                                </div>
+                            )}
+
+                            {/* Cards */}
+                            {!loading && filtered.length > 0 && (
+                                <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(340px,1fr))',gap:'16px'}}>
+                                    {filtered.map(article => (
+                                        <a key={article.slug} href={article.url} className="res-card">
+                                            <div className="res-card-cover">
+                                                <img src={article.cover} alt={article.title} loading="lazy" />
+                                            </div>
+                                            <div className="res-card-body">
+                                                <div className="res-card-meta">
+                                                    <Icon name="Calendar" className="w-3.5 h-3.5" />
+                                                    <span>{new Date(article.date).toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' })}</span>
+                                                    {article.source && (
+                                                        <span className="sev cyan" style={{fontSize:'9px',padding:'1px 6px'}}><span className="dot"></span>{article.source}</span>
+                                                    )}
+                                                </div>
+                                                <div className="res-card-title">{article.title}</div>
+                                                <p className="res-card-summary">{article.summary}</p>
+                                                {article.tags && article.tags.length > 0 && (
+                                                    <div className="res-card-tags">
+                                                        {article.tags.map(tag => (
+                                                            <span key={tag} className="res-tag">{tag}</span>
+                                                        ))}
+                                                    </div>
+                                                )}
+                                                <div className="res-card-cta">
+                                                    <Icon name="BookOpen" className="w-3.5 h-3.5" />
+                                                    <span>Read Article</span>
+                                                    <Icon name="ArrowRight" className="w-3.5 h-3.5" style={{marginLeft:'auto'}} />
+                                                </div>
+                                            </div>
+                                        </a>
+                                    ))}
+                                </div>
+                            )}
+
+                            {/* Empty state */}
+                            {!loading && filtered.length === 0 && (
+                                <div style={{textAlign:'center',padding:'80px 0',color:'var(--soc-ink3)'}}>
+                                    <Icon name="ScrollText" className="w-12 h-12" style={{margin:'0 auto 12px',opacity:.3,display:'block'}} />
+                                    <p style={{fontSize:'15px',fontWeight:600,color:'var(--soc-ink2)',margin:'0 0 6px'}}>
+                                        {articles.length === 0 ? 'No articles published yet.' : 'No articles match your filters.'}
+                                    </p>
+                                    {articles.length > 0 && (
+                                        <button onClick={() => { setSearch(''); setActiveTag(null); }}
+                                            style={{marginTop:'10px',color:'var(--soc-cy)',background:'none',border:'none',cursor:'pointer',fontSize:'13px',fontFamily:'inherit'}}>
+                                            Clear filters
+                                        </button>
+                                    )}
+                                </div>
+                            )}
+
+                            {/* Footer */}
+                            <div className="soc-ft">
+                                SOC · RESEARCH · CHICKEN0248 · <a href="/" style={{color:'var(--soc-ink3)',textDecoration:'none'}}>↩ OPERATOR.PROFILE</a>
                             </div>
                         </div>
-
-                        {/* Search & Tag Filter */}
-                        {!loading && (
-                            <div className="flex flex-col sm:flex-row gap-3">
-                                <div className="flex items-center flex-1 rounded-xl border border-gray-200 bg-white focus-within:ring-2 focus-within:ring-indigo-400 px-3 gap-2">
-                                    <Icon name="Search" className="w-4 h-4 text-gray-400 flex-shrink-0" />
-                                    <input
-                                        type="text"
-                                        placeholder="Search articles..."
-                                        value={search}
-                                        onChange={e => setSearch(e.target.value)}
-                                        className="flex-1 py-2 bg-transparent text-gray-800 text-sm focus:outline-none"
-                                    />
-                                </div>
-                                {allTags.length > 0 && (
-                                    <select
-                                        value={activeTag || ''}
-                                        onChange={e => setActiveTag(e.target.value || null)}
-                                        className="px-3 py-2 rounded-xl border border-gray-200 bg-white text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 cursor-pointer">
-                                        <option value="">All Tags</option>
-                                        {allTags.map(tag => <option key={tag} value={tag}>{tag}</option>)}
-                                    </select>
-                                )}
-                            </div>
-                        )}
-
-                        {/* Loading */}
-                        {loading && (
-                            <div className="flex justify-center py-20">
-                                <div className="w-8 h-8 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin" />
-                            </div>
-                        )}
-
-                        {/* Article Cards */}
-                        {!loading && (
-                            <div className="grid md:grid-cols-2 gap-6">
-                                {filtered.map(article => (
-                                    <a key={article.slug} href={article.url}
-                                       className="group bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg hover:border-blue-300 transition-all duration-200">
-                                        <div className="aspect-video overflow-hidden">
-                                            <img src={article.cover} alt={article.title} loading="lazy"
-                                                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                                        </div>
-                                        <div className="p-5 space-y-3">
-                                            <div className="flex items-center gap-2 text-sm text-gray-500">
-                                                <Icon name="Calendar" className="w-4 h-4" />
-                                                <span>{new Date(article.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
-                                                <span className="mx-1">|</span>
-                                                <span className="bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full text-xs font-semibold">{article.source}</span>
-                                            </div>
-                                            <h2 className="text-lg font-bold text-gray-800 group-hover:text-blue-600 transition-colors">{article.title}</h2>
-                                            <p className="text-gray-600 text-sm line-clamp-3">{article.summary}</p>
-                                            <div className="flex flex-wrap gap-2 pt-1">
-                                                {article.tags.map(tag => (
-                                                    <span key={tag} className="bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full text-xs font-medium">{tag}</span>
-                                                ))}
-                                            </div>
-                                            <div className="flex items-center gap-1 text-blue-600 text-sm font-medium pt-2">
-                                                <span>Read Article</span>
-                                                <Icon name="ArrowRight" className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                                            </div>
-                                        </div>
-                                    </a>
-                                ))}
-                            </div>
-                        )}
-
-                        {/* Empty State */}
-                        {!loading && filtered.length === 0 && (
-                            <div className="text-center py-16 text-gray-500">
-                                <Icon name="ScrollText" className="w-12 h-12 mx-auto mb-3 opacity-40" />
-                                <p className="text-lg font-medium">No articles match your filters.</p>
-                                <button onClick={() => { setSearch(''); setActiveTag(null); }} className="mt-3 text-indigo-600 text-sm font-medium hover:underline">
-                                    Clear filters
-                                </button>
-                            </div>
-                        )}
                     </main>
                 </div>
             );
