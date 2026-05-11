@@ -240,6 +240,7 @@
         .sev.green  { background:rgba(61,220,132,.12); color:var(--soc-gn); border:1px solid rgba(61,220,132,.3); }
         .sev.amber  { background:rgba(255,181,71,.12);  color:var(--soc-am); border:1px solid rgba(255,181,71,.3); }
         .sev.cyan   { background:rgba(34,225,255,.1);   color:var(--soc-cy); border:1px solid rgba(34,225,255,.25); }
+        .sev.red    { background:rgba(255,85,119,.12);  color:var(--soc-rd); border:1px solid rgba(255,85,119,.3); }
         .sev.violet { background:rgba(167,139,250,.1);  color:var(--soc-vi); border:1px solid rgba(167,139,250,.25); }
         .soc-nav { background:rgba(12,19,34,.88);border-bottom:1px solid var(--soc-line);padding:0 16px;display:flex;align-items:flex-end;position:sticky;top:41px;z-index:49;overflow:visible; }
         .soc-nav-inner { display:flex;gap:2px;align-items:flex-end;overflow-x:auto;flex:1; }
@@ -305,7 +306,7 @@
         .soc-rail::before,.soc-rail::after { content:"";position:absolute;top:0;bottom:0;width:60px;z-index:2;pointer-events:none; }
         .soc-rail::before { left:0;background:linear-gradient(90deg,var(--soc-bg-1),transparent); }
         .soc-rail::after  { right:0;background:linear-gradient(270deg,var(--soc-bg-1),transparent); }
-        .soc-rail-track { display:flex;gap:10px;width:max-content;animation:socRail 60s linear infinite; }
+        .soc-rail-track { display:flex;gap:10px;width:max-content;animation:socRail linear infinite; }
         .soc-rail-track:hover { animation-play-state:paused; }
         @keyframes socRail { 100% { transform:translateX(-50%); } }
         .soc-credit { display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center;padding:9px 12px;border:1px solid var(--soc-line2);border-radius:5px;background:var(--soc-bg-2);min-width:175px;text-decoration:none;transition:border-color .15s; }
@@ -590,7 +591,7 @@
                     {certifications.length > 0 && (<>
                         <h2 className="soc-section">Issued Credentials <span className="meta">— verified · {certifications.length} total</span></h2>
                         <div className="soc-rail">
-                            <div className="soc-rail-track">
+                            <div className="soc-rail-track" style={{animationDuration:`${certifications.length * 4}s`}}>
                                 {[...certifications, ...certifications].map((cert, idx) => {
                                     const parts = cert.name.split(' - ');
                                     const shortName = parts.length > 1 ? parts[0].trim() : cert.name.split(' ').slice(0,3).join(' ');
@@ -1094,7 +1095,7 @@
                                             <Icon name={cfg.icon} className="w-4 h-4" style={{color:cfg.accent}} />
                                         </div>
                                         <span style={{flex:1,textAlign:'left',fontWeight:600,color:'var(--soc-ink)',fontSize:'13px'}}>{cat}</span>
-                                        <span style={{fontSize:'10px',fontWeight:700,padding:'2px 8px',borderRadius:'3px',background:'var(--soc-bg)',border:'1px solid var(--soc-line2)',color:cfg.accent,fontFamily:"'JetBrains Mono',monospace"}}>{certs.length}</span>
+                                        <span style={{fontSize:'13px',fontWeight:700,padding:'3px 10px',borderRadius:'3px',background:'var(--soc-bg)',border:'1px solid var(--soc-line2)',color:cfg.accent,fontFamily:"'JetBrains Mono',monospace"}}>{certs.length}</span>
                                         <Icon name={isOpen ? 'ChevronUp' : 'ChevronDown'} className="w-4 h-4" style={{color:'var(--soc-ink3)',marginLeft:'4px'}} />
                                     </button>
 
