@@ -70,6 +70,13 @@
         /* ============================================================
            SOC CONSOLE THEME — Dark mode
            ============================================================ */
+        html, body {
+            background: #070b14;
+            color: #e4ecff;
+            font-family: system-ui, -apple-system, sans-serif;
+            margin: 0;
+        }
+
         :root {
             --soc-bg:    #070b14;
             --soc-bg-1:  #0c1322;
@@ -159,6 +166,7 @@
         .dark .text-blue-700   { color: var(--soc-cy) !important; }
         .dark .text-purple-500 { color: var(--soc-vi) !important; }
         .dark .text-yellow-700 { color: var(--soc-am) !important; }
+        .dark .text-yellow-500 { color: var(--soc-am) !important; }
 
         /* Accent / interactive text — SOC cyan */
         .dark .text-blue-600 { color: var(--soc-cy)  !important; }
@@ -208,11 +216,13 @@
         }
         .dark .focus\:border-blue-500:focus { border-color: var(--soc-cy) !important; }
 
-        /* Scrollbar */
-        .dark ::-webkit-scrollbar       { width: 6px; }
-        .dark ::-webkit-scrollbar-track { background: var(--soc-bg); }
-        .dark ::-webkit-scrollbar-thumb { background: var(--soc-line2); border-radius: 3px; }
-        .dark * { scrollbar-color: var(--soc-line2) var(--soc-bg); }
+        /* Scrollbar — global so the main window scrollbar is also styled */
+        ::-webkit-scrollbar              { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track        { background: var(--soc-bg); }
+        ::-webkit-scrollbar-thumb        { background: var(--soc-line2); border-radius: 3px; transition: background .15s; }
+        ::-webkit-scrollbar-thumb:hover  { background: var(--soc-cy2); }
+        ::-webkit-scrollbar-corner       { background: var(--soc-bg); }
+        * { scrollbar-color: var(--soc-line2) var(--soc-bg); scrollbar-width: thin; }
 
         /* ============================================================
            LIQUID GLASS TAB SWITCHER — Certifications page
