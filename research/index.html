@@ -177,7 +177,7 @@
         const App = () => {
             const [articles, setArticles] = useState([]);
             const [loading, setLoading]   = useState(true);
-            const [activeTag, setActiveTag] = useState(null);
+            const [activeCategory, setActiveCategory] = useState(null);
             const [search, setSearch]     = useState('');
 
             useEffect(() => {
@@ -187,8 +187,8 @@
                     .catch(() => setLoading(false));
             }, []);
 
-            const allTags = useMemo(() =>
-                [...new Set(articles.flatMap(a => a.tags))].sort(),
+            const allCategories = useMemo(() =>
+                [...new Set(articles.map(a => a.category).filter(Boolean))].sort(),
                 [articles]
             );
 
@@ -199,14 +199,15 @@
                     result = result.filter(a =>
                         a.title.toLowerCase().includes(q) ||
                         a.summary.toLowerCase().includes(q) ||
-                        a.tags.some(t => t.toLowerCase().includes(q))
+                        a.tags.some(t => t.toLowerCase().includes(q)) ||
+                        a.category?.toLowerCase().includes(q)
                     );
                 }
-                if (activeTag) result = result.filter(a => a.tags.includes(activeTag));
+                if (activeCategory) result = result.filter(a => a.category === activeCategory);
                 return result;
-            }, [articles, search, activeTag]);
+            }, [articles, search, activeCategory]);
 
-            const uniqueTags = useMemo(() => allTags.length, [allTags]);
+            const uniqueCategories = useMemo(() => allCategories.length, [allCategories]);
 
             return (
                 <div style={{minHeight:'100vh',background:'var(--soc-bg)'}}>
@@ -254,8 +255,8 @@
                                                 <div className="soc-stat-val">{articles.length}</div>
                                             </div>
                                             <div>
-                                                <div className="soc-stat-lbl am">Topics</div>
-                                                <div className="soc-stat-val">{uniqueTags}</div>
+                                                <div className="soc-stat-lbl am">Categories</div>
+                                                <div className="soc-stat-val">{uniqueCategories}</div>
                                             </div>
                                         </div>
                                     )}
@@ -275,14 +276,14 @@
                                             aria-label="Search articles"
                                         />
                                     </div>
-                                    {allTags.length > 0 && (
+                                    {allCategories.length > 0 && (
                                         <select
-                                            value={activeTag || ''}
-                                            onChange={e => setActiveTag(e.target.value || null)}
+                                            value={activeCategory || ''}
+                                            onChange={e => setActiveCategory(e.target.value || null)}
                                             className="soc-select"
-                                            aria-label="Filter by tag">
-                                            <option value="">All Tags</option>
-                                            {allTags.map(tag => <option key={tag} value={tag}>{tag}</option>)}
+                                            aria-label="Filter by category">
+                                            <option value="">All Categories</option>
+                                            {allCategories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
                                         </select>
                                     )}
                                 </div>
@@ -293,9 +294,9 @@
                                 <h2 className="soc-section">
                                     Article Index
                                     <span className="meta">
-                                        <b style={{color:'var(--soc-cy)'}}>{filtered.length}</b> of {articles.length} articles
-                                        {(search || activeTag) && (
-                                            <button onClick={() => { setSearch(''); setActiveTag(null); }}
+                                        <b>{filtered.length}</b> of {articles.length} articles
+                                        {(search || activeCategory) && (
+                                            <button onClick={() => { setSearch(''); setActiveCategory(null); }}
                                                 style={{marginLeft:'10px',color:'var(--soc-cy)',background:'none',border:'none',cursor:'pointer',font:'inherit',fontSize:'10px'}}>
                                                 clear ×
                                             </button>
@@ -323,8 +324,8 @@
                                                 <div className="res-card-meta">
                                                     <Icon name="Calendar" className="w-3.5 h-3.5" />
                                                     <span>{new Date(article.date).toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' })}</span>
-                                                    {article.source && (
-                                                        <span className="sev cyan" style={{fontSize:'9px',padding:'1px 6px'}}><span className="dot"></span>{article.source}</span>
+                                                    {article.category && (
+                                                        <span className="sev cyan" style={{fontSize:'9px',padding:'1px 6px'}}><span className="dot"></span>{article.category}</span>
                                                     )}
                                                 </div>
                                                 <div className="res-card-title">{article.title}</div>
@@ -355,7 +356,7 @@
                                         {articles.length === 0 ? 'No articles published yet.' : 'No articles match your filters.'}
                                     </p>
                                     {articles.length > 0 && (
-                                        <button onClick={() => { setSearch(''); setActiveTag(null); }}
+                                        <button onClick={() => { setSearch(''); setActiveCategory(null); }}
                                             style={{marginTop:'10px',color:'var(--soc-cy)',background:'none',border:'none',cursor:'pointer',fontSize:'13px',fontFamily:'inherit'}}>
                                             Clear filters
                                         </button>
