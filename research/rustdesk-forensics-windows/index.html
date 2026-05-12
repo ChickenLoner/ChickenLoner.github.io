@@ -85,10 +85,18 @@
             </div>
         );
 
+        const dedent = (s) => {
+            const lines = String(s).split('\n');
+            const filled = lines.filter(l => l.trim().length > 0);
+            if (!filled.length) return s;
+            const min = Math.min(...filled.map(l => l.match(/^[ \t]*/)[0].length));
+            return lines.map(l => l.slice(min)).join('\n').replace(/^[\n\r]+|[\n\r]+$/g, '');
+        };
+
         const CodeBlock = ({ language, children }) => (
             <div className="res-code-wrap">
                 <div className="res-code-lang">{language}</div>
-                <div className="res-code-body"><code>{children}</code></div>
+                <div className="res-code-body"><code>{dedent(children)}</code></div>
             </div>
         );
 
