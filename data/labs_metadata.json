@@ -82,7 +82,7 @@
   "LFI Escalation": {
     "rating": 4.7,
     "player_difficulty": "hard",
-    "is_retired": false,
+    "is_retired": true,
     "tactics": [
       "Initial Access",
       "Execution",
@@ -155,6 +155,21 @@
       "Privilege Escalation",
       "Defense Evasion",
       "Credential Access"
+    ],
+    "categories": [
+      "Endpoint Forensics"
+    ]
+  },
+  "CodeFreeze": {
+    "rating": 5.0,
+    "player_difficulty": "medium",
+    "is_retired": false,
+    "tactics": [
+      "Initial Access",
+      "Execution",
+      "Persistence",
+      "Privilege Escalation",
+      "Defense Evasion"
     ],
     "categories": [
       "Endpoint Forensics"
