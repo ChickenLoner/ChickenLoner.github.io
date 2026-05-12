@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -18,99 +18,11 @@
     <meta name="twitter:image" content="https://chickenloner.github.io/reviews/ccse/cover.jpg" />
     <link rel="canonical" href="https://chickenloner.github.io/reviews/ccse/" />
     <link rel="icon" href="/chicken0248.png" type="image/png">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        @keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-        @keyframes socbp{50%{opacity:.3}}
-        .animate-fadeIn{animation:fadeIn 0.45s ease-out}
-        body{background:var(--soc-bg);color:var(--soc-ink);font-family:system-ui,-apple-system,sans-serif;margin:0}
-        /* Top bar */
-        .soc-tb{position:sticky;top:0;z-index:50;background:rgba(7,11,20,.94);backdrop-filter:blur(10px) saturate(140%);-webkit-backdrop-filter:blur(10px) saturate(140%);border-bottom:1px solid var(--soc-line)}
-        .soc-tb-row{display:flex;align-items:center;gap:14px;padding:9px 22px;font-size:12px;flex-wrap:wrap}
-        .soc-live{display:inline-flex;align-items:center;gap:6px;color:var(--soc-gn);font-weight:600;letter-spacing:.06em;font-family:'JetBrains Mono',monospace}
-        .soc-live::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--soc-gn);box-shadow:0 0 8px var(--soc-gn);animation:socbp 1.6s ease infinite}
-        .soc-crumb{color:var(--soc-ink3);display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:11px}
-        .soc-crumb b{color:var(--soc-ink);font-weight:600}
-        .soc-clock{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--soc-ink3)}
-        /* Badges */
-        .sev{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;font-weight:700;text-transform:uppercase;white-space:nowrap}
-        .sev .dot{width:6px;height:6px;border-radius:50%;background:currentcolor;flex-shrink:0}
-        .sev.green {background:rgba(61,220,132,.12);color:var(--soc-gn);border:1px solid rgba(61,220,132,.3)}
-        .sev.red   {background:rgba(255,85,119,.12);color:var(--soc-rd);border:1px solid rgba(255,85,119,.3)}
-        .sev.cyan  {background:rgba(34,225,255,.1);color:var(--soc-cy);border:1px solid rgba(34,225,255,.25)}
-        .sev.amber {background:rgba(255,181,71,.12);color:var(--soc-am);border:1px solid rgba(255,181,71,.3)}
-        .sev.violet{background:rgba(167,139,250,.1);color:var(--soc-vi);border:1px solid rgba(167,139,250,.25)}
-        /* Cover */
-        .res-cover{position:relative;border-radius:6px;overflow:hidden;border:1px solid var(--soc-line);margin-bottom:20px}
-        .res-cover img{width:100%;max-height:340px;object-fit:cover;display:block}
-        .res-cover-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(7,11,20,.92) 0%,rgba(7,11,20,.35) 55%,transparent 100%)}
-        .res-cover-content{position:absolute;bottom:0;left:0;right:0;padding:24px}
-        .res-cover-title{font-size:22px;font-weight:800;color:var(--soc-ink);letter-spacing:-.01em;margin:0 0 12px;line-height:1.3}
-        .res-cover-badges{display:flex;flex-wrap:wrap;gap:8px}
-        /* Meta grid */
-        .res-meta-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;background:var(--soc-bg-1);border:1px solid var(--soc-line);border-radius:6px;padding:16px 18px;margin-bottom:20px}
-        .res-meta-lbl{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--soc-ink3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:3px}
-        .res-meta-val{font-size:13px;font-weight:600;color:var(--soc-ink)}
-        /* TOC */
-        .res-toc{background:var(--soc-bg-1);border:1px solid var(--soc-line);border-radius:6px;padding:16px 18px;margin-bottom:24px}
-        .res-toc-title{font-size:12px;font-weight:600;color:var(--soc-ink2);font-family:'JetBrains Mono',monospace;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px}
-        .res-toc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2px}
-        .res-toc-item{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:4px;color:var(--soc-ink3);font-size:12px;text-decoration:none;transition:.15s}
-        .res-toc-item:hover{background:rgba(34,225,255,.05);color:var(--soc-cy)}
-        .res-toc-num{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--soc-ink4);width:20px;flex-shrink:0}
-        /* Sections */
-        .res-section{scroll-margin-top:60px;margin-bottom:32px}
-        .res-section-title{display:flex;align-items:center;gap:10px;font-size:17px;font-weight:700;color:var(--soc-ink);padding-bottom:12px;margin-bottom:18px;border-bottom:1px solid var(--soc-line)}
-        .res-section-icon{width:32px;height:32px;border-radius:6px;display:grid;place-items:center;background:rgba(34,225,255,.1);border:1px solid rgba(34,225,255,.25);flex-shrink:0}
-        /* Footer */
-        .soc-ft{margin-top:32px;padding:16px 0;text-align:center;color:var(--soc-ink4);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;border-top:1px solid var(--soc-line)}
-        /* Scrollbar */
-        ::-webkit-scrollbar{width:6px;height:6px}
-        ::-webkit-scrollbar-track{background:var(--soc-bg)}
-        ::-webkit-scrollbar-thumb{background:var(--soc-line2);border-radius:4px}
-        *{scrollbar-color:var(--soc-line2) var(--soc-bg)}
-        /* Global text */
-        strong{color:var(--soc-ink)}
-        p{font-size:13px;color:var(--soc-ink2);line-height:1.75;margin:0 0 10px}
-        a{color:var(--soc-cy)}
-        a:hover{text-decoration:underline}
-        /* Figure */
-        figure{margin:14px 0}
-        figure img{border:1px solid var(--soc-line);border-radius:5px;max-width:100%;display:block;background:var(--soc-bg-2);margin:0 auto}
-        figcaption{text-align:center;font-size:11px;color:var(--soc-ink3);margin-top:6px;font-style:italic}
-        /* Inline code */
-        code{font-family:'JetBrains Mono',monospace;font-size:11px;background:rgba(34,225,255,.06);color:var(--soc-cy);padding:1px 6px;border-radius:3px;border:1px solid rgba(34,225,255,.15)}
-        /* Tailwind overrides for content sections */
-        .bg-white,.bg-white\/80{background:var(--soc-bg-1) !important}
-        .bg-gray-50{background:var(--soc-bg) !important}
-        .bg-gray-100{background:var(--soc-bg-2) !important}
-        .border-gray-100,.border-gray-200{border-color:var(--soc-line) !important}
-        .text-gray-800{color:var(--soc-ink) !important}
-        .text-gray-700{color:var(--soc-ink2) !important}
-        .text-gray-600{color:var(--soc-ink3) !important}
-        .text-gray-500{color:var(--soc-ink4) !important}
-        .text-gray-400{color:var(--soc-ink4) !important}
-        .text-blue-600{color:var(--soc-cy) !important}
-        .text-amber-600,.text-amber-700,.text-yellow-500{color:var(--soc-am) !important}
-        .text-orange-600,.text-orange-700{color:var(--soc-am) !important}
-        .text-green-600,.text-green-700,.text-green-800{color:var(--soc-gn) !important}
-        .text-red-600{color:var(--soc-rd) !important}
-        .bg-amber-50,.bg-orange-50{background:rgba(255,181,71,.06) !important}
-        .border-amber-200,.border-amber-400,.border-orange-200,.border-orange-400{border-color:rgba(255,181,71,.3) !important}
-        .bg-blue-50,.bg-indigo-50{background:rgba(34,225,255,.05) !important}
-        .border-blue-200,.border-blue-400{border-color:rgba(34,225,255,.2) !important}
-        .bg-green-50,.bg-green-100{background:rgba(61,220,132,.05) !important}
-        .border-green-200,.border-green-400{border-color:rgba(61,220,132,.2) !important}
-        .shadow-sm{box-shadow:none !important}
-        .hover\:bg-gray-50:hover{background:var(--soc-bg-2) !important}
-        ul{list-style-type:disc;padding-left:20px;margin:8px 0}
-        ol{list-style-type:decimal;padding-left:20px;margin:8px 0}
-        li{font-size:13px;color:var(--soc-ink2);line-height:1.7;margin-bottom:4px}
-    </style>
+    <script src="https://unpkg.com/@babel/standalone@7.29.2/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@1.14.0/dist/umd/lucide.min.js"></script>
     <link rel="stylesheet" href="/themes/soc.css">
     <script src="/themes/soc-nav.js"></script>
 </head>
@@ -219,7 +131,7 @@
                 fetch('/data/reviews.json')
                     .then(r => r.json())
                     .then(data => {
-                        const entry = data.find(r => r.url === '/reviews/ccse/index.html');
+                        const entry = data.find(r => r.url.includes('/' + window.location.pathname.split('/').filter(p => p && p !== 'index.html').pop() + '/'));
                         if (entry) setMeta(entry);
                     })
                     .catch(() => {});
