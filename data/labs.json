@@ -254,7 +254,7 @@
     "link": "https://medium.com/@chaoskist/using-git-commits-as-a-persistence-mechanism-c44a0ee22068",
     "tags": ["Red Teaming", "Persistence", "git"],
     "type": "project",
-    "image": "./assets/labs/gitcommit.png"
+    "image": "./assets/research/git-commits-persistence/cover.png"
   },
   {
     "title": "RMM Forensics Cheat Sheet",
