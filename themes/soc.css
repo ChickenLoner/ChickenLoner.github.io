@@ -205,7 +205,7 @@ textarea::placeholder    { color: var(--soc-ink3) !important; }
 .res-meta-link:hover { text-decoration: underline; }
 
 /* ── TOC (reviews & research) ─────────────────────────────── */
-.res-toc { background:var(--soc-bg-1);border:1px solid var(--soc-line);border-radius:6px;padding:16px 18px; }
+.res-toc { background:var(--soc-bg-1);border:1px solid var(--soc-line);border-radius:6px;padding:16px 18px;margin-top:20px;margin-bottom:24px; }
 .res-toc-title { font-size:12px;font-weight:600;color:var(--soc-ink2);font-family:'JetBrains Mono',monospace;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px; }
 .res-toc-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2px; }
 .res-toc-item { display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:4px;color:var(--soc-ink3);font-size:12px;text-decoration:none;transition:.15s; }
