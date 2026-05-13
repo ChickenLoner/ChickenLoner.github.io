@@ -42,36 +42,9 @@
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
 
-        const { SocClock, Icon } = window.SocComponents;
+        const { SocClock, Icon, Section, Fig, resetFigCount, TipList, B, A, Code } = window.SocComponents;
 
         /* ── Reusable Components ── */
-
-        const Section = ({ id, title, icon, children }) => (
-            <section id={id} className="res-section">
-                <div className="res-section-title">
-                    <div className="res-section-icon">
-                        <Icon name={icon} className="w-4 h-4" style={{color:'var(--soc-cy)'}} />
-                    </div>
-                    {title}
-                </div>
-                <div style={{display:'flex',flexDirection:'column',gap:'14px'}}>{children}</div>
-            </section>
-        );
-
-        let figCount = 0;
-        const resetFigCount = () => { figCount = 0; };
-
-        const Fig = ({ src, alt }) => {
-            figCount += 1;
-            const n = figCount;
-            return (
-                <figure className="my-5">
-                    <img src={src} alt={alt || `Figure ${n}`}
-                         className="rounded-xl border border-gray-200 shadow-sm max-w-full mx-auto block" loading="lazy" />
-                    <figcaption className="text-center text-xs text-gray-400 mt-1.5 font-mono">Figure {n}</figcaption>
-                </figure>
-            );
-        };
 
         const Callout = ({ children }) => (
             <blockquote className="bg-orange-50 border-l-4 border-orange-400 rounded-r-xl px-5 py-4 my-4 text-gray-700 italic text-sm leading-relaxed">
@@ -79,25 +52,10 @@
             </blockquote>
         );
 
-        const TipList = ({ items }) => (
-            <ul className="list-disc list-outside ml-5 space-y-2 text-gray-700">
-                {items.map((item, i) => <li key={i}>{item}</li>)}
-            </ul>
-        );
-
         const NumberedList = ({ items }) => (
             <ol className="list-decimal list-outside ml-5 space-y-2 text-gray-700">
                 {items.map((item, i) => <li key={i}>{item}</li>)}
             </ol>
-        );
-
-        const B = ({ children }) => <strong className="text-gray-800">{children}</strong>;
-        const A = ({ href, children }) => (
-            <a href={href} target="_blank" rel="noopener noreferrer"
-               className="text-blue-600 hover:underline">{children}</a>
-        );
-        const Code = ({ children }) => (
-            <code className="bg-gray-100 px-1.5 py-0.5 rounded text-sm font-mono">{children}</code>
         );
 
         const ScoringTable = ({ title, rows, total }) => (
