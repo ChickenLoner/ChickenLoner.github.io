@@ -64,8 +64,11 @@
             const lines = String(s).split('\n');
             const filled = lines.filter(l => l.trim().length > 0);
             if (!filled.length) return s;
-            const min = Math.min(...filled.map(l => l.match(/^[ \t]*/)[0].length));
-            return lines.map(l => l.slice(min)).join('\n').replace(/^[\n\r]+|[\n\r]+$/g, '');
+            const firstIsUnindented = lines[0].trim().length > 0 && lines[0].match(/^[ \t]*/)[0].length === 0 && filled.length > 1;
+            const forMin = firstIsUnindented ? filled.slice(1) : filled;
+            const min = Math.min(...forMin.map(l => l.match(/^[ \t]*/)[0].length));
+            return lines.map((l, i) => (i === 0 && firstIsUnindented) ? l : l.slice(min))
+                .join('\n').replace(/^[\n\r]+|[\n\r]+$/g, '');
         };
 
         const CodeBlock = ({ language, children }) => (
