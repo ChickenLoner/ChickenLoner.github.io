@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Architecture — ChickenLoner</title>
+    <meta name="description" content="Site architecture reference for ChickenLoner.github.io — directory structure, page patterns, design system, JSON schemas, and conventions." />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Chicken0248" />
+    <meta property="og:url" content="https://chickenloner.github.io/architecture.html" />
+    <meta property="og:title" content="Architecture — ChickenLoner" />
+    <meta property="og:description" content="Site architecture reference: directory structure, page patterns, design system, JSON schemas, and conventions." />
+    <meta property="og:image" content="https://chickenloner.github.io/chicken0248.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@Chicken_0248" />
+    <meta name="twitter:title" content="Architecture — ChickenLoner" />
+    <meta name="twitter:description" content="Site architecture reference: directory structure, page patterns, design system, JSON schemas, and conventions." />
+    <meta name="twitter:image" content="https://chickenloner.github.io/chicken0248.png" />
+    <link rel="icon" href="/chicken0248.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/themes/soc.css">
+    <style>
+        :root {
+            --soc-bg:    #070b14;
+            --soc-bg-1:  #0c1322;
+            --soc-bg-2:  #121a2e;
+            --soc-line:  #1c2740;
+            --soc-line2: #2a3a5c;
+            --soc-ink:   #e4ecff;
+            --soc-ink2:  #a9b6d3;
+            --soc-ink3:  #6c7a9c;
+            --soc-ink4:  #475070;
+            --soc-cy:    #22e1ff;
+            --soc-cy2:   #06b8d9;
+            --soc-am:    #ffb547;
+            --soc-gn:    #3ddc84;
+            --soc-rd:    #ff5577;
+            --soc-vi:    #a78bfa;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            background: var(--soc-bg);
+            color: var(--soc-ink);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        /* Topbar */
+        .tb {
+            position: sticky; top: 0; z-index: 50;
+            background: rgba(7,11,20,0.92);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--soc-line);
+            padding: 0 20px;
+        }
+        .tb-row {
+            display: flex; align-items: center; gap: 10px;
+            height: 44px; max-width: 1200px; margin: 0 auto;
+        }
+        .tb-live {
+            width: 7px; height: 7px; border-radius: 50%;
+            background: var(--soc-gn);
+            box-shadow: 0 0 6px var(--soc-gn);
+            animation: pulse 2s infinite;
+            flex-shrink: 0;
+        }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+        .tb-sep { color: var(--soc-line2); font-size: 11px; }
+        .tb-crumb { font-size: 11px; color: var(--soc-ink3); letter-spacing: .05em; }
+        .tb-crumb a { color: var(--soc-ink3); text-decoration: none; }
+        .tb-crumb a:hover { color: var(--soc-cy); }
+        .tb-crumb .cur { color: var(--soc-ink); font-weight: 600; }
+        .tb-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+
+        /* Badge */
+        .sev {
+            font-size: 10px; font-weight: 700; letter-spacing: .08em;
+            padding: 2px 7px; border-radius: 3px; white-space: nowrap;
+        }
+        .sev.cyan   { background: rgba(34,225,255,.12); color: var(--soc-cy);  border: 1px solid rgba(34,225,255,.25); }
+        .sev.violet { background: rgba(167,139,250,.12); color: var(--soc-vi); border: 1px solid rgba(167,139,250,.25); }
+        .sev.amber  { background: rgba(255,181,71,.12);  color: var(--soc-am); border: 1px solid rgba(255,181,71,.25); }
+        .sev.green  { background: rgba(61,220,132,.12);  color: var(--soc-gn); border: 1px solid rgba(61,220,132,.25); }
+
+        /* Layout */
+        .layout {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            gap: 32px;
+        }
+
+        /* Sidebar TOC */
+        .toc {
+            width: 220px;
+            flex-shrink: 0;
+            position: sticky;
+            top: 60px;
+            align-self: flex-start;
+            max-height: calc(100vh - 80px);
+            overflow-y: auto;
+            padding: 24px 0;
+        }
+        .toc-head {
+            font-size: 10px; font-weight: 700; letter-spacing: .12em;
+            color: var(--soc-ink3); margin-bottom: 12px; padding-bottom: 8px;
+            border-bottom: 1px solid var(--soc-line);
+        }
+        .toc-item {
+            display: block; padding: 4px 8px; margin: 1px 0;
+            color: var(--soc-ink3); text-decoration: none;
+            font-size: 11px; border-radius: 4px;
+            border-left: 2px solid transparent;
+            transition: all .15s;
+        }
+        .toc-item:hover { color: var(--soc-cy); border-left-color: var(--soc-cy); background: rgba(34,225,255,.05); }
+        .toc-item.sub { padding-left: 18px; font-size: 10.5px; }
+
+        /* Content */
+        .content { flex: 1; min-width: 0; padding: 32px 0 80px; }
+
+        /* Page header */
+        .page-header { margin-bottom: 36px; padding-bottom: 24px; border-bottom: 1px solid var(--soc-line); }
+        .page-title { font-size: 24px; font-weight: 700; color: var(--soc-ink); margin-bottom: 8px; }
+        .page-sub { color: var(--soc-ink3); font-size: 12px; }
+
+        /* Section */
+        .sec { margin-bottom: 48px; }
+        .sec-title {
+            display: flex; align-items: center; gap: 10px;
+            font-size: 14px; font-weight: 700; color: var(--soc-ink);
+            margin-bottom: 16px; padding-bottom: 10px;
+            border-bottom: 1px solid var(--soc-line);
+        }
+        .sec-icon {
+            width: 26px; height: 26px; border-radius: 5px;
+            background: rgba(34,225,255,.1); border: 1px solid rgba(34,225,255,.2);
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .sec-icon svg { width: 13px; height: 13px; stroke: var(--soc-cy); stroke-width: 2; fill: none; }
+
+        .subsec { margin-bottom: 24px; }
+        .subsec-title {
+            font-size: 12px; font-weight: 700; color: var(--soc-cy);
+            margin-bottom: 10px; padding-left: 10px;
+            border-left: 2px solid var(--soc-cy);
+        }
+
+        /* Prose */
+        p { color: var(--soc-ink2); font-size: 12.5px; margin-bottom: 10px; line-height: 1.75; }
+        p:last-child { margin-bottom: 0; }
+        strong { color: var(--soc-ink); font-weight: 600; }
+        a { color: var(--soc-cy); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        ul, ol { color: var(--soc-ink2); font-size: 12.5px; padding-left: 20px; margin-bottom: 10px; }
+        li { margin-bottom: 4px; }
+        code {
+            background: var(--soc-bg-2); border: 1px solid var(--soc-line2);
+            color: var(--soc-cy); padding: 1px 5px; border-radius: 3px;
+            font-family: 'JetBrains Mono', monospace; font-size: 11.5px;
+        }
+
+        /* Code block */
+        .code-block { margin: 14px 0; border-radius: 7px; overflow: hidden; border: 1px solid var(--soc-line2); }
+        .code-lang {
+            background: var(--soc-bg-2); padding: 5px 12px;
+            font-size: 10px; font-weight: 700; color: var(--soc-ink3); letter-spacing: .08em;
+            border-bottom: 1px solid var(--soc-line);
+        }
+        .code-body {
+            background: var(--soc-bg-1); padding: 14px 16px; overflow-x: auto;
+        }
+        .code-body pre {
+            color: var(--soc-ink2); font-size: 12px; line-height: 1.6;
+            white-space: pre; font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Table */
+        .tbl-wrap { overflow-x: auto; margin: 14px 0; border-radius: 7px; border: 1px solid var(--soc-line2); }
+        table { width: 100%; border-collapse: collapse; }
+        th {
+            background: var(--soc-bg-2); color: var(--soc-ink3);
+            font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+            padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--soc-line2);
+        }
+        td {
+            padding: 7px 12px; color: var(--soc-ink2); font-size: 12px;
+            border-bottom: 1px solid var(--soc-line);
+        }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: rgba(255,255,255,.02); }
+
+        /* Callout */
+        .callout {
+            border-radius: 6px; padding: 12px 14px; margin: 14px 0;
+            border-left: 3px solid;
+        }
+        .callout.info  { background: rgba(34,225,255,.06);  border-color: var(--soc-cy);  color: var(--soc-cy2); }
+        .callout.warn  { background: rgba(255,181,71,.06);  border-color: var(--soc-am);  color: var(--soc-am); }
+        .callout p { color: inherit; margin: 0; font-size: 12px; }
+
+        /* Tree */
+        .tree {
+            background: var(--soc-bg-1); border: 1px solid var(--soc-line2);
+            border-radius: 7px; padding: 14px 16px; overflow-x: auto;
+        }
+        .tree pre {
+            color: var(--soc-ink2); font-size: 12px; line-height: 1.7;
+            font-family: 'JetBrains Mono', monospace; white-space: pre;
+        }
+        .tree .dir  { color: var(--soc-cy); }
+        .tree .note { color: var(--soc-ink4); }
+
+        /* Color swatches */
+        .swatches { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+        .swatch {
+            display: flex; align-items: center; gap: 8px;
+            background: var(--soc-bg-1); border: 1px solid var(--soc-line2);
+            border-radius: 5px; padding: 6px 10px; font-size: 11px;
+        }
+        .swatch-dot { width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0; }
+        .swatch-name { color: var(--soc-cy); }
+        .swatch-hex  { color: var(--soc-ink3); }
+
+        /* Export chip */
+        .chip-grid { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
+        .chip {
+            background: var(--soc-bg-2); border: 1px solid var(--soc-line2);
+            color: var(--soc-ink2); font-size: 11px; padding: 3px 9px; border-radius: 4px;
+        }
+        .chip code { background: none; border: none; color: var(--soc-cy); padding: 0; font-size: 11px; }
+
+        /* Footer */
+        .ft {
+            border-top: 1px solid var(--soc-line); padding: 20px;
+            text-align: center; color: var(--soc-ink4); font-size: 11px;
+        }
+        .ft a { color: var(--soc-ink3); text-decoration: none; }
+        .ft a:hover { color: var(--soc-cy); }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .toc { display: none; }
+            .layout { padding: 0 14px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Topbar -->
+<nav class="tb">
+    <div class="tb-row">
+        <div class="tb-live"></div>
+        <span class="tb-sep">•</span>
+        <span class="tb-crumb">
+            <a href="/">SOC</a> / <a href="/">OPERATOR.PROFILE</a> / <span class="cur">ARCHITECTURE</span>
+        </span>
+        <div class="tb-right">
+            <span class="sev cyan">TLP:CLEAR</span>
+            <span class="sev violet">DEV.REF</span>
+        </div>
+    </div>
+</nav>
+
+<div class="layout">
+
+    <!-- Sidebar -->
+    <aside class="toc">
+        <div class="toc-head">// CONTENTS</div>
+        <a href="#overview"      class="toc-item">Overview</a>
+        <a href="#directory"     class="toc-item">Directory Structure</a>
+        <a href="#pages"         class="toc-item">Page Architecture</a>
+        <a href="#design-system" class="toc-item">Design System</a>
+        <a href="#colors"        class="toc-item sub">Colors</a>
+        <a href="#css-classes"   class="toc-item sub">CSS Classes</a>
+        <a href="#components"    class="toc-item">React Components</a>
+        <a href="#shared-comps"  class="toc-item sub">Shared (soc-components.js)</a>
+        <a href="#inline-comps"  class="toc-item sub">Inline Per Page</a>
+        <a href="#data-loading"  class="toc-item sub">Data Loading</a>
+        <a href="#schemas"       class="toc-item">JSON Schemas</a>
+        <a href="#routing"       class="toc-item">Routing</a>
+        <a href="#shared-js"     class="toc-item">Shared JS</a>
+        <a href="#soc-components-js" class="toc-item sub">soc-components.js</a>
+        <a href="#soc-nav-js"    class="toc-item sub">soc-nav.js</a>
+        <a href="#soc-css"       class="toc-item sub">soc.css</a>
+        <a href="#scripts"       class="toc-item">Python Scripts</a>
+        <a href="#cicd"          class="toc-item">CI/CD</a>
+        <a href="#adding"        class="toc-item">Adding Content</a>
+        <a href="#dependencies"  class="toc-item">Dependencies</a>
+        <a href="#conventions"   class="toc-item">Conventions</a>
+    </aside>
+
+    <!-- Main content -->
+    <main class="content">
+
+        <div class="page-header">
+            <div class="page-title">Site Architecture</div>
+            <div class="page-sub">ChickenLoner.github.io — static portfolio, cybersecurity focus: DFIR, SOC, Blue Team. React SPAs embedded in every HTML page via Babel standalone. SOC Console dark theme throughout.</div>
+        </div>
+
+        <!-- Overview -->
+        <section class="sec" id="overview">
+            <div class="sec-title">
+                <div class="sec-icon">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                </div>
+                Overview
+            </div>
+            <div class="tbl-wrap">
+                <table>
+                    <thead><tr><th>Attribute</th><th>Value</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Hosting</strong></td><td>GitHub Pages — <code>chickenloner.github.io</code></td></tr>
+                        <tr><td><strong>Rendering</strong></td><td>React 18 via Babel Standalone (no build step, JSX transpiled in-browser)</td></tr>
+                        <tr><td><strong>Routing</strong></td><td>Filesystem — no router library</td></tr>
+                        <tr><td><strong>Styling</strong></td><td>Custom <code>soc.css</code> + inline <code>:root</code> per page. Tailwind CDN on hub pages only.</td></tr>
+                        <tr><td><strong>Data</strong></td><td>JSON files under <code>/data/</code> fetched at runtime</td></tr>
+                        <tr><td><strong>Backend</strong></td><td>None — fully static</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Directory -->
+        <section class="sec" id="directory">
+            <div class="sec-title">
+                <div class="sec-icon">
+                    <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                </div>
+                Directory Structure
+            </div>
+            <div class="tree"><pre>
+<span class="dir">/</span>
+├── index.html                        <span class="note"># Main portfolio (React SPA)</span>
+├── architecture.html                 <span class="note"># This file</span>
+├── <span class="dir">reviews/</span>
+│   ├── index.html                    <span class="note"># Reviews hub</span>
+│   └── <span class="dir">[slug]/</span>index.html             <span class="note"># 19 cert review pages</span>
+├── <span class="dir">research/</span>
+│   ├── index.html                    <span class="note"># Research hub</span>
+│   └── <span class="dir">[slug]/</span>index.html             <span class="note"># 6 research articles</span>
+├── <span class="dir">ir-reports/</span>
+│   ├── index.html                    <span class="note"># IR hub</span>
+│   └── <span class="dir">[slug]/</span>index.html             <span class="note"># 2 IR report pages</span>
+├── cloud-labs/index.html             <span class="note"># Cloud security labs hub</span>
+├── siem-labs/index.html              <span class="note"># SIEM labs hub</span>
+├── <span class="dir">data/</span>                             <span class="note"># JSON — single source of truth</span>
+│   ├── certifications.json
+│   ├── reviews.json
+│   ├── research.json
+│   ├── ir-reports.json
+│   ├── labs.json
+│   ├── labs_metadata.json            <span class="note"># Auto-updated by GitHub Actions daily</span>
+│   ├── achievements.json
+│   ├── skills.json
+│   └── social.json
+├── <span class="dir">assets/</span>
+│   ├── <span class="dir">badges/</span>                       <span class="note"># Cert badge PNGs</span>
+│   ├── <span class="dir">certificates/</span>                 <span class="note"># Cert screenshot JPGs</span>
+│   ├── <span class="dir">labs/</span>                         <span class="note"># Lab cover images</span>
+│   ├── <span class="dir">reports/[slug]/</span>               <span class="note"># IR report figures</span>
+│   ├── <span class="dir">research/[slug]/</span>              <span class="note"># Research figures (cover.png + img-NN)</span>
+│   └── <span class="dir">achievements/</span>                 <span class="note"># Talk/CTF images</span>
+├── <span class="dir">themes/</span>
+│   ├── soc.css                       <span class="note"># CSS variables + Tailwind utility overrides</span>
+│   ├── soc-nav.js                    <span class="note"># Page transition overlay</span>
+│   └── soc-components.js             <span class="note"># Shared React components (no JSX)</span>
+├── <span class="dir">scripts/</span>
+│   └── update_lab_data.py            <span class="note"># Fetches lab metadata from platform APIs</span>
+├── _soc_reviews_full.py              <span class="note"># Batch: apply SOC theme to all review pages</span>
+├── _soc_research_articles.py         <span class="note"># Batch: apply SOC theme to all research pages</span>
+├── <span class="dir">.github/workflows/</span>
+│   ├── static.yml                    <span class="note"># Deploy to GitHub Pages on push to main</span>
+│   └── update_lab_data.yml           <span class="note"># Daily: refresh labs_metadata.json</span>
+├── <span class="dir">.claude/skills/</span>                   <span class="note"># Claude Code skill definitions</span>
+│   ├── add-cert/
+│   ├── create-review/
+│   ├── new-ir-report/
+│   └── new-research/
+└── chicken0248.png                   <span class="note"># Favicon + avatar</span>
+</pre></div>
+        </section>
+
+        <!-- Page Architecture -->
+        <section class="sec" id="pages">
+            <div class="sec-title">
+                <div class="sec-icon">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+                </div>
+                Page Architecture
+            </div>
+
+            <div class="tbl-wrap">
+                <table>
+                    <thead><tr><th>Type</th><th>Count</th><th>Location</th><th>Data Source</th></tr></thead>
+                    <tbody>
+                        <tr><td>Main portfolio</td><td>1</td><td><code>/index.html</code></td><td>All 9 JSON files</td></tr>
+                        <tr><td>Section hubs</td><td>5</td><td><code>/reviews/</code>, <code>/research/</code>, <code>/ir-reports/</code>, <code>/cloud-labs/</code>, <code>/siem-labs/</code></td><td>Respective JSON</td></tr>
+                        <tr><td>Cert review detail</td><td>19</td><td><code>/reviews/[slug]/</code></td><td><code>/data/reviews.json</code></td></tr>
+                        <tr><td>Research article</td><td>6</td><td><code>/research/[slug]/</code></td><td><code>/data/research.json</code></td></tr>
+                        <tr><td>IR report</td><td>2</td><td><code>/ir-reports/[slug]/</code></td><td><code>/data/ir-reports.json</code></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsec">
+                <div class="subsec-title">HTML Page Template (detail pages)</div>
+                <div class="code-block">
+                    <div class="code-lang">HTML</div>
+                    <div class="code-body"><pre>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Page Title — ChickenLoner&lt;/title&gt;
+
+    &lt;!-- OG + Twitter Card (required on all pages) --&gt;
+    &lt;meta property="og:type" content="article" /&gt;
+    &lt;meta property="og:title" content="..." /&gt;
+    &lt;meta property="og:description" content="..." /&gt;
+    &lt;meta property="og:image" content="..." /&gt;
+    &lt;meta name="twitter:card" content="summary_large_image" /&gt;
+    ...
+
+    &lt;link rel="icon" href="/chicken0248.png"&gt;
+    &lt;link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:..." rel="stylesheet"&gt;
+
+    &lt;!-- NO Tailwind CDN on detail pages — soc.css has utility equivalents --&gt;
+    &lt;script src="https://unpkg.com/react@18/umd/react.development.js"&gt;&lt;/script&gt;
+    &lt;script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"&gt;&lt;/script&gt;
+    &lt;script src="https://unpkg.com/@babel/standalone@7.29.2/babel.min.js"&gt;&lt;/script&gt;
+    &lt;script src="https://unpkg.com/lucide@1.14.0/dist/umd/lucide.min.js"&gt;&lt;/script&gt;
+
+    &lt;link rel="stylesheet" href="/themes/soc.css"&gt;
+    &lt;script src="/themes/soc-components.js"&gt;&lt;/script&gt;  &lt;!-- before text/babel --&gt;
+    &lt;script src="/themes/soc-nav.js" defer&gt;&lt;/script&gt;
+
+    &lt;style&gt;
+        :root { /* CSS variables re-declared inline for self-containment */ }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;a href="#main-content" class="sr-only"&gt;Skip to content&lt;/a&gt;
+    &lt;noscript&gt;JavaScript required.&lt;/noscript&gt;
+    &lt;div id="root"&gt;&lt;/div&gt;
+    &lt;script type="text/babel"&gt;
+        const { SocClock, Icon, Section, ... } = window.SocComponents;
+        /* page-specific inline components */
+        /* App component */
+        ReactDOM.createRoot(document.getElementById('root')).render(&lt;App /&gt;);
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre></div>
+                </div>
+                <div class="callout info"><p><strong>Key constraint:</strong> Detail pages declare <code>:root</code> inline for CSS self-containment. Hub pages additionally load Tailwind CDN 3.4.17.</p></div>
+            </div>
+        </section>
+
+        <!-- Design System -->
+        <section class="sec" id="design-system">
+            <div class="sec-title">
+                <div class="sec-icon">
+                    <svg viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="6.5" cy="11.5" r="2.5"/><circle cx="13.5" cy="16.5" r="2.5"/></svg>
+                </div>
+                Design System — SOC Console Dark Theme
+            </div>
+
+            <div class="subsec" id="colors">
+                <div class="subsec-title">Color Palette</div>
+                <div class="swatches">
+                    <div class="swatch"><div class="swatch-dot" style="background:#070b14;border:1px solid #1c2740"></div><span class="swatch-name">--soc-bg</span><span class="swatch-hex">#070b14</span></div>
+                    <div class="swatch"><div class="swatch-dot" style="background:#0c1322"></div><span class="swatch-name">--soc-bg-1</span><span class="swatch-hex">#0c1322</span></div>
+                    <div class="swatch"><div class="swatch-dot" style="background:#121a2e"></div><span class="swatch-name">--soc-bg-2</span><span class="swatch-hex">#121a2e</span></div>
+                    <div class="swatch"><div class="swatch-dot" style="background:#e4ecff"></div><span class="swatch-name">--soc-ink</span><span class="swatch-hex">#e4ecff</span></div>
+                    <div class="swatch"><div class="swatch-dot" style="background:#a9b6d3"></div><span class="swatch-name">--soc-ink2</span><span class="swatch-hex">#a9b6d3</span></div>
+                    <div class="swatch"><div class="swatch-dot" style="background:#6c7a9c"></div><span class="swatch-name">--soc-ink3</span><span class="swatch-hex">#6c7a9c</span></div>
+                    <div class="swatch"><div class="swatch-dot" style="background:#22e1ff"></div><span class="swatch-name">--soc-cy</span><span class="swatch-hex">#22e1ff</span></div>
+                    <div class="swatch"><div class="swatch-dot" style="background:#ffb547"></div><span class="swatch-name">--soc-am</span><span class="swatch-hex">#ffb547</span></div>
+                    <div class="swatch"><div class="swatch-dot" style="background:#3ddc84"></div><span class="swatch-name">--soc-gn</span><span class="swatch-hex">#3ddc84</span></div>
+                    <div class="swatch"><div class="swatch-dot" style="background:#ff5577"></div><span class="swatch-name">--soc-rd</span><span class="swatch-hex">#ff5577</span></div>
+                    <div class="swatch"><div class="swatch-dot" style="background:#a78bfa"></div><span class="swatch-name">--soc-vi</span><span class="swatch-hex">#a78bfa</span></div>
+                </div>
+                <div class="tbl-wrap">
+                    <table>
+                        <thead><tr><th>Category</th><th>Color</th></tr></thead>
+                        <tbody>
+                            <tr><td>Digital Forensics</td><td><span class="sev cyan">cyan</span></td></tr>
+                            <tr><td>Red Teaming</td><td><span class="sev" style="background:rgba(255,85,119,.12);color:var(--soc-rd);border:1px solid rgba(255,85,119,.25)">red</span></td></tr>
+                            <tr><td>Lab Making</td><td><span class="sev amber">amber</span></td></tr>
+                            <tr><td>Blue Team / SOC</td><td><span class="sev green">green</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="subsec" id="css-classes">
+                <div class="subsec-title">Key CSS Classes</div>
+                <div class="tbl-wrap">
+                    <table>
+                        <thead><tr><th>Class</th><th>Purpose</th></tr></thead>
+                        <tbody>
+                            <tr><td><code>.soc-tb</code></td><td>Sticky topbar with backdrop blur</td></tr>
+                            <tr><td><code>.soc-crumb</code></td><td>Breadcrumb: SOC / OPERATOR.PROFILE / [section]</td></tr>
+                            <tr><td><code>.soc-clock</code></td><td>Real-time UTC clock</td></tr>
+                            <tr><td><code>.sev.green/.cyan/.amber/.red/.violet</code></td><td>Status badge color variants</td></tr>
+                            <tr><td><code>.res-section</code></td><td>Review/research section block (icon + title + left bar)</td></tr>
+                            <tr><td><code>.ir-section</code></td><td>IR report section block</td></tr>
+                            <tr><td><code>.res-subsection</code></td><td>Nested subsection (research/review)</td></tr>
+                            <tr><td><code>.res-code-wrap/.res-code-lang</code></td><td>Code block with language label</td></tr>
+                            <tr><td><code>.ir-code-wrap/.ir-code-lang</code></td><td>IR code block variant</td></tr>
+                            <tr><td><code>.res-figure</code></td><td>Figure with caption (research)</td></tr>
+                            <tr><td><code>.res-callout.info/.warning/.tip</code></td><td>Colored callout boxes</td></tr>
+                            <tr><td><code>.ir-finding</code></td><td>Numbered finding card (IR only)</td></tr>
+                            <tr><td><code>.soc-hero</code></td><td>Main hero box with gradient overlay</td></tr>
+                            <tr><td><code>.res-cover / .ir-cover</code></td><td>Article/report cover image area</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Components -->
+        <section class="sec" id="components">
+            <div class="sec-title">
+                <div class="sec-icon">
+                    <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                </div>
+                React Component Patterns
+            </div>
+
+            <div class="subsec" id="shared-comps">
+                <div class="subsec-title">Shared — themes/soc-components.js</div>
+                <p>Plain <code>React.createElement</code>, no JSX, no Babel dependency. Loaded before any <code>type="text/babel"</code> script. Exposes <code>window.SocComponents</code>.</p>
+                <div class="chip-grid">
+                    <div class="chip"><code>SocClock</code> — UTC clock</div>
+                    <div class="chip"><code>Icon</code> — Lucide wrapper</div>
+                    <div class="chip"><code>Section</code> — res-section</div>
+                    <div class="chip"><code>Fig</code> — auto-numbered figure</div>
+                    <div class="chip"><code>resetFigCount</code> — reset counter</div>
+                    <div class="chip"><code>TipList</code> — bullet list</div>
+                    <div class="chip"><code>B</code> — strong</div>
+                    <div class="chip"><code>A</code> — external link</div>
+                    <div class="chip"><code>Code</code> — inline code</div>
+                    <div class="chip"><code>CodeBlock</code> — prefix prop</div>
+                    <div class="chip"><code>Img</code> — prefix + base props</div>
+                    <div class="chip"><code>dedent</code> — internal</div>
+                </div>
+                <div class="tbl-wrap">
+                    <table>
+                        <thead><tr><th>Export</th><th>Used by</th><th>Notes</th></tr></thead>
+                        <tbody>
+                            <tr><td><code>SocClock</code></td><td>All detail pages</td><td>Live UTC via useRef + setInterval</td></tr>
+                            <tr><td><code>Icon</code></td><td>All detail pages</td><td>Lucide icon via DOM injection</td></tr>
+                            <tr><td><code>Section</code></td><td>19 reviews + 6 research</td><td><code>res-section</code> class, cyan icon</td></tr>
+                            <tr><td><code>Fig</code></td><td>19 reviews</td><td>Auto-numbered; module-level figCount</td></tr>
+                            <tr><td><code>resetFigCount</code></td><td>19 reviews</td><td>Call as first line of App()</td></tr>
+                            <tr><td><code>TipList</code></td><td>19 reviews</td><td>items array prop</td></tr>
+                            <tr><td><code>B / A / Code</code></td><td>19 reviews</td><td>Inline shortcuts</td></tr>
+                            <tr><td><code>CodeBlock</code></td><td>6 research + 2 IR</td><td>prefix prop: <code>"res"</code> (default) or <code>"ir"</code></td></tr>
+                            <tr><td><code>Img</code></td><td>6 research + 2 IR</td><td>prefix + base props; pages use thin wrapper</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="subsec-title" style="margin-top:16px">IR / Research wrapper pattern</div>
+                <div class="code-block">
+                    <div class="code-lang">JS — research page</div>
+                    <div class="code-body"><pre>const { SocClock, Icon, Section, CodeBlock, Img: ImgBase, B } = window.SocComponents;
+const IMG = '/assets/research/&lt;slug&gt;';
+const Img = (props) => &lt;ImgBase base={IMG} {...props} /&gt;;</pre></div>
+                </div>
+                <div class="code-block">
+                    <div class="code-lang">JS — IR report page</div>
+                    <div class="code-body"><pre>const { SocClock, Icon, CodeBlock: CB, Img: ImgBase } = window.SocComponents;
+const IMG = '/assets/reports/&lt;slug&gt;';
+const CodeBlock = (props) => &lt;CB prefix="ir" {...props} /&gt;;
+const Img = (props) => &lt;ImgBase base={IMG} prefix="ir" {...props} /&gt;;</pre></div>
+                </div>
+            </div>
+
+            <div class="subsec" id="inline-comps">
+                <div class="subsec-title">Inline Per Page (not extractable)</div>
+                <div class="tbl-wrap">
+                    <table>
+                        <thead><tr><th>Component</th><th>Pages</th><th>Reason</th></tr></thead>
+                        <tbody>
+                            <tr><td><code>Callout</code></td><td>Reviews, research, IR</td><td>3 incompatible APIs (color prop / type prop / no prop)</td></tr>
+                            <tr><td><code>SubSection</code></td><td>Research + IR</td><td><code>res-subsection</code> vs <code>ir-subsection</code></td></tr>
+                            <tr><td><code>ReportSection</code></td><td>IR reports</td><td><code>ir-section</code> class, different colors</td></tr>
+                            <tr><td><code>ReportTable</code></td><td>IR reports</td><td><code>ir-table-wrap</code> variant</td></tr>
+                            <tr><td><code>Finding</code></td><td>IR reports</td><td>IR-only numbered finding card</td></tr>
+                            <tr><td><code>Table</code></td><td>Research</td><td><code>res-table-wrap</code> variant</td></tr>
+                            <tr><td><code>renderStars</code></td><td>Reviews</td><td>Rating → star string helper</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="subsec" id="data-loading">
+                <div class="subsec-title">Data Loading Pattern</div>
+                <div class="code-block">
+                    <div class="code-lang">JS — detail page (fetch own metadata)</div>
+                    <div class="code-body"><pre>const [meta, setMeta] = useState(null);
+useEffect(() => {
+    fetch('/data/reviews.json')
+        .then(r => r.json())
+        .then(data => {
+            const slug = window.location.pathname.replace(/\/$/, '');
+            setMeta(data.find(r => r.url === slug + '/index.html'));
+        })
+        .catch(() => {});
+}, []);</pre></div>
+                </div>
+                <p>Use <code>meta?.rating</code>, <code>meta?.difficulty</code>, <code>meta?.date</code> etc. with <code>—</code> as fallback. Never hardcode rating or difficulty in HTML.</p>
+            </div>
+        </section>
+
+        <!-- JSON Schemas -->
+        <section class="sec" id="schemas">
+            <div class="sec-title">
+                <div class="sec-icon">
+                    <svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+                </div>
+                JSON Data Schemas
+            </div>
+
+            <div class="subsec">
+                <div class="subsec-title">certifications.json</div>
+                <div class="code-block"><div class="code-lang">JSON</div><div class="code-body"><pre>[{
+    "name": "OSCP - OffSec Certified Professional",
+    "issuer": "OffSec",
+    "year": "2025",
+    "status": "Active",           // "Active" | "Expired"
+    "category": "Offensive Security",
+    "latest": true,               // only on the most recent cert
+    "badge": "./assets/badges/oscp.png",
+    "certificate": "./assets/certificates/oscp.jpg",
+    "url": "https://credentials.offsec.com/..."
+}]</pre></div></div>
+            </div>
+
+            <div class="subsec">
+                <div class="subsec-title">reviews.json</div>
+                <div class="code-block"><div class="code-lang">JSON</div><div class="code-body"><pre>[{
+    "title": "...",
+    "excerpt": "...",
+    "date": "March 2025",
+    "readTime": "15 min read",
+    "tags": ["HTB CDSA", "Blue Team", "DFIR"],
+    "url": "/reviews/cdsa/index.html",
+    "image": "/assets/badges/cdsa.png",
+    "difficulty": "Intermediate",   // "Beginner" | "Intermediate" | "Advanced"
+    "rating": 4.8
+}]</pre></div></div>
+            </div>
+
+            <div class="subsec">
+                <div class="subsec-title">research.json</div>
+                <div class="code-block"><div class="code-lang">JSON</div><div class="code-body"><pre>[{
+    "slug": "anydesk-forensics-windows",
+    "title": "...",
+    "subtitle": "...",
+    "date": "2026-01-10",           // ISO 8601
+    "source": "Medium",             // "Original" | "Medium"
+    "sourceUrl": "https://...",     // null if original
+    "cover": "/assets/research/anydesk-forensics-windows/cover.png",
+    "tags": ["Digital Forensics", "RMM", "AnyDesk", "Windows"],
+    "category": "Digital Forensics",
+    "summary": "...",
+    "url": "/research/anydesk-forensics-windows/index.html"
+}]</pre></div></div>
+            </div>
+
+            <div class="subsec">
+                <div class="subsec-title">ir-reports.json</div>
+                <div class="code-block"><div class="code-lang">JSON</div><div class="code-body"><pre>[{
+    "slug": "btlo-halloween-2025",
+    "title": "Zeta-9 Security Incident Report",
+    "subtitle": "BTLO Halloween 2025 Challenge",
+    "date": "2025-11-01",
+    "platform": "Blue Team Labs Online",
+    "cover": "/assets/labs/btlo_halloween2025_ir_report.png",
+    "tags": ["Incident Response", "Splunk", "Data Exfiltration"],
+    "summary": "...",
+    "url": "/ir-reports/btlo-halloween-2025/index.html"
+}]</pre></div></div>
+            </div>
+
+            <div class="subsec">
+                <div class="subsec-title">labs.json</div>
+                <div class="code-block"><div class="code-lang">JSON</div><div class="code-body"><pre>[{
+    "title": "UtensilMenace",
+    "description": "...",
+    "platform": "Blue Team Labs Online",
+    "link": "https://...",
+    "tags": ["Endpoint Forensics", "Windows Forensics"],
+    "type": "lab",
+    "difficulty": "easy",           // "easy" | "medium" | "hard"
+    "player_difficulty": "medium",  // user's perceived difficulty
+    "image": "./assets/labs/utensil.png",
+    "rating": 4.5,                  // optional
+    "is_retired": true,
+    "tactics": ["TA0001", "TA0003"] // optional MITRE ATT&amp;CK
+}]</pre></div></div>
+            </div>
+
+            <div class="subsec">
+                <div class="subsec-title">labs_metadata.json</div>
+                <p>Auto-generated by GitHub Actions. Merged with <code>labs.json</code> at render time:</p>
+                <div class="code-block"><div class="code-lang">JS</div><div class="code-body"><pre>const labs = labsData.map(lab => ({ ...lab, ...(labsMeta[lab.title] || {}) }));</pre></div></div>
+            </div>
+
+            <div class="subsec">
+                <div class="subsec-title">achievements.json</div>
+                <div class="code-block"><div class="code-lang">JSON</div><div class="code-body"><pre>[
+    {
+        "category": "talk",
+        "name": "Talk Title",
+        "event": "Event Name",
+        "year": "2026",
+        "role": "Speaker",
+        "image": "/assets/achievements/photo.png"
+    },
+    {
+        "category": "competition",
+        "name": "CTF Name",
+        "placement": "Winner",
+        "year": "2026",
+        "team": "TeamName",
+        "tags": ["CTF"]
+    }
+]</pre></div></div>
+            </div>
+        </section>
+
+        <!-- Routing -->
+        <section class="sec" id="routing">
+            <div class="sec-title">
+                <div class="sec-icon">
+                    <svg viewBox="0 0 24 24"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+                </div>
+                Routing
+            </div>
+            <p>No router library. Pure filesystem routing. Navigation uses standard <code>&lt;a href&gt;</code> links.</p>
+            <div class="tbl-wrap">
+                <table>
+                    <thead><tr><th>URL</th><th>File</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>/</code></td><td><code>/index.html</code></td></tr>
+                        <tr><td><code>/reviews/</code></td><td><code>/reviews/index.html</code></td></tr>
+                        <tr><td><code>/reviews/oscp/</code></td><td><code>/reviews/oscp/index.html</code></td></tr>
+                        <tr><td><code>/research/</code></td><td><code>/research/index.html</code></td></tr>
+                        <tr><td><code>/research/anydesk-forensics-windows/</code></td><td><code>/research/anydesk-forensics-windows/index.html</code></td></tr>
+                        <tr><td><code>/ir-reports/</code></td><td><code>/ir-reports/index.html</code></td></tr>
+                        <tr><td><code>/ir-reports/btlo-halloween-2025/</code></td><td><code>/ir-reports/btlo-halloween-2025/index.html</code></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Shared JS -->
+        <section class="sec" id="shared-js">
+            <div class="sec-title">
+                <div class="sec-icon">
+                    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                </div>
+                Shared JS Files
+            </div>
+
+            <div class="subsec" id="soc-components-js">
+                <div class="subsec-title">themes/soc-components.js</div>
+                <p>Plain <code>React.createElement</code> components — no JSX, no Babel dependency. Load after React + Lucide, before any <code>type="text/babel"</code> script.</p>
+                <p><strong>Exports via <code>window.SocComponents</code>:</strong></p>
+                <div class="chip-grid">
+                    <div class="chip"><code>SocClock</code></div><div class="chip"><code>Icon</code></div>
+                    <div class="chip"><code>dedent</code></div><div class="chip"><code>CodeBlock</code></div>
+                    <div class="chip"><code>Img</code></div><div class="chip"><code>Section</code></div>
+                    <div class="chip"><code>Fig</code></div><div class="chip"><code>resetFigCount</code></div>
+                    <div class="chip"><code>TipList</code></div><div class="chip"><code>B</code></div>
+                    <div class="chip"><code>A</code></div><div class="chip"><code>Code</code></div>
+                </div>
+            </div>
+
+            <div class="subsec" id="soc-nav-js">
+                <div class="subsec-title">themes/soc-nav.js</div>
+                <p>Injected globally via <code>&lt;script src="/themes/soc-nav.js" defer&gt;</code>.</p>
+                <ul>
+                    <li>On DOM ready: injects fixed overlay <code>#soc-nav-overlay</code> (progress bar + ring spinner + "UPLINK CONNECTING_" text)</li>
+                    <li>On any internal link click: shows overlay, waits 420ms, then navigates</li>
+                    <li>On page load: fades overlay out</li>
+                    <li>Uses <code>sessionStorage</code> to distinguish first-load vs navigation-load</li>
+                    <li>Does <strong>not</strong> affect: external links (<code>target="_blank"</code>), anchor links (<code>#id</code>), <code>mailto:</code>, <code>tel:</code></li>
+                </ul>
+            </div>
+
+            <div class="subsec" id="soc-css">
+                <div class="subsec-title">themes/soc.css</div>
+                <ul>
+                    <li>CSS variable definitions (canonical color palette)</li>
+                    <li>Tailwind <code>.dark</code> class overrides → SOC palette</li>
+                    <li>~140 Tailwind utility equivalents (icon sizes, typography, spacing, layout, colors, borders, accessibility)</li>
+                    <li>Global dark scrollbar styling</li>
+                    <li>All <code>.res-*</code> and <code>.ir-*</code> component classes</li>
+                </ul>
+                <div class="callout warn"><p><strong>Note:</strong> Detail pages also declare <code>:root</code> inline for self-containment. <code>soc.css</code> is the canonical reference.</p></div>
+            </div>
+        </section>
+
+        <!-- Python Scripts -->
+        <section class="sec" id="scripts">
+            <div class="sec-title">
+                <div class="sec-icon">
+                    <svg viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+                </div>
+                Python Automation Scripts
+            </div>
+            <div class="tbl-wrap">
+                <table>
+                    <thead><tr><th>Script</th><th>Purpose</th><th>Notes</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>_soc_reviews_full.py</code></td><td>Batch-apply SOC theme to all review pages</td><td>Idempotent. Updates topbar, CSS, breadcrumbs, cover, TOC, footer.</td></tr>
+                        <tr><td><code>_soc_research_articles.py</code></td><td>Batch-apply SOC theme to all research pages</td><td>Maps category → severity badge color.</td></tr>
+                        <tr><td><code>scripts/update_lab_data.py</code></td><td>Fetch lab stats from platform APIs</td><td>Run by GitHub Actions daily. Writes <code>data/labs_metadata.json</code>.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- CI/CD -->
+        <section class="sec" id="cicd">
+            <div class="sec-title">
+                <div class="sec-icon">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+                </div>
+                CI/CD
+            </div>
+            <div class="tbl-wrap">
+                <table>
+                    <thead><tr><th>Workflow</th><th>Trigger</th><th>Action</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>static.yml</code></td><td>Push to <code>main</code></td><td>Deploy site to GitHub Pages → <code>chickenloner.github.io</code></td></tr>
+                        <tr><td><code>update_lab_data.yml</code></td><td>Daily cron + manual dispatch</td><td>Run <code>update_lab_data.py</code> → commit <code>labs_metadata.json</code> → push to main</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Adding Content -->
+        <section class="sec" id="adding">
+            <div class="sec-title">
+                <div class="sec-icon">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                </div>
+                Adding New Content
+            </div>
+            <div class="callout info"><p><strong>Use Claude Code skills</strong> — <code>/add-cert</code>, <code>/create-review</code>, <code>/new-research</code>, <code>/new-ir-report</code> automate these workflows.</p></div>
+
+            <div class="subsec">
+                <div class="subsec-title">New Certification Review</div>
+                <ol>
+                    <li>Add entry to <code>data/reviews.json</code></li>
+                    <li>Add cert to <code>data/certifications.json</code></li>
+                    <li>Drop badge PNG → <code>assets/badges/&lt;slug&gt;.png</code></li>
+                    <li>Create <code>reviews/&lt;slug&gt;/index.html</code> using <code>reviews/psap/index.html</code> as template</li>
+                    <li>Destructure from <code>window.SocComponents</code> — don't redefine shared components</li>
+                </ol>
+            </div>
+
+            <div class="subsec">
+                <div class="subsec-title">New Research Article</div>
+                <ol>
+                    <li>Add entry to <code>data/research.json</code></li>
+                    <li>Add cover → <code>assets/research/&lt;slug&gt;/cover.png</code></li>
+                    <li>Create <code>research/&lt;slug&gt;/index.html</code> using <code>research/anydesk-forensics-windows/index.html</code> as template</li>
+                </ol>
+            </div>
+
+            <div class="subsec">
+                <div class="subsec-title">New IR Report</div>
+                <ol>
+                    <li>Add entry to <code>data/ir-reports.json</code></li>
+                    <li>Add cover → <code>assets/labs/&lt;slug&gt;.jpg</code></li>
+                    <li>Create <code>ir-reports/&lt;slug&gt;/index.html</code> using <code>ir-reports/htb-tinsel-trace-1/index.html</code> as template</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- Dependencies -->
+        <section class="sec" id="dependencies">
+            <div class="sec-title">
+                <div class="sec-icon">
+                    <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                </div>
+                External Dependencies
+            </div>
+            <p>All CDN — no local bundling, no build step.</p>
+            <div class="tbl-wrap">
+                <table>
+                    <thead><tr><th>Library</th><th>Pinned version</th><th>Purpose</th><th>Pages</th></tr></thead>
+                    <tbody>
+                        <tr><td>Tailwind CSS</td><td>3.4.17</td><td>Utility classes</td><td>Hub pages only</td></tr>
+                        <tr><td>React</td><td>18</td><td>UI rendering</td><td>All pages</td></tr>
+                        <tr><td>ReactDOM</td><td>18</td><td>DOM mounting</td><td>All pages</td></tr>
+                        <tr><td>Babel Standalone</td><td>7.29.2</td><td>JSX transpilation in-browser</td><td>All pages</td></tr>
+                        <tr><td>Lucide</td><td>1.14.0</td><td>Icons</td><td>All pages</td></tr>
+                        <tr><td>Google Fonts (JetBrains Mono)</td><td>—</td><td>Monospace font</td><td>All pages</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Conventions -->
+        <section class="sec" id="conventions">
+            <div class="sec-title">
+                <div class="sec-icon">
+                    <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                </div>
+                Conventions &amp; Constraints
+            </div>
+            <ul>
+                <li><strong>Dark mode only.</strong> No light mode support.</li>
+                <li><strong>No backend.</strong> Pure static HTML/JS/CSS + JSON.</li>
+                <li><strong>No router library.</strong> Filesystem-based routing.</li>
+                <li><strong>Self-contained CSS.</strong> <code>:root</code> CSS variables declared inline on every page — pages render correctly if <code>/themes/soc.css</code> fails.</li>
+                <li><strong>OG/Twitter meta required on all pages.</strong> Always include when creating new pages.</li>
+                <li><strong>JetBrains Mono everywhere.</strong> Monospace font is core to the SOC aesthetic.</li>
+                <li><strong>Shared components via <code>soc-components.js</code>.</strong> <code>Icon</code>, <code>SocClock</code>, <code>Section</code>, <code>Fig</code>, <code>CodeBlock</code>, <code>Img</code>, <code>TipList</code>, <code>B</code>, <code>A</code>, <code>Code</code>, <code>dedent</code> sourced from <code>window.SocComponents</code>. Per-page components (<code>Callout</code>, <code>SubSection</code>, <code>ReportSection</code>, etc.) remain inline.</li>
+                <li><strong>No Tailwind CDN on detail pages.</strong> Utility equivalents live in <code>soc.css</code>.</li>
+                <li><strong>Pinned CDN versions.</strong> Babel <code>7.29.2</code>, Lucide <code>1.14.0</code>, Tailwind <code>3.4.17</code>.</li>
+                <li><strong>Assets co-located by content type.</strong> <code>/assets/research/[slug]/</code> for research, <code>/assets/reports/[slug]/</code> for IR, <code>/assets/badges/</code> for certs.</li>
+                <li><strong>Favicon:</strong> <code>/chicken0248.png</code> on all pages.</li>
+            </ul>
+        </section>
+
+    </main>
+</div>
+
+<footer class="ft">
+    <a href="/">← Back to Portfolio</a> &nbsp;·&nbsp; ChickenLoner.github.io
+</footer>
+
+<script src="/themes/soc-nav.js" defer></script>
+</body>
+</html>

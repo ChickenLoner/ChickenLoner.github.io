@@ -90,25 +90,38 @@ Meta tags are **required** on every page — this was a site-wide instruction fr
 
 Copy the full dark mode `<style>` block from `reviews/psap/index.html` verbatim. It covers all amber/orange color variants used in the review theme. Add any extra color overrides if the content needs them (e.g., if the review has green/red badge elements).
 
+**Do NOT add a Tailwind CDN `<script>` tag.** Detail pages use `soc.css` utility equivalents instead.
+
 ### 4c. React components
 
-Include all of these exactly as in `reviews/psap/index.html`:
+All review pages load shared components from `window.SocComponents`. Include the script tag **before** the `type="text/babel"` script, and destructure at the top of the Babel script:
 
-| Component | Purpose |
-|---|---|
-| `Icon` | Lucide icon wrapper using `useRef` + `useEffect` |
-| `Section` | H2 section with amber icon, scroll-mt-24 anchor, `id` for TOC links |
-| `Fig` | Figure with auto-incrementing counter — shows **only "Figure N"**, no caption text. Image uses `max-w-full mx-auto block` (not `w-full`) so small screenshots render at natural size rather than stretching to container width |
-| `Callout` | Amber-accent blockquote for exam descriptions or key quotes |
-| `TipList` | Styled bullet list, used for exam tips sections |
-| `B` | `<strong>` wrapper |
-| `A` | External link (opens new tab) |
-| `renderStars(rating)` | Converts `4.5` → `★★★★½☆` |
+```html
+<!-- In <head>, after lucide script -->
+<script src="/themes/soc-components.js"></script>
+```
 
-**Figure counter pattern** — the counter is module-level and must be reset at render start:
 ```js
-let figCount = 0;
-const resetFigCount = () => { figCount = 0; };
+// Top of <script type="text/babel">
+const { SocClock, Icon, Section, Fig, resetFigCount, TipList, B, A, Code } = window.SocComponents;
+```
+
+| Source | Component | Purpose |
+|--------|-----------|---------|
+| `window.SocComponents` | `Icon` | Lucide icon wrapper using `useRef` + `useEffect` |
+| `window.SocComponents` | `SocClock` | Live UTC clock |
+| `window.SocComponents` | `Section` | H2 section with icon, scroll anchor, `res-section` class |
+| `window.SocComponents` | `Fig` | Figure with auto-incrementing counter — shows **only "Figure N"**, no caption text. Image uses `max-w-full mx-auto block` so small screenshots render at natural size |
+| `window.SocComponents` | `resetFigCount` | Resets figure counter — call as **first line inside `App()`** |
+| `window.SocComponents` | `TipList` | Styled bullet list for exam tips |
+| `window.SocComponents` | `B` | `<strong>` wrapper |
+| `window.SocComponents` | `A` | External link (new tab) |
+| `window.SocComponents` | `Code` | Inline code (`bg-gray-100 px-1.5 py-0.5`) |
+| Inline | `Callout` | Amber-accent blockquote — copy verbatim from psap |
+| Inline | `renderStars(rating)` | Converts `4.5` → `★★★★½☆` — copy verbatim from psap |
+
+**Figure counter pattern:**
+```js
 // Inside App(), first line:
 resetFigCount();
 ```

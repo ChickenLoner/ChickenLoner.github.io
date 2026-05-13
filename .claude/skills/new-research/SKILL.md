@@ -22,7 +22,7 @@ Ask for any missing fields not provided in the user's message:
 | `category` | Broad topic — see accent color table below |
 | `tags` | Array of tags, e.g. `["Digital Forensics", "RMM", "Windows"]` |
 | `summary` | 1–2 sentence description for the listing card |
-| `cover` | Cover image — default `"/assets/research/<slug>/cover.png"` |
+| `cover` | Cover image — default `"/assets/research/<slug>/cover.png"` or `cover.jpg` |
 | `content` | User's notes/writeup — ask them to paste or point to a file |
 
 ### Category → accent color mapping
@@ -44,7 +44,7 @@ mkdir -p assets/research/<slug>
 ```
 
 2. If the user provides images, copy them to `assets/research/<slug>/`:
-   - Cover/hero → `cover.png`
+   - Cover/hero → `cover.png` or `cover.jpg`
    - Article images → `img-01.png`, `img-02.png`, etc. in order of appearance
 
 ## Step 3 — Add entry to research.json
@@ -97,22 +97,36 @@ Also include JetBrains Mono font and the SOC stylesheet:
 <link rel="stylesheet" href="/themes/soc.css">
 ```
 
-### 4b. Components (copy verbatim from template)
+### 4b. Components
 
-| Component | Purpose |
-|---|---|
-| `SocClock` | Live UTC clock via `useRef` + `setInterval` — no React state re-renders |
-| `Icon` | Lucide icon wrapper |
-| `Section` | H2 section with cyan icon box (`res-section-icon`), scroll anchor |
-| `SubSection` | H3 subheading with cyan left border (`res-subsection`) |
-| `CodeBlock` | Dark code block (`res-code-wrap`) with language label in JetBrains Mono |
-| `Img` | Figure (`res-figure`) with caption, references `IMG` const, horizontally centered |
-| `Callout` | Alert block (`res-callout info/warning/tip`) with colored icon |
-| `Table` | SOC-styled table (`res-table-wrap` / `res-table`) with `headers` + `rows` arrays |
-| `B` | `<strong>` wrapper — renders `var(--soc-ink)` |
-| `C` | Inline code (`res-c`) — cyan monospace on dark background |
+Load shared components from `window.SocComponents`. Include the script tag **before** the `type="text/babel"` script:
 
-Set `const IMG = '/assets/research/<slug>';` at the top of the script.
+```html
+<!-- In <head>, after lucide script -->
+<script src="/themes/soc-components.js"></script>
+```
+
+At the top of `<script type="text/babel">`:
+```js
+const { SocClock, Icon, Section, CodeBlock, Img: ImgBase, B } = window.SocComponents;
+const IMG = '/assets/research/<slug>';
+const Img = (props) => <ImgBase base={IMG} {...props} />;
+```
+
+| Source | Component | Purpose |
+|--------|-----------|---------|
+| `window.SocComponents` | `SocClock` | Live UTC clock via `useRef` + `setInterval` — no React state re-renders |
+| `window.SocComponents` | `Icon` | Lucide icon wrapper |
+| `window.SocComponents` | `Section` | H2 section with cyan icon box (`res-section-icon`), scroll anchor |
+| `window.SocComponents` | `CodeBlock` | Dark code block (`res-code-wrap`) with language label in JetBrains Mono |
+| `window.SocComponents` (via wrapper) | `Img` | Figure (`res-figure`) with caption, auto-prefixed with `IMG` |
+| `window.SocComponents` | `B` | `<strong>` wrapper — renders `var(--soc-ink)` |
+| Inline | `SubSection` | H3 subheading with cyan left border (`res-subsection`) |
+| Inline | `Callout` | Alert block (`res-callout info/warning/tip`) with colored icon |
+| Inline | `Table` | SOC-styled table (`res-table-wrap` / `res-table`) with `headers` + `rows` arrays |
+| Inline | `C` | Inline code (`res-c`) — cyan monospace on dark background |
+
+Copy `SubSection`, `Callout`, `Table`, `C` verbatim from `research/anydesk-forensics-windows/index.html`.
 
 The **accent color is always cyan** for the section icons and subsection borders regardless of article category. Category only affects the topbar badge and cover badge sev class.
 
@@ -183,7 +197,7 @@ Use `FileText` as a safe default.
 - [ ] `data/research.json` has the new entry prepended
 - [ ] `research/<slug>/index.html` created
 - [ ] `IMG` const set to `/assets/research/<slug>`
-- [ ] SOC Console CSS block present (copied from template) with Tailwind class overrides
+- [ ] SOC Console `<style>` block present (copied from template) — no Tailwind CDN script on detail pages
 - [ ] SOC top bar breadcrumb and badges correct (slug, category sev color)
 - [ ] Cover image path correct (`${IMG}/cover.png`)
 - [ ] TOC links match actual section IDs

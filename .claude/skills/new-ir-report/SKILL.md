@@ -81,22 +81,37 @@ Also include JetBrains Mono font and the SOC stylesheet:
 <link rel="stylesheet" href="/themes/soc.css">
 ```
 
-### 4b. Components (copy verbatim from template)
+### 4b. Components
 
-| Component | Purpose |
-|---|---|
-| `SocClock` | Live UTC clock via `useRef` + `setInterval` — no React state re-renders |
-| `Icon` | Lucide icon wrapper |
-| `ReportSection` | H2 section with red icon box, scroll anchor, `ir-section` class |
-| `SubSection` | H3 subheading with red left border (`ir-subsection`) |
-| `ReportTable` | SOC-styled table (`ir-table-wrap` / `ir-table`) with headers + rows |
-| `CodeBlock` | Dark code block (`ir-code-wrap`) with language label |
-| `Img` | Figure (`ir-figure`) with caption, references `IMG` const, centered |
-| `Finding` | Red-badged finding card (`ir-finding`) with number + title |
-| `B` | `<strong>` wrapper — renders `var(--soc-ink)` white |
-| `C` | Inline code (`ir-c`) — cyan monospace on dark background |
+Load shared components from `window.SocComponents`. Include the script tag **before** the `type="text/babel"` script:
 
-Set `const IMG = '/assets/reports/<slug>';` at the top of the script.
+```html
+<!-- In <head>, after lucide script -->
+<script src="/themes/soc-components.js"></script>
+```
+
+At the top of `<script type="text/babel">`:
+```js
+const { SocClock, Icon, CodeBlock: CB, Img: ImgBase } = window.SocComponents;
+const IMG = '/assets/reports/<slug>';
+const CodeBlock = (props) => <CB prefix="ir" {...props} />;
+const Img = (props) => <ImgBase base={IMG} prefix="ir" {...props} />;
+```
+
+| Source | Component | Purpose |
+|--------|-----------|---------|
+| `window.SocComponents` | `SocClock` | Live UTC clock via `useRef` + `setInterval` — no React state re-renders |
+| `window.SocComponents` | `Icon` | Lucide icon wrapper |
+| `window.SocComponents` (via wrapper) | `CodeBlock` | Dark code block (`ir-code-wrap`) with language label |
+| `window.SocComponents` (via wrapper) | `Img` | Figure (`ir-figure`) with caption, auto-prefixed with `IMG` |
+| Inline | `ReportSection` | H2 section with red icon box, scroll anchor, `ir-section` class |
+| Inline | `SubSection` | H3 subheading with red left border (`ir-subsection`) |
+| Inline | `ReportTable` | SOC-styled table (`ir-table-wrap` / `ir-table`) with headers + rows |
+| Inline | `Finding` | Red-badged finding card (`ir-finding`) with number + title |
+| Inline | `B` | `<strong>` wrapper — renders `var(--soc-ink)` white |
+| Inline | `C` | Inline code (`ir-c`) — cyan monospace on dark background |
+
+Copy `ReportSection`, `SubSection`, `ReportTable`, `Finding`, `B`, `C` verbatim from `ir-reports/htb-tinsel-trace-1/index.html`.
 
 ### 4c. SOC top bar
 
