@@ -18,6 +18,9 @@
   --soc-gn:    #3ddc84;
   --soc-rd:    #ff5577;
   --soc-vi:    #a78bfa;
+  --soc-am-star:     #ffb547;
+  --soc-retired-bg:  #ffb547;
+  --soc-retired-txt: #1a1a1a;
 }
 
 /* ── Reset & base ─────────────────────────────────────────── */
@@ -135,9 +138,9 @@ code { font-family:'JetBrains Mono',monospace;font-size:11px;background:rgba(34,
 .text-indigo-500,
 .text-indigo-600,
 .text-indigo-700         { color: var(--soc-cy)   !important; }
+.text-yellow-500         { color: var(--soc-am-star) !important; }
 .text-amber-600,
 .text-amber-700,
-.text-yellow-500,
 .text-yellow-700,
 .text-yellow-800,
 .text-orange-600,
@@ -656,6 +659,9 @@ html[data-theme="light"] {
   --soc-gn:    #15803d;
   --soc-rd:    #be1d3a;
   --soc-vi:    #6d28d9;
+  --soc-am-star:     #f59e0b;
+  --soc-retired-bg:  #f59e0b;
+  --soc-retired-txt: #78350f;
   /* tint vars — light palette rgb equivalents */
   --soc-cy-tint-lo:  rgba(8,145,178,.05);
   --soc-cy-tint-md:  rgba(8,145,178,.10);

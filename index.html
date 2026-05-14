@@ -94,6 +94,14 @@
             --soc-gn:    #3ddc84;
             --soc-rd:    #ff5577;
             --soc-vi:    #a78bfa;
+            --soc-am-star:     #ffb547;
+            --soc-retired-bg:  #ffb547;
+            --soc-retired-txt: #1a1a1a;
+        }
+        [data-theme="light"] {
+            --soc-am-star:     #f59e0b;
+            --soc-retired-bg:  #f59e0b;
+            --soc-retired-txt: #78350f;
         }
 
         /* Root page: deep dark + radial cyan/violet glows */
@@ -167,7 +175,7 @@
         .dark .text-blue-700   { color: var(--soc-cy) !important; }
         .dark .text-purple-500 { color: var(--soc-vi) !important; }
         .dark .text-yellow-700 { color: var(--soc-am) !important; }
-        .dark .text-yellow-500 { color: var(--soc-am) !important; }
+        .dark .text-yellow-500 { color: var(--soc-am-star) !important; }
 
         /* Accent / interactive text — SOC cyan */
         .dark .text-blue-600 { color: var(--soc-cy)  !important; }
@@ -1302,7 +1310,7 @@
                                 <div style={{flexShrink:0,width:'192px',position:'relative'}} className="w-full md:w-48">
                                     <img src={lab.image} alt={`${lab.title} cover`} style={{borderRadius:'5px',objectFit:'cover',width:'100%',height:'auto',border:'1px solid var(--soc-line)'}} />
                                     {lab.is_retired && (
-                                        <span style={{position:'absolute',top:'8px',left:'8px',padding:'1px 6px',background:'var(--soc-am)',color:'#000',borderRadius:'3px',fontSize:'10px',fontWeight:700}}>Retired</span>
+                                        <span style={{position:'absolute',top:'8px',left:'8px',padding:'1px 6px',background:'var(--soc-retired-bg)',color:'var(--soc-retired-txt)',borderRadius:'3px',fontSize:'10px',fontWeight:700}}>Retired</span>
                                     )}
                                 </div>
                             )}
@@ -1318,8 +1326,8 @@
                                 <div style={{display:'flex',alignItems:'center',gap:'10px',marginBottom:'8px',flexWrap:'wrap'}}>
                                     {lab.rating && (
                                         <div style={{display:'flex',alignItems:'center',gap:'6px'}}>
-                                            <span style={{color:'var(--soc-am)',fontSize:'15px'}}>{renderStars(lab.rating)}</span>
-                                            <span style={{fontSize:'12px',fontWeight:600,color:'var(--soc-am)',fontFamily:"'JetBrains Mono',monospace"}}>{lab.rating.toFixed(1)}</span>
+                                            <span style={{color:'var(--soc-am-star)',fontSize:'15px'}}>{renderStars(lab.rating)}</span>
+                                            <span style={{fontSize:'12px',fontWeight:600,color:'var(--soc-am-star)',fontFamily:"'JetBrains Mono',monospace"}}>{lab.rating.toFixed(1)}</span>
                                         </div>
                                     )}
                                     {lab.player_difficulty && lab.player_difficulty !== lab.difficulty && (
@@ -1328,7 +1336,7 @@
                                         </span>
                                     )}
                                     {lab.is_retired && !lab.image && (
-                                        <span style={{padding:'2px 8px',background:'rgba(255,181,71,0.12)',color:'var(--soc-am)',borderRadius:'3px',fontSize:'10px',fontWeight:700,border:'1px solid rgba(255,181,71,.25)'}}>Retired</span>
+                                        <span style={{padding:'2px 8px',background:'var(--soc-am-tint-hi)',color:'var(--soc-am)',borderRadius:'3px',fontSize:'10px',fontWeight:700,border:'1px solid var(--soc-am-tint-bdr)'}}>Retired</span>
                                     )}
                                 </div>
                                 <p style={{color:'var(--soc-ink3)',fontSize:'13px',marginBottom:'12px',lineHeight:1.6}}>{lab.description}</p>
