@@ -27,11 +27,12 @@
     <script src="https://unpkg.com/@babel/standalone@7.29.2/babel.min.js"></script>
     <script src="https://unpkg.com/lucide@1.14.0/dist/umd/lucide.min.js"></script>
     <link rel="stylesheet" href="/themes/soc.css">
+    <script src="/themes/soc-theme.js"></script>
     <script src="/themes/soc-nav.js"></script>
     <script src="/themes/soc-components.js"></script>
     <style>
-        .soc-page-hero { background:linear-gradient(180deg,rgba(34,225,255,.04),transparent 40%),linear-gradient(180deg,var(--soc-bg-1),var(--soc-bg)); }
-        .soc-page-hero-icon { background:rgba(255,85,119,.1);border:1px solid rgba(255,85,119,.3); }
+        .soc-page-hero { background:linear-gradient(180deg,var(--soc-cy-tint-lo),transparent 40%),linear-gradient(180deg,var(--soc-bg-1),var(--soc-bg)); }
+        .soc-page-hero-icon { background:var(--soc-rd-tint-md);border:1px solid var(--soc-rd-tint-bdr); }
         .soc-stat-lbl::before { background:var(--soc-rd); }
         h2.soc-section::before { background:var(--soc-rd);box-shadow:rgba(255,85,119,.7) 0 0 8px; }
     </style>
@@ -53,7 +54,7 @@
     <script type="text/babel">
         const { useState, useEffect, useRef, useMemo } = React;
 
-        const { SocClock, Icon } = window.SocComponents;
+        const { SocClock, Icon, ThemeToggle } = window.SocComponents;
 
         const App = () => {
             const [reports, setReports]   = useState([]);
@@ -105,7 +106,7 @@
                                 <span className="sev cyan"><span className="dot"></span>TLP:CLEAR</span>
                                 <span className="sev red"><span className="dot"></span>IR-RPT</span>
                             </span>
-                            <SocClock />
+                            <SocClock /><ThemeToggle />
                         </div>
                     </div>
 

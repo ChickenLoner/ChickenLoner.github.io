@@ -95,5 +95,25 @@
             React.createElement('div', { style: { display: 'flex', flexDirection: 'column', gap: '14px' } }, children)
         );
 
-    window.SocComponents = { SocClock, Icon, dedent, CodeBlock, Img, Section, Fig, resetFigCount, TipList, B, A, Code };
+    const ThemeToggle = () =>
+        React.createElement(
+            'button',
+            {
+                className: 'soc-theme-btn',
+                onClick: () => window.SocTheme && window.SocTheme.toggle(),
+                type: 'button',
+                'aria-label': 'Toggle theme'
+            },
+            React.createElement('span', { className: 'soc-tb-ico soc-tb-dark' }, '☀︎'),
+            React.createElement('span', { className: 'soc-tb-ico soc-tb-light' }, '☽'),
+            React.createElement('span', { className: 'soc-tb-track' },
+                React.createElement('span', { className: 'soc-tb-knob' })
+            ),
+            React.createElement('span', { className: 'soc-tb-label' },
+                React.createElement('span', { className: 'soc-tb-dark' }, 'LIGHT'),
+                React.createElement('span', { className: 'soc-tb-light' }, 'DARK')
+            )
+        );
+
+    window.SocComponents = { SocClock, Icon, ThemeToggle, dedent, CodeBlock, Img, Section, Fig, resetFigCount, TipList, B, A, Code };
 })();

@@ -26,6 +26,7 @@
     <script src="https://unpkg.com/@babel/standalone@7.29.2/babel.min.js"></script>
     <script src="https://unpkg.com/lucide@1.14.0/dist/umd/lucide.min.js"></script>
     <link rel="stylesheet" href="/themes/soc.css">
+    <script src="/themes/soc-theme.js"></script>
     <script src="/themes/soc-nav.js"></script>
     <script src="/themes/soc-components.js"></script>
 </head>
@@ -46,7 +47,7 @@
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
 
-        const { SocClock, Icon, CodeBlock: CB, Img: ImgBase } = window.SocComponents;
+        const { SocClock, Icon, ThemeToggle, CodeBlock: CB, Img: ImgBase } = window.SocComponents;
 
         const IMG = '/assets/reports/' + window.location.pathname.split('/').filter(p => p && p !== 'index.html').pop();
 
@@ -143,7 +144,7 @@
                                 <span className="sev red"><span className="dot"></span>CONFIDENTIAL</span>
                                 <span className="sev green"><span className="dot"></span>CLOSED</span>
                             </span>
-                            <SocClock />
+                            <SocClock /><ThemeToggle />
                         </div>
                     </div>
 

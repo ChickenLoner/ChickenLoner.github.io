@@ -23,6 +23,7 @@
     <script src="https://unpkg.com/@babel/standalone@7.29.2/babel.min.js"></script>
     <script src="https://unpkg.com/lucide@1.14.0/dist/umd/lucide.min.js"></script>
     <link rel="stylesheet" href="/themes/soc.css">
+    <script src="/themes/soc-theme.js"></script>
     <script src="/themes/soc-nav.js"></script>
     <script src="/themes/soc-components.js"></script>
 </head>
@@ -42,7 +43,7 @@
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
 
-        const { SocClock, Icon, Section, Fig, resetFigCount, TipList, B, A, Code } = window.SocComponents;
+        const { SocClock, Icon, Section, Fig, resetFigCount, TipList, B, A, Code , ThemeToggle } = window.SocComponents;
 
         /* ── Reusable Components ── */
 
@@ -123,7 +124,7 @@
                             <div style={{flex:1}} />
                             <span className="sev cyan"><span className="dot"></span>TLP:CLEAR</span>
                             <span className="sev amber"><span className="dot"></span>CERT.REVIEW</span>
-                            <SocClock />
+                            <SocClock /><ThemeToggle />
                         </div>
                     </nav>
 

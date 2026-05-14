@@ -590,3 +590,306 @@ textarea::placeholder    { color: var(--soc-ink3) !important; }
 @media (min-width:768px) {
     .md\:grid-cols-2 { grid-template-columns:repeat(2,minmax(0,1fr)); }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   ACCENT TINT VARS — for hub page inline styles (T2 refactor)
+   Dark values match existing hardcoded rgba in hub pages.
+   Light values use light-palette rgb equivalents.
+   ══════════════════════════════════════════════════════════ */
+:root {
+  /* cyan tints */
+  --soc-cy-tint-lo:  rgba(34,225,255,.04);
+  --soc-cy-tint-md:  rgba(34,225,255,.10);
+  --soc-cy-tint-hi:  rgba(34,225,255,.15);
+  --soc-cy-tint-bdr: rgba(34,225,255,.25);
+  --soc-cy-tint-hov: rgba(34,225,255,.15);
+  /* amber tints */
+  --soc-am-tint-lo:  rgba(255,181,71,.04);
+  --soc-am-tint-md:  rgba(255,181,71,.10);
+  --soc-am-tint-hi:  rgba(255,181,71,.15);
+  --soc-am-tint-bdr: rgba(255,181,71,.25);
+  /* violet tints */
+  --soc-vi-tint-lo:  rgba(167,139,250,.04);
+  --soc-vi-tint-md:  rgba(167,139,250,.10);
+  --soc-vi-tint-hi:  rgba(167,139,250,.15);
+  --soc-vi-tint-bdr: rgba(167,139,250,.25);
+  --soc-vi-tint-hov: rgba(167,139,250,.15);
+  --soc-vi-tint-box: rgba(167,139,250,.20);
+  /* red tints */
+  --soc-rd-tint-lo:  rgba(255,85,119,.04);
+  --soc-rd-tint-md:  rgba(255,85,119,.10);
+  --soc-rd-tint-bdr: rgba(255,85,119,.25);
+  /* green tints */
+  --soc-gn-tint-lo:  rgba(61,220,132,.04);
+  --soc-gn-tint-md:  rgba(61,220,132,.10);
+  --soc-gn-tint-bdr: rgba(61,220,132,.25);
+  /* strap / hero */
+  --soc-strap-bg: rgba(0,0,0,.25);
+  --soc-strap-v:  var(--soc-cy);
+  /* misc */
+  --soc-neutral-tint-md:  rgba(107,122,156,.08);
+  --soc-neutral-tint-bdr: rgba(107,122,156,.20);
+  --soc-err-tint-bdr: rgba(255,85,119,.30);
+  --soc-err-tint-bg:  rgba(255,85,119,.06);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   LIGHT THEME — html[data-theme="light"]
+   html[] selector (0,1,0,1) beats :root (0,1,0,0) in detail
+   pages that re-declare :root vars inline.
+   ══════════════════════════════════════════════════════════ */
+
+/* ── Palette swap ─────────────────────────────────────────── */
+html[data-theme="light"] {
+  --soc-bg:    #eef2f9;
+  --soc-bg-1:  #ffffff;
+  --soc-bg-2:  #f5f8fd;
+  --soc-line:  #d8e0ee;
+  --soc-line2: #b8c4dc;
+  --soc-ink:   #0c1729;
+  --soc-ink2:  #2c3d58;
+  --soc-ink3:  #4e6080;
+  --soc-ink4:  #6b7896;
+  --soc-cy:    #0891b2;
+  --soc-cy2:   #0e7490;
+  --soc-am:    #b45309;
+  --soc-gn:    #15803d;
+  --soc-rd:    #be1d3a;
+  --soc-vi:    #6d28d9;
+  /* tint vars — light palette rgb equivalents */
+  --soc-cy-tint-lo:  rgba(8,145,178,.05);
+  --soc-cy-tint-md:  rgba(8,145,178,.10);
+  --soc-cy-tint-hi:  #cffafe;
+  --soc-cy-tint-bdr: rgba(8,145,178,.25);
+  --soc-cy-tint-hov: rgba(8,145,178,.15);
+  --soc-am-tint-lo:  rgba(180,83,9,.05);
+  --soc-am-tint-md:  rgba(180,83,9,.10);
+  --soc-am-tint-hi:  #fef3c7;
+  --soc-am-tint-bdr: rgba(180,83,9,.25);
+  --soc-vi-tint-lo:  rgba(109,40,217,.05);
+  --soc-vi-tint-md:  rgba(109,40,217,.10);
+  --soc-vi-tint-hi:  #ede9fe;
+  --soc-vi-tint-bdr: rgba(109,40,217,.25);
+  --soc-vi-tint-hov: rgba(109,40,217,.15);
+  --soc-vi-tint-box: rgba(109,40,217,.20);
+  --soc-rd-tint-lo:  rgba(190,29,58,.05);
+  --soc-rd-tint-md:  rgba(190,29,58,.10);
+  --soc-rd-tint-bdr: rgba(190,29,58,.25);
+  --soc-gn-tint-lo:  rgba(21,128,61,.05);
+  --soc-gn-tint-md:  rgba(21,128,61,.10);
+  --soc-gn-tint-bdr: rgba(21,128,61,.25);
+  --soc-strap-bg: var(--soc-bg-2);
+  --soc-neutral-tint-md:  rgba(107,122,156,.06);
+  --soc-neutral-tint-bdr: rgba(107,122,156,.18);
+  --soc-err-tint-bdr: rgba(190,29,58,.25);
+  --soc-err-tint-bg:  rgba(190,29,58,.05);
+}
+
+/* ── Body background ──────────────────────────────────────── */
+[data-theme="light"] body {
+  background:
+    radial-gradient(1200px 600px at 100% -10%, rgba(8,145,178,.10), transparent 70%),
+    radial-gradient(900px 500px at -10% 30%,   rgba(109,40,217,.06), transparent 70%),
+    var(--soc-bg);
+}
+
+/* ── Topbar — white frosted glass ─────────────────────────── */
+[data-theme="light"] .soc-tb {
+  background: rgba(255,255,255,.85);
+  box-shadow: 0 1px 0 rgba(12,23,41,.04);
+}
+
+/* ── Hero strap — replace dark overlay with light bg ─────── */
+[data-theme="light"] .soc-page-hero-strap,
+[data-theme="light"] .soc-hero-strap { background: var(--soc-bg-2); }
+
+/* ── index.html hex grid + dark.min-h-screen ─────────────── */
+[data-theme="light"] .dark.min-h-screen {
+  background:
+    radial-gradient(1200px 600px at 100% -10%, rgba(8,145,178,.08), transparent 70%),
+    radial-gradient(900px 500px at -10% 30%,   rgba(109,40,217,.05), transparent 70%),
+    var(--soc-bg) !important;
+}
+[data-theme="light"] .dark.min-h-screen::before {
+  opacity: .25;
+  background-image:
+    linear-gradient(60deg,  transparent 49.5%, rgba(8,145,178,.08) 50%, transparent 50.5%),
+    linear-gradient(-60deg, transparent 49.5%, rgba(8,145,178,.08) 50%, transparent 50.5%),
+    linear-gradient(0deg,   transparent 49.5%, rgba(8,145,178,.05) 50%, transparent 50.5%);
+}
+
+/* ── Severity badges — pastel soft fills ─────────────────── */
+[data-theme="light"] .sev.green  { background: #dcfce7; border-color: rgba(21,128,61,.25); }
+[data-theme="light"] .sev.cyan   { background: #cffafe; border-color: rgba(8,145,178,.25); }
+[data-theme="light"] .sev.amber  { background: #fef3c7; border-color: rgba(180,83,9,.25);  }
+[data-theme="light"] .sev.red    { background: #fee2e6; border-color: rgba(190,29,58,.22); }
+[data-theme="light"] .sev.violet { background: #ede9fe; border-color: rgba(109,40,217,.25); }
+
+/* ── Section heading glow — softer on light ──────────────── */
+[data-theme="light"] h2.soc-section::before    { box-shadow: rgba(8,145,178,.35)  0 0 6px; }
+[data-theme="light"] h2.soc-section-lbl::before { box-shadow: rgba(190,29,58,.35) 0 0 6px; }
+
+/* ── Table header ─────────────────────────────────────────── */
+[data-theme="light"] .soc-table thead th { background: var(--soc-bg-2); }
+
+/* ── Research / review section icon ──────────────────────── */
+[data-theme="light"] .res-section-icon {
+  background: rgba(8,145,178,.10);
+  border-color: rgba(8,145,178,.25);
+}
+
+/* ── Inline code ──────────────────────────────────────────── */
+[data-theme="light"] code,
+[data-theme="light"] .res-c,
+[data-theme="light"] .ir-c {
+  background: rgba(8,145,178,.07);
+  border-color: rgba(8,145,178,.18);
+}
+
+/* ── Callouts ─────────────────────────────────────────────── */
+[data-theme="light"] .res-callout.info    { background: rgba(8,145,178,.06);  border-color: rgba(8,145,178,.20);  }
+[data-theme="light"] .res-callout.warning { background: rgba(180,83,9,.06);   border-color: rgba(180,83,9,.20);   }
+[data-theme="light"] .res-callout.tip     { background: rgba(21,128,61,.05);  border-color: rgba(21,128,61,.20);  }
+
+/* ── TOC item hover ───────────────────────────────────────── */
+[data-theme="light"] .res-toc-item:hover,
+[data-theme="light"] .ir-toc-item:hover { background: rgba(8,145,178,.06); color: var(--soc-cy); }
+
+/* ── Table row hover + code cells ────────────────────────── */
+[data-theme="light"] .res-table tbody tr:hover,
+[data-theme="light"] .ir-table tbody tr:hover  { background: rgba(8,145,178,.03); }
+[data-theme="light"] .res-table tbody td code,
+[data-theme="light"] .ir-table tbody td code   { background: rgba(8,145,178,.06); border-color: rgba(8,145,178,.15); }
+
+/* ── IR section icon ──────────────────────────────────────── */
+[data-theme="light"] .ir-section-icon {
+  background: rgba(190,29,58,.10);
+  border-color: rgba(190,29,58,.25);
+}
+
+/* ── IR finding number ────────────────────────────────────── */
+[data-theme="light"] .ir-finding-num    { background: rgba(190,29,58,.08); border-color: rgba(190,29,58,.25); }
+[data-theme="light"] .ir-finding-num.vi { background: rgba(109,40,217,.08); border-color: rgba(109,40,217,.25); }
+
+/* ── Cover overlays — use light bg instead of near-black ─── */
+[data-theme="light"] .res-cover-overlay {
+  background: linear-gradient(to top, rgba(238,242,249,.95) 0%, rgba(238,242,249,.55) 55%, transparent 100%);
+}
+[data-theme="light"] .ir-cover-overlay {
+  background: linear-gradient(to top, rgba(238,242,249,.95) 0%, rgba(238,242,249,.55) 60%, transparent 100%);
+}
+[data-theme="light"] .res-cover-title,
+[data-theme="light"] .ir-cover-title { color: var(--soc-ink); }
+
+/* ── Card hover shadow — lighten for light mode ──────────── */
+[data-theme="light"] .rev-card:hover,
+[data-theme="light"] .res-card:hover,
+[data-theme="light"] .ir-card:hover { box-shadow: 0 0 0 1px var(--soc-line2), 0 8px 24px rgba(12,23,41,.12); }
+
+/* ── Tags ─────────────────────────────────────────────────── */
+[data-theme="light"] .rev-tag,
+[data-theme="light"] .res-tag,
+[data-theme="light"] .ir-tag { background: rgba(180,83,9,.07); border-color: rgba(180,83,9,.20); }
+
+/* ── Difficulty badges ────────────────────────────────────── */
+[data-theme="light"] .soc-diff.easy   { background: rgba(21,128,61,.08);  border-color: rgba(21,128,61,.25);  }
+[data-theme="light"] .soc-diff.medium { background: rgba(180,83,9,.08);   border-color: rgba(180,83,9,.25);   }
+[data-theme="light"] .soc-diff.hard   { background: rgba(190,29,58,.08);  border-color: rgba(190,29,58,.25);  }
+[data-theme="light"] .soc-diff.insane { background: rgba(109,40,217,.08); border-color: rgba(109,40,217,.25); }
+
+/* ── Toggle filter ────────────────────────────────────────── */
+[data-theme="light"] .soc-toggle.active { background: rgba(21,128,61,.08); border-color: rgba(21,128,61,.30); }
+
+/* ── Theme toggle — pill with sliding knob ───────────────── */
+.soc-theme-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 10px 5px 8px;
+  border-radius: 99px;
+  border: 1px solid var(--soc-line2);
+  background: var(--soc-bg-2);
+  color: var(--soc-ink2);
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: .08em;
+  font-weight: 600;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color .18s, color .18s, background .18s;
+  flex-shrink: 0;
+  height: 28px;
+  line-height: 1;
+}
+.soc-theme-btn:hover { border-color: var(--soc-cy); color: var(--soc-cy); }
+
+/* Pill track */
+.soc-theme-btn .soc-tb-track {
+  position: relative;
+  width: 30px; height: 14px;
+  border-radius: 99px;
+  background: rgba(34,225,255,.18);
+  border: 1px solid var(--soc-line2);
+  flex-shrink: 0;
+  transition: background .25s, border-color .25s;
+}
+/* Sliding knob */
+.soc-theme-btn .soc-tb-knob {
+  position: absolute;
+  top: 1px; left: 1px;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--soc-cy);
+  box-shadow: 0 0 8px var(--soc-cy);
+  transition: transform .25s cubic-bezier(.5,.1,.25,1.3), background .25s;
+}
+[data-theme="light"] .soc-theme-btn .soc-tb-knob {
+  transform: translateX(16px);
+  box-shadow: 0 0 0 2px rgba(8,145,178,.18);
+}
+
+/* Icon + label visibility */
+.soc-theme-btn .soc-tb-ico   { font-size: 13px; line-height: 1; }
+.soc-theme-btn .soc-tb-dark  { display: inline; }
+.soc-theme-btn .soc-tb-light { display: none; }
+[data-theme="light"] .soc-theme-btn .soc-tb-dark  { display: none; }
+[data-theme="light"] .soc-theme-btn .soc-tb-light { display: inline; }
+
+/* Light mode overrides */
+[data-theme="light"] .soc-theme-btn {
+  background: var(--soc-bg-1);
+  border-color: var(--soc-line);
+}
+[data-theme="light"] .soc-theme-btn .soc-tb-track {
+  background: rgba(8,145,178,.12);
+  border-color: rgba(8,145,178,.25);
+}
+[data-theme="light"] .soc-theme-btn:hover { border-color: var(--soc-cy); color: var(--soc-cy); }
+
+/* ── Reduced motion — pause badge rail ───────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .soc-rail-track,
+  .badge-marquee-track { animation-play-state: paused; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   T3 — Component adjustments for light mode
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Cert credit glyph — cyan wash → light-palette tint ─── */
+[data-theme="light"] .soc-credit .glyph {
+  background: rgba(8,145,178,.10);
+  border-color: rgba(8,145,178,.30);
+}
+[data-theme="light"] .soc-credit.exp .glyph {
+  background: rgba(107,120,150,.10);
+  border-color: rgba(107,120,150,.25);
+}
+
+/* ── Primary button — fix hover shade for light cyan ─────── */
+[data-theme="light"] .soc-btn:hover        { background: var(--soc-cy2); }
+[data-theme="light"] .soc-btn.ghost:hover  { background: rgba(8,145,178,.10); }
+
+/* ── CTA banner — intentionally kept as dark surface in both
+      themes. The dark gradient provides contrast for CTA text
+      regardless of page theme. Do not override. ────────────*/

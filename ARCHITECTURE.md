@@ -46,7 +46,8 @@ Static portfolio site. Cybersecurity focus: DFIR, SOC, Blue Team. React SPAs emb
 │   ├── research/[slug]/              # Research article figures (cover.png + figures)
 │   └── achievements/                 # Talk/CTF images
 ├── themes/
-│   ├── soc.css                       # Shared CSS variables + Tailwind utility overrides
+│   ├── soc.css                       # Shared CSS variables + Tailwind utility overrides + light theme
+│   ├── soc-theme.js                  # Dark/light toggle — synchronous, sets data-theme on <html>
 │   ├── soc-nav.js                    # Page transition overlay
 │   └── soc-components.js             # Shared React components (plain createElement, no JSX)
 ├── scripts/
@@ -109,6 +110,7 @@ Every page follows this exact structure:
 
     <!-- SOC theme + shared components (load BEFORE text/babel scripts) -->
     <link rel="stylesheet" href="/themes/soc.css">
+    <script src="/themes/soc-theme.js"></script>        <!-- synchronous — no defer -->
     <script src="/themes/soc-components.js"></script>
     <script src="/themes/soc-nav.js" defer></script>
 
@@ -218,13 +220,14 @@ Loaded globally via `<script src="/themes/soc-components.js">` before any `type=
 Exposes `window.SocComponents`. All detail pages destructure from it:
 
 ```javascript
-const { SocClock, Icon, Section, Fig, resetFigCount, TipList, B, A, Code, CodeBlock, Img, dedent } = window.SocComponents;
+const { SocClock, Icon, ThemeToggle, Section, Fig, resetFigCount, TipList, B, A, Code, CodeBlock, Img, dedent } = window.SocComponents;
 ```
 
 | Export | Used by | Purpose |
 |--------|---------|---------|
-| `SocClock` | All detail pages | Live UTC clock via `useRef` + `setInterval` |
-| `Icon` | All detail pages | Lucide icon wrapper (DOM injection, no JSX) |
+| `SocClock` | All pages | Live UTC clock via `useRef` + `setInterval` |
+| `Icon` | All pages | Lucide icon wrapper (DOM injection, no JSX) |
+| `ThemeToggle` | All pages | Sun/Moon toggle button — calls `window.SocTheme.toggle()` |
 | `Section` | 19 reviews + 6 research | H2 section with cyan icon, `res-section` class |
 | `Fig` | 19 reviews | Auto-numbered figure (`figCount` module-level) |
 | `resetFigCount` | 19 reviews | Resets figure counter — call at start of `App()` |
@@ -460,13 +463,45 @@ Navigation between pages uses standard `<a href>` links. `soc-nav.js` intercepts
 
 ---
 
+## Theme System
+
+Dark/light toggle implemented via `localStorage` persistence + CSS custom property cascade.
+
+| Item | Value |
+|------|-------|
+| `localStorage` key | `soc-theme` |
+| Default | `dark` |
+| HTML attribute | `data-theme="light"` on `<html>` |
+| CSS override selector | `html[data-theme="light"]` (specificity 0,1,0,1 — beats inline `:root` 0,1,0,0) |
+| API | `window.SocTheme.toggle()` / `.get()` / `.set(theme)` |
+| Event | `soc-theme-change` CustomEvent dispatched on `document` |
+
+**Load order:** `soc-theme.js` is synchronous (no `defer`) — runs before any render, preventing flash of wrong theme on load.
+
+**`index.html` special case:** Root div uses `className={`min-h-screen${theme==='dark'?' dark':''}`}` — React state driven by `soc-theme-change` listener removes Tailwind `.dark` class in light mode.
+
+---
+
+## Shared JS: soc-theme.js
+
+`themes/soc-theme.js` — synchronous IIFE, no dependencies, no defer.
+
+1. Reads `localStorage['soc-theme']` (default: `'dark'`)
+2. Applies `data-theme` attribute to `<html>` immediately (before React hydrates)
+3. Exposes `window.SocTheme = { toggle, get, set }`
+4. `set()` persists to `localStorage`, applies attribute, dispatches `soc-theme-change` CustomEvent
+
+**Does not** use `prefers-color-scheme` — explicit user choice only.
+
+---
+
 ## Shared JS: soc-components.js
 
 Provides all shared React components as plain `React.createElement` (no JSX, no Babel dependency).
 Must load **after** React + Lucide, **before** any `type="text/babel"` script.
 
 **Exports via `window.SocComponents`:**
-`SocClock`, `Icon`, `dedent`, `CodeBlock`, `Img`, `Section`, `Fig`, `resetFigCount`, `TipList`, `B`, `A`, `Code`
+`SocClock`, `Icon`, `ThemeToggle`, `dedent`, `CodeBlock`, `Img`, `Section`, `Fig`, `resetFigCount`, `TipList`, `B`, `A`, `Code`
 
 See the [React Component Patterns](#react-component-patterns) section for usage.
 
@@ -489,11 +524,12 @@ Injected globally via `<script src="/themes/soc-nav.js" defer>`.
 ## Shared CSS: themes/soc.css
 
 Provides:
-1. CSS variable definitions (same palette as inline `:root` — shared for non-self-contained contexts)
+1. CSS variable definitions (canonical dark palette; `html[data-theme="light"]` block overrides all 15 `--soc-*` vars to light values)
 2. Tailwind `.dark` class overrides to remap Tailwind colors to SOC palette
-3. Global scrollbar styling (custom dark scrollbar)
-
-Tailwind utility equivalents (~140 classes) were added to `soc.css` during O2 so detail pages don't need the Tailwind CDN.
+3. `[data-theme="light"]` component overrides (`.soc-tb`, body background, severity badges, section icons, callouts, cover overlays, card shadows, `.soc-theme-btn`)
+4. `--soc-*-tint-*` CSS vars (cy/am/vi/rd/gn × lo/md/hi/bdr, dark + light values)
+5. Global dark scrollbar styling
+6. ~140 Tailwind utility equivalents (detail pages skip Tailwind CDN)
 
 **Note:** Each page also declares `:root` inline for self-containment. `soc.css` is the canonical reference.
 
@@ -590,12 +626,12 @@ Detail pages (reviews, research, IR reports) do **not** load Tailwind CDN — ut
 
 ## Conventions & Constraints
 
-- **Dark mode only.** No light mode support.
+- **Dark/light toggle.** `soc-theme.js` manages theme; `data-theme` attribute on `<html>` drives CSS. Default: dark. Persisted in `localStorage['soc-theme']`.
 - **No backend.** Pure static HTML/JS/CSS + JSON.
 - **No router library.** Filesystem-based routing.
 - **Self-contained pages.** CSS variables declared inline in every page so pages work without `/themes/soc.css`.
 - **OG/Twitter meta required on all pages.** Memory note: always include when creating new pages.
 - **JetBrains Mono everywhere.** Monospace font is core to the SOC aesthetic.
-- **Shared components via `soc-components.js`.** `Icon`, `SocClock`, `Section`, `Fig`, `CodeBlock`, `Img`, `TipList`, `B`, `A`, `Code`, `dedent` are loaded from `themes/soc-components.js` (plain `React.createElement`, no JSX). Per-page components (`Callout`, `SubSection`, `ReportSection`, etc.) remain inline. No module bundler — `window.SocComponents` is the injection point.
+- **Shared components via `soc-components.js`.** `Icon`, `SocClock`, `ThemeToggle`, `Section`, `Fig`, `CodeBlock`, `Img`, `TipList`, `B`, `A`, `Code`, `dedent` are loaded from `themes/soc-components.js` (plain `React.createElement`, no JSX). Per-page components (`Callout`, `SubSection`, `ReportSection`, etc.) remain inline. No module bundler — `window.SocComponents` is the injection point.
 - **Assets co-located by content type.** `/assets/research/[slug]/` for research, `/assets/reports/[slug]/` for IR, `/assets/badges/` for all cert badges.
 - **Favicon:** `/chicken0248.png` (used on all pages).

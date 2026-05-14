@@ -248,6 +248,45 @@
             .toc { display: none; }
             .layout { padding: 0 14px; }
         }
+
+        /* Theme toggle pill */
+        .theme-toggle {
+            margin-left: 8px; display: inline-flex; align-items: center; gap: 8px;
+            padding: 5px 11px 5px 8px; border-radius: 99px;
+            border: 1px solid var(--soc-line2); background: var(--soc-bg-2); color: var(--soc-ink2);
+            font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .08em;
+            font-weight: 600; text-transform: uppercase;
+            cursor: pointer; transition: all .18s; height: 28px;
+        }
+        .theme-toggle:hover { border-color: var(--soc-cy); color: var(--soc-cy); }
+        .theme-toggle .track {
+            position: relative; width: 30px; height: 14px; border-radius: 99px;
+            background: rgba(34,225,255,.18); border: 1px solid var(--soc-line2);
+            transition: background .25s, border-color .25s;
+        }
+        .theme-toggle .knob {
+            position: absolute; top: 1px; left: 1px; width: 10px; height: 10px;
+            border-radius: 50%; background: var(--soc-cy); box-shadow: 0 0 8px var(--soc-cy);
+            transition: transform .25s cubic-bezier(.5,.1,.25,1.3), background .25s;
+        }
+        [data-theme="light"] .theme-toggle .knob { transform: translateX(16px); }
+        .theme-toggle .ico { font-size: 13px; line-height: 1; }
+        .theme-toggle .ico-dark  { display: inline-block; }
+        .theme-toggle .ico-light { display: none; }
+        [data-theme="light"] .theme-toggle .ico-dark  { display: none; }
+        [data-theme="light"] .theme-toggle .ico-light { display: inline-block; }
+        [data-theme="light"] .theme-toggle { background: var(--soc-bg-1); border-color: var(--soc-line); }
+        [data-theme="light"] .theme-toggle .track { background: #cffafe; border-color: rgba(8,145,178,.25); }
+        [data-theme="light"] .theme-toggle .knob { background: var(--soc-cy); box-shadow: 0 0 0 2px rgba(8,145,178,.18); }
+
+        /* Light mode — page-specific overrides */
+        [data-theme="light"] .tb {
+            background: rgba(255,255,255,.88);
+            box-shadow: 0 1px 0 rgba(12,23,41,.06);
+        }
+        [data-theme="light"] tr:hover td { background: rgba(8,145,178,.04); }
+        [data-theme="light"] .callout.info { background: rgba(8,145,178,.06); border-color: rgba(8,145,178,.4); color: var(--soc-cy2); }
+        [data-theme="light"] .callout.warn { background: rgba(180,83,9,.06);  border-color: rgba(180,83,9,.4);  color: var(--soc-am); }
     </style>
 </head>
 <body>
@@ -264,6 +303,11 @@
             <span class="sev cyan">TLP:CLEAR</span>
             <span class="sev violet">DEV.REF</span>
         </div>
+        <button class="theme-toggle" onclick="window.SocTheme && window.SocTheme.toggle()" type="button" aria-label="Toggle theme" title="Toggle theme">
+            <span class="ico ico-dark">☀︎</span><span class="ico ico-light">☽</span>
+            <span class="track"><span class="knob"></span></span>
+            <span class="label"><span class="ico-dark">LIGHT</span><span class="ico-light">DARK</span></span>
+        </button>
     </div>
 </nav>
 
@@ -285,6 +329,7 @@
         <a href="#schemas"       class="toc-item">JSON Schemas</a>
         <a href="#routing"       class="toc-item">Routing</a>
         <a href="#shared-js"     class="toc-item">Shared JS</a>
+        <a href="#soc-theme-js"  class="toc-item sub">soc-theme.js</a>
         <a href="#soc-components-js" class="toc-item sub">soc-components.js</a>
         <a href="#soc-nav-js"    class="toc-item sub">soc-nav.js</a>
         <a href="#soc-css"       class="toc-item sub">soc.css</a>
@@ -300,7 +345,7 @@
 
         <div class="page-header">
             <div class="page-title">Site Architecture</div>
-            <div class="page-sub">ChickenLoner.github.io — static portfolio, cybersecurity focus: DFIR, SOC, Blue Team. React SPAs embedded in every HTML page via Babel standalone. SOC Console dark theme throughout.</div>
+            <div class="page-sub">ChickenLoner.github.io — static portfolio, cybersecurity focus: DFIR, SOC, Blue Team. React SPAs embedded in every HTML page via Babel standalone. SOC Console theme with dark/light toggle.</div>
         </div>
 
         <!-- Overview -->
@@ -498,6 +543,31 @@
                 </div>
             </div>
 
+            <div class="subsec">
+                <div class="subsec-title">Light Palette (<code>html[data-theme="light"]</code>)</div>
+                <div class="tbl-wrap"><table>
+                    <thead><tr><th>Variable</th><th>Dark</th><th>Light</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>--soc-bg</code></td><td>#0d1117</td><td>#eef2f9</td></tr>
+                        <tr><td><code>--soc-bg-1</code></td><td>#161b22</td><td>#ffffff</td></tr>
+                        <tr><td><code>--soc-bg-2</code></td><td>#1c2433</td><td>#f5f8fd</td></tr>
+                        <tr><td><code>--soc-line</code></td><td>#253040</td><td>#d8e0ee</td></tr>
+                        <tr><td><code>--soc-line2</code></td><td>#374d6c</td><td>#b8c4dc</td></tr>
+                        <tr><td><code>--soc-ink</code></td><td>#eef3ff</td><td>#0c1729</td></tr>
+                        <tr><td><code>--soc-ink2</code></td><td>#c4ceea</td><td>#2c3d58</td></tr>
+                        <tr><td><code>--soc-ink3</code></td><td>#8a9bbf</td><td>#4e6080</td></tr>
+                        <tr><td><code>--soc-ink4</code></td><td>#5e718a</td><td>#6b7896</td></tr>
+                        <tr><td><code>--soc-cy</code></td><td>#22e1ff</td><td>#0891b2</td></tr>
+                        <tr><td><code>--soc-cy2</code></td><td>#06b8d9</td><td>#0e7490</td></tr>
+                        <tr><td><code>--soc-am</code></td><td>#ffb547</td><td>#b45309</td></tr>
+                        <tr><td><code>--soc-gn</code></td><td>#3ddc84</td><td>#15803d</td></tr>
+                        <tr><td><code>--soc-rd</code></td><td>#ff5577</td><td>#be1d3a</td></tr>
+                        <tr><td><code>--soc-vi</code></td><td>#a78bfa</td><td>#6d28d9</td></tr>
+                    </tbody>
+                </table></div>
+                <div class="callout info"><p><strong>Exception:</strong> <code>.soc-cta</code> intentionally retains its dark gradient in both themes — the dark surface provides contrast for CTA text regardless of page theme.</p></div>
+            </div>
+
             <div class="subsec" id="css-classes">
                 <div class="subsec-title">Key CSS Classes</div>
                 <div class="tbl-wrap">
@@ -539,6 +609,7 @@
                 <div class="chip-grid">
                     <div class="chip"><code>SocClock</code> — UTC clock</div>
                     <div class="chip"><code>Icon</code> — Lucide wrapper</div>
+                    <div class="chip"><code>ThemeToggle</code> — sun/moon toggle</div>
                     <div class="chip"><code>Section</code> — res-section</div>
                     <div class="chip"><code>Fig</code> — auto-numbered figure</div>
                     <div class="chip"><code>resetFigCount</code> — reset counter</div>
@@ -554,8 +625,9 @@
                     <table>
                         <thead><tr><th>Export</th><th>Used by</th><th>Notes</th></tr></thead>
                         <tbody>
-                            <tr><td><code>SocClock</code></td><td>All detail pages</td><td>Live UTC via useRef + setInterval</td></tr>
-                            <tr><td><code>Icon</code></td><td>All detail pages</td><td>Lucide icon via DOM injection</td></tr>
+                            <tr><td><code>SocClock</code></td><td>All pages</td><td>Live UTC via useRef + setInterval</td></tr>
+                            <tr><td><code>Icon</code></td><td>All pages</td><td>Lucide icon via DOM injection</td></tr>
+                            <tr><td><code>ThemeToggle</code></td><td>All pages</td><td>Sun/Moon button; calls <code>window.SocTheme.toggle()</code>; syncs via <code>soc-theme-change</code> event</td></tr>
                             <tr><td><code>Section</code></td><td>19 reviews + 6 research</td><td><code>res-section</code> class, cyan icon</td></tr>
                             <tr><td><code>Fig</code></td><td>19 reviews</td><td>Auto-numbered; module-level figCount</td></tr>
                             <tr><td><code>resetFigCount</code></td><td>19 reviews</td><td>Call as first line of App()</td></tr>
@@ -785,6 +857,27 @@ useEffect(() => {
                 </div>
             </div>
 
+            <div class="subsec" id="soc-theme-js">
+                <div class="subsec-title">themes/soc-theme.js</div>
+                <p>Synchronous IIFE — load <strong>without</strong> <code>defer</code>. Applies <code>data-theme</code> to <code>&lt;html&gt;</code> before any render, preventing flash of wrong theme.</p>
+                <ul>
+                    <li>Reads <code>localStorage['soc-theme']</code> on load (default: <code>'dark'</code>)</li>
+                    <li>Exposes <code>window.SocTheme = { toggle, get, set }</code></li>
+                    <li><code>set(theme)</code> persists to <code>localStorage</code>, sets <code>data-theme</code> on <code>&lt;html&gt;</code>, dispatches <code>soc-theme-change</code> CustomEvent on <code>document</code></li>
+                    <li>React components listen to <code>soc-theme-change</code> to update toggle icon and (on <code>index.html</code>) to remove the Tailwind <code>.dark</code> class</li>
+                    <li>Does <strong>not</strong> use <code>prefers-color-scheme</code> — explicit user choice only</li>
+                </ul>
+                <div class="tbl-wrap"><table>
+                    <thead><tr><th>Key</th><th>Value</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>localStorage</code> key</td><td><code>soc-theme</code></td></tr>
+                        <tr><td>Default</td><td><code>dark</code></td></tr>
+                        <tr><td>HTML attribute</td><td><code>data-theme="light"</code> on <code>&lt;html&gt;</code></td></tr>
+                        <tr><td>CSS selector</td><td><code>html[data-theme="light"]</code> — specificity 0,1,0,1 beats inline <code>:root</code> 0,1,0,0</td></tr>
+                    </tbody>
+                </table></div>
+            </div>
+
             <div class="subsec" id="soc-nav-js">
                 <div class="subsec-title">themes/soc-nav.js</div>
                 <p>Injected globally via <code>&lt;script src="/themes/soc-nav.js" defer&gt;</code>.</p>
@@ -800,13 +893,16 @@ useEffect(() => {
             <div class="subsec" id="soc-css">
                 <div class="subsec-title">themes/soc.css</div>
                 <ul>
-                    <li>CSS variable definitions (canonical color palette)</li>
+                    <li>CSS variable definitions — canonical dark palette in <code>:root</code></li>
+                    <li><code>html[data-theme="light"]</code> block — overrides all 15 <code>--soc-*</code> vars to light values</li>
+                    <li><code>[data-theme="light"]</code> component overrides — <code>.soc-tb</code>, body background, severity badges, section icons, callouts, cover overlays, card shadows, <code>.soc-theme-btn</code></li>
+                    <li><code>--soc-*-tint-*</code> CSS vars (cy/am/vi/rd/gn × lo/md/hi/bdr levels, dark + light values)</li>
                     <li>Tailwind <code>.dark</code> class overrides → SOC palette</li>
                     <li>~140 Tailwind utility equivalents (icon sizes, typography, spacing, layout, colors, borders, accessibility)</li>
                     <li>Global dark scrollbar styling</li>
                     <li>All <code>.res-*</code> and <code>.ir-*</code> component classes</li>
                 </ul>
-                <div class="callout warn"><p><strong>Note:</strong> Detail pages also declare <code>:root</code> inline for self-containment. <code>soc.css</code> is the canonical reference.</p></div>
+                <div class="callout warn"><p><strong>Note:</strong> Detail pages also declare <code>:root</code> inline for self-containment. <code>soc.css</code> is the canonical reference. The <code>html[data-theme="light"]</code> selector (specificity 0,1,0,1) beats inline <code>:root</code> (0,1,0,0), so light mode overrides work on all pages without per-page edits.</p></div>
             </div>
         </section>
 
@@ -922,7 +1018,7 @@ useEffect(() => {
                 Conventions &amp; Constraints
             </div>
             <ul>
-                <li><strong>Dark mode only.</strong> No light mode support.</li>
+                <li><strong>Dark/light toggle.</strong> <code>soc-theme.js</code> manages theme via <code>data-theme</code> on <code>&lt;html&gt;</code>. Default: dark. Persisted in <code>localStorage['soc-theme']</code>. <code>ThemeToggle</code> component in every topbar.</li>
                 <li><strong>No backend.</strong> Pure static HTML/JS/CSS + JSON.</li>
                 <li><strong>No router library.</strong> Filesystem-based routing.</li>
                 <li><strong>Self-contained CSS.</strong> <code>:root</code> CSS variables declared inline on every page — pages render correctly if <code>/themes/soc.css</code> fails.</li>
@@ -942,6 +1038,8 @@ useEffect(() => {
 <footer class="ft">
     <a href="/">← Back to Portfolio</a> &nbsp;·&nbsp; ChickenLoner.github.io
 </footer>
+
+<script src="/themes/soc-theme.js"></script>
 
 <script src="/themes/soc-nav.js" defer></script>
 </body>

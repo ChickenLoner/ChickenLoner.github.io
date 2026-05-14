@@ -26,13 +26,14 @@
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone@7.29.2/babel.min.js"></script>
     <link rel="stylesheet" href="/themes/soc.css">
+    <script src="/themes/soc-theme.js"></script>
     <script src="/themes/soc-nav.js"></script>
     <script src="/themes/soc-components.js"></script>
     <style>
         /* Violet accent */
-        .soc-page-hero { background:linear-gradient(180deg,rgba(167,139,250,.04),transparent 40%),linear-gradient(180deg,var(--soc-bg-1),var(--soc-bg)); }
+        .soc-page-hero { background:linear-gradient(180deg,var(--soc-vi-tint-lo),transparent 40%),linear-gradient(180deg,var(--soc-bg-1),var(--soc-bg)); }
         .soc-page-hero-strap .seg .v { color:var(--soc-vi); }
-        .soc-page-hero-icon { background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.3); }
+        .soc-page-hero-icon { background:var(--soc-vi-tint-md);border:1px solid var(--soc-vi-tint-bdr); }
         h2.soc-section::before { background:var(--soc-vi);box-shadow:rgba(167,139,250,.7) 0 0 8px; }
         .soc-hs-lbl::before { background:var(--soc-vi); }
         .soc-hs-lbl.am::before { background:var(--soc-am); }
@@ -40,26 +41,26 @@
         .soc-hs-lbl.rd::before { background:var(--soc-rd); }
         .soc-hs-lbl.gn::before { background:var(--soc-gn); }
         .soc-pill:hover { border-color:var(--soc-vi);color:var(--soc-vi); }
-        .soc-pill.active { background:rgba(167,139,250,.1);border-color:rgba(167,139,250,.4);color:var(--soc-vi); }
+        .soc-pill.active { background:var(--soc-vi-tint-md);border-color:var(--soc-vi-tint-bdr);color:var(--soc-vi); }
         .soc-search-bar { background:var(--soc-bg-2);height:36px; }
-        .soc-table tbody tr:hover { background:rgba(167,139,250,.03); }
+        .soc-table tbody tr:hover { background:var(--soc-vi-tint-lo); }
         /* Provider cards */
         .soc-provider-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px; }
         .soc-provider-card { border:1px solid var(--soc-line);border-radius:6px;padding:14px;text-align:center;cursor:pointer;background:var(--soc-bg-1);transition:all .12s;display:flex;flex-direction:column;align-items:center;gap:8px; }
         .soc-provider-card:hover { border-color:var(--soc-line2); }
-        .soc-provider-card.active { border-color:var(--soc-vi);background:rgba(167,139,250,.05);box-shadow:0 0 0 1px rgba(167,139,250,.2); }
+        .soc-provider-card.active { border-color:var(--soc-vi);background:var(--soc-vi-tint-lo);box-shadow:0 0 0 1px var(--soc-vi-tint-box); }
         .soc-provider-icon { width:36px;height:36px;border-radius:8px;display:grid;place-items:center;font-size:18px; }
         .soc-provider-name { font-weight:700;color:var(--soc-ink);font-size:13px;font-family:'JetBrains Mono',monospace; }
         .soc-provider-count { font-size:11px;color:var(--soc-ink3);font-family:'JetBrains Mono',monospace; }
         /* Provider badges */
         .soc-prov { display:inline-block;padding:2px 8px;border-radius:3px;font-size:10px;font-weight:600;font-family:'JetBrains Mono',monospace;white-space:nowrap; }
-        .soc-prov.aws   { background:rgba(255,181,71,.1); color:var(--soc-am); border:1px solid rgba(255,181,71,.25); }
-        .soc-prov.azure { background:rgba(34,225,255,.1);  color:var(--soc-cy); border:1px solid rgba(34,225,255,.25); }
-        .soc-prov.gcp   { background:rgba(255,85,119,.1);  color:var(--soc-rd); border:1px solid rgba(255,85,119,.25); }
-        .soc-prov.other { background:rgba(107,122,156,.08);color:var(--soc-ink3);border:1px solid rgba(107,122,156,.2); }
+        .soc-prov.aws   { background:var(--soc-am-tint-md); color:var(--soc-am); border:1px solid var(--soc-am-tint-bdr); }
+        .soc-prov.azure { background:var(--soc-cy-tint-md);  color:var(--soc-cy); border:1px solid var(--soc-cy-tint-bdr); }
+        .soc-prov.gcp   { background:var(--soc-rd-tint-md);  color:var(--soc-rd); border:1px solid var(--soc-rd-tint-bdr); }
+        .soc-prov.other { background:var(--soc-neutral-tint-md);color:var(--soc-ink3);border:1px solid var(--soc-neutral-tint-bdr); }
         /* Open button */
-        .soc-open-btn { display:inline-flex;align-items:center;gap:5px;padding:4px 10px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.25);border-radius:3px;color:var(--soc-vi);font-size:10px;font-weight:700;font-family:'JetBrains Mono',monospace;letter-spacing:.08em;text-decoration:none;white-space:nowrap;transition:all .12s; }
-        .soc-open-btn:hover { background:rgba(167,139,250,.15);border-color:rgba(167,139,250,.5); }
+        .soc-open-btn { display:inline-flex;align-items:center;gap:5px;padding:4px 10px;background:var(--soc-vi-tint-md);border:1px solid var(--soc-vi-tint-bdr);border-radius:3px;color:var(--soc-vi);font-size:10px;font-weight:700;font-family:'JetBrains Mono',monospace;letter-spacing:.08em;text-decoration:none;white-space:nowrap;transition:all .12s; }
+        .soc-open-btn:hover { background:var(--soc-vi-tint-hov);border-color:var(--soc-vi-tint-bdr); }
     </style>
 </head>
 <body>
@@ -81,7 +82,7 @@
 
     const README_URL = 'https://raw.githubusercontent.com/ChickenLoner/Awesome-Cloud-Investigation-Labs/main/README.md';
 
-    const { SocClock, Icon } = window.SocComponents;
+    const { SocClock, Icon, ThemeToggle } = window.SocComponents;
 
     /* ── Parser ── */
     function normDiff(d) {
@@ -213,7 +214,7 @@
                             <span className="sev cyan"><span className="dot"></span>TLP:CLEAR</span>
                             <span className="sev violet"><span className="dot"></span>CLOUD</span>
                         </span>
-                        <SocClock />
+                        <SocClock /><ThemeToggle />
                     </div>
                 </div>
 
@@ -283,7 +284,7 @@
 
                         {/* Error */}
                         {error && (
-                            <div style={{border:'1px solid rgba(255,85,119,.3)',borderRadius:'6px',padding:'24px',textAlign:'center',background:'rgba(255,85,119,.06)'}}>
+                            <div style={{border:'1px solid var(--soc-rd-tint-bdr)',borderRadius:'6px',padding:'24px',textAlign:'center',background:'var(--soc-err-tint-bg)'}}>
                                 <p style={{color:'var(--soc-rd)',fontWeight:600,margin:'0 0 6px'}}>Failed to load: {error}</p>
                                 <p style={{color:'var(--soc-ink3)',fontSize:'12px',margin:0}}>Check your connection or try again later.</p>
                             </div>
@@ -301,7 +302,7 @@
                                             <button key={p}
                                                 className={`soc-provider-card ${providerFilter === p ? 'active' : ''}`}
                                                 onClick={() => setProviderFilter(providerFilter === p ? 'all' : p)}>
-                                                <div className="soc-provider-icon" style={{background:`rgba(${p==='AWS'?'255,181,71':p==='Azure'?'34,225,255':'255,85,119'},.1)`,border:`1px solid rgba(${p==='AWS'?'255,181,71':p==='Azure'?'34,225,255':'255,85,119'},.25)`}}>
+                                                <div className="soc-provider-icon" style={{background:p==='AWS'?'var(--soc-am-tint-md)':p==='Azure'?'var(--soc-cy-tint-md)':'var(--soc-rd-tint-md)',border:`1px solid ${p==='AWS'?'var(--soc-am-tint-bdr)':p==='Azure'?'var(--soc-cy-tint-bdr)':'var(--soc-rd-tint-bdr)'}`}}>
                                                     {meta.icon}
                                                 </div>
                                                 <div className="soc-provider-name" style={{color:providerFilter===p?meta.color:'var(--soc-ink)'}}>{p}</div>

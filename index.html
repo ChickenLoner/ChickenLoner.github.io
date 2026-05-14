@@ -394,6 +394,7 @@
             .soc-alert { grid-template-columns:72px 60px 1fr auto; }
         }
     </style>
+    <script src="/themes/soc-theme.js"></script>
     <script src="/themes/soc-nav.js"></script>
 </head>
 <body>
@@ -443,10 +444,29 @@
             return <i ref={ref} className={`flex-shrink-0 ${className}`} {...props}></i>;
         };
 
+        const ThemeToggle = () => (
+            <button
+                className="soc-theme-btn"
+                onClick={() => window.SocTheme && window.SocTheme.toggle()}
+                type="button"
+                aria-label="Toggle theme"
+            >
+                <span className="soc-tb-ico soc-tb-dark">☀︎</span>
+                <span className="soc-tb-ico soc-tb-light">☽</span>
+                <span className="soc-tb-track"><span className="soc-tb-knob"></span></span>
+                <span className="soc-tb-label">
+                    <span className="soc-tb-dark">LIGHT</span>
+                    <span className="soc-tb-light">DARK</span>
+                </span>
+            </button>
+        );
+
         const Portfolio = () => {
             const [activePage, setActivePage] = useState('home');
             const [labsMetadata, setLabsMetadata] = useState({});
             const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+            const [theme, setTheme] = useState(window.SocTheme ? window.SocTheme.get() : 'dark');
+
 
             // Data state — loaded from JSON files
             const [certifications, setCertifications] = useState([]);
@@ -461,6 +481,11 @@
             // Merge static lab data with dynamic metadata at render time
             const labs = labsData.map(lab => ({ ...lab, ...(labsMetadata[lab.title] || {}) }));
 
+            useEffect(() => {
+                const handler = (e) => setTheme(e.detail);
+                document.addEventListener('soc-theme-change', handler);
+                return () => document.removeEventListener('soc-theme-change', handler);
+            }, []);
             useEffect(() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }, [activePage]);
 
 
@@ -1750,7 +1775,7 @@
             };
 
             return (
-                <div className="min-h-screen dark">
+                <div className={`min-h-screen${theme === 'dark' ? ' dark' : ''}`}>
                     {/* SOC Top Bar */}
                     <div className="soc-tb">
                         <div className="soc-tb-row">
@@ -1761,6 +1786,7 @@
                                 <span className="sev green"><span className="dot"></span>SHIFT · DAY</span>
                             </span>
                             <SocClock />
+                            <ThemeToggle />
                             <button className="md:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} style={{background:'transparent',border:'none',cursor:'pointer',color:'var(--soc-ink3)',padding:'2px 6px'}}>
                                 <Icon name={mobileMenuOpen ? 'X' : 'Menu'} className="w-4 h-4" />
                             </button>
