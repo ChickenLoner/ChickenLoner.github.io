@@ -885,9 +885,9 @@ useEffect(() => {
                 <p>Injected globally via <code>&lt;script src="/themes/soc-nav.js" defer&gt;</code>.</p>
                 <ul>
                     <li>On DOM ready: injects fixed overlay <code>#soc-nav-overlay</code> (progress bar + ring spinner + "UPLINK CONNECTING_" text)</li>
-                    <li>On any internal link click: shows overlay, waits 420ms, then navigates</li>
-                    <li>On page load: fades overlay out</li>
-                    <li>Uses <code>sessionStorage</code> to distinguish first-load vs navigation-load</li>
+                    <li>On any internal link click: shows overlay, sets <code>sessionStorage['soc-nav']='1'</code>, navigates</li>
+                    <li>On page load: if key present, fades overlay out after 420ms and removes key</li>
+                    <li>On <code>pageshow</code> with <code>persisted:true</code> (bfcache restore): immediately hides overlay and clears key — prevents stuck overlay on browser back/forward</li>
                     <li>Does <strong>not</strong> affect: external links (<code>target="_blank"</code>), anchor links (<code>#id</code>), <code>mailto:</code>, <code>tel:</code></li>
                 </ul>
             </div>
@@ -897,7 +897,7 @@ useEffect(() => {
                 <ul>
                     <li>CSS variable definitions — canonical dark palette in <code>:root</code></li>
                     <li><code>html[data-theme="light"]</code> block — overrides all 15 <code>--soc-*</code> vars to light values</li>
-                    <li><code>[data-theme="light"]</code> component overrides — <code>.soc-tb</code>, body background, severity badges, section icons, callouts, cover overlays, card shadows, <code>.soc-theme-btn</code></li>
+                    <li><code>[data-theme="light"]</code> component overrides — <code>.soc-tb</code>, <code>.soc-nav</code>, body background, severity badges, section icons, callouts, cover overlays, card shadows, <code>.soc-theme-btn</code>, <code>.soc-cta</code> (dark-teal retained), <code>.soc-opnote</code>, <code>.soc-seg</code>/<code>.soc-seg-btn</code> (also in index.html inline style for cascade priority)</li>
                     <li><code>--soc-*-tint-*</code> CSS vars (cy/am/vi/rd/gn × lo/md/hi/bdr levels, dark + light values)</li>
                     <li>Tailwind <code>.dark</code> class overrides → SOC palette</li>
                     <li>~140 Tailwind utility equivalents (icon sizes, typography, spacing, layout, colors, borders, accessibility)</li>

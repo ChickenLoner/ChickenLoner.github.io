@@ -88,7 +88,7 @@ h2.soc-section-lbl::before { content:"";width:4px;height:14px;background:var(--s
 .soc-stat-val { font-size:22px;font-weight:700;letter-spacing:-.01em;margin-top:4px;font-variant-numeric:tabular-nums;color:var(--soc-ink);font-family:'JetBrains Mono',monospace; }
 
 /* ── Page hero (hub pages) ────────────────────────────────── */
-.soc-page-hero { border:1px solid var(--soc-line2);border-radius:6px;overflow:hidden;margin-bottom:24px; }
+.soc-page-hero { border:1px solid var(--soc-line2);border-radius:6px;overflow:hidden; }
 .soc-page-hero-strap { display:flex;align-items:center;gap:12px;padding:7px 18px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--soc-ink3);border-bottom:1px solid var(--soc-line);background:rgba(0,0,0,.25); }
 .soc-page-hero-strap .seg { display:flex;align-items:center;gap:6px; }
 .soc-page-hero-strap .seg b { color:var(--soc-ink2);font-weight:500; }
@@ -890,6 +890,64 @@ html[data-theme="light"] {
 [data-theme="light"] .soc-btn:hover        { background: var(--soc-cy2); }
 [data-theme="light"] .soc-btn.ghost:hover  { background: rgba(8,145,178,.10); }
 
-/* ── CTA banner — intentionally kept as dark surface in both
-      themes. The dark gradient provides contrast for CTA text
-      regardless of page theme. Do not override. ────────────*/
+/* ── Nav bar ──────────────────────────────────────────────── */
+[data-theme="light"] .soc-nav { background: rgba(255,255,255,.70) !important; }
+[data-theme="light"] .soc-tab.active {
+  background: linear-gradient(180deg, transparent, rgba(8,145,178,.07)) !important;
+}
+
+/* ── Mobile menu — light surface ─────────────────────────── */
+[data-theme="light"] .soc-mobile-menu {
+  background: rgba(245,248,253,.98) !important;
+  border-top-color: var(--soc-line);
+}
+
+/* ── CTA banner — dark-blue surface (intentional, matches reference) */
+[data-theme="light"] .soc-cta {
+  background:
+    radial-gradient(ellipse at 100% 0%, rgba(8,145,178,.18), transparent 65%),
+    linear-gradient(135deg, #083344, #0c4a6e);
+  color: #e0f7fb;
+  box-shadow: 0 10px 30px -16px rgba(8,145,178,.45);
+}
+[data-theme="light"] .soc-cta h3 { color: #ffffff; }
+[data-theme="light"] .soc-cta p  { color: #bae6fd; }
+[data-theme="light"] .soc-btn          { background: #67e8f9; border-color: #67e8f9; color: #06414f; }
+[data-theme="light"] .soc-btn:hover    { background: #a5f3fc; border-color: #a5f3fc; }
+[data-theme="light"] .soc-btn.ghost    { background: transparent; color: #67e8f9; border-color: #67e8f9; }
+[data-theme="light"] .soc-btn.ghost:hover { background: rgba(103,232,249,.12); }
+
+/* ── Operator Brief — light surface with cyan tint (matches reference) */
+[data-theme="light"] .soc-opnote {
+  background: linear-gradient(90deg, rgba(8,145,178,.07), transparent 50%), var(--soc-bg-1);
+  box-shadow: 0 1px 0 rgba(12,23,41,.03);
+}
+[data-theme="light"] .soc-opnote .clear {
+  background: rgba(21,128,61,.08);
+  color: var(--soc-gn);
+  border-color: rgba(21,128,61,.25);
+}
+[data-theme="light"] .soc-plat {
+  border-color: var(--soc-line);
+  background: var(--soc-bg-1);
+}
+[data-theme="light"] .soc-plat:hover { border-color: var(--soc-cy); color: var(--soc-cy); }
+
+/* ── Segment filter controls (certs / labs / achievements) ── */
+[data-theme="light"] .soc-seg {
+  background: var(--soc-bg-2);
+  border-color: var(--soc-line);
+}
+[data-theme="light"] .soc-seg-btn.active {
+  background: #ffffff !important;
+  color: var(--soc-cy) !important;
+  box-shadow: inset 0 0 0 1px rgba(8,145,178,.40), 0 1px 3px rgba(12,23,41,.08) !important;
+}
+[data-theme="light"] .soc-seg-count {
+  background: rgba(8,145,178,.10);
+  color: var(--soc-ink3);
+}
+[data-theme="light"] .soc-seg-btn.active .soc-seg-count {
+  background: rgba(8,145,178,.15);
+  color: var(--soc-cy);
+}

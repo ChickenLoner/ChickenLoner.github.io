@@ -48,6 +48,15 @@
     }, 420);
   }
 
+  /* Hide overlay when browser restores page from bfcache (back/forward) */
+  window.addEventListener('pageshow', function (e) {
+    if (e.persisted) {
+      overlay.style.transition = 'none';
+      overlay.classList.remove('soc-nav-in');
+      sessionStorage.removeItem(KEY);
+    }
+  });
+
   /* Intercept internal link clicks */
   document.addEventListener('click', function (e) {
     var a = e.target.closest('a[href]');
