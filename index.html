@@ -216,6 +216,31 @@
         }
         .dark .focus\:border-blue-500:focus { border-color: var(--soc-cy) !important; }
 
+        /* ── Light mode: rgba tint overrides (CSS vars auto-handle everything else) ── */
+        [data-theme="light"] .dark .bg-blue-50,
+        [data-theme="light"] .dark .bg-indigo-50,
+        [data-theme="light"] .dark .bg-cyan-50   { background-color: var(--soc-cy-tint-lo) !important; }
+        [data-theme="light"] .dark .bg-blue-100  { background-color: var(--soc-cy-tint-md) !important; }
+        [data-theme="light"] .dark .bg-purple-50 { background-color: var(--soc-vi-tint-lo) !important; }
+        [data-theme="light"] .dark .bg-green-50  { background-color: var(--soc-gn-tint-lo) !important; }
+        [data-theme="light"] .dark .bg-orange-50,
+        [data-theme="light"] .dark .bg-yellow-50 { background-color: var(--soc-am-tint-lo) !important; }
+        [data-theme="light"] .dark .bg-red-50    { background-color: var(--soc-rd-tint-lo) !important; }
+        [data-theme="light"] .dark .bg-green-100  { background-color: var(--soc-gn-tint-md) !important; }
+        [data-theme="light"] .dark .bg-orange-100,
+        [data-theme="light"] .dark .bg-yellow-100 { background-color: var(--soc-am-tint-md) !important; }
+        [data-theme="light"] .dark .bg-red-100    { background-color: var(--soc-rd-tint-md) !important; }
+        [data-theme="light"] .dark .border-blue-100,
+        [data-theme="light"] .dark .border-blue-200   { border-color: var(--soc-cy-tint-bdr) !important; }
+        [data-theme="light"] .dark .border-purple-100 { border-color: var(--soc-vi-tint-bdr) !important; }
+        [data-theme="light"] .dark .border-yellow-200 { border-color: var(--soc-am-tint-bdr) !important; }
+        [data-theme="light"] .dark .hover\:border-blue-200:hover,
+        [data-theme="light"] .dark .hover\:border-blue-400:hover,
+        [data-theme="light"] .dark .hover\:border-indigo-200:hover { border-color: var(--soc-cy-tint-bdr) !important; }
+        [data-theme="light"] .dark .hover\:border-red-200:hover    { border-color: var(--soc-rd-tint-bdr) !important; }
+        [data-theme="light"] .dark input:focus,
+        [data-theme="light"] .dark textarea:focus { --tw-ring-color: rgba(8,145,178,.25) !important; }
+
         /* Scrollbar — global so the main window scrollbar is also styled */
         ::-webkit-scrollbar              { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track        { background: var(--soc-bg); }
@@ -465,9 +490,6 @@
             const [activePage, setActivePage] = useState('home');
             const [labsMetadata, setLabsMetadata] = useState({});
             const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-            const [theme, setTheme] = useState(window.SocTheme ? window.SocTheme.get() : 'dark');
-
-
             // Data state — loaded from JSON files
             const [certifications, setCertifications] = useState([]);
             const [certificationReviews, setCertificationReviews] = useState([]);
@@ -481,11 +503,6 @@
             // Merge static lab data with dynamic metadata at render time
             const labs = labsData.map(lab => ({ ...lab, ...(labsMetadata[lab.title] || {}) }));
 
-            useEffect(() => {
-                const handler = (e) => setTheme(e.detail);
-                document.addEventListener('soc-theme-change', handler);
-                return () => document.removeEventListener('soc-theme-change', handler);
-            }, []);
             useEffect(() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }, [activePage]);
 
 
@@ -1775,7 +1792,7 @@
             };
 
             return (
-                <div className={`min-h-screen${theme === 'dark' ? ' dark' : ''}`}>
+                <div className="min-h-screen dark">
                     {/* SOC Top Bar */}
                     <div className="soc-tb">
                         <div className="soc-tb-row">
