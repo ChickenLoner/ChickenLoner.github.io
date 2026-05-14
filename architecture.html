@@ -449,6 +449,7 @@
                         <tr><td>Cert review detail</td><td>19</td><td><code>/reviews/[slug]/</code></td><td><code>/data/reviews.json</code></td></tr>
                         <tr><td>Research article</td><td>6</td><td><code>/research/[slug]/</code></td><td><code>/data/research.json</code></td></tr>
                         <tr><td>IR report</td><td>2</td><td><code>/ir-reports/[slug]/</code></td><td><code>/data/ir-reports.json</code></td></tr>
+                        <tr><td>Architecture doc</td><td>1</td><td><code>/architecture.html</code></td><td>—</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -482,6 +483,7 @@
     &lt;script src="https://unpkg.com/lucide@1.14.0/dist/umd/lucide.min.js"&gt;&lt;/script&gt;
 
     &lt;link rel="stylesheet" href="/themes/soc.css"&gt;
+    &lt;script src="/themes/soc-theme.js"&gt;&lt;/script&gt;        &lt;!-- synchronous, no defer — applies data-theme before render --&gt;
     &lt;script src="/themes/soc-components.js"&gt;&lt;/script&gt;  &lt;!-- before text/babel --&gt;
     &lt;script src="/themes/soc-nav.js" defer&gt;&lt;/script&gt;
 
@@ -535,7 +537,7 @@
                         <thead><tr><th>Category</th><th>Color</th></tr></thead>
                         <tbody>
                             <tr><td>Digital Forensics</td><td><span class="sev cyan">cyan</span></td></tr>
-                            <tr><td>Red Teaming</td><td><span class="sev" style="background:rgba(255,85,119,.12);color:var(--soc-rd);border:1px solid rgba(255,85,119,.25)">red</span></td></tr>
+                            <tr><td>Red Teaming</td><td><span class="sev" style="background:var(--soc-rd-tint-md);color:var(--soc-rd);border:1px solid var(--soc-rd-tint-bdr)">red</span></td></tr>
                             <tr><td>Lab Making</td><td><span class="sev amber">amber</span></td></tr>
                             <tr><td>Blue Team / SOC</td><td><span class="sev green">green</span></td></tr>
                         </tbody>
