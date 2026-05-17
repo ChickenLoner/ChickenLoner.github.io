@@ -19,7 +19,6 @@ Ask for any missing fields (don't ask for fields already provided in the user's 
 | `status` | `"Active"` or `"Expired"` — default `"Active"` |
 | `category` | One of the 4 below — pick the best fit or ask |
 | `badge` | Path like `"./assets/badges/<slug>.png"` — ask if file exists or needs copying |
-| `certificate` | Path like `"./assets/certificates/<slug>.jpg"` — ask if available |
 | `url` | Credly/credential verification URL — empty string `""` if not yet available |
 
 ### Valid categories
@@ -30,15 +29,14 @@ Ask for any missing fields (don't ask for fields already provided in the user's 
 
 If the category is ambiguous, suggest the most likely one and confirm with the user.
 
-## Step 2 — Check for badge/certificate files
+## Step 2 — Check for badge file
 
 Run:
 ```bash
 ls assets/badges/
-ls assets/certificates/
 ```
 
-If the badge or certificate file doesn't exist yet, note it to the user and use the placeholder path anyway — they can copy the file later.
+If the badge file doesn't exist yet, note it to the user and use the placeholder path anyway — they can copy the file later.
 
 ## Step 3 — Add to certifications.json
 
@@ -55,7 +53,6 @@ If the badge or certificate file doesn't exist yet, note it to the user and use 
   "category": "<category>",
   "latest": true,
   "badge": "<badge path>",
-  "certificate": "<certificate path>",
   "url": "<url>"
 }
 ```
@@ -74,5 +71,5 @@ git push origin main
 
 Tell the user:
 - The cert was added to which category
-- Whether badge/cert files need to be copied to `assets/`
+- Whether the badge file needs to be copied to `assets/badges/`
 - That it will appear immediately in the Certifications page marquee and categorized section
