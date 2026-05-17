@@ -410,7 +410,7 @@
 │   ├── <span class="dir">labs/</span>                         <span class="note"># Lab cover images</span>
 │   ├── <span class="dir">reports/[slug]/</span>               <span class="note"># IR report figures</span>
 │   ├── <span class="dir">research/[slug]/</span>              <span class="note"># Research figures (cover.png + img-NN)</span>
-│   ├── <span class="dir">achievements/</span>                 <span class="note"># Talk/CTF images</span>
+│   ├── <span class="dir">achievements/</span>                 <span class="note"># Talk cover images only (competition images archived)</span>
 │   └── <span class="dir">firstbloods/</span>                  <span class="note"># First blood cover images (btlo_NNN.png, htb_NNN.png, etc.)</span>
 ├── <span class="dir">themes/</span>
 │   ├── soc.css                       <span class="note"># CSS variables + Tailwind utility overrides</span>
@@ -797,31 +797,40 @@ useEffect(() => {
         "event": "Event Name",
         "year": "2026",
         "role": "Speaker",
-        "image": "/assets/achievements/photo.png"
+        "description": "",
+        "image": "./assets/achievements/photo.png",
+        "tags": [],
+        "url": ""
     },
     {
         "category": "competition",
         "name": "CTF Name",
+        "organizer": "Organizer Name",
         "placement": "Winner",
         "year": "2026",
         "team": "TeamName",
+        "description": "Optional description shown in expandable row.",
         "tags": ["CTF"]
     }
 ]</pre></div></div>
+                <p><strong>Note:</strong> Talk images go in <code>assets/achievements/</code>. Competition entries have no cover image — use <code>description</code> for the expandable row detail.</p>
             </div>
 
             <div class="subsec">
                 <div class="subsec-title">firstbloods.json</div>
-                <p>First blood data per platform. Loaded lazily when the First Bloods tab is opened on the Achievements page.</p>
+                <p>First blood data per platform. Loaded eagerly on mount (needed for tab count badge). Displayed in collapsible platform panels on the First Bloods tab.</p>
                 <div class="code-block"><div class="code-lang">JSON</div><div class="code-body"><pre>{
-    "btlo": [298, 300, 296],        // BTLO challenge IDs — link to /home/challenge/{id}
+    "btlo": [
+        { "id": 298, "name": "Challenge Name", "url": "https://blueteamlabs.online/achievement/share/52929/298", "image": "./assets/firstbloods/btlo_298.png" }
+    ],
     "htb_sherlock": [
-        { "name": "Sherlock Name", "url": "https://labs.hackthebox.com/achievement/sherlock/..." }
+        { "id": 1069, "name": "Sherlock Name", "url": "https://labs.hackthebox.com/achievement/sherlock/1438364/1069", "image": "./assets/firstbloods/htb_1069.png" }
     ],
     "cd": [
-        { "name": "ConsentStorm", "url": "https://cyberdefenders.org/...achievements/.../" }
+        { "name": "ConsentStorm", "url": "https://cyberdefenders.org/blueteam-ctf-challenges/achievements/Chicken_0248/consentstorm/", "image": "./assets/firstbloods/consentstorm.png" }
     ]
 }</pre></div></div>
+                <p>Cover images go in <code>assets/firstbloods/</code>. Naming convention: <code>btlo_&lt;id&gt;.png</code>, <code>htb_&lt;id&gt;.png</code>, <code>&lt;slug&gt;.png</code> for CD.</p>
             </div>
         </section>
 
