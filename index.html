@@ -657,6 +657,111 @@
             .crow .ar{padding:8px 10px}
             .crow .info .tags-row{display:none}
         }
+
+        /* ─── Achievements Page ─── */
+        .achiev-page-wrap{position:relative}
+
+        /* Competition list rows (scoped — labs .crow stays separate) */
+        .achiev-page-wrap .crow{display:grid;grid-template-columns:90px 1fr auto;gap:14px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--soc-line);transition:background .12s;text-decoration:none;color:inherit;cursor:default}
+        .achiev-page-wrap .crow.linked{cursor:pointer}
+        .achiev-page-wrap .comp-list > div:last-child .crow{border-bottom:none}
+        .achiev-page-wrap .comp-list > div:last-child .crow-expand{border-bottom:none}
+        .achiev-page-wrap .crow:hover{background:rgba(34,225,255,.04)}
+        .achiev-page-wrap .crow .place{position:static;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.05em;display:inline-flex;align-items:center;justify-content:center;padding:4px 10px;border-radius:99px;white-space:nowrap;backdrop-filter:none;text-shadow:none}
+        .achiev-page-wrap .crow .place.gold  {background:rgba(255,181,71,.14);color:var(--soc-am);border:1px solid rgba(255,181,71,.35)}
+        .achiev-page-wrap .crow .place.silver{background:rgba(196,206,234,.08);color:var(--soc-ink2);border:1px solid var(--soc-line2)}
+        .achiev-page-wrap .crow .place.bronze{background:rgba(166,100,51,.14);color:#d68f5a;border:1px solid rgba(166,100,51,.4)}
+        .achiev-page-wrap .crow .place.other {background:rgba(34,225,255,.08);color:var(--soc-cy);border:1px solid rgba(34,225,255,.25)}
+        .achiev-page-wrap .crow .info .nm{font-size:13px;font-weight:600;color:var(--soc-ink)}
+        .achiev-page-wrap .crow .info .sub{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--soc-ink3);margin-top:2px;letter-spacing:.04em}
+        .achiev-page-wrap .crow .info .sub .org{color:var(--soc-cy)}
+
+        .achiev-page-wrap .crow .ar{color:var(--soc-ink4);font-size:16px;font-weight:400;padding:0;border:none;background:none;letter-spacing:0;text-transform:none;display:inline;line-height:1}
+        .achiev-page-wrap .crow:hover .ar{color:var(--soc-cy)}
+
+        /* Featured win cards (text only, no image) */
+        .feat-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-bottom:4px}
+        .fcard{position:relative;background:radial-gradient(ellipse at 100% 0%,rgba(255,181,71,.10),transparent 60%),linear-gradient(135deg,var(--soc-bg-1),var(--soc-bg));border:1px solid var(--soc-line2);border-radius:6px;padding:18px 18px 16px;overflow:hidden;transition:border-color .15s,transform .15s;display:flex;flex-direction:column;gap:8px;cursor:default}
+        .fcard::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--soc-am),transparent)}
+        .fcard:hover{border-color:rgba(255,181,71,.5);transform:translateY(-2px)}
+        .fcard .crown{position:absolute;top:14px;right:14px;font-size:24px;color:var(--soc-am);opacity:.8;filter:drop-shadow(0 0 8px rgba(255,181,71,.4))}
+        .fcard .fc-yr{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--soc-am);letter-spacing:.18em;text-transform:uppercase;font-weight:700}
+        .fcard h3{margin:0;font-size:15px;font-weight:700;color:var(--soc-ink);line-height:1.3;padding-right:28px}
+        .fcard .fc-org{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--soc-ink2);letter-spacing:.04em}
+        .fcard .fc-org .lead{color:var(--soc-cy);margin-right:4px}
+        .fcard .fc-meta{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--soc-ink3);letter-spacing:.04em;display:flex;gap:10px;flex-wrap:wrap}
+        .fcard .fc-meta b{color:var(--soc-ink2);font-weight:600}
+        .fcard .placement-stamp{position:absolute;bottom:14px;right:14px;font-family:'JetBrains Mono',monospace;font-size:9px;padding:3px 8px;background:rgba(255,181,71,.15);color:var(--soc-am);border:1px solid rgba(255,181,71,.4);border-radius:3px;letter-spacing:.14em;font-weight:700}
+
+        /* Speaking cards (gradient cover, no real image) */
+        .talk-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+        .talk-grid.compact{grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+        .tcard{background:var(--soc-bg-1);border-radius:6px;border:1px solid var(--soc-line);overflow:hidden;transition:border-color .15s}
+        .tcard:hover{border-color:rgba(167,139,250,.45)}
+        .tcard.video:hover{border-color:rgba(255,85,119,.45)}
+        .tcard .tc-cover{height:140px;position:relative;display:grid;place-items:center;overflow:hidden;background:repeating-linear-gradient(-45deg,rgba(167,139,250,.05) 0 1px,transparent 1px 14px),linear-gradient(135deg,#1a1828,#1f2042);border-bottom:1px solid var(--soc-line)}
+        .tcard.video .tc-cover{background:repeating-linear-gradient(-45deg,rgba(255,85,119,.04) 0 1px,transparent 1px 14px),linear-gradient(135deg,#1a1018,#26121a)}
+        .tcard .tc-cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55}
+        .tcard .tc-cover .tc-play{width:54px;height:54px;display:grid;place-items:center;border-radius:50%;background:#dc2626;box-shadow:0 4px 18px rgba(220,38,38,.4);color:#fff;font-size:22px;padding-left:4px;position:relative;z-index:1}
+        .tcard .tc-cover .tc-role{position:absolute;top:10px;left:10px;font-family:'JetBrains Mono',monospace;font-size:9.5px;background:rgba(167,139,250,.85);color:#fff;padding:2px 8px;border-radius:3px;letter-spacing:.08em;font-weight:700;text-transform:uppercase}
+        .tcard.video .tc-cover .tc-role{background:rgba(220,38,38,.85)}
+        .tcard .tc-cover .tc-yr{position:absolute;top:10px;right:10px;font-family:'JetBrains Mono',monospace;font-size:9.5px;background:rgba(7,11,20,.8);color:var(--soc-ink2);padding:2px 8px;border:1px solid var(--soc-line2);border-radius:3px}
+        .tcard .tc-body{padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+        .tcard .tc-name{font-size:13px;font-weight:700;color:var(--soc-ink);line-height:1.3}
+        .tcard .tc-event{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--soc-vi);letter-spacing:.04em}
+        .tcard.video .tc-event{color:var(--soc-rd)}
+        .tcard .tc-watch{align-self:flex-start;margin-top:4px;display:inline-flex;align-items:center;gap:6px;padding:6px 12px;background:#dc2626;color:#fff;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;text-decoration:none;letter-spacing:.08em;text-transform:uppercase}
+        .tcard .tc-watch:hover{background:#b91c1c}
+
+        /* First Bloods panels */
+        .fb-platforms{display:flex;flex-direction:column;gap:14px}
+        .fb-panel{border:1px solid var(--soc-line);border-radius:6px;background:var(--soc-bg-1);overflow:hidden}
+        .fb-panel-hd{display:grid;grid-template-columns:auto 1fr auto auto;gap:14px;align-items:center;padding:14px 18px;background:linear-gradient(90deg,rgba(255,85,119,.06),transparent 60%);border-bottom:1px solid var(--soc-line)}
+        .fb-panel-hd .fb-icon{width:36px;height:36px;border-radius:6px;background:rgba(255,85,119,.10);border:1px solid rgba(255,85,119,.35);display:grid;place-items:center;flex-shrink:0;font-size:18px}
+        .fb-panel-hd .fb-plat{font-size:14px;font-weight:700;color:var(--soc-ink)}
+        .fb-panel-hd .fb-plat-sub{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--soc-ink3);margin-top:2px;letter-spacing:.04em}
+        .fb-panel-hd .fb-cnt-big{font-family:'JetBrains Mono',monospace;padding:6px 16px;border-radius:99px;background:rgba(255,85,119,.10);border:1px solid rgba(255,85,119,.35);color:var(--soc-rd);display:inline-flex;align-items:baseline;gap:5px;white-space:nowrap}
+        .fb-panel-hd .fb-cnt-big .n{font-size:20px;font-weight:800;letter-spacing:-.02em;line-height:1}
+        .fb-panel-hd .fb-cnt-big .l{font-size:9.5px;letter-spacing:.14em;font-weight:700}
+        .fb-detail-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;padding:14px}
+        .fb-detail-grid.compact{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;padding:10px}
+        .fb-detail .fb-d-id{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--soc-rd);letter-spacing:.04em}
+        .fb-detail{border:1px solid var(--soc-line);border-radius:6px;overflow:hidden;background:var(--soc-bg-2);display:flex;flex-direction:column;text-decoration:none;color:inherit;transition:border-color .15s,transform .15s}
+        .fb-detail:hover{border-color:rgba(255,85,119,.45);transform:translateY(-2px)}
+        .fb-detail .fb-cover{height:88px;overflow:hidden;position:relative;display:grid;place-items:center;background:linear-gradient(135deg,#1a0c10,#26101a);border-bottom:1px solid var(--soc-line)}
+        .fb-detail .fb-cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.9}
+        .fb-detail .fb-cover .fb-plat-tag{position:absolute;top:8px;left:8px;font-family:'JetBrains Mono',monospace;font-size:9.5px;background:rgba(255,85,119,.85);color:#fff;padding:2px 8px;border-radius:3px;letter-spacing:.08em;font-weight:700;text-transform:uppercase;z-index:1}
+        .fb-detail .fb-cover .fb-id-tag{position:absolute;top:8px;right:8px;font-family:'JetBrains Mono',monospace;font-size:9.5px;background:rgba(7,11,20,.85);color:var(--soc-rd);padding:2px 8px;border:1px solid rgba(255,85,119,.3);border-radius:3px;font-weight:700;z-index:1}
+        .fb-detail .fb-body{padding:12px 14px;display:flex;flex-direction:column;gap:6px;flex:1}
+        .fb-detail .fb-d-name{font-size:13px;font-weight:700;color:var(--soc-ink);line-height:1.3}
+        .fb-detail .fb-d-lbl{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--soc-ink3);letter-spacing:.04em}
+        .fb-detail .fb-verify{display:inline-flex;align-items:center;gap:4px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--soc-rd);font-weight:600;letter-spacing:.06em;margin-top:auto;padding-top:6px;text-decoration:none}
+        .fb-detail .fb-verify:hover{color:var(--soc-ink)}
+
+        /* Achievements — tab colors (override cert-specific --cat vars with !important) */
+        .achiev-page-wrap .soc-seg-btn.t-am.active{color:var(--soc-am)!important}
+        .achiev-page-wrap .soc-seg-btn.t-am.active .soc-seg-count{background:rgba(255,181,71,.15)!important;color:var(--soc-am)!important}
+        .achiev-page-wrap .soc-seg-btn.t-rd.active{color:var(--soc-rd)!important}
+        .achiev-page-wrap .soc-seg-btn.t-rd.active .soc-seg-count{background:rgba(255,85,119,.15)!important;color:var(--soc-rd)!important}
+        .achiev-page-wrap .soc-seg-btn.t-vi.active{color:var(--soc-vi)!important}
+        .achiev-page-wrap .soc-seg-btn.t-vi.active .soc-seg-count{background:rgba(167,139,250,.15)!important;color:var(--soc-vi)!important}
+
+        /* Expandable competition row */
+        .achiev-page-wrap .crow-expand{border-bottom:1px solid var(--soc-line);background:var(--soc-bg-2);overflow:hidden}
+        .achiev-page-wrap .crow-expand .expand-body{padding:10px 16px 14px;font-size:11.5px;color:var(--soc-ink3);line-height:1.65;font-family:system-ui,-apple-system,sans-serif}
+
+        /* Achievements tweaks panel (reuses .tweaks-fab/.tweaks-panel CSS) */
+        .achiev-page-wrap .tweaks-fab{bottom:20px}
+
+        /* Light mode — achievements */
+        html[data-theme="light"] .fcard{background:radial-gradient(ellipse at 100% 0%,rgba(180,83,9,.07),transparent 60%),linear-gradient(135deg,var(--soc-bg-1),var(--soc-bg));border-color:var(--soc-line2)}
+        html[data-theme="light"] .fcard:hover{border-color:rgba(180,83,9,.4)}
+        html[data-theme="light"] .fcard .placement-stamp{background:rgba(180,83,9,.12);color:var(--soc-am);border-color:rgba(180,83,9,.35)}
+        html[data-theme="light"] .tcard .tc-cover{background:repeating-linear-gradient(-45deg,rgba(109,40,217,.05) 0 1px,transparent 1px 14px),linear-gradient(135deg,#f0eeff,#e8e0ff)}
+        html[data-theme="light"] .tcard.video .tc-cover{background:repeating-linear-gradient(-45deg,rgba(190,29,58,.04) 0 1px,transparent 1px 14px),linear-gradient(135deg,#fff0f2,#ffe0e6)}
+        html[data-theme="light"] .fb-panel-hd{background:linear-gradient(90deg,rgba(190,29,58,.04),transparent 60%)}
+        html[data-theme="light"] .fb-detail{background:var(--soc-bg-1)}
+        html[data-theme="light"] .fb-detail .fb-cover{background:linear-gradient(135deg,#f5e8ea,#fde0e6)}
     </style>
     <script src="/themes/soc-theme.js"></script>
     <script src="/themes/soc-nav.js"></script>
@@ -1542,7 +1647,11 @@
                     {/* Featured latest */}
                     {featured && tweaks.featured && tab!=='issuers' && (
                         <a className="featured-latest" href={featured.u||'#'} target={featured.u?'_blank':undefined} rel="noopener noreferrer">
-                            <div className="fl-glyph">{featured.g}</div>
+                            <div className="fl-glyph">
+                                {featured.badge
+                                    ? <img src={featured.badge} alt={featured.g} style={{width:'100%',height:'100%',objectFit:'contain',borderRadius:'6px'}} />
+                                    : featured.g}
+                            </div>
                             <div>
                                 <span className="fl-tag">Newest · Just Earned</span>
                                 <div className="fl-title">{featured.name}</div>
@@ -1934,239 +2043,400 @@
             };
 
             const AchievementsPage = () => {
-                const [tab, setTab] = useState('competitions');
+                const TWEAKS_DEF = {groupBy:'year', featuredWins:true, density:'comfortable', fbCovers:true};
+                const TWEAKS_KEY = 'soc-achiev-tweaks-v3';
+                const [tweaks,        setTweaks]        = useState(()=>{ try{ return {...TWEAKS_DEF,...JSON.parse(localStorage.getItem(TWEAKS_KEY)||'{}')}; }catch(e){ return TWEAKS_DEF; } });
+                const [tweaksOpen,    setTweaksOpen]    = useState(false);
+                const [tab,           setTab]            = useState('competitions');
+                const [compFilter,    setCompFilter]     = useState('all');
+                const [fbData,        setFbData]         = useState(null);
+                const [fbLoading,     setFbLoading]      = useState(false);
+                const [expandedComps, setExpandedComps]  = useState(new Set());
+                const [fbOpen,        setFbOpen]         = useState(new Set(['btlo','htb','cd']));
+                const saveTweaks = v => { setTweaks(v); try{ localStorage.setItem(TWEAKS_KEY, JSON.stringify(v)); }catch(e){} };
+                const toggleComp    = name => setExpandedComps(prev => { const n=new Set(prev); n.has(name)?n.delete(name):n.add(name); return n; });
+                const toggleFbPanel = id   => setFbOpen(prev => { const n=new Set(prev); n.has(id)?n.delete(id):n.add(id); return n; });
 
-                const comps  = achievements.filter(a => a.category === 'competition');
-                const talks  = achievements.filter(a => a.category === 'talk');
-                const active = tab === 'competitions' ? comps : talks;
+                const comps = achievements.filter(a => a.category === 'competition');
+                const talks = achievements.filter(a => a.category === 'talk');
 
-                // Competition helpers
-                const getPlacementStyle = (placement) => {
-                    const p = (placement || '').toLowerCase();
-                    if (p.includes('1st') || p.includes('first') || p.includes('winner') || p.includes('champion'))
-                        return {background:'rgba(255,181,71,0.12)',color:'var(--soc-am)',border:'1px solid rgba(255,181,71,.3)'};
-                    if (p.includes('2nd') || p.includes('second'))
-                        return {background:'var(--soc-bg-2)',color:'var(--soc-ink2)',border:'1px solid var(--soc-line2)'};
-                    if (p.includes('3rd') || p.includes('third'))
-                        return {background:'rgba(255,181,71,0.06)',color:'var(--soc-ink2)',border:'1px solid var(--soc-line2)'};
-                    if (p.includes('top') || p.includes('finalist'))
-                        return {background:'rgba(34,225,255,0.08)',color:'var(--soc-cy)',border:'1px solid rgba(34,225,255,.2)'};
-                    return {background:'var(--soc-bg-2)',color:'var(--soc-ink3)',border:'1px solid var(--soc-line)'};
+                // Placement helpers
+                const isWin = p => { const s=(p||'').toLowerCase(); return s.includes('winner')||s.includes('champion')||s.includes('1st')||s.includes('first'); };
+                const isPod = p => { const s=(p||'').toLowerCase(); return s.includes('2nd')||s.includes('second')||s.includes('3rd')||s.includes('third'); };
+                const placeClass = p => { if(isWin(p)) return 'gold'; if(isPod(p)) return 'silver'; return 'other'; };
+
+                const winsArr   = comps.filter(c => isWin(c.placement));
+                const winsCount = winsArr.length;
+                const podCount  = comps.filter(c => isPod(c.placement)).length;
+
+                // Filter
+                const FILTERS = [
+                    {id:'all',    label:'All',    count:comps.length},
+                    {id:'wins',   label:'★ Wins', count:winsCount},
+                    {id:'podium', label:'Podium', count:podCount},
+                ];
+                const matchFilter = c => {
+                    if (compFilter==='wins')   return isWin(c.placement);
+                    if (compFilter==='podium') return isPod(c.placement);
+                    return true;
                 };
 
-                const podiums = comps.filter(c => {
-                    const p = (c.placement || '').toLowerCase();
-                    return p.includes('1st') || p.includes('2nd') || p.includes('3rd') ||
-                           p.includes('first') || p.includes('second') || p.includes('third') ||
-                           p.includes('winner') || p.includes('champion');
-                }).length;
+                const showFeatured  = tweaks.featuredWins && (compFilter==='all' || compFilter==='wins');
+                const filteredComps = comps.filter(matchFilter);
+                const nonFeatured   = showFeatured ? filteredComps.filter(c=>!isWin(c.placement)) : filteredComps;
+                const byYear        = nonFeatured.reduce((acc,c)=>{ (acc[c.year]=acc[c.year]||[]).push(c); return acc; }, {});
+                const sortedYears   = Object.keys(byYear).sort((a,b)=>b-a);
 
-                const wins = comps.filter(c => {
-                    const p = (c.placement || '').toLowerCase();
-                    return p.includes('1st') || p.includes('first') || p.includes('winner') || p.includes('champion');
-                }).length;
+                // Hero dist
+                const cTotal = comps.length || 1;
+                const cpct   = n => Math.round(n/cTotal*100)+'%';
 
-                const achievTabItems = [
-                    { id: 'competitions', label: 'Competitions', icon: 'Trophy', count: comps.length },
-                    { id: 'speaking',     label: 'Speaking',     icon: 'Mic',   count: talks.length },
-                ];
+                // Load FB data on mount (needed for tab count badge)
+                React.useEffect(() => {
+                    setFbLoading(true);
+                    fetch('./data/firstbloods.json')
+                        .then(r=>r.json())
+                        .then(d=>{ setFbData(d); setFbLoading(false); })
+                        .catch(()=>{ setFbData({}); setFbLoading(false); });
+                }, []);
 
+                const isYT = url => url && (url.includes('youtube.com') || url.includes('youtu.be'));
 
+                // Sub-components
+                const FCard = ({comp}) => (
+                    <div className="fcard">
+                        <span className="crown">👑</span>
+                        <div className="fc-yr">{comp.year}</div>
+                        <h3>{comp.name}</h3>
+                        <div className="fc-org"><span className="lead">▲</span>{comp.organizer}</div>
+                        {comp.team && <div className="fc-meta"><b>Team</b> {comp.team}</div>}
+                        <span className="placement-stamp">{comp.placement}</span>
+                    </div>
+                );
 
+                const CompRow = ({comp}) => {
+                    const hasDetail = !!comp.description;
+                    const expanded  = expandedComps.has(comp.name);
+                    return (
+                        <div>
+                            <div className={`crow${hasDetail?' linked':''}`}
+                                style={hasDetail?{cursor:'pointer'}:undefined}
+                                onClick={hasDetail ? ()=>toggleComp(comp.name) : undefined}>
+                                <span className={`place ${placeClass(comp.placement)}`}>{comp.placement||'—'}</span>
+                                <div className="info">
+                                    <div className="nm">{comp.name}</div>
+                                    <div className="sub"><span className="org">{comp.organizer}</span>{comp.team && <> · <b>{comp.team}</b></>}</div>
+                                </div>
+                                {hasDetail
+                                    ? <span className="ar" style={{display:'inline-block',transition:'transform .2s',transform:expanded?'rotate(90deg)':'none'}}>›</span>
+                                    : <span style={{width:'16px',flexShrink:0}}></span>
+                                }
+                            </div>
+                            {expanded && hasDetail && (
+                                <div className="crow-expand">
+                                    <div className="expand-body">{comp.description}</div>
+                                </div>
+                            )}
+                        </div>
+                    );
+                };
+
+                const FbDetailCard = ({item, platform, idLabel}) => (
+                    <a className="fb-detail" href={item.url} target="_blank" rel="noopener noreferrer">
+                        {tweaks.fbCovers && (
+                            <div className="fb-cover">
+                                {item.image && <img src={item.image} alt={item.name} />}
+                                <div className="fb-plat-tag">First Blood</div>
+                                {idLabel && <div className="fb-id-tag">{idLabel}</div>}
+                            </div>
+                        )}
+                        <div className="fb-body">
+                            <div className="fb-d-name">{item.name}</div>
+                            {idLabel && !tweaks.fbCovers && <div className="fb-d-id">{idLabel}</div>}
+                            <div className="fb-d-lbl">{platform}</div>
+                            <span className="fb-verify">Verify ›</span>
+                        </div>
+                    </a>
+                );
 
                 return (
-                <div className="space-y-4 animate-fadeIn">
-                    <SocPageHero
-                        icon="Star"
-                        title="Achievements"
-                        subtitle="competitions.log · public-talks · notable-milestones"
-                        strap="portfolio/achievements"
-                        stats={[
-                            {label:'Competitions', value:comps.length},
-                            {label:'Wins',         value:wins,          color:'rd'},
-                            {label:'Podiums',      value:podiums,       color:'am'},
-                            {label:'Talks',        value:talks.length,  color:'gn'},
-                        ]}
-                    />
+                <div className="achiev-page-wrap space-y-4 animate-fadeIn">
+                    {/* ── Hero ── */}
+                    <section className="soc-page-hero">
+                        <div className="soc-page-hero-strap">
+                            <div className="seg"><b>portfolio</b><span style={{color:'var(--soc-ink4)'}}>/</span><span className="v">achievements</span></div>
+                            <div className="seg" style={{marginLeft:'auto'}}><b>competitions</b> <span className="v">{comps.length}</span> · <b>talks</b> <span className="v">{talks.length}</span></div>
+                        </div>
+                        <div className="soc-page-hero-body">
+                            <div className="soc-page-hero-icon" style={{color:'var(--soc-am)'}}>★</div>
+                            <div>
+                                <h1 className="soc-page-hero-title">Achievements</h1>
+                                <p className="soc-page-hero-sub">competitions.log · public-talks · notable-milestones</p>
+                            </div>
+                        </div>
+                        <div className="soc-stat-grid">
+                            <div className="soc-stat-cell">
+                                <div className="soc-stat-lbl">Competitions</div>
+                                <div className="soc-stat-val">{comps.length}</div>
+                                <div className="dist">
+                                    <span style={{width:cpct(winsCount),background:'var(--soc-am)'}}></span>
+                                    <span style={{width:cpct(podCount),background:'var(--soc-gn)'}}></span>
+                                    <span style={{width:cpct(comps.length-winsCount-podCount),background:'var(--soc-vi)',opacity:.5}}></span>
+                                </div>
+                            </div>
+                            <div className="soc-stat-cell am">
+                                <div className="soc-stat-lbl">★ Wins</div>
+                                <div className="soc-stat-val">{winsCount}</div>
+                                <div className="dist">
+                                    <span style={{width:cpct(winsCount),background:'var(--soc-am)'}}></span>
+                                    <span style={{width:cpct(comps.length-winsCount),background:'var(--soc-bg-2)'}}></span>
+                                </div>
+                            </div>
+                            <div className="soc-stat-cell rd">
+                                <div className="soc-stat-lbl">First Bloods</div>
+                                <div className="soc-stat-val">{fbData ? (fbData.btlo||[]).length+(fbData.htb_sherlock||[]).length+(fbData.cd||[]).length : '—'}</div>
+                                <div className="dist">
+                                    {fbData ? (() => {
+                                        const b=(fbData.btlo||[]).length, h=(fbData.htb_sherlock||[]).length, c=(fbData.cd||[]).length;
+                                        const t=b+h+c||1, p=n=>Math.round(n/t*100)+'%';
+                                        return (<>
+                                            <span style={{width:p(b),background:'var(--soc-rd)'}}></span>
+                                            <span style={{width:p(h),background:'var(--soc-gn)'}}></span>
+                                            <span style={{width:p(c),background:'var(--soc-cy)'}}></span>
+                                        </>);
+                                    })() : <span style={{width:'100%',background:'var(--soc-line2)'}}></span>}
+                                </div>
+                            </div>
+                            <div className="soc-stat-cell vi">
+                                <div className="soc-stat-lbl">Speaking</div>
+                                <div className="soc-stat-val">{talks.length}</div>
+                                <div className="dist">
+                                    <span style={{width:'100%',background:'var(--soc-vi)'}}></span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
 
-                    {/* Tab switcher */}
-                    <nav className="soc-seg">
-                        {achievTabItems.map((t) => (
-                            <button key={t.id}
-                                onClick={() => setTab(t.id)}
-                                className={`soc-seg-btn${tab === t.id ? ' active' : ''}`}>
-                                <Icon name={t.icon} className="w-4 h-4" />
-                                {t.label}
-                                {t.count !== undefined && <span className="soc-seg-count">{t.count}</span>}
-                            </button>
-                        ))}
-                    </nav>
+                    {/* ── Tabs ── */}
+                    {(() => {
+                        const fbCount = fbData ? (fbData.btlo||[]).length+(fbData.htb_sherlock||[]).length+(fbData.cd||[]).length : null;
+                        return (
+                        <nav className="soc-seg">
+                            {[
+                                {id:'competitions', label:'Competitions', icon:'Trophy', count:comps.length,  cls:'t-am'},
+                                {id:'firstbloods',  label:'First Bloods', icon:'Zap',   count:fbCount,        cls:'t-rd'},
+                                {id:'speaking',     label:'Speaking',     icon:'Mic',   count:talks.length,   cls:'t-vi'},
+                            ].map(t=>(
+                                <button key={t.id} onClick={()=>setTab(t.id)}
+                                    className={`soc-seg-btn ${t.cls}${tab===t.id?' active':''}`}>
+                                    <Icon name={t.icon} className="w-4 h-4" />
+                                    {t.label}
+                                    {t.count!==null && <span className="soc-seg-count">{t.count}</span>}
+                                </button>
+                            ))}
+                        </nav>
+                        );
+                    })()}
 
                     {/* ── COMPETITIONS TAB ── */}
-                    {tab === 'competitions' && (
-                    <>
-                        {comps.length === 0 ? (
-                            <div className="text-center py-20 text-gray-400">
-                                <Icon name="Trophy" className="w-14 h-14 mx-auto mb-4 opacity-25" />
-                                <p className="font-semibold text-gray-500 text-lg">No competitions yet</p>
-                                <p className="text-sm mt-1">Add entries with <code className="bg-gray-100 px-1.5 py-0.5 rounded text-xs">"category": "competition"</code> to <code className="bg-gray-100 px-1.5 py-0.5 rounded text-xs">data/achievements.json</code></p>
-                            </div>
-                        ) : (
-                        <div className="grid md:grid-cols-2 gap-4">
-                            {comps.map((comp, idx) => (
-                                <div key={idx} style={{background:'var(--soc-bg-1)',borderRadius:'6px',border:'1px solid var(--soc-line)',overflow:'hidden',transition:'.15s'}}
-                                    onMouseEnter={e=>e.currentTarget.style.borderColor='var(--soc-line2)'}
-                                    onMouseLeave={e=>e.currentTarget.style.borderColor='var(--soc-line)'}>
-                                    <div style={{width:'100%',height:'192px',background:'var(--soc-bg-2)',borderBottom:'1px solid var(--soc-line)',overflow:'hidden',position:'relative'}}>
-                                        {comp.image ? (
-                                            <img src={comp.image} alt={comp.name} style={{width:'100%',height:'100%',objectFit:'cover'}} />
-                                        ) : (
-                                            <div style={{width:'100%',height:'100%',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:'8px',color:'var(--soc-ink4)'}}>
-                                                <Icon name="Trophy" className="w-10 h-10" />
-                                                <span style={{fontSize:'11px'}}>No image</span>
-                                            </div>
-                                        )}
-                                        {comp.type && (
-                                            <span style={{position:'absolute',top:'10px',left:'10px',padding:'2px 8px',background:'rgba(7,11,20,.85)',color:'var(--soc-ink2)',borderRadius:'3px',fontSize:'10px',fontWeight:600,backdropFilter:'blur(4px)',border:'1px solid var(--soc-line2)'}}>
-                                                {comp.type}
-                                            </span>
-                                        )}
-                                    </div>
-                                    <div style={{padding:'14px 16px',display:'flex',flexDirection:'column',gap:'8px'}}>
-                                        <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',gap:'8px'}}>
-                                            <h3 style={{fontWeight:600,color:'var(--soc-ink)',fontSize:'13px',lineHeight:1.4}}>{comp.name}</h3>
-                                            {comp.placement && (
-                                                <span style={{flexShrink:0,padding:'2px 8px',borderRadius:'3px',fontSize:'10px',fontWeight:700,fontFamily:"'JetBrains Mono',monospace",...getPlacementStyle(comp.placement)}}>
-                                                    {comp.placement}
-                                                </span>
-                                            )}
-                                        </div>
-                                        <div style={{display:'flex',flexWrap:'wrap',alignItems:'center',gap:'6px',fontSize:'11px',color:'var(--soc-ink3)'}}>
-                                            <span style={{fontWeight:600,color:'var(--soc-cy)',display:'flex',alignItems:'center',gap:'4px'}}>
-                                                <Icon name="Building2" className="w-3 h-3" />{comp.organizer}
-                                            </span>
-                                            <span style={{color:'var(--soc-line2)'}}>·</span>
-                                            <span style={{display:'flex',alignItems:'center',gap:'4px'}}>
-                                                <Icon name="Calendar" className="w-3 h-3" />{comp.year}
-                                            </span>
-                                            {comp.team && (
-                                                <>
-                                                    <span style={{color:'var(--soc-line2)'}}>·</span>
-                                                    <span style={{display:'flex',alignItems:'center',gap:'4px'}}>
-                                                        <Icon name="Users" className="w-3 h-3" />{comp.team}
-                                                    </span>
-                                                </>
-                                            )}
-                                        </div>
-                                        {comp.description && <p style={{fontSize:'11px',color:'var(--soc-ink3)',lineHeight:1.6}}>{comp.description}</p>}
-                                        {(comp.tags || []).length > 0 && (
-                                        <div style={{display:'flex',flexWrap:'wrap',gap:'5px'}}>
-                                            {comp.tags.map((tag, i) => (
-                                                <span key={i} style={{padding:'2px 8px',background:'rgba(34,225,255,.08)',color:'var(--soc-cy)',borderRadius:'3px',fontSize:'10px',fontWeight:500,border:'1px solid rgba(34,225,255,.18)'}}>{tag}</span>
-                                            ))}
-                                        </div>
-                                        )}
-                                        {comp.url && (
-                                            <a href={comp.url} target="_blank" rel="noopener noreferrer"
-                                                style={{display:'inline-flex',alignItems:'center',gap:'4px',fontSize:'11px',color:'var(--soc-cy)',fontWeight:600,textDecoration:'none'}}>
-                                                View Details <Icon name="ExternalLink" className="w-3 h-3" />
-                                            </a>
-                                        )}
-                                    </div>
-                                </div>
+                    {tab==='competitions' && (
+                    <div>
+                        {/* Filter chips */}
+                        <div style={{display:'flex',flexWrap:'wrap',gap:'6px',alignItems:'center',marginBottom:'14px'}}>
+                            <span className="fchip-label">Filter</span>
+                            {FILTERS.map(f=>(
+                                <button key={f.id}
+                                    className={`fchip${compFilter===f.id?' active':''}`}
+                                    onClick={()=>setCompFilter(f.id)}>
+                                    {f.label}
+                                    {f.count>0 && <span className="cnt">{f.count}</span>}
+                                </button>
                             ))}
                         </div>
+
+                        {/* Featured wins */}
+                        {showFeatured && winsArr.length>0 && (
+                            <div style={{marginBottom:'20px'}}>
+                                <div className="year-bar" style={{marginTop:0}}>
+                                    <span className="yr" style={{fontSize:'11px',color:'var(--soc-am)',letterSpacing:'.12em'}}>★ FEATURED WINS</span>
+                                    <span className="ln" style={{background:'linear-gradient(90deg,rgba(255,181,71,.4),transparent)'}}></span>
+                                    <span className="cn">{winsArr.length} win{winsArr.length!==1?'s':''}</span>
+                                </div>
+                                <div className="feat-row">
+                                    {winsArr.map((c,i)=><FCard key={i} comp={c} />)}
+                                </div>
+                            </div>
                         )}
-                    </>
+
+                        {/* Year-grouped rows */}
+                        {nonFeatured.length>0 && (tweaks.groupBy==='year'
+                            ? sortedYears.map(year=>(
+                                <div key={year} style={{marginBottom:'14px'}}>
+                                    <div className="year-bar" style={{marginTop:0}}>
+                                        <span className="yr" style={{fontSize:'13px'}}>{year}</span>
+                                        <span className="ln"></span>
+                                        <span className="cn">{byYear[year].length} entr{byYear[year].length!==1?'ies':'y'}</span>
+                                    </div>
+                                    <div className="comp-list">
+                                        {byYear[year].map((c,i)=><CompRow key={i} comp={c} />)}
+                                    </div>
+                                </div>
+                            ))
+                            : <div className="comp-list">{nonFeatured.map((c,i)=><CompRow key={i} comp={c} />)}</div>
+                        )}
+
+                        {nonFeatured.length===0 && winsArr.length===0 && (
+                            <div style={{padding:'40px',textAlign:'center',color:'var(--soc-ink3)',fontSize:'11px'}}>No entries match this filter</div>
+                        )}
+                    </div>
+                    )}
+
+                    {/* ── FIRST BLOODS TAB ── */}
+                    {tab==='firstbloods' && (
+                    <div className="fb-platforms">
+                        {fbLoading && (
+                            <div style={{padding:'40px',textAlign:'center',color:'var(--soc-ink3)',fontSize:'11px'}}>Loading…</div>
+                        )}
+                        {!fbLoading && fbData!==null && (() => {
+                            const btlo = (fbData.btlo||[]);
+                            const htb  = (fbData.htb_sherlock||[]);
+                            const cd   = (fbData.cd||[]);
+                            const totalFB = btlo.length + htb.length + cd.length;
+                            if (totalFB===0) return (
+                                <div style={{padding:'48px',textAlign:'center',color:'var(--soc-ink3)',fontSize:'11px'}}>
+                                    <Icon name="Zap" className="w-10 h-10" style={{display:'block',margin:'0 auto 12px',opacity:.3}} />
+                                    Populate <code style={{background:'var(--soc-bg-2)',padding:'1px 5px',borderRadius:'3px'}}>data/firstbloods.json</code> to show first blood data
+                                </div>
+                            );
+                            const FbPanel = ({id, icon, plat, sub, items, idFn}) => (
+                                <div className="fb-panel">
+                                    <div className="fb-panel-hd" style={{cursor:'pointer'}} onClick={()=>toggleFbPanel(id)}>
+                                        <div className="fb-icon">{icon}</div>
+                                        <div>
+                                            <div className="fb-plat">{plat}</div>
+                                            <div className="fb-plat-sub">{sub}</div>
+                                        </div>
+                                        <div className="fb-cnt-big">
+                                            <div className="n">{items.length}</div>
+                                            <div className="l">BLOODS</div>
+                                        </div>
+                                        <span style={{color:'var(--soc-ink3)',fontSize:'16px',lineHeight:1,transition:'transform .2s',transform:fbOpen.has(id)?'none':'rotate(-90deg)'}}>▾</span>
+                                    </div>
+                                    {fbOpen.has(id) && (
+                                        <div className={`fb-detail-grid${tweaks.density==='compact'?' compact':''}`}>
+                                            {items.map((item,i)=>(
+                                                <FbDetailCard key={i} item={item} platform={plat} idLabel={idFn?idFn(item):null} />
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            );
+                            return (<>
+                                {btlo.length>0 && <FbPanel id="btlo" icon="🩸" plat="Blue Team Labs Online"  sub="Investigation &amp; Forensics Challenges" items={btlo} idFn={it=>`#${it.id}`} />}
+                                {htb.length>0  && <FbPanel id="htb"  icon="🩸" plat="HackTheBox — Sherlock" sub="Blue Team Forensic Challenges"            items={htb}  idFn={it=>it.id?`#${it.id}`:null} />}
+                                {cd.length>0   && <FbPanel id="cd"   icon="🩸" plat="CyberDefenders"        sub="Blue Team CTF Challenges"                 items={cd}   idFn={null} />}
+                            </>);
+                        })()}
+                    </div>
                     )}
 
                     {/* ── SPEAKING TAB ── */}
-                    {tab === 'speaking' && (
-                    <>
-                        {talks.length === 0 ? (
-                            <div className="text-center py-20 text-gray-400">
-                                <Icon name="Mic" className="w-14 h-14 mx-auto mb-4 opacity-25" />
-                                <p className="font-semibold text-gray-500 text-lg">No talks yet</p>
-                                <p className="text-sm mt-1">Add entries with <code className="bg-gray-100 px-1.5 py-0.5 rounded text-xs">"category": "talk"</code> to <code className="bg-gray-100 px-1.5 py-0.5 rounded text-xs">data/achievements.json</code></p>
-                            </div>
+                    {tab==='speaking' && (
+                    <div>
+                        {talks.length===0 ? (
+                            <div style={{padding:'40px',textAlign:'center',color:'var(--soc-ink3)',fontSize:'11px'}}>No talks yet</div>
                         ) : (() => {
-                            const isYouTube = (url) => url && (url.includes('youtube.com') || url.includes('youtu.be'));
-                            const talksByYear = talks.reduce((acc, t) => {
-                                (acc[t.year] = acc[t.year] || []).push(t);
-                                return acc;
-                            }, {});
-                            const sortedTalkYears = Object.keys(talksByYear).sort((a, b) => b - a);
-                            return (
-                            <div className="space-y-8">
-                                {sortedTalkYears.map(year => (
-                                    <div key={year}>
-                                        <div style={{display:'flex',alignItems:'center',gap:'12px',marginBottom:'14px'}}>
-                                            <span style={{fontSize:'10px',fontWeight:700,color:'var(--soc-cy)',letterSpacing:'.14em',fontFamily:"'JetBrains Mono',monospace"}}>{year}</span>
-                                            <div style={{flex:1,height:'1px',background:'var(--soc-line)'}} />
-                                            <span style={{fontSize:'10px',color:'var(--soc-ink3)'}}>{talksByYear[year].length} talk{talksByYear[year].length !== 1 ? 's' : ''}</span>
-                                        </div>
-                                        <div className="grid md:grid-cols-2 gap-4">
-                                        {talksByYear[year].map((talk, idx) => (
-                                            <div key={idx} style={{background:'var(--soc-bg-1)',borderRadius:'6px',border:'1px solid var(--soc-line)',overflow:'hidden',transition:'.15s'}}
-                                                onMouseEnter={e=>e.currentTarget.style.borderColor='var(--soc-line2)'}
-                                                onMouseLeave={e=>e.currentTarget.style.borderColor='var(--soc-line)'}>
-                                                <div style={{width:'100%',height:'192px',background:'var(--soc-bg-2)',borderBottom:'1px solid var(--soc-line)',overflow:'hidden',position:'relative'}}>
-                                                    {talk.image ? (
-                                                        <img src={talk.image} alt={talk.name} style={{width:'100%',height:'100%',objectFit:'cover'}} />
-                                                    ) : (
-                                                        <div style={{width:'100%',height:'100%',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:'8px',color:'var(--soc-ink4)'}}>
-                                                            <Icon name="Mic" className="w-12 h-12" style={{color:'var(--soc-vi)',opacity:.4}} />
-                                                        </div>
-                                                    )}
-                                                    {talk.role && (
-                                                        <span style={{position:'absolute',top:'10px',left:'10px',padding:'2px 8px',background:'rgba(167,139,250,.8)',color:'#fff',borderRadius:'3px',fontSize:'10px',fontWeight:600,backdropFilter:'blur(4px)'}}>
-                                                            {talk.role}
-                                                        </span>
-                                                    )}
-                                                    {talk.url && isYouTube(talk.url) && (
-                                                        <a href={talk.url} target="_blank" rel="noopener noreferrer"
-                                                            className="absolute bottom-3 right-3 flex items-center gap-1.5 px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-lg text-xs font-bold shadow-lg transition-colors">
-                                                            <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-                                                            Watch
-                                                        </a>
-                                                    )}
-                                                </div>
-                                                <div style={{padding:'14px 16px',display:'flex',flexDirection:'column',gap:'8px'}}>
-                                                    <h3 style={{fontWeight:600,color:'var(--soc-ink)',fontSize:'13px',lineHeight:1.4}}>{talk.name}</h3>
-                                                    <div style={{display:'flex',flexWrap:'wrap',alignItems:'center',gap:'6px',fontSize:'11px',color:'var(--soc-ink3)'}}>
-                                                        <span style={{fontWeight:600,color:'var(--soc-vi)',display:'flex',alignItems:'center',gap:'4px'}}>
-                                                            <Icon name="MapPin" className="w-3 h-3" />{talk.event}
-                                                        </span>
-                                                        <span style={{color:'var(--soc-line2)'}}>·</span>
-                                                        <span style={{display:'flex',alignItems:'center',gap:'4px'}}>
-                                                            <Icon name="Calendar" className="w-3 h-3" />{talk.year}
-                                                        </span>
-                                                    </div>
-                                                    {talk.description && <p style={{fontSize:'11px',color:'var(--soc-ink3)',lineHeight:1.6}}>{talk.description}</p>}
-                                                    {(talk.tags || []).length > 0 && (
-                                                    <div style={{display:'flex',flexWrap:'wrap',gap:'5px'}}>
-                                                        {talk.tags.map((tag, i) => (
-                                                            <span key={i} style={{padding:'2px 8px',background:'rgba(167,139,250,.08)',color:'var(--soc-vi)',borderRadius:'3px',fontSize:'10px',fontWeight:500,border:'1px solid rgba(167,139,250,.2)'}}>{tag}</span>
-                                                        ))}
-                                                    </div>
-                                                    )}
-                                                    {talk.url && !isYouTube(talk.url) && (
-                                                        <a href={talk.url} target="_blank" rel="noopener noreferrer"
-                                                            style={{display:'inline-flex',alignItems:'center',gap:'4px',fontSize:'11px',color:'var(--soc-cy)',fontWeight:600,textDecoration:'none'}}>
-                                                            Slides / Details <Icon name="ExternalLink" className="w-3 h-3" />
-                                                        </a>
-                                                    )}
-                                                </div>
-                                            </div>
-                                        ))}
-                                        </div>
+                            const tByYear = talks.reduce((acc,t)=>{ (acc[t.year]=acc[t.year]||[]).push(t); return acc; }, {});
+                            const tYears  = Object.keys(tByYear).sort((a,b)=>b-a);
+                            const TalkCard = (talk, idx) => {
+                                const yt = isYT(talk.url);
+                                return (
+                                <div key={idx} className={`tcard${yt?' video':''}`}>
+                                    <div className="tc-cover">
+                                        {talk.image && <img src={talk.image} alt="" />}
+                                        {yt
+                                            ? <div className="tc-play">▶</div>
+                                            : <Icon name="Mic" className="w-10 h-10" style={{color:'var(--soc-vi)',opacity:.9,position:'relative',zIndex:1,filter:'drop-shadow(0 2px 8px rgba(167,139,250,.5))'}} />
+                                        }
+                                        {talk.role && <div className="tc-role">{talk.role}</div>}
+                                        <div className="tc-yr">{talk.year}</div>
                                     </div>
-                                ))}
-                            </div>
+                                    <div className="tc-body">
+                                        <div className="tc-name">{talk.name}</div>
+                                        <div className="tc-event">⌖ {talk.event}</div>
+                                        {yt && <a href={talk.url} target="_blank" rel="noopener noreferrer" className="tc-watch">▶ Watch</a>}
+                                    </div>
+                                </div>
+                                );
+                            };
+                            return tweaks.groupBy==='year' ? (
+                                <div>
+                                    {tYears.map(year=>(
+                                        <div key={year} style={{marginBottom:'18px'}}>
+                                            <div className="year-bar" style={{marginTop:0}}>
+                                                <span className="yr" style={{fontSize:'13px'}}>{year}</span>
+                                                <span className="ln"></span>
+                                                <span className="cn">{tByYear[year].length} talk{tByYear[year].length!==1?'s':''}</span>
+                                            </div>
+                                            <div className={`talk-grid${tweaks.density==='compact'?' compact':''}`}>
+                                                {tByYear[year].map((talk,idx)=>TalkCard(talk,idx))}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <div className={`talk-grid${tweaks.density==='compact'?' compact':''}`}>
+                                    {talks.map((talk,idx)=>TalkCard(talk,idx))}
+                                </div>
                             );
                         })()}
-                    </>
+                    </div>
                     )}
+
+                    {/* ── Tweaks FAB ── */}
+                    <button className="tweaks-fab" onClick={()=>setTweaksOpen(v=>!v)} title="Tweaks" aria-label="Open Tweaks">⚙</button>
+                    <div className={`tweaks-panel${tweaksOpen?' open':''}`} role="dialog" aria-label="Tweaks">
+                        <div className="tweaks-hd">Achievements Tweaks <span className="x" onClick={()=>setTweaksOpen(false)} aria-label="Close">✕</span></div>
+                        <div className="tweaks-body">
+                            <div className="tw-group">
+                                <div className="tw-lbl">Group by</div>
+                                <div className="tw-radio">
+                                    {['year','flat'].map(v=>(
+                                        <button key={v} className={tweaks.groupBy===v?'on':''} onClick={()=>saveTweaks({...tweaks,groupBy:v})}>
+                                            {v.charAt(0).toUpperCase()+v.slice(1)}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                            <div className="tw-group">
+                                <div className="tw-lbl">Density</div>
+                                <div className="tw-radio">
+                                    {['comfortable','compact'].map(v=>(
+                                        <button key={v} className={tweaks.density===v?'on':''} onClick={()=>saveTweaks({...tweaks,density:v})}>
+                                            {v.charAt(0).toUpperCase()+v.slice(1)}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                            <div className="tw-group">
+                                <div className="tw-lbl">Show / Hide</div>
+                                <div className={`tw-toggle${tweaks.featuredWins?' on':''}`} onClick={()=>saveTweaks({...tweaks,featuredWins:!tweaks.featuredWins})}>
+                                    <span className="t">Featured wins</span><span className="sw"></span>
+                                </div>
+                                <div className={`tw-toggle${tweaks.fbCovers?' on':''}`} onClick={()=>saveTweaks({...tweaks,fbCovers:!tweaks.fbCovers})}>
+                                    <span className="t">First blood covers</span><span className="sw"></span>
+                                </div>
+                            </div>
+                            <div className="tw-group">
+                                <div className="tw-lbl">First Bloods panels</div>
+                                <div className="tw-radio">
+                                    <button onClick={()=>setFbOpen(new Set(['btlo','htb','cd']))}>Expand all</button>
+                                    <button onClick={()=>setFbOpen(new Set())}>Collapse all</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="tw-foot">Saved to <b onClick={()=>saveTweaks({...TWEAKS_DEF})}>localStorage</b> · click to reset</div>
+                    </div>
                 </div>
                 );
             };

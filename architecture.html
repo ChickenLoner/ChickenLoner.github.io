@@ -402,6 +402,7 @@
 │   ├── labs.json
 │   ├── labs_metadata.json            <span class="note"># Auto-updated by GitHub Actions daily</span>
 │   ├── achievements.json
+│   ├── firstbloods.json              <span class="note"># First blood data per platform (btlo/htb_sherlock/cd)</span>
 │   ├── skills.json
 │   └── social.json
 ├── <span class="dir">assets/</span>
@@ -409,7 +410,8 @@
 │   ├── <span class="dir">labs/</span>                         <span class="note"># Lab cover images</span>
 │   ├── <span class="dir">reports/[slug]/</span>               <span class="note"># IR report figures</span>
 │   ├── <span class="dir">research/[slug]/</span>              <span class="note"># Research figures (cover.png + img-NN)</span>
-│   └── <span class="dir">achievements/</span>                 <span class="note"># Talk/CTF images</span>
+│   ├── <span class="dir">achievements/</span>                 <span class="note"># Talk/CTF images</span>
+│   └── <span class="dir">firstbloods/</span>                  <span class="note"># First blood cover images (btlo_NNN.png, htb_NNN.png, etc.)</span>
 ├── <span class="dir">themes/</span>
 │   ├── soc.css                       <span class="note"># CSS variables + Tailwind utility overrides</span>
 │   ├── soc-nav.js                    <span class="note"># Page transition overlay</span>
@@ -806,6 +808,20 @@ useEffect(() => {
         "tags": ["CTF"]
     }
 ]</pre></div></div>
+            </div>
+
+            <div class="subsec">
+                <div class="subsec-title">firstbloods.json</div>
+                <p>First blood data per platform. Loaded lazily when the First Bloods tab is opened on the Achievements page.</p>
+                <div class="code-block"><div class="code-lang">JSON</div><div class="code-body"><pre>{
+    "btlo": [298, 300, 296],        // BTLO challenge IDs — link to /home/challenge/{id}
+    "htb_sherlock": [
+        { "name": "Sherlock Name", "url": "https://labs.hackthebox.com/achievement/sherlock/..." }
+    ],
+    "cd": [
+        { "name": "ConsentStorm", "url": "https://cyberdefenders.org/...achievements/.../" }
+    ]
+}</pre></div></div>
             </div>
         </section>
 

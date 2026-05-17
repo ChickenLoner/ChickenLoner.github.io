@@ -1,0 +1,28 @@
+{
+  "btlo": [
+    { "id": 298, "name": "Curiosity",          "url": "https://blueteamlabs.online/achievement/share/52929/298", "image": "./assets/firstbloods/btlo_298.png" },
+    { "id": 300, "name": "Bad Import",          "url": "https://blueteamlabs.online/achievement/share/52929/300", "image": "./assets/firstbloods/btlo_300.png" },
+    { "id": 296, "name": "Fake",                "url": "https://blueteamlabs.online/achievement/share/52929/296", "image": "./assets/firstbloods/btlo_296.png" },
+    { "id": 294, "name": "Dumpster",            "url": "https://blueteamlabs.online/achievement/share/52929/294", "image": "./assets/firstbloods/btlo_294.png" },
+    { "id": 292, "name": "Eros",                "url": "https://blueteamlabs.online/achievement/share/52929/292", "image": "./assets/firstbloods/btlo_292.png" },
+    { "id": 290, "name": "Supply Drop 1",       "url": "https://blueteamlabs.online/achievement/share/52929/290", "image": "./assets/firstbloods/btlo_290.png" },
+    { "id": 277, "name": "Bada Breach",         "url": "https://blueteamlabs.online/achievement/share/52929/277", "image": "./assets/firstbloods/btlo_277.png" },
+    { "id": 273, "name": "Strange Marketplace", "url": "https://blueteamlabs.online/achievement/share/52929/273", "image": "./assets/firstbloods/btlo_273.png" },
+    { "id": 286, "name": "Pathfinder's Mark",   "url": "https://blueteamlabs.online/achievement/share/52929/286", "image": "./assets/firstbloods/btlo_286.png" },
+    { "id": 280, "name": "Zeta End",            "url": "https://blueteamlabs.online/achievement/share/52929/280", "image": "./assets/firstbloods/btlo_280.png" },
+    { "id": 283, "name": "Rotten Cloud",        "url": "https://blueteamlabs.online/achievement/share/52929/283", "image": "./assets/firstbloods/btlo_283.png" },
+    { "id": 274, "name": "ClickTrace",          "url": "https://blueteamlabs.online/achievement/share/52929/274", "image": "./assets/firstbloods/btlo_274.png" },
+    { "id": 267, "name": "Bec-ky",              "url": "https://blueteamlabs.online/achievement/share/52929/267", "image": "./assets/firstbloods/btlo_267.png" },
+    { "id": 260, "name": "CryptoBook",          "url": "https://blueteamlabs.online/achievement/share/52929/260", "image": "./assets/firstbloods/btlo_260.png" },
+    { "id": 259, "name": "MiddleMayhem",        "url": "https://blueteamlabs.online/achievement/share/52929/259", "image": "./assets/firstbloods/btlo_259.png" },
+    { "id": 249, "name": "Deep Freeze",         "url": "https://blueteamlabs.online/achievement/share/52929/249", "image": "./assets/firstbloods/btlo_249.png" },
+    { "id": 248, "name": "Krampus",             "url": "https://blueteamlabs.online/achievement/share/52929/248", "image": "./assets/firstbloods/btlo_248.png" }
+  ],
+  "htb_sherlock": [
+    { "id": 1069, "name": "The Watchman's Residue", "url": "https://labs.hackthebox.com/achievement/sherlock/1438364/1069", "image": "./assets/firstbloods/htb_1069.png" },
+    { "id": 761,  "name": "TakeDown",                "url": "https://labs.hackthebox.com/achievement/sherlock/1438364/761",  "image": "./assets/firstbloods/htb_761.png"  }
+  ],
+  "cd": [
+    { "name": "ConsentStorm", "url": "https://cyberdefenders.org/blueteam-ctf-challenges/achievements/Chicken_0248/consentstorm/", "image": "./assets/firstbloods/consentstorm.png" }
+  ]
+}
