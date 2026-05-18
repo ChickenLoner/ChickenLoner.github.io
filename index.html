@@ -1271,9 +1271,12 @@
                 const featuredCert   = certifications.find(c=>c.latest) || certifications[0];
 
                 // ── Lab data ─────────────────────────────────────────────────
-                const labsByPlat     = statsLabsOnly.reduce((a,l)=>{ a[l.platform]=(a[l.platform]||0)+1; return a; }, {});
+                const PLAT_COLOR = {'CyberDefenders':'#297fff','HackTheBox':'#9fef00','Blue Team Labs Online':'#35c2f1'};
+                const normPlat = p => (p||'').startsWith('STDiO')||(p||'').includes('CTF') ? 'CTF' : p;
+                const labsByPlat     = statsLabsOnly.reduce((a,l)=>{ const k=normPlat(l.platform); a[k]=(a[k]||0)+1; return a; }, {});
                 const sortedPlats    = Object.entries(labsByPlat).sort((a,b)=>b[1]-a[1]);
                 const maxPlatCnt     = sortedPlats[0]?.[1] || 1;
+                const platFill = p => PLAT_COLOR[p] || (p==='CTF' ? 'var(--soc-vi)' : undefined);
                 const labDiff        = { easy:0, medium:0, hard:0 };
                 statsLabsOnly.forEach(l=>{ if(l.difficulty) labDiff[l.difficulty]++; });
                 const playerDiff     = { easy:0, medium:0, hard:0 };
@@ -1330,7 +1333,7 @@
                     ...comps.map(c=>String(c.year)).filter(Boolean),
                     ...talksList.map(t=>String(t.year)).filter(Boolean),
                     ...researchData.map(r=>r.date?.slice(0,4)).filter(Boolean),
-                    ...irReports.map(r=>r.date?.slice(0,4)).filter(Boolean),
+                    ...irReports.map(r=>(r.report_date||r.date)?.slice(0,4)).filter(Boolean),
                 ]);
                 const actYears = [...actAllYears].sort((a,b)=> tweaks.actOrder==='desc' ? b-a : a-b);
                 const actRows  = actYears.map(yr => {
@@ -1338,7 +1341,7 @@
                     const comp = comps.filter(c=>String(c.year)===yr).length;
                     const talk = talksList.filter(t=>String(t.year)===yr).length;
                     const res  = researchData.filter(r=>r.date?.startsWith(yr)).length;
-                    const ir   = irReports.filter(r=>r.date?.startsWith(yr)).length;
+                    const ir   = irReports.filter(r=>(r.report_date||r.date)?.startsWith(yr)).length;
                     const tot  = cert+comp+talk+res+ir;
                     return { yr, cert, comp, talk, res, ir, tot };
                 });
@@ -1474,11 +1477,11 @@
                                 <div key={yr} className="act-row">
                                     <div className="act-yr">{yr}</div>
                                     <div className="act-bar" style={{flex:1}}>
-                                        {cert>0 && <div className="act-seg s-cert" style={{width:`${Math.round(cert/actMax*100)}%`}}>{cert>1?cert:''}</div>}
-                                        {comp>0 && <div className="act-seg s-comp" style={{width:`${Math.round(comp/actMax*100)}%`}}>{comp>1?comp:''}</div>}
-                                        {talk>0 && <div className="act-seg s-talk" style={{width:`${Math.round(talk/actMax*100)}%`}}>{talk>1?talk:''}</div>}
-                                        {res>0  && <div className="act-seg s-res"  style={{width:`${Math.round(res/actMax*100)}%`}}>{res>1?res:''}</div>}
-                                        {ir>0   && <div className="act-seg s-ir"   style={{width:`${Math.round(ir/actMax*100)}%`}}>{ir>1?ir:''}</div>}
+                                        {cert>0 && <div className="act-seg s-cert" style={{width:`${Math.round(cert/actMax*100)}%`}} title={`certifications: ${cert}`}>{cert}</div>}
+                                        {comp>0 && <div className="act-seg s-comp" style={{width:`${Math.round(comp/actMax*100)}%`}} title={`competitions: ${comp}`}>{comp}</div>}
+                                        {talk>0 && <div className="act-seg s-talk" style={{width:`${Math.round(talk/actMax*100)}%`}} title={`talks: ${talk}`}>{talk}</div>}
+                                        {res>0  && <div className="act-seg s-res"  style={{width:`${Math.round(res/actMax*100)}%`}} title={`research: ${res}`}>{res}</div>}
+                                        {ir>0   && <div className="act-seg s-ir"   style={{width:`${Math.round(ir/actMax*100)}%`}} title={`IR reports: ${ir}`}>{ir}</div>}
                                     </div>
                                     <div className="act-tot">{tot}</div>
                                 </div>
@@ -1540,7 +1543,7 @@
                             <div className="tile am">
                                 <TileHd glyph="🌐" label="Labs by Platform" count={statsLabsOnly.length} cls="am" />
                                 {sortedPlats.map(([plat,cnt])=>(
-                                    <Brow key={plat} label={plat} count={cnt} total={statsLabsOnly.length} max={maxPlatCnt} cls="t-am" />
+                                    <Brow key={plat} label={plat} count={cnt} total={statsLabsOnly.length} max={maxPlatCnt} fillColor={platFill(plat)} />
                                 ))}
                             </div>
                             <div className="tile">
@@ -1609,28 +1612,29 @@
                         )}
 
                         {/* ── COMPETITIONS ── */}
-                        <h2 className="soc-section am">Competitions &amp; Achievements</h2>
-                        <div className="split-bar">
-                            {winsArr.length > 0 && <div className="sb sb-w" style={{flex:winsArr.length}}><span><b>{winsArr.length}</b>WINS</span></div>}
-                            {podArr.length  > 0 && <div className="sb sb-p" style={{flex:podArr.length}}><span><b>{podArr.length}</b>PODIUM</span></div>}
-                            {(comps.length-winsArr.length-podArr.length) > 0 && <div className="sb sb-o" style={{flex:comps.length-winsArr.length-podArr.length}}><span><b>{comps.length-winsArr.length-podArr.length}</b>OTHER</span></div>}
-                        </div>
-                        <div className="tile-grid">
-                            <div className="tile am">
-                                <TileHd glyph="🏢" label="By Organizer" cls="am" />
-                                {sortedOrgs.map(([org,cnt])=>(
-                                    <Brow key={org} label={org} count={cnt} total={comps.length} max={maxOrgCnt} cls="t-am" />
-                                ))}
+                        <h2 className="soc-section am">Competitions &amp; Achievements <span className="meta">{comps.length} competitions · {winsArr.length} wins · {podArr.length} podiums</span></h2>
+                        <div className="tile am">
+                            <div className="tile-hd">
+                                <div className="tglyph">⚑</div>
+                                Placement Distribution
+                                <span className="tcnt">across {comps.length} competitions</span>
                             </div>
-                            <div className="tile am">
-                                <TileHd glyph="📅" label="By Year" cls="am" />
-                                <div className="year-mini">
-                                    {sortedCompYrs.slice().reverse().map(([yr,cnt])=>(
-                                        <div key={yr} className="yc">
-                                            <div className="ynum" style={{color:'var(--cat-fir)'}}>{cnt}</div>
-                                            <div className="ybar am" style={{height:`${Math.round(cnt/maxCompYrCnt*100)}px`}}></div>
-                                            <div className="ylbl">{yr}</div>
-                                        </div>
+                            <div className="split-bar" style={{margin:'0 0 8px'}}>
+                                {winsArr.length > 0 && <div className="sb sb-w" style={{flex:winsArr.length}}><span><b>{winsArr.length}</b>WINS</span></div>}
+                                {podArr.length  > 0 && <div className="sb sb-p" style={{flex:podArr.length}}><span><b>{podArr.length}</b>PODIUM</span></div>}
+                                {(comps.length-winsArr.length-podArr.length) > 0 && <div className="sb sb-o" style={{flex:comps.length-winsArr.length-podArr.length}}><span><b>{comps.length-winsArr.length-podArr.length}</b>OTHER</span></div>}
+                            </div>
+                            <div className="tile-grid" style={{marginTop:'6px',gridTemplateColumns:'1fr 1fr',gap:0}}>
+                                <div style={{paddingRight:'14px'}}>
+                                    <div className="tile-hd" style={{marginBottom:'8px'}}>By Organizer</div>
+                                    {sortedOrgs.map(([org,cnt],i)=>(
+                                        <Brow key={org} label={org} count={cnt} total={comps.length} max={maxOrgCnt} cls={['t-am','t-rd','t-vi','t-gn',''][i%5]} />
+                                    ))}
+                                </div>
+                                <div style={{borderLeft:'1px solid var(--soc-line)',paddingLeft:'14px'}}>
+                                    <div className="tile-hd" style={{marginBottom:'8px',color:'var(--soc-cy)'}}>By Year</div>
+                                    {sortedCompYrs.map(([yr,cnt],i)=>(
+                                        <Brow key={yr} label={yr} count={cnt} total={comps.length} max={maxCompYrCnt} cls={['','t-am','t-vi','t-rd'][i%4]} />
                                     ))}
                                 </div>
                             </div>
