@@ -762,6 +762,118 @@
         html[data-theme="light"] .fb-panel-hd{background:linear-gradient(90deg,rgba(190,29,58,.04),transparent 60%)}
         html[data-theme="light"] .fb-detail{background:var(--soc-bg-1)}
         html[data-theme="light"] .fb-detail .fb-cover{background:linear-gradient(135deg,#f5e8ea,#fde0e6)}
+
+        /* ===== STATS PAGE ===== */
+        .act-wrap{background:linear-gradient(180deg,var(--soc-bg-1),rgba(22,27,34,.6));border:1px solid var(--soc-line);border-radius:6px;padding:20px 22px}
+        .act-row{display:grid;grid-template-columns:64px 1fr 50px;gap:14px;align-items:center;padding:8px 0;border-bottom:1px dashed rgba(55,77,108,.4)}
+        .act-row:last-child{border-bottom:none}
+        .act-yr{font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;color:var(--soc-ink);letter-spacing:-.01em}
+        .act-bar{display:flex;height:18px;border-radius:3px;overflow:hidden;background:rgba(0,0,0,.25);border:1px solid var(--soc-line)}
+        .act-seg{height:100%;display:grid;place-items:center;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:rgba(0,0,0,.85);transition:.2s}
+        .act-seg.s-cert{background:var(--cat-blu)}.act-seg.s-comp{background:var(--cat-fir)}.act-seg.s-talk{background:var(--cat-fnd)}.act-seg.s-res{background:var(--soc-gn)}.act-seg.s-ir{background:var(--cat-off)}
+        .act-tot{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--soc-cy);font-weight:700;text-align:right}
+        .act-legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:14px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--soc-ink3)}
+        .act-legend span{display:inline-flex;align-items:center;gap:5px}
+        .act-legend span::before{content:"";width:9px;height:9px;border-radius:2px}
+        .act-legend .lg-cert::before{background:var(--cat-blu)}.act-legend .lg-comp::before{background:var(--cat-fir)}.act-legend .lg-talk::before{background:var(--cat-fnd)}.act-legend .lg-res::before{background:var(--soc-gn)}.act-legend .lg-ir::before{background:var(--cat-off)}
+        .tile-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+        .tile{background:linear-gradient(180deg,var(--soc-bg-1),rgba(22,27,34,.6));border:1px solid var(--soc-line);border-radius:6px;padding:18px 20px}
+        .tile-hd{display:flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--soc-ink2);letter-spacing:.14em;text-transform:uppercase;font-weight:600;margin-bottom:14px}
+        .tile-hd .tglyph{width:20px;height:20px;border-radius:4px;display:grid;place-items:center;background:rgba(34,225,255,.10);color:var(--soc-cy);border:1px solid rgba(34,225,255,.25);font-size:10px;flex-shrink:0}
+        .tile-hd .tcnt{margin-left:auto;font-size:10px;color:var(--soc-ink3);letter-spacing:.08em;font-weight:500}
+        .tile.am .tile-hd .tglyph{background:rgba(255,181,71,.10);color:var(--cat-fir);border-color:rgba(255,181,71,.25)}
+        .tile.rd .tile-hd .tglyph{background:rgba(255,85,119,.10);color:var(--cat-off);border-color:rgba(255,85,119,.25)}
+        .tile.vi .tile-hd .tglyph{background:rgba(167,139,250,.10);color:var(--cat-fnd);border-color:rgba(167,139,250,.25)}
+        .tile.gn .tile-hd .tglyph{background:rgba(61,220,132,.10);color:var(--soc-gn);border-color:rgba(61,220,132,.25)}
+        .stats-page-wrap .soc-stat-cell{border-bottom:1px solid var(--soc-line)}
+        .stats-page-wrap .soc-stat-cell:nth-last-child(-n+3){border-bottom:none}
+        .stats-page-wrap .soc-stat-cell:nth-child(3n){border-right:none}
+        .stats-compact .tile{padding:14px 16px}
+        .stats-compact .brow{padding:3px 0}
+        .stats-compact .act-row{padding:6px 0}
+        .brow{display:grid;grid-template-columns:130px 1fr 40px 38px;gap:10px;align-items:center;padding:4px 0;font-family:'JetBrains Mono',monospace}
+        .brow .blbl{font-size:11px;color:var(--soc-ink2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:system-ui,sans-serif;font-weight:500}
+        .brow .btrack{height:6px;background:rgba(0,0,0,.3);border-radius:99px;overflow:hidden;border:1px solid var(--soc-line)}
+        .brow .bfill{height:100%;background:var(--soc-cy);border-radius:99px;transition:width .4s ease}
+        .brow.t-rd .bfill{background:var(--cat-off)}.brow.t-am .bfill{background:var(--cat-fir)}.brow.t-vi .bfill{background:var(--cat-fnd)}.brow.t-gn .bfill{background:var(--soc-gn)}
+        .brow .bcnt{font-size:11px;color:var(--soc-ink);font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
+        .brow .bpct{font-size:10px;color:var(--soc-ink3);text-align:right}
+        .year-mini{display:flex;align-items:flex-end;gap:14px;height:120px;padding-top:18px}
+        .year-mini .yc{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0}
+        .year-mini .ynum{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--soc-cy);font-weight:700}
+        .year-mini .ybar{width:100%;background:linear-gradient(180deg,var(--soc-cy),rgba(34,225,255,.4));border-radius:3px 3px 0 0;min-height:6px}
+        .year-mini .ybar.am{background:linear-gradient(180deg,var(--cat-fir),rgba(255,181,71,.4))}
+        .year-mini .ylbl{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--soc-ink3)}
+        .mitre-wrap{background:linear-gradient(180deg,var(--soc-bg-1),rgba(22,27,34,.6));border:1px solid var(--soc-line);border-radius:6px;padding:18px 20px}
+        .mitre-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:8px}
+        .tcell{position:relative;padding:12px 12px 10px;border-radius:5px;background:var(--soc-bg);border:1px solid var(--soc-line);overflow:hidden;transition:.2s}
+        .tcell::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,85,119,calc(var(--w,.0)*.35)),transparent 70%);pointer-events:none}
+        .tcell:hover{border-color:rgba(255,85,119,.5);transform:translateY(-1px)}
+        .tcell .tt-id{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--soc-ink4);letter-spacing:.1em;font-weight:600;position:relative;z-index:1}
+        .tcell .tt-nm{font-size:12px;color:var(--soc-ink);font-weight:600;margin-top:3px;line-height:1.3;position:relative;z-index:1}
+        .tcell .tt-bar{height:4px;margin-top:8px;background:rgba(0,0,0,.3);border-radius:99px;overflow:hidden;position:relative;z-index:1}
+        .tcell .tt-bar > div{height:100%;background:var(--cat-off);border-radius:99px}
+        .tcell .tt-cnt{position:absolute;top:10px;right:12px;font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;color:var(--cat-off);z-index:1}
+        .tcell.zero{opacity:.45}.tcell.zero::before{display:none}.tcell.zero .tt-cnt{color:var(--soc-ink4)}.tcell.zero .tt-bar > div{background:var(--soc-line2);width:8%!important}
+        .rating-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
+        .rs-cell{background:var(--soc-bg);border:1px solid var(--soc-line);border-radius:5px;padding:14px;text-align:center}
+        .rs-cell.hi{border-color:rgba(255,181,71,.35);background:linear-gradient(180deg,rgba(255,181,71,.08),transparent)}
+        .rs-cell .rsv{font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:700;color:var(--cat-fir);letter-spacing:-.02em}
+        .rs-cell .rsl{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--soc-ink3);letter-spacing:.14em;text-transform:uppercase;margin-top:4px}
+        .rs-cell .rsn{font-size:10.5px;color:var(--soc-ink4);margin-top:5px;font-family:system-ui,sans-serif;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+        .content-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+        .co-card{display:grid;grid-template-rows:auto auto auto 1fr auto;gap:10px;padding:16px 18px;background:var(--soc-bg-1);border:1px solid var(--soc-line);border-radius:6px;text-decoration:none;color:inherit;transition:.15s;position:relative;overflow:hidden}
+        .co-card::before{content:"";position:absolute;left:0;top:0;right:0;height:2px;background:var(--co-c,var(--soc-cy));opacity:.55}
+        .co-card:hover{border-color:var(--soc-line2);transform:translateY(-2px)}
+        .co-card.t-am{--co-c:var(--cat-fir)}.co-card.t-vi{--co-c:var(--cat-fnd)}
+        .co-card .co-cat{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:var(--co-c,var(--soc-cy));text-transform:uppercase;font-weight:700}
+        .co-card .co-val{font-family:'JetBrains Mono',monospace;font-size:32px;font-weight:700;color:var(--soc-ink);letter-spacing:-.02em}
+        .co-card .co-sub{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--soc-ink3);letter-spacing:.04em}
+        .co-card .co-list{display:flex;flex-direction:column;gap:4px;font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--soc-ink2);line-height:1.4}
+        .co-card .co-list span::before{content:"›";color:var(--co-c,var(--soc-cy));margin-right:5px}
+        .co-card .co-cta{margin-top:auto;padding-top:8px;border-top:1px solid var(--soc-line);font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.08em;color:var(--co-c,var(--soc-cy));font-weight:700;text-transform:uppercase;display:flex;justify-content:space-between;align-items:center}
+        .split-bar{display:flex;height:42px;border-radius:5px;overflow:hidden;border:1px solid var(--soc-line);background:rgba(0,0,0,.3)}
+        .split-bar .sb{display:grid;place-items:center;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;transition:.2s;min-width:0}
+        .split-bar .sb.sb-w{background:linear-gradient(180deg,#ffd166,var(--cat-fir))}
+        .split-bar .sb.sb-p{background:linear-gradient(180deg,#c4a3ff,var(--cat-fnd));color:#fff}
+        .split-bar .sb.sb-o{background:linear-gradient(180deg,#4d5a78,var(--soc-line2));color:var(--soc-ink2)}
+        .split-bar .sb span{display:flex;flex-direction:column;align-items:center;line-height:1.1}
+        .split-bar .sb span b{font-size:14px;font-weight:800}
+        .talks-list{display:flex;flex-direction:column;gap:8px}
+        .talk-row{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:10px 14px;background:var(--soc-bg);border:1px solid var(--soc-line);border-radius:5px}
+        .talk-row .tl-yr{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--cat-fnd);font-weight:700;padding:3px 8px;border-radius:3px;background:rgba(167,139,250,.10);border:1px solid rgba(167,139,250,.30)}
+        .talk-row .tl-nm{font-size:13px;color:var(--soc-ink);font-weight:600;line-height:1.3}
+        .talk-row .tl-ev{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--soc-ink3);margin-top:2px}
+        .talk-row .tl-role{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--cat-fir);padding:3px 8px;border-radius:3px;background:rgba(255,181,71,.10);border:1px solid rgba(255,181,71,.30);letter-spacing:.06em;font-weight:700;text-transform:uppercase;white-space:nowrap}
+        .skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+        .sk-tile{background:var(--soc-bg-1);border:1px solid var(--soc-line);border-radius:6px;padding:14px 16px}
+        .sk-tile .sk-hd{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--soc-ink3);letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+        .sk-tile .sk-hd::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--sk-c,var(--soc-cy));box-shadow:0 0 6px var(--sk-c,var(--soc-cy))}
+        .sk-tile.t-am .sk-hd{--sk-c:var(--cat-fir)}.sk-tile.t-vi .sk-hd{--sk-c:var(--cat-fnd)}.sk-tile.t-rd .sk-hd{--sk-c:var(--cat-off)}.sk-tile.t-gn .sk-hd{--sk-c:var(--soc-gn)}
+        .sk-pill{padding:3px 9px;border-radius:99px;background:var(--soc-bg);border:1px solid var(--soc-line2);color:var(--soc-ink2);font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:500}
+        .sk-items{display:flex;flex-wrap:wrap;gap:6px}
+        .recent-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;margin-bottom:12px}
+        .recent-pill{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center;padding:10px 12px;background:var(--soc-bg-1);border:1px solid var(--soc-line);border-radius:5px;text-decoration:none;color:inherit;transition:.15s;position:relative}
+        .recent-pill::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--rp-c,var(--soc-cy));opacity:.7;border-radius:3px 0 0 3px}
+        .recent-pill:hover{border-color:var(--soc-line2);transform:translateY(-1px)}
+        .recent-pill .rp-ic{width:28px;height:28px;border-radius:5px;display:grid;place-items:center;background:rgba(34,225,255,.10);color:var(--rp-c,var(--soc-cy));border:1px solid rgba(34,225,255,.30);font-size:13px;flex-shrink:0}
+        .recent-pill .rp-body{min-width:0}
+        .recent-pill .rp-cat{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--rp-c,var(--soc-cy));letter-spacing:.14em;text-transform:uppercase;font-weight:700}
+        .recent-pill .rp-title{font-size:12.5px;color:var(--soc-ink);font-weight:600;line-height:1.3;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+        .recent-pill .rp-when{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--soc-ink3)}
+        .recent-pill.t-rd{--rp-c:var(--cat-off)}.recent-pill.t-am{--rp-c:var(--cat-fir)}.recent-pill.t-vi{--rp-c:var(--cat-fnd)}.recent-pill.t-gn{--rp-c:var(--soc-gn)}
+        /* Light mode — stats */
+        html[data-theme="light"] .act-wrap,html[data-theme="light"] .tile,html[data-theme="light"] .mitre-wrap{background:var(--soc-bg-1)}
+        html[data-theme="light"] .tcell{background:var(--soc-bg-2)}
+        html[data-theme="light"] .rs-cell{background:var(--soc-bg-2)}
+        html[data-theme="light"] .rs-cell.hi{background:linear-gradient(180deg,var(--am-soft),transparent)}
+        html[data-theme="light"] .co-card,html[data-theme="light"] .sk-tile,html[data-theme="light"] .recent-pill{background:var(--soc-bg-1)}
+        html[data-theme="light"] .talk-row{background:var(--soc-bg-2)}
+        html[data-theme="light"] .talk-row .tl-yr{background:var(--vi-soft);border-color:rgba(109,40,217,.30)}
+        html[data-theme="light"] .talk-row .tl-role{background:var(--am-soft);border-color:rgba(180,83,9,.30)}
+        html[data-theme="light"] .sk-pill{background:var(--soc-bg-2)}
+        html[data-theme="light"] .brow .btrack{background:var(--soc-bg-2)}
+        html[data-theme="light"] .act-bar,html[data-theme="light"] .split-bar{background:var(--soc-bg-2)}
     </style>
     <script src="/themes/soc-theme.js"></script>
     <script src="/themes/soc-nav.js"></script>
@@ -843,6 +955,7 @@
             const [achievements, setAchievements] = useState([]);
             const [irReports, setIrReports] = useState([]);
             const [researchData, setResearchData] = useState([]);
+            const [fbData, setFbData] = useState(null);
 
             // Merge static lab data with dynamic metadata at render time
             const labs = labsData.map(lab => ({ ...lab, ...(labsMetadata[lab.title] || {}) }));
@@ -861,7 +974,8 @@
                     fetch('./data/achievements.json').then(r => r.json()),
                     fetch('./data/ir-reports.json').then(r => r.json()),
                     fetch('./data/research.json').then(r => r.json()),
-                ]).then(([certs, reviews, labsRaw, skillsData, social, achievementsData, irData, research]) => {
+                    fetch('./data/firstbloods.json').then(r => r.json()),
+                ]).then(([certs, reviews, labsRaw, skillsData, social, achievementsData, irData, research, fbRaw]) => {
                     setCertifications(certs);
                     setCertificationReviews(reviews);
                     setLabsData(labsRaw);
@@ -870,6 +984,7 @@
                     setAchievements(achievementsData);
                     setIrReports(irData);
                     setResearchData(research);
+                    setFbData(fbRaw);
                 }).catch(err => console.error('Failed to load site data:', err));
             }, []);
 
@@ -1125,284 +1240,514 @@
             );
 
             const StatsPage = () => {
-                const [showCertsByIssuer, setShowCertsByIssuer] = useState(true);
-                const [showCertsByCategory, setShowCertsByCategory] = useState(true);
-                const [showCertsByYear, setShowCertsByYear] = useState(true);
-                const [showByPlatform, setShowByPlatform] = useState(true);
-                const [showLabDiff, setShowLabDiff] = useState(true);
-                const [showLabRatings, setShowLabRatings] = useState(true);
-                const [showCompsByOrg, setShowCompsByOrg] = useState(true);
-                const [showCompsByYear, setShowCompsByYear] = useState(true);
+                const TWEAKS_DEF = { statCols: 3, density: 'comfortable', actOrder: 'desc', showMitre: true };
+                const TWEAKS_KEY = 'soc-stats-tweaks-v2';
+                const [tweaks, setTweaks] = useState(() => { try { return {...TWEAKS_DEF,...JSON.parse(localStorage.getItem(TWEAKS_KEY)||'{}')}; } catch(e) { return TWEAKS_DEF; } });
+                const [tweaksOpen, setTweaksOpen] = useState(false);
+                const saveTweaks = v => { setTweaks(v); try { localStorage.setItem(TWEAKS_KEY, JSON.stringify(v)); } catch(e) {} };
 
-                const activeCerts = certifications.filter(c => c.status === 'Active').length;
-                const expiredCerts = certifications.filter(c => c.status === 'Expired').length;
+                // ── Core data ───────────────────────────────────────────────
                 const statsLabsOnly = labs.filter(l => l.type === 'lab');
                 const statsProjects = labs.filter(l => l.type === 'project');
-                const avgReviewRating = (certificationReviews.reduce((sum, r) => sum + (r.rating || 0), 0) / certificationReviews.filter(r => r.rating).length);
+                const activeCerts   = certifications.filter(c => c.status === 'Active').length;
+                const expiredCerts  = certifications.filter(c => c.status === 'Expired').length;
+                const comps         = achievements.filter(a => a.category === 'competition');
+                const talksList     = achievements.filter(a => a.category === 'talk');
+                const isWin  = p => { const s=(p||'').toLowerCase(); return s.includes('winner')||s.includes('champion')||s.includes('1st')||s.includes('first'); };
+                const isPod  = p => { const s=(p||'').toLowerCase(); return s.includes('2nd')||s.includes('second')||s.includes('3rd')||s.includes('third'); };
+                const winsArr  = comps.filter(c => isWin(c.placement));
+                const podArr   = comps.filter(c => isPod(c.placement));
 
-                // Achievements stats
-                const comps = achievements.filter(a => a.category === 'competition');
-                const talks = achievements.filter(a => a.category === 'talk');
-                const podiums = comps.filter(c => {
-                    const p = (c.placement || '').toLowerCase();
-                    return p.includes('1st') || p.includes('2nd') || p.includes('3rd') ||
-                           p.includes('first') || p.includes('second') || p.includes('third') ||
-                           p.includes('winner') || p.includes('champion');
-                });
-                const wins = comps.filter(c => {
-                    const p = (c.placement || '').toLowerCase();
-                    return p.includes('1st') || p.includes('first') || p.includes('winner') || p.includes('champion');
-                });
+                // ── Cert data ────────────────────────────────────────────────
+                const certsByIssuer  = certifications.reduce((a,c)=>{ a[c.issuer]=(a[c.issuer]||0)+1; return a; }, {});
+                const sortedIssuers  = Object.entries(certsByIssuer).sort((a,b)=>b[1]-a[1]);
+                const maxIssuerCnt   = sortedIssuers[0]?.[1] || 1;
+                const CERT_CATS      = ['Offensive Security','Blue Team & Detection','Digital Forensics & DFIR','General & Foundational'];
+                const certsByCat     = CERT_CATS.map(cat=>({ label:cat, count:certifications.filter(c=>c.category===cat).length }));
+                const maxCatCnt      = Math.max(...certsByCat.map(c=>c.count), 1);
+                const certsByYear    = certifications.reduce((a,c)=>{ if(c.year) a[c.year]=(a[c.year]||0)+1; return a; }, {});
+                const sortedCertYrs  = Object.entries(certsByYear).sort((a,b)=>+a[0]-+b[0]);
+                const maxCertYrCnt   = sortedCertYrs.length ? Math.max(...sortedCertYrs.map(([,v])=>v),1) : 1;
+                const featuredCert   = certifications.find(c=>c.latest) || certifications[0];
 
-                // Competitions by organizer
-                const compsByOrganizer = comps.reduce((acc, c) => { acc[c.organizer] = (acc[c.organizer] || 0) + 1; return acc; }, {});
-                const sortedOrganizers = Object.entries(compsByOrganizer).sort((a, b) => b[1] - a[1]);
-                const maxOrgCount = sortedOrganizers[0]?.[1] || 1;
-
-                // Competitions by year
-                const compsByYear = comps.reduce((acc, c) => { acc[c.year] = (acc[c.year] || 0) + 1; return acc; }, {});
-                const sortedYears = Object.entries(compsByYear).sort((a, b) => b[0] - a[0]);
-                const maxYearCount = sortedYears[0]?.[1] || 1;
-
-                const certsByIssuer = certifications.reduce((acc, c) => { acc[c.issuer] = (acc[c.issuer] || 0) + 1; return acc; }, {});
-                const sortedIssuers = Object.entries(certsByIssuer).sort((a, b) => b[1] - a[1]);
-                const maxIssuerCount = sortedIssuers[0]?.[1] || 1;
-
-                const certCategoryOrder = ['Offensive Security', 'Blue Team & Detection', 'Digital Forensics & DFIR', 'General & Foundational'];
-                const certsByCategoryData = certCategoryOrder.map(cat => ({
-                    label: cat, count: certifications.filter(c => c.category === cat).length,
-                }));
-                const maxCategoryCount = Math.max(...certsByCategoryData.map(c => c.count), 1);
-
-                const certsByYear = certifications.reduce((acc, c) => { if (c.year) acc[c.year] = (acc[c.year] || 0) + 1; return acc; }, {});
-                const sortedCertYears = Object.entries(certsByYear).sort((a, b) => a[0] - b[0]);
-                const maxCertYearCount = sortedCertYears[0] ? Math.max(...sortedCertYears.map(([,v]) => v), 1) : 1;
-
-                const labsByPlatform = labs.reduce((acc, l) => { acc[l.platform] = (acc[l.platform] || 0) + 1; return acc; }, {});
-                const sortedPlatforms = Object.entries(labsByPlatform).sort((a, b) => b[1] - a[1]);
-                const maxPlatformCount = sortedPlatforms[0]?.[1] || 1;
-
-                const labDifficultyCounts = { easy: 0, medium: 0, hard: 0 };
-                statsLabsOnly.forEach(l => { if (l.difficulty) labDifficultyCounts[l.difficulty]++; });
-                const maxLabDiff = Math.max(...Object.values(labDifficultyCounts), 1);
-
-                const playerDifficultyCounts = { easy: 0, medium: 0, hard: 0 };
-                statsLabsOnly.forEach(l => { if (l.player_difficulty) playerDifficultyCounts[l.player_difficulty]++; });
-                const maxPlayerDiff = Math.max(...Object.values(playerDifficultyCounts), 1);
-
-                const ratedLabs = statsLabsOnly.filter(l => l.rating != null);
-                const labAvgRating = ratedLabs.length ? ratedLabs.reduce((sum, l) => sum + l.rating, 0) / ratedLabs.length : 0;
-                const labMaxRating = ratedLabs.length ? Math.max(...ratedLabs.map(l => l.rating)) : 0;
-                const labMinRating = ratedLabs.length ? Math.min(...ratedLabs.map(l => l.rating)) : 0;
-                const highestRatedLab = ratedLabs.find(l => l.rating === labMaxRating);
-                const lowestRatedLab = ratedLabs.find(l => l.rating === labMinRating);
-                const ratingBands = [
-                    { label: '5.0', min: 5.0, max: 5.0 },
-                    { label: '4.5 – 4.9', min: 4.5, max: 4.9 },
-                    { label: '4.0 – 4.4', min: 4.0, max: 4.4 },
-                    { label: 'Below 4.0', min: 0, max: 3.9 },
+                // ── Lab data ─────────────────────────────────────────────────
+                const labsByPlat     = statsLabsOnly.reduce((a,l)=>{ a[l.platform]=(a[l.platform]||0)+1; return a; }, {});
+                const sortedPlats    = Object.entries(labsByPlat).sort((a,b)=>b[1]-a[1]);
+                const maxPlatCnt     = sortedPlats[0]?.[1] || 1;
+                const labDiff        = { easy:0, medium:0, hard:0 };
+                statsLabsOnly.forEach(l=>{ if(l.difficulty) labDiff[l.difficulty]++; });
+                const playerDiff     = { easy:0, medium:0, hard:0 };
+                statsLabsOnly.forEach(l=>{ if(l.player_difficulty) playerDiff[l.player_difficulty]++; });
+                const maxLabDiff     = Math.max(...Object.values(labDiff), 1);
+                const maxPlayerDiff  = Math.max(...Object.values(playerDiff), 1);
+                const ratedLabs      = statsLabsOnly.filter(l => l.rating != null);
+                const labAvg         = ratedLabs.length ? ratedLabs.reduce((s,l)=>s+l.rating,0)/ratedLabs.length : 0;
+                const labMax         = ratedLabs.length ? Math.max(...ratedLabs.map(l=>l.rating)) : 0;
+                const labMin         = ratedLabs.length ? Math.min(...ratedLabs.map(l=>l.rating)) : 0;
+                const topRatedLab    = ratedLabs.find(l=>l.rating===labMax);
+                const botRatedLab    = ratedLabs.find(l=>l.rating===labMin);
+                const ratingBands    = [
+                    {label:'4.5+',     cls:'t-am', min:4.5,  max:5.0},
+                    {label:'4.0–4.4',  cls:'t-gn', min:4.0,  max:4.49},
+                    {label:'3.5–3.9',  cls:'t-vi', min:3.5,  max:3.99},
+                    {label:'Below 3.5',cls:'t-rd', min:0,    max:3.49},
                 ];
-                const ratingBandCounts = ratingBands.map(b => ({ label: b.label, count: ratedLabs.filter(l => l.rating >= b.min && l.rating <= b.max).length }));
-                const maxBandCount = Math.max(...ratingBandCounts.map(b => b.count), 1);
+                const bandCounts     = ratingBands.map(b=>({ ...b, count:ratedLabs.filter(l=>l.rating>=b.min&&l.rating<=b.max).length }));
+                const maxBandCnt     = Math.max(...bandCounts.map(b=>b.count), 1);
 
-                const StatCard = ({ icon, value, label, sub, color = 'blue' }) => {
-                    const iconColors = { blue: 'var(--soc-cy)', cyan: 'var(--soc-cy)', purple: 'var(--soc-vi)', green: 'var(--soc-gn)' };
-                    return (
-                        <div style={{background:'var(--soc-bg-1)',border:'1px solid var(--soc-line)',borderRadius:'6px',padding:'14px 16px',display:'flex',alignItems:'center',gap:'12px',transition:'.15s'}}
-                            onMouseEnter={e=>e.currentTarget.style.borderColor='var(--soc-line2)'}
-                            onMouseLeave={e=>e.currentTarget.style.borderColor='var(--soc-line)'}>
-                            <div style={{width:'36px',height:'36px',borderRadius:'6px',background:'var(--soc-bg-2)',border:'1px solid var(--soc-line2)',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>
-                                <Icon name={icon} className="w-4 h-4" style={{color:iconColors[color]||'var(--soc-cy)'}} />
-                            </div>
-                            <div style={{minWidth:0}}>
-                                <div style={{fontSize:'22px',fontWeight:700,color:'var(--soc-ink)',lineHeight:1.1,fontFamily:"'JetBrains Mono',monospace"}}>{value}</div>
-                                <div style={{fontSize:'12px',fontWeight:600,color:'var(--soc-ink2)',lineHeight:1.3}}>{label}</div>
-                                {sub && <div style={{fontSize:'11px',color:'var(--soc-ink3)',marginTop:'2px',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{sub}</div>}
-                            </div>
-                        </div>
-                    );
-                };
+                // ── Comp data ────────────────────────────────────────────────
+                const compsByOrg   = comps.reduce((a,c)=>{ a[c.organizer]=(a[c.organizer]||0)+1; return a; }, {});
+                const sortedOrgs   = Object.entries(compsByOrg).sort((a,b)=>b[1]-a[1]);
+                const maxOrgCnt    = sortedOrgs[0]?.[1] || 1;
+                const compsByYear  = comps.reduce((a,c)=>{ a[c.year]=(a[c.year]||0)+1; return a; }, {});
+                const sortedCompYrs= Object.entries(compsByYear).sort((a,b)=>b[0]-a[0]);
+                const maxCompYrCnt = sortedCompYrs.length ? Math.max(...sortedCompYrs.map(([,v])=>v), 1) : 1;
+                const cTotal       = comps.length || 1;
 
-                const BarRow = ({ label, count, max, colorClass, pct }) => (
-                    <div style={{display:'flex',alignItems:'center',gap:'10px',padding:'4px 0'}}>
-                        <span style={{fontSize:'12px',color:'var(--soc-ink2)',width:'112px',flexShrink:0,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}} title={label}>{label}</span>
-                        <div style={{flex:1,background:'var(--soc-bg)',borderRadius:'2px',height:'6px',overflow:'hidden',border:'1px solid var(--soc-line)'}}>
-                            <div style={{height:'100%',width:`${Math.round((count/max)*100)}%`,background:'var(--soc-cy)',opacity:.7,transition:'width .3s',borderRadius:'2px'}} />
-                        </div>
-                        <span style={{fontSize:'12px',fontWeight:700,color:'var(--soc-ink)',width:'20px',textAlign:'right',fontFamily:"'JetBrains Mono',monospace"}}>{count}</span>
-                        {pct !== undefined && <span style={{fontSize:'11px',color:'var(--soc-ink3)',width:'36px',textAlign:'right'}}>{pct}%</span>}
+                // ── First Bloods data ─────────────────────────────────────────
+                const fbBtlo  = fbData?.btlo  || [];
+                const fbHtb   = fbData?.htb_sherlock || [];
+                const fbCd    = fbData?.cd    || [];
+                const fbTotal = fbBtlo.length + fbHtb.length + fbCd.length;
+                const maxFbCnt= Math.max(fbBtlo.length, fbHtb.length, fbCd.length, 1);
+
+                // ── MITRE data ────────────────────────────────────────────────
+                const MITRE_DEFS = [
+                    {id:'TA0001',name:'Initial Access'},{id:'TA0002',name:'Execution'},
+                    {id:'TA0003',name:'Persistence'},{id:'TA0004',name:'Privilege Escalation'},
+                    {id:'TA0005',name:'Defense Evasion'},{id:'TA0006',name:'Credential Access'},
+                    {id:'TA0007',name:'Discovery'},{id:'TA0008',name:'Lateral Movement'},
+                    {id:'TA0009',name:'Collection'},{id:'TA0010',name:'Exfiltration'},
+                    {id:'TA0011',name:'Command and Control'},{id:'TA0040',name:'Impact'},
+                    {id:'TA0042',name:'Resource Development'},{id:'TA0043',name:'Reconnaissance'},
+                ];
+                const tacticMap = labs.reduce((a,l)=>{ (l.tactics||[]).forEach(t=>{ a[t]=(a[t]||0)+1; }); return a; }, {});
+                const mitreMax  = Math.max(...MITRE_DEFS.map(d=>tacticMap[d.name]||0), 1);
+
+                // ── Activity timeline ─────────────────────────────────────────
+                const actAllYears = new Set([
+                    ...certifications.map(c=>String(c.year)).filter(Boolean),
+                    ...comps.map(c=>String(c.year)).filter(Boolean),
+                    ...talksList.map(t=>String(t.year)).filter(Boolean),
+                    ...researchData.map(r=>r.date?.slice(0,4)).filter(Boolean),
+                    ...irReports.map(r=>r.date?.slice(0,4)).filter(Boolean),
+                ]);
+                const actYears = [...actAllYears].sort((a,b)=> tweaks.actOrder==='desc' ? b-a : a-b);
+                const actRows  = actYears.map(yr => {
+                    const cert = certifications.filter(c=>String(c.year)===yr).length;
+                    const comp = comps.filter(c=>String(c.year)===yr).length;
+                    const talk = talksList.filter(t=>String(t.year)===yr).length;
+                    const res  = researchData.filter(r=>r.date?.startsWith(yr)).length;
+                    const ir   = irReports.filter(r=>r.date?.startsWith(yr)).length;
+                    const tot  = cert+comp+talk+res+ir;
+                    return { yr, cert, comp, talk, res, ir, tot };
+                });
+                const actMax = Math.max(...actRows.map(r=>r.tot), 1);
+
+                // ── Content ───────────────────────────────────────────────────
+                const ratedReviews = certificationReviews.filter(r=>r.rating);
+                const avgRevRating = ratedReviews.length ? ratedReviews.reduce((s,r)=>s+r.rating,0)/ratedReviews.length : 0;
+                const recentRevs   = [...certificationReviews].sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,3);
+                const recentRes    = [...researchData].sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,3);
+                const recentIR     = [...irReports].sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,3);
+
+
+                // ── Hero stats cells ──────────────────────────────────────────
+                const fbBtloPct = fbTotal ? Math.round(fbBtlo.length/fbTotal*100) : 0;
+                const fbHtbPct  = fbTotal ? Math.round(fbHtb.length/fbTotal*100) : 0;
+                const fbCdPct   = fbTotal ? 100-fbBtloPct-fbHtbPct : 0;
+
+                // ── Sub-components ────────────────────────────────────────────
+                const Brow = ({label, count, total, max, cls, fillColor}) => (
+                    <div className={`brow ${cls||''}`}>
+                        <div className="blbl" title={label}>{label}</div>
+                        <div className="btrack"><div className="bfill" style={{width:`${Math.round(count/max*100)}%`,...(fillColor?{background:fillColor}:{})}} /></div>
+                        <div className="bcnt">{count}</div>
+                        <div className="bpct">{total ? Math.round(count/total*100)+'%' : ''}</div>
                     </div>
                 );
 
-                const diffBarColors = { easy: 'bg-gradient-to-r from-green-400 to-green-600', medium: 'bg-gradient-to-r from-orange-400 to-orange-500', hard: 'bg-gradient-to-r from-red-400 to-red-600' };
-
-                const SectionToggle = ({ title, icon, show, onToggle }) => (
-                    <button onClick={onToggle} style={{width:'100%',display:'flex',alignItems:'center',justifyContent:'space-between',background:'transparent',border:'none',cursor:'pointer',padding:0}}>
-                        <h2 className="soc-section" style={{display:'flex',alignItems:'center',gap:'8px',fontSize:'13px',fontWeight:600,color:'var(--soc-ink2)',letterSpacing:'.04em',textTransform:'uppercase',fontFamily:"'JetBrains Mono',monospace",margin:0}}>
-                            <Icon name={icon} className="w-4 h-4" style={{color:'var(--soc-cy)'}} />
-                            {title}
-                        </h2>
-                        <span style={{fontSize:'10px',fontWeight:600,padding:'2px 8px',borderRadius:'3px',fontFamily:"'JetBrains Mono',monospace",letterSpacing:'.06em',background:show?'rgba(34,225,255,0.1)':'var(--soc-bg-2)',color:show?'var(--soc-cy)':'var(--soc-ink3)',border:'1px solid',borderColor:show?'rgba(34,225,255,0.25)':'var(--soc-line)'}}>
-                            {show ? 'HIDE' : 'SHOW'}
-                        </span>
-                    </button>
+                const TileHd = ({glyph, label, count, cls}) => (
+                    <div className="tile-hd">
+                        <div className="tglyph">{glyph}</div>
+                        {label}
+                        {count!=null && <div className="tcnt">{count} entries</div>}
+                    </div>
                 );
 
                 return (
-                    <div className="space-y-8 animate-fadeIn">
-                        <SocPageHero
-                            icon="BarChart2"
-                            title="Portfolio Stats"
-                            subtitle="portfolio.stats · by-the-numbers"
-                            strap="portfolio/stats"
-                        />
+                    <div className={`stats-page-wrap space-y-8 animate-fadeIn ${tweaks.density==='compact'?'stats-compact':''}`} style={{'--stat-cols':tweaks.statCols}}>
 
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                            <StatCard icon="Award" value={certifications.length} label="Certifications" sub={`${activeCerts} active · ${expiredCerts} expired`} color="blue" />
-                            <StatCard icon="Hammer" value={statsLabsOnly.length} label="Labs Built" sub={`published across ${Object.keys(labsByPlatform).filter(p => statsLabsOnly.some(l => l.platform === p)).length} platforms`} color="green" />
-                            <StatCard icon="FolderOpen" value={statsProjects.length} label="Projects & Research" sub="GitHub + Medium" color="purple" />
-                            <StatCard icon="FileText" value={certificationReviews.length} label="Reviews Published" sub={`avg rating ${avgReviewRating.toFixed(1)}/5.0`} color="cyan" />
-                            <StatCard icon="Trophy" value={comps.length} label="Competitions" sub={`${wins.length} wins · ${podiums.length} podiums`} color="blue" />
-                            <StatCard icon="Mic" value={talks.length} label="Talks Given" sub="conferences & meetups" color="purple" />
-                        </div>
-
-                        <div className="grid md:grid-cols-2 gap-6">
-                            <div style={{background:"var(--soc-bg-1)",border:"1px solid var(--soc-line)",borderRadius:"6px",padding:"20px 22px"}}>
-                                <SectionToggle title="Certs by Issuer" icon="Building2" iconColor="text-blue-500" show={showCertsByIssuer} onToggle={() => setShowCertsByIssuer(v => !v)} />
-                                {showCertsByIssuer && (
-                                    <div className="space-y-1 mt-5">
-                                        {sortedIssuers.map(([issuer, count]) => (
-                                            <BarRow key={issuer} label={issuer} count={count} max={maxIssuerCount} colorClass="bg-gradient-to-r from-blue-400 to-blue-600" pct={Math.round((count / certifications.length) * 100)} />
+                        {/* ── HERO ── */}
+                        <div className="soc-page-hero">
+                            <div className="soc-page-hero-strap">
+                                <div className="seg"><b>console</b> <span className="v">portfolio/stats</span></div>
+                                <span style={{marginLeft:'auto'}} className="sev green"><span className="dot"></span>ACTIVE</span>
+                            </div>
+                            <div className="soc-page-hero-body">
+                                <div className="soc-page-hero-icon">
+                                    <Icon name="BarChart2" className="w-6 h-6" style={{color:'var(--soc-cy)'}} />
+                                </div>
+                                <div>
+                                    <h1 className="soc-page-hero-title">Portfolio Stats</h1>
+                                    <p className="soc-page-hero-sub">portfolio.stats · by-the-numbers</p>
+                                </div>
+                            </div>
+                            <div className="soc-stat-grid" style={{gridTemplateColumns:'repeat(var(--stat-cols,3),1fr)'}}>
+                                <div className="soc-stat-cell">
+                                    <div className="soc-stat-lbl">Certifications</div>
+                                    <div className="soc-stat-val">{certifications.length || '—'}</div>
+                                    <div className="dist" style={{marginTop:'8px'}}>
+                                        <span className="blu" style={{width:`${certifications.length ? Math.round(activeCerts/certifications.length*100) : 0}%`}}></span>
+                                        <span style={{background:'var(--soc-line2)',flex:1}}></span>
+                                    </div>
+                                    <div style={{fontSize:'10px',color:'var(--soc-ink3)',fontFamily:"'JetBrains Mono',monospace",marginTop:'4px'}}>{activeCerts} active · {expiredCerts} expired</div>
+                                </div>
+                                <div className="soc-stat-cell am">
+                                    <div className="soc-stat-lbl">Labs Built</div>
+                                    <div className="soc-stat-val">{statsLabsOnly.length || '—'}</div>
+                                    <div className="dist" style={{marginTop:'8px'}}>
+                                        {sortedPlats.slice(0,3).map(([,c],i)=>(
+                                            <span key={i} className={['fir','off','blu'][i]} style={{width:`${Math.round(c/statsLabsOnly.length*100)}%`}}></span>
                                         ))}
                                     </div>
-                                )}
-                            </div>
-
-                            <div style={{background:"var(--soc-bg-1)",border:"1px solid var(--soc-line)",borderRadius:"6px",padding:"20px 22px"}}>
-                                <SectionToggle title="Certs by Category" icon="Layers" iconColor="text-purple-500" show={showCertsByCategory} onToggle={() => setShowCertsByCategory(v => !v)} />
-                                {showCertsByCategory && (
-                                    <div style={{marginTop:'16px'}}>
-                                        {certsByCategoryData.map(({ label, count }) => (
-                                            <BarRow key={label} label={label} count={count} max={maxCategoryCount} pct={certifications.length ? Math.round((count / certifications.length) * 100) : 0} />
-                                        ))}
+                                    <div style={{fontSize:'10px',color:'var(--soc-ink3)',fontFamily:"'JetBrains Mono',monospace",marginTop:'4px'}}>{sortedPlats.length} platforms</div>
+                                </div>
+                                <div className="soc-stat-cell vi">
+                                    <div className="soc-stat-lbl">Projects</div>
+                                    <div className="soc-stat-val">{statsProjects.length || '—'}</div>
+                                    <div className="soc-spark"><span style={{height:'30%'}}></span><span style={{height:'45%'}}></span><span style={{height:'60%'}}></span><span style={{height:'80%'}}></span><span style={{height:'95%'}}></span></div>
+                                </div>
+                                <div className="soc-stat-cell gn">
+                                    <div className="soc-stat-lbl">Reviews Published</div>
+                                    <div className="soc-stat-val">{certificationReviews.length || '—'}</div>
+                                    <div style={{fontSize:'10px',color:'var(--soc-ink3)',fontFamily:"'JetBrains Mono',monospace",marginTop:'6px'}}>avg {avgRevRating.toFixed(2)}/5.0</div>
+                                </div>
+                                <div className="soc-stat-cell am">
+                                    <div className="soc-stat-lbl">Competitions</div>
+                                    <div className="soc-stat-val">{comps.length || '—'}</div>
+                                    <div className="dist" style={{marginTop:'8px'}}>
+                                        <span className="fir" style={{width:`${Math.round(winsArr.length/cTotal*100)}%`}}></span>
+                                        <span className="fnd" style={{width:`${Math.round(podArr.length/cTotal*100)}%`}}></span>
+                                        <span style={{background:'var(--soc-line2)',flex:1}}></span>
                                     </div>
-                                )}
+                                    <div style={{fontSize:'10px',color:'var(--soc-ink3)',fontFamily:"'JetBrains Mono',monospace",marginTop:'4px'}}>{winsArr.length} wins · {podArr.length} podiums</div>
+                                </div>
+                                <div className="soc-stat-cell rd">
+                                    <div className="soc-stat-lbl">First Bloods</div>
+                                    <div className="soc-stat-val">{fbTotal || '—'}</div>
+                                    <div className="dist" style={{marginTop:'8px'}}>
+                                        <span style={{background:'#35c2f1',width:`${fbBtloPct}%`}}></span>
+                                        <span style={{background:'#9fef00',width:`${fbHtbPct}%`}}></span>
+                                        <span style={{background:'#297fff',width:`${fbCdPct}%`}}></span>
+                                    </div>
+                                    <div style={{fontSize:'10px',color:'var(--soc-ink3)',fontFamily:"'JetBrains Mono',monospace",marginTop:'4px'}}>BTLO · HTB · CD</div>
+                                </div>
                             </div>
                         </div>
 
-                        <div style={{background:"var(--soc-bg-1)",border:"1px solid var(--soc-line)",borderRadius:"6px",padding:"20px 22px"}}>
-                            <SectionToggle title="Certifications by Year" icon="TrendingUp" iconColor="text-indigo-500" show={showCertsByYear} onToggle={() => setShowCertsByYear(v => !v)} />
-                            {showCertsByYear && sortedCertYears.length > 0 && (
-                                <div className="mt-5">
-                                    <div className="flex items-end gap-3 h-28">
-                                        {sortedCertYears.map(([year, count]) => (
-                                            <div key={year} className="flex-1 flex flex-col items-center gap-1 min-w-0">
-                                                <span style={{fontSize:"11px",fontWeight:700,color:"var(--soc-cy)",fontFamily:"'JetBrains Mono',monospace"}}>{count}</span>
-                                                <div className="w-full rounded-t-lg bg-gradient-to-t from-blue-500 to-indigo-400 transition-all"
-                                                    style={{ height: `${Math.round((count / maxCertYearCount) * 80)}px`, background: 'var(--soc-cy)', opacity: .7 }} />
-                                                <span style={{fontSize:"10px",color:"var(--soc-ink3)"}}>{year}</span>
+                        {/* featured cert */}
+                        {featuredCert && (
+                            <div className="featured-latest">
+                                <div className="fl-glyph">
+                                    {featuredCert.badge
+                                        ? <img src={featuredCert.badge} alt={featuredCert.name} style={{width:'100%',height:'100%',objectFit:'contain',borderRadius:'6px'}} />
+                                        : '🏅'}
+                                </div>
+                                <div>
+                                    <span className="fl-tag">Latest Certification</span>
+                                    <div className="fl-title">{featuredCert.name}</div>
+                                    <div className="fl-meta">
+                                        <span>issuer=<b>{featuredCert.issuer}</b></span><span>·</span>
+                                        <span>year=<b>{featuredCert.year}</b></span><span>·</span>
+                                        <span>status=<b>{featuredCert.status}</b></span>
+                                    </div>
+                                </div>
+                                <span className="fl-cta">{featuredCert.status || 'Active'}</span>
+                            </div>
+                        )}
+
+                        {/* ── ACTIVITY TIMELINE ── */}
+                        <h2 className="soc-section">Activity Timeline</h2>
+                        <div className="act-wrap">
+                            {actRows.map(({yr,cert,comp,talk,res,ir,tot})=>(
+                                <div key={yr} className="act-row">
+                                    <div className="act-yr">{yr}</div>
+                                    <div className="act-bar" style={{flex:1}}>
+                                        {cert>0 && <div className="act-seg s-cert" style={{width:`${Math.round(cert/actMax*100)}%`}}>{cert>1?cert:''}</div>}
+                                        {comp>0 && <div className="act-seg s-comp" style={{width:`${Math.round(comp/actMax*100)}%`}}>{comp>1?comp:''}</div>}
+                                        {talk>0 && <div className="act-seg s-talk" style={{width:`${Math.round(talk/actMax*100)}%`}}>{talk>1?talk:''}</div>}
+                                        {res>0  && <div className="act-seg s-res"  style={{width:`${Math.round(res/actMax*100)}%`}}>{res>1?res:''}</div>}
+                                        {ir>0   && <div className="act-seg s-ir"   style={{width:`${Math.round(ir/actMax*100)}%`}}>{ir>1?ir:''}</div>}
+                                    </div>
+                                    <div className="act-tot">{tot}</div>
+                                </div>
+                            ))}
+                            <div className="act-legend">
+                                <span className="lg-cert">Certifications</span>
+                                <span className="lg-comp">Competitions</span>
+                                <span className="lg-talk">Talks</span>
+                                <span className="lg-res">Research</span>
+                                <span className="lg-ir">IR Reports</span>
+                            </div>
+                        </div>
+
+                        {/* ── CERTIFICATIONS ── */}
+                        <h2 className="soc-section rd">Certifications</h2>
+                        <div className="tile-grid">
+                            <div className="tile">
+                                <TileHd glyph="🏢" label="By Issuer" count={certifications.length} />
+                                {sortedIssuers.map(([iss,cnt])=>(
+                                    <Brow key={iss} label={iss} count={cnt} total={certifications.length} max={maxIssuerCnt} />
+                                ))}
+                            </div>
+                            <div className="tile">
+                                <TileHd glyph="📂" label="By Category" count={certifications.length} />
+                                {certsByCat.map(({label,count})=>(
+                                    <Brow key={label} label={label} count={count} total={certifications.length} max={maxCatCnt} />
+                                ))}
+                                <div style={{marginTop:'14px'}}>
+                                    <div className="tile-hd" style={{marginBottom:'8px'}}><div className="tglyph">📅</div> By Year</div>
+                                    <div className="year-mini">
+                                        {sortedCertYrs.map(([yr,cnt])=>(
+                                            <div key={yr} className="yc">
+                                                <div className="ynum">{cnt}</div>
+                                                <div className="ybar" style={{height:`${Math.round(cnt/maxCertYrCnt*100)}px`}}></div>
+                                                <div className="ylbl">{yr}</div>
                                             </div>
                                         ))}
                                     </div>
                                 </div>
-                            )}
-                        </div>
-
-                        <div className="grid md:grid-cols-2 gap-6">
-                            <div style={{background:"var(--soc-bg-1)",border:"1px solid var(--soc-line)",borderRadius:"6px",padding:"20px 22px"}}>
-                                <SectionToggle title="Labs & Projects by Platform" icon="Globe" iconColor="text-cyan-500" show={showByPlatform} onToggle={() => setShowByPlatform(v => !v)} />
-                                {showByPlatform && (
-                                    <div className="space-y-1 mt-5">
-                                        {sortedPlatforms.map(([platform, count]) => (
-                                            <BarRow key={platform} label={platform} count={count} max={maxPlatformCount} colorClass="bg-gradient-to-r from-cyan-400 to-cyan-600" pct={Math.round((count / labs.length) * 100)} />
-                                        ))}
-                                    </div>
-                                )}
-                            </div>
-
-                            <div style={{background:"var(--soc-bg-1)",border:"1px solid var(--soc-line)",borderRadius:"6px",padding:"20px 22px"}}>
-                                <SectionToggle title="Lab Difficulty" icon="Gauge" iconColor="text-orange-500" show={showLabDiff} onToggle={() => setShowLabDiff(v => !v)} />
-                                {showLabDiff && (
-                                    <div className="mt-5 space-y-6">
-                                        <div>
-                                            <p style={{fontSize:"10px",fontWeight:600,color:"var(--soc-ink3)",textTransform:"uppercase",letterSpacing:".1em",marginBottom:"10px",fontFamily:"'JetBrains Mono',monospace"}}>Official Difficulty</p>
-                                            <div className="space-y-2">
-                                                {Object.entries(labDifficultyCounts).map(([diff, count]) => (
-                                                    <BarRow key={diff} label={diff.charAt(0).toUpperCase() + diff.slice(1)} count={count} max={maxLabDiff} colorClass={diffBarColors[diff]} pct={statsLabsOnly.length ? Math.round((count / statsLabsOnly.length) * 100) : 0} />
-                                                ))}
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <p style={{fontSize:"10px",fontWeight:600,color:"var(--soc-ink3)",textTransform:"uppercase",letterSpacing:".1em",marginBottom:"10px",fontFamily:"'JetBrains Mono',monospace"}}>Perceived Difficulty</p>
-                                            <div className="space-y-2">
-                                                {Object.entries(playerDifficultyCounts).map(([diff, count]) => (
-                                                    <BarRow key={diff} label={diff.charAt(0).toUpperCase() + diff.slice(1)} count={count} max={maxPlayerDiff} colorClass={diffBarColors[diff]} pct={statsLabsOnly.length ? Math.round((count / statsLabsOnly.length) * 100) : 0} />
-                                                ))}
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
                             </div>
                         </div>
-
-                        <div style={{background:"var(--soc-bg-1)",border:"1px solid var(--soc-line)",borderRadius:"6px",padding:"20px 22px"}}>
-                            <SectionToggle title="Lab Ratings" icon="Star" iconColor="text-yellow-500" show={showLabRatings} onToggle={() => setShowLabRatings(v => !v)} />
-                            {showLabRatings && (
-                                <div className="mt-5 grid md:grid-cols-2 gap-8">
-                                    <div>
-                                        <p style={{fontSize:"10px",fontWeight:600,color:"var(--soc-ink3)",textTransform:"uppercase",letterSpacing:".1em",marginBottom:"12px",fontFamily:"'JetBrains Mono',monospace"}}>Summary ({ratedLabs.length} rated labs)</p>
-                                        <div className="grid grid-cols-3 gap-3 text-center mb-6">
-                                            <div style={{background:"var(--soc-bg-2)",border:"1px solid var(--soc-line)",borderRadius:"6px",padding:"14px",textAlign:"center"}}>
-                                                <div style={{fontSize:"22px",fontWeight:700,color:"var(--soc-am)",fontFamily:"'JetBrains Mono',monospace"}}>{labMinRating.toFixed(1)}</div>
-                                                <div style={{fontSize:"10px",color:"var(--soc-ink3)",marginTop:"4px"}}>Lowest</div>
-                                                <div style={{fontSize:"10px",color:"var(--soc-ink4)",marginTop:"4px",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}} title={lowestRatedLab?.title}>{lowestRatedLab?.title}</div>
-                                            </div>
-                                            <div style={{background:"var(--soc-bg-2)",border:"1px solid var(--soc-line2)",borderRadius:"6px",padding:"14px",textAlign:"center"}}>
-                                                <div style={{fontSize:"22px",fontWeight:700,color:"var(--soc-am)",fontFamily:"'JetBrains Mono',monospace"}}>{labAvgRating.toFixed(2)}</div>
-                                                <div style={{fontSize:"10px",color:"var(--soc-ink3)",marginTop:"4px"}}>Average</div>
-                                            </div>
-                                            <div style={{background:"var(--soc-bg-2)",border:"1px solid var(--soc-line2)",borderRadius:"6px",padding:"14px",textAlign:"center"}}>
-                                                <div style={{fontSize:"22px",fontWeight:700,color:"var(--soc-am)",fontFamily:"'JetBrains Mono',monospace"}}>{labMaxRating.toFixed(1)}</div>
-                                                <div style={{fontSize:"10px",color:"var(--soc-ink3)",marginTop:"4px"}}>Highest</div>
-                                                <div style={{fontSize:"10px",color:"var(--soc-ink3)",marginTop:"4px",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}} title={highestRatedLab?.title}>{highestRatedLab?.title}</div>
-                                            </div>
-                                        </div>
+                        <div className="issuer-roster">
+                            {sortedIssuers.map(([iss,cnt])=>{
+                                const initials=iss.split(/[\s\-]/).map(w=>w[0]).filter(Boolean).slice(0,3).join('').toUpperCase();
+                                const cYears=[...new Set(certifications.filter(c=>c.issuer===iss).map(c=>c.year))].sort().join(', ');
+                                return (
+                                    <div key={iss} className="issuer-card">
+                                        <div className="ig">{initials}</div>
+                                        <div><div className="in">{iss}</div><div className="is">{cnt} credential{cnt!==1?'s':''} · {cYears}</div></div>
+                                        <div className="ic">{cnt}</div>
                                     </div>
-                                    <div>
-                                        <p style={{fontSize:"10px",fontWeight:600,color:"var(--soc-ink3)",textTransform:"uppercase",letterSpacing:".1em",marginBottom:"12px",fontFamily:"'JetBrains Mono',monospace"}}>Distribution</p>
-                                        <div className="space-y-2">
-                                            {ratingBandCounts.map(({ label, count }) => (
-                                                <BarRow key={label} label={label} count={count} max={maxBandCount} colorClass="bg-gradient-to-r from-yellow-400 to-amber-500" pct={ratedLabs.length ? Math.round((count / ratedLabs.length) * 100) : 0} />
-                                            ))}
-                                        </div>
+                                );
+                            })}
+                        </div>
+
+                        {/* ── LABS & PROJECTS ── */}
+                        <h2 className="soc-section am">Labs &amp; Projects</h2>
+                        <div className="tile-grid">
+                            <div className="tile am">
+                                <TileHd glyph="🌐" label="Labs by Platform" count={statsLabsOnly.length} cls="am" />
+                                {sortedPlats.map(([plat,cnt])=>(
+                                    <Brow key={plat} label={plat} count={cnt} total={statsLabsOnly.length} max={maxPlatCnt} cls="t-am" />
+                                ))}
+                            </div>
+                            <div className="tile">
+                                <TileHd glyph="📊" label="Difficulty — Official" />
+                                {Object.entries(labDiff).map(([d,c])=>(
+                                    <Brow key={d} label={d.charAt(0).toUpperCase()+d.slice(1)} count={c} total={statsLabsOnly.length} max={maxLabDiff}
+                                        cls={d==='easy'?'t-gn':d==='medium'?'t-am':'t-rd'} />
+                                ))}
+                                <div style={{height:'1px',background:'var(--soc-line)',margin:'12px 0'}}></div>
+                                <div className="tile-hd" style={{marginBottom:'8px'}}><div className="tglyph">👥</div> Perceived Difficulty</div>
+                                {Object.entries(playerDiff).map(([d,c])=>(
+                                    <Brow key={d} label={d.charAt(0).toUpperCase()+d.slice(1)} count={c} total={statsLabsOnly.length} max={maxPlayerDiff}
+                                        cls={d==='easy'?'t-gn':d==='medium'?'t-am':'t-rd'} />
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* ratings */}
+                        {ratedLabs.length > 0 && (
+                            <div className="tile am">
+                                <TileHd glyph="⭐" label="Lab Ratings" count={ratedLabs.length} cls="am" />
+                                <div className="rating-summary">
+                                    <div className="rs-cell">
+                                        <div className="rsv">{labMin.toFixed(1)}</div>
+                                        <div className="rsl">Lowest</div>
+                                        <div className="rsn">{botRatedLab?.title}</div>
+                                    </div>
+                                    <div className="rs-cell hi">
+                                        <div className="rsv">{labAvg.toFixed(2)}</div>
+                                        <div className="rsl">Average</div>
+                                        <div className="rsn">{ratedLabs.length} labs rated</div>
+                                    </div>
+                                    <div className="rs-cell">
+                                        <div className="rsv">{labMax.toFixed(1)}</div>
+                                        <div className="rsl">Highest</div>
+                                        <div className="rsn">{topRatedLab?.title}</div>
                                     </div>
                                 </div>
-                            )}
+                                {bandCounts.map(({label,cls,count})=>(
+                                    <Brow key={label} label={label} count={count} total={ratedLabs.length} max={maxBandCnt} cls={cls} />
+                                ))}
+                            </div>
+                        )}
+
+                        {/* ── MITRE ATT&CK ── */}
+                        {tweaks.showMitre && (
+                            <>
+                                <h2 className="soc-section rd">MITRE ATT&amp;CK Coverage</h2>
+                                <div className="mitre-wrap">
+                                    <div className="mitre-grid">
+                                        {MITRE_DEFS.map(d=>{
+                                            const cnt = tacticMap[d.name] || 0;
+                                            const w   = cnt / mitreMax;
+                                            return (
+                                                <div key={d.id} className={`tcell${cnt===0?' zero':''}`} style={{'--w':w}}>
+                                                    <div className="tt-id">{d.id}</div>
+                                                    <div className="tt-nm">{d.name}</div>
+                                                    <div className="tt-cnt">{cnt}</div>
+                                                    <div className="tt-bar"><div style={{width:`${Math.round(w*100)}%`}}></div></div>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+                            </>
+                        )}
+
+                        {/* ── COMPETITIONS ── */}
+                        <h2 className="soc-section am">Competitions &amp; Achievements</h2>
+                        <div className="split-bar">
+                            {winsArr.length > 0 && <div className="sb sb-w" style={{flex:winsArr.length}}><span><b>{winsArr.length}</b>WINS</span></div>}
+                            {podArr.length  > 0 && <div className="sb sb-p" style={{flex:podArr.length}}><span><b>{podArr.length}</b>PODIUM</span></div>}
+                            {(comps.length-winsArr.length-podArr.length) > 0 && <div className="sb sb-o" style={{flex:comps.length-winsArr.length-podArr.length}}><span><b>{comps.length-winsArr.length-podArr.length}</b>OTHER</span></div>}
+                        </div>
+                        <div className="tile-grid">
+                            <div className="tile am">
+                                <TileHd glyph="🏢" label="By Organizer" cls="am" />
+                                {sortedOrgs.map(([org,cnt])=>(
+                                    <Brow key={org} label={org} count={cnt} total={comps.length} max={maxOrgCnt} cls="t-am" />
+                                ))}
+                            </div>
+                            <div className="tile am">
+                                <TileHd glyph="📅" label="By Year" cls="am" />
+                                <div className="year-mini">
+                                    {sortedCompYrs.slice().reverse().map(([yr,cnt])=>(
+                                        <div key={yr} className="yc">
+                                            <div className="ynum" style={{color:'var(--cat-fir)'}}>{cnt}</div>
+                                            <div className="ybar am" style={{height:`${Math.round(cnt/maxCompYrCnt*100)}px`}}></div>
+                                            <div className="ylbl">{yr}</div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
                         </div>
 
-                        {/* Achievements breakdown */}
-                        <div className="grid md:grid-cols-2 gap-6">
-                            <div style={{background:"var(--soc-bg-1)",border:"1px solid var(--soc-line)",borderRadius:"6px",padding:"20px 22px"}}>
-                                <SectionToggle title="Competitions by Organizer" icon="Trophy" iconColor="text-yellow-500" show={showCompsByOrg} onToggle={() => setShowCompsByOrg(v => !v)} />
-                                {showCompsByOrg && (
-                                    <div className="space-y-1 mt-5">
-                                        {sortedOrganizers.map(([org, count]) => (
-                                            <BarRow key={org} label={org} count={count} max={maxOrgCount} colorClass="bg-gradient-to-r from-yellow-400 to-amber-500" pct={Math.round((count / comps.length) * 100)} />
-                                        ))}
-                                    </div>
-                                )}
+                        {/* ── FIRST BLOODS ── */}
+                        <h2 className="soc-section rd">First Bloods</h2>
+                        <div className="tile-grid">
+                            <div className="tile rd">
+                                <TileHd glyph="🩸" label="By Platform" cls="rd" />
+                                <Brow label="Blue Team Labs Online" count={fbBtlo.length} total={fbTotal} max={maxFbCnt} fillColor="#35c2f1" />
+                                <Brow label="HackTheBox Sherlock"   count={fbHtb.length}  total={fbTotal} max={maxFbCnt} fillColor="#9fef00" />
+                                <Brow label="CyberDefenders"        count={fbCd.length}   total={fbTotal} max={maxFbCnt} fillColor="#297fff" />
+                                <div style={{height:'1px',background:'var(--soc-line)',margin:'12px 0'}}></div>
+                                <div style={{display:'flex',gap:'10px'}}>
+                                    {[{label:'BTLO',n:fbBtlo.length,c:'#35c2f1'},{label:'HTB',n:fbHtb.length,c:'#9fef00'},{label:'CD',n:fbCd.length,c:'#297fff'}].map(p=>(
+                                        <div key={p.label} style={{flex:1,textAlign:'center',padding:'10px',background:'var(--soc-bg)',border:'1px solid var(--soc-line)',borderRadius:'5px'}}>
+                                            <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:'20px',fontWeight:700,color:p.c}}>{p.n}</div>
+                                            <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:'9px',color:'var(--soc-ink3)',letterSpacing:'.1em',textTransform:'uppercase',marginTop:'4px'}}>{p.label}</div>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
+                            <div className="tile">
+                                <TileHd glyph="🔬" label="Recent Bloods" />
+                                <div style={{display:'flex',flexDirection:'column',gap:'6px'}}>
+                                    {[...fbBtlo.slice(0,3).map(e=>({...e,plat:'BTLO',c:'#35c2f1'})),
+                                      ...fbHtb.slice(0,2).map(e=>({...e,plat:'HTB',c:'#9fef00'})),
+                                      ...fbCd.slice(0,1).map(e=>({...e,plat:'CD',c:'#297fff'}))
+                                    ].slice(0,6).map((e,i)=>(
+                                        <a key={i} href={e.url} target="_blank" rel="noopener noreferrer"
+                                            style={{display:'grid',gridTemplateColumns:'auto 1fr auto',gap:'8px',alignItems:'center',
+                                                padding:'7px 10px',background:'var(--soc-bg)',border:'1px solid var(--soc-line)',
+                                                borderRadius:'4px',textDecoration:'none',color:'inherit',transition:'.15s'}}
+                                            onMouseEnter={el=>el.currentTarget.style.borderColor='var(--soc-line2)'}
+                                            onMouseLeave={el=>el.currentTarget.style.borderColor='var(--soc-line)'}>
+                                            <span style={{fontFamily:"'JetBrains Mono',monospace",fontSize:'10px',color:e.c,padding:'2px 6px',border:`1px solid ${e.c}`,borderRadius:'3px',opacity:.8}}>{e.plat}</span>
+                                            <span style={{fontSize:'12px',color:'var(--soc-ink)',fontWeight:600,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{e.name}</span>
+                                            <span style={{fontSize:'10px',color:'var(--soc-ink4)'}}>›</span>
+                                        </a>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
 
-                            <div style={{background:"var(--soc-bg-1)",border:"1px solid var(--soc-line)",borderRadius:"6px",padding:"20px 22px"}}>
-                                <SectionToggle title="Competitions by Year" icon="Calendar" iconColor="text-blue-500" show={showCompsByYear} onToggle={() => setShowCompsByYear(v => !v)} />
-                                {showCompsByYear && (
-                                    <div className="space-y-1 mt-5">
-                                        {sortedYears.map(([year, count]) => (
-                                            <BarRow key={year} label={year} count={count} max={maxYearCount} colorClass="bg-gradient-to-r from-blue-400 to-blue-600" pct={Math.round((count / comps.length) * 100)} />
+                        {/* ── CONTENT & PUBLICATIONS ── */}
+                        <h2 className="soc-section vi">Content &amp; Publications</h2>
+                        <div className="content-row">
+                            <div className="co-card">
+                                <div className="co-cat">Reviews</div>
+                                <div className="co-val">{certificationReviews.length}</div>
+                                <div className="co-sub">avg {avgRevRating.toFixed(2)} / 5.0</div>
+                                <div className="co-list">
+                                    {recentRevs.map((r,i)=><span key={i}>{r.title}</span>)}
+                                </div>
+                                <div className="co-cta"><span>Latest Reviews</span><span>›</span></div>
+                            </div>
+                            <div className="co-card t-am">
+                                <div className="co-cat">Research</div>
+                                <div className="co-val">{researchData.length}</div>
+                                <div className="co-sub">articles &amp; posts</div>
+                                <div className="co-list">
+                                    {recentRes.map((r,i)=><span key={i}>{r.title}</span>)}
+                                </div>
+                                <div className="co-cta"><span>All Research</span><span>›</span></div>
+                            </div>
+                            <div className="co-card t-vi">
+                                <div className="co-cat">IR Reports</div>
+                                <div className="co-val">{irReports.length}</div>
+                                <div className="co-sub">incident reports</div>
+                                <div className="co-list">
+                                    {recentIR.map((r,i)=><span key={i}>{r.title}</span>)}
+                                </div>
+                                <div className="co-cta"><span>All Reports</span><span>›</span></div>
+                            </div>
+                        </div>
+
+                        {/* ── TWEAKS FAB ── */}
+                        <button className="tweaks-fab" onClick={()=>setTweaksOpen(v=>!v)} title="Display tweaks">⚙</button>
+                        <div className={`tweaks-panel${tweaksOpen?' open':''}`} role="dialog" aria-label="Tweaks">
+                            <div className="tweaks-hd">Stats Tweaks <span className="x" onClick={()=>setTweaksOpen(false)} aria-label="Close">✕</span></div>
+                            <div className="tweaks-body">
+                                <div className="tw-group">
+                                    <div className="tw-lbl">Stat columns</div>
+                                    <div className="tw-radio">
+                                        {[2,3,6].map(n=>(
+                                            <button key={n} className={tweaks.statCols===n?'on':''}
+                                                onClick={()=>saveTweaks({...tweaks,statCols:n})}>{n}</button>
                                         ))}
                                     </div>
-                                )}
+                                </div>
+                                <div className="tw-group">
+                                    <div className="tw-lbl">Density</div>
+                                    <div className="tw-radio">
+                                        {['comfortable','compact'].map(d=>(
+                                            <button key={d} className={tweaks.density===d?'on':''}
+                                                onClick={()=>saveTweaks({...tweaks,density:d})}>{d}</button>
+                                        ))}
+                                    </div>
+                                </div>
+                                <div className="tw-group">
+                                    <div className="tw-lbl">Timeline order</div>
+                                    <div className="tw-radio">
+                                        {[{v:'desc',l:'Newest first'},{v:'asc',l:'Oldest first'}].map(({v,l})=>(
+                                            <button key={v} className={tweaks.actOrder===v?'on':''}
+                                                onClick={()=>saveTweaks({...tweaks,actOrder:v})}>{l}</button>
+                                        ))}
+                                    </div>
+                                </div>
+                                <div className="tw-group">
+                                    <div className="tw-lbl">Sections</div>
+                                    <div className={`tw-toggle${tweaks.showMitre?' on':''}`} onClick={()=>saveTweaks({...tweaks,showMitre:!tweaks.showMitre})}>
+                                        <span className="t">MITRE ATT&amp;CK heatmap</span><span className="sw"></span>
+                                    </div>
+                                </div>
                             </div>
+                            <div className="tw-foot">Saved to <b onClick={()=>saveTweaks({...TWEAKS_DEF})}>localStorage</b> · click to reset</div>
                         </div>
                     </div>
                 );
@@ -1743,9 +2088,9 @@
                 };
                 const ratingPlace = r => {
                     if (!r) return 'other';
-                    if (r >= 5.0) return 'gold';
-                    if (r >= 4.5) return 'silver';
-                    if (r >= 4.0) return 'bronze';
+                    if (r >= 4.5) return 'gold';
+                    if (r >= 4.0) return 'silver';
+                    if (r >= 3.5) return 'bronze';
                     return 'other';
                 };
 
@@ -1885,9 +2230,9 @@
                                     <div className="soc-stat-lbl">Total Labs</div>
                                     <div className="soc-stat-val">{labsOnly.length}</div>
                                     <div className="dist">
-                                        <span style={{width:lpct(cdCnt),  background:'var(--soc-cy)'}}></span>
-                                        <span style={{width:lpct(htbCnt), background:'var(--soc-gn)'}}></span>
-                                        <span style={{width:lpct(btloCnt),background:'var(--soc-am)'}}></span>
+                                        <span style={{width:lpct(cdCnt),  background:'#297fff'}}></span>
+                                        <span style={{width:lpct(htbCnt), background:'#9fef00'}}></span>
+                                        <span style={{width:lpct(btloCnt),background:'#35c2f1'}}></span>
                                         <span style={{width:lpct(ctfCnt), background:'var(--soc-vi)'}}></span>
                                     </div>
                                 </div>
@@ -2049,8 +2394,7 @@
                 const [tweaksOpen,    setTweaksOpen]    = useState(false);
                 const [tab,           setTab]            = useState('competitions');
                 const [compFilter,    setCompFilter]     = useState('all');
-                const [fbData,        setFbData]         = useState(null);
-                const [fbLoading,     setFbLoading]      = useState(false);
+                const fbLoading = fbData === null;
                 const [expandedComps, setExpandedComps]  = useState(new Set());
                 const [fbOpen,        setFbOpen]         = useState(new Set(['btlo','htb','cd']));
                 const saveTweaks = v => { setTweaks(v); try{ localStorage.setItem(TWEAKS_KEY, JSON.stringify(v)); }catch(e){} };
@@ -2090,15 +2434,6 @@
                 // Hero dist
                 const cTotal = comps.length || 1;
                 const cpct   = n => Math.round(n/cTotal*100)+'%';
-
-                // Load FB data on mount (needed for tab count badge)
-                React.useEffect(() => {
-                    setFbLoading(true);
-                    fetch('./data/firstbloods.json')
-                        .then(r=>r.json())
-                        .then(d=>{ setFbData(d); setFbLoading(false); })
-                        .catch(()=>{ setFbData({}); setFbLoading(false); });
-                }, []);
 
                 const isYT = url => url && (url.includes('youtube.com') || url.includes('youtu.be'));
 
@@ -2200,9 +2535,9 @@
                                         const b=(fbData.btlo||[]).length, h=(fbData.htb_sherlock||[]).length, c=(fbData.cd||[]).length;
                                         const t=b+h+c||1, p=n=>Math.round(n/t*100)+'%';
                                         return (<>
-                                            <span style={{width:p(b),background:'var(--soc-rd)'}}></span>
-                                            <span style={{width:p(h),background:'var(--soc-gn)'}}></span>
-                                            <span style={{width:p(c),background:'var(--soc-cy)'}}></span>
+                                            <span style={{width:p(b),background:'#35c2f1'}}></span>
+                                            <span style={{width:p(h),background:'#9fef00'}}></span>
+                                            <span style={{width:p(c),background:'#297fff'}}></span>
                                         </>);
                                     })() : <span style={{width:'100%',background:'var(--soc-line2)'}}></span>}
                                 </div>
