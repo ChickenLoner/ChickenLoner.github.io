@@ -2074,6 +2074,7 @@
                 const [tweaksOpen, setTweaksOpen] = React.useState(false);
                 const [tab, setTab] = React.useState('labs');
                 const [labFilter, setLabFilter] = React.useState('all');
+                const [platFilter, setPlatFilter] = React.useState('all');
                 const [projFilter, setProjFilter] = React.useState('all');
                 const saveTweaks = t => { setTweaks(t); try { localStorage.setItem(TWEAKS_KEY, JSON.stringify(t)); } catch {} };
 
@@ -2100,7 +2101,13 @@
                 const platformCount = new Set(labsOnly.map(l=>CORE_PLATFORMS.includes(l.platform)?l.platform:'CTF')).size;
 
                 // Lab filter + sort + group
+                const platMatch = l => {
+                    if (platFilter==='all') return true;
+                    if (platFilter==='ctf') return !CORE_PLATFORMS.includes(l.platform);
+                    return l.platform === platFilter;
+                };
                 const filteredLabs = labsOnly.filter(l => {
+                    if (!platMatch(l)) return false;
                     if (labFilter==='top')     return l.rating>=4.5;
                     if (labFilter==='hard')    return l.difficulty==='hard';
                     if (labFilter==='active')  return !l.is_retired;
@@ -2138,10 +2145,6 @@
                     return r;
                 })();
 
-                // Filter counts
-                const labFC  = {all:labsOnly.length, top:labsOnly.filter(l=>l.rating>=4.5).length, hard:labsOnly.filter(l=>l.difficulty==='hard').length, active:labsOnly.filter(l=>!l.is_retired).length, retired:labsOnly.filter(l=>l.is_retired).length};
-                const projFC = {all:projectsOnly.length, tool:projectsOnly.filter(p=>projType(p)==='tool').length, research:projectsOnly.filter(p=>projType(p)==='research').length, list:projectsOnly.filter(p=>projType(p)==='list').length};
-
                 // Hero dist bar helpers
                 const lTotal = labsOnly.length || 1;
                 const pTotal = projectsOnly.length || 1;
@@ -2150,6 +2153,16 @@
                 const platCnt = plat => labsOnly.filter(l=>l.platform===plat).length;
                 const cdCnt = platCnt('CyberDefenders'), htbCnt = platCnt('HackTheBox'), btloCnt = platCnt('Blue Team Labs Online');
                 const ctfCnt = labsOnly.length - cdCnt - htbCnt - btloCnt;
+
+                // Total counts for hero (never filtered)
+                const totalActive  = labsOnly.filter(l=>!l.is_retired).length;
+                const totalRetired = labsOnly.filter(l=>l.is_retired).length;
+
+                // Filter counts (scoped to current platform filter)
+                const platScoped = labsOnly.filter(platMatch);
+                const labFC  = {all:platScoped.length, top:platScoped.filter(l=>l.rating>=4.5).length, hard:platScoped.filter(l=>l.difficulty==='hard').length, active:platScoped.filter(l=>!l.is_retired).length, retired:platScoped.filter(l=>l.is_retired).length};
+                const platFC = {all:labsOnly.length, cd:cdCnt, htb:htbCnt, btlo:btloCnt, ctf:ctfCnt};
+                const projFC = {all:projectsOnly.length, tool:projectsOnly.filter(p=>projType(p)==='tool').length, research:projectsOnly.filter(p=>projType(p)==='research').length, list:projectsOnly.filter(p=>projType(p)==='list').length};
                 const rbucket = b => labsOnly.filter(l=>ratingPlace(l.rating)===b).length;
                 const rGold=rbucket('gold'), rSilver=rbucket('silver'), rBronze=rbucket('bronze'), rOther=rbucket('other');
 
@@ -2248,10 +2261,10 @@
                                 </div>
                                 <div className="soc-stat-cell gn">
                                     <div className="soc-stat-lbl">Active · Labs</div>
-                                    <div className="soc-stat-val">{labFC.active}<span className="unit">/{labsOnly.length}</span></div>
+                                    <div className="soc-stat-val">{totalActive}<span className="unit">/{labsOnly.length}</span></div>
                                     <div className="dist">
-                                        <span style={{width:lpct(labFC.active),  background:'var(--soc-gn)'}}></span>
-                                        <span style={{width:lpct(labFC.retired), background:'var(--soc-rd)'}}></span>
+                                        <span style={{width:lpct(totalActive),  background:'var(--soc-gn)'}}></span>
+                                        <span style={{width:lpct(totalRetired), background:'var(--soc-rd)'}}></span>
                                     </div>
                                 </div>
                                 <div className="soc-stat-cell vi">
@@ -2272,15 +2285,22 @@
                                 <button className={`soc-seg-btn${tab==='labs'?' active':''}`} onClick={()=>setTab('labs')}>
                                     ▰ Labs <span className="soc-seg-count">{labsOnly.length}</span>
                                 </button>
-                                <button className={`soc-seg-btn t-vi${tab==='projects'?' active':''}`} onClick={()=>setTab('projects')}>
+                                <button className={`soc-seg-btn t-vi${tab==='projects'?' active':''}`} onClick={()=>{ setTab('projects'); setPlatFilter('all'); setLabFilter('all'); }}>
                                     ⚙ Projects <span className="soc-seg-count">{projectsOnly.length}</span>
                                 </button>
                             </nav>
                             {tab==='labs' && (
                                 <div className="filters">
-                                    <span className="fchip-label">Filter</span>
-                                    {[{id:'all',l:'All',n:labFC.all},{id:'top',l:'★ 4.5+',n:labFC.top,cls:'t-am'},{id:'hard',l:'Hard',n:labFC.hard,cls:'t-rd'},{id:'active',l:'Active',n:labFC.active,cls:'t-gn'},{id:'retired',l:'Retired',n:labFC.retired}].map(f=>(
-                                        <button key={f.id} className={`fchip${f.cls?' '+f.cls:''}${labFilter===f.id?' active':''}`} onClick={()=>setLabFilter(f.id)}>
+                                    <span className="fchip-label">Platform</span>
+                                    {[
+                                        {id:'all',  l:'All',  n:platFC.all},
+                                        {id:'CyberDefenders',        l:'CD',   n:platFC.cd,   cls:'t-cy'},
+                                        {id:'HackTheBox',            l:'HTB',  n:platFC.htb,  cls:'t-gn'},
+                                        {id:'Blue Team Labs Online', l:'BTLO', n:platFC.btlo, cls:'t-cy'},
+                                        {id:'ctf',  l:'CTF',  n:platFC.ctf},
+                                    ].filter(f=>f.n>0||f.id==='all').map(f=>(
+                                        <button key={f.id} className={`fchip${f.cls?' '+f.cls:''}${platFilter===f.id?' active':''}`}
+                                            onClick={()=>{ setPlatFilter(f.id); setLabFilter('all'); }}>
                                             {f.l} <span className="cnt">{f.n}</span>
                                         </button>
                                     ))}
@@ -2297,19 +2317,35 @@
                                 </div>
                             )}
                         </div>
+                        {tab==='labs' && (
+                            <div className="toolbar" style={{marginTop:'4px'}}>
+                                <div className="filters">
+                                    <span className="fchip-label">Filter</span>
+                                    {[{id:'all',l:'All',n:labFC.all},{id:'top',l:'★ 4.5+',n:labFC.top,cls:'t-am'},{id:'hard',l:'Hard',n:labFC.hard,cls:'t-rd'},{id:'active',l:'Active',n:labFC.active,cls:'t-gn'},{id:'retired',l:'Retired',n:labFC.retired}].map(f=>(
+                                        <button key={f.id} className={`fchip${f.cls?' '+f.cls:''}${labFilter===f.id?' active':''}`} onClick={()=>setLabFilter(f.id)}>
+                                            {f.l} <span className="cnt">{f.n}</span>
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
 
                         {/* Labs pane */}
                         {tab==='labs' && (
                             labGroups.length===0
                             ? <div style={{padding:'40px',textAlign:'center',color:'var(--soc-ink3)',fontFamily:"'JetBrains Mono',monospace",fontSize:'12px'}}>No labs match filter.</div>
-                            : labGroups.map(g => (
-                                <div key={g.name}>
-                                    <div className="year-bar"><span className="yr">{g.name}</span><span className="ln"></span><span className="cn">{g.items.length} {g.items.length===1?'scenario':'scenarios'}</span></div>
-                                    <div className="comp-list">
-                                        {g.items.map((l,i)=><LabRow key={i} l={l} />)}
+                            : platFilter==='all'
+                                ? labGroups.map(g => (
+                                    <div key={g.name}>
+                                        <div className="year-bar"><span className="yr">{g.name}</span><span className="ln"></span><span className="cn">{g.items.length} {g.items.length===1?'scenario':'scenarios'}</span></div>
+                                        <div className="comp-list">
+                                            {g.items.map((l,i)=><LabRow key={i} l={l} />)}
+                                        </div>
                                     </div>
-                                </div>
-                            ))
+                                ))
+                                : <div className="comp-list" style={{marginTop:'18px'}}>
+                                    {sortedLabs.map((l,i)=><LabRow key={i} l={l} />)}
+                                  </div>
                         )}
 
                         {/* Projects pane */}
