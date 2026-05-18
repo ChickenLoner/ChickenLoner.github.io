@@ -1061,26 +1061,67 @@
                             </div>
                         </div>
                         <div className="soc-stat-grid">
-                            <div className="soc-stat-cell">
-                                <div className="soc-stat-lbl">Certifications</div>
-                                <div className="soc-stat-val">{certifications.length || '—'}</div>
-                                <div className="soc-spark"><span style={{height:'30%'}}></span><span style={{height:'50%'}}></span><span style={{height:'40%'}}></span><span style={{height:'65%'}}></span><span style={{height:'55%'}}></span><span style={{height:'80%'}}></span><span style={{height:'95%'}}></span></div>
-                            </div>
-                            <div className="soc-stat-cell am">
-                                <div className="soc-stat-lbl">Labs Built</div>
-                                <div className="soc-stat-val">{labs.filter(l => l.type === 'lab').length || '—'}</div>
-                                <div className="soc-spark"><span style={{height:'40%'}}></span><span style={{height:'55%'}}></span><span style={{height:'70%'}}></span><span style={{height:'60%'}}></span><span style={{height:'75%'}}></span><span style={{height:'85%'}}></span><span style={{height:'92%'}}></span></div>
-                            </div>
-                            <div className="soc-stat-cell vi">
-                                <div className="soc-stat-lbl">Projects</div>
-                                <div className="soc-stat-val">{labs.filter(l => l.type === 'project').length || '—'}</div>
-                                <div className="soc-spark"><span style={{height:'30%'}}></span><span style={{height:'45%'}}></span><span style={{height:'50%'}}></span><span style={{height:'70%'}}></span><span style={{height:'60%'}}></span><span style={{height:'75%'}}></span><span style={{height:'82%'}}></span></div>
-                            </div>
-                            <div className="soc-stat-cell gn">
-                                <div className="soc-stat-lbl">Reviews</div>
-                                <div className="soc-stat-val">{certificationReviews.length || '—'}</div>
-                                <div className="soc-spark"><span style={{height:'20%'}}></span><span style={{height:'40%'}}></span><span style={{height:'35%'}}></span><span style={{height:'55%'}}></span><span style={{height:'65%'}}></span><span style={{height:'70%'}}></span><span style={{height:'78%'}}></span></div>
-                            </div>
+                            {(()=>{
+                                const hLabs     = labs.filter(l=>l.type==='lab');
+                                const hProjs    = labs.filter(l=>l.type==='project');
+                                const hActive   = certifications.filter(c=>c.status==='Active').length;
+                                const hExpired  = certifications.filter(c=>c.status==='Expired').length;
+                                const H_PLAT_COLOR = {'CyberDefenders':'#297fff','HackTheBox':'#9fef00','Blue Team Labs Online':'#35c2f1'};
+                                const hNormPlat = p => (p||'').startsWith('STDiO')||(p||'').includes('CTF') ? 'CTF' : p;
+                                const hPlatMap  = hLabs.reduce((a,l)=>{ const k=hNormPlat(l.platform); a[k]=(a[k]||0)+1; return a; }, {});
+                                const hPlats    = Object.entries(hPlatMap).sort((a,b)=>b[1]-a[1]);
+                                const hPlatFill = p => H_PLAT_COLOR[p] || (p==='CTF'?'var(--soc-vi)':'var(--soc-cy)');
+                                const hTool     = hProjs.filter(p=>(p.tags||[]).includes('Tool')).length;
+                                const hRes      = hProjs.filter(p=>(p.tags||[]).includes('Research')).length;
+                                const hList     = hProjs.length - hTool - hRes;
+                                const hFbBtlo   = (fbData?.btlo||[]).length;
+                                const hFbHtb    = (fbData?.htb_sherlock||[]).length;
+                                const hFbCd     = (fbData?.cd||[]).length;
+                                const hFbTotal  = hFbBtlo+hFbHtb+hFbCd||1;
+                                return (<>
+                                <div className="soc-stat-cell">
+                                    <div className="soc-stat-lbl">Certifications</div>
+                                    <div className="soc-stat-val">{certifications.length || '—'}</div>
+                                    <div className="dist" style={{marginTop:'8px'}}>
+                                        <span className="blu" title={`Active: ${hActive}`} style={{width:`${certifications.length?Math.round(hActive/certifications.length*100):0}%`}}></span>
+                                        <span title={`Expired: ${hExpired}`} style={{background:'var(--soc-line2)',flex:1}}></span>
+                                    </div>
+                                    <div style={{fontSize:'10px',color:'var(--soc-ink3)',fontFamily:"'JetBrains Mono',monospace",marginTop:'4px'}}>{hActive} active · {hExpired} expired</div>
+                                </div>
+                                <div className="soc-stat-cell am">
+                                    <div className="soc-stat-lbl">Labs Built</div>
+                                    <div className="soc-stat-val">{hLabs.length || '—'}</div>
+                                    <div className="dist" style={{marginTop:'8px'}}>
+                                        {hPlats.map(([plat,c])=>(
+                                            <span key={plat} title={`${plat}: ${c}`} style={{width:`${hLabs.length?Math.round(c/hLabs.length*100):0}%`,background:hPlatFill(plat)}}></span>
+                                        ))}
+                                    </div>
+                                    <div style={{fontSize:'10px',color:'var(--soc-ink3)',fontFamily:"'JetBrains Mono',monospace",marginTop:'4px'}}>{hPlats.length} platforms</div>
+                                </div>
+                                <div className="soc-stat-cell vi">
+                                    <div className="soc-stat-lbl">Projects</div>
+                                    <div className="soc-stat-val">{hProjs.length || '—'}</div>
+                                    <div className="dist" style={{marginTop:'8px'}}>
+                                        <span title={`Tools: ${hTool}`} style={{background:'var(--soc-vi)',width:`${hProjs.length?Math.round(hTool/hProjs.length*100):0}%`}}></span>
+                                        <span title={`Research: ${hRes}`} style={{background:'var(--soc-am)',width:`${hProjs.length?Math.round(hRes/hProjs.length*100):0}%`}}></span>
+                                        <span title={`Lists: ${hList}`} style={{background:'var(--soc-cy)',opacity:.5,width:`${hProjs.length?Math.round(hList/hProjs.length*100):0}%`}}></span>
+                                    </div>
+                                    <div style={{fontSize:'10px',color:'var(--soc-ink3)',fontFamily:"'JetBrains Mono',monospace",marginTop:'4px'}}>{hTool} tools · {hRes} research · {hList} lists</div>
+                                </div>
+                                <div className="soc-stat-cell rd">
+                                    <div className="soc-stat-lbl">First Bloods</div>
+                                    <div className="soc-stat-val">{fbData ? hFbBtlo+hFbHtb+hFbCd : '—'}</div>
+                                    <div className="dist" style={{marginTop:'8px'}}>
+                                        {fbData ? (<>
+                                            <span title={`BTLO: ${hFbBtlo}`} style={{background:'#35c2f1',width:`${hFbTotal?Math.round(hFbBtlo/hFbTotal*100):0}%`}}></span>
+                                            <span title={`HTB: ${hFbHtb}`}   style={{background:'#9fef00',width:`${hFbTotal?Math.round(hFbHtb/hFbTotal*100):0}%`}}></span>
+                                            <span title={`CD: ${hFbCd}`}     style={{background:'#297fff',width:`${hFbTotal?Math.round(hFbCd/hFbTotal*100):0}%`}}></span>
+                                        </>) : <span style={{width:'100%',background:'var(--soc-line2)'}}></span>}
+                                    </div>
+                                    <div style={{fontSize:'10px',color:'var(--soc-ink3)',fontFamily:"'JetBrains Mono',monospace",marginTop:'4px'}}>BTLO · HTB · CD</div>
+                                </div>
+                                </>);
+                            })()}
                         </div>
                     </section>
 
