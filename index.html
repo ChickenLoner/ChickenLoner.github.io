@@ -1451,8 +1451,8 @@
                                     <div className="soc-stat-lbl">Certifications</div>
                                     <div className="soc-stat-val">{certifications.length || '—'}</div>
                                     <div className="dist" style={{marginTop:'8px'}}>
-                                        <span className="blu" style={{width:`${certifications.length ? Math.round(activeCerts/certifications.length*100) : 0}%`}}></span>
-                                        <span style={{background:'var(--soc-line2)',flex:1}}></span>
+                                        <span className="blu" title={`Active: ${activeCerts}`} style={{width:`${certifications.length ? Math.round(activeCerts/certifications.length*100) : 0}%`}}></span>
+                                        <span title={`Expired: ${expiredCerts}`} style={{background:'var(--soc-line2)',flex:1}}></span>
                                     </div>
                                     <div style={{fontSize:'10px',color:'var(--soc-ink3)',fontFamily:"'JetBrains Mono',monospace",marginTop:'4px'}}>{activeCerts} active · {expiredCerts} expired</div>
                                 </div>
@@ -1460,8 +1460,8 @@
                                     <div className="soc-stat-lbl">Labs Built</div>
                                     <div className="soc-stat-val">{statsLabsOnly.length || '—'}</div>
                                     <div className="dist" style={{marginTop:'8px'}}>
-                                        {sortedPlats.slice(0,3).map(([,c],i)=>(
-                                            <span key={i} className={['fir','off','blu'][i]} style={{width:`${Math.round(c/statsLabsOnly.length*100)}%`}}></span>
+                                        {sortedPlats.map(([plat,c])=>(
+                                            <span key={plat} title={`${plat}: ${c}`} style={{width:`${Math.round(c/statsLabsOnly.length*100)}%`,background:platFill(plat)}}></span>
                                         ))}
                                     </div>
                                     <div style={{fontSize:'10px',color:'var(--soc-ink3)',fontFamily:"'JetBrains Mono',monospace",marginTop:'4px'}}>{sortedPlats.length} platforms</div>
@@ -1470,9 +1470,9 @@
                                     <div className="soc-stat-lbl">Projects</div>
                                     <div className="soc-stat-val">{statsProjects.length || '—'}</div>
                                     <div className="dist" style={{marginTop:'8px'}}>
-                                        <span style={{background:'var(--soc-vi)',width:`${statsProjects.length?Math.round(statsProjTool/statsProjects.length*100):0}%`}}></span>
-                                        <span style={{background:'var(--soc-am)',width:`${statsProjects.length?Math.round(statsProjRes/statsProjects.length*100):0}%`}}></span>
-                                        <span style={{background:'var(--soc-cy)',opacity:.5,width:`${statsProjects.length?Math.round(statsProjList/statsProjects.length*100):0}%`}}></span>
+                                        <span title={`Tools: ${statsProjTool}`} style={{background:'var(--soc-vi)',width:`${statsProjects.length?Math.round(statsProjTool/statsProjects.length*100):0}%`}}></span>
+                                        <span title={`Research: ${statsProjRes}`} style={{background:'var(--soc-am)',width:`${statsProjects.length?Math.round(statsProjRes/statsProjects.length*100):0}%`}}></span>
+                                        <span title={`Lists: ${statsProjList}`} style={{background:'var(--soc-cy)',opacity:.5,width:`${statsProjects.length?Math.round(statsProjList/statsProjects.length*100):0}%`}}></span>
                                     </div>
                                     <div style={{fontSize:'10px',color:'var(--soc-ink3)',fontFamily:"'JetBrains Mono',monospace",marginTop:'4px'}}>{statsProjTool} tools · {statsProjRes} research · {statsProjList} lists</div>
                                 </div>
@@ -1480,9 +1480,9 @@
                                     <div className="soc-stat-lbl">Reviews Published</div>
                                     <div className="soc-stat-val">{certificationReviews.length || '—'}</div>
                                     <div className="dist" style={{marginTop:'8px'}}>
-                                        <span style={{background:'var(--soc-gn)',width:`${certificationReviews.length?Math.round(certificationReviews.filter(r=>r.rating>=4.5).length/certificationReviews.length*100):0}%`}}></span>
-                                        <span style={{background:'var(--soc-am)',width:`${certificationReviews.length?Math.round(certificationReviews.filter(r=>r.rating>=4&&r.rating<4.5).length/certificationReviews.length*100):0}%`}}></span>
-                                        <span style={{background:'var(--soc-line2)',flex:1}}></span>
+                                        <span title={`★ 4.5+: ${certificationReviews.filter(r=>r.rating>=4.5).length}`} style={{background:'var(--soc-gn)',width:`${certificationReviews.length?Math.round(certificationReviews.filter(r=>r.rating>=4.5).length/certificationReviews.length*100):0}%`}}></span>
+                                        <span title={`★ 4.0–4.4: ${certificationReviews.filter(r=>r.rating>=4&&r.rating<4.5).length}`} style={{background:'var(--soc-am)',width:`${certificationReviews.length?Math.round(certificationReviews.filter(r=>r.rating>=4&&r.rating<4.5).length/certificationReviews.length*100):0}%`}}></span>
+                                        <span title={`Below 4.0: ${certificationReviews.filter(r=>r.rating<4).length}`} style={{background:'var(--soc-line2)',flex:1}}></span>
                                     </div>
                                     <div style={{fontSize:'10px',color:'var(--soc-ink3)',fontFamily:"'JetBrains Mono',monospace",marginTop:'4px'}}>avg {avgRevRating.toFixed(2)}/5.0</div>
                                 </div>
@@ -1490,9 +1490,9 @@
                                     <div className="soc-stat-lbl">Competitions</div>
                                     <div className="soc-stat-val">{comps.length || '—'}</div>
                                     <div className="dist" style={{marginTop:'8px'}}>
-                                        <span className="fir" style={{width:`${Math.round(winsArr.length/cTotal*100)}%`}}></span>
-                                        <span className="fnd" style={{width:`${Math.round(podArr.length/cTotal*100)}%`}}></span>
-                                        <span style={{background:'var(--soc-line2)',flex:1}}></span>
+                                        <span title={`Wins: ${winsArr.length}`} className="fir" style={{width:`${Math.round(winsArr.length/cTotal*100)}%`}}></span>
+                                        <span title={`Podiums: ${podArr.length}`} className="fnd" style={{width:`${Math.round(podArr.length/cTotal*100)}%`}}></span>
+                                        <span title={`Other: ${comps.length-winsArr.length-podArr.length}`} style={{background:'var(--soc-line2)',flex:1}}></span>
                                     </div>
                                     <div style={{fontSize:'10px',color:'var(--soc-ink3)',fontFamily:"'JetBrains Mono',monospace",marginTop:'4px'}}>{winsArr.length} wins · {podArr.length} podiums</div>
                                 </div>
@@ -1500,9 +1500,9 @@
                                     <div className="soc-stat-lbl">First Bloods</div>
                                     <div className="soc-stat-val">{fbTotal || '—'}</div>
                                     <div className="dist" style={{marginTop:'8px'}}>
-                                        <span style={{background:'#35c2f1',width:`${fbBtloPct}%`}}></span>
-                                        <span style={{background:'#9fef00',width:`${fbHtbPct}%`}}></span>
-                                        <span style={{background:'#297fff',width:`${fbCdPct}%`}}></span>
+                                        <span title={`BTLO: ${fbBtlo.length}`} style={{background:'#35c2f1',width:`${fbBtloPct}%`}}></span>
+                                        <span title={`HTB: ${fbHtb.length}`} style={{background:'#9fef00',width:`${fbHtbPct}%`}}></span>
+                                        <span title={`CD: ${fbCd.length}`} style={{background:'#297fff',width:`${fbCdPct}%`}}></span>
                                     </div>
                                     <div style={{fontSize:'10px',color:'var(--soc-ink3)',fontFamily:"'JetBrains Mono',monospace",marginTop:'4px'}}>BTLO · HTB · CD</div>
                                 </div>
@@ -1996,18 +1996,18 @@
                                 <div className="soc-stat-lbl">Total Certifications</div>
                                 <div className="soc-stat-val">{total}</div>
                                 <div className="dist">
-                                    <span className="off" style={{width:pct('off')}}></span>
-                                    <span className="blu" style={{width:pct('blu')}}></span>
-                                    <span className="fir" style={{width:pct('fir')}}></span>
-                                    <span className="fnd" style={{width:pct('fnd')}}></span>
+                                    <span className="off" title={`Offensive Security: ${counts.off}`} style={{width:pct('off')}}></span>
+                                    <span className="blu" title={`Blue Team & Detection: ${counts.blu}`} style={{width:pct('blu')}}></span>
+                                    <span className="fir" title={`Digital Forensics & DFIR: ${counts.fir}`} style={{width:pct('fir')}}></span>
+                                    <span className="fnd" title={`General & Foundational: ${counts.fnd}`} style={{width:pct('fnd')}}></span>
                                 </div>
                             </div>
                             <div className="soc-stat-cell gn">
                                 <div className="soc-stat-lbl">Active · Verifiable</div>
                                 <div className="soc-stat-val">{active}<span className="unit">/{total}</span></div>
                                 <div className="dist">
-                                    <span style={{width:`${Math.round(active/total*100)}%`,background:'var(--soc-gn)'}}></span>
-                                    <span style={{width:`${Math.round(expired/total*100)}%`,background:'var(--soc-rd)'}}></span>
+                                    <span title={`Active: ${active}`} style={{width:`${Math.round(active/total*100)}%`,background:'var(--soc-gn)'}}></span>
+                                    <span title={`Expired: ${expired}`} style={{width:`${Math.round(expired/total*100)}%`,background:'var(--soc-rd)'}}></span>
                                 </div>
                             </div>
                             <div className="soc-stat-cell am">
@@ -2025,7 +2025,7 @@
                                 <div className="soc-stat-val">{issuerTotal}</div>
                                 <div className="dist">
                                     {sortedIssuers.slice(0,4).map(([iss,cnt],i)=>(
-                                        <span key={iss} style={{width:`${Math.round(cnt/total*100)}%`,background:'var(--soc-vi)',opacity:1-i*0.2}}></span>
+                                        <span key={iss} title={`${iss}: ${cnt}`} style={{width:`${Math.round(cnt/total*100)}%`,background:'var(--soc-vi)',opacity:1-i*0.2}}></span>
                                     ))}
                                 </div>
                             </div>
@@ -2307,37 +2307,37 @@
                                     <div className="soc-stat-lbl">Total Labs</div>
                                     <div className="soc-stat-val">{labsOnly.length}</div>
                                     <div className="dist">
-                                        <span style={{width:lpct(cdCnt),  background:'#297fff'}}></span>
-                                        <span style={{width:lpct(htbCnt), background:'#9fef00'}}></span>
-                                        <span style={{width:lpct(btloCnt),background:'#35c2f1'}}></span>
-                                        <span style={{width:lpct(ctfCnt), background:'var(--soc-vi)'}}></span>
+                                        <span title={`CyberDefenders: ${cdCnt}`}        style={{width:lpct(cdCnt),  background:'#297fff'}}></span>
+                                        <span title={`HackTheBox: ${htbCnt}`}           style={{width:lpct(htbCnt), background:'#9fef00'}}></span>
+                                        <span title={`Blue Team Labs Online: ${btloCnt}`} style={{width:lpct(btloCnt),background:'#35c2f1'}}></span>
+                                        <span title={`CTF/Other: ${ctfCnt}`}            style={{width:lpct(ctfCnt), background:'var(--soc-vi)'}}></span>
                                     </div>
                                 </div>
                                 <div className="soc-stat-cell am">
                                     <div className="soc-stat-lbl">★ Avg Rating</div>
                                     <div className="soc-stat-val">{ratedLabs.length ? avgRating.toFixed(1) : 'N/A'}<span className="unit">/5</span></div>
                                     <div className="dist">
-                                        <span style={{width:lpct(rGold),  background:'#ffd380'}}></span>
-                                        <span style={{width:lpct(rSilver),background:'#dde2ed'}}></span>
-                                        <span style={{width:lpct(rBronze),background:'#e3a87b'}}></span>
-                                        <span style={{width:lpct(rOther), background:'var(--soc-cy)',opacity:.5}}></span>
+                                        <span title={`★ 4.8+: ${rGold}`}   style={{width:lpct(rGold),  background:'#ffd380'}}></span>
+                                        <span title={`★ 4.5–4.7: ${rSilver}`} style={{width:lpct(rSilver),background:'#dde2ed'}}></span>
+                                        <span title={`★ 4.0–4.4: ${rBronze}`} style={{width:lpct(rBronze),background:'#e3a87b'}}></span>
+                                        <span title={`Unrated: ${rOther}`}  style={{width:lpct(rOther), background:'var(--soc-cy)',opacity:.5}}></span>
                                     </div>
                                 </div>
                                 <div className="soc-stat-cell gn">
                                     <div className="soc-stat-lbl">Active · Labs</div>
                                     <div className="soc-stat-val">{totalActive}<span className="unit">/{labsOnly.length}</span></div>
                                     <div className="dist">
-                                        <span style={{width:lpct(totalActive),  background:'var(--soc-gn)'}}></span>
-                                        <span style={{width:lpct(totalRetired), background:'var(--soc-rd)'}}></span>
+                                        <span title={`Active: ${totalActive}`}  style={{width:lpct(totalActive),  background:'var(--soc-gn)'}}></span>
+                                        <span title={`Retired: ${totalRetired}`} style={{width:lpct(totalRetired), background:'var(--soc-rd)'}}></span>
                                     </div>
                                 </div>
                                 <div className="soc-stat-cell vi">
                                     <div className="soc-stat-lbl">Projects</div>
                                     <div className="soc-stat-val">{projectsOnly.length}</div>
                                     <div className="dist">
-                                        <span style={{width:ppct(projFC.tool),     background:'var(--soc-vi)'}}></span>
-                                        <span style={{width:ppct(projFC.research), background:'var(--soc-am)'}}></span>
-                                        <span style={{width:ppct(projFC.list),     background:'var(--soc-cy)',opacity:.6}}></span>
+                                        <span title={`Tools: ${projFC.tool}`}     style={{width:ppct(projFC.tool),     background:'var(--soc-vi)'}}></span>
+                                        <span title={`Research: ${projFC.research}`} style={{width:ppct(projFC.research), background:'var(--soc-am)'}}></span>
+                                        <span title={`Lists: ${projFC.list}`}     style={{width:ppct(projFC.list),     background:'var(--soc-cy)',opacity:.6}}></span>
                                     </div>
                                 </div>
                             </div>
@@ -2614,17 +2614,17 @@
                                 <div className="soc-stat-lbl">Competitions</div>
                                 <div className="soc-stat-val">{comps.length}</div>
                                 <div className="dist">
-                                    <span style={{width:cpct(winsCount),background:'var(--soc-am)'}}></span>
-                                    <span style={{width:cpct(podCount),background:'var(--soc-gn)'}}></span>
-                                    <span style={{width:cpct(comps.length-winsCount-podCount),background:'var(--soc-vi)',opacity:.5}}></span>
+                                    <span title={`Wins: ${winsCount}`}   style={{width:cpct(winsCount),background:'var(--soc-am)'}}></span>
+                                    <span title={`Podiums: ${podCount}`} style={{width:cpct(podCount),background:'var(--soc-gn)'}}></span>
+                                    <span title={`Other: ${comps.length-winsCount-podCount}`} style={{width:cpct(comps.length-winsCount-podCount),background:'var(--soc-vi)',opacity:.5}}></span>
                                 </div>
                             </div>
                             <div className="soc-stat-cell am">
                                 <div className="soc-stat-lbl">★ Wins</div>
                                 <div className="soc-stat-val">{winsCount}</div>
                                 <div className="dist">
-                                    <span style={{width:cpct(winsCount),background:'var(--soc-am)'}}></span>
-                                    <span style={{width:cpct(comps.length-winsCount),background:'var(--soc-bg-2)'}}></span>
+                                    <span title={`Wins: ${winsCount}`} style={{width:cpct(winsCount),background:'var(--soc-am)'}}></span>
+                                    <span title={`Non-wins: ${comps.length-winsCount}`} style={{width:cpct(comps.length-winsCount),background:'var(--soc-bg-2)'}}></span>
                                 </div>
                             </div>
                             <div className="soc-stat-cell rd">
@@ -2635,9 +2635,9 @@
                                         const b=(fbData.btlo||[]).length, h=(fbData.htb_sherlock||[]).length, c=(fbData.cd||[]).length;
                                         const t=b+h+c||1, p=n=>Math.round(n/t*100)+'%';
                                         return (<>
-                                            <span style={{width:p(b),background:'#35c2f1'}}></span>
-                                            <span style={{width:p(h),background:'#9fef00'}}></span>
-                                            <span style={{width:p(c),background:'#297fff'}}></span>
+                                            <span title={`BTLO: ${b}`} style={{width:p(b),background:'#35c2f1'}}></span>
+                                            <span title={`HTB: ${h}`}  style={{width:p(h),background:'#9fef00'}}></span>
+                                            <span title={`CD: ${c}`}   style={{width:p(c),background:'#297fff'}}></span>
                                         </>);
                                     })() : <span style={{width:'100%',background:'var(--soc-line2)'}}></span>}
                                 </div>
