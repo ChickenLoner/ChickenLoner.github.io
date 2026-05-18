@@ -1249,6 +1249,10 @@
                 // ── Core data ───────────────────────────────────────────────
                 const statsLabsOnly = labs.filter(l => l.type === 'lab');
                 const statsProjects = labs.filter(l => l.type === 'project');
+                const statsProjType = p => { if((p.tags||[]).includes('Tool')) return 'tool'; if((p.tags||[]).includes('Research')) return 'research'; return 'list'; };
+                const statsProjTool = statsProjects.filter(p=>statsProjType(p)==='tool').length;
+                const statsProjRes  = statsProjects.filter(p=>statsProjType(p)==='research').length;
+                const statsProjList = statsProjects.filter(p=>statsProjType(p)==='list').length;
                 const activeCerts   = certifications.filter(c => c.status === 'Active').length;
                 const expiredCerts  = certifications.filter(c => c.status === 'Expired').length;
                 const comps         = achievements.filter(a => a.category === 'competition');
@@ -1262,8 +1266,13 @@
                 const certsByIssuer  = certifications.reduce((a,c)=>{ a[c.issuer]=(a[c.issuer]||0)+1; return a; }, {});
                 const sortedIssuers  = Object.entries(certsByIssuer).sort((a,b)=>b[1]-a[1]);
                 const maxIssuerCnt   = sortedIssuers[0]?.[1] || 1;
-                const CERT_CATS      = ['Offensive Security','Blue Team & Detection','Digital Forensics & DFIR','General & Foundational'];
-                const certsByCat     = CERT_CATS.map(cat=>({ label:cat, count:certifications.filter(c=>c.category===cat).length }));
+                const CERT_CATS      = [
+                    {label:'Offensive Security',       cls:'t-rd'},
+                    {label:'Blue Team & Detection',    cls:''},
+                    {label:'Digital Forensics & DFIR', cls:'t-am'},
+                    {label:'General & Foundational',   cls:'t-vi'},
+                ];
+                const certsByCat     = CERT_CATS.map(({label,cls})=>({ label, cls, count:certifications.filter(c=>c.category===label).length }));
                 const maxCatCnt      = Math.max(...certsByCat.map(c=>c.count), 1);
                 const certsByYear    = certifications.reduce((a,c)=>{ if(c.year) a[c.year]=(a[c.year]||0)+1; return a; }, {});
                 const sortedCertYrs  = Object.entries(certsByYear).sort((a,b)=>+a[0]-+b[0]);
@@ -1419,12 +1428,22 @@
                                 <div className="soc-stat-cell vi">
                                     <div className="soc-stat-lbl">Projects</div>
                                     <div className="soc-stat-val">{statsProjects.length || '—'}</div>
-                                    <div className="soc-spark"><span style={{height:'30%'}}></span><span style={{height:'45%'}}></span><span style={{height:'60%'}}></span><span style={{height:'80%'}}></span><span style={{height:'95%'}}></span></div>
+                                    <div className="dist" style={{marginTop:'8px'}}>
+                                        <span style={{background:'var(--soc-vi)',width:`${statsProjects.length?Math.round(statsProjTool/statsProjects.length*100):0}%`}}></span>
+                                        <span style={{background:'var(--soc-am)',width:`${statsProjects.length?Math.round(statsProjRes/statsProjects.length*100):0}%`}}></span>
+                                        <span style={{background:'var(--soc-cy)',opacity:.5,width:`${statsProjects.length?Math.round(statsProjList/statsProjects.length*100):0}%`}}></span>
+                                    </div>
+                                    <div style={{fontSize:'10px',color:'var(--soc-ink3)',fontFamily:"'JetBrains Mono',monospace",marginTop:'4px'}}>{statsProjTool} tools · {statsProjRes} research · {statsProjList} lists</div>
                                 </div>
                                 <div className="soc-stat-cell gn">
                                     <div className="soc-stat-lbl">Reviews Published</div>
                                     <div className="soc-stat-val">{certificationReviews.length || '—'}</div>
-                                    <div style={{fontSize:'10px',color:'var(--soc-ink3)',fontFamily:"'JetBrains Mono',monospace",marginTop:'6px'}}>avg {avgRevRating.toFixed(2)}/5.0</div>
+                                    <div className="dist" style={{marginTop:'8px'}}>
+                                        <span style={{background:'var(--soc-gn)',width:`${certificationReviews.length?Math.round(certificationReviews.filter(r=>r.rating>=4.5).length/certificationReviews.length*100):0}%`}}></span>
+                                        <span style={{background:'var(--soc-am)',width:`${certificationReviews.length?Math.round(certificationReviews.filter(r=>r.rating>=4&&r.rating<4.5).length/certificationReviews.length*100):0}%`}}></span>
+                                        <span style={{background:'var(--soc-line2)',flex:1}}></span>
+                                    </div>
+                                    <div style={{fontSize:'10px',color:'var(--soc-ink3)',fontFamily:"'JetBrains Mono',monospace",marginTop:'4px'}}>avg {avgRevRating.toFixed(2)}/5.0</div>
                                 </div>
                                 <div className="soc-stat-cell am">
                                     <div className="soc-stat-lbl">Competitions</div>
@@ -1500,14 +1519,14 @@
                         <div className="tile-grid">
                             <div className="tile">
                                 <TileHd glyph="🏢" label="By Issuer" count={certifications.length} />
-                                {sortedIssuers.map(([iss,cnt])=>(
-                                    <Brow key={iss} label={iss} count={cnt} total={certifications.length} max={maxIssuerCnt} />
+                                {sortedIssuers.map(([iss,cnt],i)=>(
+                                    <Brow key={iss} label={iss} count={cnt} total={certifications.length} max={maxIssuerCnt} cls={['','t-am','t-vi','t-rd','t-gn'][i%5]} />
                                 ))}
                             </div>
                             <div className="tile">
                                 <TileHd glyph="📂" label="By Category" count={certifications.length} />
-                                {certsByCat.map(({label,count})=>(
-                                    <Brow key={label} label={label} count={count} total={certifications.length} max={maxCatCnt} />
+                                {certsByCat.map(({label,count,cls})=>(
+                                    <Brow key={label} label={label} count={count} total={certifications.length} max={maxCatCnt} cls={cls} />
                                 ))}
                                 <div style={{marginTop:'14px'}}>
                                     <div className="tile-hd" style={{marginBottom:'8px'}}><div className="tglyph">📅</div> By Year</div>
