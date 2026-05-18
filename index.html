@@ -345,27 +345,28 @@
         h2.soc-section { font-size:11.5px;font-family:'JetBrains Mono',ui-monospace,monospace;font-weight:600;text-transform:uppercase;letter-spacing:.18em;color:var(--soc-ink2);margin:30px 0 12px;display:flex;align-items:center;gap:12px; }
         h2.soc-section::before { content:"";width:4px;height:14px;background:var(--soc-cy);box-shadow:rgba(34,225,255,.7) 0 0 8px;flex-shrink:0; }
         h2.soc-section .meta { margin-left:auto;color:var(--soc-ink3);font-weight:400;letter-spacing:.06em;font-size:10px; }
-        .soc-alerts { display:flex;flex-direction:column;border:1px solid var(--soc-line);border-radius:6px;overflow:hidden;background:var(--soc-bg-1); }
-        .soc-alert { display:grid;grid-template-columns:86px 72px 1fr auto;gap:12px;align-items:center;padding:11px 16px;border-bottom:1px solid var(--soc-line);transition:background .15s;text-decoration:none;color:inherit; }
+        .soc-alerts { display:flex;flex-direction:column;border:1px solid rgba(34,225,255,.22);border-radius:6px;overflow:hidden;background:var(--soc-bg-1);box-shadow:0 0 0 1px rgba(34,225,255,.07),0 0 28px rgba(34,225,255,.08); }
+        .soc-alert { display:grid;grid-template-columns:86px auto 1fr auto;gap:12px;align-items:center;padding:11px 16px;border-bottom:1px solid var(--soc-line);transition:background .15s;text-decoration:none;color:inherit; }
+        .soc-alert .sev { white-space:nowrap;flex-shrink:0; }
         .soc-alert:last-child { border-bottom:none; }
-        .soc-alert:hover { background:rgba(34,225,255,.04); }
+        .soc-alert:hover { background:rgba(34,225,255,.07); }
         .soc-alert .ts { font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10px;color:var(--soc-ink3); }
         .soc-alert .ttl { font-weight:600;color:var(--soc-ink);font-size:13px; }
         .soc-alert .detail { font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10px;color:var(--soc-ink3);margin-top:2px; }
-        .soc-alert .ar { color:var(--soc-ink4); }
-        .soc-alert:hover .ar { color:var(--soc-cy); }
-        .soc-rail { border:1px solid var(--soc-line);border-radius:6px;padding:14px;background:var(--soc-bg-1);overflow:hidden;position:relative; }
+        .soc-alert .ar { font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--soc-cy);padding:4px 10px;border:1px solid rgba(34,225,255,.35);border-radius:4px;background:rgba(34,225,255,.05);white-space:nowrap;flex-shrink:0;transition:background .15s,border-color .15s; }
+        .soc-alert:hover .ar { background:rgba(34,225,255,.12);border-color:rgba(34,225,255,.55); }
+        .soc-rail { border:1px solid rgba(34,225,255,.22);border-radius:6px;padding:14px;background:var(--soc-bg-1);overflow:hidden;position:relative;box-shadow:0 0 0 1px rgba(34,225,255,.07),0 0 24px rgba(34,225,255,.07); }
         .soc-rail::before,.soc-rail::after { content:"";position:absolute;top:0;bottom:0;width:60px;z-index:2;pointer-events:none; }
         .soc-rail::before { left:0;background:linear-gradient(90deg,var(--soc-bg-1),transparent); }
         .soc-rail::after  { right:0;background:linear-gradient(270deg,var(--soc-bg-1),transparent); }
         .soc-rail-track { display:flex;gap:10px;width:max-content;animation:socRail linear infinite; }
         .soc-rail-track:hover { animation-play-state:paused; }
         @keyframes socRail { 100% { transform:translateX(-50%); } }
-        .soc-credit { display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center;padding:9px 12px;border:1px solid var(--soc-line2);border-radius:5px;background:var(--soc-bg-2);min-width:175px;text-decoration:none;transition:border-color .15s; }
+        .soc-credit { display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center;padding:10px 14px;border:1px solid var(--soc-line2);border-radius:5px;background:var(--soc-bg-2);min-width:200px;text-decoration:none;transition:border-color .15s; }
         .soc-credit:hover { border-color:var(--soc-cy2); }
-        .soc-credit .glyph { width:34px;height:34px;border-radius:4px;display:grid;place-items:center;background:rgba(34,225,255,.12);border:1px solid var(--soc-cy2);color:var(--soc-cy);font-weight:700;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:9px;overflow:hidden;flex-shrink:0; }
-        .soc-credit .glyph img { width:34px;height:34px;object-fit:cover;border-radius:3px; }
-        .soc-credit .nm  { font-size:11.5px;font-weight:600;color:var(--soc-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:130px; }
+        .soc-credit .glyph { width:42px;height:42px;border-radius:4px;display:grid;place-items:center;background:rgba(34,225,255,.12);border:1px solid var(--soc-cy2);color:var(--soc-cy);font-weight:700;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:9px;overflow:hidden;flex-shrink:0; }
+        .soc-credit .glyph img { width:42px;height:42px;object-fit:cover;border-radius:3px; }
+        .soc-credit .nm  { font-size:11.5px;font-weight:600;color:var(--soc-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:145px; }
         .soc-credit .iss { font-family:'JetBrains Mono',ui-monospace,monospace;font-size:9.5px;color:var(--soc-ink3);margin-top:1px;white-space:nowrap; }
         .soc-credit.exp .glyph { background:rgba(71,80,112,.14);border-color:var(--soc-ink4);color:var(--soc-ink3); }
         .soc-ttp-grid { display:grid;grid-template-columns:1fr 1fr;gap:12px; }
@@ -431,7 +432,7 @@
             .soc-ttp-grid { grid-template-columns:1fr; }
             .soc-ch-grid { grid-template-columns:1fr; }
             .soc-feeds { grid-template-columns:1fr 1fr; }
-            .soc-alert { grid-template-columns:72px 60px 1fr auto; }
+            .soc-alert { grid-template-columns:60px auto 1fr auto; }
         }
 
         /* ===== CERTIFICATIONS REDESIGN ===== */
@@ -549,6 +550,9 @@
         html[data-theme="light"] .fchip{background:var(--soc-bg-1)}
         html[data-theme="light"] .fchip.active{background:rgba(8,145,178,.06);border-color:rgba(8,145,178,.40)}
         html[data-theme="light"] .dist{background:var(--soc-bg-2)}
+        html[data-theme="light"] .soc-alerts{border-color:rgba(8,145,178,.22);box-shadow:0 0 0 1px rgba(8,145,178,.06),0 0 24px rgba(8,145,178,.07)}
+        html[data-theme="light"] .soc-alert:hover{background:rgba(8,145,178,.05)}
+        html[data-theme="light"] .soc-rail{border-color:rgba(8,145,178,.22);box-shadow:0 0 0 1px rgba(8,145,178,.06),0 0 20px rgba(8,145,178,.06)}
         @media (max-width:820px){
             .featured-latest{grid-template-columns:auto 1fr;padding:14px 16px}
             .featured-latest .fl-cta{grid-column:1 / -1;text-align:center}
@@ -1023,10 +1027,10 @@
                 const recentItems = [
                     ...(certifications.length > 0 ? [(() => {
                         const cert = certifications.find(c => c.latest) || certifications[certifications.length - 1];
-                        return { type:'CERT', sev:'cyan', url: cert.url || '#', title: cert.name.split(' - ')[0], detail: cert.issuer, ts: String(cert.year || ''), external: true };
+                        return { type:'CERT', sev:'cyan', label:'Verify ↗', url: cert.url || '#', title: cert.name, detail: cert.issuer, ts: cert.year ? `earned ${cert.year}` : '', external: true };
                     })()] : []),
-                    ...(irReports.length > 0 ? [{ type:'IR-RPT', sev:'red', url: irReports[0].url, title: irReports[0].title, detail: irReports[0].platform, ts: irReports[0].date }] : []),
-                    ...(researchData.length > 0 ? [{ type:'RSCH', sev:'violet', url: researchData[0].url, title: researchData[0].title, detail: researchData[0].category, ts: researchData[0].date }] : []),
+                    ...(irReports.length > 0 ? [{ type:'IR-RPT', sev:'red', label:'Read ↗', url: irReports[0].url, title: irReports[0].title, detail: irReports[0].platform, ts: (irReports[0].report_date || irReports[0].date), external: true }] : []),
+                    ...(researchData.length > 0 ? [{ type:'RSCH', sev:'violet', label:'Read ↗', url: researchData[0].url, title: researchData[0].title, detail: researchData[0].category, ts: researchData[0].date }] : []),
                 ];
                 return (
                 <div className="animate-fadeIn" style={{paddingBottom:'40px'}}>
@@ -1136,7 +1140,7 @@
                                     <span className="ts">{item.ts}</span>
                                     <span className={`sev ${item.sev}`}><span className="dot"></span>{item.type}</span>
                                     <div><div className="ttl">{item.title}</div><div className="detail">{item.detail}</div></div>
-                                    <span className="ar">›</span>
+                                    <span className="ar">{item.label||'›'}</span>
                                 </a>
                             ))}
                         </div>
@@ -1996,10 +2000,10 @@
                                 <div className="soc-stat-lbl">Total Certifications</div>
                                 <div className="soc-stat-val">{total}</div>
                                 <div className="dist">
-                                    <span className="off" title={`Offensive Security: ${counts.off}`} style={{width:pct('off')}}></span>
-                                    <span className="blu" title={`Blue Team & Detection: ${counts.blu}`} style={{width:pct('blu')}}></span>
-                                    <span className="fir" title={`Digital Forensics & DFIR: ${counts.fir}`} style={{width:pct('fir')}}></span>
-                                    <span className="fnd" title={`General & Foundational: ${counts.fnd}`} style={{width:pct('fnd')}}></span>
+                                    <span className="off" title={`Offensive Security: ${catCounts.off}`} style={{width:pct('off')}}></span>
+                                    <span className="blu" title={`Blue Team & Detection: ${catCounts.blu}`} style={{width:pct('blu')}}></span>
+                                    <span className="fir" title={`Digital Forensics & DFIR: ${catCounts.fir}`} style={{width:pct('fir')}}></span>
+                                    <span className="fnd" title={`General & Foundational: ${catCounts.fnd}`} style={{width:pct('fnd')}}></span>
                                 </div>
                             </div>
                             <div className="soc-stat-cell gn">
