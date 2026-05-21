@@ -428,11 +428,34 @@
         @media (max-width:768px) {
             .soc-hero-body { grid-template-columns:auto 1fr; }
             .soc-opmeta { display:none; }
-            .soc-stat-grid { grid-template-columns:1fr 1fr; }
+            .soc-stat-grid { grid-template-columns:1fr 1fr !important; }
             .soc-ttp-grid { grid-template-columns:1fr; }
             .soc-ch-grid { grid-template-columns:1fr; }
             .soc-feeds { grid-template-columns:1fr 1fr; }
             .soc-alert { grid-template-columns:60px auto 1fr auto; }
+            .toolbar { flex-direction:column; align-items:stretch; gap:6px; }
+            .toolbar .soc-seg { display:flex; width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+            .toolbar .soc-seg::-webkit-scrollbar { display:none; }
+            .toolbar .filters { margin-left:0; flex-wrap:nowrap; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+            .toolbar .filters::-webkit-scrollbar { display:none; }
+            .achiev-page-wrap .soc-seg { display:flex; width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+            .achiev-page-wrap .soc-seg::-webkit-scrollbar { display:none; }
+            .achiev-comp-filters { flex-wrap:nowrap !important; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+            .achiev-comp-filters::-webkit-scrollbar { display:none; }
+            .tile-grid { grid-template-columns:1fr !important; }
+            .brow { grid-template-columns:100px 1fr 36px 32px; }
+            .comp-inner-r { border-left:none !important; padding-left:0 !important; border-top:1px solid var(--soc-line); padding-top:14px; }
+            .comp-inner-l { padding-right:0 !important; }
+            .rating-summary { grid-template-columns:1fr 1fr 1fr; }
+            .issuer-roster { grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); }
+        }
+        @media(max-width:480px){
+            .soc-stat-grid { grid-template-columns:1fr 1fr !important; }
+            .brow { grid-template-columns:80px 1fr 34px; }
+            .brow .bpct { display:none; }
+            .rating-summary { grid-template-columns:1fr; }
+            .mitre-grid { grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); }
+            .act-row { grid-template-columns:48px 1fr 38px; gap:10px; }
         }
 
         /* ===== CERTIFICATIONS REDESIGN ===== */
@@ -1688,14 +1711,14 @@
                                 {podArr.length  > 0 && <div className="sb sb-p" style={{flex:podArr.length}}><span><b>{podArr.length}</b>PODIUM</span></div>}
                                 {(comps.length-winsArr.length-podArr.length) > 0 && <div className="sb sb-o" style={{flex:comps.length-winsArr.length-podArr.length}}><span><b>{comps.length-winsArr.length-podArr.length}</b>OTHER</span></div>}
                             </div>
-                            <div className="tile-grid" style={{marginTop:'6px',gridTemplateColumns:'1fr 1fr',gap:0}}>
-                                <div style={{paddingRight:'14px'}}>
+                            <div className="tile-grid comp-inner" style={{marginTop:'6px',gap:0}}>
+                                <div className="comp-inner-l" style={{paddingRight:'14px'}}>
                                     <div className="tile-hd" style={{marginBottom:'8px'}}>By Organizer</div>
                                     {sortedOrgs.map(([org,cnt],i)=>(
                                         <Brow key={org} label={org} count={cnt} total={comps.length} max={maxOrgCnt} cls={['t-am','t-rd','t-vi','t-gn',''][i%5]} />
                                     ))}
                                 </div>
-                                <div style={{borderLeft:'1px solid var(--soc-line)',paddingLeft:'14px'}}>
+                                <div className="comp-inner-r" style={{borderLeft:'1px solid var(--soc-line)',paddingLeft:'14px'}}>
                                     <div className="tile-hd" style={{marginBottom:'8px',color:'var(--soc-cy)'}}>By Year</div>
                                     {sortedCompYrs.map(([yr,cnt],i)=>(
                                         <Brow key={yr} label={yr} count={cnt} total={comps.length} max={maxCompYrCnt} cls={['','t-am','t-vi','t-rd'][i%4]} />
@@ -2681,7 +2704,7 @@
                     {tab==='competitions' && (
                     <div>
                         {/* Filter chips */}
-                        <div style={{display:'flex',flexWrap:'wrap',gap:'6px',alignItems:'center',marginBottom:'14px'}}>
+                        <div className="achiev-comp-filters" style={{display:'flex',flexWrap:'wrap',gap:'6px',alignItems:'center',marginBottom:'14px'}}>
                             <span className="fchip-label">Filter</span>
                             {FILTERS.map(f=>(
                                 <button key={f.id}
@@ -2897,12 +2920,13 @@
                     <div className="soc-tb">
                         <div className="soc-tb-row">
                             <span className="soc-live">UPLINK</span>
-                            <span className="soc-crumb">SOC <span style={{color:'var(--soc-ink4)',margin:'0 4px'}}>/</span> <b>OPERATOR.PROFILE</b></span>
-                            <span style={{marginLeft:'auto',display:'flex',gap:'8px',alignItems:'center'}}>
+                            <span className="soc-crumb hidden md:flex">SOC <span style={{color:'var(--soc-ink4)',margin:'0 4px'}}>/</span> <b>OPERATOR.PROFILE</b></span>
+                            <span className="hidden md:flex" style={{marginLeft:'auto',gap:'8px',alignItems:'center'}}>
                                 <span className="sev cyan"><span className="dot"></span>TLP:CLEAR</span>
                                 <span className="sev green"><span className="dot"></span>SHIFT · DAY</span>
                             </span>
-                            <SocClock />
+                            <span className="hidden md:block"><SocClock /></span>
+                            <span style={{flex:1}} className="md:hidden" />
                             <ThemeToggle />
                             <button className="md:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} style={{background:'transparent',border:'none',cursor:'pointer',color:'var(--soc-ink3)',padding:'2px 6px'}}>
                                 <Icon name={mobileMenuOpen ? 'X' : 'Menu'} className="w-4 h-4" />
