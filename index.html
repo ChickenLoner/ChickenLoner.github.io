@@ -436,12 +436,10 @@
             .toolbar { flex-direction:column; align-items:stretch; gap:6px; }
             .toolbar .soc-seg { display:flex; width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
             .toolbar .soc-seg::-webkit-scrollbar { display:none; }
-            .toolbar .filters { margin-left:0; flex-wrap:nowrap; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
-            .toolbar .filters::-webkit-scrollbar { display:none; }
+            .toolbar .filters { display:flex; width:100%; margin-left:0; flex-wrap:wrap; gap:6px; }
             .achiev-page-wrap .soc-seg { display:flex; width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
             .achiev-page-wrap .soc-seg::-webkit-scrollbar { display:none; }
-            .achiev-comp-filters { flex-wrap:nowrap !important; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
-            .achiev-comp-filters::-webkit-scrollbar { display:none; }
+            .achiev-comp-filters { display:flex; width:100%; flex-wrap:wrap; }
             .tile-grid { grid-template-columns:1fr !important; }
             .brow { grid-template-columns:100px 1fr 36px 32px; }
             .comp-inner-r { border-left:none !important; padding-left:0 !important; border-top:1px solid var(--soc-line); padding-top:14px; }
