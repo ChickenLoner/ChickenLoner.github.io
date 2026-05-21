@@ -433,11 +433,13 @@
             .soc-ch-grid { grid-template-columns:1fr; }
             .soc-feeds { grid-template-columns:1fr 1fr; }
             .soc-alert { grid-template-columns:60px auto 1fr auto; }
-            .toolbar { flex-direction:column; align-items:flex-start; gap:6px; }
-            .toolbar .soc-seg { flex-wrap:wrap; }
+            .toolbar { flex-direction:column; align-items:stretch; gap:6px; }
+            .toolbar .soc-seg { flex-wrap:wrap; width:100%; }
+            .toolbar .soc-seg .soc-seg-btn { flex:1; justify-content:center; }
             .toolbar .filters { display:flex; width:100%; margin-left:0; flex-wrap:wrap; gap:6px; }
             .toolbar .filters .fchip-label { flex-basis:100%; padding:0; font-size:9.5px; }
-            .achiev-page-wrap .soc-seg { flex-wrap:wrap; }
+            .achiev-page-wrap .soc-seg { flex-wrap:wrap; width:100%; }
+            .achiev-page-wrap .soc-seg .soc-seg-btn { flex:1; justify-content:center; }
             .achiev-comp-filters { display:flex; width:100%; flex-wrap:wrap; }
             .tile-grid { grid-template-columns:1fr !important; }
             .brow { grid-template-columns:100px 1fr 36px 32px; }
