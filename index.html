@@ -455,9 +455,6 @@
             .rating-summary { grid-template-columns:1fr; }
             .mitre-grid { grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); }
             .act-row { grid-template-columns:48px 1fr 38px; gap:10px; }
-            .crow { grid-template-columns:1fr; }
-            .crow .cover { display:none; }
-            .crow .ar { display:none; }
         }
 
         /* ===== CERTIFICATIONS REDESIGN ===== */
@@ -685,6 +682,11 @@
             .crow .ar .lbl{display:none}
             .crow .ar{padding:8px 10px}
             .crow .info .tags-row{display:none}
+        }
+        @media(max-width:480px){
+            .crow{grid-template-columns:1fr}
+            .crow .cover{display:none}
+            .crow .ar{display:none}
         }
 
         /* ─── Achievements Page ─── */
