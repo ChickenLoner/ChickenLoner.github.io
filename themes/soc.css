@@ -410,6 +410,10 @@ textarea::placeholder    { color: var(--soc-ink3) !important; }
 .soc-table tbody tr:last-child { border-bottom: none; }
 .soc-table td { padding:10px 14px;color:var(--soc-ink2); }
 .soc-table td.lab-name { color:var(--soc-ink);font-weight:500; }
+.sm-show { display:none; }
+.md-show { display:none; }
+@media (min-width:640px)  { .sm-show { display:table-cell !important; } }
+@media (min-width:768px)  { .md-show { display:table-cell !important; } }
 
 /* ── Difficulty badges ────────────────────────────────────── */
 .soc-diff { display:inline-block;padding:2px 8px;border-radius:3px;font-size:10px;font-weight:600;font-family:'JetBrains Mono',monospace;letter-spacing:.06em;white-space:nowrap; }

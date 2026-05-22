@@ -358,9 +358,9 @@
                                                 <th>Lab Name</th>
                                                 <th>Platform</th>
                                                 <th>Difficulty</th>
-                                                <th style={{display:'none'}} className="md-show">Pricing</th>
+                                                <th className="md-show">Pricing</th>
                                                 <th>SIEM</th>
-                                                <th style={{display:'none'}} className="sm-show">AD</th>
+                                                <th className="sm-show">AD</th>
                                                 <th></th>
                                             </tr>
                                         </thead>
@@ -373,9 +373,9 @@
                                                         <td className="lab-name">{lab.name}</td>
                                                         <td><span className="soc-plat">{lab.platform}</span></td>
                                                         <td><span className={`soc-diff ${diffClass(lab.difficulty)}`}>{lab.difficulty || '—'}</span></td>
-                                                        <td style={{color:pricingColor,fontSize:'11px',fontFamily:"'JetBrains Mono',monospace"}}>{lab.pricing}</td>
+                                                        <td className="md-show" style={{color:pricingColor,fontSize:'11px',fontFamily:"'JetBrains Mono',monospace"}}>{lab.pricing}</td>
                                                         <td><span className={`soc-siem ${siemCls}`}>{siemLabel}</span></td>
-                                                        <td style={{fontSize:'13px'}}>
+                                                        <td className="sm-show" style={{fontSize:'13px'}}>
                                                             {lab.ad === '✅' ? '✅' : lab.ad === '❌' ? '❌' : <span style={{color:'var(--soc-ink4)'}}>—</span>}
                                                         </td>
                                                         <td style={{textAlign:'right'}}>
