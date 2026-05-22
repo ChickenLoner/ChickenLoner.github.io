@@ -1,5 +1,7 @@
 This is a repository for my portfolio site live at https://chickenloner.github.io/
 
+Do not code or edit file right away, give user solutions first, providing them how each approach works and let user decide which approach to implement
+
 If user ask to change anything and you have no context about structure, refer to architecture.html for that and if any change happened that affect architecture.html that edit this file to make it always up-to-date
 
 If there is any change that affects skill located at ./.claude/skills then make sure to edit it to make it always up-to-date
