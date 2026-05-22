@@ -455,9 +455,8 @@
             .rating-summary { grid-template-columns:1fr; }
             .mitre-grid { grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); }
             .act-row { grid-template-columns:48px 1fr 38px; gap:10px; }
-            .crow { grid-template-columns:1fr; }
-            .crow .cover { width:100%; aspect-ratio:16/9; height:auto; min-height:unset; background-size:contain; background-color:var(--soc-bg-2); border-radius:4px 4px 0 0; }
-            .crow .ar { align-self:center; }
+            .crow { grid-template-columns:1fr auto; }
+            .crow .cover { display:none; }
         }
 
         /* ===== CERTIFICATIONS REDESIGN ===== */
