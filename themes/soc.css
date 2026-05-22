@@ -385,8 +385,8 @@ textarea::placeholder    { color: var(--soc-ink3) !important; }
    LAB PAGES — Cloud Labs and SIEM Labs shared classes
    ══════════════════════════════════════════════════════════ */
 
-/* ── Hero stats strip ─────────────────────────────────────── */
-.soc-hero-stats { display:flex;border-top:1px solid var(--soc-line); }
+/* ── Hero stats strip (siem-labs full-width bar) ──────────── */
+.soc-hs-bar { display:flex;border-top:1px solid var(--soc-line); }
 .soc-hs-cell { flex:1;padding:12px 18px;border-right:1px solid var(--soc-line);background:rgba(255,255,255,.01); }
 .soc-hs-cell:last-child { border-right: none; }
 .soc-hs-lbl { font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--soc-ink3);letter-spacing:.14em;text-transform:uppercase;display:flex;align-items:center;gap:5px;margin-bottom:3px; }
