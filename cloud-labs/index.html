@@ -284,25 +284,6 @@
                         {/* Content */}
                         {!loading && !error && (
                             <>
-                                {/* Provider cards */}
-                                <div className="soc-provider-grid">
-                                    {['AWS', 'Azure', 'GCP'].map(p => {
-                                        const meta = PROVIDER_META[p];
-                                        const count = allLabs.filter(l => l.provider === p).length;
-                                        return (
-                                            <button key={p}
-                                                className={`soc-provider-card ${providerFilter === p ? 'active' : ''}`}
-                                                onClick={() => setProviderFilter(providerFilter === p ? 'all' : p)}>
-                                                <div className="soc-provider-icon" style={{background:p==='AWS'?'var(--soc-am-tint-md)':p==='Azure'?'var(--soc-cy-tint-md)':'var(--soc-rd-tint-md)',border:`1px solid ${p==='AWS'?'var(--soc-am-tint-bdr)':p==='Azure'?'var(--soc-cy-tint-bdr)':'var(--soc-rd-tint-bdr)'}`}}>
-                                                    {meta.icon}
-                                                </div>
-                                                <div className="soc-provider-name" style={{color:providerFilter===p?meta.color:'var(--soc-ink)'}}>{p}</div>
-                                                <div className="soc-provider-count">{count} labs</div>
-                                            </button>
-                                        );
-                                    })}
-                                </div>
-
                                 {/* Filters */}
                                 <div className="soc-filter-panel">
                                     <div className="soc-search-bar" style={{height:'34px'}}>
