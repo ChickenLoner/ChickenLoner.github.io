@@ -456,8 +456,8 @@
             .mitre-grid { grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); }
             .act-row { grid-template-columns:48px 1fr 38px; gap:10px; }
             .crow { grid-template-columns:1fr; }
-            .crow .cover { width:100%; height:120px; min-height:unset; border-radius:4px 4px 0 0; }
-            .crow .ar { display:none; }
+            .crow .cover { width:100%; aspect-ratio:16/9; height:auto; min-height:unset; background-size:contain; background-color:var(--soc-bg-2); border-radius:4px 4px 0 0; }
+            .crow .ar { align-self:center; }
         }
 
         /* ===== CERTIFICATIONS REDESIGN ===== */
