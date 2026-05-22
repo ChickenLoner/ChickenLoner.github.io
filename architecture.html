@@ -505,7 +505,7 @@
 &lt;/body&gt;
 &lt;/html&gt;</pre></div>
                 </div>
-                <div class="callout info"><p><strong>Key constraint:</strong> Detail pages declare <code>:root</code> inline for CSS self-containment. Hub pages additionally load Tailwind CDN 3.4.17.</p></div>
+                <div class="callout info"><p><strong>Key constraint:</strong> Detail pages declare <code>:root</code> inline for CSS self-containment. Hub pages additionally load Tailwind CDN 3.4.17. Responsive utilities (<code>hidden</code>, <code>md:flex</code>, etc.) must be used from <code>soc.css</code> — do NOT rely on Tailwind CDN for these on any page.</p></div>
             </div>
         </section>
 
@@ -578,9 +578,11 @@
                         <thead><tr><th>Class</th><th>Purpose</th></tr></thead>
                         <tbody>
                             <tr><td><code>.soc-tb</code></td><td>Sticky topbar with backdrop blur</td></tr>
-                            <tr><td><code>.soc-crumb</code></td><td>Breadcrumb: SOC / OPERATOR.PROFILE / [section]</td></tr>
-                            <tr><td><code>.soc-clock</code></td><td>Real-time UTC clock</td></tr>
-                            <tr><td><code>.sev.green/.cyan/.amber/.red/.violet</code></td><td>Status badge color variants</td></tr>
+                            <tr><td><code>.soc-tb-row</code></td><td>Topbar flex row: UPLINK · crumb · badges · clock · ThemeToggle</td></tr>
+                            <tr><td><code>.soc-live</code></td><td>UPLINK indicator (green pulse dot). On all sub-pages: rendered as <code>&lt;a href="/"&gt;</code> — acts as home link on mobile</td></tr>
+                            <tr><td><code>.soc-crumb</code></td><td>Breadcrumb: SOC / OPERATOR.PROFILE / [section]. Hidden on mobile via <code>hidden md:flex</code></td></tr>
+                            <tr><td><code>.soc-clock</code></td><td>Real-time UTC clock. Hidden on mobile via <code>hidden md:block</code></td></tr>
+                            <tr><td><code>.sev.green/.cyan/.amber/.red/.violet</code></td><td>Status badge color variants. Hidden on mobile via <code>hidden md:flex/md:inline-flex</code></td></tr>
                             <tr><td><code>.res-section</code></td><td>Review/research section block (icon + title + left bar)</td></tr>
                             <tr><td><code>.ir-section</code></td><td>IR report section block</td></tr>
                             <tr><td><code>.res-subsection</code></td><td>Nested subsection (research/review)</td></tr>
@@ -924,6 +926,8 @@ useEffect(() => {
                     <li><code>--soc-*-tint-*</code> CSS vars (cy/am/vi/rd/gn × lo/md/hi/bdr levels, dark + light values)</li>
                     <li>Tailwind <code>.dark</code> class overrides → SOC palette</li>
                     <li>~140 Tailwind utility equivalents (icon sizes, typography, spacing, layout, colors, borders, accessibility)</li>
+                    <li>Responsive utilities: <code>.hidden</code>, <code>@media(min-width:768px)</code> block with <code>.md\:flex</code>, <code>.md\:block</code>, <code>.md\:inline-flex</code>, <code>.md\:hidden</code> — used for mobile topbar hiding; defined here so detail pages (no Tailwind CDN) get the same behavior as hub pages</li>
+                    <li>Mobile breakpoints: <code>@media(max-width:768px)</code> and <code>@media(max-width:480px)</code> in <code>index.html</code> inline styles for SPA-specific layout (toolbar stacking, crow cards, stat grids)</li>
                     <li>Global dark scrollbar styling</li>
                     <li>All <code>.res-*</code> and <code>.ir-*</code> component classes</li>
                 </ul>
@@ -1050,7 +1054,9 @@ useEffect(() => {
                 <li><strong>OG/Twitter meta required on all pages.</strong> Always include when creating new pages.</li>
                 <li><strong>JetBrains Mono everywhere.</strong> Monospace font is core to the SOC aesthetic.</li>
                 <li><strong>Shared components via <code>soc-components.js</code>.</strong> <code>Icon</code>, <code>SocClock</code>, <code>Section</code>, <code>Fig</code>, <code>CodeBlock</code>, <code>Img</code>, <code>TipList</code>, <code>B</code>, <code>A</code>, <code>Code</code>, <code>dedent</code> sourced from <code>window.SocComponents</code>. Per-page components (<code>Callout</code>, <code>SubSection</code>, <code>ReportSection</code>, etc.) remain inline.</li>
-                <li><strong>No Tailwind CDN on detail pages.</strong> Utility equivalents live in <code>soc.css</code>.</li>
+                <li><strong>No Tailwind CDN on detail pages.</strong> Utility equivalents live in <code>soc.css</code>. This includes responsive utilities — always use <code>soc.css</code> <code>hidden</code>/<code>md:flex</code>/<code>md:block</code>/<code>md:hidden</code> classes, never rely on Tailwind CDN for these.</li>
+                <li><strong>Mobile topbar pattern.</strong> On all pages, crumb (<code>.soc-crumb</code>), severity badges, and clock (<code>SocClock</code>) are hidden on mobile via <code>hidden md:flex</code>/<code>hidden md:block</code>. A <code>flex:1 md:hidden</code> spacer pushes ThemeToggle to the right on mobile. UPLINK is always visible.</li>
+                <li><strong>UPLINK as home link on sub-pages.</strong> All non-index pages render <code>UPLINK</code> as <code>&lt;a href="/"&gt;</code> — the only visible navigation element on mobile, allowing users to return to the main portfolio.</li>
                 <li><strong>Pinned CDN versions.</strong> Babel <code>7.29.2</code>, Lucide <code>1.14.0</code>, Tailwind <code>3.4.17</code>.</li>
                 <li><strong>Assets co-located by content type.</strong> <code>/assets/research/[slug]/</code> for research, <code>/assets/reports/[slug]/</code> for IR, <code>/assets/badges/</code> for certs.</li>
                 <li><strong>Favicon:</strong> <code>/chicken0248.png</code> on all pages.</li>
