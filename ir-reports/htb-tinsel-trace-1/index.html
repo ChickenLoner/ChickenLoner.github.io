@@ -105,7 +105,7 @@
                     <div className="soc-tb">
                         <div className="soc-tb-row">
                             <span className="soc-live">UPLINK</span>
-                            <span className="soc-crumb">
+                            <span className="soc-crumb hidden md:flex">
                                 SOC <span style={{color:'var(--soc-ink4)',margin:'0 4px'}}>/</span>
                                 <a href="/" style={{color:'var(--soc-ink3)',textDecoration:'none'}}>OPERATOR.PROFILE</a>
                                 <span style={{color:'var(--soc-ink4)',margin:'0 4px'}}>/</span>
@@ -113,11 +113,13 @@
                                 <span style={{color:'var(--soc-ink4)',margin:'0 4px'}}>/</span>
                                 <b>TINSEL-TRACE-1</b>
                             </span>
-                            <span style={{marginLeft:'auto',display:'flex',gap:'8px',alignItems:'center'}}>
+                            <span className="hidden md:flex" style={{marginLeft:'auto',gap:'8px',alignItems:'center'}}>
                                 <span className="sev red"><span className="dot"></span>CONFIDENTIAL</span>
                                 <span className="sev green"><span className="dot"></span>CLOSED</span>
                             </span>
-                            <SocClock /><ThemeToggle />
+                            <span className="hidden md:block"><SocClock /></span>
+                            <span style={{flex:1}} className="md:hidden" />
+                            <ThemeToggle />
                         </div>
                     </div>
 

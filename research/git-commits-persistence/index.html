@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -94,7 +94,7 @@
                     <nav className="soc-tb" aria-label="Site navigation">
                         <div className="soc-tb-row">
                             <span className="soc-live">UPLINK</span>
-                            <div className="soc-crumb">
+                            <div className="soc-crumb hidden md:flex">
                                 <a href="/" style={{color:'var(--soc-ink3)',textDecoration:'none'}}>SOC</a>
                                 <span>/</span>
                                 <a href="/" style={{color:'var(--soc-ink3)',textDecoration:'none'}}>OPERATOR.PROFILE</a>
@@ -104,9 +104,9 @@
                                 <b>GIT.COMMITS.PERSISTENCE</b>
                             </div>
                             <div style={{flex:1}} />
-                            <span className="sev cyan"><span className="dot"></span>TLP:CLEAR</span>
-                            <span className="sev red"><span className="dot"></span>RED TEAMING</span>
-                            <SocClock /><ThemeToggle />
+                            <span className="sev cyan hidden md:inline-flex"><span className="dot"></span>TLP:CLEAR</span>
+                            <span className="sev red hidden md:inline-flex"><span className="dot"></span>RED TEAMING</span>
+                            <span className="hidden md:block"><SocClock /></span><ThemeToggle />
                         </div>
                     </nav>
 
