@@ -190,6 +190,19 @@
     "is_retired": false
   },
   {
+    "title": "JobApplicant",
+    "description": "Wowza Grand College has opened a job application portal by creating a website for applicants to upload their resumes for HR to review. Recently, the SOC team observed suspicious enrollments to a certificate template in their ADCS infrastructure. The team began collecting evidence from the compromised domain controller to investigate the cause of the unauthorized certificate enrollments.",
+    "platform": "HackTheBox",
+    "link": "https://app.hackthebox.com/sherlocks/JobApplicant",
+    "tags": ["Windows Forensics", "ADCS"],
+    "type": "lab",
+    "image": "./assets/labs/jobapplicant.png",
+    "difficulty": "hard",
+    "player_difficulty": "hard",
+    "rating": 4.5,
+    "is_retired": false
+  },
+  {
     "title": "SHAW",
     "description": "Investigating ClickFix incident by correlating Browser history, PowerShell Script Block Logging, Prefetch and PowerShell log together",
     "platform": "STDiO CTF 2025",
