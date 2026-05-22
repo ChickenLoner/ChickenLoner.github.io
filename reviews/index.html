@@ -149,7 +149,7 @@
                                     <div className="seg"><b>type</b> <span className="v">certification-review</span></div>
                                     <span style={{marginLeft:'auto'}} className="sev green"><span className="dot"></span>ACTIVE</span>
                                 </div>
-                                <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',flexWrap:'wrap',gap:'16px'}}>
+                                <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',flexWrap:'wrap',gap:'16px'}}>
                                     <div className="soc-page-hero-body">
                                         <div className="soc-page-hero-icon">
                                             <Icon name="Star" className="w-6 h-6" style={{color:'var(--soc-am)'}} />
@@ -160,7 +160,7 @@
                                         </div>
                                     </div>
                                     {!loading && (
-                                        <div className="soc-hero-stats">
+                                        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',borderTop:'none',borderLeft:'1px solid var(--soc-line)',paddingLeft:'24px',marginRight:'22px',gap:'16px 32px'}}>
                                             <div>
                                                 <div className="soc-stat-lbl">Reviews</div>
                                                 <div className="soc-stat-val">{reviews.length}</div>

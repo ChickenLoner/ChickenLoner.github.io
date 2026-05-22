@@ -100,10 +100,6 @@ h2.soc-section-lbl::before { content:"";width:4px;height:14px;background:var(--s
 .soc-page-hero-icon { width:44px;height:44px;border-radius:8px;display:grid;place-items:center;flex-shrink:0; }
 .soc-page-hero-title { font-size:22px;font-weight:800;color:var(--soc-ink);margin:0;letter-spacing:-.01em; }
 .soc-page-hero-sub { font-size:12px;color:var(--soc-ink3);font-family:'JetBrains Mono',monospace;margin:4px 0 0; }
-.soc-hero-stats { display:grid;grid-template-columns:1fr 1fr;border-left:1px solid var(--soc-line);padding-left:24px;margin-right:22px;gap:16px 32px; }
-@media (max-width:768px) {
-  .soc-hero-stats { border-left:none;border-top:1px solid var(--soc-line);padding-left:22px;padding-top:16px;margin-right:0;width:100%; }
-}
 
 /* ── Footer ───────────────────────────────────────────────── */
 .soc-ft { margin-top:32px;padding:16px 0;text-align:center;color:var(--soc-ink4);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;border-top:1px solid var(--soc-line); }
