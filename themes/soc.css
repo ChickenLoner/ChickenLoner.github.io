@@ -481,6 +481,13 @@ textarea::placeholder    { color: var(--soc-ink3) !important; }
 .grid           { display:grid; }
 .items-center   { align-items:center; }
 .justify-center { justify-content:center; }
+.hidden         { display:none; }
+@media(min-width:768px){
+    .md\:flex         { display:flex; }
+    .md\:block        { display:block; }
+    .md\:inline-flex  { display:inline-flex; }
+    .md\:hidden       { display:none; }
+}
 
 /* Text colors */
 .text-gray-600   { color:#4b5563; }
