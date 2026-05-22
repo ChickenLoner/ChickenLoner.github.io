@@ -928,6 +928,7 @@ useEffect(() => {
                     <li>~140 Tailwind utility equivalents (icon sizes, typography, spacing, layout, colors, borders, accessibility)</li>
                     <li>Responsive utilities: <code>.hidden</code>, <code>@media(min-width:768px)</code> block with <code>.md\:flex</code>, <code>.md\:block</code>, <code>.md\:inline-flex</code>, <code>.md\:hidden</code> — used for mobile topbar hiding; defined here so detail pages (no Tailwind CDN) get the same behavior as hub pages</li>
                     <li>Mobile breakpoints: <code>@media(max-width:768px)</code> and <code>@media(max-width:480px)</code> in <code>index.html</code> inline styles for SPA-specific layout (toolbar stacking, crow cards, stat grids)</li>
+                    <li>Hub page hero layout: <code>.soc-hero-inner</code> (CSS grid, 2-col on desktop → 1-col on mobile) wraps <code>.soc-page-hero-body</code> + <code>.soc-hero-stats</code>. Stats use flexbox with <code>align-items:center;justify-content:center</code> for vertical centering on desktop and horizontal centering on mobile. On mobile: <code>.soc-page-hero-body</code> gets <code>border-bottom</code> as full-width separator; <code>.soc-page-hero-strap .seg</code> items hidden, only ACTIVE badge shown.</li>
                     <li>Global dark scrollbar styling</li>
                     <li>All <code>.res-*</code> and <code>.ir-*</code> component classes</li>
                 </ul>
