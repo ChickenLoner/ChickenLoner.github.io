@@ -96,6 +96,10 @@ def update_lab_metadata():
         'CodeFreeze': {
             'platform': 'cyberdefenders',
             'slug': 'codefreeze'
+        },
+        'Satisfaction': {
+            'platform': 'cyberdefenders',
+            'slug': 'satisfaction'
         }
     }
     
