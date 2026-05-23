@@ -4,7 +4,10 @@
     "description": "A digital forensics scenario involving the analysis of a potentially malicious executable and its impact on the system.",
     "platform": "Blue Team Labs Online",
     "link": "https://blueteamlabs.online/home/investigation/utensilmenace-b6d7f47023",
-    "tags": ["Endpoint Forensics", "Windows Forensics"],
+    "tags": [
+      "Endpoint Forensics",
+      "Windows Forensics"
+    ],
     "type": "lab",
     "difficulty": "easy",
     "player_difficulty": "medium",
@@ -16,161 +19,294 @@
     "description": "Analyze forensic artifacts to trace an attacker progression from initial social engineering and remote access to a Sticky Keys privilege escalation.",
     "platform": "CyberDefenders",
     "link": "https://cyberdefenders.org/blueteam-ctf-challenges/workfromhome/",
-    "tags": ["Endpoint Forensics", "Windows Forensics", "Browser", "RMM", "SeTakeOwnershipPrivilege"],
+    "tags": [
+      "Endpoint Forensics",
+      "Windows Forensics",
+      "Browser",
+      "RMM",
+      "SeTakeOwnershipPrivilege"
+    ],
     "type": "lab",
     "image": "./assets/labs/cd-workfromhome.png",
     "difficulty": "easy",
     "player_difficulty": "medium",
     "rating": 4.7,
     "is_retired": true,
-    "tactics": ["Initial Access", "Persistence", "Privilege Escalation", "Defense Evasion", "Credential Access", "Lateral Movement", "Command and Control"]
+    "tactics": [
+      "Initial Access",
+      "Persistence",
+      "Privilege Escalation",
+      "Defense Evasion",
+      "Credential Access",
+      "Lateral Movement",
+      "Command and Control"
+    ]
   },
   {
     "title": "ResourcePacks",
     "description": "Reconstruct an attack timeline by analyzing forensic artifacts to identify a UAC bypass, WMI persistence, and backdoor user creation techniques.",
     "platform": "CyberDefenders",
     "link": "https://cyberdefenders.org/blueteam-ctf-challenges/resourcepacks/",
-    "tags": ["Endpoint Forensics", "Windows Forensics", "UAC Bypass", "WMI persistence", "SeImpersonatePrivilege"],
+    "tags": [
+      "Endpoint Forensics",
+      "Windows Forensics",
+      "UAC Bypass",
+      "WMI persistence",
+      "SeImpersonatePrivilege"
+    ],
     "type": "lab",
     "image": "./assets/labs/ResourcePacks.png",
     "difficulty": "medium",
     "player_difficulty": "medium",
     "rating": 4.5,
     "is_retired": true,
-    "tactics": ["Initial Access", "Execution", "Persistence", "Privilege Escalation", "Defense Evasion", "Discovery", "Command and Control"]
+    "tactics": [
+      "Initial Access",
+      "Execution",
+      "Persistence",
+      "Privilege Escalation",
+      "Defense Evasion",
+      "Discovery",
+      "Command and Control"
+    ]
   },
   {
     "title": "YARA Trap",
     "description": "Investigate attacker behavior by analyzing Windows artifacts to identify persistence, privilege escalation, and lateral movement using MFTECmd, PECmd, BitsParser, and registry analysis tools.",
     "platform": "CyberDefenders",
     "link": "https://cyberdefenders.org/blueteam-ctf-challenges/yara-trap/",
-    "tags": ["Endpoint Forensics", "Windows Forensics", "Website Log Analysis", "Code Review", "Bits Job"],
+    "tags": [
+      "Endpoint Forensics",
+      "Windows Forensics",
+      "Website Log Analysis",
+      "Code Review",
+      "Bits Job"
+    ],
     "type": "lab",
     "image": "./assets/labs/Yara_Trap.png",
     "difficulty": "hard",
     "player_difficulty": "hard",
     "rating": 4.8,
     "is_retired": true,
-    "tactics": ["Execution", "Persistence", "Privilege Escalation", "Defense Evasion", "Discovery", "Command and Control"]
+    "tactics": [
+      "Execution",
+      "Persistence",
+      "Privilege Escalation",
+      "Defense Evasion",
+      "Discovery",
+      "Command and Control"
+    ]
   },
   {
     "title": "Spooler - APT28",
     "description": "Hunt browser downloads, MFT records, and Prefetch to unmask the initial dropper and rebuild the attack timeline.",
     "platform": "CyberDefenders",
     "link": "https://cyberdefenders.org/blueteam-ctf-challenges/spooler-apt28/",
-    "tags": ["Endpoint Forensics", "Windows Forensics"],
+    "tags": [
+      "Endpoint Forensics",
+      "Windows Forensics"
+    ],
     "type": "lab",
     "image": "./assets/labs/spooler-apt28.png",
     "difficulty": "hard",
     "player_difficulty": "hard",
     "rating": 4.7,
     "is_retired": true,
-    "tactics": ["Persistence", "Privilege Escalation", "Defense Evasion"]
+    "tactics": [
+      "Persistence",
+      "Privilege Escalation",
+      "Defense Evasion"
+    ]
   },
   {
     "title": "Perfect Survey",
     "description": "Investigate the compromised web server, which also functions as the domain controller for the Wowza Sport environment. You are expected to analyze logs, identify the source and method of the attack, and assess the potential impact on both the website and the organization's Active Directory infrastructure",
     "platform": "CyberDefenders",
     "link": "https://cyberdefenders.org/blueteam-ctf-challenges/perfect-survey/",
-    "tags": ["Threat Hunting", "Log Analyis", "SIEM"],
+    "tags": [
+      "Threat Hunting",
+      "Log Analyis",
+      "SIEM"
+    ],
     "type": "lab",
     "image": "./assets/labs/perfect-survey.png",
     "difficulty": "medium",
     "player_difficulty": "easy",
     "rating": 4.3,
     "is_retired": false,
-    "tactics": ["Reconnaissance", "Initial Access", "Execution", "Persistence", "Privilege Escalation", "Defense Evasion", "Credential Access"]
+    "tactics": [
+      "Reconnaissance",
+      "Initial Access",
+      "Execution",
+      "Persistence",
+      "Privilege Escalation",
+      "Defense Evasion",
+      "Credential Access"
+    ]
   },
   {
     "title": "LFI Escalation",
     "description": "Investigate the full scope of the compromise—tracing how the attacker gained access from the website, what actions they performed, and how they established persistence on the system.",
     "platform": "CyberDefenders",
     "link": "https://cyberdefenders.org/blueteam-ctf-challenges/lfi-escalation/",
-    "tags": ["Endpoint Forensics", "Website Log Analysis", "Website Vulnerabilities", "Persistence"],
+    "tags": [
+      "Endpoint Forensics",
+      "Website Log Analysis",
+      "Website Vulnerabilities",
+      "Persistence"
+    ],
     "type": "lab",
     "image": "./assets/labs/lfi-escalation.png",
     "difficulty": "medium",
     "player_difficulty": "hard",
     "rating": 4.7,
     "is_retired": false,
-    "tactics": ["Initial Access", "Execution", "Persistence", "Privilege Escalation", "Defense Evasion", "Discovery"]
+    "tactics": [
+      "Initial Access",
+      "Execution",
+      "Persistence",
+      "Privilege Escalation",
+      "Defense Evasion",
+      "Discovery"
+    ]
   },
   {
     "title": "KioskExpo7",
     "description": "Investigate how a physical kiosk breakout led to full system compromise using host and forensic artifacts.",
     "platform": "CyberDefenders",
     "link": "https://cyberdefenders.org/blueteam-ctf-challenges/kioskexpo7/",
-    "tags": ["Endpoint Forensics", "Kiosk", "Kiosk Breakout", "Privilege Escalation", "Persistence"],
+    "tags": [
+      "Endpoint Forensics",
+      "Kiosk",
+      "Kiosk Breakout",
+      "Privilege Escalation",
+      "Persistence"
+    ],
     "type": "lab",
     "image": "./assets/labs/kioskexpo7.png",
     "difficulty": "medium",
     "player_difficulty": "medium",
     "rating": 4.6,
     "is_retired": false,
-    "tactics": ["Initial Access", "Execution", "Persistence", "Privilege Escalation", "Defense Evasion", "Credential Access", "Discovery", "Command and Control", "Impact"]
+    "tactics": [
+      "Initial Access",
+      "Execution",
+      "Persistence",
+      "Privilege Escalation",
+      "Defense Evasion",
+      "Credential Access",
+      "Discovery",
+      "Command and Control",
+      "Impact"
+    ]
   },
   {
     "title": "RoastToRoot",
     "description": "Analyze network traffic to reconstruct a complete domain compromise attack chain, from AS-REP Roasting and Kerberoasting through privilege escalation, lateral movement, and data exfiltration using rclone.",
     "platform": "CyberDefenders",
     "link": "https://cyberdefenders.org/blueteam-ctf-challenges/roasttoroot/",
-    "tags": ["Network Forensics", "Active Directory", "Kerberos", "LDAP", "SMB", "Password Cracking"],
+    "tags": [
+      "Network Forensics",
+      "Active Directory",
+      "Kerberos",
+      "LDAP",
+      "SMB",
+      "Password Cracking"
+    ],
     "type": "lab",
     "image": "./assets/labs/roasttoroot.png",
     "difficulty": "hard",
     "player_difficulty": "medium",
     "rating": 4.8,
     "is_retired": false,
-    "tactics": ["Reconnaissance", "Initial Access", "Execution", "Persistence", "Privilege Escalation", "Defense Evasion", "Credential Access", "Discovery", "Collection", "Exfiltration"]
+    "tactics": [
+      "Reconnaissance",
+      "Initial Access",
+      "Execution",
+      "Persistence",
+      "Privilege Escalation",
+      "Defense Evasion",
+      "Credential Access",
+      "Discovery",
+      "Collection",
+      "Exfiltration"
+    ]
   },
   {
     "title": "RaaS Unfold - RansomHub",
     "description": "A ransomware empire built on the ashes of its predecessors, trace its origins, expose its operators, and unfold its playbook.",
     "platform": "CyberDefenders",
     "link": "https://cyberdefenders.org/blueteam-ctf-challenges/raas-unfold-ransomhub/",
-    "tags": ["Threat Intel", "RaaS", "RansomHub"],
+    "tags": [
+      "Threat Intel",
+      "RaaS",
+      "RansomHub"
+    ],
     "type": "lab",
     "image": "./assets/labs/RaaS_Unfold_-_RansomHub.png",
     "difficulty": "easy",
     "player_difficulty": "medium",
     "rating": 2,
     "is_retired": false,
-    "tactics": ["Impact"]
+    "tactics": [
+      "Impact"
+    ]
   },
   {
     "title": "Recruiter - Hanoi Op",
     "description": "When a candidate submits a resume that’s more than it seems, it’s up to you to hunt through the artifacts, reconstruct the infection chain, and stop a data breach in its tracks.",
     "platform": "CyberDefenders",
     "link": "https://cyberdefenders.org/blueteam-ctf-challenges/recruiter-hanoi-op/",
-    "tags": ["Endpoint Forensics", "Full-chain analysis"],
+    "tags": [
+      "Endpoint Forensics",
+      "Full-chain analysis"
+    ],
     "type": "lab",
     "image": "./assets/labs/recruiter-hanoi-op.png",
     "difficulty": "medium",
     "player_difficulty": "medium",
     "rating": 5,
     "is_retired": false,
-    "tactics": ["Execution", "Persistence", "Privilege Escalation", "Defense Evasion", "Credential Access"]
+    "tactics": [
+      "Execution",
+      "Persistence",
+      "Privilege Escalation",
+      "Defense Evasion",
+      "Credential Access"
+    ]
   },
   {
     "title": "CodeFreeze",
     "description": "Reconstruct the complete attack timeline by analyzing browser history, event logs, registry, and Git artifacts to identify initial access, persistence, and data exfiltration mechanisms.",
     "platform": "CyberDefenders",
     "link": "https://cyberdefenders.org/blueteam-ctf-challenges/codefreeze/",
-    "tags": ["Endpoint Forensics", "Git", "Full-chain analysis"],
+    "tags": [
+      "Endpoint Forensics",
+      "Git",
+      "Full-chain analysis"
+    ],
     "type": "lab",
     "image": "./assets/labs/codefreeze.webp",
     "difficulty": "medium",
     "player_difficulty": "medium",
     "rating": 5,
     "is_retired": false,
-    "tactics": ["Initial Access", "Execution", "Persistence", "Privilege Escalation", "Defense Evasion"]
+    "tactics": [
+      "Initial Access",
+      "Execution",
+      "Persistence",
+      "Privilege Escalation",
+      "Defense Evasion"
+    ]
   },
   {
     "title": "Satisfaction",
     "description": "",
     "platform": "CyberDefenders",
     "link": "",
-    "tags": ["Network Forensics"],
+    "tags": [
+      "Network Forensics"
+    ],
     "type": "lab",
     "difficulty": "medium",
     "is_retired": false,
@@ -181,7 +317,10 @@
     "description": "Wowza Enterprise (Wowza Inc.) has hired you to investigate an incident involving a workstation used by Otello John, which is believed to have been compromised by a threat actor. The attacker reportedly changed the desktop wallpaper to a questionable image. The IT team has already provided you with initial information, and it is your duty to report back your findings.",
     "platform": "HackTheBox",
     "link": "https://app.hackthebox.com/sherlocks/WorkFromHome?tab=play_sherlock",
-    "tags": ["Endpoint Forensics", "Windows Forensics"],
+    "tags": [
+      "Endpoint Forensics",
+      "Windows Forensics"
+    ],
     "type": "lab",
     "image": "./assets/labs/htb-wfh.png",
     "difficulty": "medium",
@@ -193,7 +332,10 @@
     "description": "Liberty launched a massive project with a budget exceeding $100 million, with the goal of granting true freedom to humanity One day, a system administrator discovered a shared folder configured with “Full Control” permissions granted to “Everyone”, raising concerns about a potential security incident. You have been tasked with investigating evidence collected from the affected endpoint to determine what occurred. Threat Intelligence has previously identified that an employee’s credentials were harvested by a RedLine Stealer, which is suspected to have been used for initial access to this system.",
     "platform": "HackTheBox",
     "link": "https://app.hackthebox.com/sherlocks/Liberty?tab=play_sherlock",
-    "tags": ["Endpoint Forensics", "Windows Forensics"],
+    "tags": [
+      "Endpoint Forensics",
+      "Windows Forensics"
+    ],
     "type": "lab",
     "image": "./assets/labs/htb-liberty.png",
     "difficulty": "medium",
@@ -205,7 +347,10 @@
     "description": "Wowza Grand College has opened a job application portal by creating a website for applicants to upload their resumes for HR to review. Recently, the SOC team observed suspicious enrollments to a certificate template in their ADCS infrastructure. The team began collecting evidence from the compromised domain controller to investigate the cause of the unauthorized certificate enrollments.",
     "platform": "HackTheBox",
     "link": "https://app.hackthebox.com/sherlocks/JobApplicant",
-    "tags": ["Windows Forensics", "ADCS"],
+    "tags": [
+      "Windows Forensics",
+      "ADCS"
+    ],
     "type": "lab",
     "image": "./assets/labs/jobapplicant.png",
     "difficulty": "hard",
@@ -218,7 +363,12 @@
     "description": "Investigating ClickFix incident by correlating Browser history, PowerShell Script Block Logging, Prefetch and PowerShell log together",
     "platform": "STDiO CTF 2025",
     "link": "https://gitlab.com/2600-thailand/stdio/stdio-challenges/stdio-ctf-2025/-/tree/main/challenges/forensic/23.SHAW?ref_type=heads",
-    "tags": ["Endpoint Forensics", "Windows Forensics", "Log Analysis", "Browser"],
+    "tags": [
+      "Endpoint Forensics",
+      "Windows Forensics",
+      "Log Analysis",
+      "Browser"
+    ],
     "type": "lab",
     "image": "./assets/labs/shaw.jpg",
     "difficulty": "easy",
@@ -229,7 +379,15 @@
     "description": "Investigating incident starting from phishing, privilege escalation to domain compromise with Active Directory Certificate Services.",
     "platform": "STDiO CTF 2025",
     "link": "https://gitlab.com/2600-thailand/stdio/stdio-challenges/stdio-ctf-2025/-/tree/main/challenges/forensic/25.Master%20Investigator?ref_type=heads",
-    "tags": ["Endpoint Forensics", "Windows Forensics", "Log Analysis", "Browser", "Active Directory", "File System", "Certificate Services"],
+    "tags": [
+      "Endpoint Forensics",
+      "Windows Forensics",
+      "Log Analysis",
+      "Browser",
+      "Active Directory",
+      "File System",
+      "Certificate Services"
+    ],
     "type": "lab",
     "image": "./assets/labs/master.jpg",
     "difficulty": "hard",
@@ -240,7 +398,13 @@
     "description": "A list of labs with Splunk and Elastic from various CyberSecurity Training platforms such as CyberDefenders, BlueTeamLabs Online (BTLO), TryHackMe, DFIR Labs, Xintra, Ace Responder, and more",
     "platform": "GitHub",
     "link": "https://chickenloner.github.io/siem-labs/",
-    "tags": ["Log Analysis", "SIEM", "Threat Hunting", "Splunk", "Elastic"],
+    "tags": [
+      "Log Analysis",
+      "SIEM",
+      "Threat Hunting",
+      "Splunk",
+      "Elastic"
+    ],
     "type": "project",
     "image": "./assets/labs/siem.jpg"
   },
@@ -249,7 +413,12 @@
     "description": "A list of cloud investigations (Azure, AWS and GCP) from various cybersecurity platforms such as Blue Team Labs Online (BTLO), CyberDefenders, HackTheBox Sherlocks (HTB), CyberWarFare Labs Infinity (CWL Infinity) and so on",
     "platform": "GitHub",
     "link": "https://chickenloner.github.io/cloud-labs/",
-    "tags": ["Cloud", "SIEM", "Threat Hunting", "Log Analyis"],
+    "tags": [
+      "Cloud",
+      "SIEM",
+      "Threat Hunting",
+      "Log Analyis"
+    ],
     "type": "project",
     "image": "./assets/labs/cloud.jpg"
   },
@@ -258,7 +427,11 @@
     "description": "A blue team training tool that generates realistic, scenario-based server logs for SOC analysts, DFIR students, and CTF challenge authors. Produce authentic attack logs across six log formats with configurable difficulty levels and built-in answer keys.",
     "platform": "GitHub",
     "link": "https://github.com/ChickenLoner/Pulse-log-generator",
-    "tags": ["Tool", "Log Analyis", "Log Generator"],
+    "tags": [
+      "Tool",
+      "Log Analyis",
+      "Log Generator"
+    ],
     "type": "project",
     "image": "./assets/labs/pulse.jpg"
   },
@@ -267,7 +440,12 @@
     "description": "A blog about making your very own Windows Forensics lab, not deep dive too much into technical aspect but flavors of Windows Forensics scenarios",
     "platform": "Medium",
     "link": "https://medium.com/system-weakness/design-your-first-windows-forensics-lab-as-a-defensive-content-engineer-523bf891fbd7",
-    "tags": ["Digital Forensics", "Lab Making", "Windows Forensics"],
+    "tags": [
+      "Digital Forensics",
+      "Lab Making",
+      "Windows Forensics",
+      "Research"
+    ],
     "type": "project",
     "image": "./assets/labs/designwindowslab.jpg"
   },
@@ -276,7 +454,12 @@
     "description": "Research about how red teamer and threat actor can use git history to hide their payload and execute it with the help of other persistence mechanism",
     "platform": "Medium",
     "link": "https://medium.com/@chaoskist/using-git-commits-as-a-persistence-mechanism-c44a0ee22068",
-    "tags": ["Red Teaming", "Persistence", "git"],
+    "tags": [
+      "Red Teaming",
+      "Persistence",
+      "git",
+      "Research"
+    ],
     "type": "project",
     "image": "./assets/research/git-commits-persistence/cover.png"
   },
@@ -285,7 +468,12 @@
     "description": "A repository contains forensic artifacts and indicators for Remote Monitoring and Management (RMM) tools commonly observed in threat actor operations. These cheat sheets are compiled from hands-on research in controlled lab environments to support defensive security operations.",
     "platform": "GitHub",
     "link": "https://github.com/ChickenLoner/RMM-Forensics-Cheatsheet",
-    "tags": ["Digital Forensics", "RMM", "Windows", "Cheat Sheet"],
+    "tags": [
+      "Digital Forensics",
+      "RMM",
+      "Windows",
+      "Cheat Sheet"
+    ],
     "type": "project",
     "image": "./assets/labs/rmmcheatsheet.jpg"
   },
@@ -294,7 +482,13 @@
     "description": "Research about AnyDesk RMM Investigation & Forensics on Windows from binary to connection, file transfer and unattended access.",
     "platform": "Medium",
     "link": "https://medium.com/@chaoskist/deep-dive-into-anydesk-investigation-forensics-on-windows-24dc531bcc78",
-    "tags": ["Digital Forensics", "RMM", "AnyDesk", "Windows"],
+    "tags": [
+      "Digital Forensics",
+      "RMM",
+      "AnyDesk",
+      "Windows",
+      "Research"
+    ],
     "type": "project",
     "image": "./assets/labs/anydeskdfir.jpg"
   },
@@ -303,7 +497,13 @@
     "description": "Research about RustDesk RMM Investigation & Forensics on Windows from binary to connection, file transfer and unattended access.",
     "platform": "Medium",
     "link": "https://medium.com/@chaoskist/deep-dive-into-rustdesk-rmm-investigation-forensics-on-windows-6d8ba816a11e",
-    "tags": ["Digital Forensics", "RMM", "RustDesk", "Windows"],
+    "tags": [
+      "Digital Forensics",
+      "RMM",
+      "RustDesk",
+      "Windows",
+      "Research"
+    ],
     "type": "project",
     "image": "./assets/labs/rustdeskdfir.png"
   },
@@ -312,7 +512,13 @@
     "description": "Research on GotoHTTP RMM — covering SYSTEM-level service persistence, SuperTerminal forensics, file transfer detection via USN Journal, DNS indicators, and child process anomalies.",
     "platform": "Original",
     "link": "/research/gotohttp-forensics-windows/index.html",
-    "tags": ["Digital Forensics", "RMM", "GotoHTTP", "Windows"],
+    "tags": [
+      "Digital Forensics",
+      "RMM",
+      "GotoHTTP",
+      "Windows",
+      "Research"
+    ],
     "type": "project",
     "image": "./assets/research/gotohttp-forensics-windows/cover.png"
   },
@@ -321,7 +527,14 @@
     "description": "Research about Chrome Remote Desktop RMM Investigation on Windows from installation to connection, file transfer and unattended access.",
     "platform": "Medium",
     "link": "https://medium.com/@chaoskist/chrome-remote-desktop-rmm-investigation-c61f8545da26",
-    "tags": ["Digital Forensics", "RMM", "Chrome Remote Desktop", "CRD", "Windows"],
+    "tags": [
+      "Digital Forensics",
+      "RMM",
+      "Chrome Remote Desktop",
+      "CRD",
+      "Windows",
+      "Research"
+    ],
     "type": "project",
     "image": "./assets/labs/crd.jpg"
   },
@@ -330,7 +543,13 @@
     "description": "A forensic tool for decrypting RustDesk configuration files. Designed for security research, penetration testing, and digital forensics investigations.",
     "platform": "GitHub",
     "link": "https://github.com/ChickenLoner/rustdesk-decrypt",
-    "tags": ["Digital Forensics", "RMM", "Windows", "Tool", "RustDesk"],
+    "tags": [
+      "Digital Forensics",
+      "RMM",
+      "Windows",
+      "Tool",
+      "RustDesk"
+    ],
     "type": "project",
     "image": "./assets/labs/rustdesk-decryptor.jpg"
   },
@@ -339,7 +558,14 @@
     "description": "A fast NTFS forensic tool written in Rust — parses $MFT and $J (USN Journal) artifacts, and hunts for resident data hidden inside MFT entries.",
     "platform": "GitHub",
     "link": "https://github.com/ChickenLoner/ResidentReaper",
-    "tags": ["Digital Forensics", "MFT", "Windows", "Tool", "UsnJournal", "Resident Data"],
+    "tags": [
+      "Digital Forensics",
+      "MFT",
+      "Windows",
+      "Tool",
+      "UsnJournal",
+      "Resident Data"
+    ],
     "type": "project",
     "image": "./assets/labs/residentreaper.jpg"
   },
@@ -348,7 +574,11 @@
     "description": "A self-hosted CTF-style challenge platform for learning cryptography, encoding, and log analysis — powered by CyberChef recipes.",
     "platform": "GitHub",
     "link": "https://github.com/ChickenLoner/ResidentReaper",
-    "tags": ["CyberChef", "platform", "CTF"],
+    "tags": [
+      "CyberChef",
+      "platform",
+      "CTF"
+    ],
     "type": "project",
     "image": "./assets/labs/ccpg.jpg"
   },
@@ -357,7 +587,11 @@
     "description": "A fast, native GUI forensic analysis tool for Sysmon logs. Opens raw .evtx files, EVTXECmd NDJSON exports, or EVTXECmd CSV exports and presents them as an interactive process tree with process-centric telemetry browsing — built for DFIR investigators.",
     "platform": "GitHub",
     "link": "https://github.com/ChickenLoner/SysTrace",
-    "tags": ["Sysmon", "Tool", "Log Analyis"],
+    "tags": [
+      "Sysmon",
+      "Tool",
+      "Log Analyis"
+    ],
     "type": "project",
     "image": "./assets/labs/systrace.jpg"
   },
@@ -366,7 +600,11 @@
     "description": "A fast, offline desktop tool for investigating AWS CloudTrail logs — built for blue teamers, incident responders, and cloud security engineers.",
     "platform": "GitHub",
     "link": "https://github.com/ChickenLoner/TrailInspector",
-    "tags": ["AWS CloudTrail", "Tool", "Log Analyis"],
+    "tags": [
+      "AWS CloudTrail",
+      "Tool",
+      "Log Analyis"
+    ],
     "type": "project",
     "image": "./assets/labs/trailinspector.jpg"
   }
