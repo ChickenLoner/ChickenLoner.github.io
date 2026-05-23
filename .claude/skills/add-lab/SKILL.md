@@ -41,7 +41,8 @@ If the cover image doesn't exist, note it to the user and use the placeholder pa
 ## Step 3 — Add to labs.json
 
 1. Read `data/labs.json`.
-2. Prepend the new entry at the **top** of the array (newest first):
+2. Find the **last existing entry with the same platform**. Insert the new entry immediately after it (newer labs follow older labs within the same platform group).
+   - If no entry with the same platform exists yet, prepend to the top.
 
 ```json
 {

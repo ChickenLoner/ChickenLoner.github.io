@@ -1,16 +1,5 @@
 [
   {
-    "title": "Satisfaction",
-    "description": "",
-    "platform": "CyberDefenders",
-    "link": "",
-    "tags": ["Network Forensics"],
-    "type": "lab",
-    "difficulty": "medium",
-    "is_retired": false,
-    "image": "./assets/labs/satisfaction.webp"
-  },
-  {
     "title": "UtensilMenace",
     "description": "A digital forensics scenario involving the analysis of a potentially malicious executable and its impact on the system.",
     "platform": "Blue Team Labs Online",
@@ -175,6 +164,17 @@
     "rating": 5,
     "is_retired": false,
     "tactics": ["Initial Access", "Execution", "Persistence", "Privilege Escalation", "Defense Evasion"]
+  },
+  {
+    "title": "Satisfaction",
+    "description": "",
+    "platform": "CyberDefenders",
+    "link": "",
+    "tags": ["Network Forensics"],
+    "type": "lab",
+    "difficulty": "medium",
+    "is_retired": false,
+    "image": "./assets/labs/satisfaction.webp"
   },
   {
     "title": "WorkFromHome (HTB)",
