@@ -356,8 +356,17 @@
         "year":  "2026",
         "status":  "Active",
         "category":  "Offensive Security",
-        "latest":  true,
         "badge":  "./assets/badges/cpts.png",
         "url":  "https://www.credly.com/earner/earned/badge/b302cbfa-6af9-4006-9949-4179981e97d0"
+    },
+    {
+        "name":  "GCFE - GIAC Certified Forensic Examiner",
+        "issuer":  "Global Information Assurance Certification (GIAC)",
+        "year":  "2026",
+        "status":  "Active",
+        "category":  "Digital Forensics & DFIR",
+        "latest":  true,
+        "badge":  "./assets/badges/gcfe.png",
+        "url":  "https://www.credly.com/badges/8310c41e-ac21-4e60-92a2-050535ac0928/public_url"
     }
 ]
