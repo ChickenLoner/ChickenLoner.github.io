@@ -750,7 +750,8 @@
         .fb-platforms{display:flex;flex-direction:column;gap:14px}
         .fb-panel{border:1px solid var(--soc-line);border-radius:6px;background:var(--soc-bg-1);overflow:hidden}
         .fb-panel-hd{display:grid;grid-template-columns:auto 1fr auto auto;gap:14px;align-items:center;padding:14px 18px;background:linear-gradient(90deg,rgba(255,85,119,.06),transparent 60%);border-bottom:1px solid var(--soc-line)}
-        .fb-panel-hd .fb-icon{width:36px;height:36px;border-radius:6px;background:rgba(255,85,119,.10);border:1px solid rgba(255,85,119,.35);display:grid;place-items:center;flex-shrink:0;font-size:18px}
+        .fb-panel-hd .fb-icon{height:36px;padding:6px 10px;border-radius:6px;background:rgba(255,255,255,.05);border:1px solid var(--soc-line);display:grid;place-items:center;flex-shrink:0}
+        .fb-panel-hd .fb-icon img{height:20px;width:auto;display:block}
         .fb-panel-hd .fb-plat{font-size:14px;font-weight:700;color:var(--soc-ink)}
         .fb-panel-hd .fb-plat-sub{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--soc-ink3);margin-top:2px;letter-spacing:.04em}
         .fb-panel-hd .fb-cnt-big{font-family:'JetBrains Mono',monospace;padding:6px 16px;border-radius:99px;background:rgba(255,85,119,.10);border:1px solid rgba(255,85,119,.35);color:var(--soc-rd);display:inline-flex;align-items:baseline;gap:5px;white-space:nowrap}
@@ -2776,10 +2777,10 @@
                                     Populate <code style={{background:'var(--soc-bg-2)',padding:'1px 5px',borderRadius:'3px'}}>data/firstbloods.json</code> to show first blood data
                                 </div>
                             );
-                            const FbPanel = ({id, icon, plat, sub, items, idFn}) => (
+                            const FbPanel = ({id, logo, plat, sub, items, idFn}) => (
                                 <div className="fb-panel">
                                     <div className="fb-panel-hd" style={{cursor:'pointer'}} onClick={()=>toggleFbPanel(id)}>
-                                        <div className="fb-icon">{icon}</div>
+                                        <div className="fb-icon"><img src={logo} alt={plat} /></div>
                                         <div>
                                             <div className="fb-plat">{plat}</div>
                                             <div className="fb-plat-sub">{sub}</div>
@@ -2800,9 +2801,9 @@
                                 </div>
                             );
                             return (<>
-                                {btlo.length>0 && <FbPanel id="btlo" icon="🩸" plat="Blue Team Labs Online"  sub="Investigation &amp; Forensics Challenges" items={btlo} idFn={it=>`#${it.id}`} />}
-                                {htb.length>0  && <FbPanel id="htb"  icon="🩸" plat="HackTheBox — Sherlock" sub="Blue Team Forensic Challenges"            items={htb}  idFn={it=>it.id?`#${it.id}`:null} />}
-                                {cd.length>0   && <FbPanel id="cd"   icon="🩸" plat="CyberDefenders"        sub="Blue Team CTF Challenges"                 items={cd}   idFn={null} />}
+                                {btlo.length>0 && <FbPanel id="btlo" logo="./assets/platforms/btlo.svg" plat="Blue Team Labs Online"  sub="Investigation &amp; Forensics Challenges" items={btlo} idFn={it=>`#${it.id}`} />}
+                                {htb.length>0  && <FbPanel id="htb"  logo="./assets/platforms/htb.svg"  plat="HackTheBox — Sherlock" sub="Blue Team Forensic Challenges"            items={htb}  idFn={it=>it.id?`#${it.id}`:null} />}
+                                {cd.length>0   && <FbPanel id="cd"   logo="./assets/platforms/cd.svg"   plat="CyberDefenders"        sub="Blue Team CTF Challenges"                 items={cd}   idFn={null} />}
                             </>);
                         })()}
                     </div>
