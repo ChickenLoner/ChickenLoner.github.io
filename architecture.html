@@ -411,7 +411,9 @@
 │   ├── <span class="dir">reports/[slug]/</span>               <span class="note"># IR report figures</span>
 │   ├── <span class="dir">research/[slug]/</span>              <span class="note"># Research figures (cover.png + img-NN)</span>
 │   ├── <span class="dir">achievements/</span>                 <span class="note"># Talk cover images only (competition images archived)</span>
-│   └── <span class="dir">firstbloods/</span>                  <span class="note"># First blood cover images (btlo_NNN.png, htb_NNN.png, etc.)</span>
+│   ├── <span class="dir">firstbloods/</span>                  <span class="note"># First blood cover images (btlo_NNN.png, htb_NNN.png, etc.)</span>
+│   ├── <span class="dir">platforms/</span>                    <span class="note"># Platform logos (btlo.svg, cd.svg, htb.svg) — used in firstbloods + lab platform tags via PLAT_LOGOS map</span>
+│   └── <span class="dir">issuers/</span>                      <span class="note"># Cert issuer logos (comptia.png, offsec.png, etc.) — used in stats roster + certifications By Issuer tab via ISSUER_LOGOS map</span>
 ├── <span class="dir">themes/</span>
 │   ├── soc.css                       <span class="note"># CSS variables + Tailwind utility overrides</span>
 │   ├── soc-nav.js                    <span class="note"># Page transition overlay</span>
@@ -707,6 +709,7 @@ useEffect(() => {
 
             <div class="subsec">
                 <div class="subsec-title">certifications.json</div>
+                <p><strong>ISSUER_LOGOS map</strong> (in <code>index.html</code>) wires issuer name → <code>assets/issuers/&lt;slug&gt;.png</code> for the stats page issuer roster and certifications By Issuer tab. To add a new issuer: drop its PNG in <code>assets/issuers/</code> and add the issuer name key to the <code>ISSUER_LOGOS</code> object.</p>
                 <div class="code-block"><div class="code-lang">JSON</div><div class="code-body"><pre>[{
     "name": "OSCP - OffSec Certified Professional",
     "issuer": "OffSec",
@@ -833,6 +836,7 @@ useEffect(() => {
     ]
 }</pre></div></div>
                 <p>Cover images go in <code>assets/firstbloods/</code>. Naming convention: <code>btlo_&lt;id&gt;.png</code>, <code>htb_&lt;id&gt;.png</code>, <code>&lt;slug&gt;.png</code> for CD.</p>
+                <p><strong>PLAT_LOGOS map</strong> (in <code>index.html</code>) auto-swaps platform text tags with <code>&lt;img&gt;</code> logos across <code>Brow</code> and <code>FbPanel</code> components. To add a new platform: drop its logo SVG/PNG in <code>assets/platforms/</code> and extend the <code>PLAT_LOGOS</code> object with the matching platform key.</p>
             </div>
         </section>
 

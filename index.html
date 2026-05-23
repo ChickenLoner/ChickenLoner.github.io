@@ -856,16 +856,19 @@
         .rs-cell .rsl{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--soc-ink3);letter-spacing:.14em;text-transform:uppercase;margin-top:4px}
         .rs-cell .rsn{font-size:10.5px;color:var(--soc-ink4);margin-top:5px;font-family:system-ui,sans-serif;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
         .content-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-        .co-card{display:grid;grid-template-rows:auto auto auto 1fr auto;gap:10px;padding:16px 18px;background:var(--soc-bg-1);border:1px solid var(--soc-line);border-radius:6px;text-decoration:none;color:inherit;transition:.15s;position:relative;overflow:hidden}
+        .co-card{display:grid;grid-template-rows:auto auto auto 1fr auto;gap:10px;padding:16px 18px;background:var(--soc-bg-1);border:1px solid var(--soc-line);border-radius:6px;text-decoration:none;color:inherit;transition:.15s;position:relative;overflow:hidden;min-width:0}
         .co-card::before{content:"";position:absolute;left:0;top:0;right:0;height:2px;background:var(--co-c,var(--soc-cy));opacity:.55}
         .co-card:hover{border-color:var(--soc-line2);transform:translateY(-2px)}
         .co-card.t-am{--co-c:var(--cat-fir)}.co-card.t-vi{--co-c:var(--cat-fnd)}
         .co-card .co-cat{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:var(--co-c,var(--soc-cy));text-transform:uppercase;font-weight:700}
         .co-card .co-val{font-family:'JetBrains Mono',monospace;font-size:32px;font-weight:700;color:var(--soc-ink);letter-spacing:-.02em}
         .co-card .co-sub{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--soc-ink3);letter-spacing:.04em}
-        .co-card .co-list{display:flex;flex-direction:column;gap:4px;font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--soc-ink2);line-height:1.4}
-        .co-card .co-list span::before{content:"›";color:var(--co-c,var(--soc-cy));margin-right:5px}
-        .co-card .co-cta{margin-top:auto;padding-top:8px;border-top:1px solid var(--soc-line);font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.08em;color:var(--co-c,var(--soc-cy));font-weight:700;text-transform:uppercase;display:flex;justify-content:space-between;align-items:center}
+        .co-card .co-list{display:flex;flex-direction:column;gap:4px;font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--soc-ink2);line-height:1.4;min-width:0;overflow:hidden}
+        .co-card .co-list a{color:var(--soc-ink2);text-decoration:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;transition:color .15s}
+        .co-card .co-list a:hover{color:var(--co-c,var(--soc-cy))}
+        .co-card .co-list a::before{content:"›";color:var(--co-c,var(--soc-cy));margin-right:5px}
+        .co-card .co-cta{margin-top:auto;padding-top:8px;border-top:1px solid var(--soc-line);font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.08em;color:var(--co-c,var(--soc-cy));font-weight:700;text-transform:uppercase;display:flex;justify-content:space-between;align-items:center;text-decoration:none}
+        .co-card .co-cta:hover{opacity:.75}
         .split-bar{display:flex;height:42px;border-radius:5px;overflow:hidden;border:1px solid var(--soc-line);background:rgba(0,0,0,.3)}
         .split-bar .sb{display:grid;place-items:center;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;transition:.2s;min-width:0}
         .split-bar .sb.sb-w{background:linear-gradient(180deg,#ffd166,var(--cat-fir))}
@@ -1084,7 +1087,7 @@
                                 <div style={{display:'flex',flexWrap:'wrap',gap:'8px',marginTop:'12px'}}>
                                     <span className="sev green"><span className="dot"></span>Active</span>
                                     <span className="sev cyan"><span className="dot"></span>On-call</span>
-                                    <span className="sev amber"><span className="dot"></span>OSCP · CDSA · BTL1</span>
+                                    <span className="sev amber"><span className="dot"></span>OSCP · CDSA · BTL1 · CCD · GCFE · GIAC Advisory Board</span>
                                 </div>
                             </div>
                             <div className="soc-opmeta">
@@ -1788,27 +1791,27 @@
                                 <div className="co-val">{certificationReviews.length}</div>
                                 <div className="co-sub">avg {avgRevRating.toFixed(2)} / 5.0</div>
                                 <div className="co-list">
-                                    {recentRevs.map((r,i)=><span key={i}>{r.title}</span>)}
+                                    {recentRevs.map((r,i)=><a key={i} href={r.url}>{r.title}</a>)}
                                 </div>
-                                <div className="co-cta"><span>Latest Reviews</span><span>›</span></div>
+                                <a className="co-cta" href="/reviews/"><span>Latest Reviews</span><span>›</span></a>
                             </div>
                             <div className="co-card t-am">
                                 <div className="co-cat">Research</div>
                                 <div className="co-val">{researchData.length}</div>
                                 <div className="co-sub">articles &amp; posts</div>
                                 <div className="co-list">
-                                    {recentRes.map((r,i)=><span key={i}>{r.title}</span>)}
+                                    {recentRes.map((r,i)=><a key={i} href={r.url}>{r.title}</a>)}
                                 </div>
-                                <div className="co-cta"><span>All Research</span><span>›</span></div>
+                                <a className="co-cta" href="/research/"><span>All Research</span><span>›</span></a>
                             </div>
                             <div className="co-card t-vi">
                                 <div className="co-cat">IR Reports</div>
                                 <div className="co-val">{irReports.length}</div>
                                 <div className="co-sub">incident reports</div>
                                 <div className="co-list">
-                                    {recentIR.map((r,i)=><span key={i}>{r.title}</span>)}
+                                    {recentIR.map((r,i)=><a key={i} href={r.url}>{r.title}</a>)}
                                 </div>
-                                <div className="co-cta"><span>All Reports</span><span>›</span></div>
+                                <a className="co-cta" href="/ir-reports/"><span>All Reports</span><span>›</span></a>
                             </div>
                         </div>
 
