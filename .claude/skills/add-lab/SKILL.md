@@ -66,17 +66,39 @@ Add optional fields only if provided:
 
 3. Write the updated file. Preserve all existing entries exactly.
 
-## Step 4 — Commit
+## Step 4 — Register in metadata script (CyberDefenders only)
+
+If platform is `"CyberDefenders"`, also update `scripts/update_lab_data.py`.
+
+Derive the slug: lowercase title, spaces → hyphens, strip special chars. Examples:
+- "Satisfaction" → `satisfaction`
+- "YARA Trap" → `yara-trap`
+- "RaaS Unfold - RansomHub" → `raas-unfold-ransomhub`
+
+Add a new entry to `labs_to_update` dict inside `update_lab_metadata()`:
+
+```python
+'<title>': {
+    'platform': 'cyberdefenders',
+    'slug': '<slug>'
+},
+```
+
+Insert it before the closing `}` of the dict. Preserve all existing entries exactly.
+
+## Step 5 — Commit
 
 ```bash
-git add data/labs.json
+git add data/labs.json scripts/update_lab_data.py
 git commit -m "add lab: <title> (<platform>)"
 git push origin main
 ```
 
-## Step 5 — Confirm
+If platform is not CyberDefenders, only stage `data/labs.json`.
+
+## Step 6 — Confirm
 
 Tell the user:
 - Which platform group it appears under on the Labs page
 - Whether the cover image needs to be added to `assets/labs/`
-- That `rating` and `player_difficulty` will be populated automatically by the GitHub Actions script once the lab has reviews (`labs_metadata.json` is updated daily)
+- If CyberDefenders: that the lab is now registered in the daily metadata script — `rating` and `player_difficulty` will auto-populate once the lab has player reviews
