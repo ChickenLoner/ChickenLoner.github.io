@@ -1449,8 +1449,9 @@
 
                 // ── Sub-components ────────────────────────────────────────────
                 const PLAT_LOGOS={'CyberDefenders':'./assets/platforms/cd.svg','HackTheBox':'./assets/platforms/htb.svg','Blue Team Labs Online':'./assets/platforms/btlo.svg','HackTheBox Sherlock':'./assets/platforms/htb.svg','BTLO':'./assets/platforms/btlo.svg','HTB':'./assets/platforms/htb.svg','CD':'./assets/platforms/cd.svg'};
+                const ISSUER_BROW_LOGOS={'CompTIA':'./assets/issuers/comptia.png','Global Information Assurance Certification (GIAC)':'./assets/issuers/GIAC.png','EC-Council':'./assets/issuers/Ec_Council.png','TryHackMe':'./assets/issuers/THM_white.png','Security Blue Team':'./assets/issuers/sbt_withname.png','APIsec University':'./assets/issuers/apisec_withname.png','OffSec':'./assets/issuers/offsec_white.svg','Blue Cape Security':'./assets/issuers/bluecapsec_white.webp','Cyberwarfare Labs':'./assets/issuers/CWL_white.png','PentestingExams.com':'./assets/issuers/pentestingexams_white.png','INE':'./assets/issuers/INE_white.svg','Hackviser':'./assets/issuers/hackviser_withname.svg','Cyber5W':'./assets/issuers/cyber5w_withnane.webp','TCM Security':'./assets/issuers/tcm_withname.svg'};
                 const Brow = ({label, count, total, max, cls, fillColor}) => {
-                    const platLogo = PLAT_LOGOS[label];
+                    const platLogo = PLAT_LOGOS[label] || ISSUER_BROW_LOGOS[label];
                     return (
                     <div className={`brow ${cls||''}`}>
                         <div className="blbl" title={label}>{platLogo ? <img src={platLogo} alt={label} style={{height:'16px',width:'auto',maxWidth:'120px',objectFit:'contain',display:'block'}} /> : label}</div>
@@ -1626,7 +1627,7 @@
                         </div>
                         <div className="issuer-roster">
                             {sortedIssuers.map(([iss,cnt])=>{
-                                const ISSUER_LOGOS={'APIsec University':'apisec.png','Blue Cape Security':'bluecapsec.png','CompTIA':'comptia.png','Cyber5W':'cyber5w.png','CyberDefenders':'cyberdefenders.png','Cyberwarfare Labs':'CWL.png','EC-Council':'Ec_Council.png','Global Information Assurance Certification (GIAC)':'GIA.png','HackTheBox':'hackthebox.png','Hackviser':'hackviser.png','INE':'INE.png','OffSec':'offsec.png','PentestingExams.com':'pentestingexams.png','Security Blue Team':'SBT.png','TCM Security':'tcm.png','TryHackMe':'tryhackme.png'};
+                                const ISSUER_LOGOS={'APIsec University':'apisec.png','Blue Cape Security':'bluecapsec.png','CompTIA':'comptia.png','Cyber5W':'cyber5w.png','CyberDefenders':'cyberdefenders.png','Cyberwarfare Labs':'CWL.png','EC-Council':'Ec_Council.png','Global Information Assurance Certification (GIAC)':'GIAC.png','HackTheBox':'hackthebox.png','Hackviser':'hackviser.png','INE':'INE.png','OffSec':'offsec.png','PentestingExams.com':'pentestingexams.png','Security Blue Team':'SBT.png','TCM Security':'tcm.png','TryHackMe':'tryhackme.png'};
                                 const logo=ISSUER_LOGOS[iss];
                                 const initials=iss.split(/[\s\-]/).map(w=>w[0]).filter(Boolean).slice(0,3).join('').toUpperCase();
                                 const cYears=[...new Set(certifications.filter(c=>c.issuer===iss).map(c=>c.year))].sort().join(', ');
@@ -1980,7 +1981,7 @@
                     return <div className={gridClass}>{pool.map((c,i)=><CertCard key={i} c={c}/>)}</div>;
                 };
 
-                const ISSUER_LOGOS={'APIsec University':'apisec.png','Blue Cape Security':'bluecapsec.png','CompTIA':'comptia.png','Cyber5W':'cyber5w.png','CyberDefenders':'cyberdefenders.png','Cyberwarfare Labs':'CWL.png','EC-Council':'Ec_Council.png','Global Information Assurance Certification (GIAC)':'GIA.png','HackTheBox':'hackthebox.png','Hackviser':'hackviser.png','INE':'INE.png','OffSec':'offsec.png','PentestingExams.com':'pentestingexams.png','Security Blue Team':'SBT.png','TCM Security':'tcm.png','TryHackMe':'tryhackme.png'};
+                const ISSUER_LOGOS={'APIsec University':'apisec.png','Blue Cape Security':'bluecapsec.png','CompTIA':'comptia.png','Cyber5W':'cyber5w.png','CyberDefenders':'cyberdefenders.png','Cyberwarfare Labs':'CWL.png','EC-Council':'Ec_Council.png','Global Information Assurance Certification (GIAC)':'GIAC.png','HackTheBox':'hackthebox.png','Hackviser':'hackviser.png','INE':'INE.png','OffSec':'offsec.png','PentestingExams.com':'pentestingexams.png','Security Blue Team':'SBT.png','TCM Security':'tcm.png','TryHackMe':'tryhackme.png'};
                 const renderIssuers = () => {
                     let ip=certs.slice();
                     if(statusFilter!=='all') ip=ip.filter(c=>c.s===statusFilter);
