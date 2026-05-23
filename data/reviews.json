@@ -1,5 +1,16 @@
 [
   {
+    "title": "GIAC Certified Forensics Examiner (GCFE) — My First GIAC Certification Review",
+    "excerpt": "A detailed review of the GCFE certification from GIAC — covering how to prepare without SANS training, building an indexed open-book reference, practice test strategy, and exam experience scoring 93%.",
+    "date": "May 2026",
+    "readTime": "8 min read",
+    "tags": ["GCFE", "GIAC", "DFIR", "Windows Forensics", "Intermediate"],
+    "url": "/reviews/gcfe/index.html",
+    "image": "/assets/badges/gcfe.png",
+    "difficulty": "Intermediate",
+    "rating": 5.0
+  },
+  {
     "title": "C-AgAIPen (Certified Agentic AI Pentester) Exam Review",
     "excerpt": "A detailed review of the C-AgAIPen exam from SecOps Group — covering agentic AI attack surfaces, exam preparation from zero knowledge, the 4-hour flag submission format, and tips for anyone interested in AI security testing.",
     "date": "April 2026",

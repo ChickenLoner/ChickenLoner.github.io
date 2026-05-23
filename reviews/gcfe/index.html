@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GCFE Review | GIAC Certified Forensics Examiner | Chicken0248</title>
+    <meta name="description" content="A detailed review of the GCFE certification from GIAC, covering how to prepare without SANS training, building an indexed open-book reference, practice test strategy, and exam experience scoring 93%." />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Chicken0248" />
+    <meta property="og:url" content="https://chickenloner.github.io/reviews/gcfe/" />
+    <meta property="og:title" content="GIAC Certified Forensics Examiner (GCFE): My First GIAC Certification Review" />
+    <meta property="og:description" content="A detailed review of the GCFE certification from GIAC, covering how to prepare without SANS training, building an indexed open-book reference, practice test strategy, and exam experience scoring 93%." />
+    <meta property="og:image" content="https://chickenloner.github.io/reviews/gcfe/cover.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@Chicken_0248" />
+    <meta name="twitter:title" content="GIAC Certified Forensics Examiner (GCFE): My First GIAC Certification Review" />
+    <meta name="twitter:description" content="A detailed review of the GCFE certification from GIAC, covering how to prepare without SANS training, building an indexed open-book reference, practice test strategy, and exam experience scoring 93%." />
+    <meta name="twitter:image" content="https://chickenloner.github.io/reviews/gcfe/cover.jpg" />
+    <link rel="canonical" href="https://chickenloner.github.io/reviews/gcfe/" />
+    <link rel="icon" href="/chicken0248.png" type="image/png">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.29.2/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@1.14.0/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="/themes/soc.css">
+    <script src="/themes/soc-theme.js"></script>
+    <script src="/themes/soc-nav.js"></script>
+    <script src="/themes/soc-components.js"></script>
+</head>
+<body>
+    <a href="#main-content"
+       class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-white focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg focus:text-blue-600 focus:font-semibold">
+      Skip to content
+    </a>
+    <noscript>
+      <style>body{font-family:system-ui,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}</style>
+      <div style="text-align:center;padding:2rem">
+        <h1>JavaScript required</h1>
+        <p>This site requires JavaScript to display content. Please enable it in your browser settings.</p>
+        <a href="https://chickenloner.github.io">chickenloner.github.io</a>
+      </div>
+    </noscript>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        const { SocClock, Icon, Section, Fig, resetFigCount, TipList, B, A, Code, ThemeToggle } = window.SocComponents;
+
+        /* ── Reusable Components ── */
+
+        const Callout = ({ children }) => (
+            <blockquote className="bg-amber-50 border-l-4 border-amber-400 rounded-r-xl px-5 py-4 my-4 text-gray-700 italic text-sm leading-relaxed">
+                {children}
+            </blockquote>
+        );
+
+        const renderStars = (rating) => {
+            const full = Math.floor(rating);
+            const half = rating - full >= 0.5;
+            return '★'.repeat(full) + (half ? '½' : '') + '☆'.repeat(5 - full - (half ? 1 : 0));
+        };
+
+        /* ── App ── */
+
+        const App = () => {
+            const [meta, setMeta] = useState(null);
+
+            useEffect(() => {
+                fetch('/data/reviews.json')
+                    .then(r => r.json())
+                    .then(data => {
+                        const entry = data.find(r => r.url === '/reviews/gcfe/index.html');
+                        if (entry) setMeta(entry);
+                    })
+                    .catch(() => {});
+            }, []);
+
+            resetFigCount();
+
+            const tocItems = [
+                { id: 'introduction',    label: 'Introduction',     icon: 'BookOpen'     },
+                { id: 'exam-preparation', label: 'Exam Preparation', icon: 'GraduationCap' },
+                { id: 'exam-experience', label: 'Exam Experience',   icon: 'ClipboardList' },
+            ];
+
+            return (
+                <div style={{background:'var(--soc-bg)',minHeight:'100vh'}}>
+
+                    {/* SOC Topbar */}
+                    <nav className="soc-tb" aria-label="Site navigation">
+                        <div className="soc-tb-row">
+                            <a href="/" className="soc-live" style={{textDecoration:"none",color:"inherit"}}>UPLINK</a>
+                            <div className="soc-crumb hidden md:flex">
+                                <a href="/" style={{color:'var(--soc-ink3)',textDecoration:'none'}}>SOC</a>
+                                <span>/</span>
+                                <a href="/" style={{color:'var(--soc-ink3)',textDecoration:'none'}}>OPERATOR.PROFILE</a>
+                                <span>/</span>
+                                <a href="/reviews/index.html" style={{color:'var(--soc-ink3)',textDecoration:'none'}}>REVIEWS</a>
+                                <span>/</span>
+                                <b>GCFE</b>
+                            </div>
+                            <div style={{flex:1}} />
+                            <span className="sev cyan"><span className="dot"></span>TLP:CLEAR</span>
+                            <span className="sev amber"><span className="dot"></span>CERT.REVIEW</span>
+                            <SocClock /><ThemeToggle />
+                        </div>
+                    </nav>
+
+                    <main id="main-content" style={{maxWidth:'860px',margin:'0 auto',padding:'24px 20px'}} className="animate-fadeIn">
+
+                        {/* Cover */}
+                        <div className="res-cover">
+                            <img src="cover.jpg" alt="GIAC Certified Forensics Examiner (GCFE) Certificate" />
+                            <div className="res-cover-overlay" />
+                            <div className="res-cover-content">
+                                <h1 className="res-cover-title">GIAC Certified Forensics Examiner (GCFE): My First GIAC Certification Review</h1>
+                                <div className="res-cover-badges">
+                                    <span className="sev cyan"><span className="dot"></span>May 2026</span>
+                                    <span className="sev amber"><span className="dot"></span>GIAC</span>
+                                    <span className="sev amber"><span className="dot"></span>Windows Forensics</span>
+                                    <span className="sev green"><span className="dot"></span>Passed</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Metadata */}
+                        <div className="res-meta-grid">
+                            <div><div className="res-meta-lbl">Certification</div><div className="res-meta-val">GCFE</div></div>
+                            <div><div className="res-meta-lbl">Provider</div><div className="res-meta-val">GIAC</div></div>
+                            <div><div className="res-meta-lbl">Difficulty</div><div className="res-meta-val" style={{color:'var(--soc-am)'}}>{meta?.difficulty ?? '—'}</div></div>
+                            <div><div className="res-meta-lbl">Rating</div>
+                                <div className="res-meta-val">
+                                    {meta?.rating ? (
+                                        <span style={{display:'flex',alignItems:'center',gap:'4px'}}>
+                                            <span style={{color:'var(--soc-am)'}}>{renderStars(meta.rating)}</span>
+                                            <span style={{color:'var(--soc-ink3)',fontSize:'11px'}}>{meta.rating.toFixed(1)}/5.0</span>
+                                        </span>
+                                    ) : <span style={{color:'var(--soc-ink4)'}}>—</span>}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Table of Contents */}
+                        <div className="res-toc">
+                            <div className="res-toc-title">// TABLE OF CONTENTS</div>
+                            <div className="res-toc-grid">
+                                {tocItems.map((item, i) => (
+                                    <a key={item.id} href={`#${item.id}`} className="res-toc-item">
+                                        <span className="res-toc-num">{String(i+1).padStart(2,'0')}.</span>
+                                        <Icon name={item.icon} className="w-3.5 h-3.5" style={{color:'var(--soc-ink4)',flexShrink:0}} />
+                                        <span>{item.label}</span>
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* ═══════════ INTRODUCTION ═══════════ */}
+                        <Section id="introduction" title="Introduction" icon="BookOpen">
+                            <p className="text-gray-700 leading-relaxed">
+                                Hello everyone, it's me <B>Chicken0248</B> again, and this time I've finally taken my first step into the GIAC world with the{' '}
+                                <A href="https://www.giac.org/certifications/certified-forensic-examiner-gcfe">GIAC Certified Forensics Examiner</A>,
+                                or as most of us know it, <B>GCFE</B>.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                This exam is focused on <B>Windows Forensics</B>, and candidates are recommended to take{' '}
+                                <A href="https://www.sans.org/cyber-security-courses/windows-forensic-analysis">FOR500: Windows Forensics Analyst</A>{' '}
+                                as the certification is based on that course. However, not everyone can afford SANS training. Their average price sits around <B>$8,500–$8,900</B>, which in Asia could cover a car or even several years of rent.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                I didn't take the course for that obvious reason: I simply didn't have the money, and if I did, I'd buy a house first. 😄 With that said, I went into the exam relying entirely on three years of hands-on practice across platforms like TryHackMe, HackTheBox, CyberDefenders, Blue Team Labs Online, and others.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Honestly, when I first learned about the cost of GIAC certifications and SANS training, I gave up on them entirely. That changed when I met <B>Mr. Jakawal Ongthongkum (Ten)</B>, the 3rd Thai GSE holder, who introduced me to <B>Dr. Sorot Panichprecha</B>, the first Thai GSE holder and an Official SANS Instructor in Thailand for SEC504 and FOR508. That meeting is what set this journey in motion.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                The GCFE exam was purchased on <B>13th May 2026</B>, and I had 4 months before the voucher expired, but I had another plan, which you'll see in the next section.
+                            </p>
+
+                            <Fig src="image-1.png" alt="GCFE exam purchase confirmation" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                If you're here looking for inspiration or guidance on how to prepare for this exam, welcome, I hope this review proves useful for your own journey.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ EXAM PREPARATION ═══════════ */}
+                        <Section id="exam-preparation" title="Exam Preparation" icon="GraduationCap">
+                            <p className="text-gray-700 leading-relaxed">
+                                To best prepare for the exam, you need to understand what it actually covers. As mentioned in the introduction, GCFE is focused on Windows Forensics, and the{' '}
+                                <A href="https://www.sans.org/cyber-security-courses/windows-forensic-analysis">FOR500: Windows Forensics Analyst</A>{' '}
+                                training is the ideal preparation path, but for those who can't afford it, myself included, there's still a way through. I crammed my way to a pass entirely on my own, and here's how.
+                            </p>
+
+                            <Fig src="image-2.png" alt="GCFE certification objectives overview" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Before diving into preparation, let's take a look at the exam's <B>certification objectives and outcome statements</B>, which are publicly available on the{' '}
+                                <A href="https://www.giac.org/certifications/certified-forensic-examiner-gcfe">GCFE exam information page</A>.
+                                This is your roadmap, it tells you exactly which areas you need to study to pass. As you'll notice, the scope goes well beyond native Windows artifacts. Email clients, web-based and mobile email, Microsoft 365, cloud storage, and browsers are all included. Going in without knowing this could seriously risk your chances of passing, and with a first attempt costing <B>$999 USD</B> and a retake at <B>$899 USD</B>, that is not a risk worth taking.
+                            </p>
+
+                            <Fig src="image-3.png" alt="GCFE exam objectives breakdown" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                However, the certification objectives alone are not enough to tell us exactly what to study. We also need to visit the{' '}
+                                <A href="https://www.sans.org/cyber-security-courses/windows-forensic-analysis">public page for FOR500</A>.
+                                There, you'll find that the course is broken into 6 sections, though the 6th is a CTF exercise conducted only during live training, so we are effectively working with <B>5 core sections</B>:
+                            </p>
+                            <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                <li><B>Digital Forensics and Advanced Data Triage</B></li>
+                                <li><B>Registry Analysis, Application Execution, and Cloud Storage Forensics</B></li>
+                                <li><B>Shell Items and Removable Device Profiling</B></li>
+                                <li><B>Email Analysis, Windows Search, SRUM, and Event Logs</B></li>
+                                <li><B>Web Browser Forensics</B></li>
+                            </ul>
+
+                            <Fig src="image-4.png" alt="FOR500 course section breakdown" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Each section has a <B>"Full Topic Details"</B> breakdown worth reading carefully. For example, the <B>Shell Items and Removable Device Profiling</B> section points you toward Shortcut Files (LNK), Windows 7–10 Jump Lists, ShellBag, and USB and BYOD Forensics. This breakdown is a powerful guide for building your study notes before heading into the exam.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Speaking of notes, GIAC works differently from CompTIA and EC-Council. You are actually <B>allowed to bring printed paper materials into the exam</B> and use them during the test. My best guess as to why is the sheer volume of knowledge required to pass. Since most of us don't have access to official SANS materials, this makes building your own comprehensive notes not just helpful, but essential.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Now, assuming your notes cover everything across all five sections, the next step is <B>indexing</B>. This is a powerful technique that comes from GIAC themselves. The idea is simple: you create a list of keywords or topics alongside the page numbers where that knowledge is covered, so you can <em>jump directly</em> to what you need during the exam rather than flipping through every page from start to finish. Personally, I created my notes using Notion, inserted a table of contents at the top, then printed them out, added page numbers, and marked each topic with a tab. This helped enormously during the actual exam.
+                            </p>
+
+                            <Fig src="image-5.png" alt="Indexed study notes with table of contents" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                I also had access to <B>practice tests</B>, which came highly recommended. My friends who hold at least one GIAC certification, along with Ten, all told me that taking the practice tests is essential for getting familiar with the exam environment and building confidence. Since this was my first GIAC certification, I wasn't confident at all, despite everyone around me insisting I was over-qualified and would pass easily. The practice tests gave me a way to gauge my actual readiness and, more importantly, helped me walk into the real exam with confidence restored.
+                            </p>
+
+                            <Fig src="image-6.png" alt="GCFE practice test interface" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                The practice test mirrors the actual exam closely, with the same number of questions and the same time limit, though without a proctor. One setting worth knowing about is the <B>answer reveal option</B>. By default, the practice test only shows the correct answer for questions you got wrong, meaning that if you guessed correctly, you receive no explanation for why that answer was right. To get the most out of the practice test, change the setting so that <B>correct answers are revealed for every question regardless of your selection</B>. This is especially important if you're preparing without official SANS materials. Whenever you come across a topic not yet in your notes, take the time to add it. Just be careful not to copy the questions or answer choices themselves, as this is strictly prohibited.
+                            </p>
+
+                            <Fig src="image-7.png" alt="Practice test answer reveal setting" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                During my practice test, I went through each question one by one without skipping any, and finished all <B>82 questions in 1 hour and 10 minutes</B> with a score of <B>94%</B>. That was a massive confidence boost. After adding the knowledge gaps I discovered during the practice test into my notes, I felt ready to schedule the actual exam.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ EXAM EXPERIENCE ═══════════ */}
+                        <Section id="exam-experience" title="Exam Experience" icon="ClipboardList">
+
+                            <Fig src="image-8.png" alt="ACIS Professional Center exam venue" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                After acing the practice test, I scheduled the exam on the same day. I asked Ten for advice on how to pick the best exam center, and he told me he had only ever used one: <B>ACIS Professional Center</B>. He recommended it because they are familiar with GIAC exam takers and already know that candidates are allowed to bring paper materials in. The internet connection is solid as well.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                I booked my exam for <B>May 22nd, 2026</B>, on a workday. My plan was to finish work in the morning and head to the exam center at noon.
+                            </p>
+
+                            <Fig src="image-9.png" alt="Exam score report showing 93%" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                The exam went mostly smoothly. I did come across several questions that were not covered in my notes, so I skipped them initially, answered everything else first, and then came back to make my best reasonable guesses. Going in, I expected to land below 90% because of those gaps, but I ended up scoring <B>93%</B>. Many questions I could answer straight from experience, while others had me reaching for my notes. Overall, it was a challenging and thoroughly well-designed exam that truly tests your knowledge and absolutely lives up to its reputation.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                As for the <B>CyberLive portion</B>, full marks are very achievable as long as you read each question carefully and make sure your output matches exactly what is being asked.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                One additional point worth emphasizing: you need to understand how each forensic artifact works, <B>when it was introduced and across which Windows versions</B> (XP, Vista, 7, 10, 11), and what its forensic implications are. This matters because digital forensics is a discipline built on facts, every conclusion you present must be supported by evidence, and knowing the context and history of each artifact is what allows you to do that with confidence.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                That's all for this review. To everyone preparing for the GCFE, I hope this gave you something useful to take away, and I wish you all the best on your exam. You've got this. 💪
+                            </p>
+                        </Section>
+
+                        {/* Footer */}
+                        <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginTop:'48px',paddingTop:'20px',borderTop:'1px solid var(--soc-line)'}}>
+                            <a href="#main-content" style={{color:'var(--soc-ink3)',fontSize:'13px',textDecoration:'none'}}>↑ Back to top</a>
+                            <a href="/reviews/index.html" style={{color:'var(--soc-ink3)',fontSize:'13px',textDecoration:'none'}}>← All Reviews</a>
+                        </div>
+
+                    </main>
+                </div>
+            );
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>
