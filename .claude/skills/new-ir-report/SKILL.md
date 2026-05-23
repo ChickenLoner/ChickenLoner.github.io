@@ -182,6 +182,17 @@ Remove sections not covered in the user's writeup. Add custom sections as needed
 | Exfiltration | `Upload` |
 | Credentials | `Key` |
 
+## Writing style rules
+
+These apply to all prose written by this skill:
+
+- **No em dashes (—)**. Never use `—` in body text. Replace with: a comma, a colon, parentheses, or rewrite into two sentences.
+- **Write like a human analyst, not a template filler.** Vary sentence length. Short punchy sentences are fine. Don't write walls of uniform prose.
+- **Avoid AI filler phrases**: "it's worth noting", "it is important to", "it should be noted", "in order to", "this allows", "overall", "in conclusion". Cut or rewrite.
+- **Active voice preferred.** "The attacker exfiltrated credentials" not "Credentials were exfiltrated."
+- **Technical precision over verbosity.** One clear sentence beats three vague ones.
+- **Don't pad.** If a section has little content, keep it short rather than adding filler to look complete.
+
 ## Step 5 — Verify
 
 - [ ] Meta tags present with correct slug URLs

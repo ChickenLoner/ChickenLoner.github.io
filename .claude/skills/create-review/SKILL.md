@@ -216,6 +216,17 @@ After generating the initial page, review the content for:
 
 Do not alter the meaning or sentiment of any review content. The author's voice is intentional.
 
+## Writing style rules
+
+These apply to all prose generated or polished by this skill:
+
+- **No em dashes (—)**. Never use `—` in body text. Replace with: a comma, a colon, parentheses, or rewrite into two sentences. Example: "The exam was hard — but fair" → "The exam was hard, but fair."
+- **Write like a human, not a report generator.** Vary sentence length. Mix short punchy sentences with longer ones. Don't start every sentence the same way.
+- **Avoid AI filler phrases**: "it's worth noting", "it is important to", "it should be noted", "in order to", "this allows you to", "overall", "in conclusion". Cut them or rewrite the sentence.
+- **Active voice preferred.** "The exam tests your memory" not "Your memory is tested by the exam."
+- **No padding.** Don't add content to make a section look longer. If the source material is thin, leave it thin and flag it.
+- **Preserve facts and opinions exactly.** Only fix phrasing, not substance. The author's judgment on ratings, difficulty, and recommendations is not yours to change.
+
 ---
 
 ## Reference files

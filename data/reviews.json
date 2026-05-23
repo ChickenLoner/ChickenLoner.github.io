@@ -1,5 +1,16 @@
 [
   {
+    "title": "HackTheBox Certified Penetration Testing Specialist (CPTS): Review and Exam Guide",
+    "excerpt": "A review of the HTB CPTS certification covering the Penetration Tester path modules, 3-day exam experience, 150+ page report submission, and tips for blue teamers taking on red team territory.",
+    "date": "May 2026",
+    "readTime": "10 min read",
+    "tags": ["HTB CPTS", "HackTheBox", "Red Team", "Penetration Testing", "Advanced"],
+    "url": "/reviews/cpts/index.html",
+    "image": "/assets/badges/cpts.png",
+    "difficulty": "Intermediate",
+    "rating": 4.8
+  },
+  {
     "title": "GIAC Certified Forensics Examiner (GCFE) — My First GIAC Certification Review",
     "excerpt": "A detailed review of the GCFE certification from GIAC — covering how to prepare without SANS training, building an indexed open-book reference, practice test strategy, and exam experience scoring 93%.",
     "date": "May 2026",

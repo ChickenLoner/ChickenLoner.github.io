@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTB CPTS Review — HackTheBox Certified Penetration Testing Specialist | Chicken0248</title>
+    <meta name="description" content="A review of the HTB CPTS certification covering the Penetration Tester path modules, 3-day exam experience, 150+ page report submission, and tips for blue teamers taking on red team territory." />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Chicken0248" />
+    <meta property="og:url" content="https://chickenloner.github.io/reviews/cpts/" />
+    <meta property="og:title" content="HackTheBox Certified Penetration Testing Specialist (CPTS): Review and Exam Guide" />
+    <meta property="og:description" content="A review of the HTB CPTS certification covering the Penetration Tester path modules, 3-day exam experience, 150+ page report submission, and tips for blue teamers taking on red team territory." />
+    <meta property="og:image" content="https://chickenloner.github.io/reviews/cpts/cover.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@Chicken_0248" />
+    <meta name="twitter:title" content="HackTheBox Certified Penetration Testing Specialist (CPTS): Review and Exam Guide" />
+    <meta name="twitter:description" content="A review of the HTB CPTS certification covering the Penetration Tester path modules, 3-day exam experience, 150+ page report submission, and tips for blue teamers taking on red team territory." />
+    <meta name="twitter:image" content="https://chickenloner.github.io/reviews/cpts/cover.jpg" />
+    <link rel="canonical" href="https://chickenloner.github.io/reviews/cpts/" />
+    <link rel="icon" href="/chicken0248.png" type="image/png">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.29.2/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@1.14.0/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="/themes/soc.css">
+    <script src="/themes/soc-theme.js"></script>
+    <script src="/themes/soc-nav.js"></script>
+    <script src="/themes/soc-components.js"></script>
+</head>
+<body>
+    <a href="#main-content"
+       class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-white focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg focus:text-blue-600 focus:font-semibold">
+      Skip to content
+    </a>
+    <noscript>
+      <style>body{font-family:system-ui,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}</style>
+      <div style="text-align:center;padding:2rem">
+        <h1>JavaScript required</h1>
+        <p>This site requires JavaScript to display content. Please enable it in your browser settings.</p>
+        <a href="https://chickenloner.github.io">chickenloner.github.io</a>
+      </div>
+    </noscript>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        const { SocClock, Icon, Section, Fig, resetFigCount, TipList, B, A, Code, ThemeToggle } = window.SocComponents;
+
+        const Callout = ({ children }) => (
+            <blockquote className="bg-amber-50 border-l-4 border-amber-400 rounded-r-xl px-5 py-4 my-4 text-gray-700 italic text-sm leading-relaxed">
+                {children}
+            </blockquote>
+        );
+
+        const renderStars = (rating) => {
+            const full = Math.floor(rating);
+            const half = rating - full >= 0.5;
+            return '★'.repeat(full) + (half ? '½' : '') + '☆'.repeat(5 - full - (half ? 1 : 0));
+        };
+
+        const App = () => {
+            const [meta, setMeta] = useState(null);
+
+            useEffect(() => {
+                fetch('/data/reviews.json')
+                    .then(r => r.json())
+                    .then(data => {
+                        const entry = data.find(r => r.url.includes('/' + window.location.pathname.split('/').filter(p => p && p !== 'index.html').pop() + '/'));
+                        if (entry) setMeta(entry);
+                    })
+                    .catch(() => {});
+            }, []);
+
+            resetFigCount();
+
+            const tocItems = [
+                { id: 'introduction',    label: 'Introduction',              icon: 'BookOpen'      },
+                { id: 'exam-prep',       label: 'Exam Preparation',          icon: 'GraduationCap' },
+                { id: 'exam-experience', label: 'Exam Experience',            icon: 'ClipboardList' },
+                { id: 'exam-tips',       label: 'Exam Tips & Key Takeaways', icon: 'Lightbulb'     },
+            ];
+
+            return (
+                <div style={{background:'var(--soc-bg)',minHeight:'100vh'}}>
+
+                    {/* SOC Topbar */}
+                    <nav className="soc-tb" aria-label="Site navigation">
+                        <div className="soc-tb-row">
+                            <a href="/" className="soc-live" style={{textDecoration:"none",color:"inherit"}}>UPLINK</a>
+                            <div className="soc-crumb hidden md:flex">
+                                <a href="/" style={{color:'var(--soc-ink3)',textDecoration:'none'}}>SOC</a>
+                                <span>/</span>
+                                <a href="/" style={{color:'var(--soc-ink3)',textDecoration:'none'}}>OPERATOR.PROFILE</a>
+                                <span>/</span>
+                                <a href="/reviews/index.html" style={{color:'var(--soc-ink3)',textDecoration:'none'}}>REVIEWS</a>
+                                <span>/</span>
+                                <b>CPTS</b>
+                            </div>
+                            <div style={{flex:1}} />
+                            <span className="sev cyan"><span className="dot"></span>TLP:CLEAR</span>
+                            <span className="sev amber"><span className="dot"></span>CERT.REVIEW</span>
+                            <SocClock /><ThemeToggle />
+                        </div>
+                    </nav>
+
+                    <main id="main-content" style={{maxWidth:'860px',margin:'0 auto',padding:'24px 20px'}} className="animate-fadeIn">
+
+                        {/* Cover */}
+                        <div className="res-cover">
+                            <img src="cover.jpg" alt="HTB Certified Penetration Testing Specialist certificate" />
+                            <div className="res-cover-overlay" />
+                            <div className="res-cover-content">
+                                <h1 className="res-cover-title">HackTheBox Certified Penetration Testing Specialist (CPTS): Review and Exam Guide</h1>
+                                <div className="res-cover-badges">
+                                    <span className="sev cyan"><span className="dot"></span>May 2026</span>
+                                    <span className="sev red"><span className="dot"></span>HackTheBox</span>
+                                    <span className="sev green"><span className="dot"></span>Passed</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Metadata */}
+                        <div className="res-meta-grid">
+                            <div><div className="res-meta-lbl">Certification</div><div className="res-meta-val">HTB CPTS</div></div>
+                            <div><div className="res-meta-lbl">Provider</div><div className="res-meta-val">HackTheBox</div></div>
+                            <div><div className="res-meta-lbl">Difficulty</div><div className="res-meta-val" style={{color:'var(--soc-am)'}}>{meta?.difficulty ?? '—'}</div></div>
+                            <div><div className="res-meta-lbl">Rating</div>
+                                <div className="res-meta-val">
+                                    {meta?.rating ? (
+                                        <span style={{display:'flex',alignItems:'center',gap:'4px'}}>
+                                            <span style={{color:'var(--soc-am)'}}>{renderStars(meta.rating)}</span>
+                                            <span style={{color:'var(--soc-ink3)',fontSize:'11px'}}>{meta.rating.toFixed(1)}/5.0</span>
+                                        </span>
+                                    ) : <span style={{color:'var(--soc-ink4)'}}>—</span>}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Table of Contents */}
+                        <div className="res-toc">
+                            <div className="res-toc-title">// TABLE OF CONTENTS</div>
+                            <div className="res-toc-grid">
+                                {tocItems.map((item, i) => (
+                                    <a key={item.id} href={`#${item.id}`} className="res-toc-item">
+                                        <span className="res-toc-num">{String(i+1).padStart(2,'0')}.</span>
+                                        <Icon name={item.icon} className="w-3.5 h-3.5" style={{color:'var(--soc-ink4)',flexShrink:0}} />
+                                        <span>{item.label}</span>
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* ═══════════ INTRODUCTION ═══════════ */}
+                        <Section id="introduction" title="Introduction" icon="BookOpen">
+                            <p className="text-gray-700 leading-relaxed">
+                                Hello everyone, Chicken0248 here. In this blog I'll be talking about how to prepare for the CPTS exam from HackTheBox, the most popular professional cybersecurity certification from one of the most well-known platforms in the space.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Coming from a blue team / DFIR background, this certification is not something to be taken lightly. It requires a completely different set of skills. Without further ado, let's jump right in.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ EXAM PREPARATION ═══════════ */}
+                        <Section id="exam-prep" title="Exam Preparation" icon="GraduationCap">
+                            <Fig src="image-1.png" alt="HTB Penetration Tester path overview" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                To take the CPTS exam, you need to complete its job-role path first: the Penetration Tester path. It consists of 28 modules and will cost around 1,970 Cubes.
+                            </p>
+                            <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                <li>7 x Tier 0 = 70 Cubes</li>
+                                <li>4 x Tier I = 200 Cubes</li>
+                                <li>17 x Tier II = 1,700 Cubes</li>
+                            </ul>
+                            <p className="text-gray-700 leading-relaxed">
+                                On top of that, completing all modules gives you 450 Cubes back and roughly 70% completion progress on the Web Penetration Tester path.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Let me tell you, each module is no joke. They contain a wealth of information that is directly required for the exam itself. On top of that, every single one gave me new ideas about possible attack surfaces and privilege escalation paths that may not be well known to blue teamers.
+                            </p>
+
+                            <Fig src="image-2.png" alt="CPTS exam knowledge domains overview" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Before diving into which modules to pay close attention to, let's look at the exam page to see the knowledge domains covered. To sum it up, the exam covers:
+                            </p>
+                            <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                <li>Web application attacks</li>
+                                <li>Linux &amp; Windows privilege escalation</li>
+                                <li>Active Directory attacks</li>
+                                <li>Pivoting &amp; Lateral Movement</li>
+                                <li>Post-exploitation</li>
+                            </ul>
+                            <p className="text-gray-700 leading-relaxed">
+                                And I can guarantee you, they did it justice. You will be tested thoroughly, and sometimes you will doubt yourself if you go into the exam unprepared.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Here are the modules I recommend spending serious time on:
+                            </p>
+                            <ul className="list-disc list-outside ml-5 space-y-2 text-gray-700">
+                                <li><A href="https://academy.hackthebox.com/app/module/112"><B>Footprinting</B></A> - you'll learn to enumerate many network protocols such as FTP, SMB, NFS, DNS, SMTP, SNMP, MySQL/MSSQL and more. Important foundational knowledge for penetration testing.</li>
+                                <li><A href="https://academy.hackthebox.com/app/module/144"><B>Information Gathering - Web Edition</B></A> - you'll learn how to conduct web recon including DNS enumeration, web crawling, analysis of web archives and HTTP headers, and fingerprinting web technologies. A foundation for basic web pentesting.</li>
+                                <li><A href="https://academy.hackthebox.com/app/module/24"><B>File Transfers</B></A> - you'll learn various ways to transfer files between machines. There's a lot of useful technique here that you'll put to use directly in the exam.</li>
+                                <li><A href="https://academy.hackthebox.com/app/module/147"><B>Password Attacks</B></A> - you'll learn the fundamentals of password attacks: cracking, spraying, stuffing, and Windows/Linux-specific attacks. Getting valid credentials is required to move laterally or gain a foothold, so this one matters.</li>
+                                <li><A href="https://academy.hackthebox.com/app/module/116"><B>Attacking Common Services</B></A> - you'll learn how to attack common services such as FTP, SMB, SQL databases, RDP, DNS, and SMTP. Think of it as the second step, an extension of the Footprinting module.</li>
+                                <li><A href="https://academy.hackthebox.com/app/module/158"><B>Pivoting, Tunneling, and Port Forwarding</B></A> - you'll learn how to pivot. To pass the exam, double-pivoting is a must. The tools taught here are not the most beginner-friendly, so I recommend using the labs to practice Ligolo-ng or Ligolo-MP effectively.</li>
+                                <li><A href="https://academy.hackthebox.com/app/module/143"><B>Active Directory Enumeration &amp; Attacks</B></A> - you'll learn the fundamentals of AD enumeration and attacks, which prove useful again and again in the actual exam. Spend your time here and digest everything.</li>
+                                <li><A href="https://academy.hackthebox.com/app/module/33"><B>SQL Injection Fundamentals</B></A> - you'll learn the fundamentals of SQL injection attacks and how to conduct them. After finishing this module, spend extra time on the SQLMap Essentials module as well.</li>
+                                <li><A href="https://academy.hackthebox.com/app/module/23"><B>File Inclusion</B></A> - you'll learn a few techniques for file inclusion attacks.</li>
+                                <li><A href="https://academy.hackthebox.com/app/module/136"><B>File Upload Attacks</B></A> - you'll learn file upload attacks and a few bypass techniques.</li>
+                                <li><A href="https://academy.hackthebox.com/app/module/113"><B>Attacking Common Applications</B></A> - you'll learn various common application attacks including CMS platforms like WordPress, Joomla, and Drupal, as well as Splunk, Jenkins, Tomcat, PRTG Network Monitor, GitLab, osticket, and more.</li>
+                                <li><A href="https://academy.hackthebox.com/app/module/51"><B>Linux Privilege Escalation</B></A> - self-explanatory.</li>
+                                <li><A href="https://academy.hackthebox.com/app/module/67"><B>Windows Privilege Escalation</B></A> - self-explanatory.</li>
+                                <li><A href="https://academy.hackthebox.com/app/module/162"><B>Documentation &amp; Reporting</B></A> - self-explanatory.</li>
+                                <li><A href="https://academy.hackthebox.com/app/module/163"><B>Attacking Enterprise Networks</B></A> - the ultimate test that summarizes your journey in a single module. It lets you recap and practice in a larger network. The scale is not the same as the exam, but it is still important to practice this one.</li>
+                            </ul>
+                            <p className="text-gray-700 leading-relaxed">
+                                That's a lot to go through, but it is necessary because the CPTS exam is no joke.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                What about the CPTS preparation path on the HTB Labs platform? Honestly, I don't think it prepares you for the CPTS exam all that much. It consists of standalone machines, while in the actual exam you're dealing with a full enterprise network with multiple endpoints that you need to compromise to pass.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                So if you're looking for additional labs to practice outside of the path, HTB ProLabs is your best bet, as it consists of multiple endpoints.
+                            </p>
+
+                            <Fig src="image-3.png" alt="HTB ProLabs section" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                With that said, let's jump right into the exam experience.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ EXAM EXPERIENCE ═══════════ */}
+                        <Section id="exam-experience" title="Exam Experience" icon="ClipboardList">
+                            <Fig src="image-4.png" alt="CPTS exam portal start screen" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                I started my exam on 2nd May 2026. A lot of enumeration happened on that first day, which had me digging through notes I wrote back during my OSCP cramming days and revisiting parts of the Penetration Tester path to refresh some techniques I thought would work.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                After wrestling with each endpoint, going back and forth with all the credentials I had gathered, and pushing through some self-doubt, I finally obtained all the flags on 4th May 2026. For reference, you need at least 12 out of 14 flags while documenting everything in a customer-ready report within 10 days. Looking back at it, I think I did pretty well considering I came from a DFIR background.
+                            </p>
+
+                            <Fig src="image-5.png" alt="CPTS flag submission progress" />
+
+                            <Fig src="image-6.png" alt="All flags captured" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                I submitted my report on 8th May 2026, which came out to over 150 pages. More flags mean more findings, and more findings mean more documentation. That's just how it works. I've seen many people stop at flag 12, but I wanted a perfect score so I wouldn't have any regrets.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                One thing I forgot to mention: for the report, I used <A href="https://sysreptor.com/">Sysreptor</A>, and honestly, why not? It carried me through CDSA, CJCA, and now CPTS. Without it, my Word would have crashed repeatedly and I probably wouldn't have finished in time, and might have even failed on formatting alone. 🤣
+                            </p>
+
+                            <Fig src="image-7.png" alt="Sysreptor report in progress" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Once the report was submitted, VPN access to the exam environment was cut off and it was just a waiting game from there, as results are announced in batches.
+                            </p>
+
+                            <Fig src="image-8.png" alt="Exam status: awaiting review" />
+
+                            <Fig src="image-9.png" alt="Waiting for results notification" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Five days later, I got my result back during a Thai holiday. Just like that, another cert added to the collection.
+                            </p>
+
+                            <Fig src="image-10.png" alt="CPTS result notification email" />
+
+                            <Fig src="image-11.png" alt="CPTS certificate on Credly" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                After claiming the cert, the role is automatically assigned to your Discord profile without needing to manually type a verification command anymore.
+                            </p>
+
+                            <Fig src="image-12.png" alt="CPTS Discord role assigned" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                You can also visit your exam history page to read the feedback provided. I won't be sharing mine here.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ EXAM TIPS ═══════════ */}
+                        <Section id="exam-tips" title="Exam Tips &amp; Key Takeaways" icon="Lightbulb">
+                            <div className="bg-amber-50 rounded-2xl border border-amber-200 p-6">
+                                <TipList items={[
+                                    'The exam is fairly linear. Do not jump ahead chasing other flags before completing the current objective. You simply won\'t find them until you\'re meant to.',
+                                    'Take screenshots as you go, along with the commands and their outputs.',
+                                    'Some applications and services are there for a reason. You might not think they are useful at first, but sometimes they end up being the key to moving forward.',
+                                    'Double pivoting and file transfer techniques are a must to learn before going into the exam.',
+                                    'Sometimes there are multiple ways to exploit the same vulnerability. If one approach fails, look for another PoC or even write your own.',
+                                    'If you have a valid domain user credential, do not forget to run BloodHound.',
+                                    'If you cannot get a reverse shell due to connection issues from double pivoting or any other reason, consider creating a backdoor admin account and logging in using that instead. 😉',
+                                    'Avoid using RustScan. The HTB VPN simply cannot handle the scan speed and it will cause more problems, costing you important information.',
+                                    <span>Use <A href="https://github.com/Syslifters/sysreptor">SysReptor</A> for report writing. It has an HTB exam template ready to go.</span>,
+                                ]} />
+                            </div>
+                        </Section>
+
+                        {/* Footer */}
+                        <div className="soc-ft">
+                            <a href="/reviews/index.html" style={{color:'var(--soc-ink4)',textDecoration:'none'}}>← ALL REVIEWS</a>
+                            <span style={{margin:'0 12px'}}>|</span>
+                            <a href="#" style={{color:'var(--soc-ink4)',textDecoration:'none'}}>↑ BACK TO TOP</a>
+                        </div>
+
+                    </main>
+                </div>
+            );
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>
