@@ -709,7 +709,7 @@ useEffect(() => {
 
             <div class="subsec">
                 <div class="subsec-title">certifications.json</div>
-                <p><strong>ISSUER_LOGOS map</strong> (in <code>index.html</code>) wires issuer name → <code>assets/issuers/&lt;slug&gt;.png</code> for the stats page issuer roster and certifications By Issuer tab. To add a new issuer: drop its PNG in <code>assets/issuers/</code> and add the issuer name key to the <code>ISSUER_LOGOS</code> object.</p>
+                <p><strong>ISSUER_LOGOS map</strong> (in <code>index.html</code>) wires issuer name → <code>assets/issuers/&lt;slug&gt;.png</code> for the issuer card circles in the stats roster and certifications By Issuer tab. <strong>ISSUER_BROW_LOGOS map</strong> wires issuer name → logo for the <code>Brow</code> bar-chart rows in the stats page By Issuer section — falls back after <code>PLAT_LOGOS</code>. To add a new issuer: drop its logo in <code>assets/issuers/</code> and add the key to both maps. File naming conventions: <code>_withname</code> suffix for logo + wordmark variants; <code>_white</code> suffix for white/light-mode variants needed on dark backgrounds (dark-text logos are invisible on the dark site theme).</p>
                 <div class="code-block"><div class="code-lang">JSON</div><div class="code-body"><pre>[{
     "name": "OSCP - OffSec Certified Professional",
     "issuer": "OffSec",
