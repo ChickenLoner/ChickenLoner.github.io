@@ -1,5 +1,16 @@
 [
   {
+    "title": "Hackviser CSOA Review: The Path is Solid, The Exam is Not",
+    "excerpt": "A review of Hackviser's first blue team certification, the CSOA. Covers the 108-lab learning path across 10 modules (SOC fundamentals, forensics, reverse engineering, threat hunting), the 24-hour exam format, and honest thoughts on why the exam falls short of what the path teaches.",
+    "date": "May 2026",
+    "readTime": "5 min read",
+    "tags": ["CSOA", "Hackviser", "Blue Team", "SOC", "Beginner"],
+    "url": "/reviews/csoa/index.html",
+    "image": "/assets/badges/csoa.webp",
+    "difficulty": "Beginner",
+    "rating": 3.5
+  },
+  {
     "title": "HackTheBox Certified Penetration Testing Specialist (CPTS): Review and Exam Guide",
     "excerpt": "A review of the HTB CPTS certification covering the Penetration Tester path modules, 3-day exam experience, 150+ page report submission, and tips for blue teamers taking on red team territory.",
     "date": "May 2026",

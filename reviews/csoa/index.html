@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hackviser CSOA Review: The Path is Solid, The Exam is Not | Chicken0248</title>
+    <meta name="description" content="A review of Hackviser's first blue team certification, the CSOA. Covers the 108-lab learning path across 10 modules, the 24-hour exam format, and honest thoughts on why the exam falls short of what the path teaches." />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Chicken0248" />
+    <meta property="og:url" content="https://chickenloner.github.io/reviews/csoa/" />
+    <meta property="og:title" content="Hackviser CSOA Review: The Path is Solid, The Exam is Not" />
+    <meta property="og:description" content="A review of Hackviser's first blue team certification, the CSOA. Covers the 108-lab learning path across 10 modules, the 24-hour exam format, and honest thoughts on why the exam falls short of what the path teaches." />
+    <meta property="og:image" content="https://chickenloner.github.io/reviews/csoa/cover.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@Chicken_0248" />
+    <meta name="twitter:title" content="Hackviser CSOA Review: The Path is Solid, The Exam is Not" />
+    <meta name="twitter:description" content="A review of Hackviser's first blue team certification, the CSOA. Covers the 108-lab learning path across 10 modules, the 24-hour exam format, and honest thoughts on why the exam falls short of what the path teaches." />
+    <meta name="twitter:image" content="https://chickenloner.github.io/reviews/csoa/cover.jpg" />
+    <link rel="canonical" href="https://chickenloner.github.io/reviews/csoa/" />
+    <link rel="icon" href="/chicken0248.png" type="image/png">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.29.2/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@1.14.0/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="/themes/soc.css">
+    <script src="/themes/soc-theme.js"></script>
+    <script src="/themes/soc-nav.js"></script>
+    <script src="/themes/soc-components.js"></script>
+</head>
+<body>
+    <a href="#main-content"
+       class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-white focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg focus:text-blue-600 focus:font-semibold">
+      Skip to content
+    </a>
+    <noscript>
+      <style>body{font-family:system-ui,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}</style>
+      <div style="text-align:center;padding:2rem">
+        <h1>JavaScript required</h1>
+        <p>This site requires JavaScript to display content. Please enable it in your browser settings.</p>
+        <a href="https://chickenloner.github.io">chickenloner.github.io</a>
+      </div>
+    </noscript>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        const { SocClock, Icon, Section, Fig, resetFigCount, TipList, B, A, Code, ThemeToggle } = window.SocComponents;
+
+        const Callout = ({ children }) => (
+            <blockquote className="bg-amber-50 border-l-4 border-amber-400 rounded-r-xl px-5 py-4 my-4 text-gray-700 italic text-sm leading-relaxed">
+                {children}
+            </blockquote>
+        );
+
+        const renderStars = (rating) => {
+            const full = Math.floor(rating);
+            const half = rating - full >= 0.5;
+            return '★'.repeat(full) + (half ? '½' : '') + '☆'.repeat(5 - full - (half ? 1 : 0));
+        };
+
+        const App = () => {
+            const [meta, setMeta] = useState(null);
+
+            useEffect(() => {
+                fetch('/data/reviews.json')
+                    .then(r => r.json())
+                    .then(data => {
+                        const entry = data.find(r => r.url === '/reviews/csoa/index.html');
+                        if (entry) setMeta(entry);
+                    })
+                    .catch(() => {});
+            }, []);
+
+            resetFigCount();
+
+            const tocItems = [
+                { id: 'introduction',        label: 'Introduction',                       icon: 'BookOpen'     },
+                { id: 'learning-path',       label: 'Learning Path Experience & Review',  icon: 'GraduationCap'},
+                { id: 'exam-experience',     label: 'Exam Experience',                    icon: 'ClipboardList'},
+                { id: 'final-review',        label: 'Final Review',                       icon: 'Star'         },
+            ];
+
+            return (
+                <div style={{background:'var(--soc-bg)',minHeight:'100vh'}}>
+
+                    {/* SOC Topbar */}
+                    <nav className="soc-tb" aria-label="Site navigation">
+                        <div className="soc-tb-row">
+                            <a href="/" className="soc-live" style={{textDecoration:"none",color:"inherit"}}>UPLINK</a>
+                            <div className="soc-crumb hidden md:flex">
+                                <a href="/" style={{color:'var(--soc-ink3)',textDecoration:'none'}}>SOC</a>
+                                <span>/</span>
+                                <a href="/" style={{color:'var(--soc-ink3)',textDecoration:'none'}}>OPERATOR.PROFILE</a>
+                                <span>/</span>
+                                <a href="/reviews/index.html" style={{color:'var(--soc-ink3)',textDecoration:'none'}}>REVIEWS</a>
+                                <span>/</span>
+                                <b>CSOA</b>
+                            </div>
+                            <div style={{flex:1}} />
+                            <span className="sev cyan"><span className="dot"></span>TLP:CLEAR</span>
+                            <span className="sev amber"><span className="dot"></span>CERT.REVIEW</span>
+                            <SocClock /><ThemeToggle />
+                        </div>
+                    </nav>
+
+                    <main id="main-content" style={{maxWidth:'860px',margin:'0 auto',padding:'24px 20px'}} className="animate-fadeIn">
+
+                        {/* Cover */}
+                        <div className="res-cover">
+                            <img src="cover.jpg" alt="Hackviser CSOA Review: The Path is Solid, The Exam is Not" />
+                            <div className="res-cover-overlay" />
+                            <div className="res-cover-content">
+                                <h1 className="res-cover-title">Hackviser CSOA Review: The Path is Solid, The Exam is Not</h1>
+                                <div className="res-cover-badges">
+                                    <span className="sev cyan"><span className="dot"></span>May 2026</span>
+                                    <span className="sev amber"><span className="dot"></span>Hackviser</span>
+                                    <span className="sev green"><span className="dot"></span>Passed</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Metadata */}
+                        <div className="res-meta-grid">
+                            <div><div className="res-meta-lbl">Certification</div><div className="res-meta-val">CSOA</div></div>
+                            <div><div className="res-meta-lbl">Provider</div><div className="res-meta-val">Hackviser</div></div>
+                            <div><div className="res-meta-lbl">Difficulty</div><div className="res-meta-val" style={{color:'var(--soc-am)'}}>{meta?.difficulty ?? '—'}</div></div>
+                            <div><div className="res-meta-lbl">Rating</div>
+                                <div className="res-meta-val">
+                                    {meta?.rating ? (
+                                        <span style={{display:'flex',alignItems:'center',gap:'4px'}}>
+                                            <span style={{color:'var(--soc-am)'}}>{renderStars(meta.rating)}</span>
+                                            <span style={{color:'var(--soc-ink3)',fontSize:'11px'}}>{meta.rating.toFixed(1)}/5.0</span>
+                                        </span>
+                                    ) : <span style={{color:'var(--soc-ink4)'}}>—</span>}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Table of Contents */}
+                        <div className="res-toc">
+                            <div className="res-toc-title">// TABLE OF CONTENTS</div>
+                            <div className="res-toc-grid">
+                                {tocItems.map((item, i) => (
+                                    <a key={item.id} href={`#${item.id}`} className="res-toc-item">
+                                        <span className="res-toc-num">{String(i+1).padStart(2,'0')}.</span>
+                                        <Icon name={item.icon} className="w-3.5 h-3.5" style={{color:'var(--soc-ink4)',flexShrink:0}} />
+                                        <span>{item.label}</span>
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* ═══════════ INTRODUCTION ═══════════ */}
+                        <Section id="introduction" title="Introduction" icon="BookOpen">
+                            <p className="text-gray-700 leading-relaxed">
+                                Hello everyone, <B>Chicken0248</B> here again with the <B>Certified Security Operations Analyst (CSOA)</B> certificate from Hackviser, their first blue team certification. The interesting thing about this platform is that they went with the same approach as HackTheBox: all certifications have a dedicated learning path you need to complete before taking the exam, and the exam is supposed to be the ultimate test of everything you learned.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Sad to break it to you, for this one it's not. Why? Let's get into it.
+                            </p>
+
+                            <Fig src="image-1.png" alt="CSOA certification overview on Hackviser" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                First, what is CSOA exactly? Hackviser claims it's designed for candidates aspiring to become SOC analysts, where you'll develop practical skills in security monitoring, threat detection, log analysis, and digital forensics. A wide range of skills, and the path does back that up.
+                            </p>
+
+                            <Fig src="image-2.png" alt="CSOA certification page showing required path completion" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                To take the exam, you must first complete the learning path. Once done, you submit for approval before actually receiving the certification. A funny detail: the placeholder text in the certification process still reads "professional penetration testing," a copy-paste leftover they clearly forgot to update.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                With that, let's jump into the learning path.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ LEARNING PATH ═══════════ */}
+                        <Section id="learning-path" title="Learning Path Experience & Review" icon="GraduationCap">
+
+                            <Fig src="image-3.png" alt="CSOA learning path module overview" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                The CSOA path consists of <B>108 labs grouped into 10 modules</B>:
+                            </p>
+                            <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                <li><B>SOC Fundamentals &amp; Threat Modeling</B></li>
+                                <li><B>Infrastructure Fundamentals</B></li>
+                                <li><B>Threat Vectors &amp; Attack Surface</B></li>
+                                <li><B>Security Monitoring Technologies</B></li>
+                                <li><B>Network Forensics</B></li>
+                                <li><B>Endpoint Forensics</B></li>
+                                <li><B>Reverse Engineering</B></li>
+                                <li><B>Cryptology Fundamentals</B></li>
+                                <li><B>Threat Hunting</B></li>
+                                <li><B>Real-World Scenarios</B></li>
+                            </ul>
+                            <p className="text-gray-700 leading-relaxed">
+                                The coverage is well-rounded. Throughout the path you'll use Wazuh to investigate security incidents, work through basic cryptography challenges, dig into network protocols with Wireshark, practice digital forensics using Eric Zimmerman's tools to parse Windows artifacts, run Volatility for memory forensics, and even work on WAF bypass techniques, which is the most challenging lab in the path for a blue teamer. You'll also learn to unpack well-known packers like UPX, ASPack, MPRESS, Themida, and PyArmor.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                The path is designed to be completed in 1 to 2 months. Coming in with a solid foundation already, I finished it in about 2 to 3 days and started the exam on Sunday, April 19th 2026.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                One thing worth noting: accessing the path requires an active subscription at <B>$12/month</B>. I opted for just one month and used it solely for this path, since there aren't many advanced blue team labs on the platform yet.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Once you've completed all the modules, it's time for the exam.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ EXAM EXPERIENCE ═══════════ */}
+                        <Section id="exam-experience" title="Exam Experience" icon="ClipboardList">
+
+                            <Fig src="image-4.png" alt="CSOA exam purchase page showing voucher price" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                Since CSOA had just launched, I grabbed the exam voucher for only <B>$49</B> (down from the full price of $399). I honestly doubt anyone would pay full price anyway since Hackviser regularly discounts their certifications, just look at CWSE and CAPT for reference.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                The voucher gives you <B>365 days</B> to take the exam, with <B>2 attempts</B> included.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                The exam itself is a <B>24-hour format with no report submission required</B>. You submit answers the same way you did throughout each module, and you know immediately whether you got it right because the system only accepts the correct answer.
+                            </p>
+
+                            <Fig src="image-5.png" alt="CSOA exam portal showing exam start" />
+
+                            <Fig src="image-6.png" alt="CSOA exam questions interface" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                I started at 6:15 PM while waiting for a dinner delivery and submitted at 6:54 PM. The actual time spent was probably under 45 minutes since dinner arrived in between. Finishing in about 15 minutes is completely realistic.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                And this is the core problem: <B>the exam does not reflect the full scope of the path at all</B>. It only touches a tiny portion of what you learned. That's simply not how you design a test for a path built around teaching you a wide variety of skills.
+                            </p>
+
+                            <Fig src="image-7.png" alt="CSOA exam submission confirmation" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                After submitting, the waiting game begins. It's unclear why the exam isn't automatically graded, since the system only accepts correct answers. My best guess is they review activity around the exam date to check for cheating before issuing the certificate, but that's pure speculation.
+                            </p>
+
+                            <Fig src="image-8.png" alt="CSOA certificate issued on April 27th 2026" />
+
+                            <p className="text-gray-700 leading-relaxed">
+                                I ended up waiting about <B>2 weeks</B> before the certificate was issued on <B>April 27th, 2026</B>.
+                            </p>
+                        </Section>
+
+                        {/* ═══════════ FINAL REVIEW ═══════════ */}
+                        <Section id="final-review" title="Final Review" icon="Star">
+                            <p className="text-gray-700 leading-relaxed">
+                                The path itself combines fundamental knowledge, penetration testing concepts, and blue team skills in a way that actually makes sense together. For someone looking to break into the SOC analyst space, it gives a genuinely well-rounded experience and the lab quality is good enough that you won't feel like you're wasting your time. Covering everything from log analysis and Windows forensics to memory forensics, reverse engineering, and WAF bypassing shows that Hackviser put real thought into what a modern SOC analyst should know.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                The exam is where things fall apart. After going through 108 labs across 10 modules covering a wide range of skills, you'd expect the exam to challenge you across all of that. Instead it only scratches the surface. For a 24-hour exam that's supposed to be the ultimate test, that's a pretty big miss. It almost feels like the exam was an afterthought, built separately from the path rather than alongside it.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                At $49 launch price, it's hard to complain too much. At full price of $399, the gap between what the path promises and what the exam delivers would be very difficult to justify. If Hackviser revisits and reworks the exam to truly reflect the depth of the path, this certification could be something worth recommending without hesitation.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                For now: take the path, enjoy the labs, just don't expect the exam to push you.
+                            </p>
+                        </Section>
+
+                        {/* Footer */}
+                        <div className="soc-ft">
+                            <a href="/reviews/index.html" style={{color:'var(--soc-ink4)',textDecoration:'none'}}>← ALL REVIEWS</a>
+                            <span style={{margin:'0 12px'}}>|</span>
+                            <a href="#" style={{color:'var(--soc-ink4)',textDecoration:'none'}}>↑ BACK TO TOP</a>
+                        </div>
+
+                    </main>
+                </div>
+            );
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>
