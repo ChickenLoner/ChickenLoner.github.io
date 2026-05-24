@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{TITLE}} | Chicken0248</title>
+    <meta name="description" content="{{DESCRIPTION}}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Chicken0248" />
+    <meta property="og:url" content="https://chickenloner.github.io/ir-reports/{{SLUG}}/" />
+    <meta property="og:title" content="{{TITLE}}" />
+    <meta property="og:description" content="{{DESCRIPTION}}" />
+    <meta property="og:image" content="https://chickenloner.github.io/{{COVER_PATH}}" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@Chicken_0248" />
+    <meta name="twitter:title" content="{{TITLE}}" />
+    <meta name="twitter:description" content="{{DESCRIPTION}}" />
+    <meta name="twitter:image" content="https://chickenloner.github.io/{{COVER_PATH}}" />
+    <link rel="canonical" href="https://chickenloner.github.io/ir-reports/{{SLUG}}/" />
+    <link rel="icon" href="/chicken0248.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.29.2/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@1.14.0/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="/themes/soc.css">
+    <script src="/themes/soc-theme.js"></script>
+    <script src="/themes/soc-nav.js"></script>
+    <script src="/themes/soc-components.js"></script>
+</head>
+<body>
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-white focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg focus:text-blue-600 focus:font-semibold">Skip to content</a>
+    <noscript>
+        <style>body{font-family:system-ui,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}</style>
+        <div style="text-align:center;padding:2rem"><h1>JavaScript required</h1><p>This site requires JavaScript to display content.</p><a href="https://chickenloner.github.io">chickenloner.github.io</a></div>
+    </noscript>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        const { SocClock, Icon, ThemeToggle, CodeBlock: CB, Img: ImgBase } = window.SocComponents;
+
+        // Auto-derived from URL — no placeholder needed
+        const IMG = '/assets/reports/' + window.location.pathname.split('/').filter(p => p && p !== 'index.html').pop();
+
+        // ── Inline components (copy verbatim, do not modify) ──
+
+        const ReportSection = ({ id, title, icon, children }) => (
+            <section id={id} className="ir-section" style={{marginBottom:'32px'}}>
+                <div className="ir-section-title">
+                    <div className="ir-section-icon"><Icon name={icon} className="w-4 h-4" style={{color:'var(--soc-rd)'}} /></div>
+                    {title}
+                </div>
+                <div style={{display:'flex',flexDirection:'column',gap:'14px'}}>{children}</div>
+            </section>
+        );
+
+        const SubSection = ({ title, children }) => (
+            <div style={{display:'flex',flexDirection:'column',gap:'10px'}}>
+                <h3 className="ir-subsection">{title}</h3>
+                {children}
+            </div>
+        );
+
+        const ReportTable = ({ headers, rows, compact }) => (
+            <div className="ir-table-wrap">
+                <table className="ir-table" style={compact ? {fontSize:'11px'} : {}}>
+                    <thead><tr>{headers.map((h, i) => <th key={i}>{h}</th>)}</tr></thead>
+                    <tbody>{rows.map((row, i) => (
+                        <tr key={i}>{row.map((cell, j) => <td key={j} dangerouslySetInnerHTML={{ __html: cell }}></td>)}</tr>
+                    ))}</tbody>
+                </table>
+            </div>
+        );
+
+        const CodeBlock = (props) => <CB prefix="ir" {...props} />;
+        const Img = (props) => <ImgBase base={IMG} prefix="ir" {...props} />;
+
+        const Finding = ({ number, title, children, variant }) => (
+            <div className="ir-finding" style={{display:'flex',flexDirection:'column',gap:'12px'}}>
+                <div className="ir-finding-header">
+                    <span className={`ir-finding-num${variant ? ' ' + variant : ''}`}>{variant === 'vi' ? 'MALWARE ANALYSIS' : `FINDING #${number}`}</span>
+                    <div className="ir-finding-title">{title}</div>
+                </div>
+                <div style={{display:'flex',flexDirection:'column',gap:'10px'}}>{children}</div>
+            </div>
+        );
+
+        const B = ({ children }) => <strong>{children}</strong>;
+        const C = ({ children }) => <code className="ir-c">{children}</code>;
+
+        // ── App ──
+
+        const App = () => {
+            // Adjust tocItems to match actual sections in the report
+            const tocItems = [
+                { id: 'executive-summary', label: 'Executive Summary',        icon: 'FileText'     },
+                { id: 'timeline',          label: 'Timeline',                 icon: 'Clock'        },
+                { id: 'scope-evidence',    label: 'Scope & Evidence',         icon: 'Database'     },
+                { id: 'findings',          label: 'Findings',                 icon: 'Search'       },
+                { id: 'iocs',              label: 'Indicators of Compromise', icon: 'AlertTriangle'},
+                { id: 'recommendations',   label: 'Recommendations',          icon: 'Shield'       },
+                { id: 'appendix',          label: 'Appendix',                 icon: 'Paperclip'    },
+            ];
+
+            return (
+                <div style={{minHeight:'100vh',background:'var(--soc-bg)'}}>
+
+                    {/* SOC Topbar
+                        {{SLUG_UPPER}} = slug uppercased with hyphens, e.g. TINSEL-TRACE-1
+                        Status badges: sev red = CONFIDENTIAL, sev green = CLOSED, sev amber = OPEN */}
+                    <div className="soc-tb">
+                        <div className="soc-tb-row">
+                            <a href="/" className="soc-live" style={{textDecoration:"none",color:"inherit"}}>UPLINK</a>
+                            <span className="soc-crumb hidden md:flex">
+                                SOC <span style={{color:'var(--soc-ink4)',margin:'0 4px'}}>/</span>
+                                <a href="/" style={{color:'var(--soc-ink3)',textDecoration:'none'}}>OPERATOR.PROFILE</a>
+                                <span style={{color:'var(--soc-ink4)',margin:'0 4px'}}>/</span>
+                                <a href="/ir-reports/" style={{color:'var(--soc-ink3)',textDecoration:'none'}}>IR.REPORTS</a>
+                                <span style={{color:'var(--soc-ink4)',margin:'0 4px'}}>/</span>
+                                <b>{{SLUG_UPPER}}</b>
+                            </span>
+                            <span className="hidden md:flex" style={{marginLeft:'auto',gap:'8px',alignItems:'center'}}>
+                                <span className="sev red"><span className="dot"></span>CONFIDENTIAL</span>
+                                <span className="sev green"><span className="dot"></span>CLOSED</span>{/* or sev amber + OPEN */}
+                            </span>
+                            <span className="hidden md:block"><SocClock /></span>
+                            <span style={{flex:1}} className="md:hidden" />
+                            <ThemeToggle />
+                        </div>
+                    </div>
+
+                    <main id="main-content" style={{maxWidth:'896px',margin:'0 auto',padding:'28px 22px 48px'}} className="animate-fadeIn">
+
+                        {/* Cover
+                            {{COVER_PATH}} = e.g. assets/labs/htb-tinsel-trace-1.jpg
+                            {{INCIDENT_ID}} = e.g. HTB-OpTinselTrace-2023
+                            {{DATE_RANGE}} = e.g. November – December 2023 */}
+                        <div className="ir-cover">
+                            <img src="/{{COVER_PATH}}" alt="{{TITLE}}" />
+                            <div className="ir-cover-overlay" />
+                            <div className="ir-cover-content">
+                                <h1 className="ir-cover-title">{{TITLE}}</h1>
+                                <div style={{display:'flex',flexWrap:'wrap',gap:'8px'}}>
+                                    <span className="sev cyan"><span className="dot"></span>{{INCIDENT_ID}}</span>
+                                    <span className="sev amber"><span className="dot"></span>{{DATE_RANGE}}</span>
+                                    <span className="sev red"><span className="dot"></span>Confidential</span>
+                                    <span className="sev green"><span className="dot"></span>Closed</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Meta grid
+                            {{REPORT_DATE}} = e.g. April 7, 2026 */}
+                        <div className="ir-meta-grid" style={{marginBottom:'20px'}}>
+                            <div><div className="ir-meta-lbl">Incident ID</div><div className="ir-meta-val">{{INCIDENT_ID}}</div></div>
+                            <div><div className="ir-meta-lbl">Date of Report</div><div className="ir-meta-val">{{REPORT_DATE}}</div></div>
+                            <div><div className="ir-meta-lbl">Prepared By</div><div className="ir-meta-val">Warawut Manosong (Chicken0248)</div></div>
+                            <div><div className="ir-meta-lbl">Classification</div><div className="ir-meta-val" style={{color:'var(--soc-rd)'}}>Confidential</div></div>
+                        </div>
+
+                        {/* Table of Contents */}
+                        <div className="ir-toc" style={{marginBottom:'28px'}}>
+                            <div className="ir-toc-title">Table of Contents</div>
+                            <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(240px,1fr))',gap:'2px'}}>
+                                {tocItems.map((item, i) => (
+                                    <a key={item.id} href={`#${item.id}`} className="ir-toc-item">
+                                        <Icon name={item.icon} className="w-3.5 h-3.5" style={{color:'var(--soc-ink4)'}} />
+                                        <span className="ir-toc-num">{i + 1}.</span>
+                                        <span>{item.label}</span>
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* ═══════════ SECTIONS ═══════════
+                            Each section uses <ReportSection id="..." title="..." icon="...">
+                            Subheadings: <SubSection title="...">
+                            Paragraphs: <p className="ir-p">
+                            Bullets: <ul style={{paddingLeft:'20px',margin:'0'}}><li className="ir-li">
+                            Tables: <ReportTable headers={[...]} rows={[[...]]} />  (cells support HTML strings)
+                            Images: <Img src="img-NN.png" alt="..." caption="..." />
+                            Findings: <Finding number={N} title="..."> or variant="vi" for malware analysis
+                            Code: <CodeBlock language="python">...</CodeBlock>
+                            IOCs: <div className="ir-ioc-panel"><div className="ir-ioc-title">...</div><div className="ir-ioc-row"><C>...</C></div></div>
+                            Bold: <B>  Inline code: <C>
+                        ════════════════════════════════════ */}
+
+                        <ReportSection id="executive-summary" title="Executive Summary" icon="FileText">
+                            <p className="ir-p">{{CONTENT}}</p>
+                        </ReportSection>
+
+                        <ReportSection id="timeline" title="Timeline" icon="Clock">
+                            <ReportTable
+                                headers={['Date/Time (UTC)', 'Event', 'Source']}
+                                rows={[
+                                    ['{{DATETIME}}', '{{EVENT}}', '{{SOURCE}}'],
+                                ]}
+                            />
+                        </ReportSection>
+
+                        <ReportSection id="scope-evidence" title="Scope &amp; Evidence" icon="Database">
+                            <SubSection title="Evidence">
+                                <ReportTable headers={['Evidence', 'Type', 'Details']} rows={[['{{EVIDENCE}}', '{{TYPE}}', '{{DETAILS}}']]} />
+                            </SubSection>
+                            <SubSection title="Affected Systems &amp; Devices">
+                                <ReportTable headers={['Hostname', 'IP Address', 'OS', 'Role']} rows={[['{{HOST}}', '{{IP}}', '{{OS}}', '{{ROLE}}']]} />
+                            </SubSection>
+                        </ReportSection>
+
+                        <ReportSection id="findings" title="Findings" icon="Search">
+                            <Finding number={1} title="{{FINDING_TITLE}}">
+                                <Img src="img-01.png" alt="{{ALT}}" />
+                                <p className="ir-p">{{CONTENT}}</p>
+                            </Finding>
+                            {/* Add more <Finding> blocks as needed */}
+                        </ReportSection>
+
+                        <ReportSection id="iocs" title="Indicators of Compromise (IOCs)" icon="AlertTriangle">
+                            <div className="ir-ioc-panel">
+                                <div className="ir-ioc-title"><Icon name="Globe" className="w-3.5 h-3.5" style={{color:'var(--soc-rd)'}} />IP Addresses</div>
+                                <div className="ir-ioc-row"><C>{{IOC}}</C> — {{DESCRIPTION}}</div>
+                            </div>
+                            <div className="ir-ioc-panel">
+                                <div className="ir-ioc-title"><Icon name="Hash" className="w-3.5 h-3.5" style={{color:'var(--soc-vi)'}} />File Hashes (SHA256)</div>
+                                <div className="ir-ioc-row" style={{wordBreak:'break-all'}}><C>{{HASH}}</C> — <C>{{FILENAME}}</C></div>
+                            </div>
+                            {/* Add more ioc-panel blocks as needed:
+                                Icon names: Mail (email), Link (URLs), AlertOctagon (other indicators), Hash (hashes) */}
+                        </ReportSection>
+
+                        <ReportSection id="recommendations" title="Recommendations" icon="Shield">
+                            <SubSection title="Immediate Tactical Fixes">
+                                <ul style={{paddingLeft:'20px',margin:'0'}}>
+                                    <li className="ir-li"><B>{{REC_TITLE}}</B>
+                                        <ul style={{paddingLeft:'20px',margin:'4px 0 0'}}>
+                                            <li className="ir-li">{{REC_DETAIL}}</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </SubSection>
+                            <SubSection title="Strategic Improvements">
+                                <ul style={{paddingLeft:'20px',margin:'0'}}>
+                                    <li className="ir-li"><B>{{REC_TITLE}}</B></li>
+                                </ul>
+                            </SubSection>
+                        </ReportSection>
+
+                        <ReportSection id="appendix" title="Appendix" icon="Paperclip">
+                            <SubSection title="{{APPENDIX_SECTION}}">
+                                <p className="ir-p">{{CONTENT}}</p>
+                            </SubSection>
+                        </ReportSection>
+
+                        {/* Footer */}
+                        <div className="soc-ft">
+                            <a href="#" style={{color:'var(--soc-ink3)',textDecoration:'none',marginRight:'16px'}}>↑ Back to top</a>
+                            <a href="/ir-reports/" style={{color:'var(--soc-ink3)',textDecoration:'none'}}>← All IR Reports</a>
+                            <span style={{margin:'0 16px',color:'var(--soc-line2)'}}>|</span>
+                            SOC · IR.REPORTS · CHICKEN0248
+                        </div>
+
+                    </main>
+                </div>
+            );
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>

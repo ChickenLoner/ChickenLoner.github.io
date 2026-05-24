@@ -54,119 +54,56 @@ If a cover image exists at `assets/labs/<slug>.*`, note its path — it will be 
 
 ## Step 4 — Scaffold ir-reports/<slug>/index.html
 
-Use `ir-reports/htb-tinsel-trace-1/index.html` as the canonical template. Do not diverge from its patterns.
+Read `.claude/skills/new-ir-report/template.html` as your starting point. Replace every `{{PLACEHOLDER}}` with the real value, then fill in the content sections. Do not diverge from the template structure without a reason.
 
-### 4a. Head section (required)
+### Placeholder reference
 
-```html
-<title><title> | Chicken0248</title>
-<meta name="description" content="<summary>" />
-<meta property="og:type" content="article" />
-<meta property="og:site_name" content="Chicken0248" />
-<meta property="og:url" content="https://chickenloner.github.io/ir-reports/<slug>/" />
-<meta property="og:title" content="<title>" />
-<meta property="og:description" content="<summary>" />
-<meta property="og:image" content="https://chickenloner.github.io/assets/labs/<slug>.jpg" />
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:site" content="@Chicken_0248" />
-<meta name="twitter:title" content="<title>" />
-<meta name="twitter:description" content="<summary>" />
-<meta name="twitter:image" content="https://chickenloner.github.io/assets/labs/<slug>.jpg" />
-<link rel="icon" href="/chicken0248.png" type="image/png">
-```
+| Placeholder | Value |
+|---|---|
+| `{{SLUG}}` | URL folder name, e.g. `htb-tinsel-trace-1` |
+| `{{SLUG_UPPER}}` | Uppercased with hyphens for breadcrumb, e.g. `TINSEL-TRACE-1` |
+| `{{TITLE}}` | Full report title |
+| `{{DESCRIPTION}}` | Meta description (1–2 sentences) |
+| `{{COVER_PATH}}` | Path from site root, e.g. `assets/labs/htb-tinsel-trace-1.jpg` |
+| `{{INCIDENT_ID}}` | Incident identifier, e.g. `HTB-OpTinselTrace-2023` |
+| `{{DATE_RANGE}}` | Incident period, e.g. `November – December 2023` |
+| `{{REPORT_DATE}}` | Date report was written, e.g. `April 7, 2026` |
+| `{{CONTENT}}` | Replace with actual JSX content |
+| `{{FINDING_TITLE}}` | Finding title text |
+| `{{IOC}}` / `{{HASH}}` / `{{FILENAME}}` | IOC values |
+| `{{REC_TITLE}}` / `{{REC_DETAIL}}` | Recommendation items |
+| `{{APPENDIX_SECTION}}` | Appendix subsection title |
 
-Also include JetBrains Mono font and the SOC stylesheet:
-```html
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/themes/soc.css">
-```
+**`IMG` is auto-derived from the URL** — no placeholder needed, already in the template.
 
-### 4b. Components
+### 4a. Components (all in template)
 
-Load shared components from `window.SocComponents`. Include the script tag **before** the `type="text/babel"` script:
+| Component | Purpose |
+|---|---|
+| `ReportSection` | H2 section with red icon box and scroll anchor |
+| `SubSection` | H3 subheading with red left border |
+| `ReportTable` | SOC-styled table; cells support HTML strings via `dangerouslySetInnerHTML` |
+| `Finding` | Red-badged finding card; use `variant="vi"` for malware analysis blocks |
+| `CodeBlock` | Dark code block with language label (pre-wrapped with `prefix="ir"`) |
+| `Img` | Figure with caption (pre-wired to `IMG` path) |
+| `B` | `<strong>` wrapper |
+| `C` | Inline code (`ir-c` class) |
 
-```html
-<!-- In <head>, after lucide script -->
-<script src="/themes/soc-components.js"></script>
-```
-
-At the top of `<script type="text/babel">`:
-```js
-const { SocClock, Icon, CodeBlock: CB, Img: ImgBase } = window.SocComponents;
-const IMG = '/assets/reports/<slug>';
-const CodeBlock = (props) => <CB prefix="ir" {...props} />;
-const Img = (props) => <ImgBase base={IMG} prefix="ir" {...props} />;
-```
-
-| Source | Component | Purpose |
-|--------|-----------|---------|
-| `window.SocComponents` | `SocClock` | Live UTC clock via `useRef` + `setInterval` — no React state re-renders |
-| `window.SocComponents` | `Icon` | Lucide icon wrapper |
-| `window.SocComponents` (via wrapper) | `CodeBlock` | Dark code block (`ir-code-wrap`) with language label |
-| `window.SocComponents` (via wrapper) | `Img` | Figure (`ir-figure`) with caption, auto-prefixed with `IMG` |
-| Inline | `ReportSection` | H2 section with red icon box, scroll anchor, `ir-section` class |
-| Inline | `SubSection` | H3 subheading with red left border (`ir-subsection`) |
-| Inline | `ReportTable` | SOC-styled table (`ir-table-wrap` / `ir-table`) with headers + rows |
-| Inline | `Finding` | Red-badged finding card (`ir-finding`) with number + title |
-| Inline | `B` | `<strong>` wrapper — renders `var(--soc-ink)` white |
-| Inline | `C` | Inline code (`ir-c`) — cyan monospace on dark background |
-
-Copy `ReportSection`, `SubSection`, `ReportTable`, `Finding`, `B`, `C` verbatim from `ir-reports/htb-tinsel-trace-1/index.html`.
-
-### 4c. SOC top bar
-
-The page uses a sticky SOC Console top bar instead of a nav — no dark mode toggle:
-
-```
-UPLINK  •  SOC / OPERATOR.PROFILE / IR.REPORTS / <SLUG>  •  [TLP:CLEAR]  [IR.REPORT]  [clock]
-```
-
-Breadcrumb links: `SOC` → `/`, `OPERATOR.PROFILE` → `/`, `IR.REPORTS` → `/ir-reports/index.html`, then bold slug.
-Badges: `sev cyan` for `TLP:CLEAR`, `sev red` for `IR.REPORT`.
-
-### 4d. Standard TOC items
-
-Default sections for an IR report (adjust based on the user's writeup structure):
-
-```js
-const tocItems = [
-  { id: 'executive-summary', label: 'Executive Summary', icon: 'FileText' },
-  { id: 'timeline',          label: 'Timeline',          icon: 'Clock' },
-  { id: 'scope-evidence',    label: 'Scope & Evidence',  icon: 'Database' },
-  { id: 'findings',          label: 'Findings',          icon: 'Search' },
-  { id: 'iocs',              label: 'Indicators of Compromise', icon: 'AlertTriangle' },
-  { id: 'recommendations',   label: 'Recommendations',   icon: 'Shield' },
-  { id: 'appendix',          label: 'Appendix',          icon: 'Paperclip' },
-];
-```
-
-Remove sections not covered in the user's writeup. Add custom sections as needed.
-
-### 4e. Page structure (in order)
-
-1. **SOC top bar** — sticky, `soc-tb` class, breadcrumb + sev badges + `<SocClock />`
-2. **Cover** (`ir-cover`) — cover image with dark gradient overlay, title, subtitle pill badges, platform, date
-3. **Meta grid** (`ir-meta-grid`) — Platform, Date, Difficulty/Severity, Category columns
-4. **TOC** (`ir-toc`) — `// TABLE OF CONTENTS` header, one link per section
-5. **Report sections** — render user's writeup content using components above
-6. **Footer** (`soc-ft`) — `← ALL REPORTS` and `↑ BACK TO TOP` links
-
-### 4f. Content rendering rules
+### 4b. Content rendering rules
 
 | Writeup element | Output |
 |---|---|
 | Main heading | `<ReportSection id="..." title="..." icon="...">` |
 | Subheading | `<SubSection title="...">` |
 | Paragraph | `<p className="ir-p">` |
-| Bullet list | `<ul><li className="ir-li">...</li></ul>` |
+| Bullet list | `<ul style={{paddingLeft:'20px',margin:'0'}}><li className="ir-li">` |
 | Code / command | `<CodeBlock language="...">` or inline `<C>` |
 | Table | `<ReportTable headers={[...]} rows={[[...]]} />` |
 | Image | `<Img src="img-NN.png" alt="..." caption="..." />` |
 | Key finding | `<Finding number={N} title="...">` |
-| Bold | `<B>` |
-| Inline code | `<C>` |
+| IOC block | `<div className="ir-ioc-panel">` with `ir-ioc-title` + `ir-ioc-row` divs |
 
-### 4g. Section icon suggestions
+### 4c. Section icon suggestions
 
 | Section | Icon |
 |---|---|
@@ -195,11 +132,10 @@ These apply to all prose written by this skill:
 
 ## Step 5 — Verify
 
+- [ ] No `{{PLACEHOLDER}}` markers left in the output file
 - [ ] Meta tags present with correct slug URLs
 - [ ] `data/ir-reports.json` has the new entry prepended
 - [ ] `ir-reports/<slug>/index.html` created
-- [ ] `IMG` const set to `/assets/reports/<slug>`
-- [ ] SOC Console CSS block present (copied from template)
 - [ ] SOC top bar breadcrumb shows correct slug
 - [ ] TOC links match actual section IDs
 - [ ] JetBrains Mono font link in `<head>`
@@ -214,6 +150,6 @@ git push origin main
 
 ## Reference files
 
-- `ir-reports/htb-tinsel-trace-1/index.html` — canonical IR report template (SOC Console theme)
+- `.claude/skills/new-ir-report/template.html` — page template with `{{PLACEHOLDER}}` markers (start here)
 - `data/ir-reports.json` — report listing metadata
 - `ir-reports/index.html` — listing page (for card rendering context)

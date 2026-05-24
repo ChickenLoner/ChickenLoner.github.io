@@ -70,106 +70,62 @@ mkdir -p assets/research/<slug>
 
 ## Step 4 — Scaffold research/<slug>/index.html
 
-Use `research/anydesk-forensics-windows/index.html` as the canonical template. Do not diverge from its patterns.
+Read `.claude/skills/new-research/template.html` as your starting point. Replace every `{{PLACEHOLDER}}` with the real value, then fill in the content sections. Do not diverge from the template structure without a reason.
 
-### 4a. Head section (required)
+### Placeholder reference
 
-```html
-<title><title> | Chicken0248</title>
-<meta name="description" content="<summary>" />
-<meta property="og:type" content="article" />
-<meta property="og:site_name" content="Chicken0248" />
-<meta property="og:url" content="https://chickenloner.github.io/research/<slug>/" />
-<meta property="og:title" content="<title>" />
-<meta property="og:description" content="<summary>" />
-<meta property="og:image" content="https://chickenloner.github.io/assets/research/<slug>/cover.png" />
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:site" content="@Chicken_0248" />
-<meta name="twitter:title" content="<title>" />
-<meta name="twitter:description" content="<summary>" />
-<meta name="twitter:image" content="https://chickenloner.github.io/assets/research/<slug>/cover.png" />
-<link rel="icon" href="/chicken0248.png" type="image/png">
-```
+| Placeholder | Value |
+|---|---|
+| `{{SLUG}}` | URL folder name, e.g. `anydesk-forensics-windows` |
+| `{{SLUG_BREADCRUMB}}` | Dotted uppercase for breadcrumb, e.g. `ANYDESK.FORENSICS.WINDOWS` |
+| `{{TITLE}}` | Full article title |
+| `{{DESCRIPTION}}` | Meta description (1–2 sentences) |
+| `{{DATE_DISPLAY}}` | Human-readable date, e.g. `January 10, 2026` |
+| `{{CAT_SEV}}` | Sev class: `cyan` (Digital Forensics), `red` (Red Teaming), `amber` (Lab Making) |
+| `{{CATEGORY}}` | Category label, e.g. `Digital Forensics` |
+| `{{CATEGORY_UPPER}}` | Uppercase for topbar badge, e.g. `DIGITAL FORENSICS` |
+| `{{MEDIUM_URL}}` | Medium article URL, or remove the `<a>` and use `<div className="res-meta-val">Original</div>` |
+| `{{SECTION_N_ID}}` | Kebab-case anchor, e.g. `artifact-analysis` |
+| `{{SECTION_N_LABEL}}` | Section display name |
+| `{{SECTION_N_ICON}}` | Lucide icon name (see 4b below) |
+| `{{CONTENT}}` | Replace with actual JSX content |
+| `{{ALT_TEXT}}` / `{{CAPTION}}` | Image descriptions |
 
-Also include JetBrains Mono font and the SOC stylesheet:
-```html
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/themes/soc.css">
-```
+**`IMG` is auto-derived from the URL** — no placeholder needed, already in the template.
 
-### 4b. Components
+**Accent color is always cyan** for Section icons and SubSection borders, regardless of category. Category only affects the topbar badge and cover badge.
 
-Load shared components from `window.SocComponents`. Include the script tag **before** the `type="text/babel"` script:
+### 4a. Components (all in template)
 
-```html
-<!-- In <head>, after lucide script -->
-<script src="/themes/soc-components.js"></script>
-```
+| Component | Purpose |
+|---|---|
+| `Section` | H2 section with cyan icon box and scroll anchor |
+| `SubSection` | H3 subheading with cyan left border |
+| `CodeBlock` | Dark code block with language label in JetBrains Mono |
+| `Img` | Figure with caption (pre-wired to `IMG` path) |
+| `Table` | SOC-styled table; cells support HTML strings |
+| `Callout` | Alert block — `type="info"` (cyan), `"warning"` (amber), `"tip"` (green) |
+| `B` | `<strong>` wrapper |
+| `C` | Inline code (`res-c` class) |
 
-At the top of `<script type="text/babel">`:
-```js
-const { SocClock, Icon, Section, CodeBlock, Img: ImgBase, B } = window.SocComponents;
-const IMG = '/assets/research/<slug>';
-const Img = (props) => <ImgBase base={IMG} {...props} />;
-```
-
-| Source | Component | Purpose |
-|--------|-----------|---------|
-| `window.SocComponents` | `SocClock` | Live UTC clock via `useRef` + `setInterval` — no React state re-renders |
-| `window.SocComponents` | `Icon` | Lucide icon wrapper |
-| `window.SocComponents` | `Section` | H2 section with cyan icon box (`res-section-icon`), scroll anchor |
-| `window.SocComponents` | `CodeBlock` | Dark code block (`res-code-wrap`) with language label in JetBrains Mono |
-| `window.SocComponents` (via wrapper) | `Img` | Figure (`res-figure`) with caption, auto-prefixed with `IMG` |
-| `window.SocComponents` | `B` | `<strong>` wrapper — renders `var(--soc-ink)` |
-| Inline | `SubSection` | H3 subheading with cyan left border (`res-subsection`) |
-| Inline | `Callout` | Alert block (`res-callout info/warning/tip`) with colored icon |
-| Inline | `Table` | SOC-styled table (`res-table-wrap` / `res-table`) with `headers` + `rows` arrays |
-| Inline | `C` | Inline code (`res-c`) — cyan monospace on dark background |
-
-Copy `SubSection`, `Callout`, `Table`, `C` verbatim from `research/anydesk-forensics-windows/index.html`.
-
-The **accent color is always cyan** for the section icons and subsection borders regardless of article category. Category only affects the topbar badge and cover badge sev class.
-
-### 4c. SOC top bar
-
-Sticky top bar — no dark mode toggle:
-
-```
-UPLINK  •  SOC / OPERATOR.PROFILE / RESEARCH / <SLUG>  •  [TLP:CLEAR]  [CATEGORY]  [clock]
-```
-
-- Breadcrumb: `SOC` → `/`, `OPERATOR.PROFILE` → `/`, `RESEARCH` → `/research/index.html`, then bold `<SLUG>` (e.g. `ANYDESK.FORENSICS.WINDOWS`)
-- Badges: `sev cyan` for `TLP:CLEAR`, `sev <cat-sev>` for the category (e.g. `sev cyan DIGITAL FORENSICS`)
-
-### 4d. Page structure (in order)
-
-1. **SOC top bar** — sticky, `soc-tb` class, breadcrumb + sev badges + `<SocClock />`
-2. **Cover** (`res-cover`) — cover image `${IMG}/cover.png` with dark gradient overlay, `<h1>` title, date badge + category sev badge
-3. **Meta grid** (`res-meta-grid`) — Author (`Chicken0248`), Published (date), Originally on (Medium link if applicable), Category
-4. **TOC** (`res-toc`) — `// TABLE OF CONTENTS` header, `res-toc-grid` with icon + number + label per section
-5. **Content sections** — render writeup using `<Section>` components
-6. **Footer** (`soc-ft`) — `← ALL RESEARCH` and `↑ BACK TO TOP`
-
-### 4e. Content rendering rules
+### 4b. Content rendering rules
 
 | Writeup element | Output |
 |---|---|
 | Main heading | `<Section id="..." title="..." icon="...">` |
 | Subheading | `<SubSection title="...">` |
-| Paragraph | `<p>` (SOC global `p` rule applies color and size) |
-| Bullet list | `<ul><li>...</li></ul>` inside a Section (`.res-section ul` applies `list-style-type:disc`) |
-| Ordered list | `<ol><li>...</li></ol>` inside a Section |
+| Paragraph | `<p className="text-gray-700 leading-relaxed">` |
+| Bullet list | `<ul><li>` inside a Section (`.res-section ul` applies disc bullets) |
+| Ordered list | `<ol><li>` inside a Section |
 | Code block | `<CodeBlock language="bash">...</CodeBlock>` |
 | Inline code / path | `<C>value</C>` |
 | Bold | `<B>text</B>` |
-| Table | `<Table headers={['Col1','Col2']} rows={[['a','b'],['c','d']]} />` — rows support HTML strings via `dangerouslySetInnerHTML` |
+| Table | `<Table headers={['Col1']} rows={[['val']]} />` |
 | Image | `<Img src="img-NN.png" alt="..." caption="..." />` |
-| Info callout | `<Callout type="info"><p>...</p></Callout>` — cyan border |
-| Warning callout | `<Callout type="warning"><p>...</p></Callout>` — amber border |
-| Tip callout | `<Callout type="tip"><p>...</p></Callout>` — green border |
-| External link | `<a href="..." target="_blank" rel="noopener noreferrer">label</a>` — SOC `a` rule applies cyan color |
+| Callout | `<Callout type="info|warning|tip"><p>...</p></Callout>` |
+| External link | `<a href="..." target="_blank" rel="noopener noreferrer">label</a>` |
 
-### 4f. Section icon suggestions
+### 4c. Section icon suggestions
 
 | Section topic | Icon |
 |---|---|
@@ -184,7 +140,6 @@ UPLINK  •  SOC / OPERATOR.PROFILE / RESEARCH / <SLUG>  •  [TLP:CLEAR]  [CATE
 | Logging / events | `ScrollText` |
 | Detection / hunting | `Search` |
 | Persistence | `Lock` |
-| Unattended access | `Lock` |
 | Self-hosting / config | `Server` |
 | Decryption / crypto | `Key` |
 | Conclusion / summary | `CheckCircle` |
@@ -204,11 +159,10 @@ These apply to all prose written by this skill:
 
 ## Step 5 — Verify
 
+- [ ] No `{{PLACEHOLDER}}` markers left in the output file
 - [ ] Meta tags present with correct slug URLs
 - [ ] `data/research.json` has the new entry prepended
 - [ ] `research/<slug>/index.html` created
-- [ ] `IMG` const set to `/assets/research/<slug>`
-- [ ] SOC Console `<style>` block present (copied from template) — no Tailwind CDN script on detail pages
 - [ ] SOC top bar breadcrumb and badges correct (slug, category sev color)
 - [ ] Cover image path correct (`${IMG}/cover.png`)
 - [ ] TOC links match actual section IDs
@@ -225,8 +179,6 @@ git push origin main
 
 ## Reference files
 
-- `research/anydesk-forensics-windows/index.html` — canonical research article template (SOC Console theme, Digital Forensics)
-- `research/git-commits-persistence/index.html` — Red Teaming category example (red sev badge)
-- `research/windows-forensics-lab/index.html` — Lab Making category example (amber sev badge)
+- `.claude/skills/new-research/template.html` — page template with `{{PLACEHOLDER}}` markers (start here)
 - `data/research.json` — research listing metadata
 - `research/index.html` — listing page (for card rendering context)

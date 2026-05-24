@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{TITLE}} | Chicken0248</title>
+    <meta name="description" content="{{DESCRIPTION}}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Chicken0248" />
+    <meta property="og:url" content="https://chickenloner.github.io/research/{{SLUG}}/" />
+    <meta property="og:title" content="{{TITLE}}" />
+    <meta property="og:description" content="{{DESCRIPTION}}" />
+    <meta property="og:image" content="https://chickenloner.github.io/assets/research/{{SLUG}}/cover.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@Chicken_0248" />
+    <meta name="twitter:title" content="{{TITLE}}" />
+    <meta name="twitter:description" content="{{DESCRIPTION}}" />
+    <meta name="twitter:image" content="https://chickenloner.github.io/assets/research/{{SLUG}}/cover.png" />
+    <link rel="canonical" href="https://chickenloner.github.io/research/{{SLUG}}/" />
+    <link rel="icon" href="/chicken0248.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.29.2/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@1.14.0/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="/themes/soc.css">
+    <script src="/themes/soc-theme.js"></script>
+    <script src="/themes/soc-nav.js"></script>
+    <script src="/themes/soc-components.js"></script>
+</head>
+<body>
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-white focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg focus:text-blue-600 focus:font-semibold">Skip to content</a>
+    <noscript>
+        <style>body{font-family:system-ui,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}</style>
+        <div style="text-align:center;padding:2rem"><h1>JavaScript required</h1><p>This site requires JavaScript to display content.</p><a href="https://chickenloner.github.io">chickenloner.github.io</a></div>
+    </noscript>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        const { SocClock, Icon, Section, CodeBlock, Img: ImgBase, ThemeToggle } = window.SocComponents;
+
+        // Auto-derived from URL — no placeholder needed
+        const IMG = '/assets/research/' + window.location.pathname.split('/').filter(p => p && p !== 'index.html').pop();
+        const Img = (props) => <ImgBase base={IMG} {...props} />;
+
+        // ── Inline components (copy verbatim, do not modify) ──
+
+        const SubSection = ({ title, children }) => (
+            <div style={{display:'flex',flexDirection:'column',gap:'10px'}}>
+                <h3 className="res-subsection">{title}</h3>
+                {children}
+            </div>
+        );
+
+        const Callout = ({ type = "info", children }) => {
+            const icons = { info: "Info", warning: "AlertTriangle", tip: "Lightbulb" };
+            const cols  = { info: 'var(--soc-cy)', warning: 'var(--soc-am)', tip: 'var(--soc-gn)' };
+            return (
+                <div className={`res-callout ${type}`}>
+                    <span className="res-callout-icon"><Icon name={icons[type]} className="w-4 h-4" style={{color:cols[type]}} /></span>
+                    <div>{children}</div>
+                </div>
+            );
+        };
+
+        const Table = ({ headers, rows }) => (
+            <div className="res-table-wrap">
+                <table className="res-table">
+                    <thead><tr>{headers.map((h, i) => <th key={i}>{h}</th>)}</tr></thead>
+                    <tbody>{rows.map((row, i) => (
+                        <tr key={i}>{row.map((cell, j) => <td key={j} dangerouslySetInnerHTML={{ __html: cell }}></td>)}</tr>
+                    ))}</tbody>
+                </table>
+            </div>
+        );
+
+        const B = ({ children }) => <strong>{children}</strong>;
+        const C = ({ children }) => <code className="res-c">{children}</code>;
+
+        // ── App ──
+
+        const App = () => {
+            // Adjust tocItems to match actual sections in the article
+            const tocItems = [
+                { id: '{{SECTION_1_ID}}', label: '{{SECTION_1_LABEL}}', icon: '{{SECTION_1_ICON}}' },
+                { id: '{{SECTION_2_ID}}', label: '{{SECTION_2_LABEL}}', icon: '{{SECTION_2_ICON}}' },
+                // ... repeat for each section
+            ];
+
+            return (
+                <div style={{background:'var(--soc-bg)',minHeight:'100vh'}}>
+
+                    {/* SOC Topbar
+                        {{SLUG_BREADCRUMB}} = slug as WORD.WORD.WORD, e.g. ANYDESK.FORENSICS.WINDOWS
+                        {{CAT_SEV}} = cyan | red | amber  (matches category)
+                        {{CATEGORY_UPPER}} = e.g. DIGITAL FORENSICS */}
+                    <nav className="soc-tb" aria-label="Site navigation">
+                        <div className="soc-tb-row">
+                            <a href="/" className="soc-live" style={{textDecoration:"none",color:"inherit"}}>UPLINK</a>
+                            <div className="soc-crumb hidden md:flex">
+                                <a href="/" style={{color:'var(--soc-ink3)',textDecoration:'none'}}>SOC</a>
+                                <span>/</span>
+                                <a href="/" style={{color:'var(--soc-ink3)',textDecoration:'none'}}>OPERATOR.PROFILE</a>
+                                <span>/</span>
+                                <a href="/research/index.html" style={{color:'var(--soc-ink3)',textDecoration:'none'}}>RESEARCH</a>
+                                <span>/</span>
+                                <b>{{SLUG_BREADCRUMB}}</b>
+                            </div>
+                            <div style={{flex:1}} />
+                            <span className="sev cyan hidden md:inline-flex"><span className="dot"></span>TLP:CLEAR</span>
+                            <span className="sev {{CAT_SEV}} hidden md:inline-flex"><span className="dot"></span>{{CATEGORY_UPPER}}</span>
+                            <span className="hidden md:block"><SocClock /></span><ThemeToggle />
+                        </div>
+                    </nav>
+
+                    <main id="main-content" style={{maxWidth:'860px',margin:'0 auto',padding:'24px 20px'}} className="animate-fadeIn">
+
+                        {/* Cover
+                            {{DATE_DISPLAY}} = e.g. January 10, 2026
+                            {{CATEGORY}} = e.g. Digital Forensics
+                            {{CAT_SEV}} = cyan | red | amber */}
+                        <div className="res-cover">
+                            <img src={`${IMG}/cover.png`} alt="{{TITLE}}" />
+                            <div className="res-cover-overlay" />
+                            <div className="res-cover-content">
+                                <h1 className="res-cover-title">{{TITLE}}</h1>
+                                <div className="res-cover-badges">
+                                    <span className="sev cyan"><span className="dot"></span>{{DATE_DISPLAY}}</span>
+                                    <span className="sev {{CAT_SEV}}"><span className="dot"></span>{{CATEGORY}}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Meta grid
+                            "Originally on": if Medium, use <a href="{{MEDIUM_URL}}" ...>Medium ↗</a>
+                                             if original, use <div className="res-meta-val">Original</div> */}
+                        <div className="res-meta-grid">
+                            <div><div className="res-meta-lbl">Author</div><div className="res-meta-val">Chicken0248</div></div>
+                            <div><div className="res-meta-lbl">Published</div><div className="res-meta-val">{{DATE_DISPLAY}}</div></div>
+                            <div><div className="res-meta-lbl">Originally on</div><a href="{{MEDIUM_URL}}" target="_blank" rel="noopener noreferrer" className="res-meta-link">Medium ↗</a></div>
+                            <div><div className="res-meta-lbl">Category</div><div className="res-meta-val" style={{color:'var(--soc-cy)'}}>{{CATEGORY}}</div></div>
+                        </div>
+
+                        {/* Table of Contents */}
+                        <div className="res-toc" style={{marginTop:'20px',marginBottom:'24px'}}>
+                            <div className="res-toc-title">// TABLE OF CONTENTS</div>
+                            <div className="res-toc-grid">
+                                {tocItems.map((item, i) => (
+                                    <a key={item.id} href={`#${item.id}`} className="res-toc-item">
+                                        <span className="res-toc-num">{String(i+1).padStart(2,'0')}.</span>
+                                        <Icon name={item.icon} className="w-3.5 h-3.5" style={{color:'var(--soc-ink4)',flexShrink:0}} />
+                                        <span>{item.label}</span>
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* ═══════════ SECTIONS ═══════════
+                            Each heading → <Section id="..." title="..." icon="...">
+                            Subheadings → <SubSection title="...">
+                            Paragraphs → <p className="text-gray-700 leading-relaxed"> (or bare <p> inside Section)
+                            Bullets → <ul><li> inside Section (.res-section ul applies disc bullets)
+                            Code block → <CodeBlock language="bash">...</CodeBlock>
+                            Inline code / path → <C>value</C>
+                            Bold → <B>text</B>
+                            Image → <Img src="img-NN.png" alt="..." caption="..." />
+                            Table → <Table headers={['Col1']} rows={[['val']]} />
+                            Info callout → <Callout type="info"><p>...</p></Callout>
+                            Warning → <Callout type="warning">  Tip → <Callout type="tip">
+                            External link → <a href="..." target="_blank" rel="noopener noreferrer">label</a>
+                        ════════════════════════════════════ */}
+
+                        <Section id="{{SECTION_1_ID}}" title="{{SECTION_1_LABEL}}" icon="{{SECTION_1_ICON}}">
+                            <p className="text-gray-700 leading-relaxed">{{CONTENT}}</p>
+                            <Img src="img-01.png" alt="{{ALT_TEXT}}" caption="{{CAPTION}}" />
+                        </Section>
+
+                        <Section id="{{SECTION_N_ID}}" title="{{SECTION_N_LABEL}}" icon="{{SECTION_N_ICON}}">
+                            <SubSection title="{{SUBSECTION_TITLE}}">
+                                <p className="text-gray-700 leading-relaxed">{{CONTENT}}</p>
+                            </SubSection>
+                        </Section>
+
+                        {/* Footer */}
+                        <div className="soc-ft">
+                            <a href="/research/index.html" style={{color:'var(--soc-ink4)',textDecoration:'none'}}>← ALL RESEARCH</a>
+                            <span style={{margin:'0 12px'}}>|</span>
+                            <a href="#" style={{color:'var(--soc-ink4)',textDecoration:'none'}}>↑ BACK TO TOP</a>
+                        </div>
+
+                    </main>
+                </div>
+            );
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>
