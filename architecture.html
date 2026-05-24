@@ -427,9 +427,15 @@
 │   └── update_lab_data.yml           <span class="note"># Daily: refresh labs_metadata.json</span>
 ├── <span class="dir">.claude/skills/</span>                   <span class="note"># Claude Code skill definitions</span>
 │   ├── add-cert/
-│   ├── create-review/
-│   ├── new-ir-report/
-│   └── new-research/
+│   ├── <span class="dir">create-review/</span>
+│   │   ├── SKILL.md
+│   │   └── template.html             <span class="note"># Placeholder-based page template (avoids reading full review page)</span>
+│   ├── <span class="dir">new-ir-report/</span>
+│   │   ├── SKILL.md
+│   │   └── template.html             <span class="note"># Placeholder-based page template</span>
+│   └── <span class="dir">new-research/</span>
+│       ├── SKILL.md
+│       └── template.html             <span class="note"># Placeholder-based page template</span>
 └── chicken0248.png                   <span class="note"># Favicon + avatar</span>
 </pre></div>
         </section>
@@ -449,7 +455,7 @@
                     <tbody>
                         <tr><td>Main portfolio</td><td>1</td><td><code>/index.html</code></td><td>All 9 JSON files</td></tr>
                         <tr><td>Section hubs</td><td>5</td><td><code>/reviews/</code>, <code>/research/</code>, <code>/ir-reports/</code>, <code>/cloud-labs/</code>, <code>/siem-labs/</code></td><td>Respective JSON</td></tr>
-                        <tr><td>Cert review detail</td><td>19</td><td><code>/reviews/[slug]/</code></td><td><code>/data/reviews.json</code></td></tr>
+                        <tr><td>Cert review detail</td><td>20</td><td><code>/reviews/[slug]/</code></td><td><code>/data/reviews.json</code></td></tr>
                         <tr><td>Research article</td><td>6</td><td><code>/research/[slug]/</code></td><td><code>/data/research.json</code></td></tr>
                         <tr><td>IR report</td><td>2</td><td><code>/ir-reports/[slug]/</code></td><td><code>/data/ir-reports.json</code></td></tr>
                         <tr><td>Architecture doc</td><td>1</td><td><code>/architecture.html</code></td><td>—</td></tr>
@@ -996,7 +1002,7 @@ useEffect(() => {
                     <li>Add entry to <code>data/reviews.json</code></li>
                     <li>Add cert to <code>data/certifications.json</code></li>
                     <li>Drop badge PNG → <code>assets/badges/&lt;slug&gt;.png</code></li>
-                    <li>Create <code>reviews/&lt;slug&gt;/index.html</code> using <code>reviews/psap/index.html</code> as template</li>
+                    <li>Create <code>reviews/&lt;slug&gt;/index.html</code> using <code>.claude/skills/create-review/template.html</code> as template</li>
                     <li>Destructure from <code>window.SocComponents</code> — don't redefine shared components</li>
                 </ol>
             </div>
@@ -1006,7 +1012,7 @@ useEffect(() => {
                 <ol>
                     <li>Add entry to <code>data/research.json</code></li>
                     <li>Add cover → <code>assets/research/&lt;slug&gt;/cover.png</code></li>
-                    <li>Create <code>research/&lt;slug&gt;/index.html</code> using <code>research/anydesk-forensics-windows/index.html</code> as template</li>
+                    <li>Create <code>research/&lt;slug&gt;/index.html</code> using <code>.claude/skills/new-research/template.html</code> as template</li>
                 </ol>
             </div>
 
@@ -1015,7 +1021,7 @@ useEffect(() => {
                 <ol>
                     <li>Add entry to <code>data/ir-reports.json</code></li>
                     <li>Add cover → <code>assets/labs/&lt;slug&gt;.jpg</code></li>
-                    <li>Create <code>ir-reports/&lt;slug&gt;/index.html</code> using <code>ir-reports/htb-tinsel-trace-1/index.html</code> as template</li>
+                    <li>Create <code>ir-reports/&lt;slug&gt;/index.html</code> using <code>.claude/skills/new-ir-report/template.html</code> as template</li>
                 </ol>
             </div>
         </section>
