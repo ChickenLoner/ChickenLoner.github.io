@@ -63,90 +63,66 @@ Before starting, confirm:
 
 ## Step 4 — Build `reviews/<slug>/index.html`
 
-Use `reviews/psap/index.html` as the canonical reference for structure, components, and dark mode CSS. Do not diverge from its patterns without a reason.
+Read `.claude/skills/create-review/template.html` as your starting point. Replace every `{{PLACEHOLDER}}` with the real value, then fill in the content sections. Do not diverge from the template structure without a reason.
 
-### 4a. Head section
+**Do NOT add a Tailwind CDN `<script>` tag.** Pages use `soc.css` utility equivalents instead.
 
-```html
-<title>[Review Title] | Chicken0248</title>
-<meta name="description" content="..." />
-<meta property="og:type" content="article" />
-<meta property="og:site_name" content="Chicken0248" />
-<meta property="og:url" content="https://chickenloner.github.io/reviews/<slug>/" />
-<meta property="og:title" content="..." />
-<meta property="og:description" content="..." />
-<meta property="og:image" content="https://chickenloner.github.io/reviews/<slug>/<cover-image>" />
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:site" content="@Chicken_0248" />
-<meta name="twitter:title" content="..." />
-<meta name="twitter:description" content="..." />
-<meta name="twitter:image" content="https://chickenloner.github.io/reviews/<slug>/<cover-image>" />
-<link rel="icon" href="/chicken0248.png" type="image/png">
-```
+### Placeholder reference
 
-Meta tags are **required** on every page — this was a site-wide instruction from the owner.
+| Placeholder | Value |
+|---|---|
+| `{{SLUG}}` | URL folder name (e.g. `csoa`) |
+| `{{SLUG_UPPER}}` | Uppercase slug for breadcrumb (e.g. `CSOA`) |
+| `{{TITLE}}` | Full review title |
+| `{{DESCRIPTION}}` | Meta description (1–2 sentences) |
+| `{{COVER_FILENAME}}` | `cover.jpg` or `cover.png` |
+| `{{CERT_SHORT}}` | Short cert acronym (e.g. `CSOA`) |
+| `{{PROVIDER}}` | Certification provider name |
+| `{{DATE}}` | Month + year (e.g. `May 2026`) |
+| `{{SECTION_N_ID}}` | Kebab-case anchor id (e.g. `exam-experience`) |
+| `{{SECTION_N_LABEL}}` | Section display name |
+| `{{SECTION_N_ICON}}` | Lucide icon name (see 4b below) |
+| `{{CONTENT}}` | Replace with actual JSX content |
+| `{{ALT_TEXT}}` | Brief image description |
 
-### 4b. Dark mode CSS
+### 4a. Components available in the template
 
-Copy the full dark mode `<style>` block from `reviews/psap/index.html` verbatim. It covers all amber/orange color variants used in the review theme. Add any extra color overrides if the content needs them (e.g., if the review has green/red badge elements).
+| Component | Purpose |
+|---|---|
+| `Icon` | Lucide icon wrapper |
+| `SocClock` | Live UTC clock |
+| `Section` | H2 section with icon and scroll anchor |
+| `Fig` | Figure with auto-incrementing counter (no caption text) |
+| `resetFigCount` | Call as **first line inside `App()`** — already in template |
+| `TipList` | Styled bullet list for exam tips |
+| `B` | `<strong>` wrapper |
+| `A` | External link (opens new tab) |
+| `Code` | Inline code |
+| `Callout` | Amber-accent blockquote — already defined in template |
+| `renderStars` | Converts `4.5` → `★★★★½☆` — already defined in template |
 
-**Do NOT add a Tailwind CDN `<script>` tag.** Detail pages use `soc.css` utility equivalents instead.
-
-### 4c. React components
-
-All review pages load shared components from `window.SocComponents`. Include the script tag **before** the `type="text/babel"` script, and destructure at the top of the Babel script:
-
-```html
-<!-- In <head>, after lucide script -->
-<script src="/themes/soc-components.js"></script>
-```
-
-```js
-// Top of <script type="text/babel">
-const { SocClock, Icon, Section, Fig, resetFigCount, TipList, B, A, Code } = window.SocComponents;
-```
-
-| Source | Component | Purpose |
-|--------|-----------|---------|
-| `window.SocComponents` | `Icon` | Lucide icon wrapper using `useRef` + `useEffect` |
-| `window.SocComponents` | `SocClock` | Live UTC clock |
-| `window.SocComponents` | `Section` | H2 section with icon, scroll anchor, `res-section` class |
-| `window.SocComponents` | `Fig` | Figure with auto-incrementing counter — shows **only "Figure N"**, no caption text. Image uses `max-w-full mx-auto block` so small screenshots render at natural size |
-| `window.SocComponents` | `resetFigCount` | Resets figure counter — call as **first line inside `App()`** |
-| `window.SocComponents` | `TipList` | Styled bullet list for exam tips |
-| `window.SocComponents` | `B` | `<strong>` wrapper |
-| `window.SocComponents` | `A` | External link (new tab) |
-| `window.SocComponents` | `Code` | Inline code (`bg-gray-100 px-1.5 py-0.5`) |
-| Inline | `Callout` | Amber-accent blockquote — copy verbatim from psap |
-| Inline | `renderStars(rating)` | Converts `4.5` → `★★★★½☆` — copy verbatim from psap |
-
-**Figure counter pattern:**
-```js
-// Inside App(), first line:
-resetFigCount();
-```
 The hero image is NOT a `Fig`. Every other image in the markdown becomes one `<Fig>` in order.
 
-**Ampersand in JS strings vs JSX attributes** — `&amp;` is only valid in JSX attribute string literals (Babel decodes it). Inside plain JS object literals (e.g., `tocItems` label strings), use `&` directly — `&amp;` will render literally as the string `&amp;`.
+**Ampersand rule** — `&amp;` is only valid in JSX text/attributes (Babel decodes it). Inside plain JS object literals (e.g. `tocItems` label strings), use `&` directly.
 
-### 4d. Metadata fetch from reviews.json
+**Difficulty and rating** — always from `meta?.difficulty` and `meta?.rating`, never hardcoded. Already wired in the template.
 
-```jsx
-const [meta, setMeta] = useState(null);
-useEffect(() => {
-  fetch('/data/reviews.json')
-    .then(r => r.json())
-    .then(data => {
-      const entry = data.find(r => r.url === '/reviews/<slug>/index.html');
-      if (entry) setMeta(entry);
-    })
-    .catch(() => {});
-}, []);
-```
+### 4b. Section icon suggestions
 
-Use `meta?.rating`, `meta?.difficulty`, `meta?.date`, `meta?.readTime` in the metadata strip. Render `—` as fallback. Never hardcode rating or difficulty in the HTML.
+| Section topic | Icon |
+|---|---|
+| Introduction / overview | `BookOpen` |
+| Course / learning content | `GraduationCap` |
+| Exam / assessment | `ClipboardList` |
+| Final review / summary | `Star` |
+| Tips / takeaways | `Lightbulb` |
+| Pricing / what you get | `DollarSign` |
+| Prerequisites / requirements | `ListChecks` |
+| Lab / hands-on | `FlaskConical` |
 
-### 4e. Page structure (in order)
+If none fit, `FileText` is a safe default.
+
+### 4c. Page structure (in order)
 
 1. **Nav** — `Chicken0248 / Reviews / <Cert Name>` breadcrumb + dark mode toggle
 2. **Hero** — cover image with `bg-gradient-to-t from-black/80`, title overlay, pill badges (provider, date, domain, Passed/Failed)
@@ -155,7 +131,7 @@ Use `meta?.rating`, `meta?.difficulty`, `meta?.date`, `meta?.readTime` in the me
 5. **Content sections** — see rules below
 6. **Footer** — "Back to top" + "All Reviews" (`/reviews/index.html`)
 
-### 4f. Content rendering rules
+### 4d. Content rendering rules
 
 | Markdown element | HTML output |
 |---|---|
@@ -173,21 +149,6 @@ Use `meta?.rating`, `meta?.difficulty`, `meta?.date`, `meta?.readTime` in the me
 
 **Image position rule**: Every image from the markdown must appear in the HTML between the exact same surrounding content. If an image appears between paragraph A and paragraph B in the markdown, it must appear between those same paragraphs in the JSX. This is intentional layout — do not reorder.
 
-### 4g. Section icon suggestions
-
-| Section topic | Icon |
-|---|---|
-| Introduction / overview | `BookOpen` |
-| Course / learning content | `GraduationCap` |
-| Exam / assessment | `ClipboardList` |
-| Final review / summary | `Star` |
-| Tips / takeaways | `Lightbulb` |
-| Pricing / what you get | `DollarSign` |
-| Prerequisites / requirements | `ListChecks` |
-| Lab / hands-on | `FlaskConical` |
-
-If none fit, `FileText` is a safe default.
-
 ---
 
 ## Step 5 — Verify before finishing
@@ -197,11 +158,11 @@ Run these checks mentally:
 - [ ] Count `<Fig` tags in HTML == count of non-hero images in markdown
 - [ ] Every image filename referenced in `<Fig src="...">` exists in `reviews/<slug>/`
 - [ ] `data/reviews.json` has an entry for this review
+- [ ] No `{{PLACEHOLDER}}` markers left in the output file
 - [ ] Meta tags present in `<head>` with correct slug URLs
 - [ ] Metadata strip uses `meta?.rating` and `meta?.difficulty`, not hardcoded values
 - [ ] Nav breadcrumb shows correct cert name
 - [ ] Hero uses the cover image (not a `<Fig>`)
-- [ ] Dark mode CSS block is present
 
 ---
 
@@ -231,6 +192,6 @@ These apply to all prose generated or polished by this skill:
 
 ## Reference files
 
-- `reviews/psap/index.html` — canonical finished review page (PSAP, April 2026)
+- `.claude/skills/create-review/template.html` — page template with `{{PLACEHOLDER}}` markers (start here)
 - `data/reviews.json` — all review metadata
 - `reviews/index.html` — reviews listing page (for context on how cards render)

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{TITLE}} | Chicken0248</title>
+    <meta name="description" content="{{DESCRIPTION}}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Chicken0248" />
+    <meta property="og:url" content="https://chickenloner.github.io/reviews/{{SLUG}}/" />
+    <meta property="og:title" content="{{TITLE}}" />
+    <meta property="og:description" content="{{DESCRIPTION}}" />
+    <meta property="og:image" content="https://chickenloner.github.io/reviews/{{SLUG}}/{{COVER_FILENAME}}" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@Chicken_0248" />
+    <meta name="twitter:title" content="{{TITLE}}" />
+    <meta name="twitter:description" content="{{DESCRIPTION}}" />
+    <meta name="twitter:image" content="https://chickenloner.github.io/reviews/{{SLUG}}/{{COVER_FILENAME}}" />
+    <link rel="canonical" href="https://chickenloner.github.io/reviews/{{SLUG}}/" />
+    <link rel="icon" href="/chicken0248.png" type="image/png">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.29.2/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@1.14.0/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="/themes/soc.css">
+    <script src="/themes/soc-theme.js"></script>
+    <script src="/themes/soc-nav.js"></script>
+    <script src="/themes/soc-components.js"></script>
+</head>
+<body>
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-white focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg focus:text-blue-600 focus:font-semibold">Skip to content</a>
+    <noscript>
+      <style>body{font-family:system-ui,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}</style>
+      <div style="text-align:center;padding:2rem"><h1>JavaScript required</h1><p>This site requires JavaScript to display content. Please enable it in your browser settings.</p><a href="https://chickenloner.github.io">chickenloner.github.io</a></div>
+    </noscript>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+        const { SocClock, Icon, Section, Fig, resetFigCount, TipList, B, A, Code, ThemeToggle } = window.SocComponents;
+
+        const Callout = ({ children }) => (
+            <blockquote className="bg-amber-50 border-l-4 border-amber-400 rounded-r-xl px-5 py-4 my-4 text-gray-700 italic text-sm leading-relaxed">
+                {children}
+            </blockquote>
+        );
+
+        const renderStars = (rating) => {
+            const full = Math.floor(rating);
+            const half = rating - full >= 0.5;
+            return '★'.repeat(full) + (half ? '½' : '') + '☆'.repeat(5 - full - (half ? 1 : 0));
+        };
+
+        const App = () => {
+            const [meta, setMeta] = useState(null);
+
+            useEffect(() => {
+                fetch('/data/reviews.json')
+                    .then(r => r.json())
+                    .then(data => {
+                        const entry = data.find(r => r.url === '/reviews/{{SLUG}}/index.html');
+                        if (entry) setMeta(entry);
+                    })
+                    .catch(() => {});
+            }, []);
+
+            resetFigCount();
+
+            // {{SLUG_UPPER}} = SLUG in uppercase, used in breadcrumb
+            const tocItems = [
+                // One entry per Section. icon values: BookOpen, GraduationCap, ClipboardList, Star, Lightbulb, DollarSign, ListChecks, FlaskConical, FileText
+                { id: '{{SECTION_1_ID}}', label: '{{SECTION_1_LABEL}}', icon: '{{SECTION_1_ICON}}' },
+                { id: '{{SECTION_2_ID}}', label: '{{SECTION_2_LABEL}}', icon: '{{SECTION_2_ICON}}' },
+                // ... repeat for each section
+            ];
+
+            return (
+                <div style={{background:'var(--soc-bg)',minHeight:'100vh'}}>
+
+                    {/* SOC Topbar */}
+                    <nav className="soc-tb" aria-label="Site navigation">
+                        <div className="soc-tb-row">
+                            <a href="/" className="soc-live" style={{textDecoration:"none",color:"inherit"}}>UPLINK</a>
+                            <div className="soc-crumb hidden md:flex">
+                                <a href="/" style={{color:'var(--soc-ink3)',textDecoration:'none'}}>SOC</a>
+                                <span>/</span>
+                                <a href="/" style={{color:'var(--soc-ink3)',textDecoration:'none'}}>OPERATOR.PROFILE</a>
+                                <span>/</span>
+                                <a href="/reviews/index.html" style={{color:'var(--soc-ink3)',textDecoration:'none'}}>REVIEWS</a>
+                                <span>/</span>
+                                <b>{{SLUG_UPPER}}</b>
+                            </div>
+                            <div style={{flex:1}} />
+                            <span className="sev cyan"><span className="dot"></span>TLP:CLEAR</span>
+                            <span className="sev amber"><span className="dot"></span>CERT.REVIEW</span>
+                            <SocClock /><ThemeToggle />
+                        </div>
+                    </nav>
+
+                    <main id="main-content" style={{maxWidth:'860px',margin:'0 auto',padding:'24px 20px'}} className="animate-fadeIn">
+
+                        {/* Cover — hero image, NOT a Fig */}
+                        <div className="res-cover">
+                            <img src="{{COVER_FILENAME}}" alt="{{TITLE}}" />
+                            <div className="res-cover-overlay" />
+                            <div className="res-cover-content">
+                                <h1 className="res-cover-title">{{TITLE}}</h1>
+                                <div className="res-cover-badges">
+                                    <span className="sev cyan"><span className="dot"></span>{{DATE}}</span>
+                                    <span className="sev amber"><span className="dot"></span>{{PROVIDER}}</span>
+                                    <span className="sev green"><span className="dot"></span>Passed</span>{/* or Failed */}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Metadata strip — difficulty and rating always from meta, never hardcoded */}
+                        <div className="res-meta-grid">
+                            <div><div className="res-meta-lbl">Certification</div><div className="res-meta-val">{{CERT_SHORT}}</div></div>
+                            <div><div className="res-meta-lbl">Provider</div><div className="res-meta-val">{{PROVIDER}}</div></div>
+                            <div><div className="res-meta-lbl">Difficulty</div><div className="res-meta-val" style={{color:'var(--soc-am)'}}>{meta?.difficulty ?? '—'}</div></div>
+                            <div><div className="res-meta-lbl">Rating</div>
+                                <div className="res-meta-val">
+                                    {meta?.rating ? (
+                                        <span style={{display:'flex',alignItems:'center',gap:'4px'}}>
+                                            <span style={{color:'var(--soc-am)'}}>{renderStars(meta.rating)}</span>
+                                            <span style={{color:'var(--soc-ink3)',fontSize:'11px'}}>{meta.rating.toFixed(1)}/5.0</span>
+                                        </span>
+                                    ) : <span style={{color:'var(--soc-ink4)'}}>—</span>}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Table of Contents */}
+                        <div className="res-toc">
+                            <div className="res-toc-title">// TABLE OF CONTENTS</div>
+                            <div className="res-toc-grid">
+                                {tocItems.map((item, i) => (
+                                    <a key={item.id} href={`#${item.id}`} className="res-toc-item">
+                                        <span className="res-toc-num">{String(i+1).padStart(2,'0')}.</span>
+                                        <Icon name={item.icon} className="w-3.5 h-3.5" style={{color:'var(--soc-ink4)',flexShrink:0}} />
+                                        <span>{item.label}</span>
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* ═══════════ SECTION EXAMPLE ═══════════
+                            - Each ## heading in the markdown becomes one <Section>
+                            - id matches tocItems entry
+                            - Paragraphs: <p className="text-gray-700 leading-relaxed">
+                            - Bullet list: <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700"><li>
+                            - Images (non-hero): <Fig src="image-N.png" alt="brief description" />
+                            - Blockquote: <Callout>text</Callout>
+                            - Bold: <B>text</B>  External link: <A href="...">text</A>
+                            - Tips section: <div className="bg-amber-50 rounded-2xl border border-amber-200 p-6"><TipList items={[...]} /></div>
+                            - & in JSX text: use &amp;   & inside JS strings (tocItems labels): use & directly
+                        ════════════════════════════════════════ */}
+                        <Section id="{{SECTION_1_ID}}" title="{{SECTION_1_LABEL}}" icon="{{SECTION_1_ICON}}">
+                            <p className="text-gray-700 leading-relaxed">{{CONTENT}}</p>
+                            <Fig src="image-1.png" alt="{{ALT_TEXT}}" />
+                            {/* ... more content ... */}
+                        </Section>
+
+                        {/* ═══════════ SECTION N ═══════════ */}
+                        <Section id="{{SECTION_N_ID}}" title="{{SECTION_N_LABEL}}" icon="{{SECTION_N_ICON}}">
+                            <p className="text-gray-700 leading-relaxed">{{CONTENT}}</p>
+                        </Section>
+
+                        {/* Footer */}
+                        <div className="soc-ft">
+                            <a href="/reviews/index.html" style={{color:'var(--soc-ink4)',textDecoration:'none'}}>← ALL REVIEWS</a>
+                            <span style={{margin:'0 12px'}}>|</span>
+                            <a href="#" style={{color:'var(--soc-ink4)',textDecoration:'none'}}>↑ BACK TO TOP</a>
+                        </div>
+
+                    </main>
+                </div>
+            );
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>
