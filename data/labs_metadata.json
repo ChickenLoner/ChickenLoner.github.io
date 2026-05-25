@@ -174,5 +174,20 @@
     "categories": [
       "Endpoint Forensics"
     ]
+  },
+  "Satisfaction": {
+    "rating": 5.0,
+    "player_difficulty": "medium",
+    "is_retired": false,
+    "tactics": [
+      "Persistence",
+      "Privilege Escalation",
+      "Defense Evasion",
+      "Credential Access"
+    ],
+    "categories": [
+      "Malware Analysis",
+      "Network Forensics"
+    ]
   }
 }

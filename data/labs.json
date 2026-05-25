@@ -301,11 +301,12 @@
   },
   {
     "title": "Satisfaction",
-    "description": "",
+    "description": "A disgruntled customer, a compromised survey, and a trail of evidence hiding in plain sight — can you trace the attack from the first click to the final payload?",
     "platform": "CyberDefenders",
-    "link": "",
+    "link": "https://cyberdefenders.org/blueteam-ctf-challenges/satisfaction/",
     "tags": [
-      "Network Forensics"
+      "Network Forensics",
+      "Malware Analysis"
     ],
     "type": "lab",
     "difficulty": "medium",

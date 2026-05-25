@@ -113,9 +113,9 @@ def update_lab_metadata():
             
             if metadata:
                 updated_data[lab_name] = metadata
-                print(f"  ✓ Updated: rating={metadata.get('rating')}, player_difficulty={metadata.get('player_difficulty')}")
+                print(f"  [OK] Updated: rating={metadata.get('rating')}, player_difficulty={metadata.get('player_difficulty')}")
             else:
-                print(f"  ✗ Failed to fetch data")
+                print(f"  [FAIL] Failed to fetch data")
         
         # Be nice to the servers
         time.sleep(2)
@@ -124,7 +124,7 @@ def update_lab_metadata():
     with open('data/labs_metadata.json', 'w') as f:
         json.dump(updated_data, f, indent=2)
     
-    print(f"\n✓ Updated metadata for {len(updated_data)} labs")
+    print(f"\n[OK] Updated metadata for {len(updated_data)} labs")
     return updated_data
 
 if __name__ == '__main__':
