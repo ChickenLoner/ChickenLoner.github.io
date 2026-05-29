@@ -1064,6 +1064,25 @@
                     })()] : []),
                     ...(irReports.length > 0 ? [{ type:'IR-RPT', sev:'red', label:'Read ↗', url: irReports[0].url, title: irReports[0].title, detail: irReports[0].platform, ts: (irReports[0].report_date || irReports[0].date), external: true }] : []),
                     ...(researchData.length > 0 ? [{ type:'RSCH', sev:'violet', label:'Read ↗', url: researchData[0].url, title: researchData[0].title, detail: researchData[0].category, ts: researchData[0].date }] : []),
+                    ...(fbData ? (() => {
+                        const all = [
+                            ...(fbData.btlo||[]).map(f=>({...f, plat:'BTLO'})),
+                            ...(fbData.htb_sherlock||[]).map(f=>({...f, plat:'HTB'})),
+                            ...(fbData.cd||[]).map(f=>({...f, plat:'CD'}))
+                        ];
+                        const fb = all.find(f=>f.latest) || all[0];
+                        return fb ? [{ type:'FB', sev:'red', label:'View ↗', url: fb.url, title: fb.name, detail: fb.plat, ts:'latest fb', external:true }] : [];
+                    })() : []),
+                    ...(labs.filter(l=>l.type==='lab').length > 0 ? (() => {
+                        const lab = labs.find(l=>l.type==='lab'&&l.latest) || labs.filter(l=>l.type==='lab')[0];
+                        return [{ type:'LAB', sev:'amber', label:'Play ↗', url: lab.link, title: lab.title, detail: lab.platform, ts:'latest released', external:true }];
+                    })() : []),
+                    ...(achievements.filter(a=>a.category==='competition'&&a.placement==='Winner').length > 0 ? (() => {
+                        const wins = achievements.filter(a=>a.category==='competition'&&a.placement==='Winner');
+                        const win = wins.find(a=>a.latest) || wins[0];
+                        const hasUrl = !!(win.url && win.url !== '');
+                        return [{ type:'WIN', sev:'green', label: hasUrl ? 'Details ↗' : '', url: win.url||'#', title: win.name, detail: win.organizer, ts:'latest winner', external: hasUrl, noLink: !hasUrl }];
+                    })() : []),
                 ];
                 return (
                 <div className="animate-fadeIn" style={{paddingBottom:'40px'}}>
@@ -1166,16 +1185,21 @@
                     {recentItems.length > 0 && (<>
                         <h2 className="soc-section">Recent Activity Feed <span className="meta">tail -f /var/log/portfolio.feed</span></h2>
                         <div className="soc-alerts">
-                            {recentItems.map((item, i) => (
-                                <a key={i} href={item.url}
-                                    {...(item.external ? { target:'_blank', rel:'noopener noreferrer' } : {})}
-                                    className="soc-alert">
+                            {recentItems.map((item, i) => {
+                                const Tag = item.noLink ? 'div' : 'a';
+                                const linkProps = item.noLink ? {} : {
+                                    href: item.url,
+                                    ...(item.external ? { target:'_blank', rel:'noopener noreferrer' } : {})
+                                };
+                                return (
+                                <Tag key={i} {...linkProps} className="soc-alert">
                                     <span className="ts">{item.ts}</span>
                                     <span className={`sev ${item.sev}`}><span className="dot"></span>{item.type}</span>
                                     <div><div className="ttl">{item.title}</div><div className="detail">{item.detail}</div></div>
-                                    <span className="ar">{item.label||'›'}</span>
-                                </a>
-                            ))}
+                                    {!item.noLink && <span className="ar">{item.label||'›'}</span>}
+                                </Tag>
+                                );
+                            })}
                         </div>
                     </>)}
 

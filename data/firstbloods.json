@@ -1,7 +1,7 @@
 {
   "btlo": [
     { "id": 298, "name": "Curiosity",          "url": "https://blueteamlabs.online/achievement/share/52929/298", "image": "./assets/firstbloods/btlo_298.png" },
-    { "id": 300, "name": "Bad Import",          "url": "https://blueteamlabs.online/achievement/share/52929/300", "image": "./assets/firstbloods/btlo_300.png" },
+    { "id": 300, "name": "Bad Import",          "url": "https://blueteamlabs.online/achievement/share/52929/300", "image": "./assets/firstbloods/btlo_300.png", "latest": true },
     { "id": 296, "name": "Fake",                "url": "https://blueteamlabs.online/achievement/share/52929/296", "image": "./assets/firstbloods/btlo_296.png" },
     { "id": 294, "name": "Dumpster",            "url": "https://blueteamlabs.online/achievement/share/52929/294", "image": "./assets/firstbloods/btlo_294.png" },
     { "id": 292, "name": "Eros",                "url": "https://blueteamlabs.online/achievement/share/52929/292", "image": "./assets/firstbloods/btlo_292.png" },

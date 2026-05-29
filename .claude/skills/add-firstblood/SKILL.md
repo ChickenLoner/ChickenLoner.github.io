@@ -52,20 +52,21 @@ If the image doesn't exist yet, use an empty placeholder path and remind the use
 
 **BTLO:**
 ```json
-{ "id": <id>, "name": "<name>", "url": "<url>", "image": "./assets/firstbloods/btlo_<id>.png" }
+{ "id": <id>, "name": "<name>", "url": "<url>", "image": "./assets/firstbloods/btlo_<id>.png", "latest": true }
 ```
 
 **HTB Sherlock:**
 ```json
-{ "id": <id>, "name": "<name>", "url": "<url>", "image": "./assets/firstbloods/htb_<id>.png" }
+{ "id": <id>, "name": "<name>", "url": "<url>", "image": "./assets/firstbloods/htb_<id>.png", "latest": true }
 ```
 
 **CyberDefenders:**
 ```json
-{ "name": "<name>", "url": "<url>", "image": "./assets/firstbloods/<slug>.png" }
+{ "name": "<name>", "url": "<url>", "image": "./assets/firstbloods/<slug>.png", "latest": true }
 ```
 
-3. Write the updated file. Preserve all existing entries exactly.
+3. Remove `"latest": true` from the previously latest entry across all platform arrays (btlo, htb_sherlock, cd).
+4. Write the updated file. Preserve all existing entries exactly.
 
 ## Step 4 — Commit
 

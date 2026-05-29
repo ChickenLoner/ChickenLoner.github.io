@@ -311,6 +311,7 @@
     "type": "lab",
     "difficulty": "medium",
     "is_retired": false,
+    "latest": true,
     "image": "./assets/labs/satisfaction.webp"
   },
   {
@@ -356,7 +357,7 @@
     "image": "./assets/labs/jobapplicant.png",
     "difficulty": "hard",
     "player_difficulty": "hard",
-    "rating": 4.7,
+    "rating": 4.3,
     "is_retired": false
   },
   {

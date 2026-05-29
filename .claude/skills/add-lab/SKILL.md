@@ -54,6 +54,7 @@ If the cover image doesn't exist, note it to the user and use the placeholder pa
   "type": "lab",
   "difficulty": "<difficulty>",
   "is_retired": false,
+  "latest": true,
   "image": "./assets/labs/<filename>.png"
 }
 ```
@@ -65,7 +66,8 @@ Add optional fields only if provided:
   "tactics": [...]
 ```
 
-3. Write the updated file. Preserve all existing entries exactly.
+3. Remove `"latest": true` from the previously latest lab entry (if any).
+4. Write the updated file. Preserve all existing entries exactly.
 
 ## Step 4 — Register in metadata script (CyberDefenders only)
 

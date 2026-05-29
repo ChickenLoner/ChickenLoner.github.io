@@ -789,6 +789,7 @@ useEffect(() => {
     "image": "./assets/labs/utensil.png",
     "rating": 4.5,                  // optional
     "is_retired": true,
+    "latest": true,                 // only on the most recently released lab — drives activity feed
     "tactics": ["TA0001", "TA0003"] // optional MITRE ATT&amp;CK
 }]</pre></div></div>
             </div>
@@ -820,6 +821,7 @@ useEffect(() => {
         "placement": "Winner",
         "year": "2026",
         "team": "TeamName",
+        "latest": true,             // only on the most recent win — drives activity feed
         "description": "Optional description shown in expandable row.",
         "tags": ["CTF"]
     }
@@ -832,7 +834,7 @@ useEffect(() => {
                 <p>First blood data per platform. Loaded eagerly on mount (needed for tab count badge). Displayed in collapsible platform panels on the First Bloods tab.</p>
                 <div class="code-block"><div class="code-lang">JSON</div><div class="code-body"><pre>{
     "btlo": [
-        { "id": 298, "name": "Challenge Name", "url": "https://blueteamlabs.online/achievement/share/52929/298", "image": "./assets/firstbloods/btlo_298.png" }
+        { "id": 298, "name": "Challenge Name", "url": "https://blueteamlabs.online/achievement/share/52929/298", "image": "./assets/firstbloods/btlo_298.png", "latest": true }
     ],
     "htb_sherlock": [
         { "id": 1069, "name": "Sherlock Name", "url": "https://labs.hackthebox.com/achievement/sherlock/1438364/1069", "image": "./assets/firstbloods/htb_1069.png" }

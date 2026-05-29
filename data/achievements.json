@@ -41,6 +41,7 @@
     "team": "wowzaa",
     "description": "",
     "image": "./assets/achievements/splunkBots2026.jpg",
+    "latest": true,
     "tags": ["Blue Team", "Splunk", "SOC"]
   },
   {
