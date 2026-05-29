@@ -34,6 +34,17 @@
   },
   {
     "category": "competition",
+    "name": "Splunk Boss of The SOC v10 — Splunk Experience Day Thailand 2026",
+    "organizer": "Splunk",
+    "placement": "Winner",
+    "year": "2026",
+    "team": "wowzaa",
+    "description": "",
+    "image": "./assets/achievements/splunkBots2026.jpg",
+    "tags": ["Blue Team", "Splunk", "SOC"]
+  },
+  {
+    "category": "competition",
     "name": "Jack of all Hacks DFIR CTF",
     "organizer": "Null404",
     "placement": "Winner",
