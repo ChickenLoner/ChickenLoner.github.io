@@ -1060,10 +1060,10 @@
                 const recentItems = [
                     ...(certifications.length > 0 ? [(() => {
                         const cert = certifications.find(c => c.latest) || certifications[certifications.length - 1];
-                        return { type:'CERT', sev:'cyan', label:'Verify ↗', url: cert.url || '#', title: cert.name, detail: cert.issuer, ts: cert.year ? `earned ${cert.year}` : '', external: true };
+                        return { type:'CERT', sev:'cyan', label:'Verify ↗', url: cert.url || '#', title: cert.name, detail: cert.issuer, ts:'latest cert', external: true };
                     })()] : []),
-                    ...(irReports.length > 0 ? [{ type:'IR-RPT', sev:'red', label:'Read ↗', url: irReports[0].url, title: irReports[0].title, detail: irReports[0].platform, ts: (irReports[0].report_date || irReports[0].date), external: true }] : []),
-                    ...(researchData.length > 0 ? [{ type:'RSCH', sev:'violet', label:'Read ↗', url: researchData[0].url, title: researchData[0].title, detail: researchData[0].category, ts: researchData[0].date }] : []),
+                    ...(irReports.length > 0 ? [{ type:'IR-RPT', sev:'red', label:'Read ↗', url: irReports[0].url, title: irReports[0].title, detail: irReports[0].platform, ts:'latest report', external: true }] : []),
+                    ...(researchData.length > 0 ? [{ type:'RSCH', sev:'violet', label:'Read ↗', url: researchData[0].url, title: researchData[0].title, detail: researchData[0].category, ts:'latest research' }] : []),
                     ...(fbData ? (() => {
                         const all = [
                             ...(fbData.btlo||[]).map(f=>({...f, plat:'BTLO'})),
