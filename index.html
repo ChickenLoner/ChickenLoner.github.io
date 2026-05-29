@@ -501,6 +501,15 @@
         .fl-meta b{color:var(--soc-cy);font-weight:600}
         .fl-cta{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--soc-cy);letter-spacing:.08em;font-weight:700;text-transform:uppercase;padding:8px 14px;border:1px solid rgba(34,225,255,.4);border-radius:4px;background:rgba(34,225,255,.05);white-space:nowrap}
         .featured-latest:hover .fl-cta{background:rgba(34,225,255,.12)}
+        .featured-latest.am{border-color:rgba(255,181,71,.35);background:radial-gradient(ellipse at 100% 0%,rgba(255,181,71,.08),transparent 60%),linear-gradient(180deg,var(--soc-bg-1),var(--soc-bg))}
+        .featured-latest.am::before{background:linear-gradient(90deg,transparent,var(--soc-am),transparent)}
+        .featured-latest.am:hover{border-color:rgba(255,181,71,.55)}
+        .featured-latest.am .fl-glyph{background:linear-gradient(135deg,rgba(255,181,71,.18),rgba(255,181,71,.04));border-color:rgba(255,181,71,.45);color:var(--soc-am)}
+        .featured-latest.am .fl-tag{background:rgba(255,181,71,.10);color:var(--soc-am);border-color:rgba(255,181,71,.35)}
+        .featured-latest.am .fl-tag::before{background:var(--soc-am);box-shadow:0 0 6px var(--soc-am)}
+        .featured-latest.am .fl-meta b{color:var(--soc-am)}
+        .featured-latest.am .fl-cta{color:var(--soc-am);border-color:rgba(255,181,71,.4);background:rgba(255,181,71,.05)}
+        .featured-latest.am:hover .fl-cta{background:rgba(255,181,71,.12)}
         .cert-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
         .cert-grid.cert-grid-dense{grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
         .cert-grid.cert-grid-airy{grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
@@ -2291,6 +2300,7 @@
                 // Total counts for hero (never filtered)
                 const totalActive  = labsOnly.filter(l=>!l.is_retired).length;
                 const totalRetired = labsOnly.filter(l=>l.is_retired).length;
+                const featuredLab  = labsOnly.find(l=>l.latest) || null;
 
                 // Filter counts (scoped to current platform filter)
                 const platScoped = labsOnly.filter(platMatch);
@@ -2412,6 +2422,27 @@
                                 </div>
                             </div>
                         </section>
+
+                        {/* Featured latest lab */}
+                        {featuredLab && (
+                            <a className="featured-latest am" href={featuredLab.link} target="_blank" rel="noopener noreferrer" style={{marginTop:'18px',display:'grid'}}>
+                                <div className="fl-glyph">
+                                    {featuredLab.image
+                                        ? <img src={featuredLab.image} alt={featuredLab.title} style={{width:'100%',height:'100%',objectFit:'cover',borderRadius:'6px'}} />
+                                        : '⚗'}
+                                </div>
+                                <div>
+                                    <span className="fl-tag">Latest Release</span>
+                                    <div className="fl-title">{featuredLab.title}</div>
+                                    <div className="fl-meta">
+                                        <span>platform=<b>{featuredLab.platform}</b></span><span>·</span>
+                                        <span>difficulty=<b>{featuredLab.difficulty||'N/A'}</b></span>
+                                        {featuredLab.is_retired && <><span>·</span><span>status=<b>Retired</b></span></>}
+                                    </div>
+                                </div>
+                                <span className="fl-cta">Play Now ↗</span>
+                            </a>
+                        )}
 
                         {/* Toolbar */}
                         <div className="toolbar" style={{marginTop:'18px'}}>
