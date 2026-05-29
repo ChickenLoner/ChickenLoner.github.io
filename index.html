@@ -510,6 +510,26 @@
         .featured-latest.am .fl-meta b{color:var(--soc-am)}
         .featured-latest.am .fl-cta{color:var(--soc-am);border-color:rgba(255,181,71,.4);background:rgba(255,181,71,.05)}
         .featured-latest.am:hover .fl-cta{background:rgba(255,181,71,.12)}
+        .featured-latest.gd{border-color:rgba(255,211,80,.45);background:radial-gradient(ellipse at 100% 0%,rgba(255,211,80,.10),transparent 60%),linear-gradient(180deg,var(--soc-bg-1),var(--soc-bg))}
+        .featured-latest.gd::before{background:linear-gradient(90deg,transparent,#ffd350,transparent)}
+        .featured-latest.gd:hover{border-color:rgba(255,211,80,.65)}
+        .featured-latest.gd .fl-glyph{background:linear-gradient(135deg,rgba(255,211,80,.18),rgba(255,211,80,.04));border-color:rgba(255,211,80,.5);color:#ffd350}
+        .featured-latest.gd .fl-tag{background:rgba(255,211,80,.10);color:#ffd350;border-color:rgba(255,211,80,.4)}
+        .featured-latest.gd .fl-tag::before{background:#ffd350;box-shadow:0 0 6px #ffd350}
+        .featured-latest.gd .fl-meta b{color:#ffd350}
+        .featured-latest.gd .fl-cta{color:#ffd350;border-color:rgba(255,211,80,.45);background:rgba(255,211,80,.06)}
+        .featured-latest.gd:hover .fl-cta{background:rgba(255,211,80,.14)}
+        .featured-latest.rd{border-color:rgba(255,80,80,.35);background:radial-gradient(ellipse at 100% 0%,rgba(255,80,80,.08),transparent 60%),linear-gradient(180deg,var(--soc-bg-1),var(--soc-bg))}
+        .featured-latest.rd::before{background:linear-gradient(90deg,transparent,var(--soc-rd),transparent)}
+        .featured-latest.rd:hover{border-color:rgba(255,80,80,.55)}
+        .featured-latest.rd .fl-glyph{background:linear-gradient(135deg,rgba(255,80,80,.18),rgba(255,80,80,.04));border-color:rgba(255,80,80,.45);color:var(--soc-rd)}
+        .featured-latest.rd .fl-tag{background:rgba(255,80,80,.10);color:var(--soc-rd);border-color:rgba(255,80,80,.35)}
+        .featured-latest.rd .fl-tag::before{background:var(--soc-rd);box-shadow:0 0 6px var(--soc-rd)}
+        .featured-latest.rd .fl-meta b{color:var(--soc-rd)}
+        .featured-latest.rd .fl-cta{color:var(--soc-rd);border-color:rgba(255,80,80,.4);background:rgba(255,80,80,.05)}
+        .featured-latest.rd:hover .fl-cta{background:rgba(255,80,80,.12)}
+        .fl-pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+        @media(max-width:600px){.fl-pair{grid-template-columns:1fr}}
         .cert-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
         .cert-grid.cert-grid-dense{grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
         .cert-grid.cert-grid-airy{grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
@@ -1389,6 +1409,15 @@
                 const sortedCertYrs  = Object.entries(certsByYear).sort((a,b)=>+a[0]-+b[0]);
                 const maxCertYrCnt   = sortedCertYrs.length ? Math.max(...sortedCertYrs.map(([,v])=>v),1) : 1;
                 const featuredCert   = certifications.find(c=>c.latest) || certifications[0];
+                const featuredLabSt  = statsLabsOnly.find(l=>l.latest) || statsLabsOnly[0] || null;
+                const featuredWinSt  = winsArr.find(c=>c.latest) || winsArr[0] || null;
+                const allFbSt        = fbData ? [...(fbData.btlo||[]), ...(fbData.htb_sherlock||[]), ...(fbData.cd||[])] : [];
+                const latestFbSt     = allFbSt.find(f=>f.latest) || allFbSt[0] || null;
+                const latestFbPlat   = fbData && latestFbSt
+                    ? (fbData.btlo||[]).includes(latestFbSt) ? 'Blue Team Labs Online'
+                    : (fbData.htb_sherlock||[]).includes(latestFbSt) ? 'HackTheBox Sherlock'
+                    : 'CyberDefenders'
+                    : '';
 
                 // ── Lab data ─────────────────────────────────────────────────
                 const PLAT_COLOR = {'CyberDefenders':'#297fff','HackTheBox':'#9fef00','Blue Team Labs Online':'#35c2f1'};
@@ -1584,7 +1613,8 @@
                             </div>
                         </div>
 
-                        {/* featured cert */}
+                        {/* featured highlights */}
+                        <div style={{display:'flex',flexDirection:'column',gap:'8px'}}>
                         {featuredCert && (
                             <div className="featured-latest">
                                 <div className="fl-glyph">
@@ -1604,6 +1634,60 @@
                                 <span className="fl-cta">{featuredCert.status || 'Active'}</span>
                             </div>
                         )}
+                        {featuredLabSt && (
+                            <a className="featured-latest am" href={featuredLabSt.link} target="_blank" rel="noopener noreferrer" style={{display:'grid'}}>
+                                <div className="fl-glyph">
+                                    {featuredLabSt.image
+                                        ? <img src={featuredLabSt.image} alt={featuredLabSt.title} style={{width:'100%',height:'100%',objectFit:'cover',borderRadius:'6px'}} />
+                                        : '⚗'}
+                                </div>
+                                <div>
+                                    <span className="fl-tag">Latest Lab</span>
+                                    <div className="fl-title">{featuredLabSt.title}</div>
+                                    <div className="fl-meta">
+                                        <span>platform=<b>{featuredLabSt.platform}</b></span><span>·</span>
+                                        <span>difficulty=<b>{featuredLabSt.difficulty||'N/A'}</b></span>
+                                    </div>
+                                </div>
+                                <span className="fl-cta">Play ↗</span>
+                            </a>
+                        )}
+                        {featuredWinSt && (
+                            <div className="featured-latest gd" style={{cursor:'default'}}>
+                                <div className="fl-glyph">
+                                    {featuredWinSt.image
+                                        ? <img src={featuredWinSt.image} alt={featuredWinSt.name} style={{width:'100%',height:'100%',objectFit:'cover',borderRadius:'6px'}} />
+                                        : '👑'}
+                                </div>
+                                <div>
+                                    <span className="fl-tag">Latest Win</span>
+                                    <div className="fl-title">{featuredWinSt.name}</div>
+                                    <div className="fl-meta">
+                                        <span>organizer=<b>{featuredWinSt.organizer}</b></span><span>·</span>
+                                        <span>year=<b>{featuredWinSt.year}</b></span>
+                                    </div>
+                                </div>
+                                <span className="fl-cta">{featuredWinSt.placement}</span>
+                            </div>
+                        )}
+                        {latestFbSt && (
+                            <a className="featured-latest rd" href={latestFbSt.url} target="_blank" rel="noopener noreferrer" style={{display:'grid'}}>
+                                <div className="fl-glyph">
+                                    {latestFbSt.image
+                                        ? <img src={latestFbSt.image} alt={latestFbSt.name} style={{width:'100%',height:'100%',objectFit:'cover',borderRadius:'6px'}} />
+                                        : '🩸'}
+                                </div>
+                                <div>
+                                    <span className="fl-tag">Latest First Blood</span>
+                                    <div className="fl-title">{latestFbSt.name}</div>
+                                    <div className="fl-meta">
+                                        <span>platform=<b>{latestFbPlat}</b></span>
+                                    </div>
+                                </div>
+                                <span className="fl-cta">Verify ↗</span>
+                            </a>
+                        )}
+                        </div>
 
                         {/* ── ACTIVITY TIMELINE ── */}
                         <h2 className="soc-section">Activity Timeline</h2>
@@ -2610,9 +2694,17 @@
                 const isPod = p => { const s=(p||'').toLowerCase(); return s.includes('2nd')||s.includes('second')||s.includes('3rd')||s.includes('third'); };
                 const placeClass = p => { if(isWin(p)) return 'gold'; if(isPod(p)) return 'silver'; return 'other'; };
 
-                const winsArr   = comps.filter(c => isWin(c.placement));
-                const winsCount = winsArr.length;
-                const podCount  = comps.filter(c => isPod(c.placement)).length;
+                const winsArr    = comps.filter(c => isWin(c.placement));
+                const winsCount  = winsArr.length;
+                const podCount   = comps.filter(c => isPod(c.placement)).length;
+                const featuredWin  = winsArr.find(c => c.latest) || winsArr[0] || null;
+                const allFb        = fbData ? [...(fbData.btlo||[]), ...(fbData.htb_sherlock||[]), ...(fbData.cd||[])] : [];
+                const latestBlood  = allFb.find(f => f.latest) || allFb[0] || null;
+                const latestBloodPlat = fbData && latestBlood
+                    ? (fbData.btlo||[]).includes(latestBlood) ? 'Blue Team Labs Online'
+                    : (fbData.htb_sherlock||[]).includes(latestBlood) ? 'HackTheBox Sherlock'
+                    : 'CyberDefenders'
+                    : '';
 
                 // Filter
                 const FILTERS = [
@@ -2752,6 +2844,44 @@
                             </div>
                         </div>
                     </section>
+
+                    {/* Featured banner — tab-aware */}
+                    {tab === 'competitions' && featuredWin && (
+                        <div className="featured-latest gd" style={{marginTop:'18px',cursor:'default'}}>
+                            <div className="fl-glyph">
+                                {featuredWin.image
+                                    ? <img src={featuredWin.image} alt={featuredWin.name} style={{width:'100%',height:'100%',objectFit:'cover',borderRadius:'6px'}} />
+                                    : '👑'}
+                            </div>
+                            <div>
+                                <span className="fl-tag">Latest Win</span>
+                                <div className="fl-title">{featuredWin.name}</div>
+                                <div className="fl-meta">
+                                    <span>organizer=<b>{featuredWin.organizer}</b></span><span>·</span>
+                                    <span>year=<b>{featuredWin.year}</b></span>
+                                    {featuredWin.team && <><span>·</span><span>team=<b>{featuredWin.team}</b></span></>}
+                                </div>
+                            </div>
+                            <span className="fl-cta">{featuredWin.placement}</span>
+                        </div>
+                    )}
+                    {tab === 'firstbloods' && latestBlood && (
+                        <a className="featured-latest rd" href={latestBlood.url} target="_blank" rel="noopener noreferrer" style={{marginTop:'18px',display:'grid'}}>
+                            <div className="fl-glyph">
+                                {latestBlood.image
+                                    ? <img src={latestBlood.image} alt={latestBlood.name} style={{width:'100%',height:'100%',objectFit:'cover',borderRadius:'6px'}} />
+                                    : '🩸'}
+                            </div>
+                            <div>
+                                <span className="fl-tag">Latest First Blood</span>
+                                <div className="fl-title">{latestBlood.name}</div>
+                                <div className="fl-meta">
+                                    <span>platform=<b>{latestBloodPlat}</b></span>
+                                </div>
+                            </div>
+                            <span className="fl-cta">Verify ↗</span>
+                        </a>
+                    )}
 
                     {/* ── Tabs ── */}
                     {(() => {
