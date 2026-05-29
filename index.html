@@ -2294,7 +2294,7 @@
 
             const LabsPage = () => {
                 const TWEAKS_KEY = 'soc-labs-tweaks-v3';
-                const TWEAKS_DEF = {density:'comfortable',yearDiv:true,covers:true,tags:true,crowDesc:true,retiredStyle:'A',labSort:'default',descLines:99};
+                const TWEAKS_DEF = {density:'comfortable',yearDiv:true,covers:true,tags:true,crowDesc:true,retiredStyle:'A',labSort:'default',descLines:99,showLatest:true};
                 const [tweaks, setTweaks] = React.useState(() => {
                     try { return {...TWEAKS_DEF, ...JSON.parse(localStorage.getItem(TWEAKS_KEY)||'{}')}; } catch { return TWEAKS_DEF; }
                 });
@@ -2508,7 +2508,7 @@
                         </section>
 
                         {/* Featured latest lab */}
-                        {featuredLab && (
+                        {featuredLab && tweaks.showLatest && (
                             <a className="featured-latest am" href={featuredLab.link} target="_blank" rel="noopener noreferrer" style={{marginTop:'18px',display:'grid'}}>
                                 <div className="fl-glyph">
                                     {featuredLab.image
@@ -2664,6 +2664,9 @@
                                     <div className={`tw-toggle${tweaks.crowDesc?' on':''}`} onClick={()=>saveTweaks({...tweaks,crowDesc:!tweaks.crowDesc})}>
                                         <span className="t">Descriptions</span><span className="sw"></span>
                                     </div>
+                                    <div className={`tw-toggle${tweaks.showLatest?' on':''}`} onClick={()=>saveTweaks({...tweaks,showLatest:!tweaks.showLatest})}>
+                                        <span className="t">Latest release banner</span><span className="sw"></span>
+                                    </div>
                                 </div>
                             </div>
                             <div className="tw-foot">Saved to <b onClick={()=>saveTweaks({...TWEAKS_DEF})}>localStorage</b> · click to reset</div>
@@ -2673,7 +2676,7 @@
             };
 
             const AchievementsPage = () => {
-                const TWEAKS_DEF = {groupBy:'year', featuredWins:true, density:'comfortable', fbCovers:true};
+                const TWEAKS_DEF = {groupBy:'year', featuredWins:true, density:'comfortable', fbCovers:true, showLatest:true};
                 const TWEAKS_KEY = 'soc-achiev-tweaks-v3';
                 const [tweaks,        setTweaks]        = useState(()=>{ try{ return {...TWEAKS_DEF,...JSON.parse(localStorage.getItem(TWEAKS_KEY)||'{}')}; }catch(e){ return TWEAKS_DEF; } });
                 const [tweaksOpen,    setTweaksOpen]    = useState(false);
@@ -2846,7 +2849,7 @@
                     </section>
 
                     {/* Featured banner — tab-aware */}
-                    {tab === 'competitions' && featuredWin && (
+                    {tab === 'competitions' && featuredWin && tweaks.showLatest && (
                         <div className="featured-latest gd" style={{marginTop:'18px',cursor:'default'}}>
                             <div className="fl-glyph">
                                 {featuredWin.image
@@ -2865,7 +2868,7 @@
                             <span className="fl-cta">{featuredWin.placement}</span>
                         </div>
                     )}
-                    {tab === 'firstbloods' && latestBlood && (
+                    {tab === 'firstbloods' && latestBlood && tweaks.showLatest && (
                         <a className="featured-latest rd" href={latestBlood.url} target="_blank" rel="noopener noreferrer" style={{marginTop:'18px',display:'grid'}}>
                             <div className="fl-glyph">
                                 {latestBlood.image
@@ -3091,6 +3094,9 @@
                                 </div>
                                 <div className={`tw-toggle${tweaks.fbCovers?' on':''}`} onClick={()=>saveTweaks({...tweaks,fbCovers:!tweaks.fbCovers})}>
                                     <span className="t">First blood covers</span><span className="sw"></span>
+                                </div>
+                                <div className={`tw-toggle${tweaks.showLatest?' on':''}`} onClick={()=>saveTweaks({...tweaks,showLatest:!tweaks.showLatest})}>
+                                    <span className="t">Latest banner</span><span className="sw"></span>
                                 </div>
                             </div>
                             <div className="tw-group">
