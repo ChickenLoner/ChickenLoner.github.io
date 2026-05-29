@@ -601,6 +601,11 @@
                             <tr><td><code>.ir-finding</code></td><td>Numbered finding card (IR only)</td></tr>
                             <tr><td><code>.soc-hero</code></td><td>Main hero box with gradient overlay</td></tr>
                             <tr><td><code>.res-cover / .ir-cover</code></td><td>Article/report cover image area</td></tr>
+                            <tr><td><code>.featured-latest</code></td><td>3-col hero banner (glyph · body · cta) for latest highlights. Used in StatsPage, CertificationsPage, LabsPage, AchievementsPage. Default accent: cyan.</td></tr>
+                            <tr><td><code>.featured-latest.am</code></td><td>Amber accent variant — used for latest lab release</td></tr>
+                            <tr><td><code>.featured-latest.gd</code></td><td>Gold accent variant — used for latest competition win</td></tr>
+                            <tr><td><code>.featured-latest.rd</code></td><td>Red accent variant — used for latest first blood</td></tr>
+                            <tr><td><code>.fl-pair</code></td><td>2-column responsive grid for side-by-side <code>.featured-latest</code> banners. Stacks to 1-col below 600px.</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -789,7 +794,7 @@ useEffect(() => {
     "image": "./assets/labs/utensil.png",
     "rating": 4.5,                  // optional
     "is_retired": true,
-    "latest": true,                 // only on the most recently released lab — drives activity feed
+    "latest": true,                 // only on the most recently released lab — drives activity feed + featured banner
     "tactics": ["TA0001", "TA0003"] // optional MITRE ATT&amp;CK
 }]</pre></div></div>
             </div>
@@ -821,12 +826,13 @@ useEffect(() => {
         "placement": "Winner",
         "year": "2026",
         "team": "TeamName",
-        "latest": true,             // only on the most recent win — drives activity feed
+        "latest": true,             // only on the most recent win — drives activity feed + featured banner
+        "image": "./assets/achievements/photo.png",  // optional — shown in featured-latest banner glyph
         "description": "Optional description shown in expandable row.",
         "tags": ["CTF"]
     }
 ]</pre></div></div>
-                <p><strong>Note:</strong> Talk images go in <code>assets/achievements/</code>. Competition entries have no cover image — use <code>description</code> for the expandable row detail.</p>
+                <p><strong>Note:</strong> Talk images go in <code>assets/achievements/</code>. Competition <code>image</code> is optional — shown in the <code>.featured-latest.gd</code> banner glyph when present. Use <code>description</code> for the expandable row detail.</p>
             </div>
 
             <div class="subsec">
