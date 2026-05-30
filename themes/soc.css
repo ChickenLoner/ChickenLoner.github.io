@@ -897,6 +897,23 @@ html[data-theme="light"] {
   .badge-marquee-track { animation-play-state: paused; }
 }
 
+/* ── Mobile breakpoints ───────────────────────────────────── */
+@media (max-width:640px) {
+  .soc-hero-stats { gap:16px; padding:12px 16px 20px; }
+  .soc-page-hero-body { padding:14px 16px; }
+}
+
+@media (max-width:480px) {
+  .soc-page-hero-title { font-size:18px; }
+  .res-toc-grid { grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); }
+  .soc-hs-bar { flex-wrap:wrap; }
+  .soc-hs-cell { min-width:50%; }
+}
+
+@media (max-width:360px) {
+  .soc-stat-grid { grid-template-columns:1fr; }
+}
+
 /* ═══════════════════════════════════════════════════════════
    T3 — Component adjustments for light mode
    ═══════════════════════════════════════════════════════════ */

@@ -43,11 +43,12 @@
         .soc-hs-lbl.gn::before { background:var(--soc-gn); }
         .soc-pill:hover { border-color:var(--soc-vi);color:var(--soc-vi); }
         .soc-pill.active { background:var(--soc-vi-tint-md);border-color:var(--soc-vi-tint-bdr);color:var(--soc-vi); }
-        .soc-search-bar { flex:none;min-height:48px; }
+        .soc-search-bar { flex:1;min-width:200px;min-height:48px; }
         .soc-search-bar input { font-size:14px; }
         .soc-table tbody tr:hover { background:var(--soc-vi-tint-lo); }
         /* Provider cards */
         .soc-provider-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px; }
+        @media (max-width:480px) { .soc-provider-grid { grid-template-columns:repeat(2,1fr);gap:8px; } }
         .soc-provider-card { border:1px solid var(--soc-line);border-radius:6px;padding:14px;text-align:center;cursor:pointer;background:var(--soc-bg-1);transition:all .12s;display:flex;flex-direction:column;align-items:center;gap:8px; }
         .soc-provider-card:hover { border-color:var(--soc-line2); }
         .soc-provider-card.active { border-color:var(--soc-vi);background:var(--soc-vi-tint-lo);box-shadow:0 0 0 1px var(--soc-vi-tint-box); }
