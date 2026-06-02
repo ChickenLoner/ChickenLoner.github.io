@@ -37,7 +37,7 @@
     },
     {
         "name":  "BTL1 - Blue Team Level 1",
-        "issuer":  "Security Blue Team",
+        "issuer":  "Centri",
         "year":  "2025",
         "status":  "Active",
         "category":  "Blue Team \u0026 Detection",
@@ -46,7 +46,7 @@
     },
     {
         "name":  "CJDE - Certified Junior Detection Engineer",
-        "issuer":  "Security Blue Team",
+        "issuer":  "Centri",
         "year":  "2026",
         "status":  "Active",
         "category":  "Blue Team \u0026 Detection",
