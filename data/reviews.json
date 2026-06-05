@@ -1,5 +1,16 @@
 [
   {
+    "title": "GX-FE Exam Review: Practical Windows Forensics with GIAC",
+    "excerpt": "A review of the GIAC Experienced Forensics Examiner (GX-FE) certification, the applied progression after GCFE. Covers 25 all-CyberLive hands-on questions, how to prepare without official SANS training, the demo question recon strategy, and honest exam-day experience.",
+    "date": "June 2026",
+    "readTime": "5 min read",
+    "tags": ["GX-FE", "GIAC", "DFIR", "Windows Forensics", "Advanced"],
+    "url": "/reviews/gx-fe/index.html",
+    "image": "/assets/badges/gx-fe.png",
+    "difficulty": "Advanced",
+    "rating": 5.0
+  },
+  {
     "title": "Hackviser CSOA Review: The Path is Solid, The Exam is Not",
     "excerpt": "A review of Hackviser's first blue team certification, the CSOA. Covers the 108-lab learning path across 10 modules (SOC fundamentals, forensics, reverse engineering, threat hunting), the 24-hour exam format, and honest thoughts on why the exam falls short of what the path teaches.",
     "date": "May 2026",

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GX-FE Exam Review: Practical Windows Forensics with GIAC | Chicken0248</title>
+    <meta name="description" content="A review of the GIAC Experienced Forensics Examiner (GX-FE) certification, the applied progression after GCFE. Covers 25 all-CyberLive hands-on questions, demo question recon strategy, and honest exam-day experience." />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Chicken0248" />
+    <meta property="og:url" content="https://chickenloner.github.io/reviews/gx-fe/" />
+    <meta property="og:title" content="GX-FE Exam Review: Practical Windows Forensics with GIAC" />
+    <meta property="og:description" content="A review of the GIAC Experienced Forensics Examiner (GX-FE) certification, the applied progression after GCFE. Covers 25 all-CyberLive hands-on questions, demo question recon strategy, and honest exam-day experience." />
+    <meta property="og:image" content="https://chickenloner.github.io/reviews/gx-fe/cover.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@Chicken_0248" />
+    <meta name="twitter:title" content="GX-FE Exam Review: Practical Windows Forensics with GIAC" />
+    <meta name="twitter:description" content="A review of the GIAC Experienced Forensics Examiner (GX-FE) certification, the applied progression after GCFE. Covers 25 all-CyberLive hands-on questions, demo question recon strategy, and honest exam-day experience." />
+    <meta name="twitter:image" content="https://chickenloner.github.io/reviews/gx-fe/cover.jpg" />
+    <link rel="canonical" href="https://chickenloner.github.io/reviews/gx-fe/" />
+    <link rel="icon" href="/chicken0248.png" type="image/png">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.29.2/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@1.14.0/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="/themes/soc.css">
+    <script src="/themes/soc-theme.js"></script>
+    <script src="/themes/soc-nav.js"></script>
+    <script src="/themes/soc-components.js"></script>
+</head>
+<body>
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-white focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg focus:text-blue-600 focus:font-semibold">Skip to content</a>
+    <noscript>
+      <style>body{font-family:system-ui,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}</style>
+      <div style="text-align:center;padding:2rem"><h1>JavaScript required</h1><p>This site requires JavaScript to display content. Please enable it in your browser settings.</p><a href="https://chickenloner.github.io">chickenloner.github.io</a></div>
+    </noscript>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+        const { SocClock, Icon, Section, Fig, resetFigCount, TipList, B, A, Code, ThemeToggle } = window.SocComponents;
+
+        const Callout = ({ children }) => (
+            <blockquote className="bg-amber-50 border-l-4 border-amber-400 rounded-r-xl px-5 py-4 my-4 text-gray-700 italic text-sm leading-relaxed">
+                {children}
+            </blockquote>
+        );
+
+        const renderStars = (rating) => {
+            const full = Math.floor(rating);
+            const half = rating - full >= 0.5;
+            return '★'.repeat(full) + (half ? '½' : '') + '☆'.repeat(5 - full - (half ? 1 : 0));
+        };
+
+        const App = () => {
+            const [meta, setMeta] = useState(null);
+
+            useEffect(() => {
+                fetch('/data/reviews.json')
+                    .then(r => r.json())
+                    .then(data => {
+                        const entry = data.find(r => r.url === '/reviews/gx-fe/index.html');
+                        if (entry) setMeta(entry);
+                    })
+                    .catch(() => {});
+            }, []);
+
+            resetFigCount();
+
+            const tocItems = [
+                { id: 'introduction', label: 'Introduction', icon: 'BookOpen' },
+                { id: 'exam-preparation', label: 'Exam Preparation', icon: 'ClipboardList' },
+                { id: 'exam-experience', label: 'Exam Experience', icon: 'FlaskConical' },
+                { id: 'review-summary', label: 'Review Summary', icon: 'Star' },
+            ];
+
+            return (
+                <div style={{background:'var(--soc-bg)',minHeight:'100vh'}}>
+
+                    <nav className="soc-tb" aria-label="Site navigation">
+                        <div className="soc-tb-row">
+                            <a href="/" className="soc-live" style={{textDecoration:"none",color:"inherit"}}>UPLINK</a>
+                            <div className="soc-crumb hidden md:flex">
+                                <a href="/" style={{color:'var(--soc-ink3)',textDecoration:'none'}}>SOC</a>
+                                <span>/</span>
+                                <a href="/" style={{color:'var(--soc-ink3)',textDecoration:'none'}}>OPERATOR.PROFILE</a>
+                                <span>/</span>
+                                <a href="/reviews/index.html" style={{color:'var(--soc-ink3)',textDecoration:'none'}}>REVIEWS</a>
+                                <span>/</span>
+                                <b>GX-FE</b>
+                            </div>
+                            <div style={{flex:1}} />
+                            <span className="sev cyan hidden md:inline-flex"><span className="dot"></span>TLP:CLEAR</span>
+                            <span className="sev amber hidden md:inline-flex"><span className="dot"></span>CERT.REVIEW</span>
+                            <span className="hidden md:block"><SocClock /></span><ThemeToggle />
+                        </div>
+                    </nav>
+
+                    <main id="main-content" style={{maxWidth:'860px',margin:'0 auto',padding:'24px 20px'}} className="animate-fadeIn">
+
+                        <div className="res-cover">
+                            <img src="cover.jpg" alt="GX-FE Exam Review: Practical Windows Forensics with GIAC" />
+                            <div className="res-cover-overlay" />
+                            <div className="res-cover-content">
+                                <h1 className="res-cover-title">GX-FE Exam Review: Practical Windows Forensics with GIAC</h1>
+                                <div className="res-cover-badges">
+                                    <span className="sev cyan"><span className="dot"></span>June 2026</span>
+                                    <span className="sev amber"><span className="dot"></span>GIAC</span>
+                                    <span className="sev green"><span className="dot"></span>Passed</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="res-meta-grid">
+                            <div><div className="res-meta-lbl">Certification</div><div className="res-meta-val">GX-FE</div></div>
+                            <div><div className="res-meta-lbl">Provider</div><div className="res-meta-val">GIAC</div></div>
+                            <div><div className="res-meta-lbl">Difficulty</div><div className="res-meta-val" style={{color:'var(--soc-am)'}}>{meta?.difficulty ?? '—'}</div></div>
+                            <div><div className="res-meta-lbl">Rating</div>
+                                <div className="res-meta-val">
+                                    {meta?.rating ? (
+                                        <span style={{display:'flex',alignItems:'center',gap:'4px'}}>
+                                            <span style={{color:'var(--soc-am)'}}>{renderStars(meta.rating)}</span>
+                                            <span style={{color:'var(--soc-ink3)',fontSize:'11px'}}>{meta.rating.toFixed(1)}/5.0</span>
+                                        </span>
+                                    ) : <span style={{color:'var(--soc-ink4)'}}>—</span>}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="res-toc">
+                            <div className="res-toc-title">// TABLE OF CONTENTS</div>
+                            <div className="res-toc-grid">
+                                {tocItems.map((item, i) => (
+                                    <a key={item.id} href={`#${item.id}`} className="res-toc-item">
+                                        <span className="res-toc-num">{String(i+1).padStart(2,'0')}.</span>
+                                        <Icon name={item.icon} className="w-3.5 h-3.5" style={{color:'var(--soc-ink4)',flexShrink:0}} />
+                                        <span>{item.label}</span>
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+
+                        <Section id="introduction" title="Introduction" icon="BookOpen">
+                            <p className="text-gray-700 leading-relaxed">Hello everyone, it's Chicken0248 again! After passing the GCFE back in May, I figured I should strike while the iron is hot. So I grabbed a GX-FE voucher and scheduled the exam for early June to keep the momentum going. Looking back, that was absolutely the right call since the GX-FE sits naturally as the advanced progression after GCFE.</p>
+                            <Fig src="image-1.png" alt="GCFE and GX-FE certification relationship" />
+                            <p className="text-gray-700 leading-relaxed">The affiliated training courses for this certification are FOR500 as the primary fit, with FOR498, FOR508, and FOR608 as supplementary options. I have to be upfront: that is a significant financial commitment. Each of those courses runs somewhere between $8,500 and $8,900.</p>
+                            <Fig src="image-2.png" alt="GIAC affiliated training courses and pricing" />
+                            <p className="text-gray-700 leading-relaxed">One thing worth mentioning: if you hold an active GCFE, you can grab the GX-FE exam voucher for just $499. Without it, you are looking at the full price of $1,299. GIAC is clearly nudging you to go through GCFE first before attempting GX-FE, and I think that is the right approach. The gap between the two is real and you will feel it.</p>
+                            <p className="text-gray-700 leading-relaxed">If you are curious about how I prepared and what the whole experience was like, stick around because I will be sharing everything in this review.</p>
+                        </Section>
+
+                        <Section id="exam-preparation" title="Exam Preparation" icon="ClipboardList">
+                            <p className="text-gray-700 leading-relaxed">Before getting into preparation, let's start with the exam format and objectives. Take a look at the <A href="https://www.giac.org/certifications/experienced-forensics-examiner-gxfe">GIAC Experienced Forensics Examiner (GX-FE)</A> page first.</p>
+                            <Fig src="image-3.png" alt="GIAC GX-FE certification page" />
+                            <p className="text-gray-700 leading-relaxed">Like every other GIAC exam, GX-FE follows an open book and open notes format, so you are allowed to bring your references in. What makes this one stand out: every single question is a CyberLive question. For those unfamiliar, CyberLive questions are not your typical multiple choice. They require you to actually perform actions inside a live environment to get the answer, which is a completely different beast compared to standard knowledge-based questions.</p>
+                            <p className="text-gray-700 leading-relaxed">In total, you will be facing 25 CyberLive questions within a 4-hour timeframe, roughly 9 to 10 minutes per question. That sounds manageable on paper, but when each question demands hands-on investigation, that time window can get tight pretty quickly. Speed and familiarity with your tools matter a lot here.</p>
+                            <Fig src="image-4.png" alt="GX-FE exam objectives overview" />
+                            <p className="text-gray-700 leading-relaxed">Looking at the exam objectives, you will notice that GX-FE closely mirrors what GCFE covers since it is built as the advanced version of GCFE. The core difference is the shift from theory-based questions to fully hands-on ones. What that means practically: the notes and cheatsheets you built during your GCFE prep are still very much relevant. You do not need to start from scratch.</p>
+                            <p className="text-gray-700 leading-relaxed">That said, the focus does shift. You lean heavier into the tooling side: how to use your tools efficiently, how to interpret the output they give you, and what the forensic implications of each artifact actually are. The knowledge is the same, but now the exam is testing whether you can extract and act on that knowledge under time pressure. With 25 hands-on questions in 4 hours, that pressure is very real.</p>
+                            <p className="text-gray-700 leading-relaxed">For those who want to know how to prepare for GCFE without official SANS material, I have written about that in detail <A href="https://chickenloner.github.io/reviews/gcfe/index.html">here</A>. And if there is enough demand for it, I will also put together a resource list covering each topic in the FOR500 official syllabus.</p>
+                            <p className="text-gray-700 leading-relaxed">One thing worth pointing out: all GIAC GX (Applied Knowledge) certifications do not come with a practice test. Going in, you have no real way of knowing what kind of questions to expect or what tools will actually show up in the exam environment. That can feel unsettling if you are used to having that safety net.</p>
+                            <Fig src="image-5.png" alt="GX-FE demo questions purchase page" />
+                            <p className="text-gray-700 leading-relaxed">Since there are so many forensics tools out there, it is not exactly obvious which ones are taught specifically in the FOR500 training. But GIAC does give you a way in: demo questions for GX-FE at $39 each. Each set comes with 3 questions and a 45-minute window to complete them.</p>
+                            <p className="text-gray-700 leading-relaxed">My recommendation is to buy just one. The goal is not to practice your way through as many demo sets as possible. It is to get inside the environment, see how it is structured, figure out which tools are available, and identify your knowledge gaps. Think of it as a reconnaissance mission rather than a study session. Once you know what tools are sitting in that environment, you can go back and make sure you are comfortable using them before the real thing.</p>
+                            <Fig src="image-6.png" alt="GX-FE demo question environment" />
+                            <p className="text-gray-700 leading-relaxed">On a funny note, I actually had a head start that I completely squandered. Someone in my community attends a lot of SANS live events and was generous enough to grab some demo questions for us to play around with. I picked GX-FE back then, had the opportunity right in front of me, and then just forgot about it until it expired. Honestly, I have no one to blame but myself on that one.</p>
+                            <Fig src="image-7.png" alt="Expired demo question notification" />
+                            <p className="text-gray-700 leading-relaxed">The show must go on, so I went ahead and bought another one. Here is something reassuring if you are planning to do the same: you get 70 days to complete the demo questions. No need to rush through it in one sitting. Take your time, work through the environment properly, and document everything. Write down which tools are available, how they behave, and which ones you feel less confident with. That documentation will come in handy when you go back to study.</p>
+                            <p className="text-gray-700 leading-relaxed">Once you feel comfortable with the tools and confident enough to sit the real thing, it is time to schedule the exam. Let's get into how that went.</p>
+                        </Section>
+
+                        <Section id="exam-experience" title="Exam Experience" icon="FlaskConical">
+                            <Fig src="image-8.png" alt="Splunk Boss of the SOC v10 win at Splunk Thailand Experience Day 2026" />
+                            <p className="text-gray-700 leading-relaxed">I bought the exam voucher on the same day I won Splunk Boss of the SOC v10 at Splunk Thailand Experience Day 2026. After that, I had to wait for the voucher to arrive after a background check by GIAC.</p>
+                            <Fig src="image-9.png" alt="Exam center scheduling confirmation" />
+                            <p className="text-gray-700 leading-relaxed">The next day, I scheduled the exam at the same center where I took my GCFE. The staff are professional, they understand how GIAC exams work, and the internet is stable. I originally wanted June 5, 2026 (Friday) but no slot was available, so I picked June 4, 2026 at 13:30 instead.</p>
+                            <p className="text-gray-700 leading-relaxed">I did not prepare much beyond what I already studied for GCFE, since I felt CyberLive would be to my advantage. I have completed 500+ blue team labs across HackTheBox Sherlocks, TryHackMe, Blue Team Labs Online, and CyberDefenders. I also had extra knowledge from GCFE study: USB device forensics, cloud storage (which I rarely encounter in labs), and some browser forensics. I kept it relaxed by creating digital forensics content for CyberDefenders, since I had a backlog of ideas with no time to implement them.</p>
+                            <p className="text-gray-700 leading-relaxed">On exam day, I woke up early and ate healthy food, which somehow left me mildly sick for the rest of the morning. The show must go on, so I rested until nearly 12:00, then called a ride to the exam center (bringing the same notes I used for GCFE, no additions). I arrived around 12:40 to 12:50, waited until 13:00, checked in without issue, and took the exam.</p>
+                            <p className="text-gray-700 leading-relaxed">The exam was very enjoyable. Out of 25 questions, I skipped 2 and could not find answers for another 2. For one of the skipped questions, I did not know how to interpret a specific artifact value, so I had to work through it manually and eventually landed on what I believe is the correct answer. With 4 hours for 25 questions, each question gets roughly 8 to 9 minutes, though you can speed through the straightforward ones to bank time for the harder ones.</p>
+                            <p className="text-gray-700 leading-relaxed">The questions are a mix of straightforward and complex, and more than half lean toward the complex side. To get through efficiently, you need to read the question, immediately identify which artifacts hold the answer, and decide whether correlation with other artifacts is needed. I found that process genuinely enjoyable. The most enjoyable digital forensics exam I have taken so far.</p>
+                            <p className="text-gray-700 leading-relaxed">Back to the 2 questions I could not solve. I still had about an hour left, but my sickness caught up with me. Stomachache from skipping lunch after only eating breakfast. By around the 3-hour mark it was roughly 16:30, and my stomach was not going to wait any longer. I gave up on those 2 questions.</p>
+                            <Fig src="image-10.png" alt="GX-FE exam result summary" />
+                            <p className="text-gray-700 leading-relaxed">For GIAC's Applied Knowledge certifications (GX exams), they do not explicitly tell you the total questions or passing score needed. Since I had figured out most of them, I was confident I already passed, so I guessed on those 2. Guessed wrong, of course, as reflected in the exam summary above.</p>
+                            <p className="text-gray-700 leading-relaxed">I'd say I did pretty well.</p>
+                        </Section>
+
+                        <Section id="review-summary" title="Review Summary" icon="Star">
+                            <p className="text-gray-700 leading-relaxed">The GX-FE is highly recommended for anyone who enjoys digital forensics, especially Windows. It is another milestone beyond GCFE. Where GCFE tests your theory and artifact knowledge, GX-FE makes sure you can actually do the job. That is why it is called "GIAC Experienced Forensics Examiner." If you cannot immediately identify the right artifacts, you will burn time and risk leaving questions unanswered.</p>
+                            <p className="text-gray-700 leading-relaxed">I also now understand why GX exams have no practice test. For those who already passed the practitioner version like GCFE, it is available at $499. That price <B>is</B> the practice test. At this level, you are "experienced" for a reason. Your accumulated knowledge, your lab hours, your real investigations: those are your preparation. You do not need a practice test. Your experience is proof enough.</p>
+                            <p className="text-gray-700 leading-relaxed">If you have earned your GCFE and have solid hands-on time in blue team work, take the GX-FE. You are more ready than you think.</p>
+                            <p className="text-gray-700 leading-relaxed">And that's it for this review. Thank you for reading. Peace out. ✌</p>
+                        </Section>
+
+                        <div className="soc-ft">
+                            <a href="/reviews/index.html" style={{color:'var(--soc-ink4)',textDecoration:'none'}}>← ALL REVIEWS</a>
+                            <span style={{margin:'0 12px'}}>|</span>
+                            <a href="#" style={{color:'var(--soc-ink4)',textDecoration:'none'}}>↑ BACK TO TOP</a>
+                        </div>
+
+                    </main>
+                </div>
+            );
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>
