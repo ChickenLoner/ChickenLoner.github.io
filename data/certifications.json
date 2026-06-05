@@ -365,8 +365,17 @@
         "year":  "2026",
         "status":  "Active",
         "category":  "Digital Forensics & DFIR",
-        "latest":  true,
         "badge":  "./assets/badges/gcfe.png",
         "url":  "https://www.credly.com/badges/8310c41e-ac21-4e60-92a2-050535ac0928/public_url"
+    },
+    {
+        "name":  "GX-FE - GIAC Certified Forensics Examiner",
+        "issuer":  "Global Information Assurance Certification (GIAC)",
+        "year":  "2026",
+        "status":  "Active",
+        "category":  "Digital Forensics & DFIR",
+        "latest":  true,
+        "badge":  "./assets/badges/gx-fe.png",
+        "url":  "https://www.credly.com/badges/47ec3bda-8c7f-40aa-b331-6629cd55f5c2/public_url"
     }
 ]
