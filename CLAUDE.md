@@ -9,4 +9,11 @@ If there is any change that affects skill located at ./.claude/skills then make 
 Let user experience and when he "satisfied" then commit and push to github.
 
 If there is any problem that keep repeating, put them here to prevent the same problem occurs in the future
-- 
+-
+
+## Responsive Design
+All design changes must consider mobile responsiveness. Every new page, component, or layout change must:
+- Test at mobile breakpoints (≤768px phones, ≤1024px tablets)
+- Avoid hardcoded pixel widths on containers; use `%`, `vw`, `max-width`, or flexbox/grid
+- Hide or stack elements that overflow on small screens
+- Check topbar, hero, grid, and card components on mobile after any layout edit
