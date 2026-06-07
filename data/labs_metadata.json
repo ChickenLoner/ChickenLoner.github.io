@@ -161,7 +161,7 @@
     ]
   },
   "CodeFreeze": {
-    "rating": 4.8,
+    "rating": 4.7,
     "player_difficulty": "medium",
     "is_retired": false,
     "tactics": [
@@ -176,7 +176,7 @@
     ]
   },
   "Satisfaction": {
-    "rating": 4.7,
+    "rating": 4.5,
     "player_difficulty": "hard",
     "is_retired": false,
     "tactics": [
