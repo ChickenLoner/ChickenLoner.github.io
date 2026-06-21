@@ -33,6 +33,17 @@
     "url": "https://www.youtube.com/watch?v=lOaHYUC0-50"
   },
   {
+    "category": "talk",
+    "name": "RED skills Drive BLUE Defense Like a Skyrocketing Force",
+    "event": "Suan Dusit University",
+    "year": "2026",
+    "role": "Speaker",
+    "description": "14 March 2026, 09:00-16:00",
+    "image": "./assets/achievements/red_skills_drive_blue_defense.jpg",
+    "tags": [],
+    "url": ""
+  },
+  {
     "category": "competition",
     "name": "Splunk Boss of The SOC v10 — Splunk Experience Day Thailand 2026",
     "organizer": "Splunk",
