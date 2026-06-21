@@ -609,5 +609,20 @@
     ],
     "type": "project",
     "image": "./assets/labs/trailinspector.jpg"
+  },
+  {
+    "title": "QuotaWatch",
+    "description": "Multi-provider AI token and quota monitor for Windows (system tray + popup UI) and Linux (statusline + TUI). Tracks Claude, OpenAI Codex, Windsurf, and Google Antigravity with real-time polling, severity alerts, and global hotkeys.",
+    "platform": "GitHub",
+    "link": "https://github.com/ChickenLoner/quota-watch",
+    "tags": [
+      "Tool",
+      "AI Tools",
+      "Python",
+      "Windows",
+      "Linux"
+    ],
+    "type": "project",
+    "image": "./assets/labs/quotawatch.png"
   }
 ]
