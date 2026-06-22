@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://chicken0248.fyi/sitemap.xml
