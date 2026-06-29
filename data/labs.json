@@ -341,7 +341,7 @@
     "type": "lab",
     "image": "./assets/labs/htb-liberty.png",
     "difficulty": "medium",
-    "rating": 4.5,
+    "rating": 4.6,
     "is_retired": false
   },
   {
@@ -357,7 +357,7 @@
     "image": "./assets/labs/jobapplicant.png",
     "difficulty": "hard",
     "player_difficulty": "hard",
-    "rating": 4.3,
+    "rating": 4.5,
     "is_retired": false
   },
   {
