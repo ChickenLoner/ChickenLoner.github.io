@@ -80,7 +80,7 @@
     ]
   },
   "LFI Escalation": {
-    "rating": 4.7,
+    "rating": 4.6,
     "player_difficulty": "hard",
     "is_retired": true,
     "tactics": [
