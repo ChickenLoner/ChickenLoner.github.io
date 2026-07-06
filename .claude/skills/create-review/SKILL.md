@@ -79,6 +79,7 @@ Read `.claude/skills/create-review/template.html` as your starting point. Replac
 | `{{CERT_SHORT}}` | Short cert acronym (e.g. `CSOA`) |
 | `{{PROVIDER}}` | Certification provider name |
 | `{{DATE}}` | Month + year (e.g. `May 2026`) |
+| `{{DATE_ISO}}` | ISO date for JSON-LD `datePublished`, e.g. `2026-05-01` (use `YYYY-MM-01` when only month is known) |
 | `{{SECTION_N_ID}}` | Kebab-case anchor id (e.g. `exam-experience`) |
 | `{{SECTION_N_LABEL}}` | Section display name |
 | `{{SECTION_N_ICON}}` | Lucide icon name (see 4b below) |

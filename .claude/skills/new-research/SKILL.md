@@ -81,6 +81,7 @@ Read `.claude/skills/new-research/template.html` as your starting point. Replace
 | `{{TITLE}}` | Full article title |
 | `{{DESCRIPTION}}` | Meta description (1–2 sentences) |
 | `{{DATE_DISPLAY}}` | Human-readable date, e.g. `January 10, 2026` |
+| `{{DATE_ISO}}` | ISO date for JSON-LD `datePublished`, same as `date`, e.g. `2026-01-10` |
 | `{{CAT_SEV}}` | Sev class: `cyan` (Digital Forensics), `red` (Red Teaming), `amber` (Lab Making) |
 | `{{CATEGORY}}` | Category label, e.g. `Digital Forensics` |
 | `{{CATEGORY_UPPER}}` | Uppercase for topbar badge, e.g. `DIGITAL FORENSICS` |

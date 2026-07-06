@@ -68,6 +68,7 @@ Read `.claude/skills/new-ir-report/template.html` as your starting point. Replac
 | `{{INCIDENT_ID}}` | Incident identifier, e.g. `HTB-OpTinselTrace-2023` |
 | `{{DATE_RANGE}}` | Incident period, e.g. `November – December 2023` |
 | `{{REPORT_DATE}}` | Date report was written, e.g. `April 7, 2026` |
+| `{{DATE_ISO}}` | ISO form of the report date for JSON-LD `datePublished`, e.g. `2026-04-07` |
 | `{{CONTENT}}` | Replace with actual JSX content |
 | `{{FINDING_TITLE}}` | Finding title text |
 | `{{IOC}}` / `{{HASH}}` / `{{FILENAME}}` | IOC values |
