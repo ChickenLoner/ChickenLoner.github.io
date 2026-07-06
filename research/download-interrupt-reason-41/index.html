@@ -29,6 +29,21 @@
     <script src="/themes/soc-theme.js"></script>
     <script src="/themes/soc-nav.js"></script>
     <script src="/themes/soc-components.js"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "Browser Can Lie to You (Sometimes): An Odd Finding About Download Interrupt Reason 41",
+      "description": "Interrupt reason 41 in Chromium download history is documented as browser shutdown, but Safe Browsing and SmartScreen blocks record the exact same value. Tested across Edge, Chrome, Chromium, and Brave.",
+      "image": "https://chicken0248.fyi/assets/research/download-interrupt-reason-41/cover.png",
+      "author": { "@type": "Person", "name": "Chicken0248", "url": "https://chicken0248.fyi/" },
+      "publisher": { "@type": "Person", "name": "Chicken0248", "url": "https://chicken0248.fyi/" },
+      "datePublished": "2026-07-06",
+      "dateModified": "2026-07-06",
+      "mainEntityOfPage": { "@type": "WebPage", "@id": "https://chicken0248.fyi/research/download-interrupt-reason-41/" },
+      "keywords": "download interrupt reason 41, browser shutdown, SmartScreen, Safe Browsing, browser forensics, Chromium, DFIR"
+    }
+    </script>
 </head>
 <body>
     <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-white focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg focus:text-blue-600 focus:font-semibold">Skip to content</a>
@@ -240,6 +255,10 @@
                             </Callout>
 
                             <p className="text-gray-700 leading-relaxed">As forensics examiners, our job is to give accurate conclusions backed by evidence. That means knowing when a number is ambiguous and when you need more context before committing to an interpretation.</p>
+
+                            <Callout type="info">
+                                <p>Part 2 is up: <a href="/research/download-interrupt-reason-12/index.html">A Failed Security Check That Still Landed the File</a>, about interrupt reason 12 and how a failed security check leaves the complete file on disk even though the download shows as interrupted.</p>
+                            </Callout>
                         </Section>
 
                         <div className="soc-ft">

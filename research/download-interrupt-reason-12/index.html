@@ -29,6 +29,21 @@
     <script src="/themes/soc-theme.js"></script>
     <script src="/themes/soc-nav.js"></script>
     <script src="/themes/soc-components.js"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "Browser Can Lie to You (Sometimes), Part 2: A Failed Security Check That Still Landed the File",
+      "description": "Download interrupt reason 12 (Security Check Failed) marks a download as interrupted, but the file has already finished writing to disk. The failure is in the post-download Windows attachment scan, not the transfer.",
+      "image": "https://chicken0248.fyi/assets/research/download-interrupt-reason-12/cover.png",
+      "author": { "@type": "Person", "name": "Chicken0248", "url": "https://chicken0248.fyi/" },
+      "publisher": { "@type": "Person", "name": "Chicken0248", "url": "https://chicken0248.fyi/" },
+      "datePublished": "2026-07-06",
+      "dateModified": "2026-07-06",
+      "mainEntityOfPage": { "@type": "WebPage", "@id": "https://chicken0248.fyi/research/download-interrupt-reason-12/" },
+      "keywords": "download interrupt reason 12, FILE_SECURITY_CHECK_FAILED, security check failed, browser forensics, Chromium, Mark-of-the-Web, Zone.Identifier, DFIR"
+    }
+    </script>
 </head>
 <body>
     <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-white focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg focus:text-blue-600 focus:font-semibold">Skip to content</a>
@@ -144,7 +159,7 @@
                         </div>
 
                         <Section id="introduction" title="Introduction" icon="BookOpen">
-                            <p className="text-gray-700 leading-relaxed">Hey everyone, it's me, Chicken0248. If you read my last post on interrupt reason 41, you already know I have a bit of a thing for the numbers Chromium writes into the downloads history table. This one is a follow-up of sorts, about a different value that tripped me up: <B>interrupt reason 12</B>.</p>
+                            <p className="text-gray-700 leading-relaxed">Hey everyone, it's me, Chicken0248. If you read my <a href="/research/download-interrupt-reason-41/index.html">last post on interrupt reason 41</a>, you already know I have a bit of a thing for the numbers Chromium writes into the downloads history table. This one is a follow-up of sorts, about a different value that tripped me up: <B>interrupt reason 12</B>.</p>
 
                             <p className="text-gray-700 leading-relaxed">Quick refresher in case you skipped the last one. Every Chromium-based browser keeps a <C>downloads</C> table in its <C>History</C> SQLite database, and for every download it records a numeric <C>interrupt_reason</C> describing what happened along the way. You can find all of them in the Chromium source at <a href="https://source.chromium.org/chromium/chromium/src/+/main:components/download/public/common/download_interrupt_reason_values.h" target="_blank" rel="noopener noreferrer">download_interrupt_reason_values.h</a>, and Ryan Benson (author of <a href="https://dfir.blog/" target="_blank" rel="noopener noreferrer">Hindsight</a>) already mapped them to readable meanings in his <a href="https://dfir.blog/chrome-values-lookup-tables/" target="_blank" rel="noopener noreferrer">Chrome Values Lookup Tables</a>.</p>
 
