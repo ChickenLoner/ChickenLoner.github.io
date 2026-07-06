@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser Can Lie to You (Sometimes), Part 2: A Failed Security Check That Still Landed the File | Chicken0248</title>
+    <meta name="description" content="Chromium records download interrupt reason 12 as a failed security check, but the file is already sitting complete on disk. Here is why, and why it is not the archive's fault." />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Chicken0248" />
+    <meta property="og:url" content="https://chicken0248.fyi/research/download-interrupt-reason-12/" />
+    <meta property="og:title" content="Browser Can Lie to You (Sometimes), Part 2: A Failed Security Check That Still Landed the File" />
+    <meta property="og:description" content="Chromium records download interrupt reason 12 as a failed security check, but the file is already sitting complete on disk. Here is why, and why it is not the archive's fault." />
+    <meta property="og:image" content="https://chicken0248.fyi/assets/research/download-interrupt-reason-12/cover.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@Chicken_0248" />
+    <meta name="twitter:title" content="Browser Can Lie to You (Sometimes), Part 2: A Failed Security Check That Still Landed the File" />
+    <meta name="twitter:description" content="Chromium records download interrupt reason 12 as a failed security check, but the file is already sitting complete on disk. Here is why, and why it is not the archive's fault." />
+    <meta name="twitter:image" content="https://chicken0248.fyi/assets/research/download-interrupt-reason-12/cover.png" />
+    <link rel="canonical" href="https://chicken0248.fyi/research/download-interrupt-reason-12/" />
+    <link rel="icon" href="/chicken0248.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.29.2/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@1.14.0/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="/themes/soc.css">
+    <script src="/themes/soc-theme.js"></script>
+    <script src="/themes/soc-nav.js"></script>
+    <script src="/themes/soc-components.js"></script>
+</head>
+<body>
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-white focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg focus:text-blue-600 focus:font-semibold">Skip to content</a>
+    <noscript>
+        <style>body{font-family:system-ui,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}</style>
+        <div style="text-align:center;padding:2rem"><h1>JavaScript required</h1><p>This site requires JavaScript to display content.</p><a href="https://chicken0248.fyi">chicken0248.fyi</a></div>
+    </noscript>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        const { SocClock, Icon, Section, CodeBlock, Img: ImgBase, ThemeToggle } = window.SocComponents;
+
+        const IMG = '/assets/research/' + window.location.pathname.split('/').filter(p => p && p !== 'index.html').pop();
+        const Img = (props) => <ImgBase base={IMG} {...props} />;
+
+        const SubSection = ({ title, children }) => (
+            <div style={{display:'flex',flexDirection:'column',gap:'10px'}}>
+                <h3 className="res-subsection">{title}</h3>
+                {children}
+            </div>
+        );
+
+        const Callout = ({ type = "info", children }) => {
+            const icons = { info: "Info", warning: "AlertTriangle", tip: "Lightbulb" };
+            const cols  = { info: 'var(--soc-cy)', warning: 'var(--soc-am)', tip: 'var(--soc-gn)' };
+            return (
+                <div className={`res-callout ${type}`}>
+                    <span className="res-callout-icon"><Icon name={icons[type]} className="w-4 h-4" style={{color:cols[type]}} /></span>
+                    <div>{children}</div>
+                </div>
+            );
+        };
+
+        const Table = ({ headers, rows }) => (
+            <div className="res-table-wrap">
+                <table className="res-table">
+                    <thead><tr>{headers.map((h, i) => <th key={i}>{h}</th>)}</tr></thead>
+                    <tbody>{rows.map((row, i) => (
+                        <tr key={i}>{row.map((cell, j) => <td key={j} dangerouslySetInnerHTML={{ __html: cell }}></td>)}</tr>
+                    ))}</tbody>
+                </table>
+            </div>
+        );
+
+        const B = ({ children }) => <strong>{children}</strong>;
+        const C = ({ children }) => <code className="res-c">{children}</code>;
+
+        const App = () => {
+            const tocItems = [
+                { id: 'introduction', label: 'Introduction', icon: 'BookOpen' },
+                { id: 'how-i-ran-into-this', label: 'How I Ran Into This', icon: 'Fingerprint' },
+                { id: 'what-it-means', label: 'What Reason 12 Actually Means', icon: 'Database' },
+                { id: 'not-the-file', label: "It's Not the File (I Tried)", icon: 'Search' },
+                { id: 'still-there', label: 'Interrupted, But the File Was There', icon: 'FolderOpen' },
+                { id: 'summary', label: 'Summary', icon: 'CheckCircle' },
+            ];
+
+            return (
+                <div style={{background:'var(--soc-bg)',minHeight:'100vh'}}>
+
+                    <nav className="soc-tb" aria-label="Site navigation">
+                        <div className="soc-tb-row">
+                            <a href="/" className="soc-live" style={{textDecoration:"none",color:"inherit"}}>UPLINK</a>
+                            <div className="soc-crumb hidden md:flex">
+                                <a href="/" style={{color:'var(--soc-ink3)',textDecoration:'none'}}>SOC</a>
+                                <span>/</span>
+                                <a href="/" style={{color:'var(--soc-ink3)',textDecoration:'none'}}>OPERATOR.PROFILE</a>
+                                <span>/</span>
+                                <a href="/research/index.html" style={{color:'var(--soc-ink3)',textDecoration:'none'}}>RESEARCH</a>
+                                <span>/</span>
+                                <b>DOWNLOAD.INTERRUPT.REASON.12</b>
+                            </div>
+                            <div style={{flex:1}} />
+                            <span className="sev cyan hidden md:inline-flex"><span className="dot"></span>TLP:CLEAR</span>
+                            <span className="sev cyan hidden md:inline-flex"><span className="dot"></span>DIGITAL FORENSICS</span>
+                            <span className="hidden md:block"><SocClock /></span><ThemeToggle />
+                        </div>
+                    </nav>
+
+                    <main id="main-content" style={{maxWidth:'860px',margin:'0 auto',padding:'24px 20px'}} className="animate-fadeIn">
+
+                        <div className="res-cover">
+                            <img src={`${IMG}/cover.png`} alt="Browser Can Lie to You (Sometimes), Part 2: A Failed Security Check That Still Landed the File" />
+                            <div className="res-cover-overlay" />
+                            <div className="res-cover-content">
+                                <h1 className="res-cover-title">Browser Can Lie to You (Sometimes), Part 2: A Failed Security Check That Still Landed the File</h1>
+                                <div className="res-cover-badges">
+                                    <span className="sev cyan"><span className="dot"></span>July 6, 2026</span>
+                                    <span className="sev cyan"><span className="dot"></span>Digital Forensics</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="res-meta-grid">
+                            <div><div className="res-meta-lbl">Author</div><div className="res-meta-val">Chicken0248</div></div>
+                            <div><div className="res-meta-lbl">Published</div><div className="res-meta-val">July 6, 2026</div></div>
+                            <div><div className="res-meta-lbl">Category</div><div className="res-meta-val" style={{color:'var(--soc-cy)'}}>Digital Forensics</div></div>
+                        </div>
+
+                        <div className="res-toc" style={{marginTop:'20px',marginBottom:'24px'}}>
+                            <div className="res-toc-title">// TABLE OF CONTENTS</div>
+                            <div className="res-toc-grid">
+                                {tocItems.map((item, i) => (
+                                    <a key={item.id} href={`#${item.id}`} className="res-toc-item">
+                                        <span className="res-toc-num">{String(i+1).padStart(2,'0')}.</span>
+                                        <Icon name={item.icon} className="w-3.5 h-3.5" style={{color:'var(--soc-ink4)',flexShrink:0}} />
+                                        <span>{item.label}</span>
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+
+                        <Section id="introduction" title="Introduction" icon="BookOpen">
+                            <p className="text-gray-700 leading-relaxed">Hey everyone, it's me, Chicken0248. If you read my last post on interrupt reason 41, you already know I have a bit of a thing for the numbers Chromium writes into the downloads history table. This one is a follow-up of sorts, about a different value that tripped me up: <B>interrupt reason 12</B>.</p>
+
+                            <p className="text-gray-700 leading-relaxed">Quick refresher in case you skipped the last one. Every Chromium-based browser keeps a <C>downloads</C> table in its <C>History</C> SQLite database, and for every download it records a numeric <C>interrupt_reason</C> describing what happened along the way. You can find all of them in the Chromium source at <a href="https://source.chromium.org/chromium/chromium/src/+/main:components/download/public/common/download_interrupt_reason_values.h" target="_blank" rel="noopener noreferrer">download_interrupt_reason_values.h</a>, and Ryan Benson (author of <a href="https://dfir.blog/" target="_blank" rel="noopener noreferrer">Hindsight</a>) already mapped them to readable meanings in his <a href="https://dfir.blog/chrome-values-lookup-tables/" target="_blank" rel="noopener noreferrer">Chrome Values Lookup Tables</a>.</p>
+
+                            <p className="text-gray-700 leading-relaxed">This one came out of a real case, and it flipped an assumption I didn't realize I was making about what a "failed" download even means. Let me walk you through how I got there.</p>
+                        </Section>
+
+                        <Section id="how-i-ran-into-this" title="How I Ran Into This" icon="Fingerprint">
+                            <p className="text-gray-700 leading-relaxed">This all started on a real case. I was reviewing a user's browser download history and saw a handful of zip downloads recorded with <C>interrupt_reason = 12</C>. On paper that reads like the downloads failed, so the files never made it to the machine. I almost moved on.</p>
+
+                            <p className="text-gray-700 leading-relaxed">Two other artifacts said otherwise. The zip files were still on disk, and their file system creation timestamps lined up with the download start times sitting in the History table. That alone was a flag. Then the shellbags sealed it. Windows treats a zip as a browsable folder, so opening one in Explorer leaves a shellbag behind, and the shellbags showed each of those archives had been opened. After opening them, the user renamed the extracted files.</p>
+
+                            <Img src="img-01.png" alt="ShellBags Explorer showing a zip archive traversed in Windows Explorer" caption="Windows treats a zip as a browsable folder, so opening one leaves a shellbag behind. Reconstructed in a lab, not the case data." />
+
+                            <p className="text-gray-700 leading-relaxed">So here's what I was staring at. The browser history called these downloads interrupted. The interrupted rows didn't even carry an <C>end_time</C> I could anchor a timeline to, so I leaned on the file system and the shellbags instead. Together they told a complete story: the files downloaded, landed, got opened, and got renamed. The whole user sequence was reconstructable without trusting the browser's "interrupted" label at all.</p>
+
+                            <p className="text-gray-700 leading-relaxed">That contradiction is what sent me to the Chromium source. If the download failed, why was the complete file sitting there, opened and renamed? The rest of this post is the answer.</p>
+                        </Section>
+
+                        <Section id="what-it-means" title="What Reason 12 Actually Means" icon="Database">
+                            <p className="text-gray-700 leading-relaxed">Reason 12 is <C>FILE_SECURITY_CHECK_FAILED</C>. The source comment is short and honestly a little vague: <em>"An attempt to check the safety of the download failed due to unexpected reasons. See http://crbug.com/153212."</em></p>
+
+                            <Img src="img-02.png" alt="Chromium source code defining interrupt reason 12 as FILE_SECURITY_CHECK_FAILED" caption="The Chromium source defines reason 12 as FILE_SECURITY_CHECK_FAILED: the safety check failed for unexpected reasons." />
+
+                            <p className="text-gray-700 leading-relaxed">Ryan's table labels it <B>Security Check Failed</B> with basically the same description. Notice the word <em>unexpected</em>. That's the whole story of this value, and I didn't appreciate it until I read how it gets written.</p>
+
+                            <p className="text-gray-700 leading-relaxed">On Windows, when a download finishes, Chromium doesn't just leave the file alone. It hands the finished file to Windows to apply Mark-of-the-Web and run the attachment scan, through <C>IAttachmentExecute::Save()</C>. That one call fans out to whatever antivirus and AMSI providers are registered on the machine. The result of that call gets mapped in <a href="https://chromium.googlesource.com/chromium/src/+/main/components/services/quarantine/quarantine_win.cc" target="_blank" rel="noopener noreferrer">quarantine_win.cc</a>, and the mapping is the key to everything:</p>
+
+                            <Table
+                                headers={['What the scan returned', 'Result', 'interrupt_reason']}
+                                rows={[
+                                    ['Clean', 'OK', '<code class="res-c">0</code> (None)'],
+                                    ['<code class="res-c">INET_E_SECURITY_PROBLEM</code> (policy / Restricted Sites)', 'Blocked by policy', '<code class="res-c">11</code>'],
+                                    ['<code class="res-c">E_FAIL</code> (AV reports infection)', 'Virus infected', '<code class="res-c">7</code>'],
+                                    ['<strong>Any other unexpected HRESULT</strong>', '<strong>Security check failed</strong>', '<strong><code class="res-c">12</code></strong>'],
+                                ]}
+                            />
+
+                            <p className="text-gray-700 leading-relaxed">So 7 and 11 are verdicts. The scanner looked at the file and decided it was bad. <B>Reason 12 is not a verdict.</B> It's the fall-through case, the "something went wrong with the check itself and we don't have an answer" bucket. A broken AV provider, an AMSI provider that errors out, the file getting moved out from under the scan, that kind of thing.</p>
+
+                            <p className="text-gray-700 leading-relaxed">That distinction is why I couldn't reproduce it by messing with the file, which is where I went first.</p>
+                        </Section>
+
+                        <Section id="not-the-file" title="It's Not the File (I Tried)" icon="Search">
+                            <p className="text-gray-700 leading-relaxed">My initial theory was that something about the archive caused it. Maybe a nested zip, one archive inside another, made the scanner choke on recursion. So I built a set of nested zips, one level deep all the way to fifty levels deep, with a harmless text file at the core. Downloaded every one of them in Edge on a normal Defender box.</p>
+
+                            <p className="text-gray-700 leading-relaxed">Every single one completed clean. <C>interrupt_reason = 0</C> across the board.</p>
+
+                            <p className="text-gray-700 leading-relaxed">Okay, maybe it's size. Maybe a big file blows past some scan limit. So I made incompressible zips from 10 MB up to 200 MB, plus one that was both large and nested. Downloaded all of them. Clean again. Every one.</p>
+
+                            <p className="text-gray-700 leading-relaxed">That negative result actually taught me the answer. Nesting and size are properties of the <em>file</em>, and reason 12 has nothing to do with the file. Making a scanner skip a file because it's too big just gives you a clean result. To get reason 12 you need the <em>scan</em> to fail, and that depends on the security stack on the host, not on anything you put in the download. My lab box has a healthy Defender, so it never fails. The case host was a different machine with a different setup, and that's where the "unexpected" HRESULT came from.</p>
+                        </Section>
+
+                        <Section id="still-there" title="Interrupted, But the File Was There" icon="FolderOpen">
+                            <p className="text-gray-700 leading-relaxed">Here's the part that actually matters for our job.</p>
+
+                            <p className="text-gray-700 leading-relaxed">In the case, the downloads were flagged with reason 12, which the browser treats as interrupted. If you stopped reading the artifact right there, you'd conclude the files never landed on the machine. <B>They did. They were sitting on disk, complete.</B></p>
+
+                            <p className="text-gray-700 leading-relaxed">This isn't a fluke, it's how the sequence works. Look at the order of operations:</p>
+
+                            <ol>
+                                <li>The bytes download into the temporary <C>.crdownload</C> file.</li>
+                                <li>The transfer finishes, and Chromium renames the file to its final name. The full content is on disk at this point.</li>
+                                <li><em>Then</em> Chromium runs <C>IAttachmentExecute::Save()</C> on that finished file to annotate and scan it.</li>
+                                <li>If that scan returns an unexpected HRESULT, you get reason 12, and the download is marked interrupted.</li>
+                            </ol>
+
+                            <p className="text-gray-700 leading-relaxed">By the time the "security check" fails, the download is already done. Reason 12 describes the <em>annotation</em> failing, not the <em>transfer</em> failing. And unlike reason 7 (infected) and reason 11 (blocked), where <C>Save()</C> deletes the file as part of the verdict, reason 12 has no verdict, so nothing gets deleted. The complete file just stays there, marked in history as interrupted.</p>
+
+                            <p className="text-gray-700 leading-relaxed">There's a nice corroborating artifact for this. <C>IAttachmentExecute::Save()</C> is the same call that writes the <C>Zone.Identifier</C> alternate data stream, the Mark-of-the-Web. When that call fails, the MOTW often never gets written. So the signature of a reason-12 download looks like this:</p>
+
+                            <ul>
+                                <li><B>History:</B> <C>state = interrupted</C>, <C>interrupt_reason = 12</C></li>
+                                <li><B>Disk:</B> the file is present and complete at its target path</li>
+                                <li><B>ADS:</B> <C>Zone.Identifier</C> is missing or partial</li>
+                            </ul>
+
+                            <p className="text-gray-700 leading-relaxed">A complete file, with no Mark-of-the-Web, that the browser history calls interrupted. If you see that combination, don't write off the download.</p>
+
+                            <Callout type="warning">
+                                <p>Reason 12 is a failed <em>security check</em>, not a failed <em>download</em>. The file finishes writing to disk before the check runs, and reason 12 does not delete it. Do not read <C>interrupt_reason = 12</C> as "the file never reached the host." Go look on disk, and check for a missing <C>Zone.Identifier</C> stream.</p>
+                            </Callout>
+                        </Section>
+
+                        <Section id="summary" title="Summary" icon="CheckCircle">
+                            <p className="text-gray-700 leading-relaxed">Reason 41 was ambiguous: a benign shutdown and a security block collapse into the same number. Reason 12 is almost the opposite problem. It looks decisive, like the browser caught something and stopped it, but it really means the safety check couldn't finish, and the file it was supposed to check is already sitting on disk, complete.</p>
+
+                            <p className="text-gray-700 leading-relaxed">Two things to take from this. One is that reason 12 is about the host's security stack failing to return an answer, not about the file, so you won't reproduce it by tuning what you download. The other, and this is the one that matters, is that an interrupted download in the history is not proof the file never arrived. With reason 12, it almost certainly did.</p>
+
+                            <p className="text-gray-700 leading-relaxed">Same lesson as always. The number is a starting point, not the conclusion. Go check the disk.</p>
+                        </Section>
+
+                        <div className="soc-ft">
+                            <a href="/research/index.html" style={{color:'var(--soc-ink4)',textDecoration:'none'}}>← ALL RESEARCH</a>
+                            <span style={{margin:'0 12px'}}>|</span>
+                            <a href="#" style={{color:'var(--soc-ink4)',textDecoration:'none'}}>↑ BACK TO TOP</a>
+                        </div>
+
+                    </main>
+                </div>
+            );
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>

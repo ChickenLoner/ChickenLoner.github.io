@@ -1,5 +1,18 @@
 [
   {
+    "slug": "download-interrupt-reason-12",
+    "title": "Browser Can Lie to You (Sometimes), Part 2: A Failed Security Check That Still Landed the File",
+    "subtitle": "Why download interrupt reason 12 does not mean the file failed to arrive in Chromium-based browsers",
+    "date": "2026-07-06",
+    "source": "Original",
+    "sourceUrl": "",
+    "cover": "/assets/research/download-interrupt-reason-12/cover.png",
+    "tags": ["Digital Forensics", "Browser Forensics", "Chromium", "Windows"],
+    "category": "Digital Forensics",
+    "summary": "Download interrupt reason 12 (Security Check Failed) marks a download as interrupted, but the file has already finished writing to disk. The failure is in the post-download Windows attachment scan, not the transfer, so the complete file remains, often without a Mark-of-the-Web.",
+    "url": "/research/download-interrupt-reason-12/index.html"
+  },
+  {
     "slug": "download-interrupt-reason-41",
     "title": "Browser Can Lie to You (Sometimes): An Odd Finding About Download Interrupt Reason 41",
     "subtitle": "Why download interrupt reason 41 does not always mean the user closed the browser in Chrome and Edge",

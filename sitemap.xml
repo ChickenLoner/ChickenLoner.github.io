@@ -31,6 +31,7 @@
   <url><loc>https://chicken0248.fyi/reviews/sal1/</loc><priority>0.7</priority></url>
   <url><loc>https://chicken0248.fyi/research/anydesk-forensics-windows/</loc><priority>0.7</priority></url>
   <url><loc>https://chicken0248.fyi/research/chrome-remote-desktop-forensics/</loc><priority>0.7</priority></url>
+  <url><loc>https://chicken0248.fyi/research/download-interrupt-reason-12/</loc><priority>0.7</priority></url>
   <url><loc>https://chicken0248.fyi/research/download-interrupt-reason-41/</loc><priority>0.7</priority></url>
   <url><loc>https://chicken0248.fyi/research/git-commits-persistence/</loc><priority>0.7</priority></url>
   <url><loc>https://chicken0248.fyi/research/gotohttp-forensics-windows/</loc><priority>0.7</priority></url>
