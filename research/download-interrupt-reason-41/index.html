@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser Can Lie to You (Sometimes): An Odd Finding About Download Interrupt Reason 41 | Chicken0248</title>
+    <meta name="description" content="Interrupt reason 41 in Chromium download history is documented as browser shutdown, but Safe Browsing and SmartScreen blocks record the exact same value. Tested across Edge, Chrome, Chromium, and Brave." />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Chicken0248" />
+    <meta property="og:url" content="https://chicken0248.fyi/research/download-interrupt-reason-41/" />
+    <meta property="og:title" content="Browser Can Lie to You (Sometimes): An Odd Finding About Download Interrupt Reason 41" />
+    <meta property="og:description" content="Interrupt reason 41 in Chromium download history is documented as browser shutdown, but Safe Browsing and SmartScreen blocks record the exact same value. Tested across Edge, Chrome, Chromium, and Brave." />
+    <meta property="og:image" content="https://chicken0248.fyi/assets/research/download-interrupt-reason-41/cover.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@Chicken_0248" />
+    <meta name="twitter:title" content="Browser Can Lie to You (Sometimes): An Odd Finding About Download Interrupt Reason 41" />
+    <meta name="twitter:description" content="Interrupt reason 41 in Chromium download history is documented as browser shutdown, but Safe Browsing and SmartScreen blocks record the exact same value. Tested across Edge, Chrome, Chromium, and Brave." />
+    <meta name="twitter:image" content="https://chicken0248.fyi/assets/research/download-interrupt-reason-41/cover.png" />
+    <link rel="canonical" href="https://chicken0248.fyi/research/download-interrupt-reason-41/" />
+    <link rel="icon" href="/chicken0248.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.29.2/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@1.14.0/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="/themes/soc.css">
+    <script src="/themes/soc-theme.js"></script>
+    <script src="/themes/soc-nav.js"></script>
+    <script src="/themes/soc-components.js"></script>
+</head>
+<body>
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-white focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg focus:text-blue-600 focus:font-semibold">Skip to content</a>
+    <noscript>
+        <style>body{font-family:system-ui,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}</style>
+        <div style="text-align:center;padding:2rem"><h1>JavaScript required</h1><p>This site requires JavaScript to display content.</p><a href="https://chicken0248.fyi">chicken0248.fyi</a></div>
+    </noscript>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        const { SocClock, Icon, Section, CodeBlock, Img: ImgBase, ThemeToggle } = window.SocComponents;
+
+        const IMG = '/assets/research/' + window.location.pathname.split('/').filter(p => p && p !== 'index.html').pop();
+        const Img = (props) => <ImgBase base={IMG} {...props} />;
+
+        const SubSection = ({ title, children }) => (
+            <div style={{display:'flex',flexDirection:'column',gap:'10px'}}>
+                <h3 className="res-subsection">{title}</h3>
+                {children}
+            </div>
+        );
+
+        const Callout = ({ type = "info", children }) => {
+            const icons = { info: "Info", warning: "AlertTriangle", tip: "Lightbulb" };
+            const cols  = { info: 'var(--soc-cy)', warning: 'var(--soc-am)', tip: 'var(--soc-gn)' };
+            return (
+                <div className={`res-callout ${type}`}>
+                    <span className="res-callout-icon"><Icon name={icons[type]} className="w-4 h-4" style={{color:cols[type]}} /></span>
+                    <div>{children}</div>
+                </div>
+            );
+        };
+
+        const Table = ({ headers, rows }) => (
+            <div className="res-table-wrap">
+                <table className="res-table">
+                    <thead><tr>{headers.map((h, i) => <th key={i}>{h}</th>)}</tr></thead>
+                    <tbody>{rows.map((row, i) => (
+                        <tr key={i}>{row.map((cell, j) => <td key={j} dangerouslySetInnerHTML={{ __html: cell }}></td>)}</tr>
+                    ))}</tbody>
+                </table>
+            </div>
+        );
+
+        const B = ({ children }) => <strong>{children}</strong>;
+        const C = ({ children }) => <code className="res-c">{children}</code>;
+
+        const App = () => {
+            const tocItems = [
+                { id: 'introduction', label: 'Introduction', icon: 'BookOpen' },
+                { id: 'finding', label: 'My Finding on Interrupt Reason 41', icon: 'Search' },
+                { id: 'summary', label: 'Summary', icon: 'CheckCircle' },
+            ];
+
+            return (
+                <div style={{background:'var(--soc-bg)',minHeight:'100vh'}}>
+
+                    <nav className="soc-tb" aria-label="Site navigation">
+                        <div className="soc-tb-row">
+                            <a href="/" className="soc-live" style={{textDecoration:"none",color:"inherit"}}>UPLINK</a>
+                            <div className="soc-crumb hidden md:flex">
+                                <a href="/" style={{color:'var(--soc-ink3)',textDecoration:'none'}}>SOC</a>
+                                <span>/</span>
+                                <a href="/" style={{color:'var(--soc-ink3)',textDecoration:'none'}}>OPERATOR.PROFILE</a>
+                                <span>/</span>
+                                <a href="/research/index.html" style={{color:'var(--soc-ink3)',textDecoration:'none'}}>RESEARCH</a>
+                                <span>/</span>
+                                <b>DOWNLOAD.INTERRUPT.REASON.41</b>
+                            </div>
+                            <div style={{flex:1}} />
+                            <span className="sev cyan hidden md:inline-flex"><span className="dot"></span>TLP:CLEAR</span>
+                            <span className="sev cyan hidden md:inline-flex"><span className="dot"></span>DIGITAL FORENSICS</span>
+                            <span className="hidden md:block"><SocClock /></span><ThemeToggle />
+                        </div>
+                    </nav>
+
+                    <main id="main-content" style={{maxWidth:'860px',margin:'0 auto',padding:'24px 20px'}} className="animate-fadeIn">
+
+                        <div className="res-cover">
+                            <img src={`${IMG}/cover.png`} alt="Browser Can Lie to You (Sometimes): An Odd Finding About Download Interrupt Reason 41" />
+                            <div className="res-cover-overlay" />
+                            <div className="res-cover-content">
+                                <h1 className="res-cover-title">Browser Can Lie to You (Sometimes): An Odd Finding About Download Interrupt Reason 41</h1>
+                                <div className="res-cover-badges">
+                                    <span className="sev cyan"><span className="dot"></span>July 6, 2026</span>
+                                    <span className="sev cyan"><span className="dot"></span>Digital Forensics</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="res-meta-grid">
+                            <div><div className="res-meta-lbl">Author</div><div className="res-meta-val">Chicken0248</div></div>
+                            <div><div className="res-meta-lbl">Published</div><div className="res-meta-val">July 6, 2026</div></div>
+                            <div><div className="res-meta-lbl">Category</div><div className="res-meta-val" style={{color:'var(--soc-cy)'}}>Digital Forensics</div></div>
+                        </div>
+
+                        <div className="res-toc" style={{marginTop:'20px',marginBottom:'24px'}}>
+                            <div className="res-toc-title">// TABLE OF CONTENTS</div>
+                            <div className="res-toc-grid">
+                                {tocItems.map((item, i) => (
+                                    <a key={item.id} href={`#${item.id}`} className="res-toc-item">
+                                        <span className="res-toc-num">{String(i+1).padStart(2,'0')}.</span>
+                                        <Icon name={item.icon} className="w-3.5 h-3.5" style={{color:'var(--soc-ink4)',flexShrink:0}} />
+                                        <span>{item.label}</span>
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+
+                        <Section id="introduction" title="Introduction" icon="BookOpen">
+                            <p className="text-gray-700 leading-relaxed">Hey everyone, it's me, Chicken0248. In this blog I want to share a finding about Chromium browser behavior that came up while I was authoring the <B>WorkFromHome</B> Sherlock challenge on HackTheBox. You probably already guessed what it is from the title. It's about the <B>download interrupt reason</B>.</p>
+
+                            <p className="text-gray-700 leading-relaxed">So what is the download interrupt reason exactly? It's a value stored in the downloads history table of any Chromium-based browser. When you download a file, a lot of things can happen along the way: the download finishes, the browser cancels it, the user cancels it, the connection drops, the browser crashes, and so on. To give users and support teams some visibility into what went wrong, Chromium records a numeric interrupt reason for each download, so you know what happened and what to try next time.</p>
+
+                            <Img src="img-01.png" alt="Chromium download interrupt reason value in the downloads history table" caption="The interrupt reason is a numeric value Chromium writes for every download." />
+
+                            <p className="text-gray-700 leading-relaxed">You can look up all the defined interrupt reasons directly in the Chromium source code at <a href="https://source.chromium.org/chromium/chromium/src/+/main:components/download/public/common/download_interrupt_reason_values.h" target="_blank" rel="noopener noreferrer">download_interrupt_reason_values.h</a> and trace how each one gets written to the database.</p>
+
+                            <Img src="img-02.png" alt="download_interrupt_reason_values.h in the Chromium source tree" caption="download_interrupt_reason_values.h defines every interrupt reason in the Chromium source." />
+
+                            <p className="text-gray-700 leading-relaxed">I won't dig too deep into the source code here since that's not what this post is about. Ryan Benson, the author of <a href="https://dfir.blog/" target="_blank" rel="noopener noreferrer">Hindsight</a>, which is the most thorough and practically useful browser artifact parser I've worked with, already did the heavy lifting. He published a great reference covering Chrome Danger Types, Interrupt Reasons, and Download States in his post <a href="https://dfir.blog/chrome-values-lookup-tables/" target="_blank" rel="noopener noreferrer">Chrome Values Lookup Tables</a>.</p>
+
+                            <Img src="img-03.png" alt="Ryan Benson's Chrome Values Lookup Tables reference" caption="Ryan Benson's lookup tables map the numeric values to readable meanings." />
+
+                            <p className="text-gray-700 leading-relaxed">Alright, enough background. This whole post is really just about one thing: <B>interrupt reason 41</B> and why it's not as clear-cut as it looks.</p>
+                        </Section>
+
+                        <Section id="finding" title="My Finding on Interrupt Reason 41" icon="Search">
+                            <p className="text-gray-700 leading-relaxed">Let's start with what the source code actually says. The comment for interrupt reason 41 reads: <em>"The user shutdown the browser."</em> with an internal note: <em>"Internal use only: resume pending downloads if possible."</em></p>
+
+                            <Img src="img-04.png" alt="Source code comment for interrupt reason 41 describing user browser shutdown" caption="The source comment for reason 41: the user shut down the browser." />
+
+                            <p className="text-gray-700 leading-relaxed">Ryan's blog labels it <B>Browser Shutdown</B> and carries the same description.</p>
+
+                            <Img src="img-05.png" alt="Ryan Benson's lookup table entry labeling reason 41 as Browser Shutdown" caption="The lookup table entry for reason 41: Browser Shutdown." />
+
+                            <p className="text-gray-700 leading-relaxed">In my testing, Chromium-based browsers do save this value when you close the browser mid-download, confirmed across <B>Microsoft Edge</B>, <B>Google Chrome</B>, and <B>Brave</B>. But here's the thing: downloads blocked by <B>Google Safe Browsing</B> (Chrome) and <B>Microsoft Defender SmartScreen</B> (Edge) are <em>also</em> saved with <C>interrupt_reason = 41</C>. That overlap matters. It can change how you interpret what a user actually did, and producing accurate, evidence-grounded conclusions is what our job is about as digital forensics examiners.</p>
+
+                            <p className="text-gray-700 leading-relaxed">Don't just take my word for it though. Here's how I tested each browser, and you can reproduce it yourself.</p>
+
+                            <SubSection title="Microsoft Edge (With SmartScreen)">
+                                <p className="text-gray-700 leading-relaxed">My methodology was the same across all browsers: download something and close the browser while it's still going, then reopen and download something that triggers the browser's built-in defense mechanism. For Edge, that's <B>Microsoft Defender SmartScreen</B>.</p>
+
+                                <p className="text-gray-700 leading-relaxed">I downloaded the Brave Browser installer twice and canceled both by shutting Edge down. Then I reopened Edge and tried to download a <C>netcat</C> executable from GitHub. SmartScreen flagged it immediately.</p>
+
+                                <Img src="img-06.png" alt="Microsoft Defender SmartScreen blocking a netcat download in Edge" caption="SmartScreen blocks the netcat download in Edge." />
+
+                                <p className="text-gray-700 leading-relaxed">I closed Edge first to release the lock on the <C>History</C> SQLite file, then opened it in <B>DB Browser for SQLite</B> to inspect the downloads table.</p>
+
+                                <Img src="img-07.png" alt="Edge downloads table in DB Browser for SQLite showing interrupt_reason 41" caption="Both the canceled installers and the blocked netcat download share state 2 and interrupt_reason 41." />
+
+                                <p className="text-gray-700 leading-relaxed">Both the canceled Brave installer downloads and the SmartScreen-blocked <C>netcat</C> download had identical <C>state</C> and <C>interrupt_reason</C> values: <C>state = 2</C> (Cancelled) and <C>interrupt_reason = 41</C> for all entries. Not state 3 or 4 (Interrupted), just plain Cancelled, same interrupt reason as a normal browser shutdown.</p>
+
+                                <p className="text-gray-700 leading-relaxed">So SmartScreen produces this value. What about Google Safe Browsing?</p>
+                            </SubSection>
+
+                            <SubSection title="Google Chrome (With Safe Browsing)">
+                                <p className="text-gray-700 leading-relaxed">I started by closing Chrome while the Kali Linux VM was downloading. Then I tried to get <C>netcat</C> and <C>Rubeus</C>, but Windows Defender jumped in first and produced <C>interrupt_reason = 7</C> (Virus Detected), which wasn't what I was testing for. So I disabled Defender and retried. Chrome let both through without a peep. Interesting choice, Google.</p>
+
+                                <Img src="img-08.png" alt="Chrome downloading netcat and Rubeus after Windows Defender is disabled" caption="With Defender off, Chrome lets netcat and Rubeus through." />
+
+                                <p className="text-gray-700 leading-relaxed">I turned Defender back on and switched to <B>Mimikatz</B> instead. There's basically no way Google Safe Browsing lets that one through. It didn't.</p>
+
+                                <Img src="img-09.png" alt="Google Safe Browsing blocking a Mimikatz download in Chrome" caption="Safe Browsing blocks the Mimikatz download in Chrome." />
+
+                                <p className="text-gray-700 leading-relaxed">Looking at the downloads table afterward, the <C>state</C> and <C>interrupt_reason</C> were identical across all entries. One small aside: the blocked Mimikatz download was saved with <C>danger_type = 7</C> (Dangerous Host) rather than <C>danger_type = 3</C> (Dangerous Content), but that doesn't change the main point. Safe Browsing blocked the download and the browser recorded <C>interrupt_reason = 41</C>, the same value as closing the browser during a download.</p>
+
+                                <Img src="img-10.png" alt="Chrome downloads table showing interrupt_reason 41 with danger_type 7" caption="The Safe Browsing block records interrupt_reason 41, matching a browser shutdown." />
+                            </SubSection>
+
+                            <SubSection title="Chromium (Vanilla)">
+                                <p className="text-gray-700 leading-relaxed">Vanilla Chromium has neither Google Safe Browsing nor Microsoft Defender SmartScreen baked in. My expectation was simple: security-flagged downloads should not produce interrupt reason 41 here. They'd either get reason 7 if Windows Defender steps in, or complete fine if Defender is off.</p>
+
+                                <p className="text-gray-700 leading-relaxed">I closed Chromium mid-download (Kali Linux VM again), then downloaded Mimikatz with Defender on. Defender caught it, reason 7 as expected. Disabled Defender, downloaded again and it completed with no interrupt.</p>
+
+                                <Img src="img-11.png" alt="Windows Defender catching a Mimikatz download in vanilla Chromium" caption="Vanilla Chromium has no browser-level defense, so Windows Defender handles the block with reason 7." />
+
+                                <p className="text-gray-700 leading-relaxed">Everything lined up. Without browser-level defense mechanisms in the picture, the interrupt reason behavior is predictable and unambiguous.</p>
+
+                                <Img src="img-12.png" alt="Chromium downloads table with predictable interrupt reason values" caption="No browser-level defense means no reason 41 surprises." />
+                            </SubSection>
+
+                            <SubSection title="Brave Browser">
+                                <p className="text-gray-700 leading-relaxed">Brave has no Safe Browsing and no SmartScreen, so I expected the same pattern as vanilla Chromium.</p>
+
+                                <p className="text-gray-700 leading-relaxed">I closed Brave while downloading the Kali Linux VM, then tried to grab <C>netcat</C>. Windows Defender stopped it, as expected.</p>
+
+                                <Img src="img-13.png" alt="Windows Defender stopping a netcat download in Brave" caption="Windows Defender stops the netcat download in Brave." />
+
+                                <p className="text-gray-700 leading-relaxed">Disabled Defender, downloaded <C>netcat</C> and <C>Mimikatz</C>, both went through fine.</p>
+
+                                <Img src="img-14.png" alt="Brave downloading netcat and Mimikatz with Defender disabled" caption="With Defender off, both downloads complete in Brave." />
+
+                                <p className="text-gray-700 leading-relaxed">All three download events recorded exactly as expected, matching the Chromium results.</p>
+
+                                <Img src="img-15.png" alt="Brave downloads table matching the vanilla Chromium results" caption="Brave's downloads table matches vanilla Chromium." />
+                            </SubSection>
+                        </Section>
+
+                        <Section id="summary" title="Summary" icon="CheckCircle">
+                            <p className="text-gray-700 leading-relaxed">Sometimes users download malicious files on purpose. Sometimes the browser flags a legitimate dual-use tool. Either way, <B>interrupt_reason = 41 by itself does not tell you which one happened.</B></p>
+
+                            <p className="text-gray-700 leading-relaxed">When you see that value, you need to look at the surrounding context: <C>danger_type</C>, <C>state</C>, and the download URL. Without that correlation, you can't reliably distinguish a user closing the browser mid-download from a security block by <B>Google Safe Browsing</B> or <B>Microsoft Defender SmartScreen</B>, both of which produce the exact same interrupt reason in Edge and Chrome.</p>
+
+                            <Callout type="warning">
+                                <p>Reason 41 is ambiguous on Edge and Chrome. Before you conclude a user closed the browser mid-download, correlate <C>danger_type</C>, <C>state</C>, and the download URL to rule out a SmartScreen or Safe Browsing block.</p>
+                            </Callout>
+
+                            <p className="text-gray-700 leading-relaxed">As forensics examiners, our job is to give accurate conclusions backed by evidence. That means knowing when a number is ambiguous and when you need more context before committing to an interpretation.</p>
+                        </Section>
+
+                        <div className="soc-ft">
+                            <a href="/research/index.html" style={{color:'var(--soc-ink4)',textDecoration:'none'}}>← ALL RESEARCH</a>
+                            <span style={{margin:'0 12px'}}>|</span>
+                            <a href="#" style={{color:'var(--soc-ink4)',textDecoration:'none'}}>↑ BACK TO TOP</a>
+                        </div>
+
+                    </main>
+                </div>
+            );
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>

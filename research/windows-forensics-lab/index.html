@@ -144,30 +144,30 @@
                         {/* ═══ INTRODUCTION ═══ */}
                                                 <Section id="introduction" title="Introduction" icon="BookOpen">
                                                     <p className="text-gray-700 leading-relaxed">
-                                                        Hello everyone, Chicken0248 here. As the subject of this blog suggests, I'll be briefly talking about how you can design your own Windows Forensics lab. I expect some of you to do more research about each Windows artifact I mention here — or if you already know them, it will be fairly easy to get started!
+                                                        Hello everyone, Chicken0248 here. As the subject of this blog suggests, I'll be briefly talking about how you can design your own Windows Forensics lab. I expect some of you to do more research about each Windows artifact I mention here, or if you already know them, it will be fairly easy to get started!
                                                     </p>
                                                     <Img src="img-01.png" alt="Windows forensics artifacts overview" caption="Windows forensics: correlating artifacts scattered across the OS to reconstruct what happened" />
                                                     <p className="text-gray-700 leading-relaxed">
-                                                        Let's talk about Windows Forensics first. <B>Windows Forensics</B> is a process — and sometimes an art — of analyzing individual Windows components, or <B>Windows artifacts</B>, to understand what actually happened on a specific machine during a given time span of interest.
+                                                        Let's talk about Windows Forensics first. <B>Windows Forensics</B> is a process, and sometimes an art, of analyzing individual Windows components, or <B>Windows artifacts</B>, to understand what actually happened on a specific machine during a given time span of interest.
                                                     </p>
                                                     <p className="text-gray-700 leading-relaxed">
-                                                        As you might already know, the Windows operating system performs a lot of actions behind the scenes — whether for optimization or other internal purposes. Almost every action on a Windows system leaves traces behind (unless someone intentionally clears them). By examining these artifacts, we can extract valuable information that allows us to <B>reconstruct what happened on a particular endpoint</B> within a specific timeframe.
+                                                        As you might already know, the Windows operating system performs a lot of actions behind the scenes, whether for optimization or other internal purposes. Almost every action on a Windows system leaves traces behind (unless someone intentionally clears them). By examining these artifacts, we can extract valuable information that allows us to <B>reconstruct what happened on a particular endpoint</B> within a specific timeframe.
                                                     </p>
                                                     <p className="text-gray-700 leading-relaxed">
                                                         There are a lot of Windows artifacts that can be useful. Most people initially think that <B>Windows Event Logs alone</B> are enough to understand what happened during a specific period of time. Well, I hate to break it to you, but most of the time, they are not. Not every organization has Sysmon installed, and many environments run with default Windows configurations without any additional audit logging policies at all.
                                                     </p>
                                                     <p className="text-gray-700 leading-relaxed">
-                                                        This is where Windows forensics really shines. By correlating multiple legitimate Windows components — what we commonly refer to as Windows artifacts — we can still determine what actions were actually performed on the system. Some of these artifacts are even reliable enough to be used in court.
+                                                        This is where Windows forensics really shines. By correlating multiple legitimate Windows components, what we commonly refer to as Windows artifacts, we can still determine what actions were actually performed on the system. Some of these artifacts are even reliable enough to be used in court.
                                                     </p>
                                                     <p className="text-gray-700 leading-relaxed">
-                                                        The purpose of this blog is to help you understand how to build a <B>"decent" Windows forensics lab</B>: what factors you should consider, what pitfalls to avoid, and which approaches work better in different scenarios — along with their advantages and disadvantages.
+                                                        The purpose of this blog is to help you understand how to build a <B>"decent" Windows forensics lab</B>: what factors you should consider, what pitfalls to avoid, and which approaches work better in different scenarios, along with their advantages and disadvantages.
                                                     </p>
                                                 </Section>
                         
                                                 {/* ═══ WHY BUILD A LAB ═══ */}
                                                 <Section id="why-lab" title="Why Build a Windows Forensics Lab?" icon="HelpCircle">
                                                     <p className="text-gray-700 leading-relaxed">
-                                                        Let's start with the basics — why create a Windows forensics lab? There are several reasons to consider, and below are the main ones.
+                                                        Let's start with the basics, why create a Windows forensics lab? There are several reasons to consider, and below are the main ones.
                                                     </p>
                                                     <div className="space-y-4">
                                                         <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm space-y-1">
@@ -176,7 +176,7 @@
                                                                 <span className="font-semibold text-gray-800">Hands-on Learning</span>
                                                             </div>
                                                             <p className="text-gray-700 text-sm leading-relaxed">
-                                                                Whether you are approaching this from a <B>red teaming perspective</B> — simulating attacker behavior or APT-style TTPs — or from a <B>blue teaming perspective</B> focused on detection and investigation, hands-on activities provide the best learning experience for both sides.
+                                                                Whether you are approaching this from a <B>red teaming perspective</B>, simulating attacker behavior or APT-style TTPs, or from a <B>blue teaming perspective</B> focused on detection and investigation, hands-on activities provide the best learning experience for both sides.
                                                             </p>
                                                         </div>
                                                         <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm space-y-1">
@@ -185,7 +185,7 @@
                                                                 <span className="font-semibold text-gray-800">Education & Instruction</span>
                                                             </div>
                                                             <p className="text-gray-700 text-sm leading-relaxed">
-                                                                A Windows forensics lab allows you to provide students with <B>realistic artifacts to analyze</B>, whether as part of assignments, practical exercises, or exams — helping them connect theory with real-world investigations.
+                                                                A Windows forensics lab allows you to provide students with <B>realistic artifacts to analyze</B>, whether as part of assignments, practical exercises, or exams, helping them connect theory with real-world investigations.
                                                             </p>
                                                         </div>
                                                         <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm space-y-1">
@@ -194,7 +194,7 @@
                                                                 <span className="font-semibold text-gray-800">Professional Lab Maintenance</span>
                                                             </div>
                                                             <p className="text-gray-700 text-sm leading-relaxed">
-                                                                This is a more specialized case, as not every organization requires a Windows forensics lab. Most environments that do need one are typically <B>cybersecurity education platforms</B> — such as TryHackMe, Hack The Box, Blue Team Labs Online, CyberDefenders, and similar services — where realistic forensic scenarios are essential for effective learning.
+                                                                This is a more specialized case, as not every organization requires a Windows forensics lab. Most environments that do need one are typically <B>cybersecurity education platforms</B>, such as TryHackMe, Hack The Box, Blue Team Labs Online, CyberDefenders, and similar services, where realistic forensic scenarios are essential for effective learning.
                                                             </p>
                                                         </div>
                                                     </div>
@@ -215,10 +215,10 @@
                                                         <li>A <B>criminal investigation scenario</B>, where traces of illegal activities are scattered across the system and must be pieced together.</li>
                                                     </ul>
                                                     <p className="text-gray-700 leading-relaxed">
-                                                        Sometimes, you may not want to focus on a detailed scenario at all — simply providing a set of artifacts and asking participants to extract a flag, similar to a forensics-style CTF. However, in my opinion, having a clear scenario adds important context to the investigation.
+                                                        Sometimes, you may not want to focus on a detailed scenario at all, simply providing a set of artifacts and asking participants to extract a flag, similar to a forensics-style CTF. However, in my opinion, having a clear scenario adds important context to the investigation.
                                                     </p>
                                                     <Callout type="tip">
-                                                        <p>The scenario you choose directly shapes which artifacts matter. An infected machine case focuses on malware execution traces. An insider threat case is heavily centered around user behavior, identity, and timelines. Different scenarios require different investigative approaches — so define your flavor early.</p>
+                                                        <p>The scenario you choose directly shapes which artifacts matter. An infected machine case focuses on malware execution traces. An insider threat case is heavily centered around user behavior, identity, and timelines. Different scenarios require different investigative approaches, so define your flavor early.</p>
                                                     </Callout>
                         
                                                     <SubSection title="Case 1: A Compromised Machine (Malware / Threat Actor Activity)">
@@ -226,11 +226,11 @@
                                                             This case can be further divided into two sub-cases. The first involves <B>malware that operates autonomously</B> without direct keyboard interaction from a threat actor. The second involves <B>malware that connects back to a C2 server</B>, allowing the threat actor to perform hands-on activities on the compromised system.
                                                         </p>
                                                         <p className="text-gray-700 leading-relaxed">
-                                                            The first sub-case is the most classic scenario — a family member, friend, or employee unknowingly downloads malware through phishing emails, malvertising, or cracked software. This scenario leans more toward <B>malware analysis</B> than a full forensic investigation.
+                                                            The first sub-case is the most classic scenario, a family member, friend, or employee unknowingly downloads malware through phishing emails, malvertising, or cracked software. This scenario leans more toward <B>malware analysis</B> than a full forensic investigation.
                                                         </p>
                                                         <Img src="img-03.png" alt="Compromised machine with C2 connection" caption="Case 1b: Threat actor actively interacts with the compromised system via C2 infrastructure" />
                                                         <p className="text-gray-700 leading-relaxed">
-                                                            The second sub-case is where things get serious. The threat actor actively interacts with the system after establishing a C2 connection — executing commands to gather system info, deploy additional tools, establish persistence, or loot sensitive data such as browser-stored credentials, cryptocurrency wallets, or deploying keyloggers and ransomware.
+                                                            The second sub-case is where things get serious. The threat actor actively interacts with the system after establishing a C2 connection, executing commands to gather system info, deploy additional tools, establish persistence, or loot sensitive data such as browser-stored credentials, cryptocurrency wallets, or deploying keyloggers and ransomware.
                                                         </p>
                                                         <Callout type="info">
                                                             <p>To create a realistic lab scenario, study <B>threat intelligence reports</B> from various vendors to understand current attacker trends, techniques, and behaviors. By doing so, you can craft a believable attack chain and select payloads that reflect real-world adversary activity.</p>
@@ -240,9 +240,9 @@
                                                         </p>
                                                     </SubSection>
                         
-                                                    <SubSection title="Case 2: Insider Threat — Corporate Espionage">
+                                                    <SubSection title="Case 2: Insider Threat, Corporate Espionage">
                                                         <p className="text-gray-700 leading-relaxed">
-                                                            This case involves an employee who becomes an insider threat, either knowingly or unknowingly. The investigation heavily relies on <B>user behavior analysis</B> — using artifacts that help determine what activities were performed during the time span of interest.
+                                                            This case involves an employee who becomes an insider threat, either knowingly or unknowingly. The investigation heavily relies on <B>user behavior analysis</B>, using artifacts that help determine what activities were performed during the time span of interest.
                                                         </p>
                                                         <Img src="img-04.png" alt="Insider threat - file exfiltration via USB" caption="Case 2: Employee copies files from a corporate file-share, archives them, and exfiltrates via USB or cloud" />
                                                         <p className="text-gray-700 leading-relaxed">
@@ -263,10 +263,10 @@
                                                         </p>
                                                         <Img src="img-06.png" alt="Open-source forensic tools for lab training" caption="Case 3 lab training: open-source tools like Eric Zimmerman's suite can parse and analyze artifacts manually" />
                                                         <p className="text-gray-700 leading-relaxed">
-                                                            For training and lab purposes, this scenario can be simulated <B>without enterprise forensic tools</B>. While not representative of real law enforcement workflows, it is highly valuable for learning how artifacts are generated, stored, and correlated at a low level. Open-source tools — such as <B>Eric Zimmerman's tools</B> — can be used to parse and analyze individual artifacts manually.
+                                                            For training and lab purposes, this scenario can be simulated <B>without enterprise forensic tools</B>. While not representative of real law enforcement workflows, it is highly valuable for learning how artifacts are generated, stored, and correlated at a low level. Open-source tools, such as <B>Eric Zimmerman's tools</B>, can be used to parse and analyze individual artifacts manually.
                                                         </p>
                                                         <p className="text-gray-700 leading-relaxed">
-                                                            This case also allows more room for creativity: introduce privacy-focused applications, or include communication platforms such as <B>Discord, WhatsApp, Zoom, or Telegram</B>, and study how these applications store metadata, usage traces, and — in some cases — local chat artifacts on the system.
+                                                            This case also allows more room for creativity: introduce privacy-focused applications, or include communication platforms such as <B>Discord, WhatsApp, Zoom, or Telegram</B>, and study how these applications store metadata, usage traces, and, in some cases, local chat artifacts on the system.
                                                         </p>
                                                     </SubSection>
                                                 </Section>
@@ -279,7 +279,7 @@
                         
                                                     <SubSection title="Approach 1: Full Disk (and Memory) Imaging">
                                                         <p className="text-gray-700 leading-relaxed">
-                                                            The first approach is to capture the <B>entire disk image</B>, and optionally a memory image as well. This requires a large amount of storage — if the disk size is 40 GB, the resulting image will also be roughly 40 GB (unless compressed with a tool like FTK Imager).
+                                                            The first approach is to capture the <B>entire disk image</B>, and optionally a memory image as well. This requires a large amount of storage, if the disk size is 40 GB, the resulting image will also be roughly 40 GB (unless compressed with a tool like FTK Imager).
                                                         </p>
                                                         <div className="grid sm:grid-cols-2 gap-4 my-4">
                                                             <div className="bg-green-50 rounded-xl border border-green-200 p-4">
@@ -289,7 +289,7 @@
                                                                 </div>
                                                                 <ul className="list-disc list-outside ml-4 space-y-1 text-green-800 text-sm">
                                                                     <li>You retain <em>everything</em> on the system</li>
-                                                                    <li>Most realistic — closely resembles real-world investigations</li>
+                                                                    <li>Most realistic, closely resembles real-world investigations</li>
                                                                     <li>You can always go back and analyze artifacts you didn't initially consider</li>
                                                                 </ul>
                                                             </div>
@@ -300,7 +300,7 @@
                                                                 </div>
                                                                 <ul className="list-disc list-outside ml-4 space-y-1 text-red-800 text-sm">
                                                                     <li>Large storage requirements</li>
-                                                                    <li>For lab design, may be <em>too easy</em> — sometimes you want to intentionally omit certain files to increase difficulty</li>
+                                                                    <li>For lab design, may be <em>too easy</em>, sometimes you want to intentionally omit certain files to increase difficulty</li>
                                                                     <li>Managing and distributing large images can be inconvenient</li>
                                                                 </ul>
                                                             </div>
@@ -309,7 +309,7 @@
                         
                                                     <SubSection title="Approach 2: Artifact Triage (e.g., KAPE)">
                                                         <p className="text-gray-700 leading-relaxed">
-                                                            The second approach is to use <B>triage tools</B> such as KAPE to collect only the artifacts that matter for your case, scenario, or learning objective. You must carefully decide which Windows artifacts are relevant and collect only those. If you later realize something is missing, you can always return to the same system and re-triage — this is where <B>VM snapshots of the compromised state</B> become extremely useful.
+                                                            The second approach is to use <B>triage tools</B> such as KAPE to collect only the artifacts that matter for your case, scenario, or learning objective. You must carefully decide which Windows artifacts are relevant and collect only those. If you later realize something is missing, you can always return to the same system and re-triage, this is where <B>VM snapshots of the compromised state</B> become extremely useful.
                                                         </p>
                                                         <div className="grid sm:grid-cols-2 gap-4 my-4">
                                                             <div className="bg-green-50 rounded-xl border border-green-200 p-4">
@@ -320,7 +320,7 @@
                                                                 <ul className="list-disc list-outside ml-4 space-y-1 text-green-800 text-sm">
                                                                     <li>Much smaller disk footprint</li>
                                                                     <li>Forces you to truly understand how Windows artifacts correlate with one another</li>
-                                                                    <li>Excellent training for reconstructing timelines using limited data — just like many real-world cases</li>
+                                                                    <li>Excellent training for reconstructing timelines using limited data, just like many real-world cases</li>
                                                                 </ul>
                                                             </div>
                                                             <div className="bg-red-50 rounded-xl border border-red-200 p-4">
@@ -330,17 +330,17 @@
                                                                 </div>
                                                                 <ul className="list-disc list-outside ml-4 space-y-1 text-red-800 text-sm">
                                                                     <li>You <em>will</em> miss things if you're not careful</li>
-                                                                    <li>Once an artifact is gone, it's gone — unless you preserved the original system state</li>
+                                                                    <li>Once an artifact is gone, it's gone, unless you preserved the original system state</li>
                                                                 </ul>
                                                             </div>
                                                         </div>
                                                     </SubSection>
                         
                                                     <Callout type="tip">
-                                                        <p>What you really need to learn is <B>how Windows records user and system activity across many different artifacts scattered throughout the OS</B>. In many cases, you'll also need additional knowledge about specific software installed on the system — such as RMM tools or instant messaging applications — because each application leaves traces in its own unique way.</p>
+                                                        <p>What you really need to learn is <B>how Windows records user and system activity across many different artifacts scattered throughout the OS</B>. In many cases, you'll also need additional knowledge about specific software installed on the system, such as RMM tools or instant messaging applications, because each application leaves traces in its own unique way.</p>
                                                     </Callout>
                                                     <p className="text-gray-700 leading-relaxed">
-                                                        Too complex? That's actually the charm of Windows Forensics — especially in environments <B>without Sysmon or enhanced audit logging policies</B>. You are forced to understand how each artifact contributes to the bigger picture and how to reconstruct incidents <em>without</em> relying on verbose logs.
+                                                        Too complex? That's actually the charm of Windows Forensics, especially in environments <B>without Sysmon or enhanced audit logging policies</B>. You are forced to understand how each artifact contributes to the bigger picture and how to reconstruct incidents <em>without</em> relying on verbose logs.
                                                     </p>
                                                     <Callout type="warning">
                                                         <p><B>Remember: you are the lab author.</B> You performed every action yourself. Your job is to ensure that each action leaves behind evidence that can be discovered and correlated by the investigator.</p>
@@ -358,9 +358,9 @@
                                                     <div className="space-y-3 my-4">
                                                         {[
                                                             { n: '1', title: 'Provide the malware directly', desc: 'Hand the malware sample directly to the player as part of the lab artifacts.' },
-                                                            { n: '2', title: 'Leave the SHA-1 hash in Amcache', desc: 'Execute the malware so Amcache records its SHA-1 hash, then remove the binary — the hash remains as a forensic artifact.' },
-                                                            { n: '3', title: 'Let Windows Defender detect it', desc: 'Allow Defender to detect the malware and store SHA-1 / SHA-256 hashes in MPLog — another reliable artifact source.' },
-                                                            { n: '4', title: 'Transfer via certutil', desc: 'Transfer the file using certutil, then triage the cryptneturlcache Content folder — the malware still exists in the collected artifacts even if deleted from disk.' },
+                                                            { n: '2', title: 'Leave the SHA-1 hash in Amcache', desc: 'Execute the malware so Amcache records its SHA-1 hash, then remove the binary, the hash remains as a forensic artifact.' },
+                                                            { n: '3', title: 'Let Windows Defender detect it', desc: 'Allow Defender to detect the malware and store SHA-1 / SHA-256 hashes in MPLog, another reliable artifact source.' },
+                                                            { n: '4', title: 'Transfer via certutil', desc: 'Transfer the file using certutil, then triage the cryptneturlcache Content folder, the malware still exists in the collected artifacts even if deleted from disk.' },
                                                             { n: '5', title: 'Leave it in the Recycle Bin', desc: 'Delete the malware file normally so it lands in the Recycle Bin, preserving the file and its metadata for the investigator to find.' },
                                                         ].map(item => (
                                                             <div key={item.n} className="flex gap-4 bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
@@ -376,10 +376,10 @@
                                                         Each approach creates a different investigative experience and difficulty level. Mix and match them to craft the right challenge for your audience.
                                                     </p>
                                                     <Callout type="info">
-                                                        <p>In the end, always ask yourself: <B>"What is the goal of this lab?"</B> The answer to that question will determine everything — from the scenario design, to the artifacts you collect, and even how difficult the investigation becomes.</p>
+                                                        <p>In the end, always ask yourself: <B>"What is the goal of this lab?"</B> The answer to that question will determine everything, from the scenario design, to the artifacts you collect, and even how difficult the investigation becomes.</p>
                                                     </Callout>
                                                     <p className="text-gray-700 leading-relaxed">
-                                                        I hope this helps someone finally take the first step in designing their own Windows Forensics lab — and maybe even give something back to the community one day.
+                                                        I hope this helps someone finally take the first step in designing their own Windows Forensics lab, and maybe even give something back to the community one day.
                                                     </p>
                                                     <p className="text-gray-700 leading-relaxed">Thanks for reading!</p>
                                                 </Section>

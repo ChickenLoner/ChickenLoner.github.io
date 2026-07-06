@@ -1,5 +1,18 @@
 [
   {
+    "slug": "download-interrupt-reason-41",
+    "title": "Browser Can Lie to You (Sometimes): An Odd Finding About Download Interrupt Reason 41",
+    "subtitle": "Why download interrupt reason 41 does not always mean the user closed the browser in Chrome and Edge",
+    "date": "2026-07-06",
+    "source": "Original",
+    "sourceUrl": "",
+    "cover": "/assets/research/download-interrupt-reason-41/cover.png",
+    "tags": ["Digital Forensics", "Browser Forensics", "Chrome", "Edge", "Windows"],
+    "category": "Digital Forensics",
+    "summary": "Interrupt reason 41 in Chromium download history is documented as browser shutdown, but in Chrome and Edge a Safe Browsing or SmartScreen block records the exact same value. Vanilla Chromium and Brave behave as controls.",
+    "url": "/research/download-interrupt-reason-41/index.html"
+  },
+  {
     "slug": "gotohttp-forensics-windows",
     "title": "Investigating GotoHTTP on Windows: Behavior, Forensic Artifacts & Detection",
     "subtitle": "Analyzing GotoHTTP RMM behavior, persistence via service installation, SuperTerminal forensics, and detection opportunities",
@@ -9,7 +22,7 @@
     "cover": "/assets/research/gotohttp-forensics-windows/cover.png",
     "tags": ["Digital Forensics", "RMM", "GotoHTTP", "Windows"],
     "category": "Digital Forensics",
-    "summary": "Investigation guide for GotoHTTP forensics on Windows — covering binary metadata, SYSTEM-level service persistence, SuperTerminal artifacts, file transfer detection via USN Journal, DNS indicators, and child process anomalies.",
+    "summary": "Investigation guide for GotoHTTP forensics on Windows, covering binary metadata, SYSTEM-level service persistence, SuperTerminal artifacts, file transfer detection via USN Journal, DNS indicators, and child process anomalies.",
     "url": "/research/gotohttp-forensics-windows/index.html"
   },
   {
@@ -22,7 +35,7 @@
     "cover": "/assets/research/chrome-remote-desktop-forensics/cover.png",
     "tags": ["Digital Forensics", "RMM", "Chrome Remote Desktop", "Windows"],
     "category": "Digital Forensics",
-    "summary": "Investigation guide for Chrome Remote Desktop (CRD) forensics on Windows — covering Remote Support and Remote Access modes, Windows Event Log artifacts (Event IDs 1, 2, 4, 5), process behavior, and file transfer detection.",
+    "summary": "Investigation guide for Chrome Remote Desktop (CRD) forensics on Windows, covering Remote Support and Remote Access modes, Windows Event Log artifacts (Event IDs 1, 2, 4, 5), process behavior, and file transfer detection.",
     "url": "/research/chrome-remote-desktop-forensics/index.html"
   },
   {
@@ -48,7 +61,7 @@
     "cover": "/assets/research/anydesk-forensics-windows/cover.png",
     "tags": ["Digital Forensics", "RMM", "AnyDesk", "Windows"],
     "category": "Digital Forensics",
-    "summary": "Comprehensive investigation guide for AnyDesk forensics on Windows — covering normal behavior, CLI usage, connection logging, file transfer artifacts, and unattended access investigation techniques.",
+    "summary": "Comprehensive investigation guide for AnyDesk forensics on Windows, covering normal behavior, CLI usage, connection logging, file transfer artifacts, and unattended access investigation techniques.",
     "url": "/research/anydesk-forensics-windows/index.html"
   },
   {
@@ -61,7 +74,7 @@
     "cover": "/assets/research/git-commits-persistence/cover.png",
     "tags": ["Red Teaming", "Persistence", "Git"],
     "category": "Red Teaming",
-    "summary": "Exploring how Git version control can be weaponized as a persistence mechanism — hiding malicious payloads in commit history, steganography techniques, multi-file payload splitting, and detection strategies for defenders.",
+    "summary": "Exploring how Git version control can be weaponized as a persistence mechanism, hiding malicious payloads in commit history, steganography techniques, multi-file payload splitting, and detection strategies for defenders.",
     "url": "/research/git-commits-persistence/index.html"
   },
   {

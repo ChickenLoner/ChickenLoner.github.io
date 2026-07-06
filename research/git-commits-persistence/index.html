@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Using Git Commits as a Persistence Mechanism | Chicken0248</title>
-    <meta name="description" content="Exploring how Git version control can be weaponized as a persistence mechanism — hiding malicious payloads in commit history, steganography techniques, multi-file payload splitting, and detection strategies for defenders." />
+    <meta name="description" content="Exploring how Git version control can be weaponized as a persistence mechanism, hiding malicious payloads in commit history, steganography techniques, multi-file payload splitting, and detection strategies for defenders." />
     <meta property="og:type" content="article" />
     <meta property="og:site_name" content="Chicken0248" />
     <meta property="og:url" content="https://chicken0248.fyi/research/git-commits-persistence/" />
     <meta property="og:title" content="Using Git Commits as a Persistence Mechanism" />
-    <meta property="og:description" content="Exploring how Git version control can be weaponized as a persistence mechanism — hiding malicious payloads in commit history, steganography techniques, multi-file payload splitting, and detection strategies for defenders." />
+    <meta property="og:description" content="Exploring how Git version control can be weaponized as a persistence mechanism, hiding malicious payloads in commit history, steganography techniques, multi-file payload splitting, and detection strategies for defenders." />
     <meta property="og:image" content="https://chicken0248.fyi/assets/research/git-commits-persistence/cover.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@Chicken_0248" />
     <meta name="twitter:title" content="Using Git Commits as a Persistence Mechanism" />
-    <meta name="twitter:description" content="Exploring how Git version control can be weaponized as a persistence mechanism — hiding malicious payloads in commit history, steganography techniques, multi-file payload splitting, and detection strategies for defenders." />
+    <meta name="twitter:description" content="Exploring how Git version control can be weaponized as a persistence mechanism, hiding malicious payloads in commit history, steganography techniques, multi-file payload splitting, and detection strategies for defenders." />
     <meta name="twitter:image" content="https://chicken0248.fyi/assets/research/git-commits-persistence/cover.png" />
     <link rel="canonical" href="https://chicken0248.fyi/research/git-commits-persistence/" />
     <link rel="icon" href="/chicken0248.png" type="image/png">
@@ -147,7 +147,7 @@
                         {/* ═══════════ INTRODUCTION ═══════════ */}
                                                 <Section id="introduction" title="Introduction" icon="BookOpen">
                                                     <p className="text-gray-700 leading-relaxed">
-                                                        This article explores how <B>Git can be abused as a persistence mechanism</B>. The goal is to understand how attackers could weaponize version control workflows to hide malicious changes, revert states, or automate re-deployment of backdoored code — and how defenders can detect such activity.
+                                                        This article explores how <B>Git can be abused as a persistence mechanism</B>. The goal is to understand how attackers could weaponize version control workflows to hide malicious changes, revert states, or automate re-deployment of backdoored code, and how defenders can detect such activity.
                                                     </p>
                                                     <p className="text-gray-700 leading-relaxed">
                                                         This idea randomly appeared while about to sleep, but the more I looked into it, the more fascinating it became. Let's explore how this experiment went and how you could develop more stealthy techniques from it.
@@ -168,7 +168,7 @@
                                                             <li>Execute whatever's there, then jump back to the clean commit</li>
                                                         </ol>
                                                         <p className="text-gray-700 leading-relaxed">
-                                                            This makes everything look normal to developers who don't regularly check commit history — they won't be aware of the malicious commit at all.
+                                                            This makes everything look normal to developers who don't regularly check commit history, they won't be aware of the malicious commit at all.
                                                         </p>
                                                     </SubSection>
                         
@@ -186,18 +186,18 @@
                                                 <Section id="technical-background" title="Technical Background" icon="GitBranch">
                                                     <SubSection title="How Git Actually Works">
                                                         <p className="text-gray-700 leading-relaxed">
-                                                            Git stores the complete history of all commits for versioning. Even when you delete files and commit that deletion, the files don't actually disappear from git — they're just removed from the current version you're looking at. But git still keeps them in history, and you can go back anytime to grab them.
+                                                            Git stores the complete history of all commits for versioning. Even when you delete files and commit that deletion, the files don't actually disappear from git, they're just removed from the current version you're looking at. But git still keeps them in history, and you can go back anytime to grab them.
                                                         </p>
                                                         <p className="text-gray-700 leading-relaxed">
                                                             You can access old commits (and deleted files) through:
                                                         </p>
                                                         <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
-                                                            <li>Commit hashes — <C>git checkout &lt;hash&gt;</C></li>
-                                                            <li>Going back X commits — <C>git checkout HEAD~2</C></li>
-                                                            <li>Branch names — <C>git checkout feature-branch</C></li>
+                                                            <li>Commit hashes, <C>git checkout &lt;hash&gt;</C></li>
+                                                            <li>Going back X commits, <C>git checkout HEAD~2</C></li>
+                                                            <li>Branch names, <C>git checkout feature-branch</C></li>
                                                         </ul>
                                                         <Callout type="tip">
-                                                            <p>Git never really "deletes" anything — it just hides it from your current view. This is great for developers but also perfect for hiding malicious payloads.</p>
+                                                            <p>Git never really "deletes" anything, it just hides it from your current view. This is great for developers but also perfect for hiding malicious payloads.</p>
                                                         </Callout>
                                                     </SubSection>
                         
@@ -232,7 +232,7 @@
                                                         </CodeBlock>
                                                     </SubSection>
                         
-                                                    <SubSection title="Step 1 — Create Legitimate Files">
+                                                    <SubSection title="Step 1, Create Legitimate Files">
                                                         <CodeBlock language="bash">
                         {`# Create some normal files
                         echo "# Project Documentation" > README.md
@@ -244,9 +244,9 @@
                                                         </CodeBlock>
                                                     </SubSection>
                         
-                                                    <SubSection title="Step 2 — Add the Malicious File (Hidden in Noise)">
+                                                    <SubSection title="Step 2, Add the Malicious File (Hidden in Noise)">
                                                         <p className="text-gray-700 leading-relaxed">
-                                                            The stealthy approach: slip the malicious payload in a pile of legitimate-looking files. When someone reviews a 30-file commit, they see package updates, new test files, config changes — and they won't carefully review every single file.
+                                                            The stealthy approach: slip the malicious payload in a pile of legitimate-looking files. When someone reviews a 30-file commit, they see package updates, new test files, config changes, and they won't carefully review every single file.
                                                         </p>
                                                         <CodeBlock language="bash">
                         {`# Create legitimate-looking files
@@ -264,7 +264,7 @@
                                                         </CodeBlock>
                                                     </SubSection>
                         
-                                                    <SubSection title="Step 3 — Delete It and Look Clean">
+                                                    <SubSection title="Step 3, Delete It and Look Clean">
                                                         <CodeBlock language="bash">
                         {`# Remove the malicious file along with other cleanup (looks intentional)
                         git rm -r tests/ scripts/ config.yaml
@@ -274,7 +274,7 @@
                                                         </CodeBlock>
                                                     </SubSection>
                         
-                                                    <SubSection title="Step 4 — Find the Malicious Commit Hash">
+                                                    <SubSection title="Step 4, Find the Malicious Commit Hash">
                                                         <CodeBlock language="bash">
                         {`# Check commit history
                         git log --oneline
@@ -284,7 +284,7 @@
                                                         </CodeBlock>
                                                     </SubSection>
                         
-                                                    <SubSection title="Step 5 — Trigger the Persistence">
+                                                    <SubSection title="Step 5, Trigger the Persistence">
                                                         <p className="text-gray-700 leading-relaxed">
                                                             Create a trigger script that jumps to the malicious commit, runs it, then jumps back to the clean commit. This script can be triggered via scheduled tasks, login scripts, WMI event subscriptions, services, or registry Run keys.
                                                         </p>
@@ -319,7 +319,7 @@
                         
                                                     <SubSection title="Approach 2: External Reconstruction Script (Stealthier)">
                                                         <p className="text-gray-700 leading-relaxed">
-                                                            Only put the encoded payload chunks in git commits. The reconstruction script lives on the target machine you already control. Other developers see random data — no "merge and run" script in the repository.
+                                                            Only put the encoded payload chunks in git commits. The reconstruction script lives on the target machine you already control. Other developers see random data, no "merge and run" script in the repository.
                                                         </p>
                                                         <Img src="img-05.jpg" alt="External reconstruction script diagram" caption="Approach 2: Payload chunks in repo, reconstruction script on target machine" />
                                                         <CodeBlock language="powershell">
@@ -373,7 +373,7 @@
                                                 {/* ═══════════ STEGANOGRAPHY ═══════════ */}
                                                 <Section id="steganography" title="Hiding Payload in an Image File (Steganography)" icon="Image">
                                                     <p className="text-gray-700 leading-relaxed">
-                                                        There's a rising surge of threat actors hiding base64-encoded loaders within images. With this method, you don't need to delete anything to create a "clean" stage — but your steganography technique must render the image properly to attract less attention.
+                                                        There's a rising surge of threat actors hiding base64-encoded loaders within images. With this method, you don't need to delete anything to create a "clean" stage, but your steganography technique must render the image properly to attract less attention.
                                                     </p>
                                                     <p className="text-gray-700 leading-relaxed">
                                                         Embedding into a PNG works well since appending data at the end won't affect how the file renders:
@@ -407,7 +407,7 @@
                                                 <Section id="detection" title="Detection Opportunities" icon="ShieldCheck">
                                                     <SubSection title="1. Looking Through Git History">
                                                         <p className="text-gray-700 leading-relaxed">
-                                                            Hunt for suspicious patterns — files that were added then quickly deleted:
+                                                            Hunt for suspicious patterns, files that were added then quickly deleted:
                                                         </p>
                                                         <CodeBlock language="bash">
                         {`# Find files that were deleted
@@ -435,7 +435,7 @@
                         
                                                     <SubSection title="3. Network Activity">
                                                         <p className="text-gray-700 leading-relaxed">
-                                                            Running <C>git</C> commands other than <C>git push</C> or <C>git pull</C> should <B>not connect to any GitHub domain</B> — all git commit history is stored locally in the <C>.git</C> folder. Unexpected network connections during git operations are a strong indicator of abuse.
+                                                            Running <C>git</C> commands other than <C>git push</C> or <C>git pull</C> should <B>not connect to any GitHub domain</B>, all git commit history is stored locally in the <C>.git</C> folder. Unexpected network connections during git operations are a strong indicator of abuse.
                                                         </p>
                                                     </SubSection>
                                                 </Section>
@@ -449,7 +449,7 @@
                                                         <li>It's using <B>legitimate git features</B></li>
                                                         <li>The malicious code is hiding in plain sight (in the commit history)</li>
                                                         <li>Most antivirus and EDR won't look inside git objects</li>
-                                                        <li>It can <B>survive reimaging</B> — just clone the repo again</li>
+                                                        <li>It can <B>survive reimaging</B>, just clone the repo again</li>
                                                     </ul>
                         
                                                     <div className="grid sm:grid-cols-2 gap-4 mt-4">
