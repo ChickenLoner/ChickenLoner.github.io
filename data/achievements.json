@@ -1,6 +1,17 @@
 [
   {
     "category": "talk",
+    "name": "I learned pentesting just to create labs for profit",
+    "event": "2600TH x OWASP Bangkok Chapter",
+    "year": "2026",
+    "role": "Speaker",
+    "description": "3 July 2026",
+    "image": "./assets/achievements/pentesting_labs_for_profit.png",
+    "tags": [],
+    "url": ""
+  },
+  {
+    "category": "talk",
     "name": "Hack The Box Meetup: \"Not The Hidden Skillz\" - 0x01",
     "event": "Not The Hidden Wiki x HackTheBox",
     "year": "2026",
