@@ -164,12 +164,19 @@ Run these checks mentally:
 - [ ] Metadata strip uses `meta?.rating` and `meta?.difficulty`, not hardcoded values
 - [ ] Nav breadcrumb shows correct cert name
 - [ ] Hero uses the cover image (not a `<Fig>`)
+- [ ] Humanizer audit pass run (Polishing pass), §5 checklist clean
 
 ---
 
 ## Polishing pass
 
-After generating the initial page, review the content for:
+After generating the initial page, run a dedicated humanizer audit pass before anything else in this section. The draft was written to the rules; this pass catches what the draft missed. Do not skip it because the draft looks clean.
+
+1. Invoke the `humanizer` skill (Skill tool, `skill: humanizer`), pointing it at `reviews/<slug>/index.html`.
+2. It applies RULES.md §2 → §1 → §3 in order (structure, phrases, concreteness), then the §5 self-check.
+3. **Preserve the author's voice, ratings, difficulty calls, and opinions exactly.** The humanizer fixes phrasing only. If a section is too thin, flag it to the user rather than padding it or inventing detail.
+
+Then review the content for:
 
 - **Prose quality** — fix grammar, awkward phrasing, or unclear sentences from the original export while preserving the author's voice and opinions. Do not change facts, ratings, or the author's judgments.
 - **Consistency** — cert names, provider names, and acronyms should be spelled consistently throughout.

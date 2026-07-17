@@ -126,8 +126,19 @@ Read `.claude/skills/new-ir-report/template.html` as your starting point. Replac
 
 Voice for this skill specifically: an analyst writing up what happened. Active voice on attacker actions ("the attacker exfiltrated credentials", never "credentials were exfiltrated"). State what the evidence shows and what it doesn't.
 
+## Step 4b — Humanizer audit pass
+
+After all prose is drafted and every `{{PLACEHOLDER}}` is filled, run a dedicated audit pass over `ir-reports/<slug>/index.html` before verifying. The draft was written to the rules; this pass catches what the draft missed. Do not skip it because the draft looks clean.
+
+1. Invoke the `humanizer` skill (Skill tool, `skill: humanizer`), pointing it at `ir-reports/<slug>/index.html`.
+2. It applies RULES.md §2 → §1 → §3 in order (structure, phrases, concreteness), then the §5 self-check.
+3. If it flags a section as too thin to make concrete, surface that to the user. Never invent an artifact path, timestamp, or IOC to fill the gap.
+
+The humanizer rewrites prose nodes only. It must not touch code blocks, component markup, class names, JSX, or the evidence and findings.
+
 ## Step 5 — Verify
 
+- [ ] Humanizer audit pass run (Step 4b), §5 checklist clean
 - [ ] No `{{PLACEHOLDER}}` markers left in the output file
 - [ ] Meta tags present with correct slug URLs
 - [ ] `data/ir-reports.json` has the new entry prepended

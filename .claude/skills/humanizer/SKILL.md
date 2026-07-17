@@ -58,9 +58,20 @@ git commit -m "humanize prose: <what>"
 git push origin main
 ```
 
+## How this skill fires
+
+Three layers, so you rarely invoke it by hand:
+
+1. **While drafting** — `new-research`, `new-ir-report`, and `create-review` read `RULES.md` before writing, so the first draft already follows the rules.
+2. **Audit pass** — each of those skills invokes this skill over the generated page before its verify step (draft-then-audit).
+3. **Lint backstop** — `.claude/hooks/prose-lint.ps1` runs on every Write/Edit to an article page and flags em dashes + banned phrases deterministically. It can detect but not rewrite; a flag means come back here.
+
+Invoke manually (`/humanizer`) mainly to retrofit an article that shipped before this system existed.
+
 ## Reference files
 
 - `.claude/skills/humanizer/RULES.md` — the rule-set (read this every time)
-- `.claude/skills/new-research/SKILL.md` — references the same rules
-- `.claude/skills/new-ir-report/SKILL.md` — references the same rules
-- `.claude/skills/create-review/SKILL.md` — references the same rules
+- `.claude/hooks/prose-lint.ps1` — deterministic lint backstop (em dashes + banned phrases)
+- `.claude/skills/new-research/SKILL.md` — reads these rules, runs this skill as an audit pass
+- `.claude/skills/new-ir-report/SKILL.md` — reads these rules, runs this skill as an audit pass
+- `.claude/skills/create-review/SKILL.md` — reads these rules, runs this skill as an audit pass

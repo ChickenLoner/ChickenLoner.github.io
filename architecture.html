@@ -425,6 +425,10 @@
 ├── <span class="dir">.github/workflows/</span>
 │   ├── static.yml                    <span class="note"># Deploy to GitHub Pages on push to main</span>
 │   └── update_lab_data.yml           <span class="note"># Daily: refresh labs_metadata.json</span>
+├── <span class="dir">.claude/</span>
+│   ├── settings.json                 <span class="note"># enabledPlugins + PostToolUse prose-lint hook</span>
+│   └── <span class="dir">hooks/</span>
+│       └── prose-lint.ps1            <span class="note"># Advisory lint: flags em dashes + banned phrases in article HTML on Write/Edit</span>
 ├── <span class="dir">.claude/skills/</span>                   <span class="note"># Claude Code skill definitions</span>
 │   ├── add-cert/
 │   ├── <span class="dir">create-review/</span>
@@ -1007,7 +1011,7 @@ useEffect(() => {
             </div>
             <div class="callout info"><p><strong>Use Claude Code skills</strong> — <code>/add-cert</code>, <code>/create-review</code>, <code>/new-research</code>, <code>/new-ir-report</code> automate these workflows.</p></div>
 
-            <div class="callout info"><p><strong>Prose style is centralized.</strong> <code>.claude/skills/humanizer/RULES.md</code> is the single source of truth for how prose reads across the site: banned phrases, banned structures, positive rules, pre-ship checklist. The <code>create-review</code>, <code>new-research</code>, and <code>new-ir-report</code> skills all point at it instead of carrying their own copies, so editing that one file changes every writing skill at once. Run <code>/humanizer</code> to retrofit prose on an article that already shipped.</p></div>
+            <div class="callout info"><p><strong>Prose style is centralized and enforced in three layers.</strong> <code>.claude/skills/humanizer/RULES.md</code> is the single source of truth for how prose reads across the site: banned phrases, banned structures, positive rules, pre-ship checklist. (1) The <code>create-review</code>, <code>new-research</code>, and <code>new-ir-report</code> skills read it while drafting, so the first draft is written to the rules. (2) Each of those skills then runs a <code>humanizer</code> audit pass over the generated page before verify (draft-then-audit catches what the draft missed). (3) A <code>PostToolUse</code> lint hook (<code>.claude/hooks/prose-lint.ps1</code>) scans every Write/Edit to an article page and flags em dashes and banned phrases deterministically, as a backstop. Run <code>/humanizer</code> manually to retrofit an article that already shipped.</p></div>
 
             <div class="subsec">
                 <div class="subsec-title">New Certification Review</div>
