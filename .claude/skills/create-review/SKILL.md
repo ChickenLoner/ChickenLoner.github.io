@@ -180,14 +180,9 @@ Do not alter the meaning or sentiment of any review content. The author's voice 
 
 ## Writing style rules
 
-These apply to all prose generated or polished by this skill:
+**Read `.claude/skills/humanizer/RULES.md` before writing or polishing any prose for this review.** It is the single source of truth for prose style across this site: banned phrases, banned structures, positive rules, and a pre-ship checklist. Do not work from memory of it.
 
-- **No em dashes (—)**. Never use `—` in body text. Replace with: a comma, a colon, parentheses, or rewrite into two sentences. Example: "The exam was hard — but fair" → "The exam was hard, but fair."
-- **Write like a human, not a report generator.** Vary sentence length. Mix short punchy sentences with longer ones. Don't start every sentence the same way.
-- **Avoid AI filler phrases**: "it's worth noting", "it is important to", "it should be noted", "in order to", "this allows you to", "overall", "in conclusion". Cut them or rewrite the sentence.
-- **Active voice preferred.** "The exam tests your memory" not "Your memory is tested by the exam."
-- **No padding.** Don't add content to make a section look longer. If the source material is thin, leave it thin and flag it.
-- **Preserve facts and opinions exactly.** Only fix phrasing, not substance. The author's judgment on ratings, difficulty, and recommendations is not yours to change.
+Voice for this skill specifically: someone who sat the exam telling a peer whether it was worth it. **Preserve facts and opinions exactly** — ratings, difficulty calls, and recommendations are the author's judgment, not yours to change. Fix phrasing only.
 
 ---
 

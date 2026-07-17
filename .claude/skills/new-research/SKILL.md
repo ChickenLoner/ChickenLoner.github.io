@@ -149,14 +149,9 @@ Use `FileText` as a safe default.
 
 ## Writing style rules
 
-These apply to all prose written by this skill:
+**Read `.claude/skills/humanizer/RULES.md` before writing any prose for this article.** It is the single source of truth for prose style across this site: banned phrases, banned structures, positive rules, and a pre-ship checklist. Do not work from memory of it.
 
-- **No em dashes (—)**. Never use `—` in body text. Replace with: a comma, a colon, parentheses, or rewrite into two sentences.
-- **Write like a human researcher, not a document generator.** Vary sentence length. Mix short direct statements with longer explanations. Don't start every paragraph the same way.
-- **Avoid AI filler phrases**: "it's worth noting", "it is important to", "it should be noted", "in order to", "this allows you to", "overall", "in conclusion". Cut or rewrite.
-- **Active voice preferred.** "TeamViewer stores logs in `%AppData%`" not "Logs are stored in `%AppData%` by TeamViewer."
-- **Technical precision over verbosity.** One clear sentence beats three vague ones. Don't explain what the reader can infer.
-- **Don't pad.** If a section has little to say, say little. Don't add filler sentences to fill visual space.
+Voice for this skill specifically: a researcher reporting what they found and how they found it. Show the dead ends, not just the clean path.
 
 ## Step 5 — Verify
 

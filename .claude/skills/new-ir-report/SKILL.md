@@ -122,14 +122,9 @@ Read `.claude/skills/new-ir-report/template.html` as your starting point. Replac
 
 ## Writing style rules
 
-These apply to all prose written by this skill:
+**Read `.claude/skills/humanizer/RULES.md` before writing any prose for this report.** It is the single source of truth for prose style across this site: banned phrases, banned structures, positive rules, and a pre-ship checklist. Do not work from memory of it.
 
-- **No em dashes (—)**. Never use `—` in body text. Replace with: a comma, a colon, parentheses, or rewrite into two sentences.
-- **Write like a human analyst, not a template filler.** Vary sentence length. Short punchy sentences are fine. Don't write walls of uniform prose.
-- **Avoid AI filler phrases**: "it's worth noting", "it is important to", "it should be noted", "in order to", "this allows", "overall", "in conclusion". Cut or rewrite.
-- **Active voice preferred.** "The attacker exfiltrated credentials" not "Credentials were exfiltrated."
-- **Technical precision over verbosity.** One clear sentence beats three vague ones.
-- **Don't pad.** If a section has little content, keep it short rather than adding filler to look complete.
+Voice for this skill specifically: an analyst writing up what happened. Active voice on attacker actions ("the attacker exfiltrated credentials", never "credentials were exfiltrated"). State what the evidence shows and what it doesn't.
 
 ## Step 5 — Verify
 

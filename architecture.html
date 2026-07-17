@@ -430,6 +430,9 @@
 │   ├── <span class="dir">create-review/</span>
 │   │   ├── SKILL.md
 │   │   └── template.html             <span class="note"># Placeholder-based page template (avoids reading full review page)</span>
+│   ├── <span class="dir">humanizer/</span>
+│   │   ├── SKILL.md                  <span class="note"># Rewrites prose that reads like AI output</span>
+│   │   └── RULES.md                  <span class="note"># Shared prose rules — single source of truth, read by all writing skills</span>
 │   ├── <span class="dir">new-ir-report/</span>
 │   │   ├── SKILL.md
 │   │   └── template.html             <span class="note"># Placeholder-based page template</span>
@@ -1003,6 +1006,8 @@ useEffect(() => {
                 Adding New Content
             </div>
             <div class="callout info"><p><strong>Use Claude Code skills</strong> — <code>/add-cert</code>, <code>/create-review</code>, <code>/new-research</code>, <code>/new-ir-report</code> automate these workflows.</p></div>
+
+            <div class="callout info"><p><strong>Prose style is centralized.</strong> <code>.claude/skills/humanizer/RULES.md</code> is the single source of truth for how prose reads across the site: banned phrases, banned structures, positive rules, pre-ship checklist. The <code>create-review</code>, <code>new-research</code>, and <code>new-ir-report</code> skills all point at it instead of carrying their own copies, so editing that one file changes every writing skill at once. Run <code>/humanizer</code> to retrofit prose on an article that already shipped.</p></div>
 
             <div class="subsec">
                 <div class="subsec-title">New Certification Review</div>
