@@ -1,6 +1,42 @@
 [
-  { "category": "Digital Forensics", "items": ["Disk Forensics", "Memory Forensics", "Network Forensics"] },
-  { "category": "Incident Response", "items": ["Malware Analysis", "Log Analysis", "Threat Hunting"] },
-  { "category": "Tools & Platforms", "items": ["Autopsy", "Volatility", "Wireshark", "SIEM Tools", "FTK Imager", "Eric Zimmerman Tools"] },
-  { "category": "Blue Team Skills", "items": ["SOC Operations", "Security Monitoring", "Threat Intelligence", "Forensic Reporting"] }
+  {
+    "id": "OF-01",
+    "title": "Offensive Security",
+    "chips": [["rd", "Network Pentesting"], ["rd", "Web App Pentesting"], ["rd", "Active Directory Attacks"], ["rd", "Privilege Escalation"], ["rd", "Kiosk Breakout"]]
+  },
+  {
+    "id": "RT-02",
+    "title": "Red Team Operations",
+    "chips": [["rd", "Adversary Emulation"], ["rd", "Lateral Movement"], ["rd", "C2 / Red Team Infra"], ["rd", "AD Red Teaming"], ["rd", "Purple Teaming"]]
+  },
+  {
+    "id": "AA-03",
+    "title": "App / API / AI Security",
+    "chips": [["vi", "Application Security"], ["vi", "API Security"], ["vi", "Agentic AI / LLM Testing"]]
+  },
+  {
+    "id": "BT-04",
+    "title": "Blue Team & SOC",
+    "chips": [["gn", "SOC Operations"], ["gn", "Security Monitoring"], ["gn", "Threat Hunting"], ["gn", "Threat Intelligence"]]
+  },
+  {
+    "id": "DE-05",
+    "title": "Detection Engineering",
+    "chips": [["gn", "Detection Rule Writing"], ["gn", "Sigma Rules"], ["gn", "SIEM Detections"], ["gn", "Log Analysis"]]
+  },
+  {
+    "id": "DF-06",
+    "title": "Digital Forensics & DFIR",
+    "chips": [["cy", "Disk / Memory / Network"], ["cy", "Windows Forensics"], ["cy", "RMM / Remote-Access Forensics"], ["cy", "Malware Analysis"], ["cy", "Incident Response"], ["cy", "AWS Cloud Investigation"]]
+  },
+  {
+    "id": "TX-07",
+    "title": "Tools & Platforms",
+    "chips": [["vi", "Splunk / Elastic"], ["vi", "Volatility / Autopsy"], ["vi", "Wireshark"], ["vi", "YARA / Sigma"], ["vi", "KAPE / EZ Tools"], ["vi", "Burp / Nmap / BloodHound"]]
+  },
+  {
+    "id": "LD-08",
+    "title": "Lab Dev & Research",
+    "chips": [["am", "CTF / Lab Authoring"], ["am", "Tool Development"], ["am", "Technical Writing"], ["am", "Public Speaking"]]
+  }
 ]

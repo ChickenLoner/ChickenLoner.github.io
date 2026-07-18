@@ -381,6 +381,7 @@
         .soc-chip.am { color:var(--soc-am);border-color:rgba(255,181,71,.3);background:rgba(255,181,71,.06); }
         .soc-chip.vi { color:var(--soc-vi);border-color:rgba(167,139,250,.3);background:rgba(167,139,250,.06); }
         .soc-chip.gn { color:var(--soc-gn);border-color:rgba(61,220,132,.3);background:rgba(61,220,132,.06); }
+        .soc-chip.rd { color:var(--soc-rd);border-color:rgba(255,85,119,.3);background:rgba(255,85,119,.06); }
         .soc-opnote { border-left:3px solid var(--soc-cy);border-radius:6px;background:linear-gradient(90deg,rgba(34,225,255,.05),transparent 40%),var(--soc-bg-1);padding:20px 22px; }
         .soc-opnote .lbl { font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10px;color:var(--soc-cy);letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px; }
         .soc-opnote .clear { background:rgba(61,220,132,.12);color:var(--soc-gn);border:1px solid rgba(61,220,132,.3);padding:2px 8px;border-radius:3px;font-size:10px;letter-spacing:.1em; }
@@ -1302,15 +1303,11 @@
                         </div>
                     </>)}
 
-                    {/* Tradecraft */}
-                    <h2 className="soc-section">Tradecraft &amp; Tooling <span className="meta">mapped to ATT&amp;CK tactics</span></h2>
+                    {/* Capability Matrix */}
+                    {skills.length > 0 && (<>
+                    <h2 className="soc-section">Capability Matrix <span className="meta">operator skill domains · {skills.length} tracks</span></h2>
                     <div className="soc-ttp-grid">
-                        {[
-                            { id:'DF-01', title:'Digital Forensics',      chips:[['cy','Disk Forensics'],['cy','Memory Forensics'],['cy','Network Forensics']] },
-                            { id:'IR-02', title:'Incident Response',      chips:[['am','Malware Analysis'],['am','Log Analysis'],['am','Threat Hunting']] },
-                            { id:'TX-03', title:'Tools & Platforms',      chips:[['vi','Autopsy'],['vi','Volatility'],['vi','Wireshark'],['vi','SIEM / Splunk'],['vi','FTK Imager'],['vi','Eric Zimmerman Tools']] },
-                            { id:'BT-04', title:'Blue Team Operations',   chips:[['gn','SOC Operations'],['gn','Security Monitoring'],['gn','Threat Intelligence'],['gn','Forensic Reporting']] },
-                        ].map(ttp => (
+                        {skills.map(ttp => (
                             <div key={ttp.id} className="soc-ttp">
                                 <div className="soc-ttp-hd">
                                     <span className="soc-ttp-id">{ttp.id}</span>
@@ -1322,13 +1319,14 @@
                             </div>
                         ))}
                     </div>
+                    </>)}
 
                     {/* Operator Brief */}
                     <h2 className="soc-section">Operator Brief <span className="meta">/operators/chicken0248/brief.md</span></h2>
                     <div className="soc-opnote">
                         <div className="lbl">Operator Brief <span className="clear">CLEARED FOR ROUTING</span></div>
                         <h3>About the Operator</h3>
-                        <p>DFIR professional focused on solving complex blue team challenges across multiple platforms and creating educational content that helps other analysts level up. Believes in learning by doing — every published lab simulates a real-world IR scenario, end-to-end. Mission: make digital forensics &amp; incident response approachable and rigorous for the wider blue team community.</p>
+                        <p>Cross-domain security practitioner who works both sides of the fight: offensive (penetration testing, red team, Active Directory) and defensive (SOC, detection engineering, DFIR), built on a digital forensics core. Known for RMM and remote-access forensics research, and for turning real intrusions into hands-on labs. Learns by building: every published lab and writeup reconstructs a real-world scenario end to end. Mission: make offensive and defensive tradecraft approachable and rigorous for the wider security community.</p>
                         <div className="soc-platforms">
                             <a href="https://app.hackthebox.com/users/1438364" target="_blank" rel="noopener noreferrer" className="soc-plat"><span className="pd"></span>HackTheBox</a>
                             <a href="https://cyberdefenders.org/p/Chicken_0248/" target="_blank" rel="noopener noreferrer" className="soc-plat b"><span className="pd"></span>CyberDefenders</a>
@@ -1363,7 +1361,7 @@
                     <div className="soc-cta" style={{marginTop:'24px'}}>
                         <div>
                             <h3>Open to Collaboration</h3>
-                            <p>Building DFIR labs, contributing to detection content, or trading notes on blue team tradecraft — happy to talk.</p>
+                            <p>Building security labs, contributing detection content, or trading notes on offensive and defensive tradecraft. Always happy to talk.</p>
                         </div>
                         <div style={{marginLeft:'auto',display:'flex',gap:'10px',flexWrap:'wrap'}}>
                             <a href="mailto:mr.warawut@chicken0248.fyi" className="soc-btn">Send Email</a>
