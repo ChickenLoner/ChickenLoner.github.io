@@ -1,33 +1,52 @@
-# Mobile Responsiveness Fixes
+# Mobile Responsiveness — Per-Page Fix Plan
 
-## Done
-- [x] Mobile: tab bar (All → By Issuer) overflows off-screen → fixed with `flex-wrap:wrap` + `width:100%` on `.toolbar .soc-seg` at ≤768px; buttons get `flex:1` to fill rows evenly
+## Fix 1 — `siem-labs/index.html`
 
-- [x] Mobile: labs & projects filter chips fall off screen → toolbar stacks vertically (`flex-direction:column`), `.toolbar .filters` gets `width:100%; margin-left:0; flex-wrap:wrap`; label forced to own line with `flex-basis:100%`
+`flex:none` on `.soc-search-bar` prevents stretching on narrow screens.
 
-- [x] Mobile: achievements tab bar (outside `.toolbar`) + competitions filter div not covered by toolbar rules → added `.achiev-page-wrap .soc-seg` wrap rules + `.achiev-comp-filters` class with same scroll behavior
+```css
+/* Before */
+.soc-search-bar { flex:none;min-height:48px; }
 
-- [x] Stats page mobile: multiple layout issues fixed:
-  - `.soc-stat-grid` inline style overrode 768px CSS → added `!important` to force 2-col on mobile
-  - `.tile-grid` (1fr 1fr) too narrow on mobile → collapse to `1fr !important` at ≤768px
-  - Competitions inner grid had inline `gridTemplateColumns:'1fr 1fr'` overriding CSS → added `.comp-inner-l`/`.comp-inner-r` classes, border swaps to top on mobile
-  - `.brow` fixed 130px label column shrinks to 100px at ≤768px, 80px + drop `%` col at ≤480px
-  - `.rating-summary` 3-col stays at 768px, collapses to 1-col at ≤480px
-  - `.mitre-grid` min shrinks 155px→120px at ≤480px
-  - `.act-row` year col shrinks 64px→48px at ≤480px
-  - `.issuer-roster` min shrinks 220px→160px at ≤768px
+/* After */
+.soc-search-bar { flex:1;min-width:200px;min-height:48px; }
+```
 
-- [x] Mobile topbar unbalanced (main index): crumb + badges + clock wrap chaotically → hide on mobile (`hidden md:flex` / `hidden md:block`), flex spacer pushes ThemeToggle + hamburger right
+---
 
-- [x] PC nav bar required horizontal scroll → changed `.soc-nav-inner` from `overflow-x:auto` to `flex-wrap:wrap` so items wrap to second row instead
+## Fix 2 — All 22 review pages (`reviews/*/index.html`)
 
-- [x] Labs/projects cover image broken on mobile → cover + play button hidden at ≤480px via separate media block placed after the 820px crow block (cascade order fix); card goes single-column
+Every topbar shows TLP:CLEAR + CERT.REVIEW badges + clock on all screen sizes — no `hidden md:*`. Wraps to second line on mobile.
 
-- [x] Hero strap overflow on mobile (all pages) → right metadata seg (`verified_credentials`, `last_issued`, etc.) hidden at ≤768px; left path label stays visible
+```jsx
+/* Before — always visible */
+<span className="sev cyan"><span className="dot"></span>TLP:CLEAR</span>
+<span className="sev amber"><span className="dot"></span>CERT.REVIEW</span>
+<SocClock /><ThemeToggle />
 
-- [x] Mobile topbar unbalanced (all sub-pages: siem-labs, cloud-labs, ir-reports, reviews, research) → same `hidden md:flex/block` pattern applied across 32 files; badges + clock hidden, ThemeToggle stays
+/* After — hidden on mobile */
+<span className="sev cyan hidden md:inline-flex"><span className="dot"></span>TLP:CLEAR</span>
+<span className="sev amber hidden md:inline-flex"><span className="dot"></span>CERT.REVIEW</span>
+<span className="hidden md:block"><SocClock /></span><ThemeToggle />
+```
 
-- [x] No way to navigate back to home from sub-pages on mobile → UPLINK span converted to `<a href="/">` on all 32 sub-pages; always visible on mobile as home link
+Affected pages (22 total):
+- reviews/oscp, gcfe, csoa, psap, cjca, sal1, cpts, crta, cdsa, ccda, ccdfa, ccdff,
+  ccdl1, cceh, ccse, celms, cjde, cpta, cbteamerx, cagaipen, pt1, pwfa
 
-## Pending
-<!-- add items here as we go -->
+---
+
+## Fix 3 — `index.html` (main home page)
+
+`.featured-latest` is a 3-col grid (`auto 1fr auto`: 72px glyph | content | CTA). No mobile breakpoint.
+On 375px: content gets ~133px — tight. On 320px: ~78px — breaks.
+
+Add to `index.html` inline `<style>` block:
+
+```css
+@media(max-width:480px) {
+  .featured-latest { grid-template-columns:auto 1fr; padding:14px 16px; gap:12px; }
+  .fl-cta { display:none; }
+  .fl-glyph { width:48px; height:48px; font-size:11px; }
+}
+```
