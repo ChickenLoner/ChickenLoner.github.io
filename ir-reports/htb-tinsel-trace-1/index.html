@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -187,22 +187,22 @@
 
                         {/* ═══════════ EXECUTIVE SUMMARY ═══════════ */}
                         <ReportSection id="executive-summary" title="Executive Summary" icon="FileText">
-                            <p className="ir-p">Between <B>November 27 and December 13, 2023</B>, North Pole Operations sustained a coordinated, multi-phase intrusion attributed to the threat actor group <B>the Grinch</B>. The campaign began with a targeted social engineering operation against a privileged insider — referred to as <B>Elfin</B> — who was manipulated over two days into exfiltrating the <C>santa_deliveries</C> project binary.</p>
-                            <p className="ir-p">That binary contained hardcoded credentials and a direct reference to an AWS S3 bucket (<C>papa-noel</C>), which the threat actor exploited the following day to harvest cloud-hosted assets. Among the retrieved files was <C>claus.py</C>, a script embedding AWS access and secret keys for the <C>elfadmin</C> account and a reference to a private bucket (<C>north-pole-private</C>). Using those keys, the threat actor pivoted to the private bucket and retrieved <C>bytesparkle.ovpn</C> — a VPN configuration file that provided authenticated access into the North Pole internal network.</p>
-                            <p className="ir-p">With internal network access established, the threat actor staged a weaponized archive (<C>present_for_santa.zip</C>) on a file share accessible to <C>TINKERTECH-WKS001</C>. When the Santa Claus account opened the archive, a multi-stage infection chain — LNK shortcut → PowerShell → obfuscated VBScript → shellcode loader — executed, culminating in process injection into <C>svchost.exe</C> (PID 724) and a reverse shell back to the threat actor's C2 infrastructure. From this position, Windows Defender exclusions were applied and LSASS was dumped via a renamed ProcDump binary, yielding credential material for subsequent phases.</p>
-                            <p className="ir-p">On <B>December 8, 2023</B>, the threat actor pivoted laterally to the internal network printer (<B>NorthPole HP LaserJet 4200n</B>, <C>192.168.68.128</C>) and exploited the unauthenticated PJL interface on port 9100 to read files directly from its embedded filesystem. Nice and Naughty children's lists, a pending employee termination notice, a scheduled Christmas announcement, and — critically — an SSH private key for the <C>christmas.gifts</C> server were exfiltrated via <C>FSUPLOAD</C> commands.</p>
+                            <p className="ir-p">Between <B>November 27 and December 13, 2023</B>, North Pole Operations sustained a coordinated, multi-phase intrusion attributed to the threat actor group <B>the Grinch</B>. The campaign began with a targeted social engineering operation against a privileged insider (referred to as <B>Elfin</B>) who was manipulated over two days into exfiltrating the <C>santa_deliveries</C> project binary.</p>
+                            <p className="ir-p">That binary contained hardcoded credentials and a direct reference to an AWS S3 bucket (<C>papa-noel</C>), which the threat actor exploited the following day to harvest cloud-hosted assets. Among the retrieved files was <C>claus.py</C>, a script embedding AWS access and secret keys for the <C>elfadmin</C> account and a reference to a private bucket (<C>north-pole-private</C>). Using those keys, the threat actor pivoted to the private bucket and retrieved <C>bytesparkle.ovpn</C>: a VPN configuration file that provided authenticated access into the North Pole internal network.</p>
+                            <p className="ir-p">With internal network access established, the threat actor staged a weaponized archive (<C>present_for_santa.zip</C>) on a file share accessible to <C>TINKERTECH-WKS001</C>. When the Santa Claus account opened the archive, a multi-stage infection chain (LNK shortcut → PowerShell → obfuscated VBScript → shellcode loader) executed, culminating in process injection into <C>svchost.exe</C> (PID 724) and a reverse shell back to the threat actor's C2 infrastructure. From this position, Windows Defender exclusions were applied and LSASS was dumped via a renamed ProcDump binary, yielding credential material for subsequent phases.</p>
+                            <p className="ir-p">On <B>December 8, 2023</B>, the threat actor pivoted laterally to the internal network printer (<B>NorthPole HP LaserJet 4200n</B>, <C>192.168.68.128</C>) and exploited the unauthenticated PJL interface on port 9100 to read files directly from its embedded filesystem. Nice and Naughty children's lists, a pending employee termination notice, a scheduled Christmas announcement, and, critically, an SSH private key for the <C>christmas.gifts</C> server were exfiltrated via <C>FSUPLOAD</C> commands.</p>
                             <p className="ir-p">On <B>December 13, 2023</B>, the threat actor executed the final and most destructive phase. <B>CVE-2020-1472 (ZeroLogon)</B> was exploited from <C>192.168.68.200</C> against <C>DC01.northpole.local</C>, instantly resetting the domain controller's machine account (<C>DC$</C>) and granting unauthenticated domain-level access. The <C>Bytesparkle</C> account was repurposed via a forced password reset, and an RDP session was established to the domain controller. A VNC backdoor (<C>svchost.exe</C> + <C>vnc2.dll</C>) and a <C>svc_vnc</C> scheduled task were deployed for persistent remote access. At <B>11:03:20 UTC</B>, the ransomware <C>splunk_svc.dll</C> was executed, encrypting files across the domain controller using a repeating XOR cipher and appending the <C>.xmax</C> extension. A ransom note demanding <B>5,000,000 XMAS tokens</B> to wallet <C>GR1NCH-5ANTA-2023XMAS</C> was deployed. Encryption completed at <B>11:07:28 UTC</B>.</p>
-                            <p className="ir-p">The full attack chain — spanning <B>16 days</B> from initial social engineering to ransomware deployment — progressed entirely through exploitation of insider trust, misconfigured cloud storage, unpatched network services, and an unpatched domain controller. No zero-day capabilities were required at any stage.</p>
+                            <p className="ir-p">The full attack chain (spanning <B>16 days</B> from initial social engineering to ransomware deployment) progressed entirely through exploitation of insider trust, misconfigured cloud storage, unpatched network services, and an unpatched domain controller. No zero-day capabilities were required at any stage.</p>
 
                             <SubSection title="Business &amp; Stakeholder Impact">
                                 <h4 className="ir-h4">1. Confidentiality</h4>
                                 <p className="ir-p">The threat actor exfiltrated a substantial volume of sensitive organizational data across multiple phases. The <C>santa_deliveries</C> binary and associated <C>santa-list.csv</C> exposed recipient names, home addresses, gift assignments, and behavioral classifications. The printer's onboard filesystem yielded children's Nice and Naughty classification lists, a pending employee termination notice, a scheduled organizational announcement, and an SSH private key granting potential access to the <C>christmas.gifts</C> server. AWS-hosted operational scripts and configuration files, including credentials embedded in <C>claus.py</C>, were also retrieved in full.</p>
                                 <h4 className="ir-h4">2. Integrity</h4>
-                                <p className="ir-p"><C>DC01.northpole.local</C> — the organization's primary domain controller — was fully encrypted, with files across <B>69 targeted extension categories</B> rendered inaccessible. The <C>DC$</C> machine account and <C>Bytesparkle</C> domain account were both tampered with directly on the controller. A VNC backdoor and persistence scheduled task were installed.</p>
+                                <p className="ir-p"><C>DC01.northpole.local</C> (the organization's primary domain controller) was fully encrypted, with files across <B>69 targeted extension categories</B> rendered inaccessible. The <C>DC$</C> machine account and <C>Bytesparkle</C> domain account were both tampered with directly on the controller. A VNC backdoor and persistence scheduled task were installed.</p>
                                 <h4 className="ir-h4">3. Availability</h4>
                                 <p className="ir-p">Ransomware execution on the domain controller caused direct operational disruption. File recovery does not require ransom payment: the encryption scheme uses a trivially reversible repeating XOR cipher with the fully recovered key <C>EncryptingC4Fun!</C>, enabling complete decryption of all <C>.xmax</C> files.</p>
                                 <h4 className="ir-h4">4. Reputational and Regulatory</h4>
-                                <p className="ir-p">Exfiltration of children's personal data from the Nice and Naughty lists — including names and behavioral records — may carry regulatory notification obligations. The disclosure of the <C>Announcment-25Dec.ps</C> organizational announcement prior to its scheduled release date represents an additional confidentiality breach.</p>
+                                <p className="ir-p">Exfiltration of children's personal data from the Nice and Naughty lists (including names and behavioral records) may carry regulatory notification obligations. The disclosure of the <C>Announcment-25Dec.ps</C> organizational announcement prior to its scheduled release date represents an additional confidentiality breach.</p>
                             </SubSection>
                         </ReportSection>
 
@@ -213,7 +213,7 @@
                                 rows={[
                                     ['2023-11-27 17:27:26', 'The threat actor sent their first email to Elfin', "em client on Elfin's workstation"],
                                     ['2023-11-28 09:56:11', 'Elfin replied to threat actor, inadvertently revealing access to a secret binary', "em client on Elfin's workstation"],
-                                    ['2023-11-28 11:42', 'The threat actor convinced Elfin to act against his employer — Elfin agreed', "em client on Elfin's workstation"],
+                                    ['2023-11-28 11:42', 'The threat actor convinced Elfin to act against his employer. Elfin agreed', "em client on Elfin's workstation"],
                                     ['2023-11-28 16:53–16:54', 'The threat actor guided Elfin toward exfiltrating the secret project', "em client on Elfin's workstation"],
                                     ['2023-11-28 16:56:13', 'Elfin offered to share the <code class="ir-c">santa_deliveries</code> binary with the threat actor', "em client on Elfin's workstation"],
                                     ['2023-11-28 17:01:29', 'Elfin compressed <code class="ir-c">santa_deliveries</code> into <code class="ir-c">santa_deliveries.zip</code>', "MFT and USN Journal — Elfin's workstation"],
@@ -316,7 +316,7 @@
 
                             <Finding number={1} title="Insider Threat Leads to Secret Binary Exfiltration">
                                 <Img src="img-01.png" alt="Email thread recovered from DESKTOP-D32FKTI em client" />
-                                <p className="ir-p">On <B>November 27, 2023</B>, the threat actor initiated contact with Elfin from the address <C>definitelynotthegrinch@gmail[.]com</C>, posing as "Wendy Elflower" and fabricating a shared familiarity — a classic pretexting technique to establish trust early in the social engineering chain.</p>
+                                <p className="ir-p">On <B>November 27, 2023</B>, the threat actor initiated contact with Elfin from the address <C>definitelynotthegrinch@gmail[.]com</C>, posing as "Wendy Elflower" and fabricating a shared familiarity: a classic pretexting technique to establish trust early in the social engineering chain.</p>
                                 <Img src="img-02.png" alt="First email from threat actor to Elfin" />
                                 <Img src="img-03.png" alt="Email exchange — Elfin's initial reply" />
                                 <Img src="img-04.png" alt="Continued email thread" />
@@ -333,7 +333,7 @@
                                 <p className="ir-p">Static analysis of the <C>santa_deliveries</C> binary revealed a hardcoded credential for the <C>elf-admin</C> account. Upon successful authentication, the binary retrieves <C>santa-list.csv</C> from the AWS S3 bucket at <C>https://papa-noel.s3.eu-west-3.amazonaws.com/santa-list.csv</C>.</p>
                                 <Img src="img-12.png" alt="Binary static analysis — hardcoded elf-admin credential and S3 bucket reference" />
                                 <Img src="img-13.png" alt="Binary output parsing santa-list.csv" />
-                                <p className="ir-p">Following the exfiltration, Chrome browser history recovered from <C>DESKTOP-D32FKTI</C> shows Elfin conducting searches related to circumventing corporate security controls, concealing insider activity, email deletion, and flights to Greece — indicating a clear attempt to cover his tracks and flee.</p>
+                                <p className="ir-p">Following the exfiltration, Chrome browser history recovered from <C>DESKTOP-D32FKTI</C> shows Elfin conducting searches related to circumventing corporate security controls, concealing insider activity, email deletion, and flights to Greece, indicating a clear attempt to cover his tracks and flee.</p>
                             </Finding>
 
                             <Finding number={2} title="Hardcoded Credentials in Public S3 Bucket Enable Private Bucket Access and OpenVPN Configuration Exfiltration">
@@ -344,7 +344,7 @@
                                 <Img src="img-16.png" alt="claus.py — hardcoded elfadmin AWS keys and north-pole-private reference" />
                                 <p className="ir-p">At <B>10:15:02 UTC</B>, the threat actor began probing the <C>north-pole-private</C> bucket using <C>HeadBucket</C> and <C>GetBucketAcl</C> API calls. At <B>10:15:28 UTC</B>, the same <C>elfadmin</C> access key was used to successfully execute a <C>ListObjects</C> call against the bucket, confirming partial access.</p>
                                 <Img src="img-17.png" alt="CloudTrail — HeadBucket, ListObjects against north-pole-private" />
-                                <p className="ir-p">At <B>10:16:30 UTC</B>, activity shifted to a second IP address, <C>45[.]133[.]193[.]41</C>, from which the threat actor retrieved <C>bytesparkle.ovpn</C> at <B>10:16:53 UTC</B>. The AWS CLI user-agent string captured — <C>aws-cli/2.12.0 Python/3.11.5 Linux/6.1.0-kali9-amd64</C> — is consistent with a Kali Linux host.</p>
+                                <p className="ir-p">At <B>10:16:30 UTC</B>, activity shifted to a second IP address, <C>45[.]133[.]193[.]41</C>, from which the threat actor retrieved <C>bytesparkle.ovpn</C> at <B>10:16:53 UTC</B>. The AWS CLI user-agent string captured (<C>aws-cli/2.12.0 Python/3.11.5 Linux/6.1.0-kali9-amd64</C>) is consistent with a Kali Linux host.</p>
                                 <Img src="img-18.png" alt="CloudTrail — bytesparkle.ovpn retrieval from north-pole-private" />
                                 <p className="ir-p">The <C>bytesparkle.ovpn</C> OpenVPN configuration file provided the threat actor with authenticated credentials and routing configuration to establish a VPN tunnel directly into the North Pole internal network. This exfiltrated configuration is assessed to be the <B>primary access vector enabling all subsequent on-premises activity</B>.</p>
                             </Finding>
@@ -404,7 +404,7 @@
                                 <p className="ir-p">Building on the credential material harvested from the LSASS dump and internal network persistence from prior phases, the threat actor executed the most destructive stage on <B>December 13, 2023</B>.</p>
                                 <Img src="img-50.png" alt="CVE-2020-1472 ZeroLogon exploit against DC01.northpole.local" />
                                 <Img src="img-51.png" alt="ZeroLogon exploit — DC$ machine account password reset at 09:24:23" />
-                                <p className="ir-p">At <B>09:24:21 UTC</B>, the threat actor — operating from internal IP <C>192.168.68.200</C> — exploited <B>CVE-2020-1472 (ZeroLogon)</B> against <C>DC01.northpole.local</C>, successfully resetting the <C>DC$</C> machine account password at <B>09:24:23 UTC</B>.</p>
+                                <p className="ir-p">At <B>09:24:21 UTC</B>, the threat actor, operating from internal IP <C>192.168.68.200</C>, exploited <B>CVE-2020-1472 (ZeroLogon)</B> against <C>DC01.northpole.local</C>, successfully resetting the <C>DC$</C> machine account password at <B>09:24:23 UTC</B>.</p>
                                 <Img src="img-53.png" alt="Malicious service executable file creation" />
                                 <Img src="img-52.png" alt="Service Path installed on DC at same time as ZeroLogon" />
                                 <Img src="img-54.png" alt="vulnerable_to_zerologon service installed and started on DC01" />
@@ -415,7 +415,7 @@
                                 <p className="ir-p">At approximately <B>10:03 UTC</B>, the threat actor established an RDP session to <C>DC01.northpole.local</C> using the newly controlled <C>Bytesparkle</C> account.</p>
                                 <Img src="img-57.png" alt="svchost.exe and vnc2.dll dropped to Downloads\svc" />
                                 <Img src="img-58.png" alt="User executed svchost.exe — evidence from User Assist" />
-                                <p className="ir-p">At <B>10:47 UTC</B>, two suspicious files — a masqueraded <C>svchost.exe</C> and an accompanying <C>vnc2.dll</C> — were dropped into <C>C:\Users\bytesparkle\Downloads\svc</C>. Execution at <B>10:53:21 UTC</B> established a VNC-based remote access channel.</p>
+                                <p className="ir-p">At <B>10:47 UTC</B>, two suspicious files (a masqueraded <C>svchost.exe</C> and an accompanying <C>vnc2.dll</C>) were dropped into <C>C:\Users\bytesparkle\Downloads\svc</C>. Execution at <B>10:53:21 UTC</B> established a VNC-based remote access channel.</p>
                                 <Img src="img-59.png" alt="Threat actor opened Task Scheduler" />
                                 <Img src="img-60.png" alt="Task Scheduler — svc_vnc task created" />
                                 <p className="ir-p">At <B>10:57:38 UTC</B>, the threat actor created a scheduled task named <C>svc_vnc</C>, establishing a persistence mechanism that would survive a reboot.</p>
@@ -426,12 +426,12 @@
                                 <Img src="img-64.png" alt="Ransom note — GR1NCH-5ANTA-2023XMAS wallet, 5,000,000 XMAS tokens demand" caption="Ransom note deployed to C:\Users\bytesparkle\Desktop\README.txt" />
                             </Finding>
 
-                            <Finding number={null} title={<>Ransomware Analysis — <code className="ir-c">splunk_svc.dll</code></>} variant="vi">
-                                <p className="ir-p">Static analysis of <C>splunk_svc.dll</C> — executed at 11:03:20 UTC — reveals a self-contained recursive encryption routine consistent with the observed <C>.xmax</C> extension renaming and ransom note deployment.</p>
+                            <Finding number={null} title={<>Ransomware Analysis: <code className="ir-c">splunk_svc.dll</code></>} variant="vi">
+                                <p className="ir-p">Static analysis of <C>splunk_svc.dll</C> (executed at 11:03:20 UTC) reveals a self-contained recursive encryption routine consistent with the observed <C>.xmax</C> extension renaming and ransom note deployment.</p>
                                 <Img src="img-65.png" alt="69 targeted extensions by this ransomware" />
                                 <p className="ir-p">The binary implements a depth-first directory walker using <C>FindNextFileW</C>, iterating through the filesystem and checking each discovered file against a hardcoded list of <B>69 targeted extensions</B>. The target list covers documents, source code, email stores, virtual machine disk images, databases, and archives.</p>
                                 <Img src="img-66.png" alt="XOR cipher loop — 16-byte repeating key EncryptingC4Fun!" />
-                                <p className="ir-p">For each matching file, the routine encrypts content byte-by-byte using a <B>repeating 16-byte XOR cipher</B>. The key — <C>EncryptingC4Fun!</C> — cycles across a 16-byte window. This encryption scheme is <B>cryptographically trivial</B>: XOR is symmetric, so the same operation restores plaintext, and the short repeating key is fully recoverable via known-plaintext attack.</p>
+                                <p className="ir-p">For each matching file, the routine encrypts content byte-by-byte using a <B>repeating 16-byte XOR cipher</B>. The key (<C>EncryptingC4Fun!</C>) cycles across a 16-byte window. This encryption scheme is <B>cryptographically trivial</B>: XOR is symmetric, so the same operation restores plaintext, and the short repeating key is fully recoverable via known-plaintext attack.</p>
                                 <Img src="img-67.png" alt="Ransomnote content" />
                                 <p className="ir-p">The hardcoded ransom note demands <B>5,000,000 XMAS tokens</B> to wallet <C>GR1NCH-5ANTA-2023XMAS</C> and is signed "The Grinch." The note is deployed to the current user's Desktop after every encrypted file.</p>
                             </Finding>
@@ -441,44 +441,44 @@
                         <ReportSection id="iocs" title="Indicators of Compromise (IOCs)" icon="AlertTriangle">
                             <div className="ir-ioc-panel">
                                 <div className="ir-ioc-title"><Icon name="Globe" className="w-3.5 h-3.5" style={{color:'var(--soc-rd)'}} />IP Addresses</div>
-                                <div className="ir-ioc-row"><C>191[.]101[.]31[.]57</C> — IP used for automated bulk retrieval from the <C>papa-noel</C> S3 bucket</div>
-                                <div className="ir-ioc-row"><C>45[.]133[.]193[.]41</C> — IP used to access the <C>north-pole-private</C> S3 bucket and retrieve <C>bytesparkle.ovpn</C></div>
-                                <div className="ir-ioc-row"><C>77[.]74[.]198[.]52</C> — C2 server (shellcode delivery on port 445, reverse shell on port 447)</div>
-                                <div className="ir-ioc-row"><C>172[.]17[.]79[.]133</C> — Internal IP (additional activity)</div>
-                                <div className="ir-ioc-row"><C>192[.]168[.]68[.]200</C> — Internal IP; ZeroLogon source against DC01</div>
+                                <div className="ir-ioc-row"><C>191[.]101[.]31[.]57</C>: IP used for automated bulk retrieval from the <C>papa-noel</C> S3 bucket</div>
+                                <div className="ir-ioc-row"><C>45[.]133[.]193[.]41</C>: IP used to access the <C>north-pole-private</C> S3 bucket and retrieve <C>bytesparkle.ovpn</C></div>
+                                <div className="ir-ioc-row"><C>77[.]74[.]198[.]52</C>: C2 server (shellcode delivery on port 445, reverse shell on port 447)</div>
+                                <div className="ir-ioc-row"><C>172[.]17[.]79[.]133</C>: Internal IP (additional activity)</div>
+                                <div className="ir-ioc-row"><C>192[.]168[.]68[.]200</C>: Internal IP; ZeroLogon source against DC01</div>
                             </div>
 
                             <div className="ir-ioc-panel">
                                 <div className="ir-ioc-title"><Icon name="Mail" className="w-3.5 h-3.5" style={{color:'var(--soc-am)'}} />Email Addresses</div>
-                                <div className="ir-ioc-row"><C>definitelynotthegrinch@gmail[.]com</C> — Threat actor email used to social engineer Elfin</div>
+                                <div className="ir-ioc-row"><C>definitelynotthegrinch@gmail[.]com</C>: Threat actor email used to social engineer Elfin</div>
                             </div>
 
                             <div className="ir-ioc-panel">
                                 <div className="ir-ioc-title"><Icon name="Link" className="w-3.5 h-3.5" style={{color:'var(--soc-cy)'}} />URLs &amp; Domains</div>
-                                <div className="ir-ioc-row" style={{wordBreak:'break-all'}}><C>hxxp[://]77.74.198.52/destroy_christmas/evil_present.jpg</C> — URL used by present.vbs to download shellcode loader</div>
+                                <div className="ir-ioc-row" style={{wordBreak:'break-all'}}><C>hxxp[://]77.74.198.52/destroy_christmas/evil_present.jpg</C>: URL used by present.vbs to download shellcode loader</div>
                             </div>
 
                             <div className="ir-ioc-panel">
                                 <div className="ir-ioc-title"><Icon name="Hash" className="w-3.5 h-3.5" style={{color:'var(--soc-vi)'}} />File Hashes (SHA256)</div>
-                                <div className="ir-ioc-row" style={{wordBreak:'break-all'}}><C>4ca68446b660675ac2cd37baf0c3a38f9c860d32730224fc6729140943c5f264</C> — <C>present_for_santa.zip</C></div>
-                                <div className="ir-ioc-row" style={{wordBreak:'break-all'}}><C>2997fc7a9a59ec7b98b307b1bec35743852f402f398361ce8b90d175f049d582</C> — <C>click_for_present.lnk</C></div>
-                                <div className="ir-ioc-row" style={{wordBreak:'break-all'}}><C>78ba1ea3ac992391010f23b346eedee69c383bc3fd2d3a125ede6cba3ce77243</C> — <C>present.vbs</C></div>
-                                <div className="ir-ioc-row" style={{wordBreak:'break-all'}}><C>6f48c94668fd48f42ef63ae30be60022d9ce95840e33fbc7efed56148051c9be</C> — <C>present.exe</C> (shellcode loader)</div>
-                                <div className="ir-ioc-row" style={{wordBreak:'break-all'}}><C>337c24c2e6016a9bdca30f2820df9c1dae7b827ad73c93a14e1dc78906b63890</C> — <C>PresentForNaughtyChild.exe</C> (Procdump)</div>
-                                <div className="ir-ioc-row" style={{wordBreak:'break-all'}}><C>943666ecc9dd5810c0b7e473e92604fdd54691fbfb101f9fec6e11d6c273233a</C> — <C>splunk_svc.dll</C> (ransomware)</div>
-                                <div className="ir-ioc-row" style={{wordBreak:'break-all'}}><C>34894ab9f37a7e80304b0541bce9dce0e7dda6401617509f88f0109f11ee1756</C> — <C>README.txt</C> (ransom note)</div>
+                                <div className="ir-ioc-row" style={{wordBreak:'break-all'}}><C>4ca68446b660675ac2cd37baf0c3a38f9c860d32730224fc6729140943c5f264</C>: <C>present_for_santa.zip</C></div>
+                                <div className="ir-ioc-row" style={{wordBreak:'break-all'}}><C>2997fc7a9a59ec7b98b307b1bec35743852f402f398361ce8b90d175f049d582</C>: <C>click_for_present.lnk</C></div>
+                                <div className="ir-ioc-row" style={{wordBreak:'break-all'}}><C>78ba1ea3ac992391010f23b346eedee69c383bc3fd2d3a125ede6cba3ce77243</C>: <C>present.vbs</C></div>
+                                <div className="ir-ioc-row" style={{wordBreak:'break-all'}}><C>6f48c94668fd48f42ef63ae30be60022d9ce95840e33fbc7efed56148051c9be</C>: <C>present.exe</C> (shellcode loader)</div>
+                                <div className="ir-ioc-row" style={{wordBreak:'break-all'}}><C>337c24c2e6016a9bdca30f2820df9c1dae7b827ad73c93a14e1dc78906b63890</C>: <C>PresentForNaughtyChild.exe</C> (Procdump)</div>
+                                <div className="ir-ioc-row" style={{wordBreak:'break-all'}}><C>943666ecc9dd5810c0b7e473e92604fdd54691fbfb101f9fec6e11d6c273233a</C>: <C>splunk_svc.dll</C> (ransomware)</div>
+                                <div className="ir-ioc-row" style={{wordBreak:'break-all'}}><C>34894ab9f37a7e80304b0541bce9dce0e7dda6401617509f88f0109f11ee1756</C>: <C>README.txt</C> (ransom note)</div>
                             </div>
 
                             <div className="ir-ioc-panel">
                                 <div className="ir-ioc-title"><Icon name="AlertOctagon" className="w-3.5 h-3.5" style={{color:'var(--soc-gn)'}} />Other Indicators</div>
-                                <div className="ir-ioc-row"><C>CVE-2020-1472</C> — ZeroLogon (Netlogon privilege escalation)</div>
-                                <div className="ir-ioc-row"><C>vulnerable_to_zerologon</C> — Malicious service installed on DC01</div>
-                                <div className="ir-ioc-row"><C>hAvbdksT.exe</C> — Binary backing the <C>vulnerable_to_zerologon</C> service</div>
-                                <div className="ir-ioc-row"><C>svc_vnc</C> — Malicious scheduled task on DC01</div>
-                                <div className="ir-ioc-row"><C>svchost.exe</C> + <C>vnc2.dll</C> — VNC backdoor components dropped to <C>C:\Users\bytesparkle\Downloads\svc</C></div>
-                                <div className="ir-ioc-row"><C>stolen_gift.dmp</C> — LSASS memory dump</div>
-                                <div className="ir-ioc-row"><C>.xmax</C> — Ransomware file extension appended to all encrypted files</div>
-                                <div className="ir-ioc-row"><C>GR1NCH-5ANTA-2023XMAS</C> — Threat actor cryptocurrency wallet</div>
+                                <div className="ir-ioc-row"><C>CVE-2020-1472</C>: ZeroLogon (Netlogon privilege escalation)</div>
+                                <div className="ir-ioc-row"><C>vulnerable_to_zerologon</C>: Malicious service installed on DC01</div>
+                                <div className="ir-ioc-row"><C>hAvbdksT.exe</C>: Binary backing the <C>vulnerable_to_zerologon</C> service</div>
+                                <div className="ir-ioc-row"><C>svc_vnc</C>: Malicious scheduled task on DC01</div>
+                                <div className="ir-ioc-row"><C>svchost.exe</C> + <C>vnc2.dll</C>: VNC backdoor components dropped to <C>C:\Users\bytesparkle\Downloads\svc</C></div>
+                                <div className="ir-ioc-row"><C>stolen_gift.dmp</C>: LSASS memory dump</div>
+                                <div className="ir-ioc-row"><C>.xmax</C>: Ransomware file extension appended to all encrypted files</div>
+                                <div className="ir-ioc-row"><C>GR1NCH-5ANTA-2023XMAS</C>: Threat actor cryptocurrency wallet</div>
                             </div>
                         </ReportSection>
 
@@ -546,7 +546,7 @@
                                 <Img src="img-68.png" alt="Network diagram — North Pole Operations infrastructure" caption="North Pole Operations — network diagram" />
                             </SubSection>
 
-                            <SubSection title="File Recovery — .xmax Decryptor">
+                            <SubSection title="File Recovery: .xmax Decryptor">
                                 <p className="ir-p">Because the ransomware uses a trivially reversible repeating XOR cipher with the hardcoded key <C>EncryptingC4Fun!</C>, all encrypted <C>.xmax</C> files can be fully recovered using the following Python script:</p>
                                 <CodeBlock language="Python">
 {`#!/usr/bin/env python3

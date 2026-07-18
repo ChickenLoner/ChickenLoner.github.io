@@ -175,14 +175,14 @@
                             <p className="text-gray-700 leading-relaxed">
                                 Hello everyone! It's me Chicken again, and I just passed the{' '}
                                 <B>Certified Enterprise Lateral Movement Specialist [CELMS]</B> exam from CyberWarFare Labs!
-                                In this blog I'll share my review of the course, lab, exam process, and tips — let's jump right in.
+                                In this blog I'll share my review of the course, lab, exam process, and tips, let's jump right in.
                             </p>
 
                             <Fig src="image-1.png" alt="CELMS course overview — focus on enterprise lateral movement" />
 
                             <p className="text-gray-700 leading-relaxed">
                                 CELMS is a course and exam from CyberWarFare Labs (CWL) that focuses exclusively on the
-                                lateral movement phase of a red team engagement — leveraging authentication mechanisms and
+                                lateral movement phase of a red team engagement, leveraging authentication mechanisms and
                                 remote management protocols to gain further access inside an enterprise environment.
                             </p>
 
@@ -207,8 +207,8 @@
                             <p className="text-gray-700 leading-relaxed">
                                 <B>External lateral movement</B> covers using remote management protocols (WMI, SSH, RDP, SMB, RPC,
                                 etc.) and gateway/trust vectors to reach systems across network or organizational boundaries.
-                                <B> Internal lateral movement</B> focuses on authentication and directory protocols — Kerberos,
-                                Active Directory, delegation abuse, and ticket attacks — to escalate and move within an AD environment.
+                                <B> Internal lateral movement</B> focuses on authentication and directory protocols (Kerberos,
+                                Active Directory, delegation abuse, and ticket attacks) to escalate and move within an AD environment.
                             </p>
 
                             <Fig src="image-4.png" alt="External lateral movement techniques grouped by OS and authentication type" />
@@ -223,7 +223,7 @@
                             <p className="text-gray-700 leading-relaxed">
                                 Internal techniques are similarly grouped by OS and auth type, with most centered on Kerberos
                                 and domain-based movement. Despite being aimed at beginner-to-intermediate learners, the course
-                                already touches on advanced topics like <B>Kerberos Delegation</B> — pretty neat for a course at
+                                already touches on advanced topics like <B>Kerberos Delegation</B>, pretty neat for a course at
                                 this level.
                             </p>
 
@@ -250,13 +250,13 @@
                                 The local lab requires three VMs running simultaneously:
                             </p>
                             <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
-                                <li>Windows Server 2019 — Domain Controller</li>
-                                <li>Windows Server 2019 — domain-joined server</li>
+                                <li>Windows Server 2019: Domain Controller</li>
+                                <li>Windows Server 2019: domain-joined server</li>
                                 <li>Linux machine</li>
                             </ul>
                             <p className="text-gray-700 leading-relaxed">
                                 I'd recommend VMware Workstation for this. To run all three comfortably, your host needs at least
-                                <B> 24–32 GB RAM</B> — give each Windows VM 5–8 GB and the Linux machine 2–4 GB. For the full
+                                <B> 24–32 GB RAM</B>: give each Windows VM 5–8 GB and the Linux machine 2–4 GB. For the full
                                 experience you'll also want a fourth VM (Kali Linux or Parrot OS) as your attack machine,
                                 which of course adds to the RAM requirement.
                             </p>
@@ -266,7 +266,7 @@
                             </p>
                             <p className="text-gray-700 leading-relaxed">
                                 What I really appreciate about this local setup approach is that the course teaches you to configure
-                                genuinely vulnerable AD environments — Kerberos Delegation, Kerberoasting, NTLM relay, and more.
+                                genuinely vulnerable AD environments: Kerberos Delegation, Kerberoasting, NTLM relay, and more.
                                 The practice you get here benefits you well beyond the exam itself.
                             </p>
                         </Section>
@@ -321,7 +321,7 @@
                             </p>
                             <p className="text-gray-700 leading-relaxed">
                                 The exam tests the lateral movement fundamentals taught in the course. Every technique needed
-                                to pass is covered in the material — though I still hit several roadblocks along the way,
+                                to pass is covered in the material, though I still hit several roadblocks along the way,
                                 which is expected given that my primary expertise is blue teaming 😂. All of them were solvable
                                 with a bit of lateral thinking (no pun intended).
                             </p>
@@ -341,7 +341,7 @@
                             <Fig src="image-15.png" alt="Acknowledgement email received 20 minutes after submission — on a Sunday" />
 
                             <p className="text-gray-700 leading-relaxed">
-                                Twenty minutes after submitting — on a Sunday — I received an acknowledgement from the CWL support
+                                Twenty minutes after submitting (on a Sunday), I received an acknowledgement from the CWL support
                                 team. They don't technically work weekends, but they still responded regardless. Grading happens
                                 during business hours, so then it's just a matter of waiting.
                             </p>
@@ -349,7 +349,7 @@
                             <Fig src="image-16.png" alt="Pass result received after 9 days" />
 
                             <p className="text-gray-700 leading-relaxed">
-                                After 9 days, the result arrived — passed 😄
+                                After 9 days, the result arrived, passed 😄
                             </p>
 
                             <Fig src="image-17.png" alt="Accredible link and Infinity platform voucher on the CCSP portal" />
@@ -365,16 +365,16 @@
                         <Section id="tips" title="Key Takeaways &amp; Tips" icon="Lightbulb">
                             <div className="bg-amber-50 rounded-2xl border border-amber-200 p-6">
                                 <TipList items={[
-                                    'Learning takes time — don\'t rush through the course if you\'re not comfortable with each technique yet.',
+                                    'Learning takes time: don\'t rush through the course if you\'re not comfortable with each technique yet.',
                                     'Learn how to execute the same technique with different tools. For example, practice Kerberos Delegation attacks with Impacket, not just Rubeus (which is all the course covers).',
                                     'Each lateral movement technique has its own prerequisites. Understand what you have and what you still need to find before trying to execute.',
-                                    'Get comfortable with pivoting tools like ligolo-ng, Chisel, socat, or SSH — you\'ll rely on at least one of them in the exam.',
+                                    'Get comfortable with pivoting tools like ligolo-ng, Chisel, socat, or SSH: you\'ll rely on at least one of them in the exam.',
                                     'Don\'t forget Active Directory attack fundamentals. Tools like BloodHound can surface paths you might otherwise miss.',
                                     'You get 2 lab reverts, but you probably won\'t need them 😄',
                                 ]} />
                             </div>
                             <p className="text-gray-700 leading-relaxed">
-                                That's it for this one — hope you found it useful!
+                                That's it for this one, hope you found it useful!
                             </p>
                         </Section>
 

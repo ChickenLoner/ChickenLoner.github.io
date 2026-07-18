@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -234,21 +234,21 @@
                                 <li className="ir-li"><B>Lateral movement</B> to the JUMPHOST and exfiltration of AWS credentials.</li>
                                 <li className="ir-li"><B>Unauthorized access and exfiltration of objects</B> from hybrid cloud storage.</li>
                                 <li className="ir-li"><B>Defacement of public-facing web assets</B> hosted in Azure.</li>
-                                <li className="ir-li"><B>Compromise of the researcher's workstation via a FileFix attack</B>, leading to exfiltration of sensitive data, including <B>the CURE</B> — the final antidote against the ongoing zombie outbreak scenario.</li>
+                                <li className="ir-li"><B>Compromise of the researcher's workstation via a FileFix attack</B>, leading to exfiltration of sensitive data, including <B>the CURE</B>: the final antidote against the ongoing zombie outbreak scenario.</li>
                             </ol>
                             <p className="ir-p">
                                 This engagement demonstrates the <B>high impact of coordinated attacks across on-premises and cloud environments</B>, highlighting risks to both critical research and corporate operations.
                             </p>
 
                             <SubSection title="Business & Stakeholder Impact">
-                                <h4 className="ir-h4">1. Strategic Impact — Confidentiality Breach</h4>
+                                <h4 className="ir-h4">1. Strategic Impact: Confidentiality Breach</h4>
                                 <ul style={{paddingLeft:'20px',margin:'0'}}>
                                     <li className="ir-li"><B>Corporate secrets and credentials were exposed.</B> The adversary extracted local administrator credentials from surveillance video footage, AWS secret values from parameter store, and sensitive datasets from both <B>AWS S3</B> and <B>Azure Blob</B> storage.</li>
                                     <li className="ir-li"><B>High-value intellectual property and internal R&amp;D data</B> stored in cloud repositories were accessed. This includes files belonging to ZETA-9's "Secret Division," implying possible loss of proprietary research materials.</li>
                                     <li className="ir-li"><B>Brand trust compromised.</B> The defacement of the public <B>Azure Web App</B> resulted in reputational damage, as stakeholders and clients may have observed tampered content displaying adversary-controlled messaging.</li>
                                 </ul>
 
-                                <h4 className="ir-h4">2. Operational Impact — Service Disruption &amp; Persistence</h4>
+                                <h4 className="ir-h4">2. Operational Impact: Service Disruption &amp; Persistence</h4>
                                 <ul style={{paddingLeft:'20px',margin:'0'}}>
                                     <li className="ir-li">The adversary established <B>persistent remote control</B> via a <B>Sliver C2</B> implant embedded into Dr. Frankenstein Code's PowerShell profile. This persistence mechanism could have allowed long-term access, unauthorized script execution, and continuous monitoring of internal operations.</li>
                                     <li className="ir-li"><B>Automation and backup workflows</B> on compromised cloud accounts may have been disrupted due to deleted or modified configurations during the exfiltration phase.</li>
@@ -391,7 +391,7 @@
                                 <Img src="img-03.png" alt="User group modification evidence" />
                                 <p className="ir-p">The adversary then leveraged these newly added credentials to initiate a <B>VPN connection</B> and access Zeta-9's internal environment without triggering perimeter authentication alerts. The adversary now had access to the internal network with an IP address of <C>10[.]1[.]1[.]10</C>.</p>
                                 <Img src="img-04.png" alt="VPN connection evidence" />
-                                <p className="ir-p">Once inside, the adversary conducted <B>network reconnaissance</B> within the <C>192.168.86.0/24</C> subnet, scanning for <B>SMB (445/TCP)</B>, <B>RPC/DCOM (135/TCP)</B>, and <B>LDAP (389/TCP)</B> services — typical indicators of host and domain enumeration activity.</p>
+                                <p className="ir-p">Once inside, the adversary conducted <B>network reconnaissance</B> within the <C>192.168.86.0/24</C> subnet, scanning for <B>SMB (445/TCP)</B>, <B>RPC/DCOM (135/TCP)</B>, and <B>LDAP (389/TCP)</B> services: typical indicators of host and domain enumeration activity.</p>
                                 <Img src="img-05.png" alt="Network scan evidence" />
                                 <p className="ir-p">This reconnaissance revealed the presence of a <B>JUMPHOST system</B>, which subsequently became the next stage of the attacker's lateral movement.</p>
                             </Finding>
@@ -495,12 +495,12 @@
                                     <Icon name="Globe" className="w-3.5 h-3.5" style={{color:'var(--soc-rd)'}} />
                                     IP Addresses
                                 </div>
-                                <div className="ir-ioc-row"><C>38[.]68[.]134[.]103</C> — IP used by the adversary to access FortiGate firewall</div>
-                                <div className="ir-ioc-row"><C>91[.]90[.]124[.]21</C> — IP used by the adversary to attack the Storage Console</div>
-                                <div className="ir-ioc-row"><C>172[.]235[.]129[.]221</C> — IP used by the adversary to attack hybrid cloud infrastructure (AWS + Azure)</div>
-                                <div className="ir-ioc-row"><C>35[.]158[.]153[.]237:34651</C> — IP used by the adversary for the ClickFix attack</div>
-                                <div className="ir-ioc-row"><C>63[.]178[.]44[.]21:8838</C> — IP used by the Sliver implant as persistence</div>
-                                <div className="ir-ioc-row"><C>36[.]157[.]123[.]216</C> — IP used by KillTheCURE.exe payload to exfiltrate files</div>
+                                <div className="ir-ioc-row"><C>38[.]68[.]134[.]103</C>: IP used by the adversary to access FortiGate firewall</div>
+                                <div className="ir-ioc-row"><C>91[.]90[.]124[.]21</C>: IP used by the adversary to attack the Storage Console</div>
+                                <div className="ir-ioc-row"><C>172[.]235[.]129[.]221</C>: IP used by the adversary to attack hybrid cloud infrastructure (AWS + Azure)</div>
+                                <div className="ir-ioc-row"><C>35[.]158[.]153[.]237:34651</C>: IP used by the adversary for the ClickFix attack</div>
+                                <div className="ir-ioc-row"><C>63[.]178[.]44[.]21:8838</C>: IP used by the Sliver implant as persistence</div>
+                                <div className="ir-ioc-row"><C>36[.]157[.]123[.]216</C>: IP used by KillTheCURE.exe payload to exfiltrate files</div>
                             </div>
 
                             <div className="ir-ioc-panel">
@@ -508,12 +508,12 @@
                                     <Icon name="Link" className="w-3.5 h-3.5" style={{color:'var(--soc-am)'}} />
                                     URLs &amp; Domains
                                 </div>
-                                <div className="ir-ioc-row"><C>hxxps[://]pastebin[.]com/raw/sBEs83q3</C> — Pastebin used to retrieve source code of the FileFix webpage</div>
-                                <div className="ir-ioc-row"><C>zeta9-research-portal.azurewebsites.net</C> — Compromised Azure Web App</div>
-                                <div className="ir-ioc-row"><C>zeta9/windows/admin-password</C> — Compromised AWS Secret</div>
-                                <div className="ir-ioc-row" style={{wordBreak:'break-all'}}><C>hxxps[://]gist[.]githubusercontent[.]com/a1l4m/.../Microsoft[.]PowerShell[.]DataV4Adapter[.]ps1</C> — ClickFix payload stage 0</div>
-                                <div className="ir-ioc-row" style={{wordBreak:'break-all'}}><C>hxxps[://]gist[.]githubusercontent[.]com/a1l4m/.../IamTheDanger[.]txt</C> — URL that hosted the shellcode</div>
-                                <div className="ir-ioc-row" style={{wordBreak:'break-all'}}><C>hxxps[://]github[.]com/user-attachments/files/22441452/CUREKiller[.]zip</C> — GitHub link hosting the exfiltration binary</div>
+                                <div className="ir-ioc-row"><C>hxxps[://]pastebin[.]com/raw/sBEs83q3</C>: Pastebin used to retrieve source code of the FileFix webpage</div>
+                                <div className="ir-ioc-row"><C>zeta9-research-portal.azurewebsites.net</C>: Compromised Azure Web App</div>
+                                <div className="ir-ioc-row"><C>zeta9/windows/admin-password</C>: Compromised AWS Secret</div>
+                                <div className="ir-ioc-row" style={{wordBreak:'break-all'}}><C>hxxps[://]gist[.]githubusercontent[.]com/a1l4m/.../Microsoft[.]PowerShell[.]DataV4Adapter[.]ps1</C>: ClickFix payload stage 0</div>
+                                <div className="ir-ioc-row" style={{wordBreak:'break-all'}}><C>hxxps[://]gist[.]githubusercontent[.]com/a1l4m/.../IamTheDanger[.]txt</C>: URL that hosted the shellcode</div>
+                                <div className="ir-ioc-row" style={{wordBreak:'break-all'}}><C>hxxps[://]github[.]com/user-attachments/files/22441452/CUREKiller[.]zip</C>: GitHub link hosting the exfiltration binary</div>
                             </div>
 
                             <div className="ir-ioc-panel">
@@ -521,8 +521,8 @@
                                     <Icon name="Mail" className="w-3.5 h-3.5" style={{color:'var(--soc-cy)'}} />
                                     Accounts
                                 </div>
-                                <div className="ir-ioc-row"><C>aboallam480+2@gmail.com</C> — MEGA account</div>
-                                <div className="ir-ioc-row"><C>00darksideofme00+2@gmail.com</C> — MEGA account</div>
+                                <div className="ir-ioc-row"><C>aboallam480+2@gmail.com</C>: MEGA account</div>
+                                <div className="ir-ioc-row"><C>00darksideofme00+2@gmail.com</C>: MEGA account</div>
                             </div>
 
                             <div className="ir-ioc-panel">
@@ -530,12 +530,12 @@
                                     <Icon name="Hash" className="w-3.5 h-3.5" style={{color:'var(--soc-vi)'}} />
                                     File Hashes (SHA256)
                                 </div>
-                                <div className="ir-ioc-row" style={{wordBreak:'break-all'}}><C>2c327fdbaf65f8626f76858206a18a81790c5233917396e96f12d4cdea06fc7b</C> — Sliver implant</div>
-                                <div className="ir-ioc-row" style={{wordBreak:'break-all'}}><C>e8fbec25db4f9d95b5e8f41cca51a4b32be8674a4dea7a45b6f7aeb22dbc38db</C> — Netcat binary</div>
-                                <div className="ir-ioc-row" style={{wordBreak:'break-all'}}><C>cc84a7c2e28dddcab7143ef57429dbd9f45cb61cec86ac1d0134658d5d47170c</C> — WingFTP CVE exploitation script</div>
-                                <div className="ir-ioc-row" style={{wordBreak:'break-all'}}><C>93997160b7091a043bc7cd8241f4e7d73ba0c6903337d2379e8b3d3cbb855885</C> — CUREKiller.zip</div>
-                                <div className="ir-ioc-row" style={{wordBreak:'break-all'}}><C>367555ad82dbca5d7607b46720b569e5ee04aa01c3d31e32451238a9c580268a</C> — KillTheCURE.exe</div>
-                                <div className="ir-ioc-row" style={{wordBreak:'break-all'}}><C>e1f7f9741f16c55c7d90e020812680673dfe3dcf87f43f722be8349aada213f2</C> — sdelete.exe</div>
+                                <div className="ir-ioc-row" style={{wordBreak:'break-all'}}><C>2c327fdbaf65f8626f76858206a18a81790c5233917396e96f12d4cdea06fc7b</C>: Sliver implant</div>
+                                <div className="ir-ioc-row" style={{wordBreak:'break-all'}}><C>e8fbec25db4f9d95b5e8f41cca51a4b32be8674a4dea7a45b6f7aeb22dbc38db</C>: Netcat binary</div>
+                                <div className="ir-ioc-row" style={{wordBreak:'break-all'}}><C>cc84a7c2e28dddcab7143ef57429dbd9f45cb61cec86ac1d0134658d5d47170c</C>: WingFTP CVE exploitation script</div>
+                                <div className="ir-ioc-row" style={{wordBreak:'break-all'}}><C>93997160b7091a043bc7cd8241f4e7d73ba0c6903337d2379e8b3d3cbb855885</C>: CUREKiller.zip</div>
+                                <div className="ir-ioc-row" style={{wordBreak:'break-all'}}><C>367555ad82dbca5d7607b46720b569e5ee04aa01c3d31e32451238a9c580268a</C>: KillTheCURE.exe</div>
+                                <div className="ir-ioc-row" style={{wordBreak:'break-all'}}><C>e1f7f9741f16c55c7d90e020812680673dfe3dcf87f43f722be8349aada213f2</C>: sdelete.exe</div>
                             </div>
                         </ReportSection>
 
