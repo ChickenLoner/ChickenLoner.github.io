@@ -1,5 +1,18 @@
 [
   {
+    "slug": "action1-forensics-windows",
+    "title": "Action1 RMM Forensics Artifacts for Windows",
+    "subtitle": "How the Action1 agent installs, runs remote control and scripts, deploys software over its P2P channel, and what survives an uninstall",
+    "date": "2026-07-18",
+    "source": "Original",
+    "sourceUrl": "",
+    "cover": "/assets/research/action1-forensics-windows/cover.png",
+    "tags": ["Digital Forensics", "RMM", "Action1", "Windows"],
+    "category": "Digital Forensics",
+    "summary": "Forensic walkthrough of the Action1 agent on Windows: install artifacts under C:\\Windows\\Action1, the A1Agent service, TightVNC-based remote desktop, Run Script and Deploy Software behavior, libtorrent P2P distribution and its firewall tells, and which artifacts survive a remote uninstall.",
+    "url": "/research/action1-forensics-windows/index.html"
+  },
+  {
     "slug": "download-interrupt-reason-12",
     "title": "Browser Can Lie to You (Sometimes), Part 2: A Failed Security Check That Still Landed the File",
     "subtitle": "Why download interrupt reason 12 does not mean the file failed to arrive in Chromium-based browsers",

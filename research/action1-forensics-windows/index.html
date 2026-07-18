@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Action1 RMM Forensics Artifacts for Windows | Chicken0248</title>
+    <meta name="description" content="Forensic walkthrough of the Action1 agent on Windows: install artifacts under C:\Windows\Action1, the A1Agent service, TightVNC-based remote desktop, Run Script and Deploy Software behavior, libtorrent P2P distribution and its firewall tells, and which artifacts survive a remote uninstall." />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Chicken0248" />
+    <meta property="og:url" content="https://chicken0248.fyi/research/action1-forensics-windows/" />
+    <meta property="og:title" content="Action1 RMM Forensics Artifacts for Windows" />
+    <meta property="og:description" content="Forensic walkthrough of the Action1 agent on Windows: install artifacts, the A1Agent service, TightVNC remote desktop, Run Script and Deploy Software, libtorrent P2P distribution, and what survives a remote uninstall." />
+    <meta property="og:image" content="https://chicken0248.fyi/assets/research/action1-forensics-windows/social.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@Chicken_0248" />
+    <meta name="twitter:title" content="Action1 RMM Forensics Artifacts for Windows" />
+    <meta name="twitter:description" content="Forensic walkthrough of the Action1 agent on Windows: install artifacts, the A1Agent service, TightVNC remote desktop, Run Script and Deploy Software, libtorrent P2P distribution, and what survives a remote uninstall." />
+    <meta name="twitter:image" content="https://chicken0248.fyi/assets/research/action1-forensics-windows/social.png" />
+    <link rel="canonical" href="https://chicken0248.fyi/research/action1-forensics-windows/" />
+    <link rel="icon" href="/chicken0248.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.29.2/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@1.14.0/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="/themes/soc.css">
+    <script src="/themes/soc-theme.js"></script>
+    <script src="/themes/soc-nav.js"></script>
+    <script src="/themes/soc-components.js"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "Action1 RMM Forensics Artifacts for Windows",
+      "description": "Forensic walkthrough of the Action1 agent on Windows: install artifacts under C:\\Windows\\Action1, the A1Agent service, TightVNC-based remote desktop, Run Script and Deploy Software behavior, libtorrent P2P distribution and its firewall tells, and which artifacts survive a remote uninstall.",
+      "image": "https://chicken0248.fyi/assets/research/action1-forensics-windows/social.png",
+      "author": {
+        "@type": "Person",
+        "name": "Chicken0248",
+        "url": "https://chicken0248.fyi/"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "Chicken0248",
+        "url": "https://chicken0248.fyi/"
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://chicken0248.fyi/research/action1-forensics-windows/"
+      },
+      "url": "https://chicken0248.fyi/research/action1-forensics-windows/",
+      "datePublished": "2026-07-18",
+      "dateModified": "2026-07-18"
+    }
+    </script>
+</head>
+<body>
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-white focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg focus:text-blue-600 focus:font-semibold">Skip to content</a>
+    <noscript>
+        <style>body{font-family:system-ui,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}</style>
+        <div style="text-align:center;padding:2rem"><h1>JavaScript required</h1><p>This site requires JavaScript to display content.</p><a href="https://chicken0248.fyi">chicken0248.fyi</a></div>
+    </noscript>
+    <div id="root"></div>
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        const { SocClock, Icon, Section, CodeBlock, Img: ImgBase, ThemeToggle } = window.SocComponents;
+
+        const IMG = '/assets/research/' + window.location.pathname.split('/').filter(p => p && p !== 'index.html').pop();
+        const Img = (props) => <ImgBase base={IMG} {...props} />;
+
+        const SubSection = ({ title, children }) => (
+            <div style={{display:'flex',flexDirection:'column',gap:'10px'}}>
+                <h3 className="res-subsection">{title}</h3>
+                {children}
+            </div>
+        );
+
+        const Callout = ({ type = "info", children }) => {
+            const icons = { info: "Info", warning: "AlertTriangle", tip: "Lightbulb" };
+            const cols  = { info: 'var(--soc-cy)', warning: 'var(--soc-am)', tip: 'var(--soc-gn)' };
+            return (
+                <div className={`res-callout ${type}`}>
+                    <span className="res-callout-icon"><Icon name={icons[type]} className="w-4 h-4" style={{color:cols[type]}} /></span>
+                    <div>{children}</div>
+                </div>
+            );
+        };
+
+        const Table = ({ headers, rows }) => (
+            <div className="res-table-wrap">
+                <table className="res-table">
+                    <thead><tr>{headers.map((h, i) => <th key={i}>{h}</th>)}</tr></thead>
+                    <tbody>{rows.map((row, i) => (
+                        <tr key={i}>{row.map((cell, j) => <td key={j} dangerouslySetInnerHTML={{ __html: cell }}></td>)}</tr>
+                    ))}</tbody>
+                </table>
+            </div>
+        );
+
+        const B = ({ children }) => <strong>{children}</strong>;
+        const C = ({ children }) => <code className="res-c">{children}</code>;
+
+        const App = () => {
+            const tocItems = [
+                { id: 'introduction',    label: 'Introduction',                 icon: 'BookOpen'    },
+                { id: 'installation',    label: 'Installation & Persistence',   icon: 'Package'     },
+                { id: 'remote-desktop',  label: 'Remote Desktop (VNC)',         icon: 'Monitor'     },
+                { id: 'run-script',      label: 'Run Script',                   icon: 'Terminal'    },
+                { id: 'deploy-software', label: 'Deploy Software & P2P',        icon: 'FolderOpen'  },
+                { id: 'other-features',  label: 'Other Features',               icon: 'Server'      },
+                { id: 'removal',         label: 'Removal: What Survives',       icon: 'Search'      },
+                { id: 'summary',         label: 'Forensic Artifact Summary',    icon: 'Database'    },
+            ];
+
+            return (
+                <div style={{background:'var(--soc-bg)',minHeight:'100vh'}}>
+                    <nav className="soc-tb" aria-label="Site navigation">
+                        <div className="soc-tb-row">
+                            <a href="/" className="soc-live" style={{textDecoration:"none",color:"inherit"}}>UPLINK</a>
+                            <div className="soc-crumb hidden md:flex">
+                                <a href="/" style={{color:'var(--soc-ink3)',textDecoration:'none'}}>SOC</a>
+                                <span>/</span>
+                                <a href="/" style={{color:'var(--soc-ink3)',textDecoration:'none'}}>OPERATOR.PROFILE</a>
+                                <span>/</span>
+                                <a href="/research/index.html" style={{color:'var(--soc-ink3)',textDecoration:'none'}}>RESEARCH</a>
+                                <span>/</span>
+                                <b>ACTION1.FORENSICS.WINDOWS</b>
+                            </div>
+                            <div style={{flex:1}} />
+                            <span className="sev cyan hidden md:inline-flex"><span className="dot"></span>TLP:CLEAR</span>
+                            <span className="sev cyan hidden md:inline-flex"><span className="dot"></span>DIGITAL FORENSICS</span>
+                            <span className="hidden md:block"><SocClock /></span><ThemeToggle />
+                        </div>
+                    </nav>
+
+                    <main id="main-content" style={{maxWidth:'860px',margin:'0 auto',padding:'24px 20px'}} className="animate-fadeIn">
+
+                        <div className="res-cover">
+                            <img src={`${IMG}/cover.png`} alt="Action1 RMM Forensics Artifacts for Windows" />
+                            <div className="res-cover-overlay" />
+                            <div className="res-cover-content">
+                                <h1 className="res-cover-title">Action1 RMM Forensics Artifacts for Windows</h1>
+                                <div className="res-cover-badges">
+                                    <span className="sev cyan"><span className="dot"></span>July 18, 2026</span>
+                                    <span className="sev cyan"><span className="dot"></span>Digital Forensics</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="res-meta-grid">
+                            <div><div className="res-meta-lbl">Author</div><div className="res-meta-val">Chicken0248</div></div>
+                            <div><div className="res-meta-lbl">Published</div><div className="res-meta-val">July 18, 2026</div></div>
+                            <div><div className="res-meta-lbl">Category</div><div className="res-meta-val" style={{color:'var(--soc-cy)'}}>Digital Forensics</div></div>
+                        </div>
+
+                        <div className="res-toc" style={{marginTop:'20px',marginBottom:'24px'}}>
+                            <div className="res-toc-title">// TABLE OF CONTENTS</div>
+                            <div className="res-toc-grid">
+                                {tocItems.map((item, i) => (
+                                    <a key={item.id} href={`#${item.id}`} className="res-toc-item">
+                                        <span className="res-toc-num">{String(i+1).padStart(2,'0')}.</span>
+                                        <Icon name={item.icon} className="w-3.5 h-3.5" style={{color:'var(--soc-ink4)',flexShrink:0}} />
+                                        <span>{item.label}</span>
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* ═══ INTRODUCTION ═══ */}
+                        <Section id="introduction" title="Introduction" icon="BookOpen">
+                            <p className="text-gray-700 leading-relaxed">
+                                Hello everyone, it's Chicken0248, back with the RMM research series. From the header you already know which one we're digging into today: <B>Action1</B>.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Action1 is sold as vulnerability management software, but it also has remote control and can run scripts on any endpoint with its agent installed. Pair that with a dead-simple sign-up and a free tier covering up to 200 endpoints, and you have something useful. Useful for you, and for your friendly local (or international) threat actor too. That's why it keeps turning up in ransomware intrusions and as a way to push <B>other</B> RMMs through 2026.
+                            </p>
+                            <Img src="img-01.png" alt="Action1 abused in ransomware intrusions" caption="Figure 1" />
+                            <p className="text-gray-700 leading-relaxed">
+                                So this post is about how it works: which files it drops, which processes it spawns, and the forensic artifacts that help us reconstruct what an operator did on the box.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Action1 supports a few operating systems. Once you have an account and hit "getting started," you can grab an MSI for Windows, an SH bootstrapper (it fetches and installs a <C>.pkg</C>) for macOS, and <C>.deb</C> / <C>.rpm</C> for Linux. However it's packaged, the goal is the same: the agent runs as <B>SYSTEM</B> on Windows (or <B>root</B> on macOS/Linux) so it can inventory installed software, flag vulnerabilities (mostly by version), and carry out actions like remote desktop, run script, deploy or update software, and remediation.
+                            </p>
+                            <Callout type="warning">
+                                <p>Everything below was captured on <B>Windows</B>, and that is the focus of this post. The macOS/Linux details come from Action1's docs and the console UI, not my own captures, so treat those cross-platform bits as reference rather than verified findings.</p>
+                            </Callout>
+                            <Img src="img-02.png" alt="Action1 download options per platform" caption="Figure 2" />
+                            <p className="text-gray-700 leading-relaxed">
+                                The <B>"Other Options…"</B> button under each platform opens the download options, which are mostly install commands. On Windows you get three:
+                            </p>
+                            <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                <li><B>Interactive Installation</B> downloads the MSI to the current folder and runs it.</li>
+                                <li><B>Unattended Installation</B> is the one I'd expect an IT department to use, or a threat actor who doesn't want to host the MSI on their own infra.</li>
+                                <li><B>Direct Download</B> is just the MSI file, nothing else.</li>
+                            </ul>
+                            <Img src="img-03.png" alt="Windows install command options" caption="Figure 3" />
+                            <p className="text-gray-700 leading-relaxed">
+                                Notice the installer filename also carries the <B>organization name</B>. A brand-new account is called "My Organization" by default. I renamed mine to <B>"WowzaEnc,"</B> and a threat actor can just download the plain MSI and rename it for better opsec.
+                            </p>
+                            <Img src="img-04.png" alt="Installer filename embeds the organization name" caption="Figure 4" />
+                            <p className="text-gray-700 leading-relaxed">
+                                Looking at the file properties and digital signature, "Action1 Agent" is right there, with the version number sitting in the comment field.
+                            </p>
+                            <Img src="img-05.png" alt="Action1 Agent MSI file properties" caption="Figure 5" />
+                            <p className="text-gray-700 leading-relaxed">
+                                The signature is issued by <B>Sectigo Public Code Signing CA</B>, and the signer is <B>Action1 Corporation</B>.
+                            </p>
+                            <Img src="img-06.png" alt="Digital signature by Action1 Corporation via Sectigo" caption="Figure 6" />
+                            <p className="text-gray-700 leading-relaxed">
+                                Next we'll walk through the install itself: what gets created, what drops to disk, which event logs to look for, and the Action1 files worth your attention.
+                            </p>
+                        </Section>
+
+                        {/* ═══ INSTALLATION & PERSISTENCE ═══ */}
+                        <Section id="installation" title="Installation & Persistent Artifacts" icon="Package">
+                            <p className="text-gray-700 leading-relaxed">
+                                Like I said, the agent runs as SYSTEM, so whoever installs it has to be in the local <B>Administrators</B> group (or <B>Domain Admins</B>).
+                            </p>
+                            <Img src="img-07.png" alt="Administrator privileges required to install" caption="Figure 7" />
+                            <p className="text-gray-700 leading-relaxed">
+                                Once the install finishes, the endpoint shows up on the <B>Endpoints</B> page in the console.
+                            </p>
+                            <Img src="img-08.png" alt="Endpoint appears on the Action1 console" caption="Figure 8" />
+
+                            <SubSection title="Files, Registry & Network">
+                                <p className="text-gray-700 leading-relaxed">
+                                    Let's rewind and look at what actually happened during the install. An <B>Action1</B> folder gets created under <C>C:\Windows</C>, and the binaries it needs drop inside. We'll focus on <C>action1_agent.exe</C> and <C>action1_remote.exe</C>, because those two EXEs are the heart of the agent, and they're easy to spot and alert on with a decent rule.
+                                </p>
+                                <Img src="img-09.png" alt="C:\Windows\Action1 folder created during install" caption="Figure 9" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    The MSI also writes a registry key holding the agent's certificate, public key, <B>customer ID</B> (grab this one; you can hand it to Action1 for takedown and legal action), the MSI package ID, and the path to the Action1 install folder:
+                                </p>
+                                <CodeBlock language="text">HKLM\SOFTWARE\WOW6432Node\Action1</CodeBlock>
+                                <Img src="img-10.png" alt="Action1 registry key contents 1" caption="Figure 10" />
+                                <Img src="img-11.png" alt="Action1 registry key contents 2" caption="Figure 11" />
+                                <Img src="img-12.png" alt="Action1 registry key contents 3" caption="Figure 12" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    At the end of the install, the MSI registers a service called <B>A1Agent</B> and starts it, so the agent comes up as SYSTEM, reaches the Action1 server, and starts sending heartbeats.
+                                </p>
+                                <Img src="img-13.png" alt="A1Agent service registered by the MSI" caption="Figure 13" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    The service's display name is <B>"Action1 Agent,"</B> it starts automatically at boot, and it runs as SYSTEM. The process it launches is <C>action1_agent.exe</C> with the <C>service</C> flag:
+                                </p>
+                                <Img src="img-14.png" alt="Action1 Agent service auto-start as SYSTEM" caption="Figure 14" />
+                                <Img src="img-15.png" alt="action1_agent.exe launched with service flag" caption="Figure 15" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    From a network angle: during install, the MSI reaches out to <C>104.18.38.233</C>, which belongs to <B>Cloudflare (AS13335)</B>. Best not to blanket-block that range. Once the agent is installed and running, it opens its persistent channel to <C>server.eu.action1.com</C> (hosted on AWS in eu-central-1). I created my account in the EU, so I got the EU endpoint; other regions get their own (<C>server.&lt;region&gt;.action1.com</C>).
+                                </p>
+                                <Img src="img-16.png" alt="Install-time connection to Cloudflare" caption="Figure 16" />
+                                <Img src="img-17.png" alt="Persistent channel to server.eu.action1.com" caption="Figure 17" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    Right after it starts, the agent fires off a burst of PowerShell commands to collect information and send it back to the server for display on the console:
+                                </p>
+                                <Img src="img-18.png" alt="Agent fires a burst of PowerShell inventory commands" caption="Figure 18" />
+                            </SubSection>
+
+                            <SubSection title="Event Logs">
+                                <p className="text-gray-700 leading-relaxed">
+                                    The MSI is the only supported way to get the agent onto Windows, so expect <B>MsiInstaller</B> events in the <B>Application</B> log. The ones to watch:
+                                </p>
+                                <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                    <li><B>1040, Beginning a Windows Installer transaction:</B> shows the full path to the MSI and the first PID that kicked off the install (it spawns more <C>msiexec</C> processes later).</li>
+                                </ul>
+                                <Img src="img-19.png" alt="MsiInstaller Event ID 1040" caption="Figure 19" />
+                                <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                    <li><B>1042, Ending a Windows Installer transaction:</B> shows up after 1040 and also carries the full MSI path.</li>
+                                </ul>
+                                <Img src="img-20.png" alt="MsiInstaller Event ID 1042" caption="Figure 20" />
+                                <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                    <li><B>11707, Product installation completed successfully:</B> the product reads <B>"Action1 Agent."</B></li>
+                                </ul>
+                                <Img src="img-21.png" alt="MsiInstaller Event ID 11707" caption="Figure 21" />
+                                <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                    <li><B>1033, Installation success:</B> "Action1 Agent" as the product name again, alongside manufacturer <B>"Action1 Corporation."</B></li>
+                                </ul>
+                                <Img src="img-22.png" alt="MsiInstaller Event ID 1033" caption="Figure 22" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    Because it installs and starts as a service, you also get <B>Event ID 7045</B> (System log) with the service name <B>"Action1 Agent."</B>
+                                </p>
+                                <Img src="img-23.png" alt="System Event ID 7045 service install" caption="Figure 23" />
+                            </SubSection>
+
+                            <SubSection title="Files Inside the Install Folder">
+                                <p className="text-gray-700 leading-relaxed">
+                                    There's a lot living in the install folder. In my capture it was <B>10 folders, 2 EXEs, and 2 DLLs</B>:
+                                </p>
+                                <Img src="img-24.png" alt="Contents of C:\Windows\Action1" caption="Figure 24" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    Both EXEs, <C>action1_agent.exe</C> and <C>action1_remote.exe</C>, share the same version number, product name, and signature. Their descriptions differ, and so do their jobs:
+                                </p>
+                                <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                    <li><C>action1_agent.exe</C> is the always-running agent that talks to the cloud and executes every command (scripts, deploys, inventory). If this is running, the box is Action1-managed. Full stop.</li>
+                                    <li><C>action1_remote.exe</C> only fires up when someone remote-controls the box.</li>
+                                </ul>
+                                <p className="text-gray-700 leading-relaxed">
+                                    And <C>action1_remote.exe</C> is built on top of <B>TightVNC</B>, so the remote session is really <B>VNC</B> under the hood.
+                                </p>
+                                <Img src="img-25.png" alt="action1_remote.exe built on TightVNC" caption="Figure 25" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    <C>previousUser.txt</C> holds a username in <C>WORKSTATION\user</C> format, most likely the admin who installed the agent.
+                                </p>
+                                <Img src="img-26.png" alt="previousUser.txt contents" caption="Figure 26" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    <C>first_install</C>, you guessed it, contains the first-install timestamp in <B>UTC</B>.
+                                </p>
+                                <Img src="img-27.png" alt="first_install timestamp file" caption="Figure 27" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    The fun one is <C>what_is_this.txt</C>. It's a warning aimed at whoever stumbles onto this folder. It explains what Action1 is and says that if nobody in your org authorized this install (or it landed on the wrong machine), you can note the <B>organization ID</B> tied to the agent and contact Action1's legal team.
+                                </p>
+                                <Img src="img-28.png" alt="what_is_this.txt warning file" caption="Figure 28" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    Here's the part I love as a DFIR analyst: <B>Action1's logging is extremely verbose.</B> It logs from the moment the agent starts, every interaction with the server, right down to the heartbeats.
+                                </p>
+                                <Img src="img-29.png" alt="Verbose Action1 log output 1" caption="Figure 29" />
+                                <Img src="img-30.png" alt="Verbose Action1 log output 2" caption="Figure 30" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    Inside those logs we can pull the identity of the org (or the threat actor): the <B>Customer ID</B>, which is the same value you'll see in <C>what_is_this.txt</C>, and the <B>service ID</B>, which is the <B>agent ID</B> for the org that deployed it. The agent also reports endpoint details to the server (MAC address, OS version, PowerShell status, agent time, hardware ID, and more), all of which surface in the management console.
+                                </p>
+                                <Img src="img-31.png" alt="Customer ID and service ID in the logs" caption="Figure 31" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    From the console, the operator can hunt vulnerable services, inventory installed software, spot missing updates, and run automation or remote desktop. That's what we're covering next.
+                                </p>
+                                <Img src="img-32.png" alt="Action1 console operator view" caption="Figure 32" />
+                            </SubSection>
+                        </Section>
+
+                        {/* ═══ REMOTE DESKTOP ═══ */}
+                        <Section id="remote-desktop" title="Remote Desktop (VNC)" icon="Monitor">
+                            <p className="text-gray-700 leading-relaxed">
+                                There's a whole menu of things you can do to an agent from the console: deploy updates, deploy software, reboot, run scripts, uninstall software, remote desktop, and uninstall the agent itself.
+                            </p>
+                            <Img src="img-33.png" alt="Console action menu for an endpoint" caption="Figure 33" />
+                            <p className="text-gray-700 leading-relaxed">
+                                But before any of that, Action1 makes you <B>verify your account</B>. Why? Because they <B>know</B> their product gets abused in attacks, so they put a third-party identity check (<B>Onfido</B>) in front of these features. It wants a government ID (national ID, passport, or driver's license) <B>and</B> your face.
+                            </p>
+                            <Img src="img-34.png" alt="Onfido identity verification prompt 1" caption="Figure 34" />
+                            <Img src="img-35.png" alt="Onfido identity verification prompt 2" caption="Figure 35" />
+                            <p className="text-gray-700 leading-relaxed">
+                                I went ahead and verified mine, so let's start with remote desktop.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                When an admin (or a threat actor) opens a remote-desktop connection, a prompt pops up on the endpoint by default to tell the user someone's about to take control. The logo and prompt duration are configurable in the console (Advanced Settings). Out of the box, the user gets <B>15 seconds</B> to reject the session, and if the timer runs out, Action1 <B>auto-accepts</B>.
+                            </p>
+                            <Img src="img-36.png" alt="Remote desktop consent prompt settings" caption="Figure 36" />
+                            <Img src="img-37.png" alt="Default 15-second consent prompt" caption="Figure 37" />
+                            <p className="text-gray-700 leading-relaxed">
+                                The whole session runs <B>inside the browser</B>, and as far as I can tell that's the only option. There's <B>no file-transfer utility</B> exposed; it's pure remote control with a small shortcut menu in the top-left. (The underlying TightVNC code does support clipboard and file transfer. Action1 just doesn't surface it in their client.) The endpoint's wallpaper also gets swapped to a plain dark background by default.
+                            </p>
+                            <Img src="img-38.png" alt="Browser-based remote session with wallpaper swapped" caption="Figure 38" />
+                            <p className="text-gray-700 leading-relaxed">
+                                An operator can shrink that consent prompt too. The default is 15 seconds, but the range is <B>1 to 180 seconds</B>. So if I wanted the smoothest possible takeover, I'd set it to <B>1 second</B>: the prompt barely blinks before it auto-accepts.
+                            </p>
+                            <Img src="img-39.png" alt="Consent prompt range 1 to 180 seconds" caption="Figure 39" />
+                            <Img src="img-40.png" alt="Consent prompt set to 1 second" caption="Figure 40" />
+                            <p className="text-gray-700 leading-relaxed">
+                                The connection-request prompt text is customizable as well.
+                            </p>
+                            <Img src="img-41.png" alt="Customizable connection-request prompt text" caption="Figure 41" />
+                            <p className="text-gray-700 leading-relaxed">
+                                Now let's look at the processes and artifacts this feature leaves behind. When the server sends a connection request, <C>action1_agent.exe</C> spawns a <C>monitorcount</C> instance that enumerates the endpoint's displays via WMI (<C>Win32_DesktopMonitor</C>) so the session knows how many screens to serve. It re-runs roughly every <B>60 seconds</B> during the session to track display changes. Then the <C>action1_remote.exe</C> chain kicks off:
+                            </p>
+                            <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                <li><C>controlservice -slave</C> is the TightVNC control worker.</li>
+                                <li><C>queryconnection -peer 127.0.0.1 -accept -timeout 15</C> is the 15-second consent prompt, default-accept, auto-accepting on timeout.</li>
+                                <li><C>desktopserver -logdir "C:\Windows\Action1\logs" -loglevel 0 -shmemname Global\&lt;id&gt;</C> is the RFB screen server. This is when the session goes live, and <C>logdir</C> points this process's own log back into <C>C:\Windows\Action1\logs</C>.</li>
+                            </ul>
+                            <Img src="img-42.png" alt="monitorcount and action1_remote.exe process chain" caption="Figure 42" />
+                            <p className="text-gray-700 leading-relaxed">
+                                We can line all of this up against the agent's own logs. First, a word on the logs. If the agent's been running for days, you'll find a pile of files named <C>action1_log_YYYY-MM-DD_HH-MM-SS~&lt;pid&gt;.log</C>. The one carrying the <B>heartbeat</B> is easy to pick out; it's the big one by file size. Or just search for <C>HEARTBEAT_ACK</C> to confirm.
+                            </p>
+                            <Img src="img-43.png" alt="Action1 log file naming and heartbeat log" caption="Figure 43" />
+                            <p className="text-gray-700 leading-relaxed">
+                                To find where the remote connection started, look for the <C>REMOTE_SESSION_CONNECT</C> message:
+                            </p>
+                            <Img src="img-44.png" alt="REMOTE_SESSION_CONNECT log message" caption="Figure 44" />
+                            <p className="text-gray-700 leading-relaxed">
+                                The log shows the connection established at <B>23:08:32</B>. That's <B>not</B> the moment the operator actually sees the screen. Procmon shows the <C>desktopserver</C> process spawning at <B>23:08:57</B>, about <B>25 seconds later</B>. That gap is the 15-second consent auto-accept plus spawn latency, and my other attempts lined up the same way.
+                            </p>
+                            <Callout type="tip">
+                                <p>The takeaway: <B>more telemetry gives you a more accurate timeline.</B> The log tells you when the transport came up; the process tells you when the operator could actually start working.</p>
+                            </Callout>
+                            <Img src="img-45.png" alt="Procmon shows desktopserver spawning 25 seconds after log connect" caption="Figure 45" />
+                            <p className="text-gray-700 leading-relaxed">
+                                What about session teardown? Both the process view and the log answer this one. On the process side you'll see <C>action1_remote.exe -controlservice -shutdown</C> kick off the shutdown. Simple as that.
+                            </p>
+                            <Img src="img-46.png" alt="action1_remote.exe controlservice shutdown" caption="Figure 46" />
+                            <p className="text-gray-700 leading-relaxed">
+                                In the log, teardown starts with <B>"Relay closed connection, closing the session."</B> About 15 seconds later the agent receives a <C>REMOTE_SESSION_CLOSE</C> message from the server, runs <C>action1_remote.exe -controlservice -shutdown</C>, stops the VNC server, cleans up its threads, and settles back into normal heartbeats.
+                            </p>
+                            <Img src="img-47.png" alt="REMOTE_SESSION_CLOSE teardown in the log" caption="Figure 47" />
+                            <p className="text-gray-700 leading-relaxed">
+                                Because the remote session is just VNC, it doesn't have the bells and whistles of a full remote-support suite. That's why I'd bet <B>Run Script</B> and <B>Deploy Software</B>, not remote desktop, are the features ransomware operators actually lean on to drop <B>other</B> RMMs (like ScreenConnect), exactly like in <a href="https://www.huntress.com/blog/daisy-chaining-rogue-rmm-tools" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">this Huntress blog post</a>.
+                            </p>
+                            <Img src="img-48.png" alt="Huntress daisy-chaining rogue RMM tools reference" caption="Figure 48" />
+                        </Section>
+
+                        {/* ═══ RUN SCRIPT ═══ */}
+                        <Section id="run-script" title="Run Script" icon="Terminal">
+                            <p className="text-gray-700 leading-relaxed">
+                                Run Script is one of the two features that do the real damage here (Deploy Software being the other). It's simple: run any command or script on any endpoint with a live agent, either as native Command Prompt or as PowerShell.
+                            </p>
+                            <Img src="img-49.png" alt="Run Script feature in the console" caption="Figure 49" />
+                            <p className="text-gray-700 leading-relaxed">
+                                For testing I split it into three cases: a command via <B>Command Prompt</B>, a basic command via <B>PowerShell</B> (something that calls another binary, like <C>whoami</C>), and a real <B>PowerShell cmdlet/script</B>. That way I could see what Action1 leaves behind in each case and what it cleans up.
+                            </p>
+
+                            <SubSection title="Command Prompt on Windows">
+                                <p className="text-gray-700 leading-relaxed">
+                                    I ran <C>whoami</C>. The flow is straightforward: drop your command in the box, and if it's something you'll reuse, there's a <B>"Save in Script Library"</B> button (more on the library later).
+                                </p>
+                                <Img src="img-50.png" alt="Entering a whoami command with Save in Script Library" caption="Figure 50" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    Next you add endpoints, name the automation, and click finish. The operator gets scheduling options ranging from "now" to a specific time, with frequencies from daily to monthly.
+                                </p>
+                                <Img src="img-51.png" alt="Adding endpoints and naming the automation" caption="Figure 51" />
+                                <Img src="img-52.png" alt="Scheduling options from now to monthly" caption="Figure 52" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    Once it runs, it shows up under <B>Automation</B>, and the command output lands here:
+                                </p>
+                                <Img src="img-53.png" alt="Command output shown in the console" caption="Figure 53" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    Now the process view. <C>action1_agent.exe</C> spawns a child with <C>schedule:</C> and <C>runaction:</C> arguments. You can read the UNIX timestamp and the automation name straight off the command line. Then <C>whoami</C> runs from a <C>.cmd</C> script the agent dropped in <C>C:\Windows\Action1\scripts</C>.
+                                </p>
+                                <Img src="img-54.png" alt="action1_agent.exe schedule and runaction arguments" caption="Figure 54" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    That script is created by <C>action1_agent.exe</C> and <B>deleted the moment it finishes executing.</B>
+                                </p>
+                                <Img src="img-55.png" alt="Temp .cmd script deleted after execution" caption="Figure 55" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    <C>cmd.exe</C> handles execution (spawned as a child of <C>action1_agent.exe</C>), then <C>action1_agent.exe</C> captures the output and sends it back to the server. The output file is named with the same automation name and timestamp, and it too gets <B>deleted once the result is uploaded.</B>
+                                </p>
+                                <Img src="img-56.png" alt="cmd.exe execution and output file deleted after upload" caption="Figure 56" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    So what actually sticks around? Two remnants in the Action1 folder: the <B>log file</B> in <C>logs</C>, and a record of the task's start in <C>batch_data</C> (a file named after the automation and the task's UNIX timestamp, with a <C>.data</C> extension).
+                                </p>
+                                <Img src="img-57.png" alt="batch_data .data remnant file" caption="Figure 57" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    The nice thing about the log here is that it's <B>separate</B> from the noisy heartbeat/remote-desktop log, so it's lean and easy to read. You get the automation's start time, the automation name (as the schedule ID), the temp script that was created, the command the operator ran, and the result before exit.
+                                </p>
+                                <Img src="img-58.png" alt="Lean per-run Run Script log" caption="Figure 58" />
+                            </SubSection>
+
+                            <SubSection title="PowerShell on Windows (Basic Command)">
+                                <p className="text-gray-700 leading-relaxed">
+                                    I used this:
+                                </p>
+                                <CodeBlock language="powershell">{`"Action1 test $(Get-Date -Format o)" | Out-File C:\\users\\public\\test2.txt
+whoami
+hostname`}</CodeBlock>
+                                <Img src="img-59.png" alt="PowerShell basic command in Run Script" caption="Figure 59" />
+                                <p className="text-gray-700 leading-relaxed">
+                                    As expected, when PowerShell executes external binaries like <C>whoami</C> and <C>hostname</C>, they show up as <B>children of <C>powershell.exe</C></B>. Same overall pattern as the Command case, except there's <B>no <C>.cmd</C> script</B> this time, because <C>action1_agent.exe</C> uses PowerShell to run the commands directly.
+                                </p>
+                                <Img src="img-60.png" alt="whoami and hostname as children of powershell.exe 1" caption="Figure 60" />
+                                <Img src="img-61.png" alt="whoami and hostname as children of powershell.exe 2" caption="Figure 61" />
+                                <Img src="img-62.png" alt="PowerShell basic command process tree" caption="Figure 62" />
+                            </SubSection>
+
+                            <SubSection title="PowerShell on Windows (Cmdlet)">
+                                <p className="text-gray-700 leading-relaxed">
+                                    I ran these to confirm the behavior, and it matched: the dropped file, the log file, and the process tree all followed the same pattern as before.
+                                </p>
+                                <CodeBlock language="powershell">{`Get-CimInstance Win32_ComputerSystem | Select Manufacturer,Model,Domain,UserName | Format-List
+Get-LocalUser | Select Name,Enabled | Format-Table -Auto
+Get-LocalGroupMember Administrators -EA SilentlyContinue | Select Name
+Get-Process | Select -First 5 Name,Id | Format-Table -Auto
+Get-Service | ? Status -eq Running | Select -First 5 Name | Format-Table -Auto
+Get-NetIPConfiguration | Select InterfaceAlias,IPv4Address | Format-Table -Auto
+Get-NetTCPConnection -State Established -EA SilentlyContinue | Select -First 5 LocalAddress,RemoteAddress,RemotePort | Format-Table -Auto`}</CodeBlock>
+                                <Img src="img-63.png" alt="PowerShell cmdlet script run 1" caption="Figure 63" />
+                                <Img src="img-64.png" alt="PowerShell cmdlet script run 2" caption="Figure 64" />
+                            </SubSection>
+
+                            <SubSection title="Script Library">
+                                <p className="text-gray-700 leading-relaxed">
+                                    One thing worth mentioning is the Script Library. It ships with templates. Some run with no parameters at all, like <B>"Enable Local Admin"</B> and <B>"Turn Off Windows Firewall."</B> Others take parameters, like <B>"Local Password Reset"</B> and <B>"Download from the Internet."</B> Operators can also add their own, which is exactly how the ScreenConnect-installer script in the Huntress blog got there.
+                                </p>
+                                <Img src="img-65.png" alt="Script Library built-in templates" caption="Figure 65" />
+                                <Img src="img-66.png" alt="Script Library parameterized templates" caption="Figure 66" />
+                            </SubSection>
+                        </Section>
+
+                        {/* ═══ DEPLOY SOFTWARE & P2P ═══ */}
+                        <Section id="deploy-software" title="Deploy Software & P2P Distribution" icon="FolderOpen">
+                            <p className="text-gray-700 leading-relaxed">
+                                Deploy Software is the other feature ripe for abuse: it remotely installs software on the target. That can be something straight out of Action1's own repository, and plenty of those are abusable, like <B>TeamViewer, Remote Desktop Manager, Splashtop Streamer, and TightVNC.</B>
+                            </p>
+                            <Img src="img-67.png" alt="Action1 software repository with abusable apps" caption="Figure 67" />
+                            <p className="text-gray-700 leading-relaxed">
+                                An operator can also push <B>vulnerable</B> software, though I don't see that as a strong attack path here. Action1 already runs as SYSTEM, so a local-privilege-escalation bug buys an attacker nothing they don't already have.
+                            </p>
+                            <Img src="img-68.png" alt="Pushing vulnerable software versions" caption="Figure 68" />
+                            <p className="text-gray-700 leading-relaxed">
+                                Operators can build their own packages too. Action1 accepts <C>.msi</C>, <C>.cmd</C>, <C>.bat</C>, and <C>.ps1</C>, with a silent-install option.
+                            </p>
+                            <Img src="img-69.png" alt="Custom package formats accepted" caption="Figure 69" />
+                            <Img src="img-70.png" alt="Silent install option for custom package" caption="Figure 70" />
+                            <p className="text-gray-700 leading-relaxed">
+                                To demo this, I deployed <B>FileZilla Client.</B>
+                            </p>
+                            <Img src="img-71.png" alt="FileZilla Client selected for deployment" caption="Figure 71" />
+                            <p className="text-gray-700 leading-relaxed">
+                                FileZilla ships as an EXE (setup) installer, and it runs as an automation. So we see the familiar <C>action1_agent.exe</C> spawned with the <C>schedule:</C> flag, and the installer running as its <B>child process</B>:
+                            </p>
+                            <Img src="img-72.png" alt="FileZilla installer running as a child of action1_agent.exe" caption="Figure 72" />
+                            <p className="text-gray-700 leading-relaxed">
+                                Like Run Script, it writes its <B>own logs</B> (separate from the heartbeat and remote-desktop logs), and there are automation files dropped in the <C>running_batches</C> folder. Those are basically temp files, deleted as soon as the automation finishes.
+                            </p>
+                            <Img src="img-73.png" alt="running_batches temp automation files" caption="Figure 73" />
+                            <p className="text-gray-700 leading-relaxed">
+                                The interesting leftovers live in <C>package_downloads</C>. After the install, this folder keeps the installer/setup file plus a set of sidecar files:
+                            </p>
+                            <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                <li>a <C>.json</C> with the installer's filename and MD5,</li>
+                                <li>a <C>.result</C> with the outcome (<C>OK</C> on success),</li>
+                                <li>a <C>.metadata</C>, which is the bencode <B>torrent</B> file,</li>
+                                <li>and a <C>.resume</C>, the full libtorrent download state.</li>
+                            </ul>
+                            <Img src="img-74.png" alt="package_downloads sidecar files" caption="Figure 74" />
+                            <p className="text-gray-700 leading-relaxed">
+                                That <C>.metadata</C>/<C>.resume</C> pair is a nice tell: Action1 pulls installers using <B>libtorrent</B>. It's not a free-for-all P2P swarm, though. The <C>.metadata</C> template lists a <C>localhost:6969</C> tracker that gets <B>cleared at runtime</B>, and the actual bytes come over HTTPS from Action1's CDN web-seed (<C>eu-cdn.action1.com</C>, which fronts BunnyCDN). Peer endpoints only seed to each other when they already have the package.
+                            </p>
+                            <Img src="img-75.png" alt="libtorrent metadata and CDN web-seed" caption="Figure 75" />
+                            <p className="text-gray-700 leading-relaxed">
+                                The install also leaves a fingerprint in the Windows Firewall. The agent adds <B>three inbound Allow rules</B> for <C>action1_agent.exe</C>:
+                            </p>
+                            <Table
+                                headers={['Rule Name', 'Direction', 'Action', 'Local Port', 'Program']}
+                                rows={[
+                                    ['Action1 Agent (TCP-In)', 'In', 'Allow', '22551', 'C:\\Windows\\Action1\\action1_agent.exe'],
+                                    ['Action1 Agent (UDP-In)', 'In', 'Allow', '22551', 'C:\\Windows\\Action1\\action1_agent.exe'],
+                                    ['Action1 Agent LPD (UDP-In)', 'In', 'Allow', '6771', 'C:\\Windows\\Action1\\action1_agent.exe'],
+                                ]}
+                            />
+                            <p className="text-gray-700 leading-relaxed">
+                                That 6771 is the giveaway. It's the <B>BitTorrent Local Peer Discovery</B> port (multicast <C>239.192.152.143:6771</C>), and "LPD" in the rule name stands for Local Peer Discovery. So on a network with several Action1 agents, they find each other over 6771 and pull packages from a nearby peer on 22551 instead of hammering the CDN. If you see inbound <C>6771/udp</C> and <C>22551</C> tied to <C>action1_agent.exe</C>, that's Action1's P2P distribution, and it's a separate signal from the <C>package_downloads</C> files on disk. (Don't confuse 22551 inbound with the 22543 the agent uses outbound for C2. Different channels.)
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Who adds these rules, and when? Not the MSI, and not at install. I only found them in the <B>Deploy Software</B> capture, not the install one, and that lines up with a string in the binary: <C>Checking firewall rules for file downloader</C>. The agent sets them up the first time it needs its P2P downloader, which is the first deploy.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Procmon has the whole sequence. The install run captured <C>action1_agent.exe</C>, <C>msiexec.exe</C>, and <C>svchost.exe</C> in full and shows <B>zero</B> firewall activity. The deploy run shows <C>action1_agent.exe</C> loading <C>FirewallAPI.dll</C>, then the Windows Firewall service (<C>svchost.exe</C> / MpsSvc) writing the three rule GUIDs into the registry on the agent's behalf:
+                            </p>
+                            <Img src="img-76.png" alt="Procmon FirewallAPI.dll load and MpsSvc registry write" caption="Figure 76" />
+                            <p className="text-gray-700 leading-relaxed">
+                                A beat later the agent actually uses it, and Procmon catches the Local Peer Discovery going out:
+                            </p>
+                            <Img src="img-77.png" alt="Local Peer Discovery multicast going out" caption="Figure 77" />
+                            <Callout type="warning">
+                                <p>The agent drives the <B>Windows Firewall COM API</B> (<C>INetFwPolicy2</C>), and MpsSvc does the registry write. Detection consequence: the rule creation shows up as <C>svchost</C>, not <C>action1_agent.exe</C>, and a stock SwiftOnSecurity Sysmon config won't log it at all (no <C>netsh</C>, and the <C>FirewallRules</C> registry path isn't in scope). To catch this you want the Windows Firewall operational log (Event 2004, "a rule was added") or the outbound 6771 multicast to <C>239.192.152.143</C>, not Sysmon.</p>
+                            </Callout>
+                            <p className="text-gray-700 leading-relaxed">
+                                The rule's own description, pulled from the binary, spells out why it exists:
+                            </p>
+                            <Callout type="info">
+                                <p>Allows Action1 agent to accept connections from other Action1 agents within your organization to share downloaded applications and minimize external bandwidth.</p>
+                            </Callout>
+                            <p className="text-gray-700 leading-relaxed">
+                                While you're in those strings, one more thing stands out: the agent also carries code to query the default firewall blocking state and to <C>unblock all inbound traffic in firewall settings</C>. I didn't see it fire during my captures, but a management agent that can flip the host firewall's inbound posture is worth keeping in the back of your mind.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Because the agent owns these rules and the MSI never registered them, they <B>outlive the agent</B>. A box that had Action1 removed can still carry three <C>Action1 Agent*</C> firewall rules pointing at an <C>action1_agent.exe</C> that no longer exists. Windows only prunes them once that binary is actually deleted. A firewall rule with no file behind it is a quiet little tombstone.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                Now the logs, and here's a small surprise: the deploy generates <B>three</B> separate log files, one per step of the automation.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                <B>First</B>, before the setup file is even downloaded, the agent runs a script to check whether the same software is already present.
+                            </p>
+                            <Img src="img-78.png" alt="Deploy log step 1, check existing software" caption="Figure 78" />
+                            <p className="text-gray-700 leading-relaxed">
+                                <B>Second</B>, it checks the deployment requirements.
+                            </p>
+                            <Img src="img-79.png" alt="Deploy log step 2, check requirements" caption="Figure 79" />
+                            <p className="text-gray-700 leading-relaxed">
+                                <B>Third</B>, the final log records the install itself: it waits for the download to complete, then runs the setup. (The actual torrent download is logged in the main heartbeat log, not this one.)
+                            </p>
+                            <Img src="img-80.png" alt="Deploy log step 3, install" caption="Figure 80" />
+                            <Callout type="tip">
+                                <p>For responders, the key point: <B>the <C>package_downloads</C> payload does not survive an agent uninstall.</B> The MSI wipes that folder. If you're working an IR case on a box where Action1 was later removed, grab <C>C:\Windows\Action1\</C> before touching the uninstall, or that installer (and its MD5) is gone. More on that in the removal section.</p>
+                            </Callout>
+                        </Section>
+
+                        {/* ═══ OTHER FEATURES ═══ */}
+                        <Section id="other-features" title="A Few Other Features" icon="Server">
+                            <p className="text-gray-700 leading-relaxed">
+                                Action1 has plenty of IT-admin conveniences. One is the <B>deployer</B>: drop it into an Active Directory environment and it auto-discovers endpoints that don't have the agent yet and installs it, chugging along until it hits your license cap or runs out of new machines. I haven't seen this abused at scale, probably because it's noisy and needs Domain Admin, but it's good to know it exists.
+                            </p>
+                            <Img src="img-81.png" alt="Action1 AD deployer auto-discovery" caption="Figure 81" />
+                            <p className="text-gray-700 leading-relaxed">
+                                And because Action1 is a vulnerability-management platform, it comes with reports and dashboards. For an operator, that means a pile of juicy inventory data served up without running a single noisy automation on the endpoints.
+                            </p>
+                            <Img src="img-82.png" alt="Action1 reports and dashboards" caption="Figure 82" />
+                            <Img src="img-83.png" alt="Inventory data available to an operator" caption="Figure 83" />
+                        </Section>
+
+                        {/* ═══ REMOVAL: WHAT SURVIVES ═══ */}
+                        <Section id="removal" title="Removal: What Survives" icon="Search">
+                            <p className="text-gray-700 leading-relaxed">
+                                Once an operator wraps up (having, say, deployed another RMM or their own implant), they can <B>remotely uninstall</B> the Action1 agent from the target. That strips out some of the juicy artifacts, but not all of them. Let's see what survives.
+                            </p>
+                            <Img src="img-84.png" alt="Remote uninstall from the console 1" caption="Figure 84" />
+                            <Img src="img-85.png" alt="Remote uninstall from the console 2" caption="Figure 85" />
+                            <p className="text-gray-700 leading-relaxed">
+                                First, the <C>C:\Windows\Action1</C> folder is still there, but down to just <B>two</B> folders. The good news: one of them is <C>logs</C>, our main resource when working an Action1 case.
+                            </p>
+                            <Img src="img-86.png" alt="Action1 folder reduced to two folders after uninstall" caption="Figure 86" />
+                            <p className="text-gray-700 leading-relaxed">
+                                There's also a <B>new</B> log file created by the uninstall itself.
+                            </p>
+                            <Img src="img-87.png" alt="New uninstall log file" caption="Figure 87" />
+                            <p className="text-gray-700 leading-relaxed">
+                                Here's what the uninstall actually does. It spawns a PowerShell process that runs <C>msiexec</C> to kick off the removal, roughly:
+                            </p>
+                            <CodeBlock language="powershell">{`msiexec /X "{E6D8B066-2E74-458F-9111-24857C1C627A}" /quiet /qn /norestart /lv* "C:\\Windows\\Action1\\logs\\agent_install_<UNIXTIMESTAMP>.log" ALLOWRESTRICTEDVERSIONS=1`}</CodeBlock>
+                            <p className="text-gray-700 leading-relaxed">
+                                That <C>/lv*</C> sets the MSI log path, so yes, a file named <C>agent_install_*</C> is actually the <B>uninstall</B> log. Don't let the name fool you. That first <C>msiexec</C> invokes another, which eventually calls <C>action1_agent.exe</C> with the <C>uninstall-msi</C> flag to run the cleanup. The cleanup:
+                            </p>
+                            <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                <li>stops and deletes the <C>A1Agent</C> service,</li>
+                                <li>removes the WER (Windows Error Reporting) registry values for the agent binaries,</li>
+                                <li>and deletes everything inside <C>C:\Windows\Action1</C> <B>except <C>CrashDumps</C> and <C>logs</C>.</B></li>
+                            </ul>
+                            <Img src="img-88.png" alt="Uninstall cleanup removes files except logs and CrashDumps" caption="Figure 88" />
+                            <p className="text-gray-700 leading-relaxed">
+                                Now the useful part. Because the uninstall logs its own file-removal operations, <B>you can still see which software was deployed via Action1 even after it's been removed.</B> The deleted payload is gone, but the log remembers its name.
+                            </p>
+                            <Img src="img-89.png" alt="Uninstall log records deployed software name" caption="Figure 89" />
+                            <p className="text-gray-700 leading-relaxed">
+                                The registry key holding the agent info, including the operator's <B>org ID</B>, also gets removed. Don't panic, though: we can still pair the <B>agent GUID</B> with the <B>org ID</B> recovered from the log to contact Action1's team.
+                            </p>
+                            <Img src="img-90.png" alt="Registry key removed but IDs recoverable from log" caption="Figure 90" />
+                            <p className="text-gray-700 leading-relaxed">
+                                So even though <C>what_is_this.txt</C> and the registry key are gone, the <B>log file still records the IDs</B>. Grab those for your report if you're planning to pursue legal action.
+                            </p>
+                            <Img src="img-91.png" alt="Log file retains customer and agent IDs" caption="Figure 91" />
+                            <p className="text-gray-700 leading-relaxed">
+                                Last one. To timestamp the uninstall and correlate it against the Action1 logs, look at the <B>same MsiInstaller event chain</B> in the Application log as the install, except the details now describe a <B>package removal</B> instead of an installation.
+                            </p>
+                            <Img src="img-92.png" alt="MsiInstaller event chain for the removal" caption="Figure 92" />
+                        </Section>
+
+                        {/* ═══ FORENSIC ARTIFACT SUMMARY ═══ */}
+                        <Section id="summary" title="Forensic Artifact Summary" icon="Database">
+                            <p className="text-gray-700 leading-relaxed">Let's tie it together.</p>
+
+                            <SubSection title="Installation & Proof of Existence">
+                                <ul className="list-disc list-outside ml-5 space-y-2 text-gray-700">
+                                    <li><B>Path:</B> <C>C:\Windows\Action1\</C>. Installing into <C>C:\Windows\</C> is unusual on its own and a strong signal.</li>
+                                    <li><B>Registry:</B> <C>HKLM\SOFTWARE\WOW6432Node\Action1</C>. Agent config, certificate, customer/org ID, agent GUID (<C>agent.guid</C>), hardware ID (<C>system.id</C>), disk serial.</li>
+                                    <li><B>Service:</B> <C>A1Agent</C> (display name "Action1 Agent"), Auto start, SYSTEM → <C>C:\Windows\Action1\action1_agent.exe service</C>.</li>
+                                    <li><B>Binaries:</B> <C>action1_agent.exe</C> (the agent), <C>action1_remote.exe</C> (TightVNC remote server), plus <C>7z.dll</C> and <C>sas.dll</C>.</li>
+                                    <li><B>Installer:</B> <C>action1_agent(&lt;ORG&gt;).msi</C> (the filename embeds the org name), signed by <B>Sectigo</B>, signer <B>Action1 Corporation</B>, product code <C>{'{E6D8B066-2E74-458F-9111-24857C1C627A}'}</C>.</li>
+                                    <li><B>Event logs:</B> Application/MsiInstaller <B>1040, 1042, 11707, 1033</B> (product "Action1 Agent"); System <B>7045</B> (service "Action1 Agent").</li>
+                                    <li><B>Marker files:</B> <C>first_install</C> (install time, UTC), <C>previousUser.txt</C> (installing admin), <C>what_is_this.txt</C> (org ID), verbose <C>logs\*.log</C> (Customer ID + agent/service ID + endpoint inventory).</li>
+                                </ul>
+                            </SubSection>
+
+                            <SubSection title="Network">
+                                <ul className="list-disc list-outside ml-5 space-y-2 text-gray-700">
+                                    <li>Install-time pull from Cloudflare, <C>104.18.38.233</C> (AS13335).</li>
+                                    <li>Persistent C2 to <C>server.&lt;region&gt;.action1.com</C> (AWS; EU tenant here), the always-on agent channel, 443 plus high port <C>22543</C> outbound.</li>
+                                    <li>Remote-session relay <C>relay.&lt;region&gt;.action1.com</C> (443), only during remote desktop.</li>
+                                    <li>Deploy payloads over <C>eu-cdn.action1.com</C> (BunnyCDN web-seed), 443.</li>
+                                    <li>LAN P2P: inbound <C>22551</C> (TCP/UDP, peer transfer) and <C>6771/udp</C> (BitTorrent LSD, multicast <C>239.192.152.143</C>) from <C>action1_agent.exe</C>.</li>
+                                </ul>
+                            </SubSection>
+
+                            <SubSection title="Remote Desktop (VNC / TightVNC)">
+                                <ul className="list-disc list-outside ml-5 space-y-2 text-gray-700">
+                                    <li><C>action1_agent.exe monitorcount</C> (display enumeration, re-runs ~60s).</li>
+                                    <li><C>action1_remote.exe</C> chain: <C>controlservice -slave</C> → <C>queryconnection -peer 127.0.0.1 -accept -timeout 15</C> (15s consent, auto-accept) → <C>desktopserver … -shmemname Global\&lt;id&gt;</C> (screen goes live).</li>
+                                    <li>Teardown: <C>action1_remote.exe -controlservice -shutdown</C>.</li>
+                                    <li>Log messages: <C>REMOTE_SESSION_CONNECT</C>, <C>REMOTE_SESSION_CLOSE</C>, <C>HEARTBEAT_ACK</C>. Pair the <B>log</B> (transport up) with the <B>process</B> (screen live) for an accurate timeline.</li>
+                                </ul>
+                            </SubSection>
+
+                            <SubSection title="Run Script">
+                                <ul className="list-disc list-outside ml-5 space-y-2 text-gray-700">
+                                    <li><C>action1_agent.exe schedule:&lt;automation&gt;_&lt;unixts&gt; runaction:N</C> spawning <C>cmd.exe</C> (Command) or <C>powershell.exe</C> (PowerShell).</li>
+                                    <li>Temp script in <C>C:\Windows\Action1\scripts\</C> and the output file, <B>both deleted</B> after upload.</li>
+                                    <li>Persistent remnants: dedicated <C>logs\*.log</C> (script + result) and <C>batch_data\&lt;automation&gt;_&lt;unixts&gt;.data</C>.</li>
+                                </ul>
+                            </SubSection>
+
+                            <SubSection title="Deploy Software">
+                                <ul className="list-disc list-outside ml-5 space-y-2 text-gray-700">
+                                    <li><C>action1_agent.exe schedule:</C> with the installer running as a <B>child</B> process.</li>
+                                    <li><C>running_batches\</C> temp files, deleted on completion.</li>
+                                    <li><C>package_downloads\</C>: installer + <C>.json</C> (name + MD5), <C>.result</C>, <C>.metadata</C> (torrent), <C>.resume</C> (libtorrent state). <B>Deleted on agent uninstall, so preserve it first.</B></li>
+                                    <li><B>Three</B> per-run logs: check-existing → check-requirements → install.</li>
+                                    <li>Three inbound firewall rules (<C>Action1 Agent (TCP-In)</C>, <C>(UDP-In)</C>, <C>LPD (UDP-In)</C>) on 22551 and 6771, added by the agent via <C>INetFwPolicy2</C>, written by MpsSvc, not the MSI.</li>
+                                </ul>
+                            </SubSection>
+
+                            <SubSection title="Uninstall / What Survives">
+                                <ul className="list-disc list-outside ml-5 space-y-2 text-gray-700">
+                                    <li><C>msiexec /X "{'{E6D8B066-…}'}"</C> → <C>action1_agent.exe uninstall-msi</C>.</li>
+                                    <li>Removes: <C>A1Agent</C> service, WER registry values, the <C>Action1</C> registry key, and everything under <C>C:\Windows\Action1</C> <B>except <C>logs</C> and <C>CrashDumps</C>.</B></li>
+                                    <li><B>Survives:</B> <C>C:\Windows\Action1\logs\</C> (including the <C>agent_install_&lt;ts&gt;.log</C> uninstall log, your record of Customer ID, agent ID, deployed payloads, and the removal timeline) and <C>CrashDumps\</C>.</li>
+                                    <li><B>Also survives:</B> the three <C>Action1 Agent*</C> inbound firewall rules (TCP/UDP 22551, UDP 6771). The MSI leaves them behind; Windows only prunes them once <C>action1_agent.exe</C> is gone. A firewall rule pointing at a missing <C>action1_agent.exe</C> is a clean tell of prior Action1.</li>
+                                    <li>Application/MsiInstaller event chain repeats for the <B>removal</B>.</li>
+                                </ul>
+                            </SubSection>
+
+                            <p className="text-gray-700 leading-relaxed">
+                                That's the tour. Preserve <C>C:\Windows\Action1\</C> before anyone touches the uninstall, lean on the verbose logs, and remember the two IDs (Customer ID and agent GUID) if the case is heading toward takedown or legal action. Thanks for reading, see you on the next one. ✌️
+                            </p>
+                        </Section>
+
+                        <div className="soc-ft">
+                            <a href="/research/index.html" style={{color:'var(--soc-ink4)',textDecoration:'none'}}>← ALL RESEARCH</a>
+                            <span style={{margin:'0 12px'}}>|</span>
+                            <a href="#" style={{color:'var(--soc-ink4)',textDecoration:'none'}}>↑ BACK TO TOP</a>
+                        </div>
+                    </main>
+                </div>
+            );
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>
