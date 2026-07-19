@@ -135,7 +135,7 @@
     ]
   },
   "RaaS Unfold - RansomHub": {
-    "rating": 4.2,
+    "rating": 4.1,
     "player_difficulty": "medium",
     "is_retired": false,
     "tactics": [
@@ -161,7 +161,7 @@
     ]
   },
   "CodeFreeze": {
-    "rating": 4.1,
+    "rating": 4.0,
     "player_difficulty": "medium",
     "is_retired": false,
     "tactics": [
@@ -176,7 +176,7 @@
     ]
   },
   "Satisfaction": {
-    "rating": 3.9,
+    "rating": 3.8,
     "player_difficulty": "hard",
     "is_retired": false,
     "tactics": [
