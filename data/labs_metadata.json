@@ -1,6 +1,5 @@
 {
   "WorkFromHome": {
-    "rating": 4.6,
     "player_difficulty": "medium",
     "is_retired": true,
     "tactics": [
@@ -17,7 +16,6 @@
     ]
   },
   "ResourcePacks": {
-    "rating": 4.4,
     "player_difficulty": "medium",
     "is_retired": true,
     "tactics": [
@@ -34,7 +32,6 @@
     ]
   },
   "YARA Trap": {
-    "rating": 4.8,
     "player_difficulty": "hard",
     "is_retired": true,
     "tactics": [
@@ -50,7 +47,6 @@
     ]
   },
   "Spooler - APT28": {
-    "rating": 4.7,
     "player_difficulty": "hard",
     "is_retired": true,
     "tactics": [
@@ -63,7 +59,6 @@
     ]
   },
   "Perfect Survey": {
-    "rating": 4.2,
     "player_difficulty": "medium",
     "is_retired": true,
     "tactics": [
@@ -80,7 +75,6 @@
     ]
   },
   "LFI Escalation": {
-    "rating": 4.6,
     "player_difficulty": "hard",
     "is_retired": true,
     "tactics": [
@@ -96,7 +90,6 @@
     ]
   },
   "KioskExpo7": {
-    "rating": 4.3,
     "player_difficulty": "medium",
     "is_retired": true,
     "tactics": [
@@ -115,7 +108,6 @@
     ]
   },
   "RoastToRoot": {
-    "rating": 4.5,
     "player_difficulty": "hard",
     "is_retired": false,
     "tactics": [
@@ -135,7 +127,6 @@
     ]
   },
   "RaaS Unfold - RansomHub": {
-    "rating": 4.1,
     "player_difficulty": "medium",
     "is_retired": false,
     "tactics": [
@@ -146,7 +137,6 @@
     ]
   },
   "Recruiter - Hanoi Op": {
-    "rating": 3.9,
     "player_difficulty": "hard",
     "is_retired": false,
     "tactics": [
@@ -161,7 +151,6 @@
     ]
   },
   "CodeFreeze": {
-    "rating": 4.0,
     "player_difficulty": "medium",
     "is_retired": false,
     "tactics": [
@@ -176,7 +165,6 @@
     ]
   },
   "Satisfaction": {
-    "rating": 3.8,
     "player_difficulty": "hard",
     "is_retired": false,
     "tactics": [

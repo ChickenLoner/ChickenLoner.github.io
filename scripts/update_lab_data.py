@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
 Script to automatically update lab data from CyberDefenders and other platforms.
-This ensures ratings, difficulty, and other metadata stay current.
+This ensures difficulty, retirement status, and MITRE metadata stay current.
+Ratings are NOT scraped -- they are frozen in data/labs.json (see fetch_cyberdefenders_lab).
 """
 
 import json
@@ -35,9 +36,14 @@ def fetch_cyberdefenders_lab(slug):
         
         if data and 'lab' in data:
             lab = data['lab']
+            # NOTE: 'rating' is deliberately NOT scraped. CyberDefenders capped new
+            # votes at 3 stars while keeping the stored average on the old 0-5 field,
+            # and exposes no scale/max in the API. Live values are therefore a blend
+            # of /5 and /3 votes that only ever decays -- not comparable over time or
+            # between labs. Ratings are frozen in data/labs.json with rating_scale +
+            # rating_as_of. See architecture.html "Lab Ratings".
             # CyberDefenders "difficulty" is actually player-rated difficulty
             return {
-                'rating': lab.get('rating'),
                 'player_difficulty': lab.get('difficulty'),  # This is player-rated!
                 'is_retired': lab.get('is_retired', False),
                 'tactics': [t['title'] for t in lab.get('tactics', [])],
@@ -113,7 +119,7 @@ def update_lab_metadata():
             
             if metadata:
                 updated_data[lab_name] = metadata
-                print(f"  [OK] Updated: rating={metadata.get('rating')}, player_difficulty={metadata.get('player_difficulty')}")
+                print(f"  [OK] Updated: player_difficulty={metadata.get('player_difficulty')}, retired={metadata.get('is_retired')}")
             else:
                 print(f"  [FAIL] Failed to fetch data")
         
@@ -121,8 +127,9 @@ def update_lab_metadata():
         time.sleep(2)
     
     # Save to JSON file
-    with open('data/labs_metadata.json', 'w') as f:
-        json.dump(updated_data, f, indent=2)
+    with open('data/labs_metadata.json', 'w', encoding='utf-8', newline='\n') as f:
+        json.dump(updated_data, f, indent=2, ensure_ascii=False)
+        f.write('\n')
     
     print(f"\n[OK] Updated metadata for {len(updated_data)} labs")
     return updated_data

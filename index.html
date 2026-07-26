@@ -899,6 +899,7 @@
         .rs-cell .rsv{font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:700;color:var(--cat-fir);letter-spacing:-.02em}
         .rs-cell .rsl{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--soc-ink3);letter-spacing:.14em;text-transform:uppercase;margin-top:4px}
         .rs-cell .rsn{font-size:10.5px;color:var(--soc-ink4);margin-top:5px;font-family:system-ui,sans-serif;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+        .rating-note{margin-top:12px;padding-top:10px;border-top:1px solid var(--soc-line);font-size:10.5px;line-height:1.5;color:var(--soc-ink4);font-family:system-ui,sans-serif}
         .content-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
         .co-card{display:grid;grid-template-rows:auto auto auto 1fr auto;gap:10px;padding:16px 18px;background:var(--soc-bg-1);border:1px solid var(--soc-line);border-radius:6px;text-decoration:none;color:inherit;transition:.15s;position:relative;overflow:hidden;min-width:0}
         .co-card::before{content:"";position:absolute;left:0;top:0;right:0;height:2px;background:var(--co-c,var(--soc-cy));opacity:.55}
@@ -1490,6 +1491,9 @@
                 ];
                 const bandCounts     = ratingBands.map(b=>({ ...b, count:ratedLabs.filter(l=>l.rating>=b.min&&l.rating<=b.max).length }));
                 const maxBandCnt     = Math.max(...bandCounts.map(b=>b.count), 1);
+                // Newest rating_as_of stamp across rated labs — drives the "frozen" caption.
+                // Ratings are no longer scraped; see scripts/update_lab_data.py for why.
+                const ratingAsOf     = ratedLabs.map(l=>l.rating_as_of).filter(Boolean).sort().pop() || '';
 
                 // ── Comp data ────────────────────────────────────────────────
                 const compsByOrg   = comps.reduce((a,c)=>{ a[c.organizer]=(a[c.organizer]||0)+1; return a; }, {});
@@ -1850,6 +1854,11 @@
                                 {bandCounts.map(({label,cls,count})=>(
                                     <Brow key={label} label={label} count={count} total={ratedLabs.length} max={maxBandCnt} cls={cls} />
                                 ))}
+                                {ratingAsOf && (
+                                    <div className="rating-note">
+                                        Scores frozen at their last verified reading ({ratingAsOf}), on the platforms&rsquo; original 5-point scale.
+                                    </div>
+                                )}
                             </div>
                         )}
 
@@ -2358,17 +2367,25 @@
                     if (p.platform==='Medium'||p.platform==='Original') return 'research';
                     return 'list';
                 };
-                const ratingPlace = r => {
-                    if (!r) return 'other';
-                    if (r >= 4.5) return 'gold';
-                    if (r >= 4.0) return 'silver';
-                    if (r >= 3.5) return 'bronze';
-                    return 'other';
-                };
-
                 // Stats
                 const ratedLabs = labsOnly.filter(l=>l.rating);
                 const avgRating = ratedLabs.length ? ratedLabs.reduce((s,l)=>s+l.rating,0)/ratedLabs.length : 0;
+
+                // Rating tiers are RELATIVE (rank within rated labs), not absolute cutoffs.
+                // CyberDefenders capped new votes at 3 stars while keeping the stored average
+                // on the old 0-5 field, so a fixed ">=4.5 is gold" is pinned to a scale that no
+                // longer exists. Ranking is scale-independent. Values are frozen at their last
+                // known-good 0-5 reading -- see rating/rating_scale/rating_as_of in data/labs.json.
+                // Cut by VALUE (not index) so tied ratings always land in the same tier.
+                const ratingTier = (() => {
+                    const vals = ratedLabs.map(l=>l.rating).sort((a,b)=>b-a);
+                    const n = vals.length;
+                    if (!n) return () => 'other';
+                    const goldCut   = vals[Math.min(Math.ceil(n/3)   - 1, n-1)];
+                    const silverCut = vals[Math.min(Math.ceil(n*2/3) - 1, n-1)];
+                    return r => r >= goldCut ? 'gold' : r >= silverCut ? 'silver' : 'bronze';
+                })();
+                const ratingPlace = r => r ? ratingTier(r) : 'other';
                 const platformCount = new Set(labsOnly.map(l=>CORE_PLATFORMS.includes(l.platform)?l.platform:'CTF')).size;
 
                 // Lab filter + sort + group
@@ -2379,7 +2396,7 @@
                 };
                 const filteredLabs = labsOnly.filter(l => {
                     if (!platMatch(l)) return false;
-                    if (labFilter==='top')     return l.rating>=4.5;
+                    if (labFilter==='top')     return ratingPlace(l.rating)==='gold';
                     if (labFilter==='hard')    return l.difficulty==='hard';
                     if (labFilter==='active')  return !l.is_retired;
                     if (labFilter==='retired') return l.is_retired;
@@ -2432,7 +2449,7 @@
 
                 // Filter counts (scoped to current platform filter)
                 const platScoped = labsOnly.filter(platMatch);
-                const labFC  = {all:platScoped.length, top:platScoped.filter(l=>l.rating>=4.5).length, hard:platScoped.filter(l=>l.difficulty==='hard').length, active:platScoped.filter(l=>!l.is_retired).length, retired:platScoped.filter(l=>l.is_retired).length};
+                const labFC  = {all:platScoped.length, top:platScoped.filter(l=>ratingPlace(l.rating)==='gold').length, hard:platScoped.filter(l=>l.difficulty==='hard').length, active:platScoped.filter(l=>!l.is_retired).length, retired:platScoped.filter(l=>l.is_retired).length};
                 const platFC = {all:labsOnly.length, cd:cdCnt, htb:htbCnt, btlo:btloCnt, ctf:ctfCnt};
                 const projFC = {all:projectsOnly.length, tool:projectsOnly.filter(p=>projType(p)==='tool').length, research:projectsOnly.filter(p=>projType(p)==='research').length, list:projectsOnly.filter(p=>projType(p)==='list').length};
                 const rbucket = b => labsOnly.filter(l=>ratingPlace(l.rating)===b).length;
@@ -2445,11 +2462,14 @@
                     const isCTF = !CORE_PLATFORMS.includes(l.platform);
                     const pc = ratingPlace(l.rating);
                     const pl = l.rating ? `★ ${l.rating.toFixed(1)}` : 'N/A';
+                    const pt = l.rating
+                        ? `${l.rating.toFixed(1)} / ${l.rating_scale||5}${l.rating_as_of?` — as of ${l.rating_as_of}`:''}`
+                        : 'Not rated';
                     return (
                         <a className={`crow${l.is_retired?' is-retired':''}`} href={l.link} target="_blank" rel="noopener noreferrer">
                             <div className={`cover${!l.image?' placeholder':''}`} style={l.image?{backgroundImage:`url(${l.image})`,backgroundSize:'cover',backgroundPosition:'center'}:{}}>
                                 {!l.image && <span>{(l.title||'').slice(0,3).toUpperCase()}</span>}
-                                <span className={`place ${pc}`}>{pl}</span>
+                                <span className={`place ${pc}`} title={pt}>{pl}</span>
                             </div>
                             <div className="info">
                                 <div className="nm">{l.title}</div>
@@ -2614,7 +2634,7 @@
                             <div className="toolbar" style={{marginTop:'4px'}}>
                                 <div className="filters">
                                     <span className="fchip-label">Filter</span>
-                                    {[{id:'all',l:'All',n:labFC.all},{id:'top',l:'★ 4.5+',n:labFC.top,cls:'t-am'},{id:'hard',l:'Hard',n:labFC.hard,cls:'t-rd'},{id:'active',l:'Active',n:labFC.active,cls:'t-gn'},{id:'retired',l:'Retired',n:labFC.retired}].map(f=>(
+                                    {[{id:'all',l:'All',n:labFC.all},{id:'top',l:'★ Top Rated',n:labFC.top,cls:'t-am'},{id:'hard',l:'Hard',n:labFC.hard,cls:'t-rd'},{id:'active',l:'Active',n:labFC.active,cls:'t-gn'},{id:'retired',l:'Retired',n:labFC.retired}].map(f=>(
                                         <button key={f.id} className={`fchip${f.cls?' '+f.cls:''}${labFilter===f.id?' active':''}`} onClick={()=>setLabFilter(f.id)}>
                                             {f.l} <span className="cnt">{f.n}</span>
                                         </button>

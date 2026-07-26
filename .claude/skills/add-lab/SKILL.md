@@ -62,9 +62,19 @@ If the cover image doesn't exist, note it to the user and use the placeholder pa
 Add optional fields only if provided:
 ```json
   "player_difficulty": "<player_difficulty>",
-  "rating": null,
   "tactics": [...]
 ```
+
+**Ratings are frozen and manual.** Do not add a `rating` when creating the entry — a new lab has no
+settled score yet. Once it does, record it as a set of three:
+```json
+  "rating": 4.4,
+  "rating_scale": 5,
+  "rating_as_of": "2026-07"
+```
+`rating_as_of` is the month you read the value. Never write `rating` into `labs_metadata.json` — that
+file wins the render-time merge and would override the frozen value. See the "Lab Ratings" section of
+`architecture.html` for why CyberDefenders scores can no longer be scraped.
 
 3. Remove `"latest": true` from the previously latest lab entry (if any).
 4. Write the updated file. Preserve all existing entries exactly.
@@ -104,4 +114,4 @@ If platform is not CyberDefenders, only stage `data/labs.json`.
 Tell the user:
 - Which platform group it appears under on the Labs page
 - Whether the cover image needs to be added to `assets/labs/`
-- If CyberDefenders: that the lab is now registered in the daily metadata script — `rating` and `player_difficulty` will auto-populate once the lab has player reviews
+- If CyberDefenders: that the lab is now registered in the daily metadata script — `player_difficulty`, `is_retired` and `tactics` will auto-populate. `rating` will **not**; it is frozen and set by hand (see Step 2).
