@@ -30,9 +30,9 @@
     "image": "./assets/labs/cd-workfromhome.png",
     "difficulty": "easy",
     "player_difficulty": "medium",
-    "rating": 4.6,
+    "rating": 4.7,
     "rating_scale": 5,
-    "rating_as_of": "2026-07",
+    "rating_as_of": "2026-06",
     "is_retired": true,
     "tactics": [
       "Initial Access",
@@ -60,9 +60,9 @@
     "image": "./assets/labs/ResourcePacks.png",
     "difficulty": "medium",
     "player_difficulty": "medium",
-    "rating": 4.4,
+    "rating": 4.5,
     "rating_scale": 5,
-    "rating_as_of": "2026-07",
+    "rating_as_of": "2026-06",
     "is_retired": true,
     "tactics": [
       "Initial Access",
@@ -92,7 +92,7 @@
     "player_difficulty": "hard",
     "rating": 4.8,
     "rating_scale": 5,
-    "rating_as_of": "2026-07",
+    "rating_as_of": "2026-06",
     "is_retired": true,
     "tactics": [
       "Execution",
@@ -116,9 +116,9 @@
     "image": "./assets/labs/spooler-apt28.png",
     "difficulty": "hard",
     "player_difficulty": "hard",
-    "rating": 4.7,
+    "rating": 4.8,
     "rating_scale": 5,
-    "rating_as_of": "2026-07",
+    "rating_as_of": "2026-06",
     "is_retired": true,
     "tactics": [
       "Persistence",
@@ -140,9 +140,9 @@
     "image": "./assets/labs/perfect-survey.png",
     "difficulty": "medium",
     "player_difficulty": "easy",
-    "rating": 4.2,
+    "rating": 4.4,
     "rating_scale": 5,
-    "rating_as_of": "2026-07",
+    "rating_as_of": "2026-06",
     "is_retired": false,
     "tactics": [
       "Reconnaissance",
@@ -169,9 +169,9 @@
     "image": "./assets/labs/lfi-escalation.png",
     "difficulty": "medium",
     "player_difficulty": "hard",
-    "rating": 4.6,
+    "rating": 4.7,
     "rating_scale": 5,
-    "rating_as_of": "2026-07",
+    "rating_as_of": "2026-06",
     "is_retired": false,
     "tactics": [
       "Initial Access",
@@ -198,9 +198,9 @@
     "image": "./assets/labs/kioskexpo7.png",
     "difficulty": "medium",
     "player_difficulty": "medium",
-    "rating": 4.3,
+    "rating": 4.6,
     "rating_scale": 5,
-    "rating_as_of": "2026-07",
+    "rating_as_of": "2026-06",
     "is_retired": false,
     "tactics": [
       "Initial Access",
@@ -231,9 +231,9 @@
     "image": "./assets/labs/roasttoroot.png",
     "difficulty": "hard",
     "player_difficulty": "medium",
-    "rating": 4.5,
+    "rating": 4.8,
     "rating_scale": 5,
-    "rating_as_of": "2026-07",
+    "rating_as_of": "2026-06",
     "is_retired": false,
     "tactics": [
       "Reconnaissance",
@@ -262,9 +262,9 @@
     "image": "./assets/labs/RaaS_Unfold_-_RansomHub.png",
     "difficulty": "easy",
     "player_difficulty": "medium",
-    "rating": 4.1,
+    "rating": 4.6,
     "rating_scale": 5,
-    "rating_as_of": "2026-07",
+    "rating_as_of": "2026-06",
     "is_retired": false,
     "tactics": [
       "Impact"
@@ -283,9 +283,9 @@
     "image": "./assets/labs/recruiter-hanoi-op.png",
     "difficulty": "medium",
     "player_difficulty": "medium",
-    "rating": 3.9,
+    "rating": 4.6,
     "rating_scale": 5,
-    "rating_as_of": "2026-07",
+    "rating_as_of": "2026-06",
     "is_retired": false,
     "tactics": [
       "Execution",
@@ -309,9 +309,9 @@
     "image": "./assets/labs/codefreeze.webp",
     "difficulty": "medium",
     "player_difficulty": "medium",
-    "rating": 4.0,
+    "rating": 4.8,
     "rating_scale": 5,
-    "rating_as_of": "2026-07",
+    "rating_as_of": "2026-06",
     "is_retired": false,
     "tactics": [
       "Initial Access",
@@ -335,9 +335,9 @@
     "is_retired": false,
     "latest": true,
     "image": "./assets/labs/satisfaction.webp",
-    "rating": 3.8,
+    "rating": 4.8,
     "rating_scale": 5,
-    "rating_as_of": "2026-07"
+    "rating_as_of": "2026-06"
   },
   {
     "title": "WorkFromHome (HTB)",
@@ -353,7 +353,6 @@
     "difficulty": "medium",
     "rating": 4.3,
     "rating_scale": 5,
-    "rating_as_of": "2026-07",
     "is_retired": true
   },
   {
@@ -370,7 +369,6 @@
     "difficulty": "medium",
     "rating": 4.6,
     "rating_scale": 5,
-    "rating_as_of": "2026-07",
     "is_retired": false
   },
   {
@@ -388,7 +386,6 @@
     "player_difficulty": "hard",
     "rating": 4.5,
     "rating_scale": 5,
-    "rating_as_of": "2026-07",
     "is_retired": false
   },
   {

@@ -70,9 +70,11 @@ settled score yet. Once it does, record it as a set of three:
 ```json
   "rating": 4.4,
   "rating_scale": 5,
-  "rating_as_of": "2026-07"
+  "rating_as_of": "2026-06"
 ```
-`rating_as_of` is the month you read the value. Never write `rating` into `labs_metadata.json` — that
+`rating_as_of` is the month you actually read the value — omit it rather than guess. Note that
+CyberDefenders scores have been meaningless since 2026-06, so for a new CD lab the rating stays
+absent. Never write `rating` into `labs_metadata.json` — that
 file wins the render-time merge and would override the frozen value. See the "Lab Ratings" section of
 `architecture.html` for why CyberDefenders scores can no longer be scraped.
 

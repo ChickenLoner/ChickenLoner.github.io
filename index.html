@@ -1483,11 +1483,13 @@
                 const labMin         = ratedLabs.length ? Math.min(...ratedLabs.map(l=>l.rating)) : 0;
                 const topRatedLab    = ratedLabs.find(l=>l.rating===labMax);
                 const botRatedLab    = ratedLabs.find(l=>l.rating===labMin);
+                // Buckets are tuned to the frozen 4.3-4.8 spread. Safe to hardcode: the
+                // underlying values no longer move (see scripts/update_lab_data.py).
                 const ratingBands    = [
-                    {label:'4.5+',     cls:'t-am', min:4.5,  max:5.0},
-                    {label:'4.0–4.4',  cls:'t-gn', min:4.0,  max:4.49},
-                    {label:'3.5–3.9',  cls:'t-vi', min:3.5,  max:3.99},
-                    {label:'Below 3.5',cls:'t-rd', min:0,    max:3.49},
+                    {label:'4.8',      cls:'t-am', min:4.8,  max:5.0},
+                    {label:'4.6–4.7',  cls:'t-gn', min:4.6,  max:4.79},
+                    {label:'4.4–4.5',  cls:'t-vi', min:4.4,  max:4.59},
+                    {label:'Below 4.4',cls:'t-rd', min:0,    max:4.39},
                 ];
                 const bandCounts     = ratingBands.map(b=>({ ...b, count:ratedLabs.filter(l=>l.rating>=b.min&&l.rating<=b.max).length }));
                 const maxBandCnt     = Math.max(...bandCounts.map(b=>b.count), 1);
@@ -1856,7 +1858,9 @@
                                 ))}
                                 {ratingAsOf && (
                                     <div className="rating-note">
-                                        Scores frozen at their last verified reading ({ratingAsOf}), on the platforms&rsquo; original 5-point scale.
+                                        Scores are frozen on the original 5-point scale. CyberDefenders values are the last reading
+                                        taken before the platform capped new ratings at 3 stars ({ratingAsOf}); after that its stored
+                                        averages only decay and no longer describe a lab.
                                     </div>
                                 )}
                             </div>

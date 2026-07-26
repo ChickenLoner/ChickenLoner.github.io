@@ -801,7 +801,7 @@ useEffect(() => {
     "image": "./assets/labs/utensil.png",
     "rating": 4.5,                  // optional — FROZEN, never auto-updated (see Lab Ratings below)
     "rating_scale": 5,              // scale the frozen value was recorded on
-    "rating_as_of": "2026-07",      // when that reading was last verified
+    "rating_as_of": "2026-06",      // when that reading was verified; omit if unknown
     "is_retired": true,
     "latest": true,                 // only on the most recently released lab — drives activity feed + featured banner
     "tactics": ["TA0001", "TA0003"] // optional MITRE ATT&amp;CK
@@ -825,18 +825,29 @@ useEffect(() => {
                 comparable neither over time nor between labs. There is no valid divisor that converts them back.</p>
                 <p>Two consequences, both handled:</p>
                 <ul>
-                    <li><strong>Ratings are frozen.</strong> <code>scripts/update_lab_data.py</code> no longer scrapes
-                        <code>rating</code>. Values live in <code>labs.json</code> at their last verified reading, stamped with
-                        <code>rating_scale</code> + <code>rating_as_of</code>. The Labs page badge shows the number; its
-                        <code>title</code> tooltip shows scale and as-of date. The home Lab Ratings tile carries a "frozen" caption.</li>
+                    <li><strong>Ratings are frozen at 2026-06.</strong> <code>scripts/update_lab_data.py</code> no longer scrapes
+                        <code>rating</code>. Values live in <code>labs.json</code>, stamped with <code>rating_scale</code> +
+                        <code>rating_as_of</code>. The Labs page badge shows the number; its <code>title</code> tooltip shows scale
+                        and as-of date. The home Lab Ratings tile carries a caption explaining the freeze.</li>
+                    <li><strong>Why 2026-06.</strong> Rebuilding each lab's rating history from the 67 commits of
+                        <code>labs_metadata.json</code> dates the cap precisely: the last time <em>any</em> lab's rating went
+                        <em>up</em> was 2026-06-01, and all 40 observations after it are downward. Before then values oscillated
+                        both directions. So each CyberDefenders lab is frozen at the value it held on 2026-06-01 — the last
+                        reading taken while the 5-point scale was still intact. This is a uniform rule, not a per-lab peak.
+                        Caveat: CodeFreeze and Satisfaction launched in mid-May, so their 2026-06-01 values rest on about a
+                        week of votes and were already settling from ordinary early-vote averaging.</li>
+                    <li><strong>Hand-entered ratings</strong> (the HackTheBox labs) keep <code>rating_scale</code> but carry no
+                        <code>rating_as_of</code> — there is no verified read date for them. The badge tooltip and the tile
+                        caption both degrade correctly when the stamp is absent.</li>
                     <li><strong>Tier colours are relative, not absolute.</strong> <code>ratingPlace()</code> in
                         <code>index.html</code> ranks rated labs and splits them into gold / silver / bronze thirds, cutting by
                         <em>value</em> rather than index so tied ratings always share a tier. The old fixed cutoffs
                         (&ge;4.5 gold, &ge;4.0 silver, &ge;3.5 bronze) were pinned to a scale that no longer exists. The Labs
                         filter chip <code>&#9733; Top Rated</code> means "top third", not "&ge;4.5".</li>
                 </ul>
-                <p>The home tile's <code>ratingBands</code> histogram stays on absolute 0&ndash;5 buckets — safe now that the
-                underlying data is frozen.</p>
+                <p>The home tile's <code>ratingBands</code> histogram uses absolute buckets tuned to the frozen 4.3&ndash;4.8
+                spread (4.8 / 4.6&ndash;4.7 / 4.4&ndash;4.5 / below 4.4) — safe to hardcode now that the underlying data no
+                longer moves.</p>
             </div>
 
             <div class="subsec">
