@@ -839,11 +839,12 @@ useEffect(() => {
                     <li><strong>Hand-entered ratings</strong> (the HackTheBox labs) keep <code>rating_scale</code> but carry no
                         <code>rating_as_of</code> — there is no verified read date for them. The badge tooltip and the tile
                         caption both degrade correctly when the stamp is absent.</li>
-                    <li><strong>Tier colours are relative, not absolute.</strong> <code>ratingPlace()</code> in
-                        <code>index.html</code> ranks rated labs and splits them into gold / silver / bronze thirds, cutting by
-                        <em>value</em> rather than index so tied ratings always share a tier. The old fixed cutoffs
-                        (&ge;4.5 gold, &ge;4.0 silver, &ge;3.5 bronze) were pinned to a scale that no longer exists. The Labs
-                        filter chip <code>&#9733; Top Rated</code> means "top third", not "&ge;4.5".</li>
+                    <li><strong>Tier colours stay absolute.</strong> <code>ratingPlace()</code> in <code>index.html</code> keeps
+                        fixed cutoffs (&ge;4.5 gold, &ge;4.0 silver, &ge;3.5 bronze), as does the <code>&#9733; 4.5+</code> filter
+                        chip. These were briefly made relative — ranked into thirds — while ratings were still being scraped and
+                        drifting downward through the bands. The freeze removed that need: a frozen value cannot drift out of a
+                        band. Relative thirds also read wrong on this data, since with every lab between 4.3 and 4.8 a 4.7 lab
+                        fell in the middle third and displayed silver.</li>
                 </ul>
                 <p>The home tile's <code>ratingBands</code> histogram uses absolute buckets tuned to the frozen 4.3&ndash;4.8
                 spread (4.8 / 4.6&ndash;4.7 / 4.4&ndash;4.5 / below 4.4) — safe to hardcode now that the underlying data no

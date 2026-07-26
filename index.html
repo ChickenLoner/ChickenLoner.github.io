@@ -2375,21 +2375,19 @@
                 const ratedLabs = labsOnly.filter(l=>l.rating);
                 const avgRating = ratedLabs.length ? ratedLabs.reduce((s,l)=>s+l.rating,0)/ratedLabs.length : 0;
 
-                // Rating tiers are RELATIVE (rank within rated labs), not absolute cutoffs.
-                // CyberDefenders capped new votes at 3 stars while keeping the stored average
-                // on the old 0-5 field, so a fixed ">=4.5 is gold" is pinned to a scale that no
-                // longer exists. Ranking is scale-independent. Values are frozen at their last
-                // known-good 0-5 reading -- see rating/rating_scale/rating_as_of in data/labs.json.
-                // Cut by VALUE (not index) so tied ratings always land in the same tier.
-                const ratingTier = (() => {
-                    const vals = ratedLabs.map(l=>l.rating).sort((a,b)=>b-a);
-                    const n = vals.length;
-                    if (!n) return () => 'other';
-                    const goldCut   = vals[Math.min(Math.ceil(n/3)   - 1, n-1)];
-                    const silverCut = vals[Math.min(Math.ceil(n*2/3) - 1, n-1)];
-                    return r => r >= goldCut ? 'gold' : r >= silverCut ? 'silver' : 'bronze';
-                })();
-                const ratingPlace = r => r ? ratingTier(r) : 'other';
+                // Absolute cutoffs on the frozen 0-5 scale. These were briefly made relative
+                // (rank into thirds) while ratings were still being scraped and decaying, but the
+                // freeze removed that need: frozen values cannot drift out of a band. Relative
+                // thirds also read wrong here -- with every lab between 4.3 and 4.8, a 4.7 lab
+                // landed in the middle third and showed silver. See data/labs.json for the frozen
+                // values and architecture.html "Lab Ratings" for why they stopped being scraped.
+                const ratingPlace = r => {
+                    if (!r) return 'other';
+                    if (r >= 4.5) return 'gold';
+                    if (r >= 4.0) return 'silver';
+                    if (r >= 3.5) return 'bronze';
+                    return 'other';
+                };
                 const platformCount = new Set(labsOnly.map(l=>CORE_PLATFORMS.includes(l.platform)?l.platform:'CTF')).size;
 
                 // Lab filter + sort + group
@@ -2400,7 +2398,7 @@
                 };
                 const filteredLabs = labsOnly.filter(l => {
                     if (!platMatch(l)) return false;
-                    if (labFilter==='top')     return ratingPlace(l.rating)==='gold';
+                    if (labFilter==='top')     return l.rating>=4.5;
                     if (labFilter==='hard')    return l.difficulty==='hard';
                     if (labFilter==='active')  return !l.is_retired;
                     if (labFilter==='retired') return l.is_retired;
@@ -2453,7 +2451,7 @@
 
                 // Filter counts (scoped to current platform filter)
                 const platScoped = labsOnly.filter(platMatch);
-                const labFC  = {all:platScoped.length, top:platScoped.filter(l=>ratingPlace(l.rating)==='gold').length, hard:platScoped.filter(l=>l.difficulty==='hard').length, active:platScoped.filter(l=>!l.is_retired).length, retired:platScoped.filter(l=>l.is_retired).length};
+                const labFC  = {all:platScoped.length, top:platScoped.filter(l=>l.rating>=4.5).length, hard:platScoped.filter(l=>l.difficulty==='hard').length, active:platScoped.filter(l=>!l.is_retired).length, retired:platScoped.filter(l=>l.is_retired).length};
                 const platFC = {all:labsOnly.length, cd:cdCnt, htb:htbCnt, btlo:btloCnt, ctf:ctfCnt};
                 const projFC = {all:projectsOnly.length, tool:projectsOnly.filter(p=>projType(p)==='tool').length, research:projectsOnly.filter(p=>projType(p)==='research').length, list:projectsOnly.filter(p=>projType(p)==='list').length};
                 const rbucket = b => labsOnly.filter(l=>ratingPlace(l.rating)===b).length;
@@ -2638,7 +2636,7 @@
                             <div className="toolbar" style={{marginTop:'4px'}}>
                                 <div className="filters">
                                     <span className="fchip-label">Filter</span>
-                                    {[{id:'all',l:'All',n:labFC.all},{id:'top',l:'★ Top Rated',n:labFC.top,cls:'t-am'},{id:'hard',l:'Hard',n:labFC.hard,cls:'t-rd'},{id:'active',l:'Active',n:labFC.active,cls:'t-gn'},{id:'retired',l:'Retired',n:labFC.retired}].map(f=>(
+                                    {[{id:'all',l:'All',n:labFC.all},{id:'top',l:'★ 4.5+',n:labFC.top,cls:'t-am'},{id:'hard',l:'Hard',n:labFC.hard,cls:'t-rd'},{id:'active',l:'Active',n:labFC.active,cls:'t-gn'},{id:'retired',l:'Retired',n:labFC.retired}].map(f=>(
                                         <button key={f.id} className={`fchip${f.cls?' '+f.cls:''}${labFilter===f.id?' active':''}`} onClick={()=>setLabFilter(f.id)}>
                                             {f.l} <span className="cnt">{f.n}</span>
                                         </button>
