@@ -65,18 +65,28 @@ Add optional fields only if provided:
   "tactics": [...]
 ```
 
-**Ratings are frozen and manual.** Do not add a `rating` when creating the entry — a new lab has no
-settled score yet. Once it does, record it as a set of three:
+**Ratings are manual, and the scale matters.** Do not add a `rating` when creating the entry — a new
+lab has no settled score yet (CyberDefenders reports `0.0` until it gets votes). Wait a few weeks,
+then record it as a set of three:
 ```json
-  "rating": 4.4,
-  "rating_scale": 5,
-  "rating_as_of": "2026-06"
+  "rating": 2.8,
+  "rating_scale": 3,
+  "rating_as_of": "2026-08"
 ```
-`rating_as_of` is the month you actually read the value — omit it rather than guess. Note that
-CyberDefenders scores have been meaningless since 2026-06, so for a new CD lab the rating stays
-absent. Never write `rating` into `labs_metadata.json` — that
-file wins the render-time merge and would override the frozen value. See the "Lab Ratings" section of
-`architecture.html` for why CyberDefenders scores can no longer be scraped.
+
+`rating_scale` is **required and must match the platform's current maximum** — the site divides by it
+to compare labs across scales. Getting it wrong silently misranks the lab.
+
+| Platform / era | `rating_scale` |
+|---|---|
+| CyberDefenders, released **2026-06 or later** | `3` |
+| CyberDefenders, released before 2026-06 | `5` — frozen, do not update |
+| HackTheBox, Blue Team Labs Online | `5` |
+
+`rating_as_of` is the month you actually read the value — omit it rather than guess.
+
+Never write `rating` into `labs_metadata.json`; that file wins the render-time merge and would
+override the value here. See "Lab Ratings" in `architecture.html` for the full background.
 
 3. Remove `"latest": true` from the previously latest lab entry (if any).
 4. Write the updated file. Preserve all existing entries exactly.

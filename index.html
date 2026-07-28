@@ -1008,6 +1008,23 @@
     <script type="text/babel">
         const { useState, useEffect } = React;
 
+        // ── Lab ratings ──────────────────────────────────────────────────────────
+        // Lab ratings are not all on the same scale. CyberDefenders capped new votes at
+        // 3 stars around 2026-06, so labs released after that are natively 0-3 while
+        // everything older is frozen on 0-5. `rating_scale` in data/labs.json records
+        // which, and score5() converts either into a 5-point equivalent.
+        //
+        // Rule: compare, sort, bucket and average on score5(); display the native value.
+        // A lab at 2.8/3 is a 4.67 — showing the raw 2.8 next to a 4.8 would misrank it.
+        // Post-cap labs are pure 0-3 with no legacy votes mixed in, which is what makes
+        // the conversion sound; see architecture.html "Lab Ratings".
+        const score5 = l => l && l.rating ? l.rating / (l.rating_scale || 5) * 5 : 0;
+        // Native rendering, e.g. "★ 4.8" on a 5-point scale, "★ 2.8/3" on anything else.
+        const ratingLabel = l => !l || !l.rating ? 'N/A'
+            : (l.rating_scale && l.rating_scale !== 5)
+                ? `★ ${l.rating}/${l.rating_scale}`
+                : `★ ${l.rating.toFixed(1)}`;
+
         const SocClock = () => {
             const ref = React.useRef(null);
             useEffect(() => {
@@ -1478,12 +1495,13 @@
                 const maxLabDiff     = Math.max(...Object.values(labDiff), 1);
                 const maxPlayerDiff  = Math.max(...Object.values(playerDiff), 1);
                 const ratedLabs      = statsLabsOnly.filter(l => l.rating != null);
-                const labAvg         = ratedLabs.length ? ratedLabs.reduce((s,l)=>s+l.rating,0)/ratedLabs.length : 0;
-                const labMax         = ratedLabs.length ? Math.max(...ratedLabs.map(l=>l.rating)) : 0;
-                const labMin         = ratedLabs.length ? Math.min(...ratedLabs.map(l=>l.rating)) : 0;
-                const topRatedLab    = ratedLabs.find(l=>l.rating===labMax);
-                const botRatedLab    = ratedLabs.find(l=>l.rating===labMin);
-                // Buckets are tuned to the frozen 4.3-4.8 spread. Safe to hardcode: the
+                const labAvg         = ratedLabs.length ? ratedLabs.reduce((s,l)=>s+score5(l),0)/ratedLabs.length : 0;
+                const labMax         = ratedLabs.length ? Math.max(...ratedLabs.map(score5)) : 0;
+                const labMin         = ratedLabs.length ? Math.min(...ratedLabs.map(score5)) : 0;
+                const topRatedLab    = ratedLabs.find(l=>score5(l)===labMax);
+                const botRatedLab    = ratedLabs.find(l=>score5(l)===labMin);
+                // Buckets are tuned to the frozen 4.3-4.8 spread and run on the 5-point
+                // equivalent, so 3-point labs land in the right one. Safe to hardcode: the
                 // underlying values no longer move (see scripts/update_lab_data.py).
                 const ratingBands    = [
                     {label:'4.8',      cls:'t-am', min:4.8,  max:5.0},
@@ -1491,7 +1509,7 @@
                     {label:'4.4–4.5',  cls:'t-vi', min:4.4,  max:4.59},
                     {label:'Below 4.4',cls:'t-rd', min:0,    max:4.39},
                 ];
-                const bandCounts     = ratingBands.map(b=>({ ...b, count:ratedLabs.filter(l=>l.rating>=b.min&&l.rating<=b.max).length }));
+                const bandCounts     = ratingBands.map(b=>({ ...b, count:ratedLabs.filter(l=>score5(l)>=b.min&&score5(l)<=b.max).length }));
                 const maxBandCnt     = Math.max(...bandCounts.map(b=>b.count), 1);
                 // Newest rating_as_of stamp across rated labs — drives the "frozen" caption.
                 // Ratings are no longer scraped; see scripts/update_lab_data.py for why.
@@ -1858,9 +1876,10 @@
                                 ))}
                                 {ratingAsOf && (
                                     <div className="rating-note">
-                                        Scores are frozen on the original 5-point scale. CyberDefenders values are the last reading
-                                        taken before the platform capped new ratings at 3 stars ({ratingAsOf}); after that its stored
-                                        averages only decay and no longer describe a lab.
+                                        Shown as a 5-point equivalent. CyberDefenders capped new ratings at 3 stars in {ratingAsOf};
+                                        labs from before then are frozen at their last reading on the old 5-point scale, because its
+                                        stored averages only decay afterwards and stop describing a lab. Labs released since are
+                                        rated natively out of 3 and converted here. Each lab&rsquo;s own card shows its raw score.
                                     </div>
                                 )}
                             </div>
@@ -2373,21 +2392,24 @@
                 };
                 // Stats
                 const ratedLabs = labsOnly.filter(l=>l.rating);
-                const avgRating = ratedLabs.length ? ratedLabs.reduce((s,l)=>s+l.rating,0)/ratedLabs.length : 0;
+                const avgRating = ratedLabs.length ? ratedLabs.reduce((s,l)=>s+score5(l),0)/ratedLabs.length : 0;
 
-                // Absolute cutoffs on the frozen 0-5 scale. These were briefly made relative
-                // (rank into thirds) while ratings were still being scraped and decaying, but the
-                // freeze removed that need: frozen values cannot drift out of a band. Relative
-                // thirds also read wrong here -- with every lab between 4.3 and 4.8, a 4.7 lab
-                // landed in the middle third and showed silver. See data/labs.json for the frozen
-                // values and architecture.html "Lab Ratings" for why they stopped being scraped.
-                const ratingPlace = r => {
-                    if (!r) return 'other';
-                    if (r >= 4.5) return 'gold';
-                    if (r >= 4.0) return 'silver';
-                    if (r >= 3.5) return 'bronze';
+                // Absolute cutoffs, applied to the 5-point equivalent so labs on the newer
+                // 3-point scale rank against the frozen ones correctly (2.7/3 is a 4.5, gold).
+                // These were briefly made relative (rank into thirds) while ratings were still
+                // being scraped and decaying, but the freeze removed that need: frozen values
+                // cannot drift out of a band. Relative thirds also read wrong here -- with every
+                // lab between 4.3 and 4.8, a 4.7 lab landed in the middle third and showed
+                // silver. See architecture.html "Lab Ratings".
+                const ratingPlace = l => {
+                    const s = score5(l);
+                    if (!s) return 'other';
+                    if (s >= 4.5) return 'gold';
+                    if (s >= 4.0) return 'silver';
+                    if (s >= 3.5) return 'bronze';
                     return 'other';
                 };
+                const isTopRated = l => score5(l) >= 4.5;
                 const platformCount = new Set(labsOnly.map(l=>CORE_PLATFORMS.includes(l.platform)?l.platform:'CTF')).size;
 
                 // Lab filter + sort + group
@@ -2398,14 +2420,14 @@
                 };
                 const filteredLabs = labsOnly.filter(l => {
                     if (!platMatch(l)) return false;
-                    if (labFilter==='top')     return l.rating>=4.5;
+                    if (labFilter==='top')     return isTopRated(l);
                     if (labFilter==='hard')    return l.difficulty==='hard';
                     if (labFilter==='active')  return !l.is_retired;
                     if (labFilter==='retired') return l.is_retired;
                     return true;
                 });
                 const sortedLabs = [...filteredLabs].sort((a,b) => {
-                    if (tweaks.labSort==='rating')     return (b.rating||0)-(a.rating||0);
+                    if (tweaks.labSort==='rating')     return score5(b)-score5(a);
                     if (tweaks.labSort==='difficulty') { const o={easy:0,medium:1,hard:2}; return (o[a.difficulty]??9)-(o[b.difficulty]??9); }
                     return 0;
                 });
@@ -2451,10 +2473,10 @@
 
                 // Filter counts (scoped to current platform filter)
                 const platScoped = labsOnly.filter(platMatch);
-                const labFC  = {all:platScoped.length, top:platScoped.filter(l=>l.rating>=4.5).length, hard:platScoped.filter(l=>l.difficulty==='hard').length, active:platScoped.filter(l=>!l.is_retired).length, retired:platScoped.filter(l=>l.is_retired).length};
+                const labFC  = {all:platScoped.length, top:platScoped.filter(isTopRated).length, hard:platScoped.filter(l=>l.difficulty==='hard').length, active:platScoped.filter(l=>!l.is_retired).length, retired:platScoped.filter(l=>l.is_retired).length};
                 const platFC = {all:labsOnly.length, cd:cdCnt, htb:htbCnt, btlo:btloCnt, ctf:ctfCnt};
                 const projFC = {all:projectsOnly.length, tool:projectsOnly.filter(p=>projType(p)==='tool').length, research:projectsOnly.filter(p=>projType(p)==='research').length, list:projectsOnly.filter(p=>projType(p)==='list').length};
-                const rbucket = b => labsOnly.filter(l=>ratingPlace(l.rating)===b).length;
+                const rbucket = b => labsOnly.filter(l=>ratingPlace(l)===b).length;
                 const rGold=rbucket('gold'), rSilver=rbucket('silver'), rBronze=rbucket('bronze'), rOther=rbucket('other');
 
                 // Wrapper classes
@@ -2462,10 +2484,14 @@
 
                 const LabRow = ({l}) => {
                     const isCTF = !CORE_PLATFORMS.includes(l.platform);
-                    const pc = ratingPlace(l.rating);
-                    const pl = l.rating ? `★ ${l.rating.toFixed(1)}` : 'N/A';
+                    const pc = ratingPlace(l);
+                    const pl = ratingLabel(l);
+                    // Spell out the 5-point equivalent for anything not already on that scale,
+                    // so a "2.8/3" badge is self-explanatory rather than looking like a bad score.
                     const pt = l.rating
-                        ? `${l.rating.toFixed(1)} / ${l.rating_scale||5}${l.rating_as_of?` — as of ${l.rating_as_of}`:''}`
+                        ? `${l.rating} / ${l.rating_scale||5}`
+                          + ((l.rating_scale||5)!==5 ? ` — ${score5(l).toFixed(1)} out of 5 equivalent` : '')
+                          + (l.rating_as_of ? ` — as of ${l.rating_as_of}` : '')
                         : 'Not rated';
                     return (
                         <a className={`crow${l.is_retired?' is-retired':''}`} href={l.link} target="_blank" rel="noopener noreferrer">
@@ -2636,8 +2662,8 @@
                             <div className="toolbar" style={{marginTop:'4px'}}>
                                 <div className="filters">
                                     <span className="fchip-label">Filter</span>
-                                    {[{id:'all',l:'All',n:labFC.all},{id:'top',l:'★ 4.5+',n:labFC.top,cls:'t-am'},{id:'hard',l:'Hard',n:labFC.hard,cls:'t-rd'},{id:'active',l:'Active',n:labFC.active,cls:'t-gn'},{id:'retired',l:'Retired',n:labFC.retired}].map(f=>(
-                                        <button key={f.id} className={`fchip${f.cls?' '+f.cls:''}${labFilter===f.id?' active':''}`} onClick={()=>setLabFilter(f.id)}>
+                                    {[{id:'all',l:'All',n:labFC.all},{id:'top',l:'★ 4.5+',n:labFC.top,cls:'t-am',t:'4.5 or better out of 5, or the equivalent on another scale'},{id:'hard',l:'Hard',n:labFC.hard,cls:'t-rd'},{id:'active',l:'Active',n:labFC.active,cls:'t-gn'},{id:'retired',l:'Retired',n:labFC.retired}].map(f=>(
+                                        <button key={f.id} title={f.t} className={`fchip${f.cls?' '+f.cls:''}${labFilter===f.id?' active':''}`} onClick={()=>setLabFilter(f.id)}>
                                             {f.l} <span className="cnt">{f.n}</span>
                                         </button>
                                     ))}
