@@ -806,6 +806,26 @@ useEffect(() => {
     "latest": true,                 // only on the most recently released lab — drives activity feed + featured banner
     "tactics": ["TA0001", "TA0003"] // optional MITRE ATT&amp;CK
 }]</pre></div></div>
+                <p><code>link</code> is optional. CTF challenges are often published before their writeup exists;
+                omit the field rather than invent a placeholder. A linkless lab must never carry
+                <code>latest</code> — the activity feed builds its "Play ↗" button from <code>lab.link</code> and
+                would render a dead control.</p>
+            </div>
+
+            <div class="subsec">
+                <div class="subsec-title">Platform grouping</div>
+                <p>The platform distribution bars (hero stat cell and the Labs stats panel) normalise
+                <code>platform</code> through a <strong>whitelist</strong>, defined twice as <code>hNormPlat</code> and
+                <code>normPlat</code> in <code>index.html</code>:</p>
+                <div class="code-block"><div class="code-lang">JS</div><div class="code-body"><pre>const normPlat = p => PLAT_COLOR[p] ? p : 'CTF';</pre></div></div>
+                <p>Only the three training platforms in <code>PLAT_COLOR</code> — CyberDefenders, HackTheBox, Blue
+                Team Labs Online — get their own bar. Every other <code>platform</code> value is a CTF event name
+                (<code>"STDiO CTF 2025"</code>, <code>"Women Thailand Cyber Top Talent 2025"</code>) and folds into a
+                single violet CTF bar. Deriving the whitelist from <code>PLAT_COLOR</code> keeps the two from
+                drifting: a new training platform needs a colour anyway, and adding one there is what promotes
+                it out of the CTF bucket.</p>
+                <p>This replaced a substring match on <code>startsWith('STDiO') || includes('CTF')</code>, which
+                gave any event whose name lacked the literal string "CTF" its own bar.</p>
             </div>
 
             <div class="subsec">

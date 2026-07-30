@@ -1217,7 +1217,10 @@
                                 const hActive   = certifications.filter(c=>c.status==='Active').length;
                                 const hExpired  = certifications.filter(c=>c.status==='Expired').length;
                                 const H_PLAT_COLOR = {'CyberDefenders':'#297fff','HackTheBox':'#9fef00','Blue Team Labs Online':'#35c2f1'};
-                                const hNormPlat = p => (p||'').startsWith('STDiO')||(p||'').includes('CTF') ? 'CTF' : p;
+                                // Whitelist: only the three training platforms get their own bar. Every other
+                                // platform string is a CTF event name and shares the CTF bar — matching an
+                                // event name by substring missed "Women Thailand Cyber Top Talent 2025".
+                                const hNormPlat = p => H_PLAT_COLOR[p] ? p : 'CTF';
                                 const hPlatMap  = hLabs.reduce((a,l)=>{ const k=hNormPlat(l.platform); a[k]=(a[k]||0)+1; return a; }, {});
                                 const hPlats    = Object.entries(hPlatMap).sort((a,b)=>b[1]-a[1]);
                                 const hPlatFill = p => H_PLAT_COLOR[p] || (p==='CTF'?'var(--soc-vi)':'var(--soc-cy)');
@@ -1483,7 +1486,9 @@
 
                 // ── Lab data ─────────────────────────────────────────────────
                 const PLAT_COLOR = {'CyberDefenders':'#297fff','HackTheBox':'#9fef00','Blue Team Labs Online':'#35c2f1'};
-                const normPlat = p => (p||'').startsWith('STDiO')||(p||'').includes('CTF') ? 'CTF' : p;
+                // Whitelist, same rule as hNormPlat in the hero stat cell: anything that is not one of
+                // the three training platforms is a CTF event name and folds into the single CTF bar.
+                const normPlat = p => PLAT_COLOR[p] ? p : 'CTF';
                 const labsByPlat     = statsLabsOnly.reduce((a,l)=>{ const k=normPlat(l.platform); a[k]=(a[k]||0)+1; return a; }, {});
                 const sortedPlats    = Object.entries(labsByPlat).sort((a,b)=>b[1]-a[1]);
                 const maxPlatCnt     = sortedPlats[0]?.[1] || 1;
