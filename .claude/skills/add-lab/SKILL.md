@@ -15,8 +15,8 @@ Ask for any missing fields not provided in the user's message:
 |---|---|
 | `title` | Lab title as shown on the platform |
 | `description` | 1–2 sentence description of the scenario |
-| `platform` | `"Blue Team Labs Online"`, `"HackTheBox"`, `"CyberDefenders"`, or other |
-| `link` | Direct URL to the lab on the platform |
+| `platform` | `"Blue Team Labs Online"`, `"HackTheBox"`, `"CyberDefenders"`, or a CTF event name |
+| `link` | Direct URL to the lab. **Optional** — omit the field entirely if there is nowhere to point yet (see "Labs with no link") |
 | `tags` | Array of topic tags, e.g. `["Endpoint Forensics", "Windows Forensics"]` |
 | `difficulty` | `"easy"`, `"medium"`, or `"hard"` (author-set difficulty) |
 | `is_retired` | `true` or `false` — default `false` for a newly launched lab |
@@ -29,6 +29,26 @@ Ask for any missing fields not provided in the user's message:
 - `"HackTheBox"` — grouped as HTB
 - `"CyberDefenders"` — grouped as CD
 - Any other string → grouped as CTF/Other
+
+**CTF events** use the event name verbatim as the platform, e.g. `"STDiO CTF 2025"`,
+`"Women Thailand Cyber Top Talent 2025"`. One challenge = one lab entry; all challenges from the same
+event share the platform string so they group together. A finished event means `"is_retired": true`
+on every entry from it.
+
+### Labs with no link
+
+Challenges authored for a CTF often go public before the writeup exists. When there is no URL yet,
+**omit `link` entirely** — do not invent a placeholder or point at the event homepage.
+
+Two consequences, both mandatory:
+
+- The Labs card renders `<a href={undefined}>`. It still looks clickable but navigates nowhere. This
+  is accepted; the alternative is a broken link.
+- **Never set `"latest": true` on a linkless lab.** The home page ticker builds its "Play ↗" button
+  from `lab.link` (`index.html`, the `type:'LAB'` ticker entry), so a linkless latest lab renders a
+  dead button in the hero. Leave `latest` on the previous lab until the URL exists.
+
+Add `link` in a later edit once the writeup is published, and only then consider moving `latest`.
 
 ## Step 2 — Check for cover image
 
@@ -59,6 +79,8 @@ If the cover image doesn't exist, note it to the user and use the placeholder pa
 }
 ```
 
+Drop both `link` and `latest` if there is no URL yet — see "Labs with no link" above.
+
 Add optional fields only if provided:
 ```json
   "player_difficulty": "<player_difficulty>",
@@ -88,8 +110,11 @@ to compare labs across scales. Getting it wrong silently misranks the lab.
 Never write `rating` into `labs_metadata.json`; that file wins the render-time merge and would
 override the value here. See "Lab Ratings" in `architecture.html` for the full background.
 
-3. Remove `"latest": true` from the previously latest lab entry (if any).
+3. Remove `"latest": true` from the previously latest lab entry — **only if the new entry has a
+   `link`**. A linkless lab does not take `latest`, so leave the old one alone.
 4. Write the updated file. Preserve all existing entries exactly.
+5. Validate: `node -e "require('./data/labs.json')"` — a trailing-comma slip silently blanks the whole
+   Labs page at runtime.
 
 ## Step 4 — Register in metadata script (CyberDefenders only)
 
@@ -126,4 +151,6 @@ If platform is not CyberDefenders, only stage `data/labs.json`.
 Tell the user:
 - Which platform group it appears under on the Labs page
 - Whether the cover image needs to be added to `assets/labs/`
+- If `link` was omitted: that the card is not clickable until the URL is filled in, and that `latest`
+  was deliberately left on the previous lab
 - If CyberDefenders: that the lab is now registered in the daily metadata script — `player_difficulty`, `is_retired` and `tactics` will auto-populate. `rating` will **not**; it is frozen and set by hand (see Step 2).
