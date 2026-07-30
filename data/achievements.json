@@ -56,6 +56,17 @@
   },
   {
     "category": "competition",
+    "name": "Cyber Apocalypse CTF 2026: The Salt Crown",
+    "organizer": "HackTheBox",
+    "placement": "28th Place",
+    "year": "2026",
+    "team": "UNIT 7300",
+    "description": "Team full clear — all 136 challenges for 69,425 points, 28th out of 6,744 teams. My 7 solves: 4 cloud (3 AWS blue team, 1 red team), 2 forensics, 1 crypto. 24–29 July 2026.",
+    "image": "./assets/achievements/cyberapocalypse2026.jpg",
+    "tags": ["CTF", "Cloud", "DFIR"]
+  },
+  {
+    "category": "competition",
     "name": "Splunk Boss of The SOC v10 — Splunk Experience Day Thailand 2026",
     "organizer": "Splunk",
     "placement": "Winner",
