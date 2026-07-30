@@ -400,7 +400,7 @@
       "Browser"
     ],
     "type": "lab",
-    "image": "./assets/labs/shaw.jpg",
+    "image": "./assets/labs/shaw.png",
     "difficulty": "easy",
     "is_retired": true
   },
@@ -419,8 +419,24 @@
       "Certificate Services"
     ],
     "type": "lab",
-    "image": "./assets/labs/master.jpg",
+    "image": "./assets/labs/master.png",
     "difficulty": "hard",
+    "is_retired": true
+  },
+  {
+    "title": "HotDog",
+    "description": "Reconstruct an Active Directory intrusion from a single packet capture: extract an AS-REP Roastable hash from the Kerberos exchange, crack it offline to recover the account's credentials, then derive the session key material needed to decrypt the attacker's encrypted SMB3 traffic and expose what was actually transferred.",
+    "platform": "Women Thailand Cyber Top Talent 2025",
+    "tags": [
+      "Network Forensics",
+      "Active Directory",
+      "Kerberos",
+      "SMB",
+      "Password Cracking"
+    ],
+    "type": "lab",
+    "image": "./assets/labs/hotdog.png",
+    "difficulty": "medium",
     "is_retired": true
   },
   {
