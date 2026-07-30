@@ -457,6 +457,21 @@
     "is_retired": true
   },
   {
+    "title": "You Know The Rules",
+    "description": "A .NET binary obfuscated with ConfuserEx and then packed with MPRESS. Peel both layers off to reach the managed code, work out why it kills and relaunches Edge on a hardcoded YouTube link, and rebuild the flag from the video title it was so desperate to play.",
+    "platform": "Women Thailand Cyber Top Talent 2025",
+    "tags": [
+      "Reverse Engineering",
+      ".NET",
+      "Unpacking",
+      "Obfuscation"
+    ],
+    "type": "lab",
+    "image": "./assets/labs/youknowtherules.png",
+    "difficulty": "medium",
+    "is_retired": true
+  },
+  {
     "title": "Awesome Splunk and Elastic SIEM Practice Labs",
     "description": "A list of labs with Splunk and Elastic from various CyberSecurity Training platforms such as CyberDefenders, BlueTeamLabs Online (BTLO), TryHackMe, DFIR Labs, Xintra, Ace Responder, and more",
     "platform": "GitHub",
