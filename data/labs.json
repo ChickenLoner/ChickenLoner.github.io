@@ -425,6 +425,23 @@
   },
   {
     "title": "HotDog",
+    "description": "Reconstruct an Active Directory intrusion from a single packet capture: recover the Kerberoasted service tickets off the wire, crack both service account hashes offline, then use the derived key material to decrypt the attacker's GSS-API protected LDAP queries and encrypted SMB3 transfers.",
+    "platform": "Women Thailand Cyber Top Talent 2025",
+    "tags": [
+      "Network Forensics",
+      "Active Directory",
+      "Kerberos",
+      "LDAP",
+      "SMB",
+      "Password Cracking"
+    ],
+    "type": "lab",
+    "image": "./assets/labs/hotdog.png",
+    "difficulty": "medium",
+    "is_retired": true
+  },
+  {
+    "title": "AS a REPresentative!",
     "description": "Reconstruct an Active Directory intrusion from a single packet capture: extract an AS-REP Roastable hash from the Kerberos exchange, crack it offline to recover the account's credentials, then derive the session key material needed to decrypt the attacker's encrypted SMB3 traffic and expose what was actually transferred.",
     "platform": "Women Thailand Cyber Top Talent 2025",
     "tags": [
@@ -435,7 +452,7 @@
       "Password Cracking"
     ],
     "type": "lab",
-    "image": "./assets/labs/hotdog.png",
+    "image": "./assets/labs/asrep.png",
     "difficulty": "medium",
     "is_retired": true
   },
