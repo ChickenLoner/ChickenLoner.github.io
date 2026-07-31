@@ -374,8 +374,17 @@
         "year":  "2026",
         "status":  "Active",
         "category":  "Digital Forensics & DFIR",
-        "latest":  true,
         "badge":  "./assets/badges/gx-fe.png",
         "url":  "https://www.credly.com/badges/47ec3bda-8c7f-40aa-b331-6629cd55f5c2/public_url"
+    },
+    {
+        "name":  "CDA - Level Effect Cyber Defense Analyst",
+        "issuer":  "Level Effect",
+        "year":  "2026",
+        "status":  "Active",
+        "category":  "Blue Team & Detection",
+        "latest":  true,
+        "badge":  "./assets/badges/cda.png",
+        "url":  "https://foundry.leveleffect.com/verify/ra2nw6f5rm"
     }
 ]
