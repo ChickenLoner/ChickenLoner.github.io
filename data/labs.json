@@ -556,80 +556,18 @@
     "image": "./assets/labs/rmmcheatsheet.jpg"
   },
   {
-    "title": "Action1 RMM Forensics Artifacts for Windows",
-    "description": "Research on the Action1 agent — install artifacts under C:\\Windows\\Action1, the A1Agent service, TightVNC-based remote control, Run Script and Deploy Software behavior, libtorrent P2P distribution, and what survives an uninstall.",
+    "title": "RMM & Remote-Access Forensics Research",
+    "description": "Five deep dives into how remote monitoring and management tools behave on Windows and what they leave behind: Action1, AnyDesk, RustDesk, GotoHTTP and Chrome Remote Desktop — install and persistence artifacts, connection and file transfer evidence, and what survives an uninstall.",
     "platform": "Original",
-    "link": "/research/action1-forensics-windows/index.html",
+    "link": "/research/?q=RMM",
     "tags": [
       "Digital Forensics",
       "RMM",
-      "Action1",
       "Windows",
       "Research"
     ],
     "type": "project",
     "image": "./assets/research/action1-forensics-windows/cover.png"
-  },
-  {
-    "title": "Deep dive into AnyDesk Investigation & Forensics on Windows",
-    "description": "Research about AnyDesk RMM Investigation & Forensics on Windows from binary to connection, file transfer and unattended access.",
-    "platform": "Original",
-    "link": "/research/anydesk-forensics-windows/index.html",
-    "tags": [
-      "Digital Forensics",
-      "RMM",
-      "AnyDesk",
-      "Windows",
-      "Research"
-    ],
-    "type": "project",
-    "image": "./assets/research/anydesk-forensics-windows/cover.png"
-  },
-  {
-    "title": "Deep dive into RustDesk RMM Investigation & Forensics on Windows",
-    "description": "Research about RustDesk RMM Investigation & Forensics on Windows from binary to connection, file transfer and unattended access.",
-    "platform": "Original",
-    "link": "/research/rustdesk-forensics-windows/index.html",
-    "tags": [
-      "Digital Forensics",
-      "RMM",
-      "RustDesk",
-      "Windows",
-      "Research"
-    ],
-    "type": "project",
-    "image": "./assets/research/rustdesk-forensics-windows/cover.png"
-  },
-  {
-    "title": "Investigating GotoHTTP on Windows: Behavior, Forensic Artifacts & Detection",
-    "description": "Research on GotoHTTP RMM — covering SYSTEM-level service persistence, SuperTerminal forensics, file transfer detection via USN Journal, DNS indicators, and child process anomalies.",
-    "platform": "Original",
-    "link": "/research/gotohttp-forensics-windows/index.html",
-    "tags": [
-      "Digital Forensics",
-      "RMM",
-      "GotoHTTP",
-      "Windows",
-      "Research"
-    ],
-    "type": "project",
-    "image": "./assets/research/gotohttp-forensics-windows/cover.png"
-  },
-  {
-    "title": "Chrome Remote Desktop RMM Investigation (Windows)",
-    "description": "Research about Chrome Remote Desktop RMM Investigation on Windows from installation to connection, file transfer and unattended access.",
-    "platform": "Original",
-    "link": "/research/chrome-remote-desktop-forensics/index.html",
-    "tags": [
-      "Digital Forensics",
-      "RMM",
-      "Chrome Remote Desktop",
-      "CRD",
-      "Windows",
-      "Research"
-    ],
-    "type": "project",
-    "image": "./assets/research/chrome-remote-desktop-forensics/cover.png"
   },
   {
     "title": "RustDesk Decryptor",

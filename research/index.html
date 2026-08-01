@@ -71,7 +71,9 @@
             const [articles, setArticles] = useState([]);
             const [loading, setLoading]   = useState(true);
             const [activeCategory, setActiveCategory] = useState(null);
-            const [search, setSearch]     = useState('');
+            // ?q= seeds the search box so other pages can link straight to a subset,
+            // e.g. the Labs & Projects RMM card points here with ?q=RMM
+            const [search, setSearch]     = useState(() => new URLSearchParams(window.location.search).get('q') || '');
 
             useEffect(() => {
                 fetch('/data/research.json')
