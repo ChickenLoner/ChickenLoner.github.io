@@ -383,8 +383,17 @@
         "year":  "2026",
         "status":  "Active",
         "category":  "Blue Team & Detection",
-        "latest":  true,
         "badge":  "./assets/badges/cda.png",
         "url":  "https://foundry.leveleffect.com/verify/ra2nw6f5rm"
+    },
+    {
+        "name":  "CDR - Level Effect Cyber Defense Responder",
+        "issuer":  "Level Effect",
+        "year":  "2026",
+        "status":  "Active",
+        "category":  "Blue Team & Detection",
+        "latest":  true,
+        "badge":  "./assets/badges/cdr.png",
+        "url":  "https://foundry.leveleffect.com/verify/2y4giaph9p"
     }
 ]
