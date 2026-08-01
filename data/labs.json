@@ -605,10 +605,10 @@
     "title": "CyberChef Playground",
     "description": "A self-hosted CTF-style challenge platform for learning cryptography, encoding, and log analysis — powered by CyberChef recipes.",
     "platform": "GitHub",
-    "link": "https://github.com/ChickenLoner/ResidentReaper",
+    "link": "https://github.com/ChickenLoner/CyberChef-Playground",
     "tags": [
       "CyberChef",
-      "platform",
+      "Tool",
       "CTF"
     ],
     "type": "project",
