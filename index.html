@@ -652,7 +652,12 @@
         .crow:hover{background:rgba(34,225,255,.04)}
         html[data-theme="light"] .crow:hover{background:var(--cy-soft)}
         .crow .cover{width:160px;min-height:88px;align-self:stretch;border-radius:4px;background-color:#000;background-size:cover;background-position:center;background-repeat:no-repeat;border:1px solid var(--soc-line);flex-shrink:0;position:relative;overflow:hidden}
-        .crow .cover::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.55) 0%,transparent 38%,transparent 60%,rgba(0,0,0,.7) 100%);pointer-events:none;opacity:.9}
+        /* Card art runs from 1:1 to 2.36:1 in a fixed 160x88 slot. `cover` cropped the
+           square ones by ~45%; `contain` alone left flat bars. A blurred, zoomed copy
+           fills the slot behind the contained image, so nothing is cropped or empty. */
+        .crow .cover .cv-blur{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center;filter:blur(12px) brightness(.55) saturate(1.1);transform:scale(1.25);pointer-events:none}
+        .crow .cover .cv-img{position:absolute;inset:0;z-index:1;background-size:contain;background-position:center;background-repeat:no-repeat;pointer-events:none}
+        .crow .cover::after{content:"";position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(0,0,0,.55) 0%,transparent 38%,transparent 60%,rgba(0,0,0,.7) 100%);pointer-events:none;opacity:.9}
         .crow .cover.placeholder{background:var(--soc-bg-2);display:grid;place-items:center}
         .crow .cover.placeholder span{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--soc-ink4);letter-spacing:.08em}
         .crow:hover .cover{border-color:var(--soc-line2)}
@@ -2502,7 +2507,8 @@
                         : 'Not rated';
                     return (
                         <a className={`crow${l.is_retired?' is-retired':''}`} href={l.link} target="_blank" rel="noopener noreferrer">
-                            <div className={`cover${!l.image?' placeholder':''}`} style={l.image?{backgroundImage:`url(${l.image})`,backgroundSize:'cover',backgroundPosition:'center'}:{}}>
+                            <div className={`cover${!l.image?' placeholder':''}`}>
+                                {l.image && <><span className="cv-blur" style={{backgroundImage:`url(${l.image})`}} /><span className="cv-img" style={{backgroundImage:`url(${l.image})`}} /></>}
                                 {!l.image && <span>{(l.title||'').slice(0,3).toUpperCase()}</span>}
                                 <span className={`place ${pc}`} title={pt}>{pl}</span>
                             </div>
@@ -2534,7 +2540,8 @@
                     const rollup = p.rollupTag ? researchData.filter(r=>(r.tags||[]).includes(p.rollupTag)).length : 0;
                     return (
                         <a className="crow" href={p.link} target="_blank" rel="noopener noreferrer">
-                            <div className={`cover${!p.image?' placeholder':''}`} style={p.image?{backgroundImage:`url(${p.image})`,backgroundSize:'cover',backgroundPosition:'center'}:{}}>
+                            <div className={`cover${!p.image?' placeholder':''}`}>
+                                {p.image && <><span className="cv-blur" style={{backgroundImage:`url(${p.image})`}} /><span className="cv-img" style={{backgroundImage:`url(${p.image})`}} /></>}
                                 {!p.image && <span>PRJ</span>}
                                 <span className={`place ${pc}`}>{pl}</span>
                             </div>
