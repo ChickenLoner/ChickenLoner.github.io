@@ -813,6 +813,41 @@ useEffect(() => {
             </div>
 
             <div class="subsec">
+                <div class="subsec-title">Research articles live in two files</div>
+                <p>A research article needs an entry in <strong>both</strong> <code>research.json</code> and
+                <code>labs.json</code>. They feed different pages and neither reads the other:
+                <code>research.json</code> drives <code>/research/</code>, while the Labs &amp; Projects page reads
+                only <code>labs.json</code>. Writing just the research entry publishes the article but leaves it
+                invisible on Labs &amp; Projects — which is exactly how the Action1 writeup went missing.</p>
+                <div class="code-block"><div class="code-lang">JSON</div><div class="code-body"><pre>{
+    "title": "Action1 RMM Forensics Artifacts for Windows",
+    "description": "...",
+    "platform": "Original",   // "Original" whenever link points at this site
+    "link": "/research/action1-forensics-windows/index.html",
+    "tags": ["Digital Forensics", "RMM", "Action1", "Windows", "Research"],
+    "type": "project",
+    "image": "./assets/research/action1-forensics-windows/cover.png"
+}</pre></div></div>
+                <p>Three rules keep the two views of one article consistent:</p>
+                <ul>
+                    <li><code>image</code> reuses the research cover under
+                        <code>assets/research/&lt;slug&gt;/</code>. A second copy in <code>assets/labs/</code>
+                        drifts — the same writeup showed different art on each page until the labs copies were
+                        deleted.</li>
+                    <li><code>platform</code> is <code>"Original"</code> once a local page exists.
+                        <code>"Medium"</code> beside an on-site <code>link</code> contradicts itself; the Medium
+                        origin stays recorded in <code>research.json</code> as <code>source</code> +
+                        <code>sourceUrl</code>.</li>
+                    <li><code>tags</code> always includes <code>"Research"</code> — that tag is how research
+                        entries are picked out of the project list.</li>
+                </ul>
+                <p>Projects are excluded from the platform distribution bars, so <code>platform</code> on a
+                <code>"project"</code> entry only feeds the card chip and the grouping at
+                <code>index.html</code> where both <code>"Medium"</code> and <code>"Original"</code> map to
+                <code>'research'</code>.</p>
+            </div>
+
+            <div class="subsec">
                 <div class="subsec-title">Platform grouping</div>
                 <p>The platform distribution bars (hero stat cell and the Labs stats panel) normalise
                 <code>platform</code> through a <strong>whitelist</strong>, defined twice as <code>hNormPlat</code> and

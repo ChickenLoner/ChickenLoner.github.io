@@ -68,6 +68,31 @@ mkdir -p assets/research/<slug>
 }
 ```
 
+## Step 3b — Add entry to labs.json
+
+Research articles also appear on the Labs & Projects page. `research.json` alone does **not** put them there — `data/labs.json` drives that page, and a missing entry is the reason articles silently go missing from it.
+
+1. Read `data/labs.json`.
+2. Append an entry with `"type": "project"`, grouped next to related writeups rather than at the end of the array (order is not significant — projects carry no date field):
+
+```json
+{
+  "title": "<title>",
+  "description": "<one- or two-sentence description, may differ from research.json summary>",
+  "platform": "Original",
+  "link": "/research/<slug>/index.html",
+  "tags": [..., "Research"],
+  "type": "project",
+  "image": "./assets/research/<slug>/cover.png"
+}
+```
+
+Rules:
+- `platform` is `"Original"` whenever `link` points at this site. Reserve `"Medium"` for writeups with no local page — a Medium chip beside an on-site link is wrong. The Medium origin stays recorded in `research.json` via `source` + `sourceUrl`.
+- `link` is the local page, never the Medium URL, once `research/<slug>/index.html` exists.
+- `image` reuses the research cover. Do not add a second copy under `assets/labs/`.
+- Always include `"Research"` in `tags` — that is how research entries are identified.
+
 ## Step 4 — Scaffold research/<slug>/index.html
 
 Read `.claude/skills/new-research/template.html` as your starting point. Replace every `{{PLACEHOLDER}}` with the real value, then fill in the content sections. Do not diverge from the template structure without a reason.
@@ -169,6 +194,7 @@ The humanizer rewrites prose nodes only. It must not touch code blocks, componen
 - [ ] No `{{PLACEHOLDER}}` markers left in the output file
 - [ ] Meta tags present with correct slug URLs
 - [ ] `data/research.json` has the new entry prepended
+- [ ] `data/labs.json` has the matching `"type": "project"` entry (Step 3b)
 - [ ] `research/<slug>/index.html` created
 - [ ] SOC top bar breadcrumb and badges correct (slug, category sev color)
 - [ ] Cover image path correct (`${IMG}/cover.png`)
@@ -179,7 +205,7 @@ The humanizer rewrites prose nodes only. It must not touch code blocks, componen
 ## Step 6 — Commit
 
 ```bash
-git add research/<slug>/ data/research.json assets/research/<slug>/
+git add research/<slug>/ data/research.json data/labs.json assets/research/<slug>/
 git commit -m "add research: <title>"
 git push origin main
 ```
@@ -188,4 +214,5 @@ git push origin main
 
 - `.claude/skills/new-research/template.html` — page template with `{{PLACEHOLDER}}` markers (start here)
 - `data/research.json` — research listing metadata
+- `data/labs.json` — Labs & Projects listing; research articles need a `"type": "project"` entry here too
 - `research/index.html` — listing page (for card rendering context)

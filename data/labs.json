@@ -556,10 +556,25 @@
     "image": "./assets/labs/rmmcheatsheet.jpg"
   },
   {
+    "title": "Action1 RMM Forensics Artifacts for Windows",
+    "description": "Research on the Action1 agent — install artifacts under C:\\Windows\\Action1, the A1Agent service, TightVNC-based remote control, Run Script and Deploy Software behavior, libtorrent P2P distribution, and what survives an uninstall.",
+    "platform": "Original",
+    "link": "/research/action1-forensics-windows/index.html",
+    "tags": [
+      "Digital Forensics",
+      "RMM",
+      "Action1",
+      "Windows",
+      "Research"
+    ],
+    "type": "project",
+    "image": "./assets/research/action1-forensics-windows/cover.png"
+  },
+  {
     "title": "Deep dive into AnyDesk Investigation & Forensics on Windows",
     "description": "Research about AnyDesk RMM Investigation & Forensics on Windows from binary to connection, file transfer and unattended access.",
-    "platform": "Medium",
-    "link": "https://medium.com/@chaoskist/deep-dive-into-anydesk-investigation-forensics-on-windows-24dc531bcc78",
+    "platform": "Original",
+    "link": "/research/anydesk-forensics-windows/index.html",
     "tags": [
       "Digital Forensics",
       "RMM",
@@ -573,8 +588,8 @@
   {
     "title": "Deep dive into RustDesk RMM Investigation & Forensics on Windows",
     "description": "Research about RustDesk RMM Investigation & Forensics on Windows from binary to connection, file transfer and unattended access.",
-    "platform": "Medium",
-    "link": "https://medium.com/@chaoskist/deep-dive-into-rustdesk-rmm-investigation-forensics-on-windows-6d8ba816a11e",
+    "platform": "Original",
+    "link": "/research/rustdesk-forensics-windows/index.html",
     "tags": [
       "Digital Forensics",
       "RMM",
@@ -603,8 +618,8 @@
   {
     "title": "Chrome Remote Desktop RMM Investigation (Windows)",
     "description": "Research about Chrome Remote Desktop RMM Investigation on Windows from installation to connection, file transfer and unattended access.",
-    "platform": "Medium",
-    "link": "https://medium.com/@chaoskist/chrome-remote-desktop-rmm-investigation-c61f8545da26",
+    "platform": "Original",
+    "link": "/research/chrome-remote-desktop-forensics/index.html",
     "tags": [
       "Digital Forensics",
       "RMM",
