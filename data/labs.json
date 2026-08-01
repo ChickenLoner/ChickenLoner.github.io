@@ -568,7 +568,7 @@
       "Research"
     ],
     "type": "project",
-    "image": "./assets/labs/anydeskdfir.jpg"
+    "image": "./assets/research/anydesk-forensics-windows/cover.png"
   },
   {
     "title": "Deep dive into RustDesk RMM Investigation & Forensics on Windows",
@@ -583,7 +583,7 @@
       "Research"
     ],
     "type": "project",
-    "image": "./assets/labs/rustdeskdfir.png"
+    "image": "./assets/research/rustdesk-forensics-windows/cover.png"
   },
   {
     "title": "Investigating GotoHTTP on Windows: Behavior, Forensic Artifacts & Detection",
@@ -614,7 +614,7 @@
       "Research"
     ],
     "type": "project",
-    "image": "./assets/labs/crd.jpg"
+    "image": "./assets/research/chrome-remote-desktop-forensics/cover.png"
   },
   {
     "title": "RustDesk Decryptor",
