@@ -72,7 +72,11 @@ mkdir -p assets/research/<slug>
 
 Research articles also appear on the Labs & Projects page. `research.json` alone does **not** put them there — `data/labs.json` drives that page, and a missing entry is the reason articles silently go missing from it.
 
-**First check whether a roll-up card already covers the topic.** RMM and remote-access articles do not get their own card — they are represented by the single `"RMM & Remote-Access Forensics Research"` entry pointing at `/research/?q=RMM`. A new RMM writeup is already covered by it: update that card's `description` count and tool list instead of adding a card. Only add a new entry for a topic no roll-up covers.
+**First check whether a roll-up card already covers the topic.** RMM and remote-access articles do not get their own card — they are represented by the single `"RMM & Remote-Access Forensics Research"` entry pointing at `/research/?q=RMM`.
+
+A roll-up card carries `"rollupTag": "<tag>"`. The Labs page counts research articles carrying that tag at render time and shows "N articles" on the card, so **an RMM writeup needs no `labs.json` edit at all** — tag it `RMM` in `research.json` and the card updates itself. Never write the count or the tool names into a roll-up `description`; that is what made it a rename chore before. Keep the description about the subject, not the inventory.
+
+Only add a new `labs.json` entry for a topic no roll-up covers.
 
 1. Read `data/labs.json`.
 2. Append an entry with `"type": "project"`, grouped next to related writeups rather than at the end of the array (order is not significant — projects carry no date field):
@@ -196,7 +200,7 @@ The humanizer rewrites prose nodes only. It must not touch code blocks, componen
 - [ ] No `{{PLACEHOLDER}}` markers left in the output file
 - [ ] Meta tags present with correct slug URLs
 - [ ] `data/research.json` has the new entry prepended
-- [ ] `data/labs.json` handled (Step 3b) — either a new `"type": "project"` entry, or an existing roll-up card updated
+- [ ] `data/labs.json` handled (Step 3b) — new `"type": "project"` entry, or confirmed a `rollupTag` card already covers it (no edit needed)
 - [ ] `research/<slug>/index.html` created
 - [ ] SOC top bar breadcrumb and badges correct (slug, category sev color)
 - [ ] Cover image path correct (`${IMG}/cover.png`)

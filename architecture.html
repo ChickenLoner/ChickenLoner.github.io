@@ -820,15 +820,34 @@ useEffect(() => {
                 only <code>labs.json</code>. Writing just the research entry publishes the article but leaves it
                 invisible on Labs &amp; Projects — which is exactly how the Action1 writeup went missing.</p>
                 <p>The two are <strong>not</strong> one-to-one. <code>research.json</code> holds one entry per
-                article; <code>labs.json</code> holds one card per <em>body of work</em>. The five RMM writeups
-                (Action1, AnyDesk, RustDesk, GotoHTTP, Chrome Remote Desktop) share a single roll-up card that
-                links to <code>/research/?q=RMM</code> instead of getting five near-identical cards next to the
-                RMM Forensics Cheat Sheet repo. A sixth RMM article updates that card's description rather than
-                adding another one. Articles outside a roll-up topic still get their own card.</p>
+                article; <code>labs.json</code> holds one card per <em>body of work</em>. The RMM writeups share
+                a single roll-up card instead of getting near-identical cards next to the RMM Forensics Cheat
+                Sheet repo. Articles outside a roll-up topic still get their own card.</p>
+                <div class="code-block"><div class="code-lang">JSON</div><div class="code-body"><pre>{
+    "title": "RMM &amp; Remote-Access Forensics Research",
+    "description": "Deep dives into how RMM tools behave on Windows...",  // subject, never an inventory
+    "platform": "Original",
+    "link": "/research/?q=RMM",
+    "rollupTag": "RMM",       // drives the live article count
+    "type": "project",
+    "image": "./assets/research/action1-forensics-windows/cover.png"
+}</pre></div></div>
+                <p><code>rollupTag</code> makes the card self-maintaining. <code>ProjRow</code> in
+                <code>index.html</code> counts articles carrying the tag at render time and renders "N articles"
+                beside the platform chip:</p>
+                <div class="code-block"><div class="code-lang">JS</div><div class="code-body"><pre>const rollup = p.rollupTag ? researchData.filter(r =&gt; (r.tags||[]).includes(p.rollupTag)).length : 0;</pre></div></div>
+                <p>So <strong>publishing an RMM article requires no <code>labs.json</code> edit</strong> — tagging
+                it in <code>research.json</code> is enough. Writing the count or the tool names into the
+                <code>description</code> undoes this and turns every new article into a rename chore; the first
+                version of this card did exactly that.</p>
+                <p><code>LabsPage</code> is declared inside the same component scope as <code>researchData</code>
+                (<code>index.html</code> ~1090 and ~2378), so the count is a plain closure read — no prop
+                threading, no second fetch.</p>
                 <p>The <code>?q=</code> parameter seeds the research hub's search box
                 (<code>research/index.html</code>). Search already matches title, summary, tags and category, so
                 <code>?q=RMM</code> resolves to exactly the articles tagged <code>RMM</code> — a roll-up card is
-                only as accurate as the tag it queries.</p>
+                only as accurate as the tag it queries, and its link and <code>rollupTag</code> must stay in
+                sync.</p>
                 <div class="code-block"><div class="code-lang">JSON</div><div class="code-body"><pre>{
     "title": "Action1 RMM Forensics Artifacts for Windows",
     "description": "...",

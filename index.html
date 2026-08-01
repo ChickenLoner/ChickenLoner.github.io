@@ -2528,6 +2528,10 @@
                     const t = projType(p);
                     const pl = t==='tool'?'⚒ Tool':t==='research'?'✎ Research':'◧ List';
                     const pc = t==='tool'?'gold':'other';
+                    // A roll-up card stands in for every research article carrying its tag.
+                    // Counting at render time means publishing a new one never requires
+                    // editing this entry's description.
+                    const rollup = p.rollupTag ? researchData.filter(r=>(r.tags||[]).includes(p.rollupTag)).length : 0;
                     return (
                         <a className="crow" href={p.link} target="_blank" rel="noopener noreferrer">
                             <div className={`cover${!p.image?' placeholder':''}`} style={p.image?{backgroundImage:`url(${p.image})`,backgroundSize:'cover',backgroundPosition:'center'}:{}}>
@@ -2539,6 +2543,7 @@
                                 <div className="sub">
                                     <span className="evt">{p.platform}</span>
                                     <span className="evt-sep">·</span>
+                                    {rollup > 0 && <><span className="evt">{rollup} articles</span><span className="evt-sep">·</span></>}
                                     <span className="desc" title={p.description}>{p.description}</span>
                                 </div>
                                 <div className="tags-row">

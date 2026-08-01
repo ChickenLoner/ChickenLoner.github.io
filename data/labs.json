@@ -557,9 +557,10 @@
   },
   {
     "title": "RMM & Remote-Access Forensics Research",
-    "description": "Five deep dives into how remote monitoring and management tools behave on Windows and what they leave behind: Action1, AnyDesk, RustDesk, GotoHTTP and Chrome Remote Desktop — install and persistence artifacts, connection and file transfer evidence, and what survives an uninstall.",
+    "description": "Deep dives into how remote monitoring and management tools behave on Windows and what they leave behind — install and persistence artifacts, connection and file transfer evidence, and what survives an uninstall.",
     "platform": "Original",
     "link": "/research/?q=RMM",
+    "rollupTag": "RMM",
     "tags": [
       "Digital Forensics",
       "RMM",
