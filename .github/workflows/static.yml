@@ -30,6 +30,8 @@ jobs:
       - name: Install prerender deps
         continue-on-error: true
         run: npm i puppeteer glob
+      - name: Generate sitemap
+        run: node scripts/generate_sitemap.mjs
       - name: Serve site locally
         run: |
           python3 -m http.server 8080 &

@@ -419,7 +419,11 @@
 │   ├── soc-nav.js                    <span class="note"># Page transition overlay</span>
 │   └── soc-components.js             <span class="note"># Shared React components (no JSX)</span>
 ├── <span class="dir">scripts/</span>
-│   └── update_lab_data.py            <span class="note"># Fetches lab metadata from platform APIs</span>
+│   ├── update_lab_data.py            <span class="note"># Fetches lab metadata from platform APIs</span>
+│   ├── prerender.mjs                 <span class="note"># Puppeteer prerender of the React pages at deploy time</span>
+│   └── generate_sitemap.mjs          <span class="note"># Rebuilds sitemap.xml from the page dirs on disk (zero deps)</span>
+├── sitemap.xml                       <span class="note"># Generated — never hand-edit, see Sitemap below</span>
+├── robots.txt                        <span class="note"># Allow all + sitemap pointer</span>
 ├── _soc_reviews_full.py              <span class="note"># Batch: apply SOC theme to all review pages</span>
 ├── _soc_research_articles.py         <span class="note"># Batch: apply SOC theme to all research pages</span>
 ├── <span class="dir">.github/workflows/</span>
@@ -1122,6 +1126,8 @@ const ratingLabel = l =&gt; ... "&#9733; 4.8"  on a 5-point scale
                         <tr><td><code>_soc_reviews_full.py</code></td><td>Batch-apply SOC theme to all review pages</td><td>Idempotent. Updates topbar, CSS, breadcrumbs, cover, TOC, footer.</td></tr>
                         <tr><td><code>_soc_research_articles.py</code></td><td>Batch-apply SOC theme to all research pages</td><td>Maps category → severity badge color.</td></tr>
                         <tr><td><code>scripts/update_lab_data.py</code></td><td>Fetch lab stats from platform APIs</td><td>Run by GitHub Actions daily. Writes <code>data/labs_metadata.json</code>. Does <strong>not</strong> scrape <code>rating</code> — see Lab Ratings.</td></tr>
+                        <tr><td><code>scripts/prerender.mjs</code></td><td>Prerender React pages for crawlers</td><td>Run by <code>static.yml</code> at deploy time. Needs puppeteer + glob, installed in CI only.</td></tr>
+                        <tr><td><code>scripts/generate_sitemap.mjs</code></td><td>Rebuild <code>sitemap.xml</code> from disk</td><td>Zero dependencies. <code>--check</code> exits non-zero when the committed file is stale. See Sitemap below.</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -1139,7 +1145,7 @@ const ratingLabel = l =&gt; ... "&#9733; 4.8"  on a 5-point scale
                 <table>
                     <thead><tr><th>Workflow</th><th>Trigger</th><th>Action</th></tr></thead>
                     <tbody>
-                        <tr><td><code>static.yml</code></td><td>Push to <code>main</code></td><td>Deploy site to GitHub Pages → <code>chicken0248.fyi</code></td></tr>
+                        <tr><td><code>static.yml</code></td><td>Push to <code>main</code></td><td>Generate sitemap → prerender → deploy site to GitHub Pages → <code>chicken0248.fyi</code></td></tr>
                         <tr><td><code>update_lab_data.yml</code></td><td>Daily cron + manual dispatch</td><td>Run <code>update_lab_data.py</code> → commit <code>labs_metadata.json</code> → push to main</td></tr>
                     </tbody>
                 </table>
@@ -1155,6 +1161,38 @@ const ratingLabel = l =&gt; ... "&#9733; 4.8"  on a 5-point scale
                 Adding New Content
             </div>
             <div class="callout info"><p><strong>Use Claude Code skills</strong> — <code>/add-cert</code>, <code>/create-review</code>, <code>/new-research</code>, <code>/new-ir-report</code> automate these workflows.</p></div>
+
+            <div class="subsec">
+                <div class="subsec-title">Sitemap</div>
+                <p><code>sitemap.xml</code> is <strong>generated, never hand-edited</strong>. Every page on this
+                site is an <code>index.html</code> inside its own directory, so the URL list is fully derivable
+                from the filesystem:</p>
+                <div class="code-block"><div class="code-lang">BASH</div><div class="code-body"><pre>node scripts/generate_sitemap.mjs           # rewrite sitemap.xml
+node scripts/generate_sitemap.mjs --check   # exit 1 if the committed file is stale</pre></div></div>
+                <p>Priority comes from the path, matching what the file already used when it was maintained by
+                hand:</p>
+                <div class="tbl-wrap">
+                    <table>
+                        <thead><tr><th>Path</th><th>Priority</th></tr></thead>
+                        <tbody>
+                            <tr><td><code>/</code></td><td>1.0</td></tr>
+                            <tr><td><code>/reviews/</code>, <code>/research/</code>, <code>/ir-reports/</code></td><td>0.9</td></tr>
+                            <tr><td><code>/siem-labs/</code>, <code>/cloud-labs/</code></td><td>0.8</td></tr>
+                            <tr><td>Everything else (detail pages)</td><td>0.7</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>The generator skips <code>assets/</code>, <code>scripts/</code>, <code>themes/</code>,
+                <code>data/</code> and dot-directories, and only counts <code>index.html</code> — so root pages
+                like <code>architecture.html</code> stay out of the sitemap deliberately. Adding a new section
+                hub means adding its priority to the <code>PRIORITY</code> map in the script; a new detail page
+                needs nothing.</p>
+                <p><strong>Two layers keep it honest.</strong> <code>static.yml</code> runs the generator before
+                the Pages upload, so the deployed sitemap is correct even if a skill was skipped; and the
+                <code>create-review</code>, <code>new-research</code> and <code>new-ir-report</code> skills run it
+                so the committed file matches too. This replaced pure manual upkeep, under which
+                <code>/research/action1-forensics-windows/</code> shipped without ever being indexed.</p>
+            </div>
 
             <div class="callout info"><p><strong>Prose style is centralized and enforced in three layers.</strong> <code>.claude/skills/humanizer/RULES.md</code> is the single source of truth for how prose reads across the site: banned phrases, banned structures, positive rules, pre-ship checklist. (1) The <code>create-review</code>, <code>new-research</code>, and <code>new-ir-report</code> skills read it while drafting, so the first draft is written to the rules. (2) Each of those skills then runs a <code>humanizer</code> audit pass over the generated page before verify (draft-then-audit catches what the draft missed). (3) A <code>PostToolUse</code> lint hook (<code>.claude/hooks/prose-lint.ps1</code>) scans every Write/Edit to an article page and flags em dashes and banned phrases deterministically, as a backstop. Run <code>/humanizer</code> manually to retrofit an article that already shipped.</p></div>
 

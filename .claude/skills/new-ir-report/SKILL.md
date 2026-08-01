@@ -146,11 +146,22 @@ The humanizer rewrites prose nodes only. It must not touch code blocks, componen
 - [ ] SOC top bar breadcrumb shows correct slug
 - [ ] TOC links match actual section IDs
 - [ ] JetBrains Mono font link in `<head>`
+- [ ] `sitemap.xml` regenerated (Step 5b)
+
+## Step 5b — Regenerate the sitemap
+
+A new page directory means a new sitemap entry. Do not hand-edit `sitemap.xml`:
+
+```bash
+node scripts/generate_sitemap.mjs
+```
+
+It rebuilds the file from the page directories on disk and prints the page count. The Pages workflow runs the same script before deploying, so a missed run does not break the live sitemap — but the committed file should still match.
 
 ## Step 6 — Commit
 
 ```bash
-git add ir-reports/<slug>/ data/ir-reports.json assets/reports/<slug>/
+git add ir-reports/<slug>/ data/ir-reports.json assets/reports/<slug>/ sitemap.xml
 git commit -m "add IR report: <title>"
 git push origin main
 ```

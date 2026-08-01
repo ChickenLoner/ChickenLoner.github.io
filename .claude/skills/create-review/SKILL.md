@@ -165,6 +165,17 @@ Run these checks mentally:
 - [ ] Nav breadcrumb shows correct cert name
 - [ ] Hero uses the cover image (not a `<Fig>`)
 - [ ] Humanizer audit pass run (Polishing pass), §5 checklist clean
+- [ ] `sitemap.xml` regenerated (see below)
+
+### Regenerate the sitemap
+
+A new review directory means a new sitemap entry. Do not hand-edit `sitemap.xml`:
+
+```bash
+node scripts/generate_sitemap.mjs
+```
+
+It rebuilds the file from the page directories on disk and prints the page count. The Pages workflow runs the same script before deploying, so a missed run does not break the live sitemap — but the committed file should still match. Include `sitemap.xml` when the review is committed.
 
 ---
 
