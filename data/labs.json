@@ -340,7 +340,7 @@
   },
   {
     "title": "Penumbra",
-    "description": "An intruder who cleaned up after themselves. Correlate $MFT, the USN journal and registry hives to rebuild an anti-forensic intrusion timeline from initial access through to exfiltration.",
+    "description": "Synthesize diverse forensic artifacts including $MFT, USN journal, and registry hives to reconstruct an anti-forensic intrusion timeline from initial access to exfiltration.",
     "platform": "CyberDefenders",
     "link": "https://cyberdefenders.org/blueteam-ctf-challenges/penumbra/",
     "tags": [
