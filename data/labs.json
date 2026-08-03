@@ -333,11 +333,40 @@
     "type": "lab",
     "difficulty": "medium",
     "is_retired": false,
-    "latest": true,
     "image": "./assets/labs/satisfaction.webp",
     "rating": 4.8,
     "rating_scale": 5,
     "rating_as_of": "2026-06"
+  },
+  {
+    "title": "Penumbra",
+    "description": "An intruder who cleaned up after themselves. Correlate $MFT, the USN journal and registry hives to rebuild an anti-forensic intrusion timeline from initial access through to exfiltration.",
+    "platform": "CyberDefenders",
+    "link": "https://cyberdefenders.org/blueteam-ctf-challenges/penumbra/",
+    "tags": [
+      "Endpoint Forensics",
+      "Windows Forensics",
+      "Anti-Forensics",
+      "MFT",
+      "USN Journal",
+      "Registry"
+    ],
+    "type": "lab",
+    "difficulty": "medium",
+    "is_retired": false,
+    "latest": true,
+    "image": "./assets/labs/penumbra.webp",
+    "tactics": [
+      "Initial Access",
+      "Execution",
+      "Persistence",
+      "Privilege Escalation",
+      "Defense Evasion",
+      "Discovery",
+      "Collection",
+      "Command and Control",
+      "Exfiltration"
+    ]
   },
   {
     "title": "WorkFromHome (HTB)",

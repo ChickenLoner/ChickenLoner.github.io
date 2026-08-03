@@ -177,5 +177,23 @@
       "Malware Analysis",
       "Network Forensics"
     ]
+  },
+  "Penumbra": {
+    "player_difficulty": "medium",
+    "is_retired": false,
+    "tactics": [
+      "Initial Access",
+      "Execution",
+      "Persistence",
+      "Privilege Escalation",
+      "Defense Evasion",
+      "Discovery",
+      "Collection",
+      "Command and Control",
+      "Exfiltration"
+    ],
+    "categories": [
+      "Endpoint Forensics"
+    ]
   }
 }

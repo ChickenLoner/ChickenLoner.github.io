@@ -106,6 +106,10 @@ def update_lab_metadata():
         'Satisfaction': {
             'platform': 'cyberdefenders',
             'slug': 'satisfaction'
+        },
+        'Penumbra': {
+            'platform': 'cyberdefenders',
+            'slug': 'penumbra'
         }
     }
     
