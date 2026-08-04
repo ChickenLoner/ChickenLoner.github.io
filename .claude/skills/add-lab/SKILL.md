@@ -87,28 +87,34 @@ Add optional fields only if provided:
   "tactics": [...]
 ```
 
-**Ratings are manual, and the scale matters.** Do not add a `rating` when creating the entry — a new
-lab has no settled score yet (CyberDefenders reports `0.0` until it gets votes). Wait a few weeks,
-then record it as a set of three:
+**Ratings: leave them out.** Do not add `rating` when creating the entry.
+
+For a **CyberDefenders** lab, the daily script now fills it in automatically — it gates on
+`released_at`, so any lab released 2026-06-01 or later starts tracking on its own with
+`rating_scale: 3` and a monthly `rating_as_of`. Nothing to set up, and a lab with no votes yet
+(`0.0`) is skipped rather than published as a zero.
+
+For **HackTheBox / BTLO**, ratings are hand-entered and there is no scraper. Add them once the score
+settles, as a set of three:
 ```json
-  "rating": 2.8,
-  "rating_scale": 3,
+  "rating": 4.5,
+  "rating_scale": 5,
   "rating_as_of": "2026-08"
 ```
 
-`rating_scale` is **required and must match the platform's current maximum** — the site divides by it
-to compare labs across scales. Getting it wrong silently misranks the lab.
+`rating_scale` **must match the platform's maximum** — the site divides by it to compare labs across
+scales, so a wrong value silently misranks the lab.
 
-| Platform / era | `rating_scale` |
-|---|---|
-| CyberDefenders, released **2026-06 or later** | `3` |
-| CyberDefenders, released before 2026-06 | `5` — frozen, do not update |
-| HackTheBox, Blue Team Labs Online | `5` |
+| Platform / era | `rating_scale` | maintained by |
+|---|---|---|
+| CyberDefenders, released **2026-06 or later** | `3` | daily script |
+| CyberDefenders, released before 2026-06 | `5` | frozen — never update |
+| HackTheBox, Blue Team Labs Online | `5` | by hand |
 
 `rating_as_of` is the month you actually read the value — omit it rather than guess.
 
-Never write `rating` into `labs_metadata.json`; that file wins the render-time merge and would
-override the value here. See "Lab Ratings" in `architecture.html` for the full background.
+Never hand-write a **pre-2026-06** CyberDefenders rating into `labs_metadata.json`; that file wins the
+render-time merge and would override the frozen value. See "Lab Ratings" in `architecture.html`.
 
 3. Remove `"latest": true` from the previously latest lab entry — **only if the new entry has a
    `link`**. A linkless lab does not take `latest`, so leave the old one alone.
@@ -153,4 +159,4 @@ Tell the user:
 - Whether the cover image needs to be added to `assets/labs/`
 - If `link` was omitted: that the card is not clickable until the URL is filled in, and that `latest`
   was deliberately left on the previous lab
-- If CyberDefenders: that the lab is now registered in the daily metadata script — `player_difficulty`, `is_retired` and `tactics` will auto-populate. `rating` will **not**; it is frozen and set by hand (see Step 2).
+- If CyberDefenders: that the lab is now registered in the daily metadata script — `player_difficulty`, `is_retired` and `tactics` will auto-populate, and so will `rating` if the lab was released 2026-06-01 or later (see Step 2). Expect the rating to swing for the first few weeks.

@@ -2,7 +2,9 @@
 """
 Script to automatically update lab data from CyberDefenders and other platforms.
 This ensures difficulty, retirement status, and MITRE metadata stay current.
-Ratings are NOT scraped -- they are frozen in data/labs.json (see fetch_cyberdefenders_lab).
+
+Ratings are scraped only for labs released on or after RATING_CAP_DATE -- see
+fetch_cyberdefenders_lab for why. Older ones are frozen in data/labs.json.
 """
 
 import json
@@ -10,6 +12,22 @@ import re
 import requests
 from bs4 import BeautifulSoup
 import time
+from datetime import date
+
+# CyberDefenders capped new lab ratings at 3 stars around this date, while leaving the
+# stored average on the old 0-5 field and exposing no scale in the API.
+#
+# Dated from the rating history in git: the last time any lab's rating rose was
+# 2026-06-01, and every observation after it is downward.
+#
+# Labs released BEFORE this are blends of /5 and /3 votes with no valid divisor. They
+# only decay, at a rate set by traffic rather than reception, so they are comparable
+# neither over time nor between labs -- those stay frozen in data/labs.json and must
+# never be written here, because labs_metadata.json wins the render-time merge.
+#
+# Labs released AFTER it have no legacy votes mixed in. They sit on a clean 0-3 scale,
+# which makes them both meaningful and safely convertible, so they are tracked live.
+RATING_CAP_DATE = '2026-06-01'
 
 def extract_json_from_script(html_content, script_id="contextData"):
     """Extract JSON data from script tag in HTML."""
@@ -36,19 +54,26 @@ def fetch_cyberdefenders_lab(slug):
         
         if data and 'lab' in data:
             lab = data['lab']
-            # NOTE: 'rating' is deliberately NOT scraped. CyberDefenders capped new
-            # votes at 3 stars while keeping the stored average on the old 0-5 field,
-            # and exposes no scale/max in the API. Live values are therefore a blend
-            # of /5 and /3 votes that only ever decays -- not comparable over time or
-            # between labs. Ratings are frozen in data/labs.json with rating_scale +
-            # rating_as_of. See architecture.html "Lab Ratings".
             # CyberDefenders "difficulty" is actually player-rated difficulty
-            return {
+            meta = {
                 'player_difficulty': lab.get('difficulty'),  # This is player-rated!
                 'is_retired': lab.get('is_retired', False),
                 'tactics': [t['title'] for t in lab.get('tactics', [])],
                 'categories': [c['title'] for c in lab.get('categories', [])]
             }
+
+            # Rating is tracked only for post-cap labs (see RATING_CAP_DATE). Both values
+            # are ISO-8601, so a plain string compare orders them correctly. A lab with no
+            # votes yet reports 0.0 -- skip it rather than publish a zero, which would
+            # blank an existing rating on a transient read.
+            released = lab.get('released_at') or ''
+            rating = lab.get('rating')
+            if released >= RATING_CAP_DATE and rating:
+                meta['rating'] = rating
+                meta['rating_scale'] = 3
+                meta['rating_as_of'] = date.today().strftime('%Y-%m')
+
+            return meta
     except Exception as e:
         print(f"Error fetching {slug}: {e}")
     
@@ -123,7 +148,10 @@ def update_lab_metadata():
             
             if metadata:
                 updated_data[lab_name] = metadata
-                print(f"  [OK] Updated: player_difficulty={metadata.get('player_difficulty')}, retired={metadata.get('is_retired')}")
+                rating_note = (f", rating={metadata['rating']}/3" if 'rating' in metadata
+                               else ", rating=frozen")
+                print(f"  [OK] Updated: player_difficulty={metadata.get('player_difficulty')}, "
+                      f"retired={metadata.get('is_retired')}{rating_note}")
             else:
                 print(f"  [FAIL] Failed to fetch data")
         
