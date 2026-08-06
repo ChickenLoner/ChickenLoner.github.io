@@ -346,11 +346,14 @@
         h2.soc-section::before { content:"";width:4px;height:14px;background:var(--soc-cy);box-shadow:rgba(34,225,255,.7) 0 0 8px;flex-shrink:0; }
         h2.soc-section .meta { margin-left:auto;color:var(--soc-ink3);font-weight:400;letter-spacing:.06em;font-size:10px; }
         .soc-alerts { display:flex;flex-direction:column;border:1px solid rgba(34,225,255,.22);border-radius:6px;overflow:hidden;background:var(--soc-bg-1);box-shadow:0 0 0 1px rgba(34,225,255,.07),0 0 28px rgba(34,225,255,.08); }
-        .soc-alert { display:grid;grid-template-columns:86px auto 1fr auto;gap:12px;align-items:center;padding:11px 16px;border-bottom:1px solid var(--soc-line);transition:background .15s;text-decoration:none;color:inherit; }
-        .soc-alert .sev { white-space:nowrap;flex-shrink:0; }
+        .soc-alert { display:grid;grid-template-columns:112px auto 1fr auto;gap:12px;align-items:center;padding:11px 16px;border-bottom:1px solid var(--soc-line);transition:background .15s;text-decoration:none;color:inherit; }
+        /* min-width keeps every badge the same size so the title column starts at the
+           same x on every row — each .soc-alert is its own grid, so an `auto` column
+           would otherwise size to that row's badge alone. */
+        .soc-alert .sev { white-space:nowrap;flex-shrink:0;min-width:76px;justify-content:center; }
         .soc-alert:last-child { border-bottom:none; }
         .soc-alert:hover { background:rgba(34,225,255,.07); }
-        .soc-alert .ts { font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10px;color:var(--soc-ink3); }
+        .soc-alert .ts { font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10px;color:var(--soc-ink3);white-space:nowrap; }
         .soc-alert .ttl { font-weight:600;color:var(--soc-ink);font-size:13px; }
         .soc-alert .detail { font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10px;color:var(--soc-ink3);margin-top:2px; }
         .soc-alert .ar { font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--soc-cy);padding:4px 10px;border:1px solid rgba(34,225,255,.35);border-radius:4px;background:rgba(34,225,255,.05);white-space:nowrap;flex-shrink:0;transition:background .15s,border-color .15s; }
@@ -435,7 +438,8 @@
             .soc-ttp-grid { grid-template-columns:1fr; }
             .soc-ch-grid { grid-template-columns:1fr; }
             .soc-feeds { grid-template-columns:1fr 1fr; }
-            .soc-alert { grid-template-columns:60px auto 1fr auto; }
+            .soc-alert { grid-template-columns:84px auto 1fr auto; }
+            .soc-alert .ts { white-space:normal; }
             .toolbar { flex-direction:column; align-items:stretch; gap:6px; }
             .toolbar .soc-seg { flex-wrap:wrap; width:100%; }
             .toolbar .soc-seg .soc-seg-btn { flex:1; justify-content:center; }
@@ -1172,17 +1176,17 @@
                             ...(fbData.cd||[]).map(f=>({...f, plat:'CD'}))
                         ];
                         const fb = all.find(f=>f.latest) || all[0];
-                        return fb ? [{ type:'FB', sev:'red', label:'View ↗', url: fb.url, title: fb.name, detail: fb.plat, ts:'latest fb', external:true }] : [];
+                        return fb ? [{ type:'FB', sev:'red', label:'View ↗', url: fb.url, title: fb.name, detail: fb.plat, ts:'latest first blood', external:true }] : [];
                     })() : []),
                     ...(labs.filter(l=>l.type==='lab').length > 0 ? (() => {
                         const lab = labs.find(l=>l.type==='lab'&&l.latest) || labs.filter(l=>l.type==='lab')[0];
-                        return [{ type:'LAB', sev:'amber', label:'Play ↗', url: lab.link, title: lab.title, detail: lab.platform, ts:'latest released', external:true }];
+                        return [{ type:'LAB', sev:'amber', label:'Play ↗', url: lab.link, title: lab.title, detail: lab.platform, ts:'latest lab', external:true }];
                     })() : []),
                     ...(achievements.filter(a=>a.category==='competition'&&a.placement==='Winner').length > 0 ? (() => {
                         const wins = achievements.filter(a=>a.category==='competition'&&a.placement==='Winner');
                         const win = wins.find(a=>a.latest) || wins[0];
                         const hasUrl = !!(win.url && win.url !== '');
-                        return [{ type:'WIN', sev:'green', label: hasUrl ? 'Details ↗' : '', url: win.url||'#', title: win.name, detail: win.organizer, ts:'latest winner', external: hasUrl, noLink: !hasUrl }];
+                        return [{ type:'WIN', sev:'green', label: hasUrl ? 'Details ↗' : '', url: win.url||'#', title: win.name, detail: win.organizer, ts:'latest win', external: hasUrl, noLink: !hasUrl }];
                     })() : []),
                 ];
                 return (
