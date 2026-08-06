@@ -27,7 +27,18 @@ from datetime import date
 #
 # Labs released AFTER it have no legacy votes mixed in. They sit on a clean 0-3 scale,
 # which makes them both meaningful and safely convertible, so they are tracked live.
-RATING_CAP_DATE = '2026-06-01'
+#
+# The date is deliberately a week past the 2026-06-01 inflection, because the changeover
+# is not instant: ghostconnect-ta583, released exactly on 2026-06-01, still reads 3.1 --
+# impossible on a 3-point scale. It banked 5-point votes in its first days and is a blend.
+# 2026-06-15 is the earliest release date observed to be cleanly on the new scale.
+RATING_CAP_DATE = '2026-06-15'
+
+# A genuine post-cap rating cannot exceed this. Anything higher proves the lab predates
+# the changeover regardless of its release date, so it is skipped rather than mislabelled
+# -- writing rating_scale 3 against, say, 3.1 would make score5() return 5.17, above the
+# 5-point maximum, and rank the lab above every other lab on the site.
+RATING_SCALE_POST_CAP = 3
 
 def extract_json_from_script(html_content, script_id="contextData"):
     """Extract JSON data from script tag in HTML."""
@@ -63,15 +74,24 @@ def fetch_cyberdefenders_lab(slug):
             }
 
             # Rating is tracked only for post-cap labs (see RATING_CAP_DATE). Both values
-            # are ISO-8601, so a plain string compare orders them correctly. A lab with no
-            # votes yet reports 0.0 -- skip it rather than publish a zero, which would
-            # blank an existing rating on a transient read.
+            # are ISO-8601, so a plain string compare orders them correctly.
+            #
+            # Two guards, both of which drop the rating rather than publish a wrong one --
+            # metadata wins the render-time merge, so a bad value here reaches the site:
+            #   - a lab with no votes yet reports 0.0, and a transient zero would blank an
+            #     existing rating
+            #   - a value above the 3-point maximum means the lab is really a pre-cap blend
+            #     whatever its release date says
             released = lab.get('released_at') or ''
             rating = lab.get('rating')
             if released >= RATING_CAP_DATE and rating:
-                meta['rating'] = rating
-                meta['rating_scale'] = 3
-                meta['rating_as_of'] = date.today().strftime('%Y-%m')
+                if rating > RATING_SCALE_POST_CAP:
+                    print(f"  [WARN] {slug}: rating {rating} exceeds the {RATING_SCALE_POST_CAP}"
+                          f"-point maximum; treating as pre-cap and leaving it unset")
+                else:
+                    meta['rating'] = rating
+                    meta['rating_scale'] = RATING_SCALE_POST_CAP
+                    meta['rating_as_of'] = date.today().strftime('%Y-%m')
 
             return meta
     except Exception as e:
