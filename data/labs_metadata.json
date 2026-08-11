@@ -6,7 +6,7 @@
       "Initial Access",
       "Persistence",
       "Privilege Escalation",
-      "Defense Evasion",
+      "Defense Impairment",
       "Credential Access",
       "Lateral Movement",
       "Command and Control"
@@ -23,7 +23,7 @@
       "Execution",
       "Persistence",
       "Privilege Escalation",
-      "Defense Evasion",
+      "Stealth",
       "Discovery",
       "Command and Control"
     ],
@@ -38,7 +38,8 @@
       "Execution",
       "Persistence",
       "Privilege Escalation",
-      "Defense Evasion",
+      "Stealth",
+      "Defense Impairment",
       "Discovery",
       "Command and Control"
     ],
@@ -52,7 +53,7 @@
     "tactics": [
       "Persistence",
       "Privilege Escalation",
-      "Defense Evasion"
+      "Stealth"
     ],
     "categories": [
       "Endpoint Forensics"
@@ -67,7 +68,7 @@
       "Execution",
       "Persistence",
       "Privilege Escalation",
-      "Defense Evasion",
+      "Stealth",
       "Credential Access"
     ],
     "categories": [
@@ -82,7 +83,7 @@
       "Execution",
       "Persistence",
       "Privilege Escalation",
-      "Defense Evasion",
+      "Stealth",
       "Discovery"
     ],
     "categories": [
@@ -97,7 +98,8 @@
       "Execution",
       "Persistence",
       "Privilege Escalation",
-      "Defense Evasion",
+      "Stealth",
+      "Defense Impairment",
       "Credential Access",
       "Discovery",
       "Command and Control",
@@ -116,7 +118,8 @@
       "Execution",
       "Persistence",
       "Privilege Escalation",
-      "Defense Evasion",
+      "Stealth",
+      "Defense Impairment",
       "Credential Access",
       "Discovery",
       "Collection",
@@ -141,9 +144,7 @@
     "is_retired": false,
     "tactics": [
       "Execution",
-      "Persistence",
-      "Privilege Escalation",
-      "Defense Evasion",
+      "Stealth",
       "Credential Access"
     ],
     "categories": [
@@ -158,7 +159,7 @@
       "Execution",
       "Persistence",
       "Privilege Escalation",
-      "Defense Evasion"
+      "Stealth"
     ],
     "categories": [
       "Endpoint Forensics"
@@ -170,7 +171,7 @@
     "tactics": [
       "Persistence",
       "Privilege Escalation",
-      "Defense Evasion",
+      "Stealth",
       "Credential Access"
     ],
     "categories": [
@@ -186,7 +187,8 @@
       "Execution",
       "Persistence",
       "Privilege Escalation",
-      "Defense Evasion",
+      "Stealth",
+      "Defense Impairment",
       "Discovery",
       "Collection",
       "Command and Control",
