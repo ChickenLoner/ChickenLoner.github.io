@@ -392,8 +392,17 @@
         "year":  "2026",
         "status":  "Active",
         "category":  "Blue Team & Detection",
-        "latest":  true,
         "badge":  "./assets/badges/cdr.png",
         "url":  "https://foundry.leveleffect.com/verify/2y4giaph9p"
+    },
+    {
+        "name":  "GCIA - GIAC Certified Intrusion Analyst",
+        "issuer":  "Global Information Assurance Certification (GIAC)",
+        "year":  "2026",
+        "status":  "Active",
+        "category":  "Blue Team & Detection",
+        "latest":  true,
+        "badge":  "./assets/badges/gcia.png",
+        "url":  "https://www.credly.com/badges/9c6534d6-98c4-4609-9181-d47b3ea6bef8"
     }
 ]
