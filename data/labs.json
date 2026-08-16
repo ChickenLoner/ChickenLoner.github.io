@@ -504,6 +504,55 @@
     "is_retired": true
   },
   {
+    "title": "The Weakest Link",
+    "description": "Break a portal's HTTPS three different ways from a single packet capture: read the session negotiated with a NULL cipher suite in the clear, factor a 512-bit RSA certificate to rebuild the server's private key, and recover the (Pre)-Master-Secret leaked over a plaintext HTTP debug channel.",
+    "platform": "Thailand Cyber Top Talent 2026",
+    "tags": [
+      "Network Forensics",
+      "TLS",
+      "Cryptography",
+      "RSA",
+      "Wireshark"
+    ],
+    "type": "lab",
+    "image": "./assets/labs/weakestlink.png",
+    "difficulty": "easy",
+    "is_retired": true
+  },
+  {
+    "title": "Phantom Packets",
+    "description": "Reconstruct a server compromise from one capture: reassemble an RSA private key smuggled out through DNS AAAA records, use it to decrypt the attacker's TLS session, then carve the Git smart-HTTP packfile out of the cloned repository and rebuild the repo to reach what was hidden in its non-default branches.",
+    "platform": "Thailand Cyber Top Talent 2026",
+    "tags": [
+      "Network Forensics",
+      "DNS Exfiltration",
+      "TLS",
+      "Git",
+      "Wireshark"
+    ],
+    "type": "lab",
+    "image": "./assets/labs/phantompackets.png",
+    "difficulty": "medium",
+    "is_retired": true
+  },
+  {
+    "title": "Shadow Council",
+    "description": "Work a KAPE triage image seized from a ransomware operator: pull the saved Windows password out of a Zen browser credential store, unlock the DPAPI master key with it, peel the three encryption layers off Signal Desktop's SQLCipher database, and read the ransom ledger out of the decrypted messages.",
+    "platform": "Thailand Cyber Top Talent 2026",
+    "tags": [
+      "Endpoint Forensics",
+      "Windows Forensics",
+      "DPAPI",
+      "Browser",
+      "SQLCipher",
+      "Signal"
+    ],
+    "type": "lab",
+    "image": "./assets/labs/shadowcouncil.png",
+    "difficulty": "medium",
+    "is_retired": true
+  },
+  {
     "title": "Awesome Splunk and Elastic SIEM Practice Labs",
     "description": "A list of labs with Splunk and Elastic from various CyberSecurity Training platforms such as CyberDefenders, BlueTeamLabs Online (BTLO), TryHackMe, DFIR Labs, Xintra, Ace Responder, and more",
     "platform": "GitHub",
