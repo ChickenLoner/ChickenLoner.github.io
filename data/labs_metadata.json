@@ -167,7 +167,7 @@
   },
   "Satisfaction": {
     "player_difficulty": "hard",
-    "is_retired": false,
+    "is_retired": true,
     "tactics": [
       "Persistence",
       "Privilege Escalation",
