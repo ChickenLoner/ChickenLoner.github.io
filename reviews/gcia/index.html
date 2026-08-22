@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GCIA Exam Review: A Certificate for the Network Protocol Nerdy | Chicken0248</title>
+    <meta name="description" content="A review of the GIAC Certified Intrusion Analyst (GCIA) certification. How I passed without SEC503, building an AI-assisted cheat sheet from the course syllabus, practice test strategy, and honest exam-day experience." />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Chicken0248" />
+    <meta property="og:url" content="https://chicken0248.fyi/reviews/gcia/" />
+    <meta property="og:title" content="GCIA Exam Review: A Certificate for the Network Protocol Nerdy" />
+    <meta property="og:description" content="A review of the GIAC Certified Intrusion Analyst (GCIA) certification. How I passed without SEC503, building an AI-assisted cheat sheet from the course syllabus, practice test strategy, and honest exam-day experience." />
+    <meta property="og:image" content="https://chicken0248.fyi/reviews/gcia/cover.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@Chicken_0248" />
+    <meta name="twitter:title" content="GCIA Exam Review: A Certificate for the Network Protocol Nerdy" />
+    <meta name="twitter:description" content="A review of the GIAC Certified Intrusion Analyst (GCIA) certification. How I passed without SEC503, building an AI-assisted cheat sheet from the course syllabus, practice test strategy, and honest exam-day experience." />
+    <meta name="twitter:image" content="https://chicken0248.fyi/reviews/gcia/cover.jpg" />
+    <link rel="canonical" href="https://chicken0248.fyi/reviews/gcia/" />
+    <link rel="icon" href="/chicken0248.png" type="image/png">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.29.2/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@1.14.0/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="/themes/soc.css">
+    <script src="/themes/soc-theme.js"></script>
+    <script src="/themes/soc-nav.js"></script>
+    <script src="/themes/soc-components.js"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "GCIA Exam Review: A Certificate for the Network Protocol Nerdy",
+      "description": "A review of the GIAC Certified Intrusion Analyst (GCIA) certification. How I passed without SEC503, building an AI-assisted cheat sheet from the course syllabus, practice test strategy, and honest exam-day experience.",
+      "image": "https://chicken0248.fyi/reviews/gcia/cover.jpg",
+      "author": {
+        "@type": "Person",
+        "name": "Chicken0248",
+        "url": "https://chicken0248.fyi/"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "Chicken0248",
+        "url": "https://chicken0248.fyi/"
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://chicken0248.fyi/reviews/gcia/"
+      },
+      "url": "https://chicken0248.fyi/reviews/gcia/",
+      "datePublished": "2026-08-01",
+      "dateModified": "2026-08-01"
+    }
+    </script>
+</head>
+<body>
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-white focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg focus:text-blue-600 focus:font-semibold">Skip to content</a>
+    <noscript>
+      <style>body{font-family:system-ui,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}</style>
+      <div style="text-align:center;padding:2rem"><h1>JavaScript required</h1><p>This site requires JavaScript to display content. Please enable it in your browser settings.</p><a href="https://chicken0248.fyi">chicken0248.fyi</a></div>
+    </noscript>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+        const { SocClock, Icon, Section, Fig, resetFigCount, TipList, B, A, Code, ThemeToggle } = window.SocComponents;
+
+        const Callout = ({ children }) => (
+            <blockquote className="bg-amber-50 border-l-4 border-amber-400 rounded-r-xl px-5 py-4 my-4 text-gray-700 italic text-sm leading-relaxed">
+                {children}
+            </blockquote>
+        );
+
+        const renderStars = (rating) => {
+            const full = Math.floor(rating);
+            const half = rating - full >= 0.5;
+            return '★'.repeat(full) + (half ? '½' : '') + '☆'.repeat(5 - full - (half ? 1 : 0));
+        };
+
+        const App = () => {
+            const [meta, setMeta] = useState(null);
+
+            useEffect(() => {
+                fetch('/data/reviews.json')
+                    .then(r => r.json())
+                    .then(data => {
+                        const entry = data.find(r => r.url === '/reviews/gcia/index.html');
+                        if (entry) setMeta(entry);
+                    })
+                    .catch(() => {});
+            }, []);
+
+            resetFigCount();
+
+            const tocItems = [
+                { id: 'introduction', label: 'Introduction', icon: 'BookOpen' },
+                { id: 'exam-preparation', label: 'Exam Preparation', icon: 'ClipboardList' },
+                { id: 'exam-experience', label: 'Exam Experience', icon: 'FlaskConical' },
+                { id: 'review-summary', label: 'Review Summary', icon: 'Star' },
+            ];
+
+            return (
+                <div style={{background:'var(--soc-bg)',minHeight:'100vh'}}>
+
+                    <nav className="soc-tb" aria-label="Site navigation">
+                        <div className="soc-tb-row">
+                            <a href="/" className="soc-live" style={{textDecoration:"none",color:"inherit"}}>UPLINK</a>
+                            <div className="soc-crumb hidden md:flex">
+                                <a href="/" style={{color:'var(--soc-ink3)',textDecoration:'none'}}>SOC</a>
+                                <span>/</span>
+                                <a href="/" style={{color:'var(--soc-ink3)',textDecoration:'none'}}>OPERATOR.PROFILE</a>
+                                <span>/</span>
+                                <a href="/reviews/index.html" style={{color:'var(--soc-ink3)',textDecoration:'none'}}>REVIEWS</a>
+                                <span>/</span>
+                                <b>GCIA</b>
+                            </div>
+                            <div style={{flex:1}} />
+                            <span className="sev cyan hidden md:inline-flex"><span className="dot"></span>TLP:CLEAR</span>
+                            <span className="sev amber hidden md:inline-flex"><span className="dot"></span>CERT.REVIEW</span>
+                            <span className="hidden md:block"><SocClock /></span><ThemeToggle />
+                        </div>
+                    </nav>
+
+                    <main id="main-content" style={{maxWidth:'860px',margin:'0 auto',padding:'24px 20px'}} className="animate-fadeIn">
+
+                        <div className="res-cover">
+                            <img src="cover.jpg" alt="GCIA Exam Review: A Certificate for the Network Protocol Nerdy" />
+                            <div className="res-cover-overlay" />
+                            <div className="res-cover-content">
+                                <h1 className="res-cover-title">GCIA Exam Review: A Certificate for the Network Protocol Nerdy</h1>
+                                <div className="res-cover-badges">
+                                    <span className="sev cyan"><span className="dot"></span>August 2026</span>
+                                    <span className="sev amber"><span className="dot"></span>GIAC</span>
+                                    <span className="sev green"><span className="dot"></span>Passed</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="res-meta-grid">
+                            <div><div className="res-meta-lbl">Certification</div><div className="res-meta-val">GCIA</div></div>
+                            <div><div className="res-meta-lbl">Provider</div><div className="res-meta-val">GIAC</div></div>
+                            <div><div className="res-meta-lbl">Difficulty</div><div className="res-meta-val" style={{color:'var(--soc-am)'}}>{meta?.difficulty ?? '\u2014'}</div></div>
+                            <div><div className="res-meta-lbl">Rating</div>
+                                <div className="res-meta-val">
+                                    {meta?.rating ? (
+                                        <span style={{display:'flex',alignItems:'center',gap:'4px'}}>
+                                            <span style={{color:'var(--soc-am)'}}>{renderStars(meta.rating)}</span>
+                                            <span style={{color:'var(--soc-ink3)',fontSize:'11px'}}>{meta.rating.toFixed(1)}/5.0</span>
+                                        </span>
+                                    ) : <span style={{color:'var(--soc-ink4)'}}>{'\u2014'}</span>}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="res-toc">
+                            <div className="res-toc-title">// TABLE OF CONTENTS</div>
+                            <div className="res-toc-grid">
+                                {tocItems.map((item, i) => (
+                                    <a key={item.id} href={`#${item.id}`} className="res-toc-item">
+                                        <span className="res-toc-num">{String(i+1).padStart(2,'0')}.</span>
+                                        <Icon name={item.icon} className="w-3.5 h-3.5" style={{color:'var(--soc-ink4)',flexShrink:0}} />
+                                        <span>{item.label}</span>
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+
+                        <Section id="introduction" title="Introduction" icon="BookOpen">
+                            <p className="text-gray-700 leading-relaxed">Hello everyone, it's Chicken0248 again with another GIAC certification, my third one. This time it is arguably the hardest of the GIAC <B>Practitioner Certifications</B>. Friends of mine have heard SANS instructors themselves say this one is rough. That's right, it's the GIAC Certified Intrusion Analyst (GCIA).</p>
+                            <p className="text-gray-700 leading-relaxed">This certification made me doubt myself over and over. Should I really go for this before GNFA or GCFA? In the end I pushed hard enough to pass it without ever sitting the SEC503 course.</p>
+                            <p className="text-gray-700 leading-relaxed">How did I pull that off? Let's jump into the next section.</p>
+                        </Section>
+
+                        <Section id="exam-preparation" title="Exam Preparation" icon="ClipboardList">
+                            <p className="text-gray-700 leading-relaxed">SANS courses are freaking expensive. How do you expect someone on an average salary of 600 to 650 USD a month to pay for a course that costs a fortune (roughly 8,900 USD)? At that point I had no sponsor for any SANS course, so what do you do? Start by understanding the exam objectives and what SEC503 expects you to know.</p>
+                            <Fig src="image-1.png" alt="GIAC GCIA certification objectives and outcome statements page" />
+                            <p className="text-gray-700 leading-relaxed">First I went to the <A href="https://www.giac.org/certifications/certified-intrusion-analyst-gcia">GIAC Certified Intrusion Analyst (GCIA)</A> page and read the certification objectives and outcome statements. It covers a lot: link layer, IPv4, IPv6, TCP, UDP, ICMP, and it digs into their headers as well. That part is intense, because not many network engineers I know go that deep. During my networking course in college the professor did explain some protocol headers, but it was vague and I don't remember any of it anymore.</p>
+                            <p className="text-gray-700 leading-relaxed">The objectives also reach into application protocols, but this page alone doesn't tell you which protocols to read up on. Same for IDS, SiLK, and packet engineering. The only thing that made me feel slightly better was Wireshark fundamentals, which I thought I knew well enough. Spoiler: I did not score well on the Wireshark part, which is ironic.</p>
+                            <Fig src="image-2.png" alt="GCIA Areas Covered section listing exam tools" />
+                            <p className="text-gray-700 leading-relaxed">We know Wireshark, tcpdump, and SiLK are in scope, and the Areas Covered section adds two more tools: Snort and Zeek. So now we know which IDS they mean. The rest is still a blank. How do we gather more?</p>
+                            <p className="text-gray-700 leading-relaxed">From the SEC503 full topic details.</p>
+                            <Fig src="image-3.png" alt="SANS SEC503 Network Monitoring and Threat Detection course page" />
+                            <p className="text-gray-700 leading-relaxed">Head to the <A href="https://www.sans.org/cyber-security-courses/network-monitoring-threat-detection">SEC503: Network Monitoring and Threat Detection</A> page, which I take to be the primary course behind this certification. The full topic details are there, and you can read the overview of each section. Now you know a lot more about what to prepare.</p>
+                            <Fig src="image-4.png" alt="SEC503 full topic details showing protocols covered per section" />
+                            <p className="text-gray-700 leading-relaxed">From here you can see there are more protocols to study: QUIC, HTTP (meaning HTTP/1, HTTP/2, and HTTP/3), DNS, and SMB.</p>
+                            <p className="text-gray-700 leading-relaxed">See? That's a lot to learn, and now you probably understand why people call this exam hard. With very little knowledge of network protocols themselves, I felt insecure. I had only self-studied their abuses in labs. So it took me a while to motivate myself to study little by little while holding a full time job, authoring CTFs for Stdio CTF 2026 and Thailand Cyber Top Talent 2026, and preparing a talk for a cybersecurity conference in Thailand.</p>
+                            <p className="text-gray-700 leading-relaxed">Then I looked at myself, and at my AI subscription, and thought: wait. If SANS puts this much detail on their website, I can copy it and let AI find resources and build a learning path for me. It turned out useful, although some of the protocol header and IDS evasion concepts it found were confusing, so I used ChatGPT to explain those to me.</p>
+                            <Fig src="image-5.png" alt="AI-generated learning path built from the SEC503 syllabus" />
+                            <p className="text-gray-700 leading-relaxed">After all of that I had an AI-generated cheat sheet covering sections 1 through 5 of the course, and I purchased the practice test on 19 July. But I did not test that cheat sheet against the practice test right away. Why?</p>
+                            <p className="text-gray-700 leading-relaxed">Because the hardest part is finding exercises that match the exam. Without the course I have no idea what the labs look like, and Zeek and NetFlow labs are rare in the market. I could have Claude generate traffic for me to read in tcpdump and Wireshark, and I could go back to the HTB network module that covers Suricata (a Snort fork, and the rules are similar). For Zeek and NetFlow I found nothing I could get my hands on. I vaguely remember a BTLO lab and a THM room that include Zeek and are easy enough to follow, but my brain just shuts down on Zeek script, so if the exam had it I would probably do badly there.</p>
+                            <p className="text-gray-700 leading-relaxed">It took me a while to tell myself: yeet it, just take the practice test. So I printed the AI-generated cheat sheet and started.</p>
+                            <Fig src="image-6.png" alt="GIAC GCIA practice test result" />
+                            <p className="text-gray-700 leading-relaxed">As you can see, I performed well thanks to the cheat sheet. But since I hadn't written it myself, I had trouble navigating it and understanding what was on each page. I also hit plenty of material that wasn't in my notes at all and had to guess from experience, which is how it still landed above 80%. Reading the explanations helped a lot (you can set it to show explanations on every question instead of only the incorrect ones, so don't forget to turn that on). I learned more from those and jotted them into the cheat sheet, which made it feel like mine. Buying the practice test was the right call after all. It took me 3 hours to finish, with 106 questions in a 4-hour window, and there were CyberLive questions that I did very well on.</p>
+                            <Fig src="image-7.png" alt="Practice test CyberLive question performance breakdown" />
+                            <p className="text-gray-700 leading-relaxed">Even though I passed the practice test, I told myself the real exam would be harder. It was. So I calmed down, bought the exam voucher knowing I could do this even if the score came out ugly (passing with a low score is still a pass, right?), and had AI dig up resources on the topics the cheat sheet was missing so I could index them properly.</p>
+                        </Section>
+
+                        <Section id="exam-experience" title="Exam Experience" icon="FlaskConical">
+                            <p className="text-gray-700 leading-relaxed">You would expect me to book the exam during 4 to 7 August, but I still felt underprepared, so I booked 13 August at the same exam center I used for GCFE and GX-FE.</p>
+                            <p className="text-gray-700 leading-relaxed">That day I prepared for everything: took a proper dump, ate proper food so I wouldn't get a stomachache mid-exam like I did during GX-FE. I scheduled a Bolt ride on 12 August to pick me up at 12:00 for a 13:30 exam, and arrived at the center around 12:30, give or take 5 minutes. Staff checked my ID and the rest, then asked if I was ready to start right away. I told them "I'm ready."</p>
+                            <p className="text-gray-700 leading-relaxed">This time I brought a bottle of water into the room, because I clearly remember my throat drying out during my previous GIAC attempts. Joke's on me, one bottle wasn't enough. Note to future self: bring two.</p>
+                            <Fig src="image-8.png" alt="GCIA exam score report" />
+                            <p className="text-gray-700 leading-relaxed">The exam was noticeably harder than the practice test, which I expected, but I moved through it faster because I now had a proper index for my cheat sheet. It took me 2 hours to finish every question. Some CyberLive questions were hard to interpret in terms of what they actually wanted, and that showed in my CyberLive score this time. Joke's on me again: I'm more comfortable in Wireshark than in any other tool in that exam, and I still got 2 stars on Wireshark fundamentals, same as the practice test. The upside is that my scores improved in the topics I was weak in before. A pass plus learning where I'm weak is a win.</p>
+                        </Section>
+
+                        <Section id="review-summary" title="Review Summary" icon="Star">
+                            <p className="text-gray-700 leading-relaxed">This exam is harder than GCFE and even GX-FE in my opinion, mostly because I'm not a network guy. But if you think you know network protocols down to the header level, how they work, and how they get abused to evade network monitoring and IDS/IPS, this one is worth it.</p>
+                            <p className="text-gray-700 leading-relaxed">AI can help you a lot here, and I don't mean using it to take the exam for you. Use it to research and build a cheat sheet that covers every topic listed in the SEC503 outline. What makes it work is running that cheat sheet against the practice test to find your gaps, researching those gaps, and closing them. Personalize the AI-generated cheat sheet until it feels like your own, and modify it as you go.</p>
+                            <p className="text-gray-700 leading-relaxed">It's also a good idea to print existing cheat sheets for the tools that show up in the SEC503 outline:</p>
+                            <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                <li>tcpdump → <A href="https://cdn.comparitech.com/wp-content/uploads/2019/06/tcpdump-cheat-sheet-1.pdf">Comparitech tcpdump cheat sheet</A>, <A href="https://sansorg.egnyte.com/dl/w97fr9pVCWXc">SANS tcpdump cheat sheet</A></li>
+                                <li>Wireshark → <A href="https://medium.com/@rebaleos0/soc-analyst-wireshark-cheat-sheet-e5915c3628b7">SOC Analyst Wireshark cheat sheet</A></li>
+                                <li>Zeek and Zeek script → <A href="https://gist.github.com/donovanrodriguez/a6cb54c1e1a525a2810f3eb2b8b7ffaa">Zeek gist</A>, <A href="https://darkdefender.medium.com/the-zeek-cut-cheat-sheet-d16663439ef4">The zeek-cut cheat sheet</A></li>
+                                <li>Snort and Snort rules → <A href="https://github.com/ATTAULLAH352/snort-master-guide">Snort master guide</A>, <A href="https://www.huntress.com/cybersecurity-101/topic/snort-rules">Huntress Snort rules</A></li>
+                                <li>SiLK → <A href="https://gist.github.com/donovanrodriguez/259203890fef481716f0dd83c5eb3749">SiLK gist</A>, <A href="https://tools.netsa.cert.org/silk/silk-reference-guide.html">SiLK reference guide</A></li>
+                                <li>Scapy → <A href="https://www.sans.org/blog/sans-pen-test-cheat-sheet-scapy">SANS Scapy cheat sheet</A></li>
+                            </ul>
+                            <p className="text-gray-700 leading-relaxed">None of these are guaranteed to appear in the exam, and I'm not claiming they will. They're just the cheat sheets I brought to the exam center.</p>
+                            <p className="text-gray-700 leading-relaxed">Getting your employer to pay for it would be ideal. If you really do get to pick your first SANS course, I'd recommend FOR508 first (and GCFA as its cert, which I'm still waiting on my employer to sponsor). But if you already have that, SEC503 and GCIA are a worthwhile investment, provided you know what you'll do with the knowledge. I came out of it knowing far more about network protocols, IDS/IPS, and Zeek (probably SiLK too), and rolling those into my organization would close the gap our firewall currently leaves open.</p>
+                        </Section>
+
+                        <div className="soc-ft">
+                            <a href="/reviews/index.html" style={{color:'var(--soc-ink4)',textDecoration:'none'}}>← ALL REVIEWS</a>
+                            <span style={{margin:'0 12px'}}>|</span>
+                            <a href="#" style={{color:'var(--soc-ink4)',textDecoration:'none'}}>↑ BACK TO TOP</a>
+                        </div>
+
+                    </main>
+                </div>
+            );
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>

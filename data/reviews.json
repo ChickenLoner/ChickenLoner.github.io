@@ -1,5 +1,16 @@
 [
   {
+    "title": "GCIA Exam Review: A Certificate for the Network Protocol Nerdy",
+    "excerpt": "A review of the GIAC Certified Intrusion Analyst (GCIA), the hardest GIAC Practitioner cert I have sat. Covers passing without SEC503, building an AI-assisted cheat sheet from the course syllabus, using the practice test to find gaps, and the exam-day experience.",
+    "date": "August 2026",
+    "readTime": "7 min read",
+    "tags": ["GCIA", "GIAC", "Network Forensics", "IDS/IPS", "Advanced"],
+    "url": "/reviews/gcia/index.html",
+    "image": "/assets/badges/gcia.png",
+    "difficulty": "Advanced",
+    "rating": 4.5
+  },
+  {
     "title": "GX-FE Exam Review: Practical Windows Forensics with GIAC",
     "excerpt": "A review of the GIAC Experienced Forensics Examiner (GX-FE) certification, the applied progression after GCFE. Covers 25 all-CyberLive hands-on questions, how to prepare without official SANS training, the demo question recon strategy, and honest exam-day experience.",
     "date": "June 2026",
