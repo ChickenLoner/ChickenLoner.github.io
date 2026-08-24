@@ -652,6 +652,37 @@
     "image": "./assets/research/action1-forensics-windows/cover.png"
   },
   {
+    "title": "BAM Records Process Termination Time, Not Just Execution",
+    "description": "Registry-level proof that the Background Activity Moderator timestamp marks when a process exited, and how to lean on it when process termination events are unavailable.",
+    "platform": "Original",
+    "link": "/research/bam-process-termination/index.html",
+    "tags": [
+      "Digital Forensics",
+      "Windows",
+      "BAM",
+      "Registry",
+      "Research"
+    ],
+    "type": "project",
+    "image": "./assets/research/bam-process-termination/cover.png"
+  },
+  {
+    "title": "Browser Download Forensics Research",
+    "description": "What Chromium download history actually records when a transfer is marked interrupted, and where the stored reason disagrees with what ended up on disk.",
+    "platform": "Original",
+    "link": "/research/?q=Browser%20Forensics",
+    "rollupTag": "Browser Forensics",
+    "tags": [
+      "Digital Forensics",
+      "Browser Forensics",
+      "Chromium",
+      "Windows",
+      "Research"
+    ],
+    "type": "project",
+    "image": "./assets/research/download-interrupt-reason-41/cover.png"
+  },
+  {
     "title": "RustDesk Decryptor",
     "description": "A forensic tool for decrypting RustDesk configuration files. Designed for security research, penetration testing, and digital forensics investigations.",
     "platform": "GitHub",
