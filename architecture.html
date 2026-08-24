@@ -388,7 +388,7 @@
 │   └── <span class="dir">[slug]/</span>index.html             <span class="note"># 19 cert review pages</span>
 ├── <span class="dir">research/</span>
 │   ├── index.html                    <span class="note"># Research hub</span>
-│   └── <span class="dir">[slug]/</span>index.html             <span class="note"># 6 research articles</span>
+│   └── <span class="dir">[slug]/</span>index.html             <span class="note"># 10 research articles</span>
 ├── <span class="dir">ir-reports/</span>
 │   ├── index.html                    <span class="note"># IR hub</span>
 │   └── <span class="dir">[slug]/</span>index.html             <span class="note"># 2 IR report pages</span>
@@ -467,7 +467,7 @@
                         <tr><td>Main portfolio</td><td>1</td><td><code>/index.html</code></td><td>All 9 JSON files</td></tr>
                         <tr><td>Section hubs</td><td>5</td><td><code>/reviews/</code>, <code>/research/</code>, <code>/ir-reports/</code>, <code>/cloud-labs/</code>, <code>/siem-labs/</code></td><td>Respective JSON</td></tr>
                         <tr><td>Cert review detail</td><td>24</td><td><code>/reviews/[slug]/</code></td><td><code>/data/reviews.json</code></td></tr>
-                        <tr><td>Research article</td><td>6</td><td><code>/research/[slug]/</code></td><td><code>/data/research.json</code></td></tr>
+                        <tr><td>Research article</td><td>10</td><td><code>/research/[slug]/</code></td><td><code>/data/research.json</code></td></tr>
                         <tr><td>IR report</td><td>2</td><td><code>/ir-reports/[slug]/</code></td><td><code>/data/ir-reports.json</code></td></tr>
                         <tr><td>Architecture doc</td><td>1</td><td><code>/architecture.html</code></td><td>—</td></tr>
                     </tbody>
@@ -657,13 +657,13 @@
                             <tr><td><code>SocClock</code></td><td>All pages</td><td>Live UTC via useRef + setInterval</td></tr>
                             <tr><td><code>Icon</code></td><td>All pages</td><td>Lucide icon via DOM injection</td></tr>
                             <tr><td><code>ThemeToggle</code></td><td>All pages</td><td>Sun/Moon button; calls <code>window.SocTheme.toggle()</code>; syncs via <code>soc-theme-change</code> event</td></tr>
-                            <tr><td><code>Section</code></td><td>19 reviews + 6 research</td><td><code>res-section</code> class, cyan icon</td></tr>
+                            <tr><td><code>Section</code></td><td>24 reviews + 10 research</td><td><code>res-section</code> class, cyan icon</td></tr>
                             <tr><td><code>Fig</code></td><td>19 reviews</td><td>Auto-numbered; module-level figCount</td></tr>
                             <tr><td><code>resetFigCount</code></td><td>19 reviews</td><td>Call as first line of App()</td></tr>
                             <tr><td><code>TipList</code></td><td>19 reviews</td><td>items array prop</td></tr>
                             <tr><td><code>B / A / Code</code></td><td>19 reviews</td><td>Inline shortcuts</td></tr>
-                            <tr><td><code>CodeBlock</code></td><td>6 research + 2 IR</td><td>prefix prop: <code>"res"</code> (default) or <code>"ir"</code></td></tr>
-                            <tr><td><code>Img</code></td><td>6 research + 2 IR</td><td>prefix + base props; pages use thin wrapper</td></tr>
+                            <tr><td><code>CodeBlock</code></td><td>10 research + 2 IR</td><td>prefix prop: <code>"res"</code> (default) or <code>"ir"</code></td></tr>
+                            <tr><td><code>Img</code></td><td>9 research + 2 IR</td><td>prefix + base props; pages use thin wrapper</td></tr>
                         </tbody>
                     </table>
                 </div>

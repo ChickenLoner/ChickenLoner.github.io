@@ -1,5 +1,18 @@
 [
   {
+    "slug": "bam-process-termination",
+    "title": "BAM Records Process Termination Time, Not Just Execution",
+    "subtitle": "Why the Background Activity Moderator FILETIME marks when a process exited, and how to use it when 4689 and Sysmon are missing",
+    "date": "2026-08-24",
+    "source": "Original",
+    "sourceUrl": "",
+    "cover": "/assets/research/bam-process-termination/cover.png",
+    "tags": ["Digital Forensics", "Windows", "BAM", "Registry", "Timeline"],
+    "category": "Digital Forensics",
+    "summary": "Windows BAM overwrites its FILETIME value on process exit rather than recording first or last execution, making the SettingsPersistence key a reliable source for process termination time when Event ID 4689 and Sysmon are unavailable.",
+    "url": "/research/bam-process-termination/index.html"
+  },
+  {
     "slug": "action1-forensics-windows",
     "title": "Action1 RMM Forensics Artifacts for Windows",
     "subtitle": "How the Action1 agent installs, runs remote control and scripts, deploys software over its P2P channel, and what survives an uninstall",

@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BAM Records Process Termination Time, Not Just Execution | Chicken0248</title>
+    <meta name="description" content="Research proving that Windows BAM (Background Activity Moderator) overwrites its FILETIME on process exit, making it a reliable source for process termination time when Event ID 4689 and Sysmon are unavailable." />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Chicken0248" />
+    <meta property="og:url" content="https://chicken0248.fyi/research/bam-process-termination/" />
+    <meta property="og:title" content="BAM Records Process Termination Time, Not Just Execution" />
+    <meta property="og:description" content="Research proving that Windows BAM (Background Activity Moderator) overwrites its FILETIME on process exit, making it a reliable source for process termination time when Event ID 4689 and Sysmon are unavailable." />
+    <meta property="og:image" content="https://chicken0248.fyi/assets/research/bam-process-termination/cover.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@Chicken_0248" />
+    <meta name="twitter:title" content="BAM Records Process Termination Time, Not Just Execution" />
+    <meta name="twitter:description" content="Research proving that Windows BAM overwrites its FILETIME on process exit, making it a reliable source for process termination time." />
+    <meta name="twitter:image" content="https://chicken0248.fyi/assets/research/bam-process-termination/cover.png" />
+    <link rel="canonical" href="https://chicken0248.fyi/research/bam-process-termination/" />
+    <link rel="icon" href="/chicken0248.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.29.2/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@1.14.0/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="/themes/soc.css">
+    <script src="/themes/soc-theme.js"></script>
+    <script src="/themes/soc-nav.js"></script>
+    <script src="/themes/soc-components.js"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "BAM Records Process Termination Time, Not Just Execution",
+      "description": "Research proving that Windows BAM (Background Activity Moderator) overwrites its FILETIME on process exit, making it a reliable source for process termination time when Event ID 4689 and Sysmon are unavailable.",
+      "image": "https://chicken0248.fyi/assets/research/bam-process-termination/cover.png",
+      "author": {
+        "@type": "Person",
+        "name": "Chicken0248",
+        "url": "https://chicken0248.fyi/"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "Chicken0248",
+        "url": "https://chicken0248.fyi/"
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://chicken0248.fyi/research/bam-process-termination/"
+      },
+      "url": "https://chicken0248.fyi/research/bam-process-termination/",
+      "datePublished": "2026-08-24",
+      "dateModified": "2026-08-24"
+    }
+    </script>
+</head>
+<body>
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-white focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg focus:text-blue-600 focus:font-semibold">Skip to content</a>
+    <noscript>
+        <style>body{font-family:system-ui,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}</style>
+        <div style="text-align:center;padding:2rem"><h1>JavaScript required</h1><p>This site requires JavaScript to display content.</p><a href="https://chicken0248.fyi">chicken0248.fyi</a></div>
+    </noscript>
+    <div id="root"></div>
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        const { SocClock, Icon, Section, CodeBlock, ThemeToggle } = window.SocComponents;
+
+        const SubSection = ({ title, children }) => (
+            <div style={{display:'flex',flexDirection:'column',gap:'10px'}}>
+                <h3 className="res-subsection">{title}</h3>
+                {children}
+            </div>
+        );
+
+        const Callout = ({ type = "info", children }) => {
+            const icons = { info: "Info", warning: "AlertTriangle", tip: "Lightbulb" };
+            const cols  = { info: 'var(--soc-cy)', warning: 'var(--soc-am)', tip: 'var(--soc-gn)' };
+            return (
+                <div className={`res-callout ${type}`}>
+                    <span className="res-callout-icon"><Icon name={icons[type]} className="w-4 h-4" style={{color:cols[type]}} /></span>
+                    <div>{children}</div>
+                </div>
+            );
+        };
+
+        const Table = ({ headers, rows }) => (
+            <div className="res-table-wrap">
+                <table className="res-table">
+                    <thead><tr>{headers.map((h, i) => <th key={i}>{h}</th>)}</tr></thead>
+                    <tbody>{rows.map((row, i) => (
+                        <tr key={i}>{row.map((cell, j) => <td key={j} dangerouslySetInnerHTML={{ __html: cell }}></td>)}</tr>
+                    ))}</tbody>
+                </table>
+            </div>
+        );
+
+        const B = ({ children }) => <strong>{children}</strong>;
+        const C = ({ children }) => <code className="res-c">{children}</code>;
+
+        const IMG = '/assets/research/' + window.location.pathname.split('/').filter(p => p && p !== 'index.html').pop();
+
+        const App = () => {
+            const tocItems = [
+                { id: 'introduction', label: 'Introduction', icon: 'BookOpen' },
+                { id: 'problem', label: 'The Problem', icon: 'AlertTriangle' },
+                { id: 'what-guides-say', label: 'What Most Guides Say', icon: 'BookX' },
+                { id: 'kernel-analysis', label: 'Kernel-Level Analysis', icon: 'Cpu' },
+                { id: 'testing', label: 'Testing & Proof', icon: 'FlaskConical' },
+                { id: 'real-world-case', label: 'Real-World Case', icon: 'Search' },
+                { id: 'practical-guide', label: 'Practical Guide for DFIR', icon: 'Shield' },
+                { id: 'limitations', label: 'Limitations & Caveats', icon: 'TriangleAlert' },
+                { id: 'conclusion', label: 'Conclusion', icon: 'CheckCircle' },
+                { id: 'references', label: 'References', icon: 'Link' },
+            ];
+
+            return (
+                <div style={{background:'var(--soc-bg)',minHeight:'100vh'}}>
+                    <nav className="soc-tb" aria-label="Site navigation">
+                        <div className="soc-tb-row">
+                            <a href="/" className="soc-live" style={{textDecoration:"none",color:"inherit"}}>UPLINK</a>
+                            <div className="soc-crumb hidden md:flex">
+                                <a href="/" style={{color:'var(--soc-ink3)',textDecoration:'none'}}>SOC</a>
+                                <span>/</span>
+                                <a href="/" style={{color:'var(--soc-ink3)',textDecoration:'none'}}>OPERATOR.PROFILE</a>
+                                <span>/</span>
+                                <a href="/research/index.html" style={{color:'var(--soc-ink3)',textDecoration:'none'}}>RESEARCH</a>
+                                <span>/</span>
+                                <b>BAM.PROCESS.TERMINATION</b>
+                            </div>
+                            <div style={{flex:1}} />
+                            <span className="sev cyan hidden md:inline-flex"><span className="dot"></span>TLP:CLEAR</span>
+                            <span className="sev cyan hidden md:inline-flex"><span className="dot"></span>DIGITAL FORENSICS</span>
+                            <span className="hidden md:block"><SocClock /></span><ThemeToggle />
+                        </div>
+                    </nav>
+
+                    <main id="main-content" style={{maxWidth:'860px',margin:'0 auto',padding:'24px 20px'}} className="animate-fadeIn">
+
+                        <div className="res-cover">
+                            <img src={`${IMG}/cover.png`} alt="BAM Records Process Termination Time, Not Just Execution" />
+                            <div className="res-cover-overlay" />
+                            <div className="res-cover-content">
+                                <h1 className="res-cover-title">BAM Records Process Termination Time, Not Just Execution</h1>
+                                <div className="res-cover-badges">
+                                    <span className="sev cyan"><span className="dot"></span>August 24, 2026</span>
+                                    <span className="sev cyan"><span className="dot"></span>Digital Forensics</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="res-meta-grid">
+                            <div><div className="res-meta-lbl">Author</div><div className="res-meta-val">Chicken0248</div></div>
+                            <div><div className="res-meta-lbl">Published</div><div className="res-meta-val">August 24, 2026</div></div>
+                            <div><div className="res-meta-lbl">Category</div><div className="res-meta-val" style={{color:'var(--soc-cy)'}}>Digital Forensics</div></div>
+                            <div><div className="res-meta-lbl">Artifact</div><div className="res-meta-val" style={{color:'var(--soc-am)'}}>BAM / DAM</div></div>
+                        </div>
+
+                        <div className="res-toc" style={{marginTop:'20px',marginBottom:'24px'}}>
+                            <div className="res-toc-title">// TABLE OF CONTENTS</div>
+                            <div className="res-toc-grid">
+                                {tocItems.map((item, i) => (
+                                    <a key={item.id} href={`#${item.id}`} className="res-toc-item">
+                                        <span className="res-toc-num">{String(i+1).padStart(2,'0')}.</span>
+                                        <Icon name={item.icon} className="w-3.5 h-3.5" style={{color:'var(--soc-ink4)',flexShrink:0}} />
+                                        <span>{item.label}</span>
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* ═══ INTRODUCTION ═══ */}
+                        <Section id="introduction" title="Introduction" icon="BookOpen">
+                            <p className="text-gray-700 leading-relaxed">
+                                "When did this process stop running?" If you've done DFIR on Windows, you've asked this. The usual answers are <B>Security Event ID 4689</B> and <B>Sysmon Event ID 5</B>. But most systems don't have the right audit policy enabled, and Sysmon is rarely pre-deployed on compromised machines.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                                This post shows that the <B>Background Activity Moderator (BAM)</B>, a Windows kernel driver present since Windows 10 version 1709, records <B>process termination timestamps</B>. Not "last execution time" as most DFIR guides call it. BAM overwrites its FILETIME on process exit, so for any process that has terminated, the stored value is <B>when it ended</B>.
+                            </p>
+                            <Callout type="tip">
+                                <p><B>Key finding:</B> BAM's kernel callback fires on both process creation and termination, overwriting the same FILETIME each time. The final stored value for a terminated process is the termination timestamp.</p>
+                            </Callout>
+                            <Callout type="info">
+                                <p><B>Credit:</B> The kernel-level analysis in this post builds heavily on <a href="https://dfir.ru/2020/04/08/bam-internals/" target="_blank" rel="noopener noreferrer" style={{color:'var(--soc-cy)'}}>Maxim Suhanov's "BAM internals" research (2020)</a>, which first documented the internal workings of <C>bam.sys</C> through reverse engineering. Additional kernel extension mechanism insights from <a href="https://medium.com/yarden-shafir/yes-more-callbacks-the-kernel-extension-mechanism-c7300119a37a" target="_blank" rel="noopener noreferrer" style={{color:'var(--soc-cy)'}}>Yarden Shafir's research</a>, and practical testing methodology from <a href="https://github.com/Psmths/windows-forensic-artifacts/blob/main/execution/bam-dam.md" target="_blank" rel="noopener noreferrer" style={{color:'var(--soc-cy)'}}>Psmths' windows-forensic-artifacts</a>.</p>
+                            </Callout>
+                        </Section>
+
+                        {/* ═══ THE PROBLEM ═══ */}
+                        <Section id="problem" title="The Problem" icon="AlertTriangle">
+                            <p className="text-gray-700 leading-relaxed">
+                                Say a malicious installer ran on a compromised box. You need to know when it stopped running. What can you check?
+                            </p>
+                            <Table
+                                headers={['Artifact', 'Records Termination?', 'Availability']}
+                                rows={[
+                                    ['<strong>Security Event ID 4689</strong>', 'Yes, exact time', 'Requires "Audit Process Termination" policy enabled, rarely configured by default'],
+                                    ['<strong>Sysmon Event ID 5</strong>', 'Yes, exact time', 'Requires Sysmon deployment, not present on most systems'],
+                                    ['<strong>Prefetch</strong>', 'No', 'Records last run time (process start), not termination'],
+                                    ['<strong>SRUM AppTimeline</strong>', 'EndTime field, but rounded to the minute', 'Available on Windows 10+, but imprecise'],
+                                    ['<strong>Amcache</strong>', 'No', 'Records execution metadata, not lifecycle events'],
+                                    ['<strong>BAM</strong>', '<strong style="color:var(--soc-gn)">Yes, exact time</strong>', '<strong>Available by default on Windows 10 1709+</strong>'],
+                                ]}
+                            />
+                            <p className="text-gray-700 leading-relaxed">
+                                On most systems, 4689 is off and Sysmon was never installed. SRUM has an <C>EndTime</C> field, but it's <B>rounded to the nearest minute</B>. BAM fills the gap: <B>enabled by default</B>, and stores timestamps with <B>FILETIME precision</B> (100-nanosecond intervals).
+                            </p>
+                        </Section>
+
+                        {/* ═══ WHAT MOST GUIDES SAY ═══ */}
+                        <Section id="what-guides-say" title="What Most Guides Say (and Why It's Misleading)" icon="BookX">
+                            <p className="text-gray-700 leading-relaxed">
+                                Search for "BAM forensics" and every guide says the same thing: BAM records the <B>"last execution time"</B> of a program. Here's how popular resources describe it:
+                            </p>
+                            <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                <li>"Provides full path of the executed program and last execution date/time"</li>
+                                <li>"Last execution time of the program"</li>
+                                <li>"64-bit Windows FILETIME timestamp showing when the program was last executed"</li>
+                            </ul>
+                            <p className="text-gray-700 leading-relaxed">
+                                The phrase "last execution time" makes people think the timestamp is written when the program <B>starts</B>. If that were true, BAM timestamps should match Prefetch run times. They don't. The BAM timestamp consistently shows up <B>after</B> the Prefetch-recorded start time.
+                            </p>
+                            <Callout type="warning">
+                                <p>Because of the "last execution time" label, most analysts treat BAM as redundant with Prefetch. It's not. <B>Prefetch = start time, BAM = termination time</B>. They cover different ends of the process lifecycle.</p>
+                            </Callout>
+                        </Section>
+
+                        {/* ═══ KERNEL ANALYSIS ═══ */}
+                        <Section id="kernel-analysis" title="Kernel-Level Analysis: Why BAM Records Termination" icon="Cpu">
+                            <p className="text-gray-700 leading-relaxed">
+                                The foundational reverse engineering of <C>bam.sys</C> was done by <B>Maxim Suhanov</B> in his 2020 blog post <a href="https://dfir.ru/2020/04/08/bam-internals/" target="_blank" rel="noopener noreferrer" style={{color:'var(--soc-cy)'}}>"BAM internals"</a>. His analysis revealed that unlike standard process monitoring drivers, BAM does <B>not</B> use <C>PsSetCreateProcessNotifyRoutine()</C>. Instead, it uses the undocumented <C>ExRegisterExtension()</C> API to register its callback via an <B>extension table</B>.
+                            </p>
+
+                            <SubSection title="The Callback Registration">
+                                <p className="text-gray-700 leading-relaxed">
+                                    The <C>bam.sys</C> driver stores its callback function <C>BampCreateProcessCallback</C> in a function table called <C>BampKernelCalloutTable</C>. This table is passed to <C>ExRegisterExtension()</C> with the magic constant <C>0x0E0005</C>, which is also found in the kernel's <C>PspInitializeBackgroundActivityModeratorCallouts</C> function.
+                                </p>
+                                <CodeBlock title="BAM callback registration flow">{`bam.sys DriverEntry
+  └─► ExRegisterExtension()
+        ├─ Magic: 0x0E0005
+        ├─ Table: BampKernelCalloutTable
+        └─ Callback: BampCreateProcessCallback
+              ├─ Fires on process CREATION  → writes FILETIME
+              └─ Fires on process TERMINATION → overwrites FILETIME`}</CodeBlock>
+                            </SubSection>
+
+                            <SubSection title="The Dual-Fire Behavior">
+                                <p className="text-gray-700 leading-relaxed">
+                                    The key part: <C>BampCreateProcessCallback</C> handles <B>both</B> process creation and termination. The name says "Create" but the kernel invokes it on exit too.
+                                </p>
+                                <p className="text-gray-700 leading-relaxed">
+                                    Every time it fires, the callback writes a FILETIME to the registry value for that executable under:
+                                </p>
+                                <CodeBlock title="BAM registry path">{`HKLM\\SYSTEM\\CurrentControlSet\\Services\\bam\\State\\UserSettings\\<SID>\\
+  └─ \\Device\\HarddiskVolume3\\path\\to\\executable.exe
+       └─ Value: [FILETIME (8 bytes)] [flags (16 bytes)]`}</CodeBlock>
+                                <p className="text-gray-700 leading-relaxed">
+                                    Since it <B>overwrites</B> the same value each time, once a process exits, what's left in the registry is the <B>termination timestamp</B>.
+                                </p>
+                            </SubSection>
+
+                            <SubSection title="Why the Name Is Misleading">
+                                <p className="text-gray-700 leading-relaxed">
+                                    The function is named <C>BampCreateProcessCallback</C> because it's registered through the process-creation callback infrastructure. But the kernel's extension mechanism routes <B>both</B> creation and termination events through the same function. The name is about how it's registered, not when it fires.
+                                </p>
+                            </SubSection>
+                        </Section>
+
+                        {/* ═══ TESTING & PROOF ═══ */}
+                        <Section id="testing" title="Testing & Proof" icon="FlaskConical">
+                            <p className="text-gray-700 leading-relaxed">
+                                You can verify this yourself by watching the BAM registry value before and after running a process.
+                            </p>
+
+                            <SubSection title="Test Setup">
+                                <Table
+                                    headers={['Component', 'Details']}
+                                    rows={[
+                                        ['<strong>OS</strong>', 'Windows 10 Pro, Version 10.0.19041 Build 19041'],
+                                        ['<strong>Tool</strong>', 'Registry Explorer / RECmd (Eric Zimmerman)'],
+                                        ['<strong>Test binary</strong>', 'Any GUI application (e.g., notepad.exe, calc.exe)'],
+                                        ['<strong>Observation</strong>', 'Monitor BAM registry key in real-time or via before/after hive snapshots'],
+                                    ]}
+                                />
+                            </SubSection>
+
+                            <SubSection title="Test Procedure">
+                                <p className="text-gray-700 leading-relaxed">
+                                    <B>Step 1:</B> Open Registry Explorer and navigate to:<br/>
+                                    <C>HKLM\SYSTEM\CurrentControlSet\Services\bam\State\UserSettings\&lt;Your SID&gt;</C>
+                                </p>
+                                <p className="text-gray-700 leading-relaxed">
+                                    <B>Step 2:</B> Launch a test application (e.g., <C>notepad.exe</C>). Note the time you launched it.
+                                </p>
+                                <p className="text-gray-700 leading-relaxed">
+                                    <B>Step 3:</B> Refresh the registry view. A new BAM entry appears for <C>notepad.exe</C>. The FILETIME timestamp corresponds to the <B>process creation time</B>.
+                                </p>
+                                <p className="text-gray-700 leading-relaxed">
+                                    <B>Step 4:</B> Wait a noticeable amount of time (e.g., 2-3 minutes), then <B>close</B> the application.
+                                </p>
+                                <p className="text-gray-700 leading-relaxed">
+                                    <B>Step 5:</B> Refresh the registry view. The <B>first 8 bytes of the BAM value have changed</B>. The new FILETIME corresponds to the <B>process termination time</B>, not the original creation time.
+                                </p>
+                                <Callout type="info">
+                                    <p>If BAM only recorded "execution time" (start), the value wouldn't change after you close the application. It does change. That's the proof.</p>
+                                </Callout>
+                            </SubSection>
+
+                            <SubSection title="What You Should See">
+                                <p className="text-gray-700 leading-relaxed">
+                                    After Step 3, decode the first 8 bytes of the BAM value as a FILETIME. It should match (within a second) the time you launched the app. After Step 5, decode again. The FILETIME now matches when you <B>closed</B> the app, not when you opened it. The difference between the two timestamps equals roughly how long you kept the application running.
+                                </p>
+                                <p className="text-gray-700 leading-relaxed">
+                                    Try it yourself. The result is unambiguous.
+                                </p>
+                            </SubSection>
+                        </Section>
+
+                        {/* ═══ REAL WORLD CASE ═══ */}
+                        <Section id="real-world-case" title="Real-World Application: When SRUM Fails, BAM Delivers" icon="Search">
+                            <p className="text-gray-700 leading-relaxed">
+                                During an investigation, we needed to find when a suspicious executable stopped running on a compromised Windows box. Here's what each artifact gave us:
+                            </p>
+
+                            <SubSection title="Artifact Comparison">
+                                <Table
+                                    headers={['Artifact', 'Result', 'Useful?']}
+                                    rows={[
+                                        ['<strong>Prefetch (PECmd)</strong>', 'Two run times found', 'Start times only, not termination'],
+                                        ['<strong>Security Event ID 4689</strong>', 'Not available', 'Audit policy not configured'],
+                                        ['<strong>Sysmon Event ID 5</strong>', 'Not available', 'Sysmon not deployed'],
+                                        ['<strong>SRUM AppTimeline EndTime</strong>', 'Rounded to nearest minute', '<span style="color:var(--soc-rd)">Imprecise - could not pinpoint exact second</span>'],
+                                        ['<strong>Amcache</strong>', 'No termination data', 'Execution metadata only'],
+                                        ['<strong>ActivitiesCache</strong>', 'EndTime = 0', 'Not recorded'],
+                                        ['<strong>BAM</strong>', '<strong style="color:var(--soc-gn)">Exact timestamp with FILETIME precision</strong>', '<strong style="color:var(--soc-gn)">Confirmed as process termination time</strong>'],
+                                    ]}
+                                />
+                            </SubSection>
+
+                            <SubSection title="The Investigation Flow">
+                                <p className="text-gray-700 leading-relaxed">
+                                    Started with <B>Prefetch</B> (PECmd). Got execution times, but those are <B>start times</B> only.
+                                </p>
+                                <p className="text-gray-700 leading-relaxed">
+                                    Checked <B>Security Event Log</B> for 4689 (Process Termination). Zero hits. Audit policy was never turned on.
+                                </p>
+                                <p className="text-gray-700 leading-relaxed">
+                                    Parsed <B>SRUM</B> with SrumECmd. The AppTimeline <C>EndTime</C> values looked promising, but digging into the raw ESE database showed they're <B>rounded to the nearest minute</B> by design. Not good enough when you need the exact second.
+                                </p>
+                                <p className="text-gray-700 leading-relaxed">
+                                    Finally, pulled <B>BAM</B> from the SYSTEM hive with RECmd. The FILETIME for the executable came in <B>after</B> both Prefetch start times and all child process activity visible in UsnJrnl. That's termination, not start.
+                                </p>
+                                <CodeBlock title="RECmd command to extract BAM entries">{`RECmd.exe -f "path\\to\\SYSTEM" --kn "ControlSet001\\Services\\bam\\State\\UserSettings" --nl`}</CodeBlock>
+                                <CodeBlock title="Example: Decoding a BAM registry value">{`Value Name: \\Device\\HarddiskVolume3\\path\\to\\suspicious.exe
+Value Data: DA-85-D7-74-DB-E2-DB-01-00-00-00-00-00-00-00-00-00-00-00-00-02-00-00-00
+
+First 8 bytes (FILETIME): DA-85-D7-74-DB-E2-DB-01
+Decoded: 2025-06-21 18:36:52 UTC  ← Process termination time`}</CodeBlock>
+                            </SubSection>
+
+                            <SubSection title="Cross-Validation with UsnJrnl">
+                                <p className="text-gray-700 leading-relaxed">
+                                    UsnJrnl ($J) gave some supporting context, but with a caveat: <B>UsnJrnl doesn't record which process caused a file change</B>. It only logs the file operation itself (create, modify, delete) and the timestamp. So you can't directly say "this entry was from our target process."
+                                </p>
+                                <p className="text-gray-700 leading-relaxed">
+                                    What you <B>can</B> do is look at the pattern. In this case, the last file activity we could tie to the malware's execution chain stopped about 30 seconds before the BAM timestamp. No more related activity after that. It's circumstantial, not definitive, but it's consistent with BAM recording termination rather than start.
+                                </p>
+                            </SubSection>
+                        </Section>
+
+                        {/* ═══ PRACTICAL GUIDE ═══ */}
+                        <Section id="practical-guide" title="Practical Guide for DFIR" icon="Shield">
+                            <SubSection title="When to Use BAM for Termination Time">
+                                <p className="text-gray-700 leading-relaxed">
+                                    Check BAM for process termination time when:
+                                </p>
+                                <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                    <li>Security Event ID 4689 is unavailable (audit policy not configured)</li>
+                                    <li>Sysmon Event ID 5 is unavailable (Sysmon not deployed)</li>
+                                    <li>SRUM EndTime precision (rounded to minute) is insufficient</li>
+                                    <li>The system is Windows 10 version 1709 or later</li>
+                                </ul>
+                            </SubSection>
+
+                            <SubSection title="Where to Find BAM Data">
+                                <CodeBlock title="BAM registry location">{`Live system:
+  HKLM\\SYSTEM\\CurrentControlSet\\Services\\bam\\State\\UserSettings\\<SID>
+
+Offline analysis:
+  SYSTEM hive → ControlSet001\\Services\\bam\\State\\UserSettings\\<SID>
+
+DAM (Desktop Activity Moderator) - same structure:
+  SYSTEM hive → ControlSet001\\Services\\dam\\State\\UserSettings\\<SID>`}</CodeBlock>
+                            </SubSection>
+
+                            <SubSection title="How to Parse BAM Timestamps">
+                                <p className="text-gray-700 leading-relaxed">
+                                    Each BAM entry is a registry value where the value name is the full device path of the executable and the value data is a 24-byte binary structure:
+                                </p>
+                                <CodeBlock title="BAM value data structure">{`Offset  Size   Field
+0x00    8      FILETIME - process termination timestamp (for exited processes)
+0x08    8      Reserved (typically zeros)
+0x10    4      Reserved
+0x14    4      Flags (typically 0x00000002)`}</CodeBlock>
+                                <p className="text-gray-700 leading-relaxed">
+                                    <B>Tools for parsing:</B>
+                                </p>
+                                <Table
+                                    headers={['Tool', 'Command']}
+                                    rows={[
+                                        ['<strong>RECmd</strong>', '<code>RECmd.exe -f SYSTEM --kn "ControlSet001\\Services\\bam\\State\\UserSettings" --nl</code>'],
+                                        ['<strong>Registry Explorer</strong>', 'Navigate to the key, decode FILETIME from the first 8 bytes of each value'],
+                                        ['<strong>Python</strong>', '<code>datetime.datetime(1601,1,1) + datetime.timedelta(microseconds=filetime//10)</code>'],
+                                        ['<strong>dcode.fr</strong>', 'dcode.fr/timestamp-converter - paste the decimal FILETIME value, select Windows FILETIME format'],
+                                    ]}
+                                />
+                            </SubSection>
+
+                            <SubSection title="How BAM Complements Other Artifacts">
+                                <Table
+                                    headers={['Question', 'Best Artifact']}
+                                    rows={[
+                                        ['When did the process <strong>start</strong>?', '<strong>Prefetch</strong> (last run times from PECmd)'],
+                                        ['When did the process <strong>terminate</strong>?', '<strong>BAM</strong> (FILETIME from registry)'],
+                                        ['How long did the process <strong>run</strong>?', '<strong>BAM timestamp − Prefetch last run time</strong>'],
+                                        ['What files did the process <strong>access</strong>?', '<strong>Prefetch</strong> (file references list)'],
+                                        ['How much <strong>resource</strong> did the process use?', '<strong>SRUM</strong> (AppResourceUseInfo)'],
+                                    ]}
+                                />
+                            </SubSection>
+                        </Section>
+
+                        {/* ═══ LIMITATIONS ═══ */}
+                        <Section id="limitations" title="Limitations & Caveats" icon="TriangleAlert">
+                            <Callout type="warning">
+                                <p>BAM has real limitations. Know them before you rely on it.</p>
+                            </Callout>
+                            <Table
+                                headers={['Limitation', 'Impact']}
+                                rows={[
+                                    ['<strong>7-day expiry</strong>', 'BAM entries older than 7 days are deleted on system reboot. If the system rebooted after the incident, entries may be gone.'],
+                                    ['<strong>Console applications</strong>', 'Programs launched via command-line interface may not generate BAM entries.'],
+                                    ['<strong>Still-running processes</strong>', 'If the process was still running when the image was captured, the BAM timestamp reflects process creation time (the termination overwrite hasn\'t occurred yet).'],
+                                    ['<strong>Deleted executables</strong>', 'If the executable is deleted from disk, the BAM entry is removed on the next reboot.'],
+                                    ['<strong>Removable media / network shares</strong>', 'Executables on removable media or network shares may not generate BAM entries.'],
+                                    ['<strong>Windows version</strong>', 'BAM was introduced in Windows 10 version 1709 (Fall Creators Update). Not available on older systems.'],
+                                ]}
+                            />
+                        </Section>
+
+                        {/* ═══ CONCLUSION ═══ */}
+                        <Section id="conclusion" title="Conclusion" icon="CheckCircle">
+                            <p className="text-gray-700 leading-relaxed">
+                                Every DFIR guide calls BAM's timestamp "last execution time." That label is wrong, or at best, incomplete. Here's what we know from the kernel analysis and testing:
+                            </p>
+                            <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                <li><C>BampCreateProcessCallback</C> fires on <B>both</B> process creation and termination</li>
+                                <li>The FILETIME is <B>overwritten</B> on each event, so the final value reflects the <B>last event</B></li>
+                                <li>For terminated processes, this means the stored timestamp is the <B>termination time</B></li>
+                                <li>BAM is available <B>by default</B> on Windows 10 1709+, unlike Event ID 4689 or Sysmon</li>
+                            </ul>
+                            <p className="text-gray-700 leading-relaxed">
+                                If your system doesn't have 4689 or Sysmon (most don't), BAM is probably your best bet for process termination time. Stop treating it as a duplicate of Prefetch. <B>Prefetch tells you when it started. BAM tells you when it ended.</B>
+                            </p>
+                        </Section>
+
+                        {/* ═══ REFERENCES ═══ */}
+                        <Section id="references" title="References" icon="Link">
+                            <ul className="list-disc list-outside ml-5 space-y-2 text-gray-700">
+                                <li><a href="https://dfir.ru/2020/04/08/bam-internals/" target="_blank" rel="noopener noreferrer" style={{color:'var(--soc-cy)'}}>BAM internals - Maxim Suhanov (dfir.ru)</a> - The foundational reverse engineering of bam.sys that documented BampCreateProcessCallback, BampKernelCalloutTable, and the ExRegisterExtension mechanism. Much of the kernel-level analysis in this post builds on Suhanov's work.</li>
+                                <li><a href="https://github.com/Psmths/windows-forensic-artifacts/blob/main/execution/bam-dam.md" target="_blank" rel="noopener noreferrer" style={{color:'var(--soc-cy)'}}>windows-forensic-artifacts - Psmths</a> - Testing confirming FILETIME written on both creation and termination</li>
+                                <li><a href="https://medium.com/yarden-shafir/yes-more-callbacks-the-kernel-extension-mechanism-c7300119a37a" target="_blank" rel="noopener noreferrer" style={{color:'var(--soc-cy)'}}>The Kernel Extension Mechanism - Yarden Shafir</a> - Analysis of ExRegisterExtension and BampKernelCalloutTable</li>
+                                <li><a href="https://artefacts.help/windows_registry_bam_dam.html" target="_blank" rel="noopener noreferrer" style={{color:'var(--soc-cy)'}}>BAM/DAM - artefacts.help</a> - Registry artifact documentation</li>
+                                <li><a href="https://github.com/Dor00tkit/BamExtensionTableHook" target="_blank" rel="noopener noreferrer" style={{color:'var(--soc-cy)'}}>BamExtensionTableHook - Dor00tkit</a> - PoC driver demonstrating BAM extension table hooking</li>
+                            </ul>
+                        </Section>
+
+                    </main>
+                </div>
+            );
+        };
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
