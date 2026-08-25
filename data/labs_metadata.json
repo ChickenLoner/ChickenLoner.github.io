@@ -111,7 +111,7 @@
   },
   "RoastToRoot": {
     "player_difficulty": "hard",
-    "is_retired": false,
+    "is_retired": true,
     "tactics": [
       "Reconnaissance",
       "Initial Access",
