@@ -401,8 +401,17 @@
         "year":  "2026",
         "status":  "Active",
         "category":  "Blue Team & Detection",
-        "latest":  true,
         "badge":  "./assets/badges/gcia.png",
         "url":  "https://www.credly.com/badges/9c6534d6-98c4-4609-9181-d47b3ea6bef8"
+    },
+    {
+        "name":  "CCSA - CYBRIXEN Certified SOC Analyst",
+        "issuer":  "CYBRIXEN",
+        "year":  "2026",
+        "status":  "Active",
+        "category":  "Blue Team & Detection",
+        "latest":  true,
+        "badge":  "./assets/badges/ccsa.png",
+        "url":  "https://cybrixen.com/credentials/?id=CCSA-2026-0004"
     }
 ]
