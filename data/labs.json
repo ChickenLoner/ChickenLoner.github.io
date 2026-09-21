@@ -384,7 +384,18 @@
     "difficulty": "medium",
     "is_retired": false,
     "latest": true,
-    "image": "./assets/labs/codefreeze2.webp"
+    "image": "./assets/labs/codefreeze2.webp",
+    "tactics": [
+      "Initial Access",
+      "Execution",
+      "Persistence",
+      "Privilege Escalation",
+      "Stealth",
+      "Discovery",
+      "Collection",
+      "Command and Control",
+      "Exfiltration"
+    ]
   },
   {
     "title": "WorkFromHome (HTB)",
