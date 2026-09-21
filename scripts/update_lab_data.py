@@ -155,6 +155,10 @@ def update_lab_metadata():
         'Penumbra': {
             'platform': 'cyberdefenders',
             'slug': 'penumbra'
+        },
+        'CodeFreeze 2': {
+            'platform': 'cyberdefenders',
+            'slug': 'codefreeze-2'
         }
     }
     

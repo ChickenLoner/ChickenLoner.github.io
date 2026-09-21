@@ -357,7 +357,6 @@
     "rating_scale": 3,
     "rating_as_of": "2026-08",
     "is_retired": false,
-    "latest": true,
     "image": "./assets/labs/penumbra.webp",
     "tactics": [
       "Initial Access",
@@ -370,6 +369,22 @@
       "Command and Control",
       "Exfiltration"
     ]
+  },
+  {
+    "title": "CodeFreeze 2",
+    "description": "One email from a trusted colleague. One extension that looked official. One machine that kept behaving exactly as expected. The attacker never ran the kind of Windows binary that trips an alert, they moved into the Linux subsystem and worked from there. The triage image holds every step, can you retrace it before the trail goes cold?",
+    "platform": "CyberDefenders",
+    "link": "https://cyberdefenders.org/blueteam-ctf-challenges/codefreeze-2/",
+    "tags": [
+      "Endpoint Forensics",
+      "WSL",
+      "Linux Forensics"
+    ],
+    "type": "lab",
+    "difficulty": "medium",
+    "is_retired": false,
+    "latest": true,
+    "image": "./assets/labs/codefreeze2.webp"
   },
   {
     "title": "WorkFromHome (HTB)",
