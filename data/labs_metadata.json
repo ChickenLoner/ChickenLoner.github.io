@@ -153,7 +153,7 @@
   },
   "CodeFreeze": {
     "player_difficulty": "medium",
-    "is_retired": false,
+    "is_retired": true,
     "tactics": [
       "Initial Access",
       "Execution",
@@ -198,6 +198,27 @@
       "Endpoint Forensics"
     ],
     "rating": 2.7,
+    "rating_scale": 3,
+    "rating_as_of": "2026-09"
+  },
+  "CodeFreeze 2": {
+    "player_difficulty": "medium",
+    "is_retired": false,
+    "tactics": [
+      "Initial Access",
+      "Execution",
+      "Persistence",
+      "Privilege Escalation",
+      "Stealth",
+      "Discovery",
+      "Collection",
+      "Command and Control",
+      "Exfiltration"
+    ],
+    "categories": [
+      "Endpoint Forensics"
+    ],
+    "rating": 2.9,
     "rating_scale": 3,
     "rating_as_of": "2026-09"
   }
