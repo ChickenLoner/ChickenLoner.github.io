@@ -64,6 +64,9 @@
     "rating_scale": 5,
     "rating_as_of": "2026-06",
     "is_retired": true,
+    "highlights": "Investigate how an attacker used social engineering and a fake tech support call to trick the victim into installing an RMM tool. Trace the full chain from browser download through remote access, Sticky Keys backdoor, and privilege escalation via SeTakeOwnershipPrivilege.",
+    "skills": ["Browser forensics", "RMM tool analysis", "Registry analysis", "Sticky Keys persistence"],
+    "tools_used": ["Registry Explorer", "BrowsingHistoryView", "PECmd", "MFTECmd"],
     "tactics": [
       "Initial Access",
       "Execution",
@@ -94,6 +97,9 @@
     "rating_scale": 5,
     "rating_as_of": "2026-06",
     "is_retired": true,
+    "highlights": "Investigate a compromised web server where the attacker exploited a file upload vulnerability, deployed a webshell, established persistence through BITS jobs, and escalated privileges. Analyze MFT, prefetch, registry hives, and IIS logs to reconstruct the full attack timeline.",
+    "skills": ["MFT analysis", "Prefetch forensics", "BITS job investigation", "IIS log analysis", "Registry forensics"],
+    "tools_used": ["MFTECmd", "PECmd", "BitsParser", "Registry Explorer", "Timeline Explorer"],
     "tactics": [
       "Execution",
       "Persistence",
@@ -427,7 +433,10 @@
     "difficulty": "medium",
     "rating": 4.6,
     "rating_scale": 5,
-    "is_retired": true
+    "is_retired": true,
+    "highlights": "Investigate a compromised endpoint where stolen credentials from a RedLine Stealer were used for initial access. Trace how the attacker exploited an overly permissive shared folder, moved laterally, and escalated privileges across the network.",
+    "skills": ["Credential theft analysis", "Shared folder forensics", "Lateral movement tracing", "Event log analysis"],
+    "tools_used": ["Event Log Explorer", "Registry Explorer", "MFTECmd", "Timeline Explorer"]
   },
   {
     "title": "JobApplicant",

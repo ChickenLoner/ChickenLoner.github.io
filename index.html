@@ -651,7 +651,7 @@
         /* Crow row */
         .crow{display:grid;grid-template-columns:160px 1fr auto;gap:14px;align-items:center;padding:12px 14px;border-bottom:1px solid var(--soc-line);transition:.15s;text-decoration:none;color:inherit;position:relative}
         .crow:last-child{border-bottom:none}
-        .crow:hover{background:rgba(34,225,255,.04)}
+        .crow:hover{background:rgba(34,225,255,.04);text-decoration:none}
         html[data-theme="light"] .crow:hover{background:var(--cy-soft)}
         .crow .cover{width:160px;min-height:88px;align-self:stretch;border-radius:4px;background-color:#000;background-size:cover;background-position:center;background-repeat:no-repeat;border:1px solid var(--soc-line);flex-shrink:0;position:relative;overflow:hidden}
         /* Card art runs from 1:1 to 2.36:1 in a fixed 160x88 slot. `cover` cropped the
@@ -681,6 +681,35 @@
         .crow .info .tags-row{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
         .crow .info .tags-row .t{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--soc-ink3);padding:2px 7px;border:1px solid var(--soc-line);border-radius:3px;background:var(--soc-bg-2)}
         .crow .info .tags-row .t.more{color:var(--soc-ink4);background:transparent;border-style:dashed}
+
+        /* Right-side row: diff col, rating, [about], play now */
+        .crow-right{display:flex;flex-direction:row;gap:8px;align-items:center;flex-shrink:0}
+        .crow-diff-col{display:flex;flex-direction:column;align-items:center;gap:3px;width:80px;flex-shrink:0}
+        .crow-diff-col .diff-pill{font-size:10.5px;padding:5px 10px;letter-spacing:.1em;justify-content:center;width:100%;text-align:center}
+        .crow-diff-col .player-diff{font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--soc-ink4);letter-spacing:.04em;white-space:nowrap;text-align:center}
+        .crow-diff-col .player-diff strong{color:var(--soc-ink3)}
+        .crow-rating{width:48px;flex-shrink:0;text-align:center}
+        .crow-rating .rating-val{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;letter-spacing:.02em;white-space:nowrap}
+        .crow-rating .rating-val.gold{color:var(--soc-am)}
+        .crow-rating .rating-val.silver{color:var(--soc-ink2)}
+        .crow-rating .rating-val.bronze{color:#d68f5a}
+        .crow-rating .rating-val.other{color:var(--soc-cy)}
+        .crow .ar.about.hidden-about{visibility:hidden}
+        .crow .ar.about{background:rgba(255,181,71,.08);border-color:rgba(255,181,71,.35);color:var(--soc-am);cursor:pointer}
+        .crow:hover .ar.about{background:rgba(255,181,71,.25);border-color:rgba(255,181,71,.5);color:var(--soc-am)}
+        .crow .ar.about.active{background:rgba(255,181,71,.18);border-color:rgba(255,181,71,.5);color:var(--soc-am)}
+        html[data-theme="light"] .crow .ar.about{background:var(--am-soft);color:var(--soc-am);border-color:rgba(180,83,9,.35)}
+        html[data-theme="light"] .crow:hover .ar.about{background:rgba(255,181,71,.2);border-color:rgba(180,83,9,.5)}
+        .desc.rh-active{color:var(--soc-ink2)}
+        .rh-meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
+        .rh-group{display:flex;flex-wrap:wrap;align-items:center;gap:4px}
+        .rh-label{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--soc-ink4);margin-right:2px}
+        .rh-chip{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.04em;padding:2px 7px;border-radius:3px;font-weight:600}
+        .rh-chip.skill{background:rgba(34,225,255,.08);color:var(--soc-cy);border:1px solid rgba(34,225,255,.2)}
+        .rh-chip.tool{background:rgba(167,139,250,.08);color:var(--soc-vi);border:1px solid rgba(167,139,250,.2)}
+        html[data-theme="light"] .rh-chip.skill{background:var(--cy-soft);border-color:rgba(8,145,178,.25)}
+        html[data-theme="light"] .rh-chip.tool{background:var(--vi-soft);border-color:rgba(109,40,217,.25)}
+
         .crow .ar{display:inline-flex;align-items:center;gap:7px;padding:7px 13px 7px 11px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;border:1px solid;transition:.15s;white-space:nowrap;line-height:1;text-decoration:none;flex-shrink:0}
         .crow .ar .ic{font-size:11px;line-height:1}
         .crow .ar.play{background:rgba(34,225,255,.08);border-color:rgba(34,225,255,.35);color:var(--soc-cy)}
@@ -709,6 +738,9 @@
         .labs-page-wrap.compact-density .crow .cover{min-height:54px;width:88px;align-self:stretch}
         .labs-page-wrap.compact-density .crow .ar{padding:5px 10px 5px 9px;font-size:9.5px;gap:5px}
         .labs-page-wrap.compact-density .crow .info .tags-row{display:none}
+        .labs-page-wrap.compact-density .crow .ar.about{display:none}
+        .labs-page-wrap.compact-density .crow .rh-meta{display:none}
+        .labs-page-wrap.compact-density .crow-diff-col .player-diff{display:none}
         .labs-page-wrap.hide-year-dividers .year-bar{display:none}
         .labs-page-wrap.hide-covers .crow{grid-template-columns:1fr auto;gap:10px}
         .labs-page-wrap.hide-covers .crow .cover{display:none}
@@ -737,11 +769,14 @@
             .crow .ar .lbl{display:none}
             .crow .ar{padding:8px 10px}
             .crow .info .tags-row{display:none}
+            .crow-diff-col{display:none}
+            .crow-rating{width:auto}
+            .rh-meta{flex-direction:column;gap:6px}
         }
         @media(max-width:480px){
             .crow{grid-template-columns:1fr}
             .crow .cover{display:none}
-            .crow .ar{display:none}
+            .crow-right{display:none}
         }
 
         /* ─── Achievements Page ─── */
@@ -2506,28 +2541,41 @@
                           + ((l.rating_scale||5)!==5 ? ` — ${score5(l).toFixed(1)} out of 5 equivalent` : '')
                           + (l.rating_as_of ? ` — as of ${l.rating_as_of}` : '')
                         : 'Not rated';
+                    const hasHighlights = l.is_retired && l.highlights;
+                    const [showHL, setShowHL] = React.useState(false);
                     return (
                         <a className={`crow${l.is_retired?' is-retired':''}`} href={l.link} target="_blank" rel="noopener noreferrer">
                             <div className={`cover${!l.image?' placeholder':''}`}>
                                 {l.image && <><span className="cv-blur" style={{backgroundImage:`url(${l.image})`}} /><span className="cv-img" style={{backgroundImage:`url(${l.image})`}} /></>}
                                 {!l.image && <span>{(l.title||'').slice(0,3).toUpperCase()}</span>}
-                                <span className={`place ${pc}`} title={pt}>{pl}</span>
                             </div>
                             <div className="info">
                                 <div className="nm">{l.title}</div>
                                 <div className="sub">
-                                    {l.difficulty && <span className={`diff-pill ${l.difficulty}`}>{l.difficulty}</span>}
-                                    {l.player_difficulty && l.player_difficulty!==l.difficulty && <span className={`diff-pill ${l.player_difficulty} player`} title="Player-rated difficulty">{l.player_difficulty}</span>}
-                                    {l.is_retired && <span className="retired-pill">Retired</span>}
                                     {isCTF && <><span className="evt">{l.platform}</span><span className="evt-sep">·</span></>}
-                                    <span className="desc" title={l.description}>{l.description}</span>
+                                    {!showHL && <span className="desc" title={l.description}>{l.description}</span>}
+                                    {showHL && <span className="desc rh-active">{l.highlights}</span>}
                                 </div>
+                                {showHL && ((l.skills&&l.skills.length)||(l.tools_used&&l.tools_used.length)) && <div className="rh-meta">
+                                    {l.skills&&l.skills.length>0 && <div className="rh-group"><span className="rh-label">Skills</span>{l.skills.map((s,i)=><span key={i} className="rh-chip skill">{s}</span>)}</div>}
+                                    {l.tools_used&&l.tools_used.length>0 && <div className="rh-group"><span className="rh-label">Tools</span>{l.tools_used.map((t,i)=><span key={i} className="rh-chip tool">{t}</span>)}</div>}
+                                </div>}
                                 <div className="tags-row">
                                     {(l.tags||[]).slice(0,5).map((t,i)=><span key={i} className="t">{t}</span>)}
                                     {(l.tags||[]).length>5 && <span className="t more">+{(l.tags.length-5)}</span>}
                                 </div>
                             </div>
-                            <span className="ar play"><span className="ic">▶</span><span className="lbl">Play Now</span></span>
+                            <div className="crow-right">
+                                <div className="crow-diff-col">
+                                    {l.difficulty && <span className={`diff-pill ${l.difficulty}`}>{l.difficulty}</span>}
+                                    {l.player_difficulty && l.player_difficulty!==l.difficulty && <span className="player-diff">Players rate it: <strong>{l.player_difficulty}</strong></span>}
+                                </div>
+                                <div className="crow-rating" title={pt}>
+                                    <span className={`rating-val ${pc}`}>{l.rating ? `★ ${l.rating}` : '—'}</span>
+                                </div>
+                                <span className={`ar about${showHL?' active':''}${hasHighlights?'':' hidden-about'}`} onClick={hasHighlights?e=>{e.preventDefault();e.stopPropagation();setShowHL(!showHL)}:undefined}><span className="lbl">{showHL?'Scenario':'About'}</span></span>
+                                <span className="ar play"><span className="ic">▶</span><span className="lbl">Play Now</span></span>
+                            </div>
                         </a>
                     );
                 };
