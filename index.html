@@ -2883,8 +2883,8 @@
 
                 const showFeatured  = tweaks.featuredWins && (compFilter==='all' || compFilter==='wins');
                 const filteredComps = comps.filter(matchFilter);
-                const nonFeatured   = showFeatured ? filteredComps.filter(c=>!isWin(c.placement)) : filteredComps;
-                const byYear        = nonFeatured.reduce((acc,c)=>{ (acc[c.year]=acc[c.year]||[]).push(c); return acc; }, {});
+                const nonFeatured   = filteredComps;
+                const byYear        = filteredComps.reduce((acc,c)=>{ (acc[c.year]=acc[c.year]||[]).push(c); return acc; }, {});
                 const sortedYears   = Object.keys(byYear).sort((a,b)=>b-a);
 
                 // Hero dist
