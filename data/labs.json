@@ -427,7 +427,7 @@
     "difficulty": "medium",
     "rating": 4.6,
     "rating_scale": 5,
-    "is_retired": false
+    "is_retired": true
   },
   {
     "title": "JobApplicant",
