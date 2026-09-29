@@ -12,6 +12,9 @@
     "difficulty": "easy",
     "player_difficulty": "medium",
     "is_retired": true,
+    "highlights": "Investigate a CEO's PC where their son unknowingly downloaded a fake game that turned out to be malware. Trace the malicious executable's impact through MFT, event logs, and registry to uncover persistence mechanisms including accessibility features abuse, registry run keys, and malicious service creation.",
+    "skills": ["MFT analysis", "Event log analysis", "Registry forensics", "Persistence detection"],
+    "tools_used": ["MFTECmd", "EvtxECmd", "Registry Explorer", "Timeline Explorer", "RegRipper"],
     "image": "./assets/labs/utensil.png"
   },
   {
@@ -34,6 +37,9 @@
     "rating_scale": 5,
     "rating_as_of": "2026-06",
     "is_retired": true,
+    "highlights": "Investigate how an attacker used social engineering and a fake tech support call to trick the victim into installing an RMM tool. Trace the full chain from browser download through remote access, Sticky Keys backdoor, and privilege escalation via SeTakeOwnershipPrivilege.",
+    "skills": ["Browser forensics", "RMM tool analysis", "Registry analysis", "Sticky Keys persistence"],
+    "tools_used": ["Registry Explorer", "BrowsingHistoryView", "PECmd", "MFTECmd"],
     "tactics": [
       "Initial Access",
       "Persistence",
@@ -126,6 +132,9 @@
     "rating_scale": 5,
     "rating_as_of": "2026-06",
     "is_retired": true,
+    "highlights": "Hunt through browser downloads, MFT records, and Prefetch artifacts to unmask the initial dropper in an APT28-themed scenario. Rebuild the complete attack timeline from initial access through persistence and privilege escalation using Print Spooler exploitation.",
+    "skills": ["Browser forensics", "MFT analysis", "Prefetch forensics", "Attack timeline reconstruction"],
+    "tools_used": ["MFTECmd", "PECmd", "BrowsingHistoryView", "Timeline Explorer"],
     "tactics": [
       "Persistence",
       "Privilege Escalation",
@@ -149,7 +158,10 @@
     "rating": 4.4,
     "rating_scale": 5,
     "rating_as_of": "2026-06",
-    "is_retired": false,
+    "is_retired": true,
+    "highlights": "Investigate a compromised web server doubling as a domain controller for a sports organization. Use SIEM and log analysis to identify the attack source, method of exploitation, and assess the impact on both the website and Active Directory infrastructure.",
+    "skills": ["SIEM analysis", "Threat hunting", "Log correlation", "Active Directory impact assessment"],
+    "tools_used": ["Splunk", "Event Log Explorer", "Timeline Explorer"],
     "tactics": [
       "Reconnaissance",
       "Initial Access",
@@ -178,7 +190,10 @@
     "rating": 4.7,
     "rating_scale": 5,
     "rating_as_of": "2026-06",
-    "is_retired": false,
+    "is_retired": true,
+    "highlights": "Trace a full compromise starting from a Local File Inclusion vulnerability on a website through to system-level persistence. Analyze web server logs and endpoint artifacts to map out how the attacker escalated from web access to full system control.",
+    "skills": ["Website log analysis", "LFI exploitation analysis", "Persistence detection", "Endpoint forensics"],
+    "tools_used": ["Log Parser", "MFTECmd", "Registry Explorer", "Timeline Explorer"],
     "tactics": [
       "Initial Access",
       "Execution",
@@ -207,7 +222,10 @@
     "rating": 4.6,
     "rating_scale": 5,
     "rating_as_of": "2026-06",
-    "is_retired": false,
+    "is_retired": true,
+    "highlights": "Investigate a physical kiosk breakout at a conference where the attacker escaped Edge kiosk mode via the Help feature, downloaded tools, escalated to admin via registry-stored credentials, replaced the registration QR code with a phishing link, and set up scheduled task persistence for C2 communication.",
+    "skills": ["Kiosk breakout analysis", "Browser forensics", "Registry forensics", "Scheduled task analysis", "Prefetch forensics"],
+    "tools_used": ["MFTECmd", "PECmd", "Registry Explorer", "EvtxECmd", "Timeline Explorer"],
     "tactics": [
       "Initial Access",
       "Execution",
@@ -240,7 +258,10 @@
     "rating": 4.8,
     "rating_scale": 5,
     "rating_as_of": "2026-06",
-    "is_retired": false,
+    "is_retired": true,
+    "highlights": "Reconstruct a complete Active Directory domain compromise from network traffic. Identify AS-REP Roasting and Kerberoasting attacks, crack service account hashes offline, then trace privilege escalation, lateral movement across the domain, and data exfiltration via rclone.",
+    "skills": ["Kerberos attack analysis", "PCAP analysis", "Password cracking", "Lateral movement tracing", "Data exfiltration detection"],
+    "tools_used": ["Wireshark", "hashcat", "NetworkMiner", "tshark"],
     "tactics": [
       "Reconnaissance",
       "Initial Access",
@@ -318,7 +339,10 @@
     "rating": 4.8,
     "rating_scale": 5,
     "rating_as_of": "2026-06",
-    "is_retired": false,
+    "is_retired": true,
+    "highlights": "Investigate a developer workstation compromised through a fake auditor's meeting script. Trace how the attacker exploited Backup Operators group membership, hijacked a service DLL for privilege escalation, and planted a malicious Git pre-commit hook to exfiltrate secrets from every code commit.",
+    "skills": ["Git forensics", "DLL hijacking analysis", "Service abuse detection", "Browser forensics", "Event log analysis"],
+    "tools_used": ["MFTECmd", "PECmd", "Registry Explorer", "EvtxECmd", "Timeline Explorer"],
     "tactics": [
       "Initial Access",
       "Execution",
@@ -338,7 +362,10 @@
     ],
     "type": "lab",
     "difficulty": "medium",
-    "is_retired": false,
+    "is_retired": true,
+    "highlights": "Investigate a compromised LimeSurvey platform where the attacker brute-forced admin credentials, uploaded a malicious plugin containing a web shell, injected shellcode into explorer.exe for a reverse shell, and modified the survey to redirect users to a drive-by download site.",
+    "skills": ["Network forensics", "Web shell analysis", "Malware analysis", "PCAP reconstruction", "Shellcode analysis"],
+    "tools_used": ["Wireshark", "NetworkMiner", "CyberChef", "VirusTotal"],
     "image": "./assets/labs/satisfaction.webp",
     "rating": 4.8,
     "rating_scale": 5,
@@ -417,7 +444,10 @@
     "difficulty": "medium",
     "rating": 4.3,
     "rating_scale": 5,
-    "is_retired": true
+    "is_retired": true,
+    "highlights": "Investigate a compromised workstation where the threat actor phished credentials via a fake SSO page, gained RDP access, exploited SeManageVolumePrivilege to replace a Print Spooler DLL, and established persistence through a hidden VBScript in the Startup folder that loads a malicious DLL via WMI.",
+    "skills": ["Browser forensics", "DLL hijacking analysis", "Print Spooler exploitation", "VBScript persistence analysis", "Certutil abuse detection"],
+    "tools_used": ["MFTECmd", "PECmd", "Registry Explorer", "EvtxECmd", "BrowsingHistoryView"]
   },
   {
     "title": "Liberty",
@@ -469,7 +499,10 @@
     "type": "lab",
     "image": "./assets/labs/shaw.png",
     "difficulty": "easy",
-    "is_retired": true
+    "is_retired": true,
+    "highlights": "Investigate a ClickFix incident by correlating browser history with PowerShell Script Block Logging, Prefetch execution records, and system logs to reconstruct how the victim was tricked into running a malicious command.",
+    "skills": ["Browser forensics", "PowerShell log analysis", "Prefetch forensics", "ClickFix attack analysis"],
+    "tools_used": ["PECmd", "EvtxECmd", "BrowsingHistoryView", "Timeline Explorer"]
   },
   {
     "title": "Master Investigator",
@@ -488,7 +521,10 @@
     "type": "lab",
     "image": "./assets/labs/master.png",
     "difficulty": "hard",
-    "is_retired": true
+    "is_retired": true,
+    "highlights": "Investigate a full attack chain from initial phishing through privilege escalation to domain compromise via Active Directory Certificate Services (ADCS). Correlate browser history, event logs, file system artifacts, and certificate enrollment records to reconstruct the complete intrusion.",
+    "skills": ["ADCS abuse analysis", "Phishing investigation", "Active Directory forensics", "Certificate forensics", "Full-chain timeline reconstruction"],
+    "tools_used": ["MFTECmd", "EvtxECmd", "Registry Explorer", "BrowsingHistoryView", "Timeline Explorer"]
   },
   {
     "title": "HotDog",
@@ -505,7 +541,10 @@
     "type": "lab",
     "image": "./assets/labs/hotdog.png",
     "difficulty": "medium",
-    "is_retired": true
+    "is_retired": true,
+    "highlights": "Reconstruct an Active Directory intrusion from a single packet capture by recovering Kerberoasted service tickets, cracking both service account hashes offline, and using the derived key material to decrypt GSS-API protected LDAP queries and encrypted SMB3 file transfers.",
+    "skills": ["Kerberoasting analysis", "PCAP analysis", "Password cracking", "SMB3 decryption", "LDAP traffic analysis"],
+    "tools_used": ["Wireshark", "hashcat", "tshark", "CyberChef"]
   },
   {
     "title": "AS a REPresentative!",
@@ -521,7 +560,10 @@
     "type": "lab",
     "image": "./assets/labs/asrep.png",
     "difficulty": "medium",
-    "is_retired": true
+    "is_retired": true,
+    "highlights": "Extract an AS-REP Roastable hash from a Kerberos exchange in a packet capture, crack it offline to recover account credentials, then derive session key material to decrypt the attacker's encrypted SMB3 traffic and expose the transferred data.",
+    "skills": ["AS-REP Roasting analysis", "PCAP analysis", "Password cracking", "SMB3 decryption", "Kerberos protocol analysis"],
+    "tools_used": ["Wireshark", "hashcat", "tshark", "CyberChef"]
   },
   {
     "title": "You Know The Rules",
@@ -536,7 +578,10 @@
     "type": "lab",
     "image": "./assets/labs/youknowtherules.png",
     "difficulty": "medium",
-    "is_retired": true
+    "is_retired": true,
+    "highlights": "Reverse engineer a .NET binary obfuscated with ConfuserEx and packed with MPRESS. Peel both protection layers to reach the managed code, understand why it kills and relaunches Edge on a hardcoded YouTube link, and reconstruct the flag from the video title.",
+    "skills": [".NET reverse engineering", "Unpacking (MPRESS)", "Deobfuscation (ConfuserEx)", "Behavioral analysis"],
+    "tools_used": ["dnSpy", "de4dot", "x64dbg", "DIE (Detect It Easy)"]
   },
   {
     "title": "The Weakest Link",
@@ -552,7 +597,10 @@
     "type": "lab",
     "image": "./assets/labs/weakestlink.png",
     "difficulty": "easy",
-    "is_retired": true
+    "is_retired": true,
+    "highlights": "Break a portal's HTTPS three different ways from a single packet capture: read a session negotiated with a NULL cipher suite, factor a 512-bit RSA certificate to rebuild the server's private key, and recover the (Pre)-Master-Secret leaked over a plaintext HTTP debug channel.",
+    "skills": ["TLS analysis", "RSA factorization", "Cryptographic attack identification", "PCAP analysis"],
+    "tools_used": ["Wireshark", "RsaCtfTool", "openssl", "CyberChef"]
   },
   {
     "title": "Phantom Packets",
@@ -568,7 +616,10 @@
     "type": "lab",
     "image": "./assets/labs/phantompackets.png",
     "difficulty": "medium",
-    "is_retired": true
+    "is_retired": true,
+    "highlights": "Reconstruct a server compromise from a single capture: reassemble an RSA private key smuggled out through DNS AAAA records, use it to decrypt the attacker's TLS session, then carve a Git smart-HTTP packfile and rebuild the repository to find secrets hidden in non-default branches.",
+    "skills": ["DNS exfiltration analysis", "TLS decryption", "Git packfile reconstruction", "PCAP analysis"],
+    "tools_used": ["Wireshark", "tshark", "openssl", "git"]
   },
   {
     "title": "Shadow Council",
@@ -585,7 +636,10 @@
     "type": "lab",
     "image": "./assets/labs/shadowcouncil.png",
     "difficulty": "medium",
-    "is_retired": true
+    "is_retired": true,
+    "highlights": "Work a KAPE triage image from a ransomware operator: extract a saved Windows password from a Zen browser credential store, unlock the DPAPI master key, peel three encryption layers off Signal Desktop's SQLCipher database, and read the ransom negotiation ledger from decrypted messages.",
+    "skills": ["DPAPI decryption", "Browser credential extraction", "SQLCipher database decryption", "Signal forensics"],
+    "tools_used": ["mimikatz", "DB Browser for SQLite", "CyberChef", "Registry Explorer"]
   },
   {
     "title": "Awesome Splunk and Elastic SIEM Practice Labs",
