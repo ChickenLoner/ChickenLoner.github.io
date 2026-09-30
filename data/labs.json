@@ -70,7 +70,7 @@
     "rating_scale": 5,
     "rating_as_of": "2026-06",
     "is_retired": true,
-    "highlights": "Investigate a ClickFix-style attack where a threat actor lured the victim via a fake Minecraft resource pack YouTube video. Trace the full chain from browser history through UAC bypass via ComputerDefaults.exe, WMI persistence, backdoor user creation, and privilege escalation via SeImpersonatePrivilege.",
+    "highlights": "Investigate a FileFix-style attack where a threat actor lured the victim via a fake Minecraft resource pack YouTube video. Trace the full chain from browser history through UAC bypass via ComputerDefaults.exe, WMI persistence, backdoor user creation, and privilege escalation via SeImpersonatePrivilege.",
     "skills": ["Browser forensics", "UAC bypass analysis", "WMI persistence detection", "Prefetch timeline reconstruction", "Security template analysis"],
     "tools_used": ["MFTECmd", "PECmd", "Registry Explorer", "EvtxECmd", "Timeline Explorer"],
     "tactics": [
