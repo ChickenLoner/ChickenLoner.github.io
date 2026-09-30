@@ -70,9 +70,9 @@
     "rating_scale": 5,
     "rating_as_of": "2026-06",
     "is_retired": true,
-    "highlights": "Investigate how an attacker used social engineering and a fake tech support call to trick the victim into installing an RMM tool. Trace the full chain from browser download through remote access, Sticky Keys backdoor, and privilege escalation via SeTakeOwnershipPrivilege.",
-    "skills": ["Browser forensics", "RMM tool analysis", "Registry analysis", "Sticky Keys persistence"],
-    "tools_used": ["Registry Explorer", "BrowsingHistoryView", "PECmd", "MFTECmd"],
+    "highlights": "Investigate a ClickFix-style attack where a threat actor lured the victim via a fake Minecraft resource pack YouTube video. Trace the full chain from browser history through UAC bypass via ComputerDefaults.exe, WMI persistence, backdoor user creation, and privilege escalation via SeImpersonatePrivilege.",
+    "skills": ["Browser forensics", "UAC bypass analysis", "WMI persistence detection", "Prefetch timeline reconstruction", "Security template analysis"],
+    "tools_used": ["MFTECmd", "PECmd", "Registry Explorer", "EvtxECmd", "Timeline Explorer"],
     "tactics": [
       "Initial Access",
       "Execution",
