@@ -19,7 +19,7 @@
   },
   {
     "title": "WorkFromHome",
-    "description": "Analyze forensic artifacts to trace an attacker progression from initial social engineering and remote access to a Sticky Keys privilege escalation.",
+    "description": "Zero Divine-Unit's Security Operations Center detected a sudden spike of outbound remote-access traffic and privileged log-ons originating from a single Windows 10 workstation in the development network. The timing matched a peculiar internal chat in which a junior developer repeatedly asked a senior colleague for elevated credentials, prompting the SOC to quarantine the host and capture a full forensic image for review. As part of Zero Divine-Unit's DFIR team, you now possess that image, the complete senior-junior chat transcript, and concise IT-meeting notes collected during the response. Your mission is to reconstruct the sequence of events, determine any data or credential exposure, and distill actionable remediation and hardening recommendations for leadership.",
     "platform": "CyberDefenders",
     "link": "https://cyberdefenders.org/blueteam-ctf-challenges/workfromhome/",
     "tags": [
@@ -52,7 +52,7 @@
   },
   {
     "title": "ResourcePacks",
-    "description": "Reconstruct an attack timeline by analyzing forensic artifacts to identify a UAC bypass, WMI persistence, and backdoor user creation techniques.",
+    "description": "Manuel, an enthusiastic gamer, recently installed popular Minecraft resource packs on his new computer after classmates shared download links with him. Soon after, he noticed system slowdowns, unexpected pop-ups, and malfunctioning applications. You have been asked to investigate how a suspicious file infiltrated the machine, whether it created hidden persistence mechanisms, and assess any impact on personal data or overall system stability.",
     "platform": "CyberDefenders",
     "link": "https://cyberdefenders.org/blueteam-ctf-challenges/resourcepacks/",
     "tags": [
@@ -85,7 +85,7 @@
   },
   {
     "title": "YARA Trap",
-    "description": "Investigate attacker behavior by analyzing Windows artifacts to identify persistence, privilege escalation, and lateral movement using MFTECmd, PECmd, BitsParser, and registry analysis tools.",
+    "description": "Wowza Enterprise recently deployed a secure malware analysis portal on an isolated workstation, accessible only to internal threat analysts. Promoted as part of a critical infrastructure environment, the portal was secretly configured as a honeypot to detect insider threats. Unexpected behaviors were observed on the system, including rule submissions triggering unexplained command activity and the creation of unfamiliar files. Security teams suspect the portal's functionality was exploited to gain deeper access, potentially enabling the attacker to establish persistence and escalate privileges within the isolated environment. Your task is to investigate the forensic artifacts provided to uncover how the attacker gained access, what actions they performed, and whether they established any mechanisms to maintain long-term control over the system.",
     "platform": "CyberDefenders",
     "link": "https://cyberdefenders.org/blueteam-ctf-challenges/yara-trap/",
     "tags": [
@@ -117,7 +117,7 @@
   },
   {
     "title": "Spooler - APT28",
-    "description": "Hunt browser downloads, MFT records, and Prefetch to unmask the initial dropper and rebuild the attack timeline.",
+    "description": "The SOC team was notified by the IT department regarding a potentially compromised workstation recently reassigned to a new government employee named Keela. Upon receiving the workstation, Keela reported unusually slow performance and suspected the system had not been properly cleaned before being handed over. The IT team initiated a routine cleanup but identified indicators of suspicious activity suggesting that the machine, and possibly the department's website may have been previously compromised. As a forensics investigator, you have been provided with a disk image of Keela's workstation. Your task is to perform a comprehensive investigation to uncover any signs of malicious activity, reconstruct the timeline of events, and assess the scope and impact of the potential compromise.",
     "platform": "CyberDefenders",
     "link": "https://cyberdefenders.org/blueteam-ctf-challenges/spooler-apt28/",
     "tags": [
@@ -143,7 +143,7 @@
   },
   {
     "title": "Perfect Survey",
-    "description": "Investigate the compromised web server, which also functions as the domain controller for the Wowza Sport environment. You are expected to analyze logs, identify the source and method of the attack, and assess the potential impact on both the website and the organization's Active Directory infrastructure",
+    "description": "The Wowza Sport website recently came under a suspected cyberattack. Internal stakeholders believe that a rival competitor may be behind the incident. On the day of the attack, monitoring systems detected a sudden and abnormal surge in incoming web requests, overwhelming the company's online services. Your task is to investigate the compromised web server, which also functions as the domain controller for the Wowza Sport environment. You are expected to analyze logs, identify the source and method of the attack, and assess the potential impact on both the website and the organization's Active Directory infrastructure.",
     "platform": "CyberDefenders",
     "link": "https://cyberdefenders.org/blueteam-ctf-challenges/perfect-survey/",
     "tags": [
@@ -174,7 +174,7 @@
   },
   {
     "title": "LFI Escalation",
-    "description": "Investigate the full scope of the compromise—tracing how the attacker gained access from the website, what actions they performed, and how they established persistence on the system.",
+    "description": "IT staff reported unusual behavior on a workstation running a web application, triggered by an antivirus detection of a suspicious file. Early indicators suggest the website may have served as the entry point. Your task is to investigate the full scope of the compromise — tracing how the attacker gained access, what actions they performed, and how they established persistence on the system.",
     "platform": "CyberDefenders",
     "link": "https://cyberdefenders.org/blueteam-ctf-challenges/lfi-escalation/",
     "tags": [
@@ -205,7 +205,7 @@
   },
   {
     "title": "KioskExpo7",
-    "description": "Investigate how a physical kiosk breakout led to full system compromise using host and forensic artifacts.",
+    "description": "On October 18, 2025, Wowza Enterprise hosted their first-ever cybersecurity conference. To streamline registration, the IT team configured several laptops in Windows Kiosk mode to display a QR-code registration page for attendee self-service. After the event concluded, the security team detected suspicious outbound connections originating from one of the kiosk devices KioskExpo7. Surveillance footage revealed a suspicious individual spending an unusually long time interacting with that particular terminal. You have been provided with a KAPE triage image from the compromised kiosk. Your mission is to reconstruct the complete attack timeline, identify the breakout and escalation techniques used, and assess the full scope and impact of the compromise.",
     "platform": "CyberDefenders",
     "link": "https://cyberdefenders.org/blueteam-ctf-challenges/kioskexpo7/",
     "tags": [
@@ -240,7 +240,7 @@
   },
   {
     "title": "RoastToRoot",
-    "description": "Analyze network traffic to reconstruct a complete domain compromise attack chain, from AS-REP Roasting and Kerberoasting through privilege escalation, lateral movement, and data exfiltration using rclone.",
+    "description": "After compromising a Linux server within the environment, the threat actor was able to pivot deeper into the network and ultimately gain access to the domain controller. From there, they deployed ransomware across the Wowza Enterprise infrastructure, resulting in widespread system outages and the loss of all recoverable backups. Fortunately, network traffic from the first day of the intrusion, specifically communications between the compromised Linux host and the domain controller, was captured and preserved. Your task is to analyze this evidence to determine how the breach occurred, identify the attacker's actions and access path, and provide clear, actionable lessons learned for the organization to strengthen its security posture and prevent similar incidents in the future.",
     "platform": "CyberDefenders",
     "link": "https://cyberdefenders.org/blueteam-ctf-challenges/roasttoroot/",
     "tags": [
@@ -324,7 +324,7 @@
   },
   {
     "title": "CodeFreeze",
-    "description": "Reconstruct the complete attack timeline by analyzing browser history, event logs, registry, and Git artifacts to identify initial access, persistence, and data exfiltration mechanisms.",
+    "description": "Caspery, a senior developer working remotely for Wowza Enterprise, reported that his git commit commands were taking unusually long to complete. Several days later, the Threat Intelligence team discovered Caspery's credentials and API keys leaked on a dark web forum. The data included sensitive information from Wowza's internal systems. The Incident Response plan was immediately activated. A forensic team was dispatched to acquire an image of Caspery's workstation. Your mission is to conduct an analysis on the forensic image to identify the root cause of the breach. Time is critical — the data is already compromised and actively being traded on dark web marketplaces.",
     "platform": "CyberDefenders",
     "link": "https://cyberdefenders.org/blueteam-ctf-challenges/codefreeze/",
     "tags": [
@@ -353,7 +353,7 @@
   },
   {
     "title": "Satisfaction",
-    "description": "A disgruntled customer, a compromised survey, and a trail of evidence hiding in plain sight — can you trace the attack from the first click to the final payload?",
+    "description": "Wowza Innotech hosted an onsite customer meetup at their headquarters. Each session concluded with attendees completing a satisfaction survey on an internal workstation accessible only within the building's network. During one session, a customer noticed the survey page redirected them to a suspicious external site prompting a file download. They reported it immediately to the IT and Incident Response (IR) team. Initial triage confirmed the survey workstation had been compromised. Internal interviews revealed that one attendee had a heated disagreement with staff over product performance — an individual with a history of misusing technology when upset. Given the timing, the IR team suspected the compromise occurred during the meeting itself, likely by someone physically present on the network. Fortunately, the network operations team had been capturing traffic during the event for monitoring purposes. This packet capture was handed over for deeper analysis.",
     "platform": "CyberDefenders",
     "link": "https://cyberdefenders.org/blueteam-ctf-challenges/satisfaction/",
     "tags": [

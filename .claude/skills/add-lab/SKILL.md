@@ -14,7 +14,7 @@ Ask for any missing fields not provided in the user's message:
 | Field | Notes |
 |---|---|
 | `title` | Lab title as shown on the platform |
-| `description` | 1–2 sentence description of the scenario |
+| `description` | Official platform scenario text — fetch from the lab page via Chrome browser (see "Fetching scenario text"). Do not write a summary. |
 | `platform` | `"Blue Team Labs Online"`, `"HackTheBox"`, `"CyberDefenders"`, or a CTF event name |
 | `link` | Direct URL to the lab. **Optional** — omit the field entirely if there is nowhere to point yet (see "Labs with no link") |
 | `tags` | Array of topic tags, e.g. `["Endpoint Forensics", "Windows Forensics"]` |
@@ -86,6 +86,31 @@ Add optional fields only if provided:
   "player_difficulty": "<player_difficulty>",
   "tactics": [...]
 ```
+
+### Fetching scenario text from the platform
+
+The `description` should be the **official platform scenario** — the in-character story/briefing the
+player reads before starting. Do not write a summary yourself; fetch the real text.
+
+**CyberDefenders:** Navigate to the lab URL via Chrome browser tools, wait for Vue.js to render, then
+extract the scenario with:
+```javascript
+document.querySelector('[data-v-f87577df]')?.innerText
+```
+If that returns nothing, fall back to:
+```javascript
+Array.from(document.querySelectorAll('p')).filter(p => p.innerText.length > 80
+  && !p.innerText.includes('CyberDefenders')
+  && !p.innerText.includes('cookies')).map(e => e.innerText).join('\n\n')
+```
+
+**HackTheBox Sherlocks:** Navigate to the Sherlock page and extract the scenario similarly.
+
+**BTLO / CTF events:** If the platform page is accessible, fetch from there. Otherwise ask the user
+to paste the scenario text.
+
+Use the fetched text as the `description` value verbatim. Clean up only whitespace — do not
+paraphrase or summarize.
 
 **Ratings: leave them out.** Do not add `rating` when creating the entry.
 
