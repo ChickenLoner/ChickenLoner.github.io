@@ -277,7 +277,7 @@
   },
   {
     "title": "RaaS Unfold - RansomHub",
-    "description": "A ransomware empire built on the ashes of its predecessors, trace its origins, expose its operators, and unfold its playbook.",
+    "description": "The incident response team was tasked by Wowza Unlimited's parent company to investigate the attack. They obtained the hash of the ransomware responsible for encrypting all files. This hash can help determine the ransomware's capabilities and identify its operator. Your job is to find all relevant information related to this ransomware — this is critical for helping leadership decide whether to pay the ransom or alert the authorities.",
     "platform": "CyberDefenders",
     "link": "https://cyberdefenders.org/blueteam-ctf-challenges/raas-unfold-ransomhub/",
     "tags": [
@@ -299,7 +299,7 @@
   },
   {
     "title": "Recruiter - Hanoi Op",
-    "description": "When a candidate submits a resume that’s more than it seems, it’s up to you to hunt through the artifacts, reconstruct the infection chain, and stop a data breach in its tracks.",
+    "description": "Wowza Enterprise operates a public job application portal that allows interested candidates to submit their personal information and CVs. The HR team regularly reviews submitted resumes and schedules interviews with suitable candidates. During a routine CV review, Patinthida, an HR specialist at Wowza Enterprise, noticed something unusual. One candidate had submitted their resume as a ZIP archive. Upon extracting and opening the contents, a PDF file was launched from an unexpected and unfamiliar location on the workstation. Alarmed by this behavior, Patinthida immediately shut down her workstation and contacted the IT team for assistance. Your task is to investigate what occurred on this workstation, reconstruct the sequence of events, and determine whether Wowza Enterprise experienced a potential security breach.",
     "platform": "CyberDefenders",
     "link": "https://cyberdefenders.org/blueteam-ctf-challenges/recruiter-hanoi-op/",
     "tags": [
@@ -373,7 +373,7 @@
   },
   {
     "title": "Penumbra",
-    "description": "Synthesize diverse forensic artifacts including $MFT, USN journal, and registry hives to reconstruct an anti-forensic intrusion timeline from initial access to exfiltration.",
+    "description": "Wowza Technology has suffered another breach, and this time security awareness training was not enough to stop it. The victim is Patricia Kyrielight, a document controller responsible for files tied to a classified government project still under development. Because her role gives her broad access to sensitive design and infrastructure documentation, compromising her workstation was enough to expose the inner workings of the project. The incident came to light when an endpoint security alert flagged unauthorized remote-access software running on Patricia's machine, a direct violation of company policy. A closer look revealed far more than a policy breach: the attacker had already established persistence early in the day, then returned hours later for a hands-on session while Patricia was away from her desk. During that session they searched her files, pulled confidential material from her cloud-synced storage, and worked methodically to erase their tracks before disconnecting. You have been handed a triage image of the affected workstation. Reconstruct the intrusion from initial access through exfiltration, account for the attacker's anti-forensic activity, and determine the full extent of what was accessed and taken.",
     "platform": "CyberDefenders",
     "link": "https://cyberdefenders.org/blueteam-ctf-challenges/penumbra/",
     "tags": [
@@ -405,7 +405,7 @@
   },
   {
     "title": "CodeFreeze 2",
-    "description": "One email from a trusted colleague. One extension that looked official. One machine that kept behaving exactly as expected. The attacker never ran the kind of Windows binary that trips an alert, they moved into the Linux subsystem and worked from there. The triage image holds every step, can you retrace it before the trail goes cold?",
+    "description": "The intrusion began with a senior engineer on Wowza Enterprise's development team. As the incident response team worked to contain the compromise, it became clear the attacker's reach had not ended with that single account. Johnny Tronus, a data scientist on the marketing team, used a dedicated virtual machine to process the company's sales data. When news of the breach spread, he recalled a recent email exchange with the compromised engineer and the file he had been persuaded to download from it. Suspecting his own machine might be affected, he escalated to the incident response team without delay. IR moved quickly to contain and triage the VM, captured a full image, and passed it down the chain for investigation. That image is now in your hands. Work through the evidence to reconstruct the attack from start to finish: how the actor first gained access, the actions they took on the host, the mechanisms they used to maintain their foothold, and the sensitive data they ultimately put at risk.",
     "platform": "CyberDefenders",
     "link": "https://cyberdefenders.org/blueteam-ctf-challenges/codefreeze-2/",
     "tags": [
