@@ -1,7 +1,7 @@
 [
   {
     "title": "UtensilMenace",
-    "description": "A digital forensics scenario involving the analysis of a potentially malicious executable and its impact on the system.",
+    "description": "You have been tasked with investigating the PC belonging to the CEO of your company. He told you that he created an account for his son on this PC, and that his son downloaded a game. However, the game did not show up when he tried to open it, so he believes that his son may have downloaded malware. Can you unravel this incident?",
     "platform": "Blue Team Labs Online",
     "link": "https://blueteamlabs.online/home/investigation/utensilmenace-b6d7f47023",
     "tags": [
