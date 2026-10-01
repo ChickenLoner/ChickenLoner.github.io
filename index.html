@@ -684,9 +684,9 @@
 
         /* Right-side row: diff col, rating, [about], play now */
         .crow-right{display:flex;flex-direction:row;gap:8px;align-items:center;flex-shrink:0}
-        .crow-diff-col{display:flex;flex-direction:column;align-items:center;gap:3px;width:80px;flex-shrink:0}
-        .crow-diff-col .diff-pill{font-size:10.5px;padding:5px 10px;letter-spacing:.1em;justify-content:center;width:100%;text-align:center}
-        .crow-diff-col .player-diff{font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--soc-ink4);letter-spacing:.04em;white-space:nowrap;text-align:center}
+        .crow-diff-col{position:relative;display:flex;align-items:center;justify-content:center;width:80px;flex-shrink:0}
+        .crow-diff-col .diff-pill{font-size:10.5px;padding:5px 10px;letter-spacing:.1em;justify-content:center;text-align:center}
+        .crow-diff-col .player-diff{position:absolute;top:100%;left:50%;transform:translateX(-50%);font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--soc-ink4);letter-spacing:.04em;white-space:nowrap;text-align:center;margin-top:2px}
         .crow-diff-col .player-diff strong{color:var(--soc-ink3)}
         .crow-rating{width:48px;flex-shrink:0;text-align:center}
         .crow-rating .rating-val{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;letter-spacing:.02em;white-space:nowrap}
