@@ -74,8 +74,30 @@
     "team": "wowzaa",
     "description": "",
     "image": "./assets/achievements/splunkBots2026.jpg",
-    "latest": true,
     "tags": ["Blue Team", "Splunk", "SOC"]
+  },
+  {
+    "category": "competition",
+    "name": "Holmes CTF 2026: The Reichenbach Directive",
+    "organizer": "HackTheBox",
+    "placement": "4th Place",
+    "year": "2026",
+    "team": "WatsonDips",
+    "description": "17–21 September 2026",
+    "image": "",
+    "tags": ["CTF", "DFIR"]
+  },
+  {
+    "category": "competition",
+    "name": "DFIR Labs Digital Forensics Challenge September 2026",
+    "organizer": "The DFIR Report",
+    "placement": "6th Place",
+    "year": "2026",
+    "team": "",
+    "description": "27 September 2026",
+    "image": "",
+    "latest": true,
+    "tags": ["CTF", "DFIR"]
   },
   {
     "category": "competition",
