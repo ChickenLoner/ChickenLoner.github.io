@@ -937,6 +937,16 @@
         .tcell .tt-bar > div{height:100%;background:var(--cat-off);border-radius:99px}
         .tcell .tt-cnt{position:absolute;top:10px;right:12px;font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;color:var(--cat-off);z-index:1}
         .tcell.zero{opacity:.45}.tcell.zero::before{display:none}.tcell.zero .tt-cnt{color:var(--soc-ink4)}.tcell.zero .tt-bar > div{background:var(--soc-line2);width:8%!important}
+        .tcell:not(.zero){cursor:pointer}
+        .tcell.sel{border-color:var(--cat-off);box-shadow:0 0 0 1px var(--cat-off)}
+        .mitre-drill{margin-top:14px;padding-top:12px;border-top:1px solid var(--soc-line)}
+        .mitre-drill .md-hd{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em;color:var(--soc-ink);font-weight:700;margin-bottom:8px}
+        .mitre-drill .md-hd span{color:var(--soc-ink4);font-weight:500;margin-left:8px}
+        .mitre-drill .md-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:6px}
+        .mitre-drill .md-lab{display:flex;justify-content:space-between;align-items:center;gap:8px;min-width:0;padding:7px 10px;border-radius:4px;background:var(--soc-bg);border:1px solid var(--soc-line);text-decoration:none;color:var(--soc-ink2);font-size:12px}
+        .mitre-drill .md-lab:hover{border-color:var(--soc-line2);color:var(--soc-ink)}
+        .mitre-drill .md-t{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+        .mitre-drill .md-p{flex-shrink:0;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;color:var(--soc-ink4);text-transform:uppercase}
         .rating-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
         .rs-cell{background:var(--soc-bg);border:1px solid var(--soc-line);border-radius:5px;padding:14px;text-align:center}
         .rs-cell.hi{border-color:rgba(255,181,71,.35);background:linear-gradient(180deg,rgba(255,181,71,.08),transparent)}
@@ -1483,6 +1493,7 @@
                 const TWEAKS_KEY = 'soc-stats-tweaks-v2';
                 const [tweaks, setTweaks] = useState(() => { try { return {...TWEAKS_DEF,...JSON.parse(localStorage.getItem(TWEAKS_KEY)||'{}')}; } catch(e) { return TWEAKS_DEF; } });
                 const [tweaksOpen, setTweaksOpen] = useState(false);
+                const [mitreSel, setMitreSel] = useState(null);
                 const saveTweaks = v => { setTweaks(v); try { localStorage.setItem(TWEAKS_KEY, JSON.stringify(v)); } catch(e) {} };
 
                 // ── Core data ───────────────────────────────────────────────
@@ -1583,14 +1594,23 @@
                 const MITRE_DEFS = [
                     {id:'TA0001',name:'Initial Access'},{id:'TA0002',name:'Execution'},
                     {id:'TA0003',name:'Persistence'},{id:'TA0004',name:'Privilege Escalation'},
-                    {id:'TA0005',name:'Defense Evasion'},{id:'TA0006',name:'Credential Access'},
+                    {id:'TA0005',name:'Stealth'},{id:'TA0112',name:'Defense Impairment'},
+                    {id:'TA0006',name:'Credential Access'},
                     {id:'TA0007',name:'Discovery'},{id:'TA0008',name:'Lateral Movement'},
                     {id:'TA0009',name:'Collection'},{id:'TA0010',name:'Exfiltration'},
                     {id:'TA0011',name:'Command and Control'},{id:'TA0040',name:'Impact'},
                     {id:'TA0042',name:'Resource Development'},{id:'TA0043',name:'Reconnaissance'},
                 ];
-                const tacticMap = labs.reduce((a,l)=>{ (l.tactics||[]).forEach(t=>{ a[t]=(a[t]||0)+1; }); return a; }, {});
+                // ATT&CK v19 split Defense Evasion into Stealth + Defense Impairment; old data keeps the legacy name
+                const TACTIC_ALIAS = { 'Defense Evasion': 'Stealth' };
+                const labsByTactic = labs.reduce((a,l)=>{
+                    new Set((l.tactics||[]).map(t=>TACTIC_ALIAS[t]||t)).forEach(t=>{ (a[t]=a[t]||[]).push(l); });
+                    return a;
+                }, {});
+                const tacticMap = Object.fromEntries(Object.entries(labsByTactic).map(([k,v])=>[k,v.length]));
                 const mitreMax  = Math.max(...MITRE_DEFS.map(d=>tacticMap[d.name]||0), 1);
+                const mitreCovered = MITRE_DEFS.filter(d=>tacticMap[d.name]).length;
+                const mitreSelDef  = MITRE_DEFS.find(d=>d.id===mitreSel);
 
                 // ── Activity timeline ─────────────────────────────────────────
                 const actAllYears = new Set([
@@ -1936,14 +1956,15 @@
                         {/* ── MITRE ATT&CK ── */}
                         {tweaks.showMitre && (
                             <>
-                                <h2 className="soc-section rd">MITRE ATT&amp;CK Coverage</h2>
+                                <h2 className="soc-section rd">MITRE ATT&amp;CK Coverage <span className="meta">{mitreCovered}/{MITRE_DEFS.length} tactics covered · {MITRE_DEFS.length-mitreCovered} gaps</span></h2>
                                 <div className="mitre-wrap">
                                     <div className="mitre-grid">
                                         {MITRE_DEFS.map(d=>{
                                             const cnt = tacticMap[d.name] || 0;
                                             const w   = cnt / mitreMax;
                                             return (
-                                                <div key={d.id} className={`tcell${cnt===0?' zero':''}`} style={{'--w':w}}>
+                                                <div key={d.id} className={`tcell${cnt===0?' zero':''}${mitreSel===d.id?' sel':''}`} style={{'--w':w}}
+                                                     onClick={cnt?()=>setMitreSel(mitreSel===d.id?null:d.id):undefined}>
                                                     <div className="tt-id">{d.id}</div>
                                                     <div className="tt-nm">{d.name}</div>
                                                     <div className="tt-cnt">{cnt}</div>
@@ -1952,6 +1973,19 @@
                                             );
                                         })}
                                     </div>
+                                    {mitreSelDef && (
+                                        <div className="mitre-drill">
+                                            <div className="md-hd">{mitreSelDef.id} · {mitreSelDef.name} <span>{(labsByTactic[mitreSelDef.name]||[]).length} labs</span></div>
+                                            <div className="md-list">
+                                                {(labsByTactic[mitreSelDef.name]||[]).map(l=>(
+                                                    <a key={l.title} className="md-lab" href={l.link} target="_blank" rel="noopener noreferrer">
+                                                        <span className="md-t">{l.title}</span>
+                                                        <span className="md-p">{l.platform}</span>
+                                                    </a>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
                             </>
                         )}

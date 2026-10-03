@@ -905,6 +905,10 @@ useEffect(() => {
                 for every lab, plus <code>rating</code> / <code>rating_scale</code> / <code>rating_as_of</code> for post-cap labs
                 only. Because metadata wins the merge, a rating written here for a <em>pre</em>-cap lab would silently override the
                 frozen value in <code>labs.json</code> — which is exactly why the scraper gates on release date.</p>
+                <p>Stats page MITRE heatmap (<code>MITRE_DEFS</code> in <code>index.html</code>) follows ATT&amp;CK v19: 15 tactics incl.
+                <code>Stealth</code> (TA0005) and <code>Defense Impairment</code> (TA0112). Legacy <code>Defense Evasion</code> values
+                are aliased to Stealth via <code>TACTIC_ALIAS</code>. Cells are clickable and list the labs covering that tactic;
+                the section header shows covered/total tactics.</p>
             </div>
 
             <div class="subsec">
