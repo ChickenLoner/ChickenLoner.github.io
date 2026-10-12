@@ -1,6 +1,17 @@
 [
   {
     "category": "talk",
+    "name": "Everyone's Attacking ADCS. Can You Detect It?",
+    "event": "Red x Blue Pill 2026 (2600 Thailand x OWASP Bangkok Chapter)",
+    "year": "2026",
+    "role": "Speaker",
+    "description": "12 September 2026, Blue Track",
+    "image": "./assets/achievements/red_x_blue_pill_2026_adcs.png",
+    "tags": [],
+    "url": "https://docs.google.com/presentation/d/1mrsI56NVywh8EKOCa5kNKURHEB0TVZKla-NNG2BcLBo/edit?usp=sharing"
+  },
+  {
+    "category": "talk",
     "name": "I learned pentesting just to create labs for profit",
     "event": "2600TH x OWASP Bangkok Chapter",
     "year": "2026",
