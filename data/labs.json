@@ -294,6 +294,7 @@
     "rating_as_of": "2026-06",
     "is_retired": true,
     "highlights": "Pivot from a single ransomware hash to a full picture of the threat: what RansomHub's encryptor can do, how the RaaS operation is structured, and who sits behind it. Pure threat intelligence work to give leadership the facts needed to decide whether to pay the ransom or involve the authorities.",
+    "skills": ["Ransomware analysis", "Threat intelligence", "RaaS ecosystem research", "Malware hash pivoting"],
     "tactics": [
       "Impact"
     ]
@@ -316,6 +317,7 @@
     "rating_as_of": "2026-06",
     "is_retired": true,
     "highlights": "Investigate an HR workstation where opening a candidate's ZIP resume launched a PDF from an unexpected location. Reconstruct the full chain from the malicious archive through execution, persistence, privilege escalation, defense evasion, and credential access to determine whether Wowza Enterprise was breached.",
+    "skills": ["Malicious archive analysis", "Attack chain reconstruction", "Persistence detection", "Defense evasion analysis", "Credential access investigation"],
     "tactics": [
       "Execution",
       "Persistence",
