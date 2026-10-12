@@ -551,6 +551,45 @@
     "tools_used": ["Wireshark", "tshark", "hashcat", "NetworkMiner", "CyberChef"]
   },
   {
+    "title": "BAMBOOZLED",
+    "description": "WOWZA-CERT responded to an alert on WZ-IOT-GW03, a sensor data aggregator in Wowza Manufacturing's factory network. The SIEM flagged anomalous traffic on an unauthorized port. The team recovered a suspicious implant from the gateway and captured network traffic from the incident window.\n\nThe implant appears to communicate with an external controller, but the protocol is heavily obfuscated. The gateway normally handles legitimate sensor feeds, the attacker may have exploited this to blend in.",
+    "platform": "STDiO CTF 2026",
+    "tags": [
+      "Malware Analysis",
+      "Reverse Engineering",
+      "Network Forensics",
+      "MQTT",
+      "C2 Analysis"
+    ],
+    "type": "lab",
+    "image": "./assets/labs/bamboozled-cover.png",
+    "difficulty": "hard",
+    "is_retired": true,
+    "highlights": "Reverse a packed, obfuscated Linux ELF implant that hides its MQTT library as an encrypted in-memory shared object resolved through hashed function names. Recover the XOR keys and protocol structure, then use them to decode a C2 session on an unauthorized MQTT port and pull both halves of the flag from the binary's config and the exfiltrated file.",
+    "skills": ["ELF unpacking", "Obfuscation and string decryption", "MQTT C2 protocol analysis", "PCAP decoding", "Implant configuration extraction"],
+    "tools_used": ["Ghidra", "Wireshark", "tshark", "CyberChef", "Python"]
+  },
+  {
+    "title": "Whispers on the Wire",
+    "description": "Wowza Enterprise's SOC (WOWZA-CERT) detected anomalous traffic on their unsegmented office network. Two Windows Server 2022 hosts: APP-SRV-01 (application/deployment server) and DB-SRV-02 (PostgreSQL database server) were compromised via a supply-chain attack on a deployment dependency. The attacker pivoted using reused local admin credentials. The SOC recovered a binary from both hosts (implant.exe) and a packet capture from the network segment.",
+    "platform": "STDiO CTF 2026",
+    "tags": [
+      "Malware Analysis",
+      "Reverse Engineering",
+      "Network Forensics",
+      "LLDP",
+      "mDNS",
+      "C2 Analysis"
+    ],
+    "type": "lab",
+    "image": "./assets/labs/whispers-on-the-wire-cover.png",
+    "difficulty": "hard",
+    "is_retired": true,
+    "highlights": "Combine reverse engineering and network forensics against a Windows Rust implant that runs its C2 over LLDP at Layer 2 and exfiltrates data over mDNS. Cut through a decoy flag path and modified crypto, extract the key derivation and custom base64 alphabet from the binary, then decode the PCAP to recover the tasking, the encrypted exfil, and the final flag fragment.",
+    "skills": ["Rust binary reversing", "Custom crypto and KDF analysis", "LLDP C2 analysis", "mDNS exfiltration decoding", "Cross-artifact correlation"],
+    "tools_used": ["Ghidra", "Wireshark", "tshark", "CyberChef", "Python"]
+  },
+  {
     "title": "HotDog",
     "description": "Once upon a time in the kingdom of Wowza, the royal oracle foresaw an attack by mountain bandits, the most notorious hackers who had already plundered all the treasures from the NCSA kingdom. The knights wasted no time investigating and discovered that James Adam had been enchanted into leaking classified information, and the bandits had successfully stolen critical data. You, as the kingdom of Wowza's secret operative, have been tasked with uncovering the truth and recovering the stolen data. Before departing on the mission, the head knight provided additional intel: the password of the compromised James Adams is james_inwza_lucifer_x888_kwai_tanu_thong_rong_hai. Hopefully this will help you get started.",
     "platform": "Women Thailand Cyber Top Talent 2025",
