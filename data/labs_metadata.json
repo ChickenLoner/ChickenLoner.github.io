@@ -141,7 +141,7 @@
   },
   "Recruiter - Hanoi Op": {
     "player_difficulty": "hard",
-    "is_retired": false,
+    "is_retired": true,
     "tactics": [
       "Execution",
       "Stealth",
