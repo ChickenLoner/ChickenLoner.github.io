@@ -293,8 +293,8 @@
     "rating_scale": 5,
     "rating_as_of": "2026-06",
     "is_retired": true,
-    "highlights": "Pivot from a single ransomware hash to a full picture of the threat: what RansomHub's encryptor can do, how the RaaS operation is structured, and who sits behind it. Pure threat intelligence work to give leadership the facts needed to decide whether to pay the ransom or involve the authorities.",
-    "skills": ["Ransomware analysis", "Threat intelligence", "RaaS ecosystem research", "Malware hash pivoting"],
+    "highlights": "Pivot from a single ransomware hash to a full profile of RansomHub: its lineage from Cyclops and Knight, the affiliate program and its rules, exploited CVEs, and affiliate tradecraft such as AnyDesk deployment and the EDRKillShifter loader. Then dig into the encryptor itself, covering the runtime passphrase, VM shutdown, log clearing, and ransom note, to arm leadership for the pay-or-report decision.",
+    "skills": ["Threat intelligence", "Malware hash pivoting", "RaaS ecosystem research", "Ransomware behavior analysis", "CVE research"],
     "tactics": [
       "Impact"
     ]
@@ -316,8 +316,8 @@
     "rating_scale": 5,
     "rating_as_of": "2026-06",
     "is_retired": true,
-    "highlights": "Investigate an HR workstation where opening a candidate's ZIP resume launched a PDF from an unexpected location. Reconstruct the full chain from the malicious archive through execution, persistence, privilege escalation, defense evasion, and credential access to determine whether Wowza Enterprise was breached.",
-    "skills": ["Malicious archive analysis", "Attack chain reconstruction", "Persistence detection", "Defense evasion analysis", "Credential access investigation"],
+    "highlights": "Investigate an HR workstation where a candidate's ZIP resume hid a CV.pdf.lnk shortcut that kicked off a LOLBin chain and DLL sideloading. Follow the attacker from stolen credentials and SeBackupPrivilege hive dumping to MSI-based C2, W32Time service persistence, and a USB-triggered script that exfiltrated HR data to a cloud bucket.",
+    "skills": ["LNK analysis", "LOLBin and DLL sideloading detection", "Registry hive dump detection", "Service persistence analysis", "USB and exfiltration forensics"],
     "tactics": [
       "Execution",
       "Persistence",
