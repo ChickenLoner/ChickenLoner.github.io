@@ -834,6 +834,8 @@
         .tcard .tc-meta{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--soc-ink3);letter-spacing:.03em;margin-top:3px;overflow-wrap:anywhere}
         .tcard .tc-watch{align-self:flex-start;margin-top:4px;display:inline-flex;align-items:center;gap:6px;padding:6px 12px;background:#dc2626;color:#fff;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;text-decoration:none;letter-spacing:.08em;text-transform:uppercase}
         .tcard .tc-watch:hover{background:#b91c1c}
+        .tcard .tc-watch.slides{background:var(--soc-vi)}
+        .tcard .tc-watch.slides:hover{filter:brightness(1.12)}
 
         /* First Bloods panels */
         .fb-platforms{display:flex;flex-direction:column;gap:14px}
@@ -3231,6 +3233,7 @@
                                         {talk.segment && <div className="tc-meta">⚑ {talk.segment}</div>}
                                         {talk.cospeakers && talk.cospeakers.length>0 && <div className="tc-meta">with {talk.cospeakers.join(', ')}</div>}
                                         {yt && <a href={talk.url} target="_blank" rel="noopener noreferrer" className="tc-watch">▶ Watch</a>}
+                                        {!yt && talk.url && <a href={talk.url} target="_blank" rel="noopener noreferrer" className="tc-watch slides">Slides ↗</a>}
                                     </div>
                                 </div>
                                 );
