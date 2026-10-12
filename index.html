@@ -831,6 +831,7 @@
         .tcard .tc-name{font-size:13px;font-weight:700;color:var(--soc-ink);line-height:1.3}
         .tcard .tc-event{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--soc-vi);letter-spacing:.04em}
         .tcard.video .tc-event{color:var(--soc-rd)}
+        .tcard .tc-meta{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--soc-ink3);letter-spacing:.03em;margin-top:3px;overflow-wrap:anywhere}
         .tcard .tc-watch{align-self:flex-start;margin-top:4px;display:inline-flex;align-items:center;gap:6px;padding:6px 12px;background:#dc2626;color:#fff;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;text-decoration:none;letter-spacing:.08em;text-transform:uppercase}
         .tcard .tc-watch:hover{background:#b91c1c}
 
@@ -3227,6 +3228,8 @@
                                     <div className="tc-body">
                                         <div className="tc-name">{talk.name}</div>
                                         <div className="tc-event">⌖ {talk.event}</div>
+                                        {talk.segment && <div className="tc-meta">⚑ {talk.segment}</div>}
+                                        {talk.cospeakers && talk.cospeakers.length>0 && <div className="tc-meta">with {talk.cospeakers.join(', ')}</div>}
                                         {yt && <a href={talk.url} target="_blank" rel="noopener noreferrer" className="tc-watch">▶ Watch</a>}
                                     </div>
                                 </div>
