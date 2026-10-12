@@ -292,7 +292,8 @@
     "rating": 4.6,
     "rating_scale": 5,
     "rating_as_of": "2026-06",
-    "is_retired": false,
+    "is_retired": true,
+    "highlights": "Pivot from a single ransomware hash to a full picture of the threat: what RansomHub's encryptor can do, how the RaaS operation is structured, and who sits behind it. Pure threat intelligence work to give leadership the facts needed to decide whether to pay the ransom or involve the authorities.",
     "tactics": [
       "Impact"
     ]
@@ -313,7 +314,8 @@
     "rating": 4.6,
     "rating_scale": 5,
     "rating_as_of": "2026-06",
-    "is_retired": false,
+    "is_retired": true,
+    "highlights": "Investigate an HR workstation where opening a candidate's ZIP resume launched a PDF from an unexpected location. Reconstruct the full chain from the malicious archive through execution, persistence, privilege escalation, defense evasion, and credential access to determine whether Wowza Enterprise was breached.",
     "tactics": [
       "Execution",
       "Persistence",
