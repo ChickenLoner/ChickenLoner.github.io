@@ -315,15 +315,6 @@
         "url":  "https://cyber5w.com/hof/c5w-digital-forensic-analysis-course"
     },
     {
-        "name":  "CASA - Certified API Security Analyst",
-        "issuer":  "APIsec University",
-        "year":  "2026",
-        "status":  "Active",
-        "category":  "General \u0026 Foundational",
-        "badge":  "./assets/badges/api_casa.png",
-        "url":  ""
-    },
-    {
         "name":  "C-AgAIPen - Certified Agentic AI Pentester",
         "issuer":  "PentestingExams.com",
         "year":  "2026",
