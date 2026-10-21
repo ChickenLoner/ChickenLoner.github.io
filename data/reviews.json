@@ -209,11 +209,11 @@
     "rating": 4.9
   },
   {
-    "title": "CJDE (Certified Junior Detection Engineer) Review and How to prepare for it!",
-    "excerpt": "A detailed review and guide on the Certified Junior Detection Engineer certification, The elegant way to start learning for alert tuning and rule creation as detection engineer. Covers course material, exam preparation, exam experience and tips.",
+    "title": "CDEA (Certified Detection Engineering Associate) Review and How to prepare for it!",
+    "excerpt": "A detailed review and guide on the Certified Detection Engineering Associate certification, The elegant way to start learning for alert tuning and rule creation as detection engineer. Covers course material, exam preparation, exam experience and tips.",
     "date": "January 2026",
     "readTime": "10 min read",
-    "tags": ["CJDE", "Blue Team", "Detection Engineer", "Centri"],
+    "tags": ["CDEA", "Blue Team", "Detection Engineer", "Centri"],
     "url": "/reviews/cjde/index.html",
     "image": "/assets/badges/cjde.png",
     "difficulty": "Beginner",
