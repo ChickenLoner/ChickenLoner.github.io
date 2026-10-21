@@ -410,8 +410,17 @@
         "year":  "2026",
         "status":  "Active",
         "category":  "Blue Team & Detection",
-        "latest":  true,
         "badge":  "./assets/badges/ccsa.png",
         "url":  "https://cybrixen.com/credentials/?id=CCSA-2026-0004"
+    },
+    {
+        "name":  "GNFA - GIAC Network Forensic Analyst",
+        "issuer":  "Global Information Assurance Certification (GIAC)",
+        "year":  "2026",
+        "status":  "Active",
+        "category":  "Digital Forensics & DFIR",
+        "latest":  true,
+        "badge":  "./assets/badges/gnfa.png",
+        "url":  "https://www.credly.com/badges/c88eca23-5ebc-454e-b50f-c4d251f9f213"
     }
 ]
