@@ -1,5 +1,16 @@
 [
   {
+    "title": "GNFA Exam Review: Cert for a Real Network Forensic Analyst",
+    "excerpt": "A review of the GIAC Network Forensic Analyst (GNFA) certification. Covers passing without the FOR572 course, building an AI-assisted cheat sheet from the course outline, the 66-question exam with 11 CyberLive questions, and how it compares to GCIA.",
+    "date": "October 2026",
+    "readTime": "6 min read",
+    "tags": ["GNFA", "GIAC", "Network Forensics", "DFIR", "Intermediate"],
+    "url": "/reviews/gnfa/index.html",
+    "image": "/assets/badges/gnfa.png",
+    "difficulty": "Intermediate",
+    "rating": 4.7
+  },
+  {
     "title": "GCIA Exam Review: A Certificate for the Network Protocol Nerdy",
     "excerpt": "A review of the GIAC Certified Intrusion Analyst (GCIA), the hardest GIAC Practitioner cert I have sat. Covers passing without SEC503, building an AI-assisted cheat sheet from the course syllabus, using the practice test to find gaps, and the exam-day experience.",
     "date": "August 2026",

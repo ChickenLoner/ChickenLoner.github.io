@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GNFA Exam Review: Cert for a Real Network Forensic Analyst | Chicken0248</title>
+    <meta name="description" content="A review of the GIAC Network Forensic Analyst (GNFA) certification. Covers passing without the FOR572 course, building an AI-assisted cheat sheet from the course outline, the 66-question exam with 11 CyberLive questions, and how it compares to GCIA." />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Chicken0248" />
+    <meta property="og:url" content="https://chicken0248.fyi/reviews/gnfa/" />
+    <meta property="og:title" content="GNFA Exam Review: Cert for a Real Network Forensic Analyst" />
+    <meta property="og:description" content="A review of the GIAC Network Forensic Analyst (GNFA) certification. Covers passing without the FOR572 course, building an AI-assisted cheat sheet from the course outline, the 66-question exam with 11 CyberLive questions, and how it compares to GCIA." />
+    <meta property="og:image" content="https://chicken0248.fyi/reviews/gnfa/cover.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@Chicken_0248" />
+    <meta name="twitter:title" content="GNFA Exam Review: Cert for a Real Network Forensic Analyst" />
+    <meta name="twitter:description" content="A review of the GIAC Network Forensic Analyst (GNFA) certification. Covers passing without the FOR572 course, building an AI-assisted cheat sheet from the course outline, the 66-question exam with 11 CyberLive questions, and how it compares to GCIA." />
+    <meta name="twitter:image" content="https://chicken0248.fyi/reviews/gnfa/cover.jpg" />
+    <link rel="canonical" href="https://chicken0248.fyi/reviews/gnfa/" />
+    <link rel="icon" href="/chicken0248.png" type="image/png">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.29.2/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@1.14.0/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="/themes/soc.css">
+    <script src="/themes/soc-theme.js"></script>
+    <script src="/themes/soc-nav.js"></script>
+    <script src="/themes/soc-components.js"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "GNFA Exam Review: Cert for a Real Network Forensic Analyst",
+      "description": "A review of the GIAC Network Forensic Analyst (GNFA) certification. Covers passing without the FOR572 course, building an AI-assisted cheat sheet from the course outline, the 66-question exam with 11 CyberLive questions, and how it compares to GCIA.",
+      "image": "https://chicken0248.fyi/reviews/gnfa/cover.jpg",
+      "author": { "@type": "Person", "name": "Chicken0248", "url": "https://chicken0248.fyi/" },
+      "publisher": { "@type": "Person", "name": "Chicken0248", "url": "https://chicken0248.fyi/" },
+      "datePublished": "2026-10-01",
+      "dateModified": "2026-10-01",
+      "mainEntityOfPage": { "@type": "WebPage", "@id": "https://chicken0248.fyi/reviews/gnfa/" },
+      "url": "https://chicken0248.fyi/reviews/gnfa/"
+    }
+    </script>
+</head>
+<body>
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-white focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg focus:text-blue-600 focus:font-semibold">Skip to content</a>
+    <noscript>
+      <style>body{font-family:system-ui,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}</style>
+      <div style="text-align:center;padding:2rem"><h1>JavaScript required</h1><p>This site requires JavaScript to display content. Please enable it in your browser settings.</p><a href="https://chicken0248.fyi">chicken0248.fyi</a></div>
+    </noscript>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+        const { SocClock, Icon, Section, Fig, resetFigCount, TipList, B, A, Code, ThemeToggle } = window.SocComponents;
+
+        const Callout = ({ children }) => (
+            <blockquote className="bg-amber-50 border-l-4 border-amber-400 rounded-r-xl px-5 py-4 my-4 text-gray-700 italic text-sm leading-relaxed">
+                {children}
+            </blockquote>
+        );
+
+        const renderStars = (rating) => {
+            const full = Math.floor(rating);
+            const half = rating - full >= 0.5;
+            return '★'.repeat(full) + (half ? '½' : '') + '☆'.repeat(5 - full - (half ? 1 : 0));
+        };
+
+        const App = () => {
+            const [meta, setMeta] = useState(null);
+
+            useEffect(() => {
+                fetch('/data/reviews.json')
+                    .then(r => r.json())
+                    .then(data => {
+                        const entry = data.find(r => r.url === '/reviews/gnfa/index.html');
+                        if (entry) setMeta(entry);
+                    })
+                    .catch(() => {});
+            }, []);
+
+            resetFigCount();
+
+            const tocItems = [
+                { id: 'introduction', label: 'Introduction', icon: 'BookOpen' },
+                { id: 'exam-preparation', label: 'Exam Preparation', icon: 'ClipboardList' },
+                { id: 'exam-experience', label: 'Exam Experience', icon: 'FlaskConical' },
+                { id: 'review-summary', label: 'Review Summary', icon: 'Star' },
+            ];
+
+            return (
+                <div style={{background:'var(--soc-bg)',minHeight:'100vh'}}>
+
+                    <nav className="soc-tb" aria-label="Site navigation">
+                        <div className="soc-tb-row">
+                            <a href="/" className="soc-live" style={{textDecoration:"none",color:"inherit"}}>UPLINK</a>
+                            <div className="soc-crumb hidden md:flex">
+                                <a href="/" style={{color:'var(--soc-ink3)',textDecoration:'none'}}>SOC</a>
+                                <span>/</span>
+                                <a href="/" style={{color:'var(--soc-ink3)',textDecoration:'none'}}>OPERATOR.PROFILE</a>
+                                <span>/</span>
+                                <a href="/reviews/index.html" style={{color:'var(--soc-ink3)',textDecoration:'none'}}>REVIEWS</a>
+                                <span>/</span>
+                                <b>GNFA</b>
+                            </div>
+                            <div style={{flex:1}} />
+                            <span className="sev cyan hidden md:inline-flex"><span className="dot"></span>TLP:CLEAR</span>
+                            <span className="sev amber hidden md:inline-flex"><span className="dot"></span>CERT.REVIEW</span>
+                            <span className="hidden md:block"><SocClock /></span><ThemeToggle />
+                        </div>
+                    </nav>
+
+                    <main id="main-content" style={{maxWidth:'860px',margin:'0 auto',padding:'24px 20px'}} className="animate-fadeIn">
+
+                        <div className="res-cover">
+                            <img src="cover.jpg" alt="GNFA Exam Review: Cert for a Real Network Forensic Analyst" />
+                            <div className="res-cover-overlay" />
+                            <div className="res-cover-content">
+                                <h1 className="res-cover-title">GNFA Exam Review: Cert for a Real Network Forensic Analyst</h1>
+                                <div className="res-cover-badges">
+                                    <span className="sev cyan"><span className="dot"></span>October 2026</span>
+                                    <span className="sev amber"><span className="dot"></span>GIAC</span>
+                                    <span className="sev green"><span className="dot"></span>Passed</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="res-meta-grid">
+                            <div><div className="res-meta-lbl">Certification</div><div className="res-meta-val">GNFA</div></div>
+                            <div><div className="res-meta-lbl">Provider</div><div className="res-meta-val">GIAC</div></div>
+                            <div><div className="res-meta-lbl">Difficulty</div><div className="res-meta-val" style={{color:'var(--soc-am)'}}>{meta?.difficulty ?? '\u2014'}</div></div>
+                            <div><div className="res-meta-lbl">Rating</div>
+                                <div className="res-meta-val">
+                                    {meta?.rating ? (
+                                        <span style={{display:'flex',alignItems:'center',gap:'4px'}}>
+                                            <span style={{color:'var(--soc-am)'}}>{renderStars(meta.rating)}</span>
+                                            <span style={{color:'var(--soc-ink3)',fontSize:'11px'}}>{meta.rating.toFixed(1)}/5.0</span>
+                                        </span>
+                                    ) : <span style={{color:'var(--soc-ink4)'}}>{'\u2014'}</span>}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="res-toc">
+                            <div className="res-toc-title">// TABLE OF CONTENTS</div>
+                            <div className="res-toc-grid">
+                                {tocItems.map((item, i) => (
+                                    <a key={item.id} href={`#${item.id}`} className="res-toc-item">
+                                        <span className="res-toc-num">{String(i+1).padStart(2,'0')}.</span>
+                                        <Icon name={item.icon} className="w-3.5 h-3.5" style={{color:'var(--soc-ink4)',flexShrink:0}} />
+                                        <span>{item.label}</span>
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+
+                        <Section id="introduction" title="Introduction" icon="BookOpen">
+                            <p className="text-gray-700 leading-relaxed">Hello everyone, it's Chicken0248 with my fourth certification from GIAC: the GIAC Network Forensic Analyst (GNFA). Taking it after GCIA was the right call for me. Plenty of people would say that if you want both, GNFA should come first and GCIA second, because GCIA makes you go much deeper into each protocol.</p>
+                            <p className="text-gray-700 leading-relaxed">Just like every GIAC cert before it, I took this one without the formal FOR572 course. It made me doubt myself again and again, convinced I would never be ready, but the show must go on.</p>
+                            <p className="text-gray-700 leading-relaxed">I pulled it off. How? Let's find out in the next section.</p>
+                        </Section>
+
+                        <Section id="exam-preparation" title="Exam Preparation" icon="ClipboardList">
+                            <p className="text-gray-700 leading-relaxed">Before taking any exam, we need to know the exam objectives first, right?</p>
+                            <Fig src="image-1.png" alt="GIAC GNFA certification description on the official exam page" />
+                            <Callout>The GIAC Network Forensic Analyst (GNFA) certification validates a practitioner's ability to perform advanced analysis of network forensic artifacts. GNFA certification holders are qualified to process and interpret normal and abnormal network activity, and to analyze application activity through system logs, network traffic captures, and network metadata.</Callout>
+                            <p className="text-gray-700 leading-relaxed">That is how the official <A href="https://www.giac.org/certifications/network-forensic-analyst-gnfa">GNFA</A> exam page describes it. It tells us network forensics is not only about pcaps. It also covers system logs and network metadata, so you need to be able to spot something off in any of those evidence types.</p>
+                            <Fig src="image-2.png" alt="GNFA exam objectives and outcome statements" />
+                            <p className="text-gray-700 leading-relaxed">The objectives and outcome statements list 8 areas: common network protocols (I won't reveal which ones show up), encryption and encoding, NetFlow (that's where the network metadata comes in), network architecture, network protocol reverse engineering, open source network security proxies, security event and incident logging, and wireless network analysis.</p>
+                            <p className="text-gray-700 leading-relaxed">Architecture is not my thing, so that was a weak area. Protocol reverse engineering sounded advanced and I had no idea what it involved. Wireless is where I'm weakest of all.</p>
+                            <p className="text-gray-700 leading-relaxed">Knowing the objectives still doesn't tell us how to prepare, because the page mentions no methodology, protocols, or tools. So we look at the training the exam is based on: <A href="https://www.sans.org/cyber-security-courses/advanced-network-forensics-threat-hunting-incident-response">FOR572: Advanced Network Forensics: Threat Hunting, Analysis, and Incident Response</A>.</p>
+                            <Fig src="image-3.png" alt="SANS FOR572 course page with the full topic details" />
+                            <p className="text-gray-700 leading-relaxed">The course page has plenty of clues about what could appear in the exam. The overview tells us what the instructor teaches, and the full topic details give a big hint: the Web Server Proxy topic means you have to study the Squid proxy server, its configuration, its logging, and cache extraction.</p>
+                            <p className="text-gray-700 leading-relaxed">The course also splits network evidence into 3 core types: capture (likely pcap), logs, and NetFlow. It covers how to collect them from switches, taps, network packet brokers, and so on. To keep this post from bloating, here is the list I pulled from that page of what you will have to learn.</p>
+                            <p className="text-gray-700 leading-relaxed"><B>Tools</B></p>
+                            <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                <li>Wireshark and tshark</li>
+                                <li>SOF-ELK (Elastic Stack)</li>
+                                <li>Zeek</li>
+                                <li>jq</li>
+                                <li>nfcapd, nfpcapd, and nfdump (nfdump is the main one)</li>
+                                <li>NetworkMiner</li>
+                                <li>Arkime (Moloch)</li>
+                            </ul>
+                            <p className="text-gray-700 leading-relaxed"><B>Protocols</B></p>
+                            <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
+                                <li>HTTP (all versions, including web server logs)</li>
+                                <li>DNS (the course also mentions DNS attacks such as fast flux and DGA)</li>
+                                <li>FTP (extracting files from a pcap is a must, I'd guess)</li>
+                                <li>SMB (same here)</li>
+                                <li>SMTP</li>
+                                <li>SSL/TLS</li>
+                            </ul>
+                            <p className="text-gray-700 leading-relaxed">Now the main problem. I heard the labs in this course are massive and that students get the most out of the course by playing them, but I have no way to get them. You have to enroll to get the labs.</p>
+                            <p className="text-gray-700 leading-relaxed">So what did I do after reading the outline? I thought hard about it, because I'm working full time while building a tool for my job, drafting a strategy to improve my organization's cyber resilience and its threat hunting and digital forensics capability, and squeezing in some personal research. And of course using some days off to watch series and read novels and manga.</p>
+                            <Fig src="image-4.png" alt="FOR572 course outline copied into a text file for AI research" />
+                            <p className="text-gray-700 leading-relaxed">I copied the whole course outline into a text file and had Claude research every topic in it, then build 5 cheat sheets. The course has 6 sections, but the last is the capstone challenge. It did its job. All I needed now was to buy the practice test, to see what the cheat sheets were missing and to practice finding the right topic quickly.</p>
+                            <Fig src="image-5.png" alt="AI-generated cheat sheets for the FOR572 sections" />
+                            <p className="text-gray-700 leading-relaxed">For financial reasons I couldn't afford the practice test, so I crossed my fingers and bought the exam voucher after painfully going through every topic in the cheat sheets. ChatGPT helped a lot by breaking complex topics into pieces and giving clear examples. I've been using it that way since GCIA.</p>
+                            <p className="text-gray-700 leading-relaxed">But the more I went through each section, the more underprepared I felt. I'm not sure why. Maybe because network is not my thing, or because I had no official material, or no lab to practice on. Maybe because I paid for the voucher out of my own pocket and didn't want to waste it on a retake. Probably all of them. The show must go on.</p>
+                        </Section>
+
+                        <Section id="exam-experience" title="Exam Experience" icon="FlaskConical">
+                            <p className="text-gray-700 leading-relaxed">To fight the underprepared feeling, I scheduled the exam to give myself a deadline. No matter how unready I felt, there was no way back. On the day, I booked my ride and went.</p>
+                            <Fig src="image-6.png" alt="GNFA exam day at the testing center" />
+                            <p className="text-gray-700 leading-relaxed">The GNFA exam has 66 questions to finish in 3 hours. The last 11 are CyberLive, where you use their VM to investigate the given evidence and find the answers. I had learned my lesson from earlier GIAC attempts and brought water into the exam room, because my throat keeps drying out.</p>
+                            <Fig src="image-7.png" alt="GNFA exam instructions screen" />
+                            <p className="text-gray-700 leading-relaxed">In the room I hit many questions my cheat sheet couldn't answer, because it simply didn't cover them. My confidence kept dropping as the questions went by, since I was guessing on probability and on what should be possible in the gaps. Experience helped, but the doubt stayed. If you can't figure out an answer, or suspect it will take a while or will surface once you work through other questions, you can skip it. I don't remember how many I skipped, but it was a bunch.</p>
+                            <Fig src="image-8.png" alt="GNFA CyberLive question environment" />
+                            <p className="text-gray-700 leading-relaxed">Then came the CyberLive part, and this is where it got fun. Some tools were new to me, but I could read the manual and get the gist. I got an answer for every CyberLive question, then paid back the karma for skipping questions by going back and yolo-ing them, knowing I might fail. I finished the whole exam in 90 minutes.</p>
+                            <Fig src="image-9.png" alt="GNFA exam result showing a pass with 90 percent" />
+                            <p className="text-gray-700 leading-relaxed">It turned out I passed, with 90% and a perfect score on CyberLive. I knew wireless and network architecture were my weak areas, and CyberLive clearly carried me there. Then reality hit: even where my guesses were right, I don't know why they were correct. That's the cost of not affording the official SANS material. AI can help you prepare a cheat sheet to bring into the exam center, but it can't know the course in detail either, so be aware there is a gap (or a huge one) that you will have to cover with your own experience.</p>
+                            <Fig src="image-10.png" alt="Reaction after seeing the GNFA result" />
+                            <p className="text-gray-700 leading-relaxed">This is how I felt after seeing the result. :D</p>
+                        </Section>
+
+                        <Section id="review-summary" title="Review Summary" icon="Star">
+                            <p className="text-gray-700 leading-relaxed">GNFA should be a good exam once you have properly gone through the formal FOR572 course from SANS. I don't recommend taking it without the official material. I tried, and I'm sure I would have benefited greatly from it.</p>
+                            <p className="text-gray-700 leading-relaxed">The exam goes deep into network forensics. You need to know what is normal and what is odd for each protocol it covers, how to acquire network evidence, how wireless networks work, and so on. It suits people who want to do network forensics better than GCIA does, since GCIA digs into each protocol's specification. In the end the two complement each other for network intrusion analysis, incident response, and threat hunting.</p>
+                        </Section>
+
+                        <div className="soc-ft">
+                            <a href="/reviews/index.html" style={{color:'var(--soc-ink4)',textDecoration:'none'}}>← ALL REVIEWS</a>
+                            <span style={{margin:'0 12px'}}>|</span>
+                            <a href="#" style={{color:'var(--soc-ink4)',textDecoration:'none'}}>↑ BACK TO TOP</a>
+                        </div>
+
+                    </main>
+                </div>
+            );
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>
