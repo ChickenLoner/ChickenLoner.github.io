@@ -814,6 +814,11 @@ useEffect(() => {
                 omit the field rather than invent a placeholder. A linkless lab must never carry
                 <code>latest</code> — the activity feed builds its "Play ↗" button from <code>lab.link</code> and
                 would render a dead control.</p>
+                <p>Competition challenges that are playable on the CTF platform (STDiO CTF, Thailand Cyber Top Talent,
+                Women Thailand Cyber Top Talent) set <code>link</code> to
+                <code>https://ctf.chicken0248.fyi/challenges/&lt;slug&gt;/</code>, where <code>&lt;slug&gt;</code> is the
+                challenge filename in the separate private CTF repo (<code>src/data/challenges/&lt;slug&gt;.json</code>).
+                A new CTF challenge needs its page published there before its link is added here.</p>
             </div>
 
             <div class="subsec">
@@ -1034,6 +1039,10 @@ const ratingLabel = l =&gt; ... "&#9733; 4.8"  on a 5-point scale
                 Routing
             </div>
             <p>No router library. Pure filesystem routing. Navigation uses standard <code>&lt;a href&gt;</code> links.</p>
+            <p>The home page <code>navigation</code> array in <code>index.html</code> ends with two off-site entries
+                (<code>external: true</code>, opened in a new tab): <b>Write-Ups</b> → <code>writeups.chicken0248.fyi</code>
+                and <b>CTF</b> → <code>ctf.chicken0248.fyi</code>. The CTF platform is a separate project
+                (Astro + Cloudflare Pages, private repo) and is not built from this repository.</p>
             <div class="tbl-wrap">
                 <table>
                     <thead><tr><th>URL</th><th>File</th></tr></thead>

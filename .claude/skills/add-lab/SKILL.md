@@ -50,6 +50,14 @@ Two consequences, both mandatory:
 
 Add `link` in a later edit once the writeup is published, and only then consider moving `latest`.
 
+### CTF-event challenges: link to the CTF platform
+
+Challenges authored for a CTF event (`platform` = the event name) are playable on the CTF platform, so
+their `link` is `https://ctf.chicken0248.fyi/challenges/<slug>/`. The slug is the challenge's filename in
+the separate private CTF repo (`src/data/challenges/<slug>.json`, kebab-case of the title, e.g.
+`whispers-on-the-wire`). Publish the challenge there first, then confirm the URL returns 200 before adding
+it here. Do not link to the event's own GitLab/GitHub repo, which may hold solutions.
+
 ## Step 2 — Check for cover image
 
 ```bash

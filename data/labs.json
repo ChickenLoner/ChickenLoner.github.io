@@ -493,7 +493,7 @@
     "title": "SHAW",
     "description": "One day in Pharloom, Hornet received a tip from Lady Lace to visit a mysterious website to uncover the truth hidden within Pharloom. Hornet went to the website, but something unexpected happened. What happened to Hornet?",
     "platform": "STDiO CTF 2025",
-    "link": "https://gitlab.com/2600-thailand/stdio/stdio-challenges/stdio-ctf-2025/-/tree/main/challenges/forensic/23.SHAW?ref_type=heads",
+    "link": "https://ctf.chicken0248.fyi/challenges/shaw/",
     "tags": [
       "Endpoint Forensics",
       "Windows Forensics",
@@ -512,7 +512,7 @@
     "title": "Master Investigator",
     "description": "One evening before yet another Monday, an intrusion was reported on Wowza Enterprise's Domain Controller server. The investigation team suspected the attack originated from a workstation belonging to an internal team member who had secretly come in to work overtime. Evidence was collected from both the workstation and the server for forensic analysis. Help us find out what really happened.",
     "platform": "STDiO CTF 2025",
-    "link": "https://gitlab.com/2600-thailand/stdio/stdio-challenges/stdio-ctf-2025/-/tree/main/challenges/forensic/25.Master%20Investigator?ref_type=heads",
+    "link": "https://ctf.chicken0248.fyi/challenges/master-investigator/",
     "tags": [
       "Endpoint Forensics",
       "Windows Forensics",
@@ -534,6 +534,7 @@
     "title": "ClickBridge",
     "description": "A workstation assigned to Emma Hart, a member of the Finance-Ops team, was compromised through a social engineering attack. The network team determined that the threat actor established a covert command-and-control channel to enumerate the internal environment, harvest credentials, create a network tunnel, move laterally, and exfiltrate sensitive files from a domain controller. Analyze the provided PCAP and reconstruct the complete attack chain.",
     "platform": "STDiO CTF 2026",
+    "link": "https://ctf.chicken0248.fyi/challenges/clickbridge/",
     "tags": [
       "Network Forensics",
       "ClickFix",
@@ -554,6 +555,7 @@
     "title": "BAMBOOZLED",
     "description": "WOWZA-CERT responded to an alert on WZ-IOT-GW03, a sensor data aggregator in Wowza Manufacturing's factory network. The SIEM flagged anomalous traffic on an unauthorized port. The team recovered a suspicious implant from the gateway and captured network traffic from the incident window.\n\nThe implant appears to communicate with an external controller, but the protocol is heavily obfuscated. The gateway normally handles legitimate sensor feeds, the attacker may have exploited this to blend in.",
     "platform": "STDiO CTF 2026",
+    "link": "https://ctf.chicken0248.fyi/challenges/bamboozled/",
     "tags": [
       "Malware Analysis",
       "Reverse Engineering",
@@ -573,6 +575,7 @@
     "title": "Whispers on the Wire",
     "description": "Wowza Enterprise's SOC (WOWZA-CERT) detected anomalous traffic on their unsegmented office network. Two Windows Server 2022 hosts: APP-SRV-01 (application/deployment server) and DB-SRV-02 (PostgreSQL database server) were compromised via a supply-chain attack on a deployment dependency. The attacker pivoted using reused local admin credentials. The SOC recovered a binary from both hosts (implant.exe) and a packet capture from the network segment.",
     "platform": "STDiO CTF 2026",
+    "link": "https://ctf.chicken0248.fyi/challenges/whispers-on-the-wire/",
     "tags": [
       "Malware Analysis",
       "Reverse Engineering",
@@ -593,6 +596,7 @@
     "title": "HotDog",
     "description": "Once upon a time in the kingdom of Wowza, the royal oracle foresaw an attack by mountain bandits, the most notorious hackers who had already plundered all the treasures from the NCSA kingdom. The knights wasted no time investigating and discovered that James Adam had been enchanted into leaking classified information, and the bandits had successfully stolen critical data. You, as the kingdom of Wowza's secret operative, have been tasked with uncovering the truth and recovering the stolen data. Before departing on the mission, the head knight provided additional intel: the password of the compromised James Adams is james_inwza_lucifer_x888_kwai_tanu_thong_rong_hai. Hopefully this will help you get started.",
     "platform": "Women Thailand Cyber Top Talent 2025",
+    "link": "https://ctf.chicken0248.fyi/challenges/hotdog/",
     "tags": [
       "Network Forensics",
       "Active Directory",
@@ -613,6 +617,7 @@
     "title": "AS a REPresentative!",
     "description": "Once upon a time in a dense and vast forest, an aging young man dragged his weary body within 3,000 kilometers of the capital city of Wowza. The royal oracle had foreseen that this young man would find a way to infiltrate the kingdom and steal its greatest treasure. You, as the most elite, yet not quite the best, not quite the worst, intelligence operative, have been assigned to investigate and find a way into the target's kingdom this time!",
     "platform": "Women Thailand Cyber Top Talent 2025",
+    "link": "https://ctf.chicken0248.fyi/challenges/as-a-representative/",
     "tags": [
       "Network Forensics",
       "Active Directory",
@@ -632,6 +637,7 @@
     "title": "You Know The Rules",
     "description": "We're no strangers to love. You know the rules and so do I.",
     "platform": "Women Thailand Cyber Top Talent 2025",
+    "link": "https://ctf.chicken0248.fyi/challenges/you-know-the-rules/",
     "tags": [
       "Reverse Engineering",
       ".NET",
@@ -650,6 +656,7 @@
     "title": "The Weakest Link",
     "description": "The TCTT Security Team has been conducting an internal audit of security-portal.tctt.local. During the audit, network traffic was captured from multiple clients connecting to the portal over HTTPS. Our security monitoring flagged several alarming findings: the server appears to support dangerously weak TLS configurations, and there may be additional operational security failures in the surrounding infrastructure. Analyze the provided PCAP file and recover the flag.",
     "platform": "Thailand Cyber Top Talent 2026",
+    "link": "https://ctf.chicken0248.fyi/challenges/the-weakest-link/",
     "tags": [
       "Network Forensics",
       "TLS",
@@ -669,6 +676,7 @@
     "title": "Phantom Packets",
     "description": "The SOC flagged suspicious traffic from an internal server. A packet capture was taken from the server's network interface. Determine what happened.",
     "platform": "Thailand Cyber Top Talent 2026",
+    "link": "https://ctf.chicken0248.fyi/challenges/phantom-packets/",
     "tags": [
       "Network Forensics",
       "DNS Exfiltration",
@@ -688,6 +696,7 @@
     "title": "Shadow Council",
     "description": "A Windows 10 workstation was seized from someone going by \"d4ag0n,\" suspected of running ransomware operations. Law enforcement pulled a triage image. The brief says the suspect coordinated with affiliates and kept a ledger of ransom payments somewhere off the machine.",
     "platform": "Thailand Cyber Top Talent 2026",
+    "link": "https://ctf.chicken0248.fyi/challenges/shadow-council/",
     "tags": [
       "Endpoint Forensics",
       "Windows Forensics",
@@ -708,6 +717,7 @@
     "title": "Command Control Conceal",
     "description": "SOC alert triggered: anomalous outbound TLS connection from notepad.exe to an external IP which should not have happened in any way. An incident responder captured a network trace and a process memory dump of the suspicious notepad.exe process. The memory dump was taken early in the investigation. The attacker continued operating after the dump was captured. Your mission: decrypt the C2 traffic and determine what the attacker accessed and exfiltrated.",
     "platform": "Thailand Cyber Top Talent 2026",
+    "link": "https://ctf.chicken0248.fyi/challenges/command-control-conceal/",
     "tags": [
       "Network Forensics",
       "Memory Forensics",
@@ -727,6 +737,7 @@
     "title": "Resident Devil",
     "description": "An IR team was called after an employee ran a command delivered via social engineering on their workstation. Responders collected a KAPE triage package from the host and handed it to you for analysis. Preliminary investigation indicates the attacker hid a payload somewhere on the host, encrypted with a key bound to the target machine's own identity. Your objective is to recover the hidden payload and calculate its MD5 hash.",
     "platform": "Thailand Cyber Top Talent 2026",
+    "link": "https://ctf.chicken0248.fyi/challenges/resident-devil/",
     "tags": [
       "Endpoint Forensics",
       "Windows Forensics",
@@ -746,6 +757,7 @@
     "title": "False Sense of Security",
     "description": "Following reports of possible information exposure, the security team identified suspicious communication between an employee workstation and an external server. The system owner dismissed the concern, stating that the communication was encrypted and no sensitive information should have been visible on the network. A packet capture from the affected network segment has been preserved for further investigation. Determine what information was exposed.",
     "platform": "Thailand Cyber Top Talent 2026",
+    "link": "https://ctf.chicken0248.fyi/challenges/false-sense-of-security/",
     "tags": [
       "Network Forensics",
       "Cryptography",
@@ -764,6 +776,7 @@
     "title": "Backward Compatible",
     "description": "A legacy application server was temporarily restored to service during an infrastructure migration. Shortly afterward, monitoring detected an unexpected connection between the server and an external system. Administrators confirmed that the application was configured to use encrypted communications and found no evidence that credentials or sensitive files were transmitted in cleartext. Investigators captured the relevant network activity before the system was isolated. Determine what was transferred.",
     "platform": "Thailand Cyber Top Talent 2026",
+    "link": "https://ctf.chicken0248.fyi/challenges/backward-compatible/",
     "tags": [
       "Network Forensics",
       "Cryptography",
