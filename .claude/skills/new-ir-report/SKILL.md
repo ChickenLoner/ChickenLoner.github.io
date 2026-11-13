@@ -145,6 +145,7 @@ The humanizer rewrites prose nodes only. It must not touch code blocks, componen
 - [ ] `ir-reports/<slug>/index.html` created
 - [ ] SOC top bar breadcrumb shows correct slug
 - [ ] TOC links match actual section IDs
+- [ ] `<main id="main-content" className="soc-article …">` kept from the template (no inline `maxWidth`), and the TOC block stays a **direct child** of `<main>` — at ≥1280px `themes/soc.css` turns it into a sticky left sidebar
 - [ ] JetBrains Mono font link in `<head>`
 - [ ] `sitemap.xml` regenerated (Step 5b)
 

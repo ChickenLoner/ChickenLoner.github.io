@@ -205,6 +205,7 @@ The humanizer rewrites prose nodes only. It must not touch code blocks, componen
 - [ ] SOC top bar breadcrumb and badges correct (slug, category sev color)
 - [ ] Cover image path correct (`${IMG}/cover.png`)
 - [ ] TOC links match actual section IDs
+- [ ] `<main id="main-content" className="soc-article …">` kept from the template (no inline `maxWidth`), and the TOC block stays a **direct child** of `<main>` — at ≥1280px `themes/soc.css` turns it into a sticky left sidebar
 - [ ] JetBrains Mono font link in `<head>`
 - [ ] All `<ul>` / `<ol>` lists are inside a `<Section>` so `.res-section ul` CSS applies disc bullets
 - [ ] `sitemap.xml` regenerated (Step 5b)

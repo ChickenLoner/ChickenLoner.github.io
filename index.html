@@ -346,10 +346,7 @@
         h2.soc-section::before { content:"";width:4px;height:14px;background:var(--soc-cy);box-shadow:rgba(34,225,255,.7) 0 0 8px;flex-shrink:0; }
         h2.soc-section .meta { margin-left:auto;color:var(--soc-ink3);font-weight:400;letter-spacing:.06em;font-size:10px; }
 
-        /* ─── Fluid layout shell ───
-           Content scales with the viewport up to 1920px instead of a fixed 1152px
-           column; the gutter grows with the window (16px phone → 48px ultrawide). */
-        .soc-main { width:100%;max-width:1920px;margin:0 auto;padding:32px clamp(16px,3vw,48px);box-sizing:border-box; }
+        /* .soc-main (fluid layout shell) lives in themes/soc.css — shared by SPA + hub pages */
         /* Home: activity feed beside brief + channels on wide screens; stacks below 1280px */
         .home-split > * { min-width:0; }
         @media (min-width:1280px) {
