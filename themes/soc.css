@@ -993,3 +993,33 @@ html[data-theme="light"] {
   background: rgba(8,145,178,.15);
   color: var(--soc-cy);
 }
+
+/* ─── Fluid layout shell (SPA + hub pages) ───
+   Content scales with the viewport up to 1920px instead of a fixed 1152px
+   column; the gutter grows with the window (16px phone → 48px ultrawide). */
+.soc-main { width:100%;max-width:1920px;margin:0 auto;padding:32px clamp(16px,3vw,48px) 48px;box-sizing:border-box; }
+
+/* Long inline identifiers (e.g. PspInitializeBackgroundActivityModeratorCallouts)
+   must wrap instead of widening the page on phones. Block code keeps white-space:pre
+   and scrolls inside its own .res-code-body / .ir-code-body. */
+.res-c, .ir-c, p > code, li > code, td > code { overflow-wrap:anywhere; }
+
+/* ─── Article layout (research / reviews / IR detail pages) ───
+   <1280px: single reading column, unchanged from the original inline widths.
+   ≥1280px: sticky TOC sidebar on the left + article column (~880px text) on the right.
+   Tables, code and figures stay inside the article column so every edge lines up. */
+.soc-article { max-width:860px;margin:0 auto;padding:24px 20px; }
+.soc-article.soc-article-ir { max-width:896px;padding:28px 22px 48px; }
+@media (min-width:1280px) {
+  .soc-article, .soc-article.soc-article-ir {
+    max-width:1280px;display:grid;grid-template-columns:260px minmax(0,1fr);column-gap:40px;
+    padding:28px clamp(16px,3vw,48px) 48px;box-sizing:border-box;
+  }
+  .soc-article > * { grid-column:2; }
+  .soc-article > :is(.res-toc, .ir-toc) {
+    grid-column:1;grid-row:1 / span 300;align-self:start;
+    position:sticky;top:76px;max-height:calc(100vh - 96px);overflow:auto;margin:0 !important;
+  }
+  .soc-article > .res-toc .res-toc-grid,
+  .soc-article > .ir-toc > div:last-child { display:grid;grid-template-columns:1fr; }
+}

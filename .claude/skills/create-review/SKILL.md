@@ -128,7 +128,7 @@ If none fit, `FileText` is a safe default.
 1. **Nav** — `Chicken0248 / Reviews / <Cert Name>` breadcrumb + dark mode toggle
 2. **Hero** — cover image with `bg-gradient-to-t from-black/80`, title overlay, pill badges (provider, date, domain, Passed/Failed)
 3. **Metadata strip** — 4-column: Certification, Provider, Difficulty (from meta), Rating (from meta with `renderStars`)
-4. **Table of Contents** — one link per Section, using icon + number + label
+4. **Table of Contents** — one link per Section, using icon + number + label. Keep the TOC block a **direct child** of `<main className="soc-article …">` (no inline `maxWidth` on `<main>`): at ≥1280px `themes/soc.css` turns it into a sticky left sidebar
 5. **Content sections** — see rules below
 6. **Footer** — "Back to top" + "All Reviews" (`/reviews/index.html`)
 
