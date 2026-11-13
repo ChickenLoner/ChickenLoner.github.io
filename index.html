@@ -345,6 +345,29 @@
         h2.soc-section { font-size:11.5px;font-family:'JetBrains Mono',ui-monospace,monospace;font-weight:600;text-transform:uppercase;letter-spacing:.18em;color:var(--soc-ink2);margin:30px 0 12px;display:flex;align-items:center;gap:12px; }
         h2.soc-section::before { content:"";width:4px;height:14px;background:var(--soc-cy);box-shadow:rgba(34,225,255,.7) 0 0 8px;flex-shrink:0; }
         h2.soc-section .meta { margin-left:auto;color:var(--soc-ink3);font-weight:400;letter-spacing:.06em;font-size:10px; }
+
+        /* ─── Fluid layout shell ───
+           Content scales with the viewport up to 1920px instead of a fixed 1152px
+           column; the gutter grows with the window (16px phone → 48px ultrawide). */
+        .soc-main { width:100%;max-width:1920px;margin:0 auto;padding:32px clamp(16px,3vw,48px);box-sizing:border-box; }
+        /* Home: activity feed beside brief + channels on wide screens; stacks below 1280px */
+        .home-split > * { min-width:0; }
+        @media (min-width:1280px) {
+            .home-split { display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:0 28px;align-items:stretch; }
+            /* Equal-height columns: feed box and brief box both fill to the taller one */
+            .home-split > div { display:flex;flex-direction:column; }
+            .home-split .soc-alerts, .home-split .soc-opnote { flex:1; }
+            .home-split .soc-alert { flex:1; }
+            .home-split .soc-opnote { display:flex;flex-direction:column; }
+            .home-split .soc-opnote .soc-platforms { margin-top:auto;padding-top:16px; }
+            .soc-ch-grid.home-channels { grid-template-columns:repeat(4,minmax(0,1fr)); }
+        }
+        /* Labs & Projects: rows flow into two columns on wide screens */
+        @media (min-width:1500px) {
+            .labs-page-wrap .comp-list { display:grid;grid-template-columns:repeat(2,minmax(0,1fr)); }
+            .labs-page-wrap .comp-list > .crow:nth-child(odd) { border-right:1px solid var(--soc-line); }
+            .labs-page-wrap .comp-list > .crow:nth-child(odd):nth-last-child(2) { border-bottom:none; }
+        }
         .soc-alerts { display:flex;flex-direction:column;border:1px solid rgba(34,225,255,.22);border-radius:6px;overflow:hidden;background:var(--soc-bg-1);box-shadow:0 0 0 1px rgba(34,225,255,.07),0 0 28px rgba(34,225,255,.08); }
         .soc-alert { display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:11px 16px;border-bottom:1px solid var(--soc-line);transition:background .15s;text-decoration:none;color:inherit; }
         /* min-width keeps every badge the same size so the title column starts at the
@@ -371,7 +394,7 @@
         .soc-credit .nm  { font-size:11.5px;font-weight:600;color:var(--soc-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:145px; }
         .soc-credit .iss { font-family:'JetBrains Mono',ui-monospace,monospace;font-size:9.5px;color:var(--soc-ink3);margin-top:1px;white-space:nowrap; }
         .soc-credit.exp .glyph { background:rgba(71,80,112,.14);border-color:var(--soc-ink4);color:var(--soc-ink3); }
-        .soc-ttp-grid { display:grid;grid-template-columns:1fr 1fr;gap:12px; }
+        .soc-ttp-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,420px),1fr));gap:12px; }
         .soc-ttp { border:1px solid var(--soc-line);border-radius:6px;padding:16px;background:var(--soc-bg-1);transition:border-color .15s; }
         .soc-ttp:hover { border-color:var(--soc-line2); }
         .soc-ttp-hd { display:flex;align-items:center;gap:10px;margin-bottom:10px; }
@@ -1337,25 +1360,67 @@
                     </section>
 
                     {/* Activity Feed */}
-                    {recentItems.length > 0 && (<>
-                        <h2 className="soc-section">Recent Activity Feed <span className="meta">tail -f /var/log/portfolio.feed</span></h2>
-                        <div className="soc-alerts">
-                            {recentItems.map((item, i) => {
-                                const Tag = item.noLink ? 'div' : 'a';
-                                const linkProps = item.noLink ? {} : {
-                                    href: item.url,
-                                    ...(item.external ? { target:'_blank', rel:'noopener noreferrer' } : {})
-                                };
-                                return (
-                                <Tag key={i} {...linkProps} className="soc-alert">
-                                    <span className={`sev ${item.sev}`}><span className="dot"></span>{item.type}</span>
-                                    <div><div className="ttl">{item.title}</div><div className="detail">{item.detail}</div></div>
-                                    {!item.noLink && <span className="ar">{item.label||'›'}</span>}
-                                </Tag>
-                                );
-                            })}
+                    <div className="home-split">
+                        <div className="home-split-main">
+                            {recentItems.length > 0 && (<>
+                                <h2 className="soc-section">Recent Activity Feed <span className="meta">tail -f /var/log/portfolio.feed</span></h2>
+                                <div className="soc-alerts">
+                                    {recentItems.map((item, i) => {
+                                        const Tag = item.noLink ? 'div' : 'a';
+                                        const linkProps = item.noLink ? {} : {
+                                            href: item.url,
+                                            ...(item.external ? { target:'_blank', rel:'noopener noreferrer' } : {})
+                                        };
+                                        return (
+                                        <Tag key={i} {...linkProps} className="soc-alert">
+                                            <span className={`sev ${item.sev}`}><span className="dot"></span>{item.type}</span>
+                                            <div><div className="ttl">{item.title}</div><div className="detail">{item.detail}</div></div>
+                                            {!item.noLink && <span className="ar">{item.label||'›'}</span>}
+                                        </Tag>
+                                        );
+                                    })}
+                                </div>
+                            </>)}
+
                         </div>
-                    </>)}
+                        <div className="home-split-side">
+                            {/* Operator Brief */}
+                            <h2 className="soc-section">Operator Brief <span className="meta">/operators/chicken0248/brief.md</span></h2>
+                            <div className="soc-opnote">
+                                <div className="lbl">Operator Brief <span className="clear">CLEARED FOR ROUTING</span></div>
+                                <h3>About the Operator</h3>
+                                <p>Cross-domain security practitioner who works both sides of the fight: offensive (penetration testing, red team, Active Directory) and defensive (SOC, detection engineering, DFIR), built on a digital forensics core. Known for RMM and remote-access forensics research, and for turning real intrusions into hands-on labs. Learns by building: every published lab and writeup reconstructs a real-world scenario end to end. Mission: make offensive and defensive tradecraft approachable and rigorous for the wider security community.</p>
+                                <div className="soc-platforms">
+                                    <a href="https://app.hackthebox.com/users/1438364" target="_blank" rel="noopener noreferrer" className="soc-plat"><span className="pd"></span>HackTheBox</a>
+                                    <a href="https://cyberdefenders.org/p/Chicken_0248/" target="_blank" rel="noopener noreferrer" className="soc-plat b"><span className="pd"></span>CyberDefenders</a>
+                                    <a href="https://blueteamlabs.online/public/user/chicken0248" target="_blank" rel="noopener noreferrer" className="soc-plat v"><span className="pd"></span>Blue Team Labs Online</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Channels */}
+                    <h2 className="soc-section">Established Channels <span className="meta">verified handles · public</span></h2>
+                    <div className="soc-ch-grid home-channels">
+                        {socialMedia.length > 0 ? socialMedia.map((s, i) => (
+                            <a key={i} href={s.url} target="_blank" rel="noopener noreferrer" className="soc-ch">
+                                <div className="ic">{s.platform === 'Twitter / X' ? '𝕏' : s.platform === 'LinkedIn' ? 'in' : s.platform === 'GitHub' ? 'GH' : s.platform[0]}</div>
+                                <div><div className="h">{s.handle}</div><div className="s">{s.url.replace('https://','')}</div></div>
+                                <span className="ar">›</span>
+                            </a>
+                        )) : [
+                            { ic:'𝕏',  h:'@Chicken_0248',        s:'x.com/Chicken_0248',              url:'https://x.com/Chicken_0248' },
+                            { ic:'in', h:'/in/warawut-manosong', s:'linkedin.com',                    url:'https://www.linkedin.com/in/warawut-manosong' },
+                            { ic:'GH', h:'@ChickenLoner',        s:'github.com/ChickenLoner',         url:'https://github.com/ChickenLoner' },
+                            { ic:'M',  h:'@chaoskist',           s:'medium.com',                      url:'https://medium.com/@chaoskist' },
+                        ].map((c, i) => (
+                            <a key={i} href={c.url} target="_blank" rel="noopener noreferrer" className="soc-ch">
+                                <div className="ic">{c.ic}</div>
+                                <div><div className="h">{c.h}</div><div className="s">{c.s}</div></div>
+                                <span className="ar">›</span>
+                            </a>
+                        ))}
+                    </div>
 
                     {/* Badge Rail */}
                     {certifications.length > 0 && (<>
@@ -1398,42 +1463,6 @@
                         ))}
                     </div>
                     </>)}
-
-                    {/* Operator Brief */}
-                    <h2 className="soc-section">Operator Brief <span className="meta">/operators/chicken0248/brief.md</span></h2>
-                    <div className="soc-opnote">
-                        <div className="lbl">Operator Brief <span className="clear">CLEARED FOR ROUTING</span></div>
-                        <h3>About the Operator</h3>
-                        <p>Cross-domain security practitioner who works both sides of the fight: offensive (penetration testing, red team, Active Directory) and defensive (SOC, detection engineering, DFIR), built on a digital forensics core. Known for RMM and remote-access forensics research, and for turning real intrusions into hands-on labs. Learns by building: every published lab and writeup reconstructs a real-world scenario end to end. Mission: make offensive and defensive tradecraft approachable and rigorous for the wider security community.</p>
-                        <div className="soc-platforms">
-                            <a href="https://app.hackthebox.com/users/1438364" target="_blank" rel="noopener noreferrer" className="soc-plat"><span className="pd"></span>HackTheBox</a>
-                            <a href="https://cyberdefenders.org/p/Chicken_0248/" target="_blank" rel="noopener noreferrer" className="soc-plat b"><span className="pd"></span>CyberDefenders</a>
-                            <a href="https://blueteamlabs.online/public/user/chicken0248" target="_blank" rel="noopener noreferrer" className="soc-plat v"><span className="pd"></span>Blue Team Labs Online</a>
-                        </div>
-                    </div>
-
-                    {/* Channels */}
-                    <h2 className="soc-section">Established Channels <span className="meta">verified handles · public</span></h2>
-                    <div className="soc-ch-grid">
-                        {socialMedia.length > 0 ? socialMedia.map((s, i) => (
-                            <a key={i} href={s.url} target="_blank" rel="noopener noreferrer" className="soc-ch">
-                                <div className="ic">{s.platform === 'Twitter / X' ? '𝕏' : s.platform === 'LinkedIn' ? 'in' : s.platform === 'GitHub' ? 'GH' : s.platform[0]}</div>
-                                <div><div className="h">{s.handle}</div><div className="s">{s.url.replace('https://','')}</div></div>
-                                <span className="ar">›</span>
-                            </a>
-                        )) : [
-                            { ic:'𝕏',  h:'@Chicken_0248',        s:'x.com/Chicken_0248',              url:'https://x.com/Chicken_0248' },
-                            { ic:'in', h:'/in/warawut-manosong', s:'linkedin.com',                    url:'https://www.linkedin.com/in/warawut-manosong' },
-                            { ic:'GH', h:'@ChickenLoner',        s:'github.com/ChickenLoner',         url:'https://github.com/ChickenLoner' },
-                            { ic:'M',  h:'@chaoskist',           s:'medium.com',                      url:'https://medium.com/@chaoskist' },
-                        ].map((c, i) => (
-                            <a key={i} href={c.url} target="_blank" rel="noopener noreferrer" className="soc-ch">
-                                <div className="ic">{c.ic}</div>
-                                <div><div className="h">{c.h}</div><div className="s">{c.s}</div></div>
-                                <span className="ar">›</span>
-                            </a>
-                        ))}
-                    </div>
 
                     {/* CTA */}
                     <div className="soc-cta" style={{marginTop:'24px'}}>
@@ -2455,8 +2484,8 @@
             };
 
             const LabsPage = () => {
-                const TWEAKS_KEY = 'soc-labs-tweaks-v3';
-                const TWEAKS_DEF = {density:'comfortable',yearDiv:true,covers:true,tags:true,crowDesc:true,retiredStyle:'A',labSort:'default',descLines:99,showLatest:true};
+                const TWEAKS_KEY = 'soc-labs-tweaks-v4';
+                const TWEAKS_DEF = {density:'comfortable',yearDiv:true,covers:true,tags:true,crowDesc:true,retiredStyle:'A',labSort:'default',descLines:2,showLatest:true};
                 const [tweaks, setTweaks] = React.useState(() => {
                     try { return {...TWEAKS_DEF, ...JSON.parse(localStorage.getItem(TWEAKS_KEY)||'{}')}; } catch { return TWEAKS_DEF; }
                 });
@@ -3383,7 +3412,7 @@
                         </div>
                     </nav>
 
-                    <main id="main-content" className="max-w-6xl mx-auto px-4 py-8">
+                    <main id="main-content" className="soc-main">
                         {renderPage()}
                     </main>
                 </div>

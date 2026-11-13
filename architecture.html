@@ -617,6 +617,11 @@
                             <tr><td><code>.featured-latest.gd</code></td><td>Gold accent variant — used for latest competition win</td></tr>
                             <tr><td><code>.featured-latest.rd</code></td><td>Red accent variant — used for latest first blood</td></tr>
                             <tr><td><code>.fl-pair</code></td><td>2-column responsive grid for side-by-side <code>.featured-latest</code> banners. Stacks to 1-col below 600px.</td></tr>
+                            <tr><td><code>.soc-main</code></td><td>SPA <code>&lt;main&gt;</code> shell in <code>index.html</code>. Fluid: <code>width:100%; max-width:1920px</code>, gutter <code>clamp(16px,3vw,48px)</code>. Replaced the old Tailwind <code>max-w-6xl</code> (1152px) cap — do not reintroduce a fixed narrow cap.</td></tr>
+                            <tr><td><code>.home-split</code></td><td>HomePage 2-col grid (≥1280px): <code>.home-split-main</code> = Recent Activity Feed, <code>.home-split-side</code> = Operator Brief only. Columns stretch to equal height (feed rows flex to fill; brief's platform chips pinned to bottom). Stacks to 1-col below 1280px.</td></tr>
+                            <tr><td><code>.soc-ch-grid.home-channels</code></td><td>Established Channels on HomePage — full-width row below <code>.home-split</code>; 4 cols at ≥1280px, 2 cols below, 1 col ≤768px.</td></tr>
+                            <tr><td><code>.soc-ttp-grid</code></td><td>Capability Matrix grid — <code>auto-fill, minmax(min(100%,420px),1fr)</code>; 4 cols on wide screens, 1 col on phones.</td></tr>
+                            <tr><td><code>.labs-page-wrap .comp-list</code></td><td>Labs &amp; Projects rows flow into 2 columns at ≥1500px (odd rows get a right border). Single column below. Description clamp defaults to 2 lines (<code>TWEAKS_DEF.descLines:2</code>, storage key <code>soc-labs-tweaks-v4</code>; full text via About button or ⚙ tweaks → Full).</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -1126,6 +1131,7 @@ const ratingLabel = l =&gt; ... "&#9733; 4.8"  on a 5-point scale
                     <li>~140 Tailwind utility equivalents (icon sizes, typography, spacing, layout, colors, borders, accessibility)</li>
                     <li>Responsive utilities: <code>.hidden</code>, <code>@media(min-width:768px)</code> block with <code>.md\:flex</code>, <code>.md\:block</code>, <code>.md\:inline-flex</code>, <code>.md\:hidden</code> — used for mobile topbar hiding; defined here so detail pages (no Tailwind CDN) get the same behavior as hub pages</li>
                     <li>Mobile breakpoints: <code>@media(max-width:768px)</code> and <code>@media(max-width:480px)</code> in <code>index.html</code> inline styles for SPA-specific layout (toolbar stacking, crow cards, stat grids)</li>
+                    <li>Wide-screen breakpoints (SPA, <code>index.html</code> inline styles): <code>@media(min-width:1280px)</code> enables <code>.home-split</code>; <code>@media(min-width:1500px)</code> makes Labs <code>.comp-list</code> 2-column. Content width is fluid via <code>.soc-main</code> (max 1920px).</li>
                     <li>Hub page hero layout: <code>.soc-hero-inner</code> (CSS grid, 2-col on desktop → 1-col on mobile) wraps <code>.soc-page-hero-body</code> + <code>.soc-hero-stats</code>. Stats use flexbox with <code>align-items:center;justify-content:center</code> for vertical centering on desktop and horizontal centering on mobile. On mobile: <code>.soc-page-hero-body</code> gets <code>border-bottom</code> as full-width separator; <code>.soc-page-hero-strap .seg</code> items hidden, only ACTIVE badge shown.</li>
                     <li>Global dark scrollbar styling</li>
                     <li>All <code>.res-*</code> and <code>.ir-*</code> component classes</li>
