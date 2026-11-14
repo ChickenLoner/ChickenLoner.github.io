@@ -387,7 +387,12 @@
             div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > div:has(> .featured-latest) { display:flex;flex-direction:column;gap:8px; }
             div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > div > .featured-latest { flex:1;padding:10px 16px;gap:14px; }
             div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > div > .featured-latest .fl-glyph { width:52px;height:52px; }
-            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > div > .featured-latest .fl-title { font-size:15px;margin:4px 0 2px; }
+            /* F1: Stats stack — compact rows: one-line title (ellipsis, full on hover), one-line summary */
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > div > .featured-latest > div:nth-child(2) { min-width:0; }
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > div > .featured-latest .fl-title { font-size:15px;margin:6px 0 3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > div > .featured-latest .fl-meta { display:none; }
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > div > .featured-latest .fl-short { display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > div > .featured-latest .fl-cta { min-width:96px;text-align:center; }
             /* L3 + C3 (+A1): rich "Latest" card — Labs, Certifications, Achievements (.fl-rich) — 16:9 cover thumbnail with tag/title/meta beside it,
                description, topic tags and CTA full-width below. The body div uses display:contents
                so its children sit directly on the card grid. */
@@ -606,6 +611,9 @@
         .fl-cta{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--soc-cy);letter-spacing:.08em;font-weight:700;text-transform:uppercase;padding:8px 14px;border:1px solid rgba(34,225,255,.4);border-radius:4px;background:rgba(34,225,255,.05);white-space:nowrap}
         .featured-latest:hover .fl-cta{background:rgba(34,225,255,.12)}
         .fl-desc{display:none;margin:10px 0 0;font-size:13px;line-height:1.55;color:var(--soc-ink2);-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+        .fl-short{display:none;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--soc-ink2);letter-spacing:.03em}
+        .fl-short b{color:var(--soc-cy);font-weight:600}
+        .featured-latest.am .fl-short b{color:var(--soc-am)}
         .fl-sub{display:none;font-size:12.5px;color:var(--soc-ink2);line-height:1.45}
         .fl-facts{display:none;flex-wrap:wrap;gap:6px;margin-top:14px}
         .fl-facts span{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;color:var(--soc-ink);background:rgba(255,255,255,.03);border:1px solid var(--soc-line2);border-radius:3px;padding:4px 8px;text-transform:uppercase}
@@ -1928,12 +1936,14 @@
                                 </div>
                                 <div>
                                     <span className="fl-tag">Latest Certification</span>
-                                    <div className="fl-title">{featuredCert.name}</div>
+                                    <div className="fl-title" title={featuredCert.name}>{featuredCert.name}</div>
                                     <div className="fl-meta">
                                         <span>issuer=<b>{featuredCert.issuer}</b></span><span>·</span>
                                         <span>year=<b>{featuredCert.year}</b></span><span>·</span>
                                         <span>status=<b>{featuredCert.status}</b></span>
                                     </div>
+                                    {/* F1: one-line summary used in the wide side-by-side stack (≥1440px) */}
+                                    <div className="fl-short">{((featuredCert.issuer||'').match(/\(([^)]+)\)\s*$/)||[])[1] || featuredCert.issuer} · {featuredCert.year}</div>
                                 </div>
                                 <span className="fl-cta">{featuredCert.status || 'Active'}</span>
                             </div>
@@ -1947,11 +1957,12 @@
                                 </div>
                                 <div>
                                     <span className="fl-tag">Latest Lab</span>
-                                    <div className="fl-title">{featuredLabSt.title}</div>
+                                    <div className="fl-title" title={featuredLabSt.title}>{featuredLabSt.title}</div>
                                     <div className="fl-meta">
                                         <span>platform=<b>{featuredLabSt.platform}</b></span><span>·</span>
                                         <span>difficulty=<b>{featuredLabSt.difficulty||'N/A'}</b></span>
                                     </div>
+                                    <div className="fl-short">{featuredLabSt.platform}{featuredLabSt.difficulty ? <> · <b>{featuredLabSt.difficulty.charAt(0).toUpperCase()+featuredLabSt.difficulty.slice(1)}</b></> : null}</div>
                                 </div>
                                 <span className="fl-cta">Play ↗</span>
                             </a>
@@ -1965,11 +1976,12 @@
                                 </div>
                                 <div>
                                     <span className="fl-tag">Latest Win</span>
-                                    <div className="fl-title">{featuredWinSt.name}</div>
+                                    <div className="fl-title" title={featuredWinSt.name}>{featuredWinSt.name}</div>
                                     <div className="fl-meta">
                                         <span>organizer=<b>{featuredWinSt.organizer}</b></span><span>·</span>
                                         <span>year=<b>{featuredWinSt.year}</b></span>
                                     </div>
+                                    <div className="fl-short">{featuredWinSt.organizer} · {featuredWinSt.year}{featuredWinSt.team ? <> · team <b>{featuredWinSt.team}</b></> : null}</div>
                                 </div>
                                 <span className="fl-cta">{featuredWinSt.placement}</span>
                             </div>
@@ -1983,10 +1995,11 @@
                                 </div>
                                 <div>
                                     <span className="fl-tag">Latest First Blood</span>
-                                    <div className="fl-title">{latestFbSt.name}</div>
+                                    <div className="fl-title" title={latestFbSt.name}>{latestFbSt.name}</div>
                                     <div className="fl-meta">
                                         <span>platform=<b>{latestFbPlat}</b></span>
                                     </div>
+                                    <div className="fl-short">{latestFbPlat}</div>
                                 </div>
                                 <span className="fl-cta">Verify ↗</span>
                             </a>
