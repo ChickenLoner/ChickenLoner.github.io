@@ -104,6 +104,8 @@
 
             const platforms = useMemo(() => [...new Set(reports.map(r => r.platform))].length, [reports]);
 
+            // R3 header chips
+            const latestMonth = useMemo(() => { const d = reports.map(r => r.report_date || r.date).sort().pop(); return d ? new Date(d).toLocaleDateString('en-US', { month:'short', year:'numeric' }) : '—'; }, [reports]);
             return (
                 <div style={{minHeight:'100vh',background:'var(--soc-bg)'}}>
                     {/* Top bar */}
@@ -135,56 +137,50 @@
                                     <div className="seg"><b>type</b> <span className="v">incident-response</span></div>
                                     <span style={{marginLeft:'auto'}} className="sev green"><span className="dot"></span>ACTIVE</span>
                                 </div>
-                                <div className="soc-hero-inner">
+                                {/* R3: slim header bar — title, description and stats on the left; search + filter on the right */}
+                                <div className="hub-bar">
                                     <div className="soc-page-hero-body">
                                         <div className="soc-page-hero-icon">
                                             <Icon name="FileText" className="w-6 h-6" style={{color:'var(--soc-rd)'}} />
                                         </div>
-                                        <div>
+                                        <div style={{minWidth:0}}>
                                             <h1 className="soc-page-hero-title">IR Reports</h1>
-                                            <p className="soc-page-hero-sub">incident-response · forensic-analysis · threat-investigation</p>
+                                            <p className="soc-page-hero-sub">full incident write-ups · scope, timeline, findings, IOCs &amp; recommendations</p>
+                                            {!loading && (
+                                                <div className="hub-chips">
+                                                    <span><b>{reports.length}</b> reports</span>
+                                                    <span><b>{platforms}</b> platforms</span>
+                                                    <span>latest <b>{latestMonth}</b></span>
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                     {!loading && (
-                                        <div className="soc-hero-stats">
-                                            <div>
-                                                <div className="soc-stat-lbl">Reports</div>
-                                                <div className="soc-stat-val">{reports.length}</div>
-                                            </div>
-                                            <div>
-                                                <div className="soc-stat-lbl am">Platforms</div>
-                                                <div className="soc-stat-val">{platforms}</div>
-                                            </div>
+                                        <div className="hub-controls">
+                                        <div className="soc-search-bar">
+                                            <Icon name="Search" className="w-4 h-4" style={{color:'var(--soc-ink4)',flexShrink:0}} />
+                                            <input
+                                                type="text"
+                                                placeholder="Search reports, tags, platforms…"
+                                                value={search}
+                                                onChange={e => setSearch(e.target.value)}
+                                                aria-label="Search reports"
+                                            />
+                                        </div>
+                                        {allTags.length > 0 && (
+                                            <select
+                                                value={activeTag || ''}
+                                                onChange={e => setActiveTag(e.target.value || null)}
+                                                className="soc-select"
+                                                aria-label="Filter by tag">
+                                                <option value="">All Tags</option>
+                                                {allTags.map(tag => <option key={tag} value={tag}>{tag}</option>)}
+                                            </select>
+                                        )}
                                         </div>
                                     )}
                                 </div>
                             </div>
-
-                            {/* Filters */}
-                            {!loading && (
-                                <div style={{display:'flex',gap:'10px',marginTop:'20px',marginBottom:'20px',flexWrap:'wrap'}}>
-                                    <div className="soc-search-bar">
-                                        <Icon name="Search" className="w-4 h-4" style={{color:'var(--soc-ink4)',flexShrink:0}} />
-                                        <input
-                                            type="text"
-                                            placeholder="Search reports, tags, platforms…"
-                                            value={search}
-                                            onChange={e => setSearch(e.target.value)}
-                                            aria-label="Search reports"
-                                        />
-                                    </div>
-                                    {allTags.length > 0 && (
-                                        <select
-                                            value={activeTag || ''}
-                                            onChange={e => setActiveTag(e.target.value || null)}
-                                            className="soc-select"
-                                            aria-label="Filter by tag">
-                                            <option value="">All Tags</option>
-                                            {allTags.map(tag => <option key={tag} value={tag}>{tag}</option>)}
-                                        </select>
-                                    )}
-                                </div>
-                            )}
 
                             {/* Result count */}
                             {!loading && reports.length > 0 && (
@@ -212,12 +208,13 @@
                             {/* Cards */}
                             {!loading && filtered.length > 0 && (
                                 <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(300px,1fr))',gap:'16px'}}>
-                                    {filtered.map(report => (
-                                        <a key={report.slug} href={report.url} className="ir-card">
+                                    {filtered.map((report, i) => (
+                                        <a key={report.slug} href={report.url} className={'ir-card' + ((i === 0 && !search && !activeTag) ? ' is-featured' : '')}>
                                             <div className="ir-card-cover">
                                                 <img src={report.cover} alt={report.title} loading="lazy" />
                                             </div>
                                             <div className="ir-card-body">
+                                                {(i === 0 && !search && !activeTag) && <span className="hub-feat-badge">Latest</span>}
                                                 <div className="ir-card-meta">
                                                     <Icon name="Calendar" className="w-3.5 h-3.5" />
                                                     <span>{new Date(report.date).toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' })}</span>
