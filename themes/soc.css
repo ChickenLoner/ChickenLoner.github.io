@@ -15,6 +15,8 @@
   --soc-cy:    #22e1ff;
   --soc-cy2:   #06b8d9;
   --soc-am:    #ffb547;
+  --soc-gd:    #ffd350;        /* gold — competition wins (light theme: deep gold) */
+  --soc-gd-rgb: 255,211,80;    /* for rgba(var(--soc-gd-rgb), a) tints */
   --soc-gn:    #3ddc84;
   --soc-rd:    #ff5577;
   --soc-vi:    #a78bfa;
@@ -693,6 +695,8 @@ html[data-theme="light"] {
   --soc-cy:    #0891b2;
   --soc-cy2:   #0e7490;
   --soc-am:    #b45309;
+  --soc-gd:    #a16207;
+  --soc-gd-rgb: 161,98,7;
   --soc-gn:    #15803d;
   --soc-rd:    #be1d3a;
   --soc-vi:    #6d28d9;
