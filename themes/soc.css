@@ -1172,3 +1172,7 @@ html[data-theme="light"] {
             mask-image:linear-gradient(to bottom,#000 calc(100% - 1.6em),transparent);
   }
 }
+
+/* C1: research / IR covers carry their title at the top, so crop from the bottom
+   (cards, featured card and the article-page cover) and zoom on hover from the top edge. */
+:is(.res-card-cover, .ir-card-cover, .res-cover, .ir-cover) img { object-position:center top;transform-origin:center top; }
