@@ -1813,7 +1813,7 @@
                 const avgRevRating = ratedReviews.length ? ratedReviews.reduce((s,r)=>s+r.rating,0)/ratedReviews.length : 0;
                 const recentRevs   = [...certificationReviews].sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,3);
                 const recentRes    = [...researchData].sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,3);
-                const recentIR     = [...irReports].sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,3);
+                const recentIR     = [...irReports].sort((a,b)=>new Date(b.report_date||b.date)-new Date(a.report_date||a.date)).slice(0,3);
 
 
                 // ── Hero stats cells ──────────────────────────────────────────
