@@ -1,42 +1,561 @@
 [
   {
     "id": "OF-01",
-    "title": "Offensive Security",
-    "chips": [["rd", "Network Pentesting"], ["rd", "Web App Pentesting"], ["rd", "Active Directory Attacks"], ["rd", "Privilege Escalation"], ["rd", "Kiosk Breakout"]]
+    "group": "offense",
+    "title": "Penetration Testing",
+    "chips": [
+      [
+        "rd",
+        "Network Pentesting"
+      ],
+      [
+        "rd",
+        "Web App Pentesting"
+      ],
+      [
+        "rd",
+        "Active Directory Attacks"
+      ],
+      [
+        "rd",
+        "Privilege Escalation"
+      ],
+      [
+        "rd",
+        "Password Cracking"
+      ],
+      [
+        "rd",
+        "Kiosk Breakout"
+      ]
+    ],
+    "evidence": {
+      "certs": [
+        "OSCP",
+        "OSCP+",
+        "PT1",
+        "CompTIA PenTest+",
+        "HTB CPTS",
+        "CKBPro",
+        "HTB CJCA",
+        "CNSP"
+      ],
+      "labs": [
+        "Privilege Escalation",
+        "Kiosk Breakout",
+        "Password Cracking",
+        "Website Vulnerabilities",
+        "Kerberoasting"
+      ],
+      "reviews": [
+        "Penetration Testing"
+      ]
+    }
   },
   {
     "id": "RT-02",
+    "group": "offense",
     "title": "Red Team Operations",
-    "chips": [["rd", "Adversary Emulation"], ["rd", "Lateral Movement"], ["rd", "C2 / Red Team Infra"], ["rd", "AD Red Teaming"], ["rd", "Purple Teaming"]]
+    "chips": [
+      [
+        "rd",
+        "Adversary Emulation"
+      ],
+      [
+        "rd",
+        "Lateral Movement"
+      ],
+      [
+        "rd",
+        "C2 / Red Team Infra"
+      ],
+      [
+        "rd",
+        "AD & ADCS Attacks"
+      ],
+      [
+        "rd",
+        "Persistence Tradecraft"
+      ],
+      [
+        "rd",
+        "Purple Teaming"
+      ]
+    ],
+    "evidence": {
+      "certs": [
+        "CRTA",
+        "CELMS",
+        "CRT-ID",
+        "AD-RTS",
+        "CRTSv2",
+        "CPTAv2",
+        "CCSE"
+      ],
+      "labs": [
+        "ADCS",
+        "Persistence",
+        "Lateral movement tracing"
+      ],
+      "projects": [
+        "Red Teaming"
+      ],
+      "research": [
+        "Red Teaming"
+      ],
+      "reviews": [
+        "Red Team",
+        "Purple Team"
+      ]
+    }
   },
   {
     "id": "AA-03",
+    "group": "offense",
     "title": "App / API / AI Security",
-    "chips": [["vi", "Application Security"], ["vi", "API Security"], ["vi", "Agentic AI / LLM Testing"]]
+    "chips": [
+      [
+        "rd",
+        "Application Security"
+      ],
+      [
+        "rd",
+        "API Security"
+      ],
+      [
+        "rd",
+        "Code Review"
+      ],
+      [
+        "rd",
+        "Agentic AI / LLM Testing"
+      ]
+    ],
+    "evidence": {
+      "certs": [
+        "CAP",
+        "C-AgAIPen"
+      ],
+      "labs": [
+        "Code Review",
+        "LFI exploitation analysis"
+      ],
+      "reviews": [
+        "AI Pentesting",
+        "Agentic AI"
+      ]
+    }
   },
   {
     "id": "BT-04",
+    "group": "defense",
     "title": "Blue Team & SOC",
-    "chips": [["gn", "SOC Operations"], ["gn", "Security Monitoring"], ["gn", "Threat Hunting"], ["gn", "Threat Intelligence"]]
+    "chips": [
+      [
+        "gn",
+        "SOC Operations"
+      ],
+      [
+        "gn",
+        "Alert Triage"
+      ],
+      [
+        "gn",
+        "Security Monitoring"
+      ],
+      [
+        "gn",
+        "Threat Hunting"
+      ],
+      [
+        "gn",
+        "Threat Intelligence"
+      ]
+    ],
+    "evidence": {
+      "certs": [
+        "HTB CDSA",
+        "BTL1",
+        "CCDL1",
+        "CCDL2",
+        "SAL1",
+        "PSAA",
+        "PSAP",
+        "CompTIA CySA+",
+        "CCDA",
+        "CBTeamer",
+        "CBTeamerX",
+        "CSOA",
+        "CDA",
+        "CCSA"
+      ],
+      "labs": [
+        "Threat Hunting",
+        "Threat Intel",
+        "SIEM"
+      ],
+      "projects": [
+        "Threat Hunting"
+      ],
+      "reviews": [
+        "Blue Team",
+        "SOC"
+      ]
+    }
   },
   {
     "id": "DE-05",
+    "group": "defense",
     "title": "Detection Engineering",
-    "chips": [["gn", "Detection Rule Writing"], ["gn", "Sigma Rules"], ["gn", "SIEM Detections"], ["gn", "Log Analysis"]]
+    "chips": [
+      [
+        "gn",
+        "Detection Rule Writing"
+      ],
+      [
+        "gn",
+        "Sigma / YARA"
+      ],
+      [
+        "gn",
+        "SIEM Detections (Splunk / Elastic)"
+      ],
+      [
+        "gn",
+        "Sysmon Telemetry"
+      ],
+      [
+        "gn",
+        "IDS / Network Detection"
+      ],
+      [
+        "gn",
+        "Log Analysis"
+      ]
+    ],
+    "evidence": {
+      "certs": [
+        "CDEA",
+        "GCIA"
+      ],
+      "labs": [
+        "Log Analysis",
+        "Log Analyis",
+        "Website Log Analysis",
+        "Event log analysis"
+      ],
+      "projects": [
+        "Log Analysis",
+        "Log Analyis",
+        "Sysmon"
+      ],
+      "reviews": [
+        "Detection Engineer",
+        "IDS/IPS"
+      ]
+    }
   },
   {
     "id": "DF-06",
-    "title": "Digital Forensics & DFIR",
-    "chips": [["cy", "Disk / Memory / Network"], ["cy", "Windows Forensics"], ["cy", "RMM / Remote-Access Forensics"], ["cy", "Malware Analysis"], ["cy", "Incident Response"], ["cy", "AWS Cloud Investigation"]]
+    "group": "defense",
+    "title": "Digital Forensics",
+    "chips": [
+      [
+        "cy",
+        "Windows Artifacts (Registry / MFT / Prefetch / BAM)"
+      ],
+      [
+        "cy",
+        "Browser Forensics"
+      ],
+      [
+        "cy",
+        "RMM / Remote-Access Forensics"
+      ],
+      [
+        "cy",
+        "Memory Forensics"
+      ],
+      [
+        "cy",
+        "Linux / WSL Forensics"
+      ],
+      [
+        "cy",
+        "Timeline & Anti-Forensics"
+      ]
+    ],
+    "evidence": {
+      "certs": [
+        "PWFA",
+        "eCDFP",
+        "CHFI",
+        "Cyber5w Certified Digital Forensics Evidence Handler",
+        "Cyber5w Certified Digital Forensics Foundations",
+        "CCDFA",
+        "GCFE",
+        "GX-FE"
+      ],
+      "labs": [
+        "Endpoint Forensics",
+        "Windows Forensics",
+        "Digital Forensics"
+      ],
+      "projects": [
+        "Digital Forensics"
+      ],
+      "research": [
+        "Digital Forensics"
+      ],
+      "reviews": [
+        "DFIR",
+        "Digital Forensics",
+        "Windows Forensics"
+      ]
+    }
   },
   {
-    "id": "TX-07",
+    "id": "NF-07",
+    "group": "defense",
+    "title": "Network Forensics",
+    "chips": [
+      [
+        "cy",
+        "PCAP Analysis"
+      ],
+      [
+        "cy",
+        "TLS / SMB3 Decryption"
+      ],
+      [
+        "cy",
+        "C2 Traffic Analysis"
+      ],
+      [
+        "cy",
+        "Protocol Analysis (Kerberos / LDAP / MQTT)"
+      ],
+      [
+        "cy",
+        "Data Exfiltration Detection"
+      ]
+    ],
+    "evidence": {
+      "certs": [
+        "GNFA"
+      ],
+      "labs": [
+        "Network Forensics",
+        "C2 Analysis"
+      ],
+      "reviews": [
+        "Network Forensics"
+      ]
+    }
+  },
+  {
+    "id": "IR-08",
+    "group": "defense",
+    "title": "Incident Response & Cloud",
+    "chips": [
+      [
+        "cy",
+        "Incident Response"
+      ],
+      [
+        "cy",
+        "Ransomware Investigation"
+      ],
+      [
+        "cy",
+        "AWS CloudTrail Investigation"
+      ],
+      [
+        "cy",
+        "Multi-Cloud Blue Team"
+      ],
+      [
+        "cy",
+        "Attack Timeline Reconstruction"
+      ]
+    ],
+    "evidence": {
+      "certs": [
+        "CDR",
+        "MCBTA",
+        "eCTHP"
+      ],
+      "labs": [
+        "Full-chain analysis",
+        "RansomHub",
+        "Attack timeline reconstruction"
+      ],
+      "projects": [
+        "Cloud",
+        "AWS CloudTrail"
+      ],
+      "reports": [
+        "*"
+      ]
+    }
+  },
+  {
+    "id": "MA-09",
+    "group": "defense",
+    "title": "Malware Analysis & RE",
+    "chips": [
+      [
+        "cy",
+        "Static / Dynamic Analysis"
+      ],
+      [
+        "cy",
+        ".NET Reversing (dnSpy / de4dot)"
+      ],
+      [
+        "cy",
+        "Unpacking & Deobfuscation"
+      ],
+      [
+        "cy",
+        "Shellcode Analysis"
+      ],
+      [
+        "cy",
+        "Applied Cryptography"
+      ]
+    ],
+    "evidence": {
+      "labs": [
+        "Malware Analysis",
+        "Reverse Engineering",
+        "Cryptography",
+        "Shellcode analysis"
+      ]
+    }
+  },
+  {
+    "id": "TX-10",
+    "group": "support",
     "title": "Tools & Platforms",
-    "chips": [["vi", "Splunk / Elastic"], ["vi", "Volatility / Autopsy"], ["vi", "Wireshark"], ["vi", "YARA / Sigma"], ["vi", "KAPE / EZ Tools"], ["vi", "Burp / Nmap / BloodHound"]]
+    "chips": [
+      [
+        "vi",
+        "Splunk / Elastic"
+      ],
+      [
+        "vi",
+        "EZ Tools / KAPE"
+      ],
+      [
+        "vi",
+        "Volatility / Autopsy"
+      ],
+      [
+        "vi",
+        "Wireshark / tshark / NetworkMiner"
+      ],
+      [
+        "vi",
+        "Ghidra / x64dbg / dnSpy"
+      ],
+      [
+        "vi",
+        "CyberChef"
+      ],
+      [
+        "vi",
+        "Burp / Nmap / BloodHound / hashcat"
+      ]
+    ],
+    "evidence": {
+      "labs": [
+        "MFTECmd",
+        "Registry Explorer",
+        "Wireshark",
+        "Timeline Explorer",
+        "PECmd",
+        "EvtxECmd",
+        "tshark",
+        "Splunk",
+        "Volatility",
+        "Ghidra",
+        "dnSpy",
+        "x64dbg",
+        "hashcat",
+        "CyberChef",
+        "NetworkMiner"
+      ],
+      "projects": [
+        "Tool"
+      ]
+    }
   },
   {
-    "id": "LD-08",
+    "id": "LD-11",
+    "group": "support",
     "title": "Lab Dev & Research",
-    "chips": [["am", "CTF / Lab Authoring"], ["am", "Tool Development"], ["am", "Technical Writing"], ["am", "Public Speaking"]]
+    "chips": [
+      [
+        "am",
+        "CTF / Lab Authoring"
+      ],
+      [
+        "am",
+        "Original DFIR Research"
+      ],
+      [
+        "am",
+        "Tool Development"
+      ],
+      [
+        "am",
+        "Scenario Design"
+      ]
+    ],
+    "evidence": {
+      "labs": [
+        "*"
+      ],
+      "projects": [
+        "Research",
+        "Tool",
+        "Lab Making"
+      ],
+      "research": [
+        "*"
+      ]
+    }
+  },
+  {
+    "id": "WC-12",
+    "group": "support",
+    "title": "Writing & Community",
+    "chips": [
+      [
+        "am",
+        "Certification Reviews"
+      ],
+      [
+        "am",
+        "Technical Writing"
+      ],
+      [
+        "am",
+        "CTF Write-Ups"
+      ],
+      [
+        "am",
+        "Public Speaking"
+      ]
+    ],
+    "evidence": {
+      "reviews": [
+        "*"
+      ],
+      "talks": [
+        "*"
+      ]
+    }
   }
 ]
