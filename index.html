@@ -357,13 +357,51 @@
             .home-split .soc-alert { flex:1; }
             .home-split .soc-opnote { display:flex;flex-direction:column; }
             .home-split .soc-opnote .soc-platforms { margin-top:auto;padding-top:16px; }
-            .soc-ch-grid.home-channels { grid-template-columns:repeat(4,minmax(0,1fr)); }
+            /* O3: channels live in the side column under the brief, 2×2 */
+            .home-split-side .soc-ch-grid.home-channels { grid-template-columns:repeat(2,minmax(0,1fr)); }
         }
         /* Labs & Projects: rows flow into two columns on wide screens */
         @media (min-width:1500px) {
             .labs-page-wrap .comp-list { display:grid;grid-template-columns:repeat(2,minmax(0,1fr)); }
             .labs-page-wrap .comp-list > .crow:nth-child(odd) { border-right:1px solid var(--soc-line); }
             .labs-page-wrap .comp-list > .crow:nth-child(odd):nth-last-child(2) { border-bottom:none; }
+        }
+        /* X1: page hero + "Latest" side by side on wide screens (Certifications, Labs, Achievements, Stats).
+           Pure CSS — the featured banner stays in its JSX position; the page wrapper becomes a grid and
+           the banner is pulled into row 1 beside the hero. Pages/tabs without a featured item are unaffected. */
+        @media (min-width:1440px) {
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) { display:grid;grid-template-columns:minmax(0,1fr) minmax(400px,.5fr);column-gap:18px;align-items:stretch; }
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > * { grid-column:1 / -1;min-width:0; }
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .soc-seg { justify-self:start; }  /* inline tab bar keeps its own width */
+            /* hero fills the row height: stat cells grow and centre their content */
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .soc-page-hero { display:flex;flex-direction:column; }
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .soc-page-hero .soc-stat-grid { flex:1; }
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .soc-page-hero .soc-stat-cell { display:flex;flex-direction:column;justify-content:center; }
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .soc-page-hero { grid-column:1;grid-row:1; }
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .featured-latest,
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > div:has(> .featured-latest) { grid-column:2;grid-row:1;margin-top:0 !important; }
+            /* single featured card: content centred vertically, CTA under the text */
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .featured-latest { grid-template-columns:auto 1fr;align-content:center;row-gap:14px; }
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .featured-latest .fl-cta { grid-column:2;justify-self:start; }
+            /* Stats page: stack of featured cards fills the column */
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > div:has(> .featured-latest) { display:flex;flex-direction:column;gap:8px; }
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > div > .featured-latest { flex:1;padding:10px 16px;gap:14px; }
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > div > .featured-latest .fl-glyph { width:52px;height:52px; }
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > div > .featured-latest .fl-title { font-size:15px;margin:4px 0 2px; }
+            /* L3 + C3: Labs latest release — 16:9 cover thumbnail with tag/title/meta beside it,
+               description, topic tags and CTA full-width below. The body div uses display:contents
+               so its children sit directly on the card grid. */
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .featured-latest.fl-lab { grid-template-columns:220px minmax(0,1fr);grid-template-rows:auto auto auto;column-gap:18px;row-gap:0;align-content:center;padding:20px 22px; }
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .featured-latest.fl-lab > div:nth-child(2) { display:contents; }
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .featured-latest.fl-lab .fl-glyph { grid-column:1;grid-row:1 / 4;width:220px;height:auto;aspect-ratio:16 / 9;padding:0;overflow:hidden;align-self:center; }
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .featured-latest.fl-lab .fl-cover { width:100% !important;height:100% !important;object-fit:cover !important;border-radius:6px !important;display:block; }
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .featured-latest.fl-lab .fl-tag { grid-column:2;grid-row:1;justify-self:start;align-self:end; }
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .featured-latest.fl-lab .fl-title { grid-column:2;grid-row:2;margin:8px 0 6px; }
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .featured-latest.fl-lab .fl-meta { grid-column:2;grid-row:3;align-self:start;flex-direction:column;gap:3px; }
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .featured-latest.fl-lab .fl-meta > span:nth-child(even) { display:none; }  /* "·" separators — one fact per line here */
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .featured-latest.fl-lab .fl-desc { display:-webkit-box;grid-column:1 / -1;margin-top:16px; }
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .featured-latest.fl-lab .fl-tags { display:flex;grid-column:1 / -1; }
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .featured-latest.fl-lab .fl-cta { grid-column:1 / -1;justify-self:start;margin-top:16px; }
         }
         .soc-alerts { display:flex;flex-direction:column;border:1px solid rgba(34,225,255,.22);border-radius:6px;overflow:hidden;background:var(--soc-bg-1);box-shadow:0 0 0 1px rgba(34,225,255,.07),0 0 28px rgba(34,225,255,.08); }
         .soc-alert { display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:11px 16px;border-bottom:1px solid var(--soc-line);transition:background .15s;text-decoration:none;color:inherit; }
@@ -538,6 +576,9 @@
         .fl-meta b{color:var(--soc-cy);font-weight:600}
         .fl-cta{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--soc-cy);letter-spacing:.08em;font-weight:700;text-transform:uppercase;padding:8px 14px;border:1px solid rgba(34,225,255,.4);border-radius:4px;background:rgba(34,225,255,.05);white-space:nowrap}
         .featured-latest:hover .fl-cta{background:rgba(34,225,255,.12)}
+        .fl-desc{display:none;margin:10px 0 0;font-size:13px;line-height:1.55;color:var(--soc-ink2);-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+        .fl-tags{display:none;flex-wrap:wrap;gap:6px;margin-top:10px}
+        .fl-tags span{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--soc-ink3);border:1px solid var(--soc-line2);border-radius:3px;padding:3px 7px}
         .featured-latest.am{border-color:rgba(255,181,71,.35);background:radial-gradient(ellipse at 100% 0%,rgba(255,181,71,.08),transparent 60%),linear-gradient(180deg,var(--soc-bg-1),var(--soc-bg))}
         .featured-latest.am::before{background:linear-gradient(90deg,transparent,var(--soc-am),transparent)}
         .featured-latest.am:hover{border-color:rgba(255,181,71,.55)}
@@ -1393,30 +1434,29 @@
                                     <a href="https://blueteamlabs.online/public/user/chicken0248" target="_blank" rel="noopener noreferrer" className="soc-plat v"><span className="pd"></span>Blue Team Labs Online</a>
                                 </div>
                             </div>
+                            {/* Channels */}
+                            <h2 className="soc-section">Established Channels <span className="meta">verified handles · public</span></h2>
+                            <div className="soc-ch-grid home-channels">
+                                {socialMedia.length > 0 ? socialMedia.map((s, i) => (
+                                    <a key={i} href={s.url} target="_blank" rel="noopener noreferrer" className="soc-ch">
+                                        <div className="ic">{s.platform === 'Twitter / X' ? '𝕏' : s.platform === 'LinkedIn' ? 'in' : s.platform === 'GitHub' ? 'GH' : s.platform[0]}</div>
+                                        <div><div className="h">{s.handle}</div><div className="s">{s.url.replace('https://','')}</div></div>
+                                        <span className="ar">›</span>
+                                    </a>
+                                )) : [
+                                    { ic:'𝕏',  h:'@Chicken_0248',        s:'x.com/Chicken_0248',              url:'https://x.com/Chicken_0248' },
+                                    { ic:'in', h:'/in/warawut-manosong', s:'linkedin.com',                    url:'https://www.linkedin.com/in/warawut-manosong' },
+                                    { ic:'GH', h:'@ChickenLoner',        s:'github.com/ChickenLoner',         url:'https://github.com/ChickenLoner' },
+                                    { ic:'M',  h:'@chaoskist',           s:'medium.com',                      url:'https://medium.com/@chaoskist' },
+                                ].map((c, i) => (
+                                    <a key={i} href={c.url} target="_blank" rel="noopener noreferrer" className="soc-ch">
+                                        <div className="ic">{c.ic}</div>
+                                        <div><div className="h">{c.h}</div><div className="s">{c.s}</div></div>
+                                        <span className="ar">›</span>
+                                    </a>
+                                ))}
+                            </div>
                         </div>
-                    </div>
-
-                    {/* Channels */}
-                    <h2 className="soc-section">Established Channels <span className="meta">verified handles · public</span></h2>
-                    <div className="soc-ch-grid home-channels">
-                        {socialMedia.length > 0 ? socialMedia.map((s, i) => (
-                            <a key={i} href={s.url} target="_blank" rel="noopener noreferrer" className="soc-ch">
-                                <div className="ic">{s.platform === 'Twitter / X' ? '𝕏' : s.platform === 'LinkedIn' ? 'in' : s.platform === 'GitHub' ? 'GH' : s.platform[0]}</div>
-                                <div><div className="h">{s.handle}</div><div className="s">{s.url.replace('https://','')}</div></div>
-                                <span className="ar">›</span>
-                            </a>
-                        )) : [
-                            { ic:'𝕏',  h:'@Chicken_0248',        s:'x.com/Chicken_0248',              url:'https://x.com/Chicken_0248' },
-                            { ic:'in', h:'/in/warawut-manosong', s:'linkedin.com',                    url:'https://www.linkedin.com/in/warawut-manosong' },
-                            { ic:'GH', h:'@ChickenLoner',        s:'github.com/ChickenLoner',         url:'https://github.com/ChickenLoner' },
-                            { ic:'M',  h:'@chaoskist',           s:'medium.com',                      url:'https://medium.com/@chaoskist' },
-                        ].map((c, i) => (
-                            <a key={i} href={c.url} target="_blank" rel="noopener noreferrer" className="soc-ch">
-                                <div className="ic">{c.ic}</div>
-                                <div><div className="h">{c.h}</div><div className="s">{c.s}</div></div>
-                                <span className="ar">›</span>
-                            </a>
-                        ))}
                     </div>
 
                     {/* Badge Rail */}
@@ -2733,10 +2773,10 @@
 
                         {/* Featured latest lab */}
                         {featuredLab && tweaks.showLatest && (
-                            <a className="featured-latest am" href={featuredLab.link} target="_blank" rel="noopener noreferrer" style={{marginTop:'18px',display:'grid'}}>
+                            <a className="featured-latest am fl-lab" href={featuredLab.link} target="_blank" rel="noopener noreferrer" style={{marginTop:'18px',display:'grid'}}>
                                 <div className="fl-glyph">
                                     {featuredLab.image
-                                        ? <img src={featuredLab.image} alt={featuredLab.title} style={{width:'100%',height:'100%',objectFit:'cover',borderRadius:'6px'}} />
+                                        ? <img className="fl-cover" src={featuredLab.image} alt={featuredLab.title} style={{width:'100%',height:'100%',objectFit:'cover',borderRadius:'6px'}} />
                                         : '⚗'}
                                 </div>
                                 <div>
@@ -2747,6 +2787,11 @@
                                         <span>difficulty=<b>{featuredLab.difficulty||'N/A'}</b></span>
                                         {featuredLab.is_retired && <><span>·</span><span>status=<b>Retired</b></span></>}
                                     </div>
+                                    {/* L3: shown only in the wide side-by-side layout (≥1440px) */}
+                                    {featuredLab.description && <p className="fl-desc">{featuredLab.description}</p>}
+                                    {featuredLab.tags && featuredLab.tags.length > 0 && (
+                                        <div className="fl-tags">{featuredLab.tags.slice(0,4).map(t => <span key={t}>{t}</span>)}</div>
+                                    )}
                                 </div>
                                 <span className="fl-cta">Play Now ↗</span>
                             </a>
