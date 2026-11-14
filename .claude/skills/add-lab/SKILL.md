@@ -154,6 +154,11 @@ render-time merge and would override the frozen value. See "Lab Ratings" in `arc
 4. Write the updated file. Preserve all existing entries exactly.
 5. Validate: `node -e "require('./data/labs.json')"` — a trailing-comma slip silently blanks the whole
    Labs page at runtime.
+6. **Capability Matrix evidence:** the Home page counts labs per skill track by matching the lab's
+   `tags`, `skills` and `tools_used` (case-insensitive, exact) against `data/skills.json` → `evidence.labs`
+   (`evidence.projects` for type `project`, tags only). If the new lab introduces a tag that no track lists
+   (e.g. a new technique), add it to the right track's list so the lab is counted. Include
+   `data/skills.json` in the commit when changed.
 
 ## Step 4 — Register in metadata script (CyberDefenders only)
 

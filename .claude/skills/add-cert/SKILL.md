@@ -58,6 +58,7 @@ If the badge file doesn't exist yet, note it to the user and use the placeholder
 ```
 
 4. Write the updated file. Preserve all existing entries exactly — do not reformat, reorder, or change any other entry.
+5. **Capability Matrix evidence:** the Home page counts certs per skill track from `data/skills.json` → `evidence.certs` (cert code = the part of `name` before " - ", or the full name if there is no " - "). Add the new cert's code to the matching track(s) — e.g. a DFIR cert goes in `DF-06` (and `NF-07` if it is network forensics), a SOC cert in `BT-04`. If no track fits, tell the user rather than inventing one. Include `data/skills.json` in the commit when changed.
 
 ## Step 4 — Commit
 

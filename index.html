@@ -443,6 +443,27 @@
         .soc-ttp-hd { display:flex;align-items:center;gap:10px;margin-bottom:10px; }
         .soc-ttp-id { font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10px;color:var(--soc-cy);background:rgba(34,225,255,.1);border:1px solid rgba(34,225,255,.3);padding:2px 7px;border-radius:3px;letter-spacing:.05em;font-weight:600;flex-shrink:0; }
         .soc-ttp-hd h3 { margin:0;font-size:13px;font-weight:700;color:var(--soc-ink); }
+        /* Capability Matrix lanes (offense / defense / enablement) + evidence footer */
+        .cap-matrix { display:flex;flex-direction:column;gap:22px; }
+        .cap-lane { --lane:var(--soc-cy); }
+        .cap-lane.rd { --lane:var(--soc-rd); }
+        .cap-lane.vi { --lane:var(--soc-vi); }
+        .cap-lane-hd { display:flex;align-items:center;gap:12px;margin-bottom:10px;font-family:'JetBrains Mono',ui-monospace,monospace; }
+        .cap-lane-lbl { font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--lane);padding-left:10px;border-left:3px solid var(--lane); }
+        .cap-lane-sub { font-size:10.5px;color:var(--soc-ink3);letter-spacing:.06em; }
+        .cap-lane-ln { flex:1;height:1px;background:linear-gradient(90deg,var(--soc-line2),transparent); }
+        .cap-lane-n { font-size:10px;color:var(--soc-ink3);letter-spacing:.12em;text-transform:uppercase; }
+        .cap-lane-grid { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px; }
+        .cap-lane .soc-ttp { display:flex;flex-direction:column;border-top:2px solid color-mix(in srgb,var(--lane) 55%,transparent); }
+        .soc-ttp-ev { display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;margin-top:auto;padding-top:12px;border-top:1px dashed var(--soc-line);font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10.5px; }
+        .soc-ttp .soc-chips + .soc-ttp-ev { margin-top:14px; }
+        .cap-lane .soc-ttp .soc-chips { margin-bottom:auto; }
+        .soc-ttp-ev .ev-lbl { font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--soc-ink4); }
+        .soc-ttp-ev a, .soc-ttp-ev button { background:none;border:none;padding:0;cursor:pointer;font:inherit;color:var(--soc-ink3);text-decoration:none;transition:color .15s; }
+        .soc-ttp-ev b { color:var(--soc-ink);font-weight:700;margin-right:2px; }
+        .soc-ttp-ev a:hover, .soc-ttp-ev button:hover, .soc-ttp-ev a:hover b, .soc-ttp-ev button:hover b { color:var(--lane); }
+        @media (max-width:1023px) { .cap-lane-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+        @media (max-width:768px) { .cap-lane-grid { grid-template-columns:1fr; } .cap-lane-sub { display:none; } }
         .soc-chips { display:flex;flex-wrap:wrap;gap:6px; }
         .soc-chip { padding:4px 9px;border:1px solid var(--soc-line2);border-radius:4px;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10.5px;color:var(--soc-ink2);background:var(--soc-bg-2); }
         .soc-chip.cy { color:var(--soc-cy);border-color:rgba(34,225,255,.3);background:rgba(34,225,255,.06); }
@@ -1503,23 +1524,80 @@
                         </div>
                     </>)}
 
-                    {/* Capability Matrix */}
-                    {skills.length > 0 && (<>
-                    <h2 className="soc-section">Capability Matrix <span className="meta">operator skill domains · {skills.length} tracks</span></h2>
-                    <div className="soc-ttp-grid">
-                        {skills.map(ttp => (
-                            <div key={ttp.id} className="soc-ttp">
-                                <div className="soc-ttp-hd">
-                                    <span className="soc-ttp-id">{ttp.id}</span>
-                                    <h3>{ttp.title}</h3>
+                    {/* Capability Matrix — grouped into offense / defense / enablement lanes (M2);
+                        each track footer counts the evidence behind it from the site's own data (M3).
+                        Mapping lives in data/skills.json → evidence: {certs, labs, projects, research, reports, reviews, talks}. */}
+                    {skills.length > 0 && (() => {
+                        const low = xs => (xs || []).map(x => String(x).toLowerCase());
+                        const certCode = n => n.split(' - ')[0];
+                        const hits = (items, keys, fields) => {
+                            if (!keys || !keys.length) return 0;
+                            if (keys[0] === '*') return items.length;
+                            const k = new Set(low(keys));
+                            return items.filter(it => fields.some(f => low(it[f]).some(v => k.has(v)))).length;
+                        };
+                        const labOnly = labsData.filter(l => l.type === 'lab');
+                        const projOnly = labsData.filter(l => l.type === 'project');
+                        const talksOnly = achievements.filter(a => a.category === 'talk');
+                        const evidenceFor = ev => {
+                            ev = ev || {};
+                            const certSet = new Set(ev.certs || []);
+                            return [
+                                { k:'certs', one:'cert',    n: certifications.filter(c => certSet.has(certCode(c.name)) || certSet.has(c.name)).length, go: () => setActivePage('certifications') },
+                                { k:'labs', one:'lab',     n: hits(labOnly,  ev.labs,     ['tags','skills','tools_used']), go: () => setActivePage('labs') },
+                                { k:'projects', one:'project', n: hits(projOnly, ev.projects, ['tags']), go: () => setActivePage('labs') },
+                                { k:'research', one:'research', n: hits(researchData, ev.research, ['tags']), href: '/research/' },
+                                { k:'IR reports', one:'IR report', n: hits(irReports, ev.reports, ['tags']), href: '/ir-reports/' },
+                                { k:'reviews', one:'review',  n: hits(certificationReviews, ev.reviews, ['tags']), href: '/reviews/' },
+                                { k:'talks', one:'talk',    n: ev.talks ? talksOnly.length : 0, go: () => setActivePage('achievements') },
+                            ].filter(x => x.n > 0);
+                        };
+                        const LANES = [
+                            { id:'offense', label:'Offense',    sub:'break in · emulate · exploit',          cls:'rd' },
+                            { id:'defense', label:'Defense',    sub:'detect · investigate · respond',        cls:'cy' },
+                            { id:'support', label:'Enablement', sub:'tools · labs · research · community',   cls:'vi' },
+                        ];
+                        return (<>
+                    <h2 className="soc-section">Capability Matrix <span className="meta">{skills.length} tracks · evidence-backed</span></h2>
+                    <div className="cap-matrix">
+                        {LANES.map(lane => {
+                            const tracks = skills.filter(t => (t.group || 'support') === lane.id);
+                            if (!tracks.length) return null;
+                            return (
+                            <section key={lane.id} className={`cap-lane ${lane.cls}`}>
+                                <div className="cap-lane-hd">
+                                    <span className="cap-lane-lbl">{lane.label}</span>
+                                    <span className="cap-lane-sub">{lane.sub}</span>
+                                    <span className="cap-lane-ln"></span>
+                                    <span className="cap-lane-n">{tracks.length} tracks</span>
                                 </div>
-                                <div className="soc-chips">
-                                    {ttp.chips.map(([cls, label], i) => <span key={i} className={`soc-chip ${cls}`}>{label}</span>)}
+                                <div className="cap-lane-grid">
+                                    {tracks.map(ttp => (
+                                        <div key={ttp.id} className="soc-ttp">
+                                            <div className="soc-ttp-hd">
+                                                <span className="soc-ttp-id">{ttp.id}</span>
+                                                <h3>{ttp.title}</h3>
+                                            </div>
+                                            <div className="soc-chips">
+                                                {ttp.chips.map(([cls, label], i) => <span key={i} className={`soc-chip ${cls}`}>{label}</span>)}
+                                            </div>
+                                            {(() => { const ev = evidenceFor(ttp.evidence); return ev.length > 0 && (
+                                                <div className="soc-ttp-ev">
+                                                    <span className="ev-lbl">evidence</span>
+                                                    {ev.map(x => x.href
+                                                        ? <a key={x.k} href={x.href}><b>{x.n}</b> {x.n === 1 ? x.one : x.k}</a>
+                                                        : <button key={x.k} type="button" onClick={x.go}><b>{x.n}</b> {x.n === 1 ? x.one : x.k}</button>)}
+                                                </div>
+                                            ); })()}
+                                        </div>
+                                    ))}
                                 </div>
-                            </div>
-                        ))}
+                            </section>
+                            );
+                        })}
                     </div>
-                    </>)}
+                        </>);
+                    })()}
 
                     {/* CTA */}
                     <div className="soc-cta" style={{marginTop:'24px'}}>
