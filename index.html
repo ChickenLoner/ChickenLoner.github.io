@@ -388,20 +388,28 @@
             div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > div > .featured-latest { flex:1;padding:10px 16px;gap:14px; }
             div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > div > .featured-latest .fl-glyph { width:52px;height:52px; }
             div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > div > .featured-latest .fl-title { font-size:15px;margin:4px 0 2px; }
-            /* L3 + C3: Labs latest release — 16:9 cover thumbnail with tag/title/meta beside it,
+            /* L3 + C3 (+A1): rich "Latest" card — Labs, Certifications, Achievements (.fl-rich) — 16:9 cover thumbnail with tag/title/meta beside it,
                description, topic tags and CTA full-width below. The body div uses display:contents
                so its children sit directly on the card grid. */
-            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .featured-latest.fl-lab { grid-template-columns:220px minmax(0,1fr);grid-template-rows:auto auto auto;column-gap:18px;row-gap:0;align-content:center;padding:20px 22px; }
-            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .featured-latest.fl-lab > div:nth-child(2) { display:contents; }
-            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .featured-latest.fl-lab .fl-glyph { grid-column:1;grid-row:1 / 4;width:220px;height:auto;aspect-ratio:16 / 9;padding:0;overflow:hidden;align-self:center; }
-            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .featured-latest.fl-lab .fl-cover { width:100% !important;height:100% !important;object-fit:cover !important;border-radius:6px !important;display:block; }
-            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .featured-latest.fl-lab .fl-tag { grid-column:2;grid-row:1;justify-self:start;align-self:end; }
-            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .featured-latest.fl-lab .fl-title { grid-column:2;grid-row:2;margin:8px 0 6px; }
-            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .featured-latest.fl-lab .fl-meta { grid-column:2;grid-row:3;align-self:start;flex-direction:column;gap:3px; }
-            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .featured-latest.fl-lab .fl-meta > span:nth-child(even) { display:none; }  /* "·" separators — one fact per line here */
-            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .featured-latest.fl-lab .fl-desc { display:-webkit-box;grid-column:1 / -1;margin-top:16px; }
-            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .featured-latest.fl-lab .fl-tags { display:flex;grid-column:1 / -1; }
-            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .featured-latest.fl-lab .fl-cta { grid-column:1 / -1;justify-self:start;margin-top:16px; }
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .featured-latest.fl-rich { grid-template-columns:220px minmax(0,1fr);grid-template-rows:auto auto auto;column-gap:18px;row-gap:0;align-content:center;padding:20px 22px; }
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .featured-latest.fl-rich > div:nth-child(2) { display:contents; }
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .featured-latest.fl-rich .fl-glyph { grid-column:1;grid-row:1 / 4;width:220px;height:auto;aspect-ratio:16 / 9;padding:0;overflow:hidden;align-self:center; }
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .featured-latest.fl-rich .fl-cover { width:100% !important;height:100% !important;object-fit:cover !important;border-radius:6px !important;display:block; }
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .featured-latest.fl-rich .fl-tag { grid-column:2;grid-row:1;justify-self:start;align-self:end; }
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .featured-latest.fl-rich .fl-title { grid-column:2;grid-row:2;margin:8px 0 6px; }
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .featured-latest.fl-rich .fl-meta { grid-column:2;grid-row:3;align-self:start;flex-direction:column;gap:3px; }
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .featured-latest.fl-rich .fl-meta > span:nth-child(even) { display:none; }  /* "·" separators — one fact per line here */
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .featured-latest.fl-rich .fl-desc { display:-webkit-box;grid-column:1 / -1;margin-top:16px; }
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .featured-latest.fl-rich .fl-tags { display:flex;grid-column:1 / -1; }
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .featured-latest.fl-rich .fl-cta { grid-column:1 / -1;justify-self:start;margin-top:16px; }
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .featured-latest.fl-rich .fl-sub { display:block;grid-column:2;grid-row:3;align-self:start; }
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .featured-latest.fl-rich .fl-facts { display:flex;grid-column:1 / -1; }
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .featured-latest.fl-rich .fl-recent { display:flex;grid-column:1 / -1; }
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .featured-latest.fl-rich .fl-sub + .fl-meta, div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .featured-latest.fl-rich.fl-cert .fl-meta { display:none; }
+            /* Certifications: square badge, shown whole */
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .featured-latest.fl-rich.fl-cert { grid-template-columns:112px minmax(0,1fr); }
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .featured-latest.fl-rich.fl-cert .fl-glyph { width:112px;aspect-ratio:1;padding:8px;background:rgba(255,255,255,.03); }
+            div:has(> .soc-page-hero):has(> .featured-latest, > div > .featured-latest) > .featured-latest.fl-rich.fl-cert .fl-glyph img { object-fit:contain !important; }
         }
         .soc-alerts { display:flex;flex-direction:column;border:1px solid rgba(34,225,255,.22);border-radius:6px;overflow:hidden;background:var(--soc-bg-1);box-shadow:0 0 0 1px rgba(34,225,255,.07),0 0 28px rgba(34,225,255,.08); }
         .soc-alert { display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:11px 16px;border-bottom:1px solid var(--soc-line);transition:background .15s;text-decoration:none;color:inherit; }
@@ -577,6 +585,18 @@
         .fl-cta{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--soc-cy);letter-spacing:.08em;font-weight:700;text-transform:uppercase;padding:8px 14px;border:1px solid rgba(34,225,255,.4);border-radius:4px;background:rgba(34,225,255,.05);white-space:nowrap}
         .featured-latest:hover .fl-cta{background:rgba(34,225,255,.12)}
         .fl-desc{display:none;margin:10px 0 0;font-size:13px;line-height:1.55;color:var(--soc-ink2);-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+        .fl-sub{display:none;font-size:12.5px;color:var(--soc-ink2);line-height:1.45}
+        .fl-facts{display:none;flex-wrap:wrap;gap:6px;margin-top:14px}
+        .fl-facts span{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;color:var(--soc-ink);background:rgba(255,255,255,.03);border:1px solid var(--soc-line2);border-radius:3px;padding:4px 8px;text-transform:uppercase}
+        .fl-facts span i{font-style:normal;color:var(--soc-ink3);margin-right:6px}
+        .fl-recent{display:none;align-items:center;gap:10px;margin-top:16px;flex-wrap:wrap}
+        .fl-recent-lbl{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--soc-ink3)}
+        .fl-recent-items{display:flex;gap:8px}
+        .fl-recent-items span{display:block;border:1px solid var(--soc-line2);border-radius:6px;overflow:hidden;background:rgba(255,255,255,.03);cursor:pointer;transition:border-color .15s,transform .15s}
+        .fl-recent-items span:hover{border-color:var(--soc-cy);transform:translateY(-1px)}
+        .fl-recent-items img{display:block;object-fit:contain}
+        .fl-recent-items.sq img{width:40px;height:40px;padding:4px}
+        .fl-recent-items.wd img{width:84px;height:47px;object-fit:cover}
         .fl-tags{display:none;flex-wrap:wrap;gap:6px;margin-top:10px}
         .fl-tags span{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--soc-ink3);border:1px solid var(--soc-line2);border-radius:3px;padding:3px 7px}
         .featured-latest.am{border-color:rgba(255,181,71,.35);background:radial-gradient(ellipse at 100% 0%,rgba(255,181,71,.08),transparent 60%),linear-gradient(180deg,var(--soc-bg-1),var(--soc-bg))}
@@ -2272,6 +2292,8 @@
                 const issuerTotal = sortedIssuers.length;
                 const catCounts = certs.reduce((a,c)=>{a[c.cat]=(a[c.cat]||0)+1;return a;},{off:0,blu:0,fir:0,fnd:0});
                 const featured = certs.find(c=>c.latest)||null;
+                // certifications.json is appended chronologically → the 4 entries before the newest
+                const recentCerts = featured ? certs.filter(c=>c!==featured&&c.badge).slice(-4).reverse() : [];
                 const issuerAbbr = name => name.split(/\s+/).filter(w=>w.length>1&&w.toLowerCase()!=='the').map(w=>w[0]).join('').toUpperCase();
 
                 const getPool = () => {
@@ -2446,7 +2468,7 @@
 
                     {/* Featured latest */}
                     {featured && tweaks.featured && tab!=='issuers' && (
-                        <a className="featured-latest" href={featured.u||'#'} target={featured.u?'_blank':undefined} rel="noopener noreferrer">
+                        <a className="featured-latest fl-rich fl-cert" href={featured.u||'#'} target={featured.u?'_blank':undefined} rel="noopener noreferrer">
                             <div className="fl-glyph">
                                 {featured.badge
                                     ? <img src={featured.badge} alt={featured.g} style={{width:'100%',height:'100%',objectFit:'contain',borderRadius:'6px'}} />
@@ -2461,6 +2483,27 @@
                                     <span>year=<b>{featured.y}</b></span><span>·</span>
                                     <span>status=<b>{featured.s}</b></span>
                                 </div>
+                                {/* A1: wide side-by-side layout only (≥1440px) */}
+                                <div className="fl-sub">{featured.iss}</div>
+                                <div className="fl-facts">
+                                    <span><i>Category</i>{featured.origCat}</span>
+                                    <span><i>Year</i>{featured.y}</span>
+                                    <span><i>Status</i>{featured.s}</span>
+                                </div>
+                                {recentCerts.length > 0 && (
+                                    <div className="fl-recent">
+                                        <span className="fl-recent-lbl">Also earned recently</span>
+                                        <div className="fl-recent-items sq">
+                                            {recentCerts.map(c => (
+                                                <span key={c.name} role="link" tabIndex={0} title={c.name}
+                                                    onClick={e => { e.preventDefault(); e.stopPropagation(); if (c.u) window.open(c.u, '_blank', 'noopener'); }}
+                                                    onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); e.stopPropagation(); if (c.u) window.open(c.u, '_blank', 'noopener'); } }}>
+                                                    {c.badge ? <img src={c.badge} alt={c.name} /> : c.g}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                             <span className="fl-cta">▸ Verify ↗</span>
                         </a>
@@ -2773,7 +2816,7 @@
 
                         {/* Featured latest lab */}
                         {featuredLab && tweaks.showLatest && (
-                            <a className="featured-latest am fl-lab" href={featuredLab.link} target="_blank" rel="noopener noreferrer" style={{marginTop:'18px',display:'grid'}}>
+                            <a className="featured-latest am fl-rich fl-lab" href={featuredLab.link} target="_blank" rel="noopener noreferrer" style={{marginTop:'18px',display:'grid'}}>
                                 <div className="fl-glyph">
                                     {featuredLab.image
                                         ? <img className="fl-cover" src={featuredLab.image} alt={featuredLab.title} style={{width:'100%',height:'100%',objectFit:'cover',borderRadius:'6px'}} />
@@ -2972,6 +3015,7 @@
                 const featuredWin  = winsArr.find(c => c.latest) || winsArr[0] || null;
                 const allFb        = fbData ? [...(fbData.btlo||[]), ...(fbData.htb_sherlock||[]), ...(fbData.cd||[])] : [];
                 const latestBlood  = allFb.find(f => f.latest) || allFb[0] || null;
+                const moreBloods   = allFb.filter(f => f !== latestBlood && f.image).slice(0, 3);
                 const latestBloodPlat = fbData && latestBlood
                     ? (fbData.btlo||[]).includes(latestBlood) ? 'Blue Team Labs Online'
                     : (fbData.htb_sherlock||[]).includes(latestBlood) ? 'HackTheBox Sherlock'
@@ -3119,7 +3163,7 @@
 
                     {/* Featured banner — tab-aware */}
                     {tab === 'competitions' && featuredWin && tweaks.showLatest && (
-                        <div className="featured-latest gd" style={{marginTop:'18px',cursor:'default'}}>
+                        <div className="featured-latest gd fl-rich" style={{marginTop:'18px',cursor:'default'}}>
                             <div className="fl-glyph">
                                 {featuredWin.image
                                     ? <img src={featuredWin.image} alt={featuredWin.name} style={{width:'100%',height:'100%',objectFit:'cover',borderRadius:'6px'}} />
@@ -3133,12 +3177,17 @@
                                     <span>year=<b>{featuredWin.year}</b></span>
                                     {featuredWin.team && <><span>·</span><span>team=<b>{featuredWin.team}</b></span></>}
                                 </div>
+                                {/* A1: wide side-by-side layout only (≥1440px) */}
+                                {featuredWin.description && <p className="fl-desc">{featuredWin.description}</p>}
+                                {featuredWin.tags && featuredWin.tags.length > 0 && (
+                                    <div className="fl-tags">{featuredWin.tags.slice(0,4).map(t => <span key={t}>{t}</span>)}</div>
+                                )}
                             </div>
                             <span className="fl-cta">{featuredWin.placement}</span>
                         </div>
                     )}
                     {tab === 'firstbloods' && latestBlood && tweaks.showLatest && (
-                        <a className="featured-latest rd" href={latestBlood.url} target="_blank" rel="noopener noreferrer" style={{marginTop:'18px',display:'grid'}}>
+                        <a className="featured-latest rd fl-rich" href={latestBlood.url} target="_blank" rel="noopener noreferrer" style={{marginTop:'18px',display:'grid'}}>
                             <div className="fl-glyph">
                                 {latestBlood.image
                                     ? <img src={latestBlood.image} alt={latestBlood.name} style={{width:'100%',height:'100%',objectFit:'cover',borderRadius:'6px'}} />
@@ -3150,6 +3199,21 @@
                                 <div className="fl-meta">
                                     <span>platform=<b>{latestBloodPlat}</b></span>
                                 </div>
+                                {/* A1: wide side-by-side layout only (≥1440px) */}
+                                {moreBloods.length > 0 && (
+                                    <div className="fl-recent">
+                                        <span className="fl-recent-lbl">More first bloods</span>
+                                        <div className="fl-recent-items wd">
+                                            {moreBloods.map(f => (
+                                                <span key={f.name} role="link" tabIndex={0} title={f.name}
+                                                    onClick={e => { e.preventDefault(); e.stopPropagation(); if (f.url) window.open(f.url, '_blank', 'noopener'); }}
+                                                    onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); e.stopPropagation(); if (f.url) window.open(f.url, '_blank', 'noopener'); } }}>
+                                                    <img src={f.image} alt={f.name} />
+                                                </span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                             <span className="fl-cta">Verify ↗</span>
                         </a>
