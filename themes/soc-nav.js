@@ -91,10 +91,55 @@
       }
       // at the very bottom, the last section is the one being read
       if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) active = items[items.length - 1];
+      updateProgress();
       if (active === current) return;
       if (current) current.a.classList.remove('is-active');
       active.a.classList.add('is-active');
       current = active;
+      if (now) {
+        var num = active.a.querySelector('.res-toc-num, .ir-toc-num');
+        var label = active.a.textContent.replace(num ? num.textContent : '', '').trim();
+        now.innerHTML = '';
+        if (num) { var sp = document.createElement('span'); sp.textContent = num.textContent.trim(); now.appendChild(sp); }
+        now.appendChild(document.createTextNode(label));
+      }
+    }
+    /* ── Reading progress: card in the info rail (≥1440) + thin bar under the topbar ── */
+    var article = document.querySelector('.soc-article');
+    var meta = article.querySelector(':scope > .res-meta-grid, :scope > .ir-meta-grid');
+    var hub = /^\/ir-reports\//.test(location.pathname) ? ['/ir-reports/', 'All IR reports']
+            : /^\/reviews\//.test(location.pathname) ? ['/reviews/', 'All reviews']
+            : ['/research/', 'All research'];
+    var fills = [], pct = null, now = null;
+    if (meta) {
+      var card = document.createElement('div');
+      card.className = 'soc-read-card';
+      card.innerHTML = '<div class="soc-read-head">Reading progress<b class="soc-read-pct">0%</b></div>' +
+        '<div class="soc-read-track"><i></i></div><div class="soc-read-now"></div>' +
+        '<div class="soc-read-links"><button type="button">\u2191 Back to top</button><a></a></div>';
+      card.querySelector('a').href = hub[0];
+      card.querySelector('a').textContent = '\u2190 ' + hub[1];
+      card.querySelector('button').addEventListener('click', function () { window.scrollTo({ top: 0 }); });
+      meta.appendChild(card);
+      fills.push(card.querySelector('.soc-read-track > i'));
+      pct = card.querySelector('.soc-read-pct');
+      now = card.querySelector('.soc-read-now');
+    }
+    var bar = document.createElement('div');
+    bar.className = 'soc-read-bar';
+    bar.innerHTML = '<i></i>';
+    document.body.appendChild(bar);
+    fills.push(bar.firstChild);
+    var tb = document.querySelector('.soc-tb');
+    function updateProgress() {
+      var r = article.getBoundingClientRect();
+      var total = r.height - window.innerHeight;
+      var p = total > 0 ? Math.min(1, Math.max(0, -r.top / total)) : 1;
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) p = 1;
+      var w = (p * 100).toFixed(1) + '%';
+      for (var i = 0; i < fills.length; i++) fills[i].style.width = w;
+      if (pct) pct.textContent = Math.round(p * 100) + '%';
+      bar.style.top = (tb ? Math.max(0, tb.getBoundingClientRect().bottom) : 0) + 'px';
     }
     function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
     window.addEventListener('scroll', onScroll, { passive: true });

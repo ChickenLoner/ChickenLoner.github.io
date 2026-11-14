@@ -1011,9 +1011,12 @@ html[data-theme="light"] {
 .soc-article { max-width:860px;margin:0 auto;padding:24px 20px; }
 .soc-article.soc-article-ir { max-width:896px;padding:28px 22px 48px; }
 @media (min-width:1280px) {
+  /* W2: no max-width — outer edges line up with the topbar (22px). Rails and text share
+     the width in a fixed ratio (rail .3fr : text 1fr), so nothing is left over as side space;
+     line length is kept in check by the zoom steps below. */
   .soc-article, .soc-article.soc-article-ir {
-    max-width:1280px;display:grid;grid-template-columns:260px minmax(0,1fr);column-gap:40px;
-    padding:28px clamp(16px,3vw,48px) 48px;box-sizing:border-box;
+    max-width:none;display:grid;grid-template-columns:minmax(230px,.3fr) minmax(0,1fr);column-gap:40px;
+    padding:28px 22px 48px;box-sizing:border-box;
   }
   .soc-article > * { grid-column:2; }
   /* Header (cover + meta) spans both columns; TOC rail starts beside the first section.
@@ -1031,12 +1034,13 @@ html[data-theme="light"] {
   .soc-article > :is(.res-toc, .ir-toc) :is(.res-toc-title, .ir-toc-title) { font-size:10px;letter-spacing:.16em;color:var(--soc-ink3);margin-bottom:10px;padding-left:10px; }
 }
 
-/* ─── ≥1600px: 3-column article — TOC | article | info rail ───
+/* ─── ≥1440px (W3): 3-column article — TOC | article | info rail ───
    The meta grid (author / date / category …) leaves the header and becomes a sticky
-   right rail; its auto-fit grid collapses to one column in the narrow rail. */
-@media (min-width:1600px) {
+   right rail; its auto-fit grid collapses to one column in the rail. The reading-progress
+   card (.soc-read-card, injected by soc-nav.js) sits at the bottom of that rail. */
+@media (min-width:1440px) {
   .soc-article, .soc-article.soc-article-ir {
-    max-width:1620px;grid-template-columns:260px minmax(0,1fr) 280px;column-gap:44px;
+    grid-template-columns:minmax(230px,.3fr) minmax(0,1fr) minmax(260px,.3fr);column-gap:44px;
   }
   .soc-article > :is(.res-cover, .ir-cover) { grid-column:1 / -1; }
   .soc-article > :is(.res-toc, .ir-toc) { grid-row:2 / span 300; }
@@ -1048,9 +1052,10 @@ html[data-theme="light"] {
 }
 /* ─── S2: scale the whole article on large monitors ───
    Proportional zoom keeps characters-per-line identical while using the extra width.
-   Browsers without CSS zoom simply keep the 1600px layout. */
+   Browsers without CSS zoom simply keep the unscaled layout. */
 @media (min-width:1800px) { .soc-article { zoom:1.125; } }
 @media (min-width:2300px) { .soc-article { zoom:1.25; } }
+@media (min-width:3000px) { .soc-article { zoom:1.5; } }
 
 /* ─── TOC scroll-spy (set by themes/soc-nav.js) ─── */
 .soc-article :is(.res-toc-item, .ir-toc-item) { position:relative; }
@@ -1063,3 +1068,23 @@ html[data-theme="light"] {
   }
 }
 [data-theme="light"] .soc-article :is(.res-toc-item, .ir-toc-item).is-active { background:rgba(8,145,178,.08); }
+
+/* ─── Reading progress (P1, injected by themes/soc-nav.js) ───
+   ≥1440px: card at the bottom of the info rail (percent, current section, back links).
+   <1440px: thin bar pinned under the topbar instead. */
+.soc-read-card { display:none; }
+.soc-read-bar { position:fixed;left:0;right:0;height:2px;z-index:49;pointer-events:none;background:transparent; }
+.soc-read-bar > i { display:block;height:100%;width:0;background:var(--soc-cy);box-shadow:0 0 8px rgba(34,225,255,.6);transition:width .1s linear; }
+@media (min-width:1440px) {
+  .soc-read-bar { display:none; }
+  .soc-read-card { display:block;grid-column:1 / -1;border-top:1px solid var(--soc-line);padding-top:16px;margin-top:2px; }
+}
+.soc-read-head { display:flex;justify-content:space-between;align-items:baseline;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:var(--soc-ink3);text-transform:uppercase; }
+.soc-read-pct { color:var(--soc-cy);font-size:12px;letter-spacing:.04em; }
+.soc-read-track { height:4px;border-radius:4px;background:var(--soc-line);margin:10px 0 12px;overflow:hidden; }
+.soc-read-track > i { display:block;height:100%;width:0;border-radius:4px;background:var(--soc-cy);box-shadow:0 0 8px rgba(34,225,255,.5);transition:width .1s linear; }
+.soc-read-now { font-size:13px;line-height:1.4;color:var(--soc-ink);min-height:1.4em; }
+.soc-read-now span { font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--soc-cy);margin-right:6px; }
+.soc-read-links { display:flex;justify-content:space-between;gap:10px;margin-top:14px;font-family:'JetBrains Mono',monospace;font-size:11px; }
+.soc-read-links a, .soc-read-links button { color:var(--soc-ink3);text-decoration:none;background:none;border:none;padding:0;cursor:pointer;font:inherit; }
+.soc-read-links a:hover, .soc-read-links button:hover { color:var(--soc-cy); }
