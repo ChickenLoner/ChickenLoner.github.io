@@ -71,4 +71,40 @@
     overlay.style.transition = 'opacity .15s ease';
     overlay.classList.add('soc-nav-in');
   });
+
+  /* ── TOC scroll-spy: highlight the section currently being read ──
+     Article pages render their TOC with React after load, so wait for it. */
+  function initTocSpy() {
+    var links = Array.prototype.slice.call(
+      document.querySelectorAll('.soc-article .res-toc a[href^="#"], .soc-article .ir-toc a[href^="#"]'));
+    if (!links.length) return false;
+    var items = links.map(function (a) {
+      return { a: a, el: document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1))) };
+    }).filter(function (x) { return x.el; });
+    if (!items.length) return false;
+    var current = null, ticking = false;
+    function update() {
+      ticking = false;
+      var line = 140, active = items[0];
+      for (var i = 0; i < items.length; i++) {
+        if (items[i].el.getBoundingClientRect().top - line <= 0) active = items[i]; else break;
+      }
+      // at the very bottom, the last section is the one being read
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) active = items[items.length - 1];
+      if (active === current) return;
+      if (current) current.a.classList.remove('is-active');
+      active.a.classList.add('is-active');
+      current = active;
+    }
+    function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    update();
+    return true;
+  }
+  var spyTries = 0;
+  (function waitForToc() {
+    if (initTocSpy() || ++spyTries > 60) return;
+    setTimeout(waitForToc, 150);
+  })();
 })();
