@@ -1121,7 +1121,7 @@ html[data-theme="light"] {
    R3: the hero is one slim bar — icon, title, description and stat chips on the left,
        search + filter on the right (moved in from the old standalone filter row).
    R2: the newest item is featured as the first card of the index (.is-featured):
-       a full-width row (cover left, details right) on Research / IR, a 2-column card on Reviews.
+       a 2-column card on all three hubs (Research / IR keep the cover-on-top layout, F1).
        It is only featured when no search or filter is active. */
 .hub-bar { display:flex;align-items:center;gap:20px;flex-wrap:wrap; }
 .hub-bar > .soc-page-hero-body { flex:1 1 420px;min-width:0; }
@@ -1146,14 +1146,29 @@ html[data-theme="light"] {
 .rev-card .hub-feat-badge::before { background:var(--soc-am);box-shadow:0 0 6px var(--soc-am); }
 :is(.res-card, .ir-card).is-featured { border-color:var(--soc-line2); }
 @media (min-width:900px) {
-  :is(.res-card, .ir-card).is-featured { grid-column:1 / -1;flex-direction:row; }
-  :is(.res-card, .ir-card).is-featured :is(.res-card-cover, .ir-card-cover) { flex:0 0 min(48%, 680px);aspect-ratio:16 / 9;align-self:flex-start; }
-  :is(.res-card, .ir-card).is-featured :is(.res-card-body, .ir-card-body) { padding:26px 30px;gap:14px;justify-content:center; }
-  :is(.res-card, .ir-card).is-featured :is(.res-card-title, .ir-card-title) { font-size:24px;line-height:1.3;letter-spacing:-.01em; }
-  :is(.res-card, .ir-card).is-featured :is(.res-card-summary, .ir-card-summary) { font-size:14px;line-height:1.65;-webkit-line-clamp:4; }
-  :is(.res-card, .ir-card).is-featured :is(.res-card-cta, .ir-card-cta) { margin-top:8px;font-size:13px; }
   .rev-card.is-featured { grid-column:span 2;border-color:rgba(255,181,71,.35); }
   .rev-card.is-featured .rev-card-badge { width:72px;height:72px; }
   .rev-card.is-featured .rev-card-title { font-size:18px; }
   .rev-card.is-featured .rev-card-excerpt { font-size:13px;-webkit-line-clamp:4; }
+}
+/* F1: Research / IR featured card spans 2 columns but keeps the normal vertical layout
+   (16:9 cover on top, no cropping). Only when the grid has room for 3+ columns. */
+@media (min-width:1000px) {
+  :is(.res-card, .ir-card).is-featured { grid-column:span 2; }
+  :is(.res-card, .ir-card).is-featured :is(.res-card-cover, .ir-card-cover) { aspect-ratio:21 / 9; }
+  :is(.res-card, .ir-card).is-featured :is(.res-card-body, .ir-card-body) { padding:20px 22px; }
+  :is(.res-card, .ir-card).is-featured :is(.res-card-title, .ir-card-title) { font-size:18px;line-height:1.35; }
+  :is(.res-card, .ir-card).is-featured :is(.res-card-summary, .ir-card-summary) { font-size:13px;-webkit-line-clamp:3; }
+}
+
+/* F1b: card summaries fill whatever height the grid row gives them. The cards next to the
+   2-column featured card are stretched to its height, so their summary shows more lines
+   (fading out at the bottom) instead of leaving an empty gap. Rows without a featured card
+   are unchanged: the summary's flex-basis is 0, so it still sizes the card at 3 lines. */
+@media (min-width:1000px) {
+  :is(.res-card, .ir-card):not(.is-featured) :is(.res-card-summary, .ir-card-summary) {
+    display:block;-webkit-line-clamp:unset;flex:1 1 0;min-height:calc(1.6em * 3);
+    -webkit-mask-image:linear-gradient(to bottom,#000 calc(100% - 1.6em),transparent);
+            mask-image:linear-gradient(to bottom,#000 calc(100% - 1.6em),transparent);
+  }
 }

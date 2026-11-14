@@ -217,7 +217,7 @@
                                                 {(i === 0 && !search && !activeTag) && <span className="hub-feat-badge">Latest</span>}
                                                 <div className="ir-card-meta">
                                                     <Icon name="Calendar" className="w-3.5 h-3.5" />
-                                                    <span>{new Date(report.date).toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' })}</span>
+                                                    <span>{new Date(report.report_date || report.date).toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric', timeZone:'UTC' })}</span>
                                                     <span className="sev red" style={{fontSize:'9px',padding:'1px 6px'}}><span className="dot"></span>{report.platform}</span>
                                                 </div>
                                                 <div className="ir-card-title">{report.title}</div>
