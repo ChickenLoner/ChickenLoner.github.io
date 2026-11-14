@@ -1016,10 +1016,50 @@ html[data-theme="light"] {
     padding:28px clamp(16px,3vw,48px) 48px;box-sizing:border-box;
   }
   .soc-article > * { grid-column:2; }
+  /* Header (cover + meta) spans both columns; TOC rail starts beside the first section.
+     Every article renders cover > meta > toc as the first three children of <main>. */
+  .soc-article > :is(.res-cover, .ir-cover, .res-meta-grid, .ir-meta-grid) { grid-column:1 / -1; }
+  .soc-article > :is(.res-meta-grid, .ir-meta-grid) { margin-bottom:28px; }
   .soc-article > :is(.res-toc, .ir-toc) {
-    grid-column:1;grid-row:1 / span 300;align-self:start;
+    grid-column:1;grid-row:3 / span 300;align-self:start;
     position:sticky;top:76px;max-height:calc(100vh - 96px);overflow:auto;margin:0 !important;
+    /* lighter rail style: no card, thin line on the left */
+    background:none;border:none;border-left:1px solid var(--soc-line);border-radius:0;padding:4px 0 4px 14px;
   }
   .soc-article > .res-toc .res-toc-grid,
-  .soc-article > .ir-toc > div:last-child { display:grid;grid-template-columns:1fr; }
+  .soc-article > .ir-toc > div:last-child { display:grid;grid-template-columns:1fr;gap:1px; }
+  .soc-article > :is(.res-toc, .ir-toc) :is(.res-toc-title, .ir-toc-title) { font-size:10px;letter-spacing:.16em;color:var(--soc-ink3);margin-bottom:10px;padding-left:10px; }
 }
+
+/* ─── ≥1600px: 3-column article — TOC | article | info rail ───
+   The meta grid (author / date / category …) leaves the header and becomes a sticky
+   right rail; its auto-fit grid collapses to one column in the narrow rail. */
+@media (min-width:1600px) {
+  .soc-article, .soc-article.soc-article-ir {
+    max-width:1620px;grid-template-columns:260px minmax(0,1fr) 280px;column-gap:44px;
+  }
+  .soc-article > :is(.res-cover, .ir-cover) { grid-column:1 / -1; }
+  .soc-article > :is(.res-toc, .ir-toc) { grid-row:2 / span 300; }
+  .soc-article > :is(.res-meta-grid, .ir-meta-grid) {
+    grid-column:3;grid-row:2 / span 300;align-self:start;
+    position:sticky;top:76px;margin:0;
+    grid-template-columns:1fr;gap:16px;padding:18px 20px;
+  }
+}
+/* ─── S2: scale the whole article on large monitors ───
+   Proportional zoom keeps characters-per-line identical while using the extra width.
+   Browsers without CSS zoom simply keep the 1600px layout. */
+@media (min-width:1800px) { .soc-article { zoom:1.125; } }
+@media (min-width:2300px) { .soc-article { zoom:1.25; } }
+
+/* ─── TOC scroll-spy (set by themes/soc-nav.js) ─── */
+.soc-article :is(.res-toc-item, .ir-toc-item) { position:relative; }
+.soc-article :is(.res-toc-item, .ir-toc-item).is-active { color:var(--soc-cy);background:rgba(34,225,255,.07); }
+.soc-article :is(.res-toc-item, .ir-toc-item).is-active :is(.res-toc-num, .ir-toc-num) { color:var(--soc-cy); }
+@media (min-width:1280px) {
+  .soc-article :is(.res-toc-item, .ir-toc-item).is-active::before {
+    content:"";position:absolute;left:-15px;top:6px;bottom:6px;width:2px;border-radius:2px;
+    background:var(--soc-cy);box-shadow:0 0 8px rgba(34,225,255,.6);
+  }
+}
+[data-theme="light"] .soc-article :is(.res-toc-item, .ir-toc-item).is-active { background:rgba(8,145,178,.08); }
