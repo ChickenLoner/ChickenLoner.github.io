@@ -132,6 +132,8 @@
                 return (rated.reduce((s, r) => s + r.rating, 0) / rated.length).toFixed(1);
             }, [reviews]);
 
+            // R3 header chips
+            const topRated = useMemo(() => reviews.filter(r => parseFloat(r.rating) >= 4.5).length, [reviews]);
             return (
                 <div style={{minHeight:'100vh',background:'var(--soc-bg)'}}>
                     {/* Top bar */}
@@ -163,58 +165,50 @@
                                     <div className="seg"><b>type</b> <span className="v">certification-review</span></div>
                                     <span style={{marginLeft:'auto'}} className="sev green"><span className="dot"></span>ACTIVE</span>
                                 </div>
-                                <div className="soc-hero-inner">
+                                {/* R3: slim header bar — title, description and stats on the left; search + filter on the right */}
+                                <div className="hub-bar">
                                     <div className="soc-page-hero-body">
                                         <div className="soc-page-hero-icon">
                                             <Icon name="Star" className="w-6 h-6" style={{color:'var(--soc-am)'}} />
                                         </div>
-                                        <div>
+                                        <div style={{minWidth:0}}>
                                             <h1 className="soc-page-hero-title">Certification Reviews</h1>
-                                            <p className="soc-page-hero-sub">soc-analyst · dfir · red-team · penetration-testing</p>
+                                            <p className="soc-page-hero-sub">honest exam reviews · SOC · DFIR · red team · penetration testing</p>
+                                            {!loading && (
+                                                <div className="hub-chips">
+                                                    <span><b>{reviews.length}</b> reviews</span>
+                                                    {avgRating && <span><b>{avgRating}</b> avg rating</span>}
+                                                    <span><b>{topRated}</b> rated 4.5+</span>
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                     {!loading && (
-                                        <div className="soc-hero-stats">
-                                            <div>
-                                                <div className="soc-stat-lbl">Reviews</div>
-                                                <div className="soc-stat-val">{reviews.length}</div>
-                                            </div>
-                                            {avgRating && (
-                                                <div>
-                                                    <div className="soc-stat-lbl cy">Avg Rating</div>
-                                                    <div className="soc-stat-val">{avgRating}</div>
-                                                </div>
-                                            )}
+                                        <div className="hub-controls">
+                                        <div className="soc-search-bar">
+                                            <Icon name="Search" className="w-4 h-4" style={{color:'var(--soc-ink4)',flexShrink:0}} />
+                                            <input
+                                                type="text"
+                                                placeholder="Search reviews, tags, providers…"
+                                                value={search}
+                                                onChange={e => setSearch(e.target.value)}
+                                                aria-label="Search reviews"
+                                            />
+                                        </div>
+                                        <select
+                                            value={activeDifficulty || ''}
+                                            onChange={e => setActiveDifficulty(e.target.value || null)}
+                                            className="soc-select"
+                                            aria-label="Filter by difficulty">
+                                            <option value="">All Levels</option>
+                                            <option value="Beginner">Beginner</option>
+                                            <option value="Intermediate">Intermediate</option>
+                                            <option value="Advanced">Advanced</option>
+                                        </select>
                                         </div>
                                     )}
                                 </div>
                             </div>
-
-                            {/* Filters */}
-                            {!loading && (
-                                <div style={{display:'flex',gap:'10px',marginTop:'20px',marginBottom:'20px',flexWrap:'wrap'}}>
-                                    <div className="soc-search-bar">
-                                        <Icon name="Search" className="w-4 h-4" style={{color:'var(--soc-ink4)',flexShrink:0}} />
-                                        <input
-                                            type="text"
-                                            placeholder="Search reviews, tags, providers…"
-                                            value={search}
-                                            onChange={e => setSearch(e.target.value)}
-                                            aria-label="Search reviews"
-                                        />
-                                    </div>
-                                    <select
-                                        value={activeDifficulty || ''}
-                                        onChange={e => setActiveDifficulty(e.target.value || null)}
-                                        className="soc-select"
-                                        aria-label="Filter by difficulty">
-                                        <option value="">All Levels</option>
-                                        <option value="Beginner">Beginner</option>
-                                        <option value="Intermediate">Intermediate</option>
-                                        <option value="Advanced">Advanced</option>
-                                    </select>
-                                </div>
-                            )}
 
                             {/* Section label */}
                             {!loading && reviews.length > 0 && (
@@ -242,9 +236,10 @@
                             {/* Cards */}
                             {!loading && filtered.length > 0 && (
                                 <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(300px,1fr))',gap:'16px'}}>
-                                    {filtered.map(review => (
-                                        <a key={review.url} href={review.url} className="rev-card">
+                                    {filtered.map((review, i) => (
+                                        <a key={review.url} href={review.url} className={'rev-card' + ((i === 0 && !search && !activeDifficulty) ? ' is-featured' : '')}>
                                             <div className="rev-card-body">
+                                                {(i === 0 && !search && !activeDifficulty) && <span className="hub-feat-badge">Latest</span>}
                                                 <div className="rev-card-header">
                                                     {review.image && (
                                                         <img src={review.image} alt={review.title} className="rev-card-badge" />
