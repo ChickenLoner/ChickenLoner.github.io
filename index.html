@@ -481,6 +481,7 @@
         .soc-opnote .clear { background:rgba(61,220,132,.12);color:var(--soc-gn);border:1px solid rgba(61,220,132,.3);padding:2px 8px;border-radius:3px;font-size:10px;letter-spacing:.1em; }
         .soc-opnote h3 { margin:0 0 8px;font-size:16px;color:var(--soc-ink);font-weight:700; }
         .soc-opnote p { margin:0;color:var(--soc-ink2);line-height:1.65;font-size:13.5px; }
+        @media (min-width:769px) { .soc-opnote p { text-align:justify;hyphens:auto;-webkit-hyphens:auto; } }
         .soc-platforms { display:flex;flex-wrap:wrap;gap:10px;margin-top:14px; }
         .soc-plat { display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border:1px solid var(--soc-line2);border-radius:99px;background:var(--soc-bg-2);font-size:12px;color:var(--soc-ink);font-weight:500;transition:.15s;text-decoration:none; }
         .soc-plat:hover { border-color:var(--soc-cy);color:var(--soc-cy); }
@@ -1508,7 +1509,7 @@
                             <div className="soc-opnote">
                                 <div className="lbl">Operator Brief <span className="clear">CLEARED FOR ROUTING</span></div>
                                 <h3>About the Operator</h3>
-                                <p>Cross-domain security practitioner who works both sides of the fight: offensive (penetration testing, red team, Active Directory) and defensive (SOC, detection engineering, DFIR), built on a digital forensics core. Known for RMM and remote-access forensics research, and for turning real intrusions into hands-on labs. Learns by building: every published lab and writeup reconstructs a real-world scenario end to end. Mission: make offensive and defensive tradecraft approachable and rigorous for the wider security community.</p>
+                                <p>I started in digital forensics and still think like a DFIR analyst. I've also done enough pentesting, red team work and Active Directory attacks to read an intrusion from the attacker's side. Most of my research looks at how attackers abuse RMM and remote-access tools and what those tools leave on disk. When a real intrusion teaches me something, I build it into a lab. So far that's 14 on CyberDefenders, 3 on HackTheBox and 1 on Blue Team Labs Online, and I want people to practice on the same kind of evidence I had to work through.</p>
                                 <div className="soc-platforms">
                                     <a href="https://app.hackthebox.com/users/1438364" target="_blank" rel="noopener noreferrer" className="soc-plat"><span className="pd"></span>HackTheBox</a>
                                     <a href="https://cyberdefenders.org/p/Chicken_0248/" target="_blank" rel="noopener noreferrer" className="soc-plat b"><span className="pd"></span>CyberDefenders</a>
